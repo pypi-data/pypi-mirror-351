@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: virtualpulldown
+Version: 0.2.0
+Summary: A CLI tool for batch formatting protein pairs for structure prediction using LocalColabFold.
+Author-email: Heewhan Shin <hshin40@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/heeropang/VirtualPulldown_v.2
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: biopython
+Requires-Dist: pandas
+Requires-Dist: openpyxl
+Requires-Dist: Pillow
+Requires-Dist: numpy
+Dynamic: license-file
+
+# **VirtualPulldown v.2**
+
+VirtualPulldown v.2 is a command-line tool designed to streamline the formatting and preparation of input sequence pairs for structure prediction using [LocalColabFold](https://github.com/YoshitakaMo/localcolabfold).
+
+The script supports batch processing of multiple genomic sequences, enabling high-throughput exploration of protein-protein interactions.
