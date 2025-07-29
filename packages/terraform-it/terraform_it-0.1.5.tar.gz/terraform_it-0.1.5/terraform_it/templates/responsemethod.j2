@@ -1,0 +1,23 @@
+func (r *{{resource_name}}ResourceModel) RefreshFromShared{{create_operation}}Response(resp *shared.{{create_responseBody}}) {
+	if resp != nil {
+		{% for property in create_res_properties -%}
+		{{ property[0] }} = types.{{property[1] | capitalize}}Value(resp.{{ property[0] | capitalize }})
+		{% endfor %}
+	}
+}
+
+func (r *{{resource_name}}ResourceModel) RefreshFromShared{{update_operation}}Response(resp *shared.{{update_responseBody}}) {
+	if resp != nil {
+		{% for property in update_res_properties -%}
+		{{ property[0] }} = types.{{property[1] | capitalize}}Value(resp.{{ property[0] | capitalize }})
+		{% endfor %}
+	}
+}
+
+func (r *{{resource_name}}ResourceModel) RefreshFromShared{{read_operation}}Response(resp *shared.{{read_responseBody}}) {
+	if resp != nil {
+		{% for property in read_properties -%}
+		{{ property[0] }} = types.{{property[1] | capitalize}}Value(resp.{{ property[0] | capitalize }})
+		{% endfor %}
+	}
+}
