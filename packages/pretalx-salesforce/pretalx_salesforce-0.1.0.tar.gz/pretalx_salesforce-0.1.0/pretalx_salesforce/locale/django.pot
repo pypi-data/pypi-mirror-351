@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-28 08:40+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: local/pretalx-salesforce/pretalx_salesforce/apps.py:12
+msgid "SalesForce integration"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/apps.py:15
+msgid "Send speaker and proposal information to SalesForce"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/models.py:19
+msgid "Client ID"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/models.py:20
+msgid "Client Secret"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/models.py:21
+msgid "Username"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/models.py:22
+msgid "Password"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/models.py:24
+msgid "Salesforce URL"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/models.py:27
+msgid ""
+"Use https://salesforce.com for real data, or https://test.salesforce.com for "
+"sandbox data"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/templates/pretalx_salesforce/settings.html:10
+msgid ""
+"Please create an application in SalesForce and provide the following details."
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/templates/pretalx_salesforce/settings.html:19
+#, python-format
+msgid "Last sync: %(last_sync)s"
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/templates/pretalx_salesforce/settings.html:23
+msgid "No sync has been performed yet."
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/views.py:53
+msgid "The SalesForce integration settings were updated."
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/views.py:64
+msgid "The SalesForce sync was started."
+msgstr ""
+
+#: local/pretalx-salesforce/pretalx_salesforce/views.py:68
+msgid "An error occurred while syncing the event with SalesForce."
+msgstr ""
