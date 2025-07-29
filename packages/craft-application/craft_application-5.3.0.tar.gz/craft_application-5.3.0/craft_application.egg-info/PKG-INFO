@@ -1,0 +1,59 @@
+Metadata-Version: 2.2
+Name: craft-application
+Version: 5.3.0
+Summary: A framework for *craft applications.
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Typing :: Typed
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: annotated-types>=0.6.0
+Requires-Dist: craft-archives>=2.0.0
+Requires-Dist: craft-cli~=3.0
+Requires-Dist: craft-grammar>=2.0.0
+Requires-Dist: craft-parts>=2.1.1
+Requires-Dist: craft-platforms>=0.6.0
+Requires-Dist: craft-providers>=2.1.0
+Requires-Dist: Jinja2<4.0.0,>=3.1.6
+Requires-Dist: snap-helpers>=0.4.2
+Requires-Dist: platformdirs>=3.10
+Requires-Dist: pydantic~=2.0
+Requires-Dist: license-expression>=30.0.0
+Requires-Dist: pygit2<1.15.0,>=1.13.0
+Requires-Dist: PyYaml>=6.0
+Requires-Dist: requests
+Requires-Dist: typing_extensions>=4.4.0
+Provides-Extra: remote
+Requires-Dist: launchpadlib>=1.10.16; extra == "remote"
+Provides-Extra: apt
+Requires-Dist: python-apt>=2.4.0; sys_platform == "linux" and extra == "apt"
+
+*****************
+craft-application
+*****************
+
+A basis for future \*Craft applications.
+
+Description
+-----------
+This project will provide a basis for future projects similar to Snapcraft_, Charmcraft_ and Rockcraft_, with the eventual goal of rebasing those applications on this.
+
+Structure
+---------
+TODO
+
+How to migrate existing projects
+--------------------------------
+TODO
+
+.. _Snapcraft: https://github.com/snapcore/snapcraft
+.. _Charmcraft: https://github.com/canonical/charmcraft/
+.. _Rockcraft: https://github.com/canonical/rockcraft
