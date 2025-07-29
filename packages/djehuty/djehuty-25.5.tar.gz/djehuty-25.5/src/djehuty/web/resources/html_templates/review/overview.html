@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+{% block headers %}
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/utils.js?cache=1744290797"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+<style nonce="{{nonce}}">
+#content { max-width: 100% !important; }
+.dataTables_wrapper .dataTables_filter { width: 100%; text-align: center; }
+.dataTables_wrapper .dataTables_filter label input[type="search"] {
+  border: solid 1pt #aaa;
+  border-radius: .5em;
+  padding: .7em;
+  font-size: 13pt;
+  width: 500pt;
+}
+#table-count { text-transform: lowercase; }
+#overview-table, #overview-h1 { display: none; }
+#overview-table tbody tr td:nth-child(11),
+#overview-table thead tr th:nth-child(11){
+    max-width: 8px !important;
+    min-width: 8px !important;
+    user-select: none;
+}
+#overview-table tbody tr td:nth-child(6),
+#overview-table thead tr th:nth-child(6){
+    max-width: 46px !important;
+    min-width: 46px !important;
+    padding-right: 16px;
+    user-select: none;
+}
+#spacer-link { background: none !important; width: 0px !important; cursor: default !important; }
+.normal-text { text-transform: none; }
+.fa-copy:hover { cursor: pointer; }
+</style>
+<script nonce="{{nonce}}">
+  const reviewers = [
+      {%- for reviewer in reviewers: %}
+      { "uuid": "{{reviewer.uuid}}",
+        "first_name": "{{reviewer.first_name}}",
+        "last_name": "{{reviewer.last_name}}",
+        "email": "{{reviewer.email}}"
+      }{% if not loop.last %},{% endif %}
+      {%- endfor %}
+  ]
+</script>
+<script src="/static/js/review-overview.js?cache=1744290797"></script>
+{% endblock %}
+{% block submenu %}
+<ul>
+  <li class="active corporate-identity-submenu-active">Overview
+  <li><a id="spacer-link">&nbsp;</a>
+  <li><label class="normal-text">Reviewer
+      <select class="reviewer-filter">
+        <option value="all">All reviewers</option>
+        <option value="unassigned">Unassigned</option>
+        {%- for reviewer in reviewers: %}
+        <option value="{{reviewer.uuid}}">
+          {{reviewer.first_name | default("", False)}}
+          {{reviewer.last_name | default("", False)}}
+          </option>
+        {%- endfor %}
+    </select></label>
+  <li><label class="normal-text">Status
+      <select class="status-filter">
+        <option value="all">All</option>
+        <option value="approved">Approved</option>
+        <option value="declined">Declined</option>
+        <option value="assigned">Assigned</option>
+        <option value="unassigned">Unassigned</option>
+    </select></label>
+   <li><div id="table-count"></div>
+</ul>
+{% endblock %}
+{% block body %}
+<h1 id="overview-h1">Overview{% if may_administer %}<span class="no-select"> &nbsp;<a id="remove-cache" href="#" class="fas fa-sync"></a></span>{% else %}<div id="remove-cache"></div>{% endif %}</h1>
+<p></p>
+{%- if reviews %}
+<div id="reviews-loader" class="loader"></div>
+<table id="overview-table" class="reviewer-table corporate-identity-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Version</th>
+      <th>Submitter</th>
+      <th>E-mail address</th>
+      <th>Affiliation</th>
+      <th>Status</th>
+      <th>Request date</th>
+      <th>Last modified</th>
+      <th>Accepted</th>
+      <th>Reviewer</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+{%- else %}
+<p>There are no reviews.</p>
+{%- endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block headers %}
+<link href="/static/css/form.css?cache=1738927707" rel="stylesheet">
+<style nonce="{{nonce}}">
+#submit-button-label {
+    display: inline-block;
+    color: #ffffff;
+    background: #925713;
+    padding: 2pt 6pt 2pt 6pt;
+    text-decoration: none;
+    line-height: 1.75em;
+    border-radius: 4pt;
+    cursor: pointer;
+}
+#submit-button-label:hover { background: #b76d18; }
+#submit-button-label:active { background: #7a4810; }
+#submit-link { display: none; }
+</style>
+{% endblock %}
+{% block submenu %}
+<ul>
+  <li><a href="/my/datasets/{{dataset_uuid}}/private_links">&#8592; Go back</a>
+  <li class="create-button"><label id="submit-button-label" for="submit-link">Activate private link</a>
+</ul>
+{% endblock %}
+{% block body %}
+<h1>Create new private link</h1>
+<p>Fields marked with <span class="required-field">&#8727;</span> are required.</p>
+<form action="/my/datasets/{{dataset_uuid}}/private_link/new" method="post">
+  <label for="expires_date">Longevity</label><span class="required-field">&#8727;</span>
+  <div id="expires_date" class="options-wrapper">
+    <input type="radio" name="expires_date" id="days1" value="1 day" checked="checked" /><!--
+--><label for="days1" class="no-head">1 day</label><!--
+--><input type="radio" name="expires_date" id="days7" value="7 days" /><!--
+--><label for="days7" class="no-head">7 days</label><!--
+--><input type="radio" name="expires_date" id="days30" value="30 days" /><!--
+--><label for="days30" class="no-head">30 days</label><!--
+--><input type="radio" name="expires_date" id="indefinitely" value="indefinitely" /><!--
+--><label for="indefinitely" class="no-head">Indefinitely</label>
+  </div>
+
+  <label for="purpose">Purpose of the link:</label>
+  <input type="text" id="purpose" name="purpose" value="" placeholder="Example: Share with manuscript reviewer" />
+
+  <label for="whom">For whom is the link:</label>
+  <input type="text" id="whom" name="whom" value="" placeholder="Example: Peer-reviewers of a journal" />
+
+  <input type="checkbox" name="anonymize_link" id="anonymize_link">
+  <label class="no-head" for="anonymize_link">Hide authors and affiliation when accessing the dataset through this private link.</label>
+  <input type="submit" id="submit-link" value="Create link" />
+</form>
+{% endblock %}

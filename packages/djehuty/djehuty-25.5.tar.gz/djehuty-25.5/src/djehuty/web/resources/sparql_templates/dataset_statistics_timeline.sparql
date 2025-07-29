@@ -1,0 +1,21 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT ?dataset_id ?date (SUM(?{{item_type}})  AS ?{{item_type}})
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?dataset        rdf:type             djht:Dataset .
+    ?dataset        djht:dataset_id      ?dataset_id .
+
+    ?category_link  rdf:type             djht:DatasetCategory .
+    ?category_link  djht:category_id     ?category_id .
+    ?category_link  djht:dataset_id      ?dataset_id .
+
+    ?stats          rdf:type             djht:Dataset{{item_class}} .
+    ?stats          djht:dataset_id      ?dataset_id .
+    ?stats          djht:date            ?date .
+    ?stats          djht:{{item_type}}   ?{{item_type}} .
+  }
+{%- if filters is not none %}{{ filters | safe }}{% endif %}
+}
+GROUP BY ?dataset_id ?date
+{% endblock %}

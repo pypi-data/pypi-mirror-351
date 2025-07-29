@@ -1,0 +1,84 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT DISTINCT ?first_name      ?full_name       ?group_id
+                ?uuid ?id        ?institution_id  ?is_active
+                ?is_public       ?job_title       ?last_name
+                ?orcid_id        ?url_name        ?order_index
+                ?is_editable     ?email
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?author            rdf:type                 djht:Author .
+    OPTIONAL { ?author djht:id                  ?id . }
+
+    {%- if item_uri is not none %}
+    ?item_uri          rdf:type                 djht:{{prefix}} ;
+                       djht:authors             ?authors .
+    ?authors           rdf:rest*                ?rest .
+    ?rest              rdf:first                ?author ;
+                       djht:index               ?order_index .
+    {%- endif %}
+    {%- if account_uuid is not none %}
+    ?container         rdf:type                 djht:{{prefix}}Container .
+    {%- if is_published %}
+    ?container         djht:published_versions/rdf:rest*/rdf:first ?item_uri .
+    {%- else %}
+    ?container         djht:draft               ?item_uri .
+    {%- endif %}
+    ?container         djht:account             ?account .
+
+    {%- if not disable_collaboration %}
+    OPTIONAL {
+      ?item_uri          djht:container      ?container .
+      ?collaborator      rdf:type            djht:Collaborator .
+      ?collaborator      djht:item           ?item_uri .
+      ?collaborator      djht:account        ?collaborator_account .
+      ?collaborator      djht:metadata_read  "true"^^xsd:boolean .
+    }
+    OPTIONAL {
+      ?group_uri          rdf:type djht:InstitutionGroup .
+      ?item_uri           djht:association_criteria        ?association_criteria .
+      ?group_uri          djht:association_criteria        ?association_criteria .
+      ?group_uri          djht:members/rdf:rest*/rdf:first ?member_uri .
+      ?member_uri         djht:is_supervisor "true"^^xsd:boolean .
+      ?member_uri         djht:account ?member_account .
+    }
+    {%- endif %}
+    {%- endif %}
+    OPTIONAL { ?author djht:first_name          ?first_name . }
+    OPTIONAL { ?author djht:full_name           ?full_name . }
+    OPTIONAL { ?author djht:group_id            ?group_id . }
+    OPTIONAL { ?author djht:institution_id      ?institution_id . }
+    OPTIONAL { ?author djht:is_active           ?is_active . }
+    OPTIONAL { ?author djht:is_public           ?is_public . }
+    OPTIONAL { ?author djht:job_title           ?job_title . }
+    OPTIONAL { ?author djht:last_name           ?last_name . }
+    OPTIONAL { ?author djht:orcid_id            ?orcid_id . }
+    OPTIONAL { ?author djht:url_name            ?url_name . }
+    OPTIONAL { ?author djht:email               ?email . }
+
+    {%- if account_uuid is not none %}
+    BIND (xsd:boolean (EXISTS { ?author djht:created_by <account:{{account_uuid}}> . }) AS ?is_editable)
+    {%- else %}
+    BIND("false"^^xsd:boolean AS ?is_editable)
+    {%- endif %}
+
+    BIND(STRAFTER(STR(?author), "author:") AS ?uuid)
+  }
+{%- if account_uuid is not none %}
+  {%- if disable_collaboration %}
+FILTER (?account = <account:{{account_uuid}}>)
+  {%- else %}
+FILTER (?account = <account:{{account_uuid}}> ||
+        ?collaborator_account = <account:{{account_uuid}}> ||
+        ?member_account = <account:{{account_uuid}}>)
+  {%- endif %}
+{%- endif %}
+{%- if author_uuid is not none %}
+FILTER (?author = <author:{{author_uuid}}>)
+{%- endif %}
+{%- if item_uri is not none %}
+  FILTER (?item_uri = <{{item_uri}}>)
+{% endif %}
+{% if filters is not none %}{{ filters | safe }}{% endif %}
+}
+{% endblock %}

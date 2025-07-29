@@ -1,0 +1,14 @@
+Request for access to dataset.
+==========
+
+{{requester_name}} ({{requester_email}}) has requested access to the data of dataset:
+https://doi.org/{{doi}}
+{{title | safe}}
+
+Reason:
+==========
+{{reason | striptags}}
+==========
+{% if owner_email and recipient_email != owner_email %}
+(This message was sent to {{owner_email}})
+{% endif %}

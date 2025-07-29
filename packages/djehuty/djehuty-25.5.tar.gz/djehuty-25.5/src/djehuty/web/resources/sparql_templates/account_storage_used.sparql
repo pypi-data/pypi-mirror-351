@@ -1,0 +1,23 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT DISTINCT ?file ?bytes
+WHERE {
+  GRAPH <{{state_graph}}> {
+
+    ?container      rdf:type                      djht:DatasetContainer .
+    ?container      djht:account                  <account:{{account_uuid}}> .
+
+    {
+      ?container    djht:draft                    ?dataset .
+    } UNION {
+      ?container    djht:published_versions/rdf:rest*/rdf:first ?dataset .
+    }
+
+    ?dataset        rdf:type                      djht:Dataset .
+    ?dataset        djht:files/rdf:rest*/rdf:first ?file .
+
+    ?file           rdf:type                      djht:File .
+    ?file           djht:size                     ?bytes .
+  }
+}
+{% endblock %}

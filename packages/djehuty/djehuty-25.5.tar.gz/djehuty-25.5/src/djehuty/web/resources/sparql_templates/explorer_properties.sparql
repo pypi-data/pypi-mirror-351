@@ -1,0 +1,11 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT DISTINCT ?predicate
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?subject rdf:type <{{type}}> ; ?predicate ?object .
+  }
+  FILTER (?predicate != rdf:type)
+}
+ORDER BY ASC(?predicate)
+{% endblock %}

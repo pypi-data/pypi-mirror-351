@@ -1,0 +1,12 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT (SUM(?bytes) AS ?bytes)
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?dataset        rdf:type                       djht:Dataset .
+    ?dataset        djht:files/rdf:rest*/rdf:first ?file .
+    ?file           djht:size                      ?bytes .
+    FILTER (?dataset = <dataset:{{dataset_uuid}}>)
+  }
+}
+{% endblock %}

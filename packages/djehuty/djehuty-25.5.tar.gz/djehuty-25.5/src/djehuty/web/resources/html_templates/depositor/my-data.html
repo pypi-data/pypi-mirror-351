@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+{% block headers %}
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+<style nonce="{{nonce}}">
+#table-unpublished thead tr th:last-child { min-width: 50pt }
+#table-unpublished { display: none; }
+#table-published { display: none; }
+#table-review { display: none; }
+#add-new-dataset { margin: auto; }
+</style>
+<script nonce="{{nonce}}">
+jQuery(document).ready(function () {
+    jQuery(".hide-for-javascript").removeClass("hide-for-javascript");
+    jQuery("#table-unpublished").DataTable({
+        columnDefs: [{ type: 'file-size', targets: 2 },
+                     { orderable: false,  targets: 4 }],
+        order: [[3, 'desc']]
+    });
+    jQuery("#table-unpublished").show();
+    jQuery("#table-unpublished-loader").remove();
+
+    jQuery("#table-published").DataTable({
+        columnDefs: [{ type: 'file-size', targets: 2 }],
+        order: [[3, 'desc']]
+    });
+    jQuery("#table-published").show();
+    jQuery("#table-published-loader").remove();
+
+    jQuery("#table-review").DataTable({
+        columnDefs: [{ type: 'file-size', targets: 2 }],
+        order: [[3, 'desc']]
+    });
+    jQuery("#table-review").show();
+    jQuery("#table-review-loader").remove();
+});
+</script>
+{% endblock %}
+{% block submenu %}
+<ul>
+  <li><a href="/my/dashboard">My Dashboard</a>
+  <li class="active corporate-identity-submenu-active">My Datasets
+  {%- if may_deposit %}<li class="create-button"><a href="/my/datasets/new">Add new dataset</a>{%- endif %}
+  <li><a href="/my/collections">My Collections</a>
+</ul>
+{% endblock %}
+{% block body %}
+<noscript>
+  <p class="no-script">Sorry, this page requires JavaScript to function properly.</p>
+</noscript>
+<div class="hide-for-javascript">
+<h1>Datasets</h1>
+{%- if draft_datasets: %}
+<h2>Drafts</h2>
+<div id="table-unpublished-loader" class="loader"></div>
+<table id="table-unpublished" class="corporate-identity-table">
+  <thead>
+    <tr>
+      <th>Dataset</th>
+      <th>Type</th>
+      <th>Size</th>
+      <th>Created&nbsp;at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>{% for article in draft_datasets: %}
+    <tr>
+      <td><a href="/my/datasets/{{article.container_uuid}}/edit">{{article.title}}</a>{% if article.is_shared_with_me %}<span class="active-badge">Shared with me</span>{% endif %}</td>
+      <td>{{article.defined_type_name | default("undefined", False)}}</td>
+      <td>{{article.storage_used}}</td>
+      <td>{{article.created_date | truncate(10,False,'')}}</td>
+      <td>{% if not article.is_shared_with_me or (article.is_shared_with_me and article.is_supervisor) %}<a href="/my/datasets/{{article.uuid}}/private_links" class="fas fa-link" title="Private links"></a><a href="/my/datasets/{{article.container_uuid}}/delete" class="fas fa-trash-can" title="Remove"></a>{% endif %}</td>
+    </tr>
+  {% endfor %}</tbody>
+</table>
+{%- elif may_deposit %}
+<p>You don&apos;t have draft datasets (yet).</p>
+<div class="center"><a id="add-new-dataset" href="/my/datasets/new" class="button corporate-identity-standard-button">Add new dataset</a></div>
+{%- else %}
+<p>You have not been invited to collaborate on a dataset (yet).</p>
+{%- endif %}
+{%- if review_datasets: %}
+<h2>Under review</h2>
+<div id="table-review-loader" class="loader"></div>
+<table id="table-review" class="corporate-identity-table">
+  <thead>
+    <tr>
+      <th>Dataset</th>
+      <th>Type</th>
+      <th>Size</th>
+      <th>Submitted&nbsp;at</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>{% for article in review_datasets: %}
+    <tr>
+      <td><a href="/my/datasets/{{article.container_uuid}}/edit">{{article.title}}</a></td>
+      <td>{{article.defined_type_name | default("undefined", False)}}</td>
+      <td>{{article.storage_used}}</td>
+      <td>{{article.review_submit_date | truncate(10,False,'')}}</td>
+      <td>{{article.review_status | default("unassigned", False)}}</td>
+      <td>{% if not article.is_shared_with_me %}<a href="/my/datasets/{{article.uuid}}/private_links" class="fas fa-link" title="Private links"></a>{% endif %}</td>
+    </tr>
+  {% endfor %}</tbody>
+</table>
+{%- endif %}
+{%- if published_datasets: %}
+<h2>Published</h2>
+<div id="table-published-loader" class="loader"></div>
+<table id="table-published" class="corporate-identity-table">
+  <thead>
+    <tr>
+      <th>Dataset</th>
+      <th>Type</th>
+      <th>Size</th>
+      <th>Created&nbsp;at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>{% for article in published_datasets: %}
+    <tr>
+      <td><a href="/datasets/{{article.container_uuid}}">{{article.title}}</a></td>
+      <td>{{article.defined_type_name | default("undefined", False)}}</td>
+      <td>{{article.storage_used}}</td>
+      <td>{{article.created_date | truncate(10,False,'')}}</td>
+      <td>
+        {%- if not article.has_draft %}<a href="/my/datasets/{{article.container_uuid}}/new-version-draft" class="fas fa-plus" title="Add new version"></a>{% endif %}
+        <a href="/my/datasets/{{article.uuid}}/private_links" class="fas fa-link" title="Private links"></a>
+      </td>
+    </tr>
+  {% endfor %}</tbody>
+</table>
+{%- endif %}
+</div>
+{% endblock %}

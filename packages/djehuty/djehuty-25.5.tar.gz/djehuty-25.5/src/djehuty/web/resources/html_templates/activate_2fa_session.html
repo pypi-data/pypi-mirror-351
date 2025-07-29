@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block headers %}
+<link href="/static/css/form.css?cache=1738927707" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<h1>Enter your token</h1>
+<p>We sent an e-mail with a numeric token.  Please enter it here.</p>
+<label for="mfa-token">Token</label>
+<form action="/my/sessions/{{session_uuid}}/activate" method="post">
+<input type="text" id="mfa-token" name="mfa-token" placeholder="e.g. 123456" />
+<div class="center">
+  <input type="submit" id="submit-mfa-token" class="button corporate-identity-standard-button" value="Activate session">
+</div>
+</form>
+{% endblock %}

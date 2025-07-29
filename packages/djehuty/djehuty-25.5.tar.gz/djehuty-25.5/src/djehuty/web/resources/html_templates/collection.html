@@ -1,0 +1,26 @@
+{%- extends "layout.html" %}
+{%- set doi = item.doi %}
+{%- set pid = item.collection_id %}
+{%- set uuid = item.container_uuid %}
+{%- set item_type = "collection" %}
+
+{%- block headers %}
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/landing_page.js?cache=1742461855"></script>
+<script src="/static/js/utils.js?cache=1744290797"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/pub.css?cache=1742203405" />
+{%- endblock %}
+
+{%- block body %}
+{%- include 'public_metadata.html' %}
+<div id="data">
+    <h3>DATASETS</h3>
+    <ul>
+{%- for dataset in datasets %}
+        <li>
+            [{{dataset.type}}] <a class="corporate-identity" href="/datasets/{{dataset.container_uuid}}" title="first online {{dataset.date[:10]}}">{{dataset.title}}</a>
+        </li>
+{%- endfor %}
+    </ul>
+</div>
+{%- endblock %}

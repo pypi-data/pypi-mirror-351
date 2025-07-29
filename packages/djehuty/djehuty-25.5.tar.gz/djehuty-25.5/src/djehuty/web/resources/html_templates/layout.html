@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="{{site_description}}">
+    <meta name="keywords" content="{{site_shorttag}}, {{site_name}}, data repository">
+    <meta name="author" content="{{site_name}}">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; script-src 'self' 'nonce-{{nonce}}'; style-src 'self' 'nonce-{{nonce}}'; frame-src https://www.youtube.com">
+    <title>{% if page_title %}{{page_title|safe}}{% else %}{{site_name | default("Djehuty", True)}}{% endif %}</title>
+    <link rel='shortcut icon' type='image/x-icon' href='/static/images/favicon.ico'>
+    <link rel="stylesheet" type="text/css" href="/theme/colors.css?cache={{startup_timestamp}}">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css?cache=1744974953">
+    {% block headers %}{% endblock %}
+  </head>
+  <body>
+    <div id="wrapper" {%- if path == "/" %} class="footer1"{% else %} class="footer2"{% endif %}>
+      {%- if sandbox_message %}
+      <div id="sandbox-message" class="pre-header sandbox-message-css">
+        <p>{{sandbox_message | safe}}</p>
+      </div>
+      {%- endif %}
+      {%- if impersonating_account %}
+      {%- if is_reviewing and path.startswith("/my/datasets/") %}
+      <div id="pre-header-for-reviewer" class="pre-header">
+        <p>Reviewing dataset for <strong>{{impersonating_account.first_name}} {{impersonating_account.last_name}}</strong>. <a href="/logout">Click here</a> to stop reviewing.</p>
+      </div>
+      {% else: %}
+      <div id="pre-header" class="pre-header">
+        <p>Impersonating as <strong>{{impersonating_account.first_name}} {{impersonating_account.last_name}}</strong>. <a href="/logout">Click here</a> to stop impersonating.</p>
+      </div>
+      {%- endif %}
+      {%- endif %}
+      {%- if private_view and not is_reviewing %}
+      <div id="pre-header" class="pre-header">
+      {%- if posted_date is not none and posted_date == "unpublished" %}
+        <p>You are viewing a pre-publication item. It hasn't been reviewed or published.</p>
+      {%- else %}
+        <p>You are viewing a privately published item. Please keep the access conditions in mind.</p>
+      {%- endif %}
+      </div>
+      {%- endif %}
+      <div id="header" class="corporate-identity-header">
+        <div id="header-left"><a href="/"><img id="corporate-identity-logo" src="/static/images/logo.png" alt="{{site_name}} logo"></a></div>
+        <div id="header-middle">
+          <div id="search-box-wrapper">
+            {%- if not maintenance_mode %}
+            <form method="get" action="/search?search=">
+              <input id="search-box" aria-label="Search" title="Search" name="search" type="text" placeholder="Search..." maxlength="255" value="{{search_for}}"><!--
+              --><input type="submit" class="search-submit-btn fa-search" value="&#xf002;">
+            </form>
+            {%- endif %}
+          </div>
+        </div>
+        <div id="header-right">
+          {%- if not maintenance_mode %}
+          {%- if not is_logged_in %}
+          {%- if identity_provider == "orcid" %}
+          <a href="{{orcid_endpoint}}/authorize?client_id={{orcid_client_id}}&response_type=code&scope=/authenticate&redirect_uri={{base_url}}/login"><div class="button" id="login-button">Log in</div></a>
+          {%- endif %}
+          {%- if identity_provider == "saml" or identity_provider == "automatic-login" %}
+          <a href="/login"><div class="button" id="login-button">Log in</div></a>
+          {%- endif %}
+          {%- else %}
+          {%- if (may_review or may_review_institution) and path != "/review/overview" %}
+          <a href="/review/overview" class="button fas fa-clipboard-check corporate-identity-privilege-button" title="Reviewer dashboard"><span class="hidden">Reviewer dashboard</span></a>
+          {%- endif %}
+          {%- if may_administer and not path.startswith("/admin") %}
+          <a href="/admin/dashboard" class="button fas fa-gear corporate-identity-privilege-button" title="Administrator dashboard"><span class="hidden">Administration dashboard</span></a>
+          {%- endif %}
+          {%- if not path.startswith("/my") %}<a href="/my/dashboard"><div class="button" id="dashboard-button">{% if path.startswith("/admin") or path.startswith("/review") %}Depositor {% endif %}Dashboard</div></a>{% endif %}
+          <a href="/logout"><div class="button" id="logout-button">Log out</div></a>
+          <a id="profile-button" title="My profile" class="fas fa-user-circle" href="/my/profile"><span class="hidden">My profile</span></a>
+          {%- endif %}
+          {%- endif %}
+        </div>
+      </div>
+      {%- if not maintenance_mode %}
+      <nav id="site-navigation">
+        <div id="primary-menu-wrapper">
+        <ul id="primary-menu" class="primary-menu">
+          {% for primary_menu in menu %}
+          <li class="menu-item menu-item-has-children">{{primary_menu.title}}
+            <ul class="submenu">
+              {% for submenu in primary_menu.submenu %}
+              <li class="submenu-item"><a href="{{ submenu.href }}">{{ submenu.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+        </ul>
+        </div>
+      </nav>
+      {% if self.submenu() %}<div id="submenu"><div id="submenu-wrapper">{% block submenu %}{% endblock %}</div></div>{% endif %}
+      {%- endif %}
+      <div id="content">
+        <div id="content-wrapper">
+          <div id="message"></div>
+          {% block body %}{% endblock %}
+        </div>
+      </div>
+    </div>
+    <div id="footer" class="corporate-identity-footer">
+      <div class="logos corporate-identity-background">
+        <div id="whitelogos">
+          <a href="http://www.tudelft.nl" target="_blank" rel="noopener noreferrer">
+            <img src="/static/images/logosleft-white-tudelft.png" alt="4TU Delft"></a>
+          <a href="http://www.tue.nl" target="_blank" rel="noopener noreferrer">
+            <img src="/static/images/logosleft-white-tueindhoven.png" alt="4TU Eindhoven"></a>
+          <a href="http://www.utwente.nl/" target="_blank" rel="noopener noreferrer">
+            <img src="/static/images/logosleft-white-tutwente.png" alt="4TU Twente"></a>
+          <a href="http://www.wageningenur.nl/" target="_blank" rel="noopener noreferrer">
+            <img src="/static/images/logosleft-white-wageningen.png" alt="4TU Wageningen"></a>
+        </div>
+      </div>
+      {%- if path == "/" %}
+      {{large_footer | safe}}
+      {%- else %}
+      {{small_footer | safe}}
+      {%- endif %}
+    </div>
+  </body>
+</html>
