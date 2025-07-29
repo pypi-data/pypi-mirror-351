@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: parquet-datastore-utils
+Version: 0.1.13
+Summary: A few functions adding some functionality for working with parquet for timeseries data
+Author: m.hamilton-jones
+Author-email: m.hamilton-jones@aee.at
+Requires-Python: >=3.8,<4
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: filelock
+Requires-Dist: fsspec (>=2023.4.0,<2024.0.0)
+Requires-Dist: numpy (<2)
+Requires-Dist: pandas
+Requires-Dist: pyarrow (>14.0)
+Requires-Dist: pytest
+Requires-Dist: sunpeek-exampledata
+Description-Content-Type: text/markdown
+
+A few functions adding some functionality for working with parquet for timeseries data, built on pyarrow. 
