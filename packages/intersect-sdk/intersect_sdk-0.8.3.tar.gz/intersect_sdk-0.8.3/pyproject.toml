@@ -1,0 +1,245 @@
+[project]
+name = "intersect-sdk"
+description = "Python SDK to interact with INTERSECT"
+authors = [
+    { name = "Lance Drane", email = "dranelt@ornl.gov" },
+    { name = "Marshall McDonnell", email = "mcdonnellmt@ornl.gov" },
+    { name = "Seth Hitefield", email = "hitefieldsd@ornl.gov" },
+    { name = "Andrew Ayres", email = "ayresaf@ornl.gov" },
+    { name = "Gregory Cage", email = "cagege@ornl.gov" },
+    { name = "Jesse McGaha", email = "mcgahajr@ornl.gov" },
+    { name = "Robert Smith", email = "smithrw@ornl.gov" },
+    { name = "Gavin Wiggins", email = "wigginsg@ornl.gov" },
+    { name = "Michael Brim", email = "brimmj@ornl.gov" },
+    { name = "Rick Archibald", email = "archibaldrk@ornl.gov" },
+    { name = "Addi Malviya Thakur", email = "malviyaa@ornl.gov" },
+]
+readme = "README.md"
+requires-python = ">=3.8.10,<4.0"
+keywords = [
+    "intersect",
+]
+dynamic = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "pydantic>=2.7.0",
+    "retrying>=1.3.4,<2.0.0",
+    "paho-mqtt>=1.6.1,<2.0.0",
+    "minio>=7.2.3",
+    "jsonschema[format-nongpl]>=4.21.1",
+    "eval-type-backport>=0.1.3;python_version<'3.10'",
+]
+version = "0.8.3"
+
+[project.license]
+text = "BSD-3-Clause"
+
+[project.urls]
+Homepage = "https://github.com/INTERSECT-SDK/python-sdk/"
+Changelog = "https://github.com/INTERSECT-SDK/python-sdk/blob/main/CHANGELOG.md"
+Documentation = "https://intersect-python-sdk.readthedocs.io/en/latest/"
+Issues = "https://github.com/INTERSECT-SDK/python-sdk/issues"
+
+[project.optional-dependencies]
+amqp = [
+    "pika>=1.3.2,<2.0.0",
+]
+docs = [
+    "sphinx>=5.3.0",
+    "furo>=2023.3.27",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint]
+extend-select = [
+    "C90",
+    "I",
+    "N",
+    "D",
+    "UP",
+    "YTT",
+    "ANN",
+    "ASYNC",
+    "S",
+    "BLE",
+    "B",
+    "A",
+    "COM",
+    "C4",
+    "DTZ",
+    "T10",
+    "EM",
+    "FA",
+    "ISC",
+    "ICN",
+    "G",
+    "INP",
+    "PIE",
+    "T20",
+    "PYI",
+    "PT",
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SLOT",
+    "SIM",
+    "TCH",
+    "ARG",
+    "PTH",
+    "PGH",
+    "PL",
+    "TRY",
+    "FLY",
+    "RUF",
+]
+ignore = [
+    "COM812",
+    "ISC001",
+    "SIM105",
+    "ANN401",
+    "PLR2004",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "src",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "double"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 20
+
+[tool.ruff.lint.pylint]
+max-args = 10
+max-branches = 20
+max-returns = 10
+max-statements = 75
+
+[tool.ruff.lint.extend-per-file-ignores]
+"__init__.py" = [
+    "F401",
+]
+"docs/*" = [
+    "D",
+    "INP001",
+]
+"examples/*" = [
+    "N999",
+    "T20",
+    "S106",
+    "D100",
+    "D104",
+    "TRY002",
+    "FA100",
+]
+"tests/*" = [
+    "S101",
+    "S106",
+    "S311",
+    "SLF001",
+    "ANN",
+    "ARG",
+    "D",
+    "FA100",
+]
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+disallow_untyped_decorators = false
+plugins = [
+    "pydantic.mypy",
+]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[tool.pytest.ini_options]
+log_cli = true
+addopts = "-ra"
+
+[tool.coverage.report]
+omit = [
+    "*__init__*",
+    "*/discovery_service.py",
+]
+exclude_also = [
+    "pragma: no-cover",
+    "if (typing\\\\.)?TYPE_CHECKING:",
+    "@(abc\\\\.)?abstractmethod",
+    "class .*\\bProtocol\\):",
+    "raise NotImplementedError",
+    "except.* ImportError",
+]
+
+[tool.pdm.dev-dependencies]
+lint = [
+    "pre-commit>=3.3.1",
+    "ruff==0.9.4",
+    "mypy>=1.10.0",
+    "types-paho-mqtt>=1.6.0.20240106",
+    "codespell>=2.3.0",
+]
+test = [
+    "pytest>=7.3.2",
+    "pytest-cov>=4.1.0",
+    "httpretty>=1.1.4",
+]
+
+[tool.pdm.scripts]
+test-all = "pytest tests/ --cov=src/intersect_sdk/ --cov-fail-under=80 --cov-report=html:reports/htmlcov/ --cov-report=xml:reports/coverage_report.xml --junitxml=reports/junit.xml"
+test-all-debug = "pytest tests/ --cov=src/intersect_sdk/ --cov-fail-under=80 --cov-report=html:reports/htmlcov/ --cov-report=xml:reports/coverage_report.xml --junitxml=reports/junit.xml -s"
+test-unit = "pytest tests/unit --cov=src/intersect_sdk/"
+test-e2e = "pytest tests/e2e --cov=src/intersect_sdk/"
+lint-docs = "sphinx-build -W --keep-going docs docs/_build"
+lint-format = "ruff format"
+lint-ruff = "ruff check --fix"
+lint-mypy = "mypy src/intersect_sdk/"
+lint-spelling = "codespell -w docs examples src tests *.md -S docs/_build"
+
+[tool.pdm.scripts.lint]
+composite = [
+    "lint-format",
+    "lint-ruff",
+    "lint-mypy",
+    "lint-spelling",
+    "lint-docs",
+]
+
+[tool.pdm.build]
+package-dir = "src"
+
+[tool.pdm.version]
+source = "file"
+path = "src/intersect_sdk/version.py"
+
+[tool.codespell]
+skip = ".git*,*.lock,.venv,.*cache/*,./docs/_build/*"
+check-hidden = true
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
