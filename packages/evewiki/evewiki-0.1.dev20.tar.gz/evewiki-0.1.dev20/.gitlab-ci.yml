@@ -1,0 +1,27 @@
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip-cache"
+
+stages:
+  - publish
+
+publish:
+  stage: publish
+  image: python:3.9
+  cache:
+    paths:
+      - .pip-cache/
+  before_script:
+    - rm -rf .cache
+    - python --version
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install --upgrade pip
+    - pip install build twine
+    - python -m build
+  script:
+    - export TWINE_USERNAME=__token__
+    - export TWINE_PASSWORD=pypi-AgEIcHlwaS5vcmcCJDFkZDMzYzI4LWRmZWUtNDM1ZC1iMWI0LTI5ZTM5ZDVjZmVlMgACKlszLCI4NTYxYTdlZS1jODE0LTQ0ZjktYWE1ZC1lMGU5OWQwOTgxNjIiXQAABiBzto7alFGkq349kAD-HNh1TSo8-c0xiASqqlz2lFn65Q
+    - echo "FRED"
+    - echo "PYPI_ID_TOKEN ${PYPI_ID_TOKEN}"
+    - echo "TWINE_PASSWORD ${TWINE_PASSWORD}"
+    - python -m twine upload dist/*
