@@ -1,0 +1,155 @@
+name: Test
+on:
+  push:
+    branches: [main]  # Run on push to main branch
+  pull_request:       # Trigger on PRs (from fork or same repo)
+  workflow_dispatch:  # Allow manual triggering
+
+env:
+  VERSION: 0.2.5
+
+permissions: {}
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+        with:
+          submodules: 'true'
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca #v6.0.1
+
+      - name: Install project dev dependencies
+        run: uv sync --only-dev
+
+      - name: Run unit tests
+        id: runtests
+        timeout-minutes: 20
+        run: |
+          rc=0
+          uv run coverage run -m pytest tests --junitxml=test-execution.xml || rc=$?
+          uv run coverage xml
+          echo "rc=$rc" >> $GITHUB_OUTPUT
+
+      - name: 'Save coverage report as an Artifact'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 #v4.3.0
+        with:
+          name: coverage-report
+          path: ./coverage.xml
+
+      - name: 'Save execution report as an Artifact'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 #v4.3.0
+        with:
+          name: execution-report
+          path: ./test-execution.xml
+
+      - name: Fail if unit tests are not passing
+        if: ${{ steps.runtests.outputs.rc != 0}}
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea #v7.0.1
+        env:
+          rc: ${{ steps.runtests.outputs.rc }}
+        with:
+          script: |
+            core.setFailed(`Unittests failed with rc = ${process.env.rc}`)
+
+  sonarqube:
+    name: SonarQube scan
+    runs-on: ubuntu-latest
+    needs: test
+    environment: production
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+          persist-credentials: false
+
+      - name: 'Download coverage and execution report'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 #4.3.0
+        with:
+          pattern: '*-report'
+
+      - name: Move downloaded reports to root
+        run: |
+          mv *-report/* .
+
+      - name: Set project key
+        id: project_key
+        env:
+          VERSION: ${{ env.VERSION }}
+          REF_NAME: ${{ github.ref_name }}
+          HEAD_REF: ${{ github.head_ref }}
+          GIT_SHA: ${{ github.sha }}
+        run: |
+          BASE_KEY=$(grep '^sonar.projectKey=' sonar-project.properties | cut -d'=' -f2)
+
+          if [[ -z "${BASE_KEY}" ]]; then
+            echo "sonar.projectKey not found in sonar-project.properties"
+            exit 1
+          fi
+
+          if [[ "$REF_NAME" == "main" ]]; then
+            FINAL_KEY="${BASE_KEY}"
+          else
+            BRANCH_NAME="${HEAD_REF}"
+            BRANCH_KEY=$(echo "$BRANCH_NAME" | tr '/' '-' | tr -cd '[:alnum:]-')
+            FINAL_KEY="${BASE_KEY}-pr-${BRANCH_KEY}"
+            VERSION="${GIT_SHA}"
+          fi
+
+          echo "main_key=$BASE_KEY" >> "$GITHUB_OUTPUT"
+          echo "key=$FINAL_KEY" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: SonarQube scan
+        uses: sonarsource/sonarqube-scan-action@2500896589ef8f7247069a56136f8dc177c27ccf #v5.2.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_GLOBAL_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          PROJECT_KEY: ${{ steps.project_key.outputs.key }}
+          PROJECT_VERSION: ${{ steps.project_key.outputs.version }}
+        with:
+          args: >
+            -Dsonar.projectKey="$PROJECT_KEY"
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.projectVersion="$PROJECT_VERSION"
+
+      - name: Comment on PR with SonarQube results
+        if: github.event_name == 'pull_request'
+        env:
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_GLOBAL_TOKEN }}
+          GH_TOKEN: ${{ secrets.BOT_ACCESS_TOKEN }}
+          PROJECT_KEY: ${{ steps.project_key.outputs.key }}
+          MAIN_PROJECT_KEY: ${{ steps.project_key.outputs.main_key }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Make sure the script is executable
+          chmod +x .github/sonarqube/sonarqube-fetch.sh
+
+          # Run the shell script and capture the output
+          COMMENT=$(./.github/sonarqube/sonarqube-fetch.sh "$SONAR_HOST_URL" "$SONAR_TOKEN" "$PROJECT_KEY" "$MAIN_PROJECT_KEY")
+
+          # Add the comment to GitHub Step Summary
+          echo "$COMMENT" >> $GITHUB_STEP_SUMMARY
+
+          # Create body file
+          echo "$COMMENT" > body.md
+
+          # Post the comment to the PR
+          gh pr comment $PR_NUMBER --create-if-none --edit-last --body-file body.md
+
+      # Optional: Fail the job if the Quality Gate fails
+      - name: SonarQube Quality Gate
+        id: quality-gate
+        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496  #v1.1.0
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_GLOBAL_TOKEN }}

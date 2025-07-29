@@ -1,0 +1,68 @@
+name: Cleanup SonarQube PR Project
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  cleanup-sonarqube:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Extract base sonar.projectKey
+        id: basekey
+        run: |
+          BASE_KEY=$(grep '^sonar.projectKey=' sonar-project.properties | cut -d'=' -f2)
+          if [[ -z "$BASE_KEY" ]]; then
+            echo "sonar.projectKey not found in sonar-project.properties"
+            exit 1
+          fi
+          echo "base_key=$BASE_KEY" >> "$GITHUB_OUTPUT"
+
+      - name: Sanitize merged branch name
+        id: branch
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          BRANCH_NAME="${HEAD_REF}"
+          BRANCH_KEY=$(echo "$BRANCH_NAME" | tr '/' '-' | tr -cd '[:alnum:]-')
+          echo "name=$BRANCH_KEY" >> "$GITHUB_OUTPUT"
+
+      - name: Delete SonarQube PR project
+        env:
+          PR_PROJECT_KEY: ${{ steps.basekey.outputs.base_key }}-pr-${{ steps.branch.outputs.name }}
+          SONAR_TOKEN: ${{ secrets.SONAR_ADMIN_TOKEN }}
+        run: |
+          echo "Checking if project exists: $PR_PROJECT_KEY"
+
+          # Query the project and parse the response
+          response=$(curl -s -H "Authorization: Bearer $SONAR_TOKEN" \
+            "https://sonarqube.populationgenomics.org.au/api/projects/search?projects=${PR_PROJECT_KEY}")
+
+          # Use jq to check if the project exists
+          project_found=$(echo "$response" | jq ".components | length > 0")
+
+          if [ "$project_found" = "true" ]; then
+            echo "Project found. Deleting..."
+            delete_response=$(curl -s -o /dev/null -w "%{http_code}" \
+              -H "Authorization: Bearer $SONAR_TOKEN" \
+              -X POST "https://sonarqube.populationgenomics.org.au/api/projects/delete?project=${PR_PROJECT_KEY}")
+
+            if [ "$delete_response" = "204" ]; then
+              echo "Project $PR_PROJECT_KEY deleted successfully."
+            else
+              echo "Failed to delete project. HTTP status: $delete_response"
+            fi
+          else
+            echo "Project $PR_PROJECT_KEY not found. Nothing to delete."
+          fi
