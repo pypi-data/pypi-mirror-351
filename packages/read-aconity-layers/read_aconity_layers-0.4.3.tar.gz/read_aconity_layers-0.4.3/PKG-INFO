@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: read_aconity_layers
+Version: 0.4.3
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+License-File: LICENSE
+Summary: A utility for fast reading of layer data from the aconity mini powder bed fusion machine
+Author-email: Cian Hughes <chughes000@gmail.com>
+License: MIT
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: github, https://github.com/Cian-H/read_aconity_layers
+
+A utility for fast reading of layer data from the aconity mini powder bed fusion machine
+
