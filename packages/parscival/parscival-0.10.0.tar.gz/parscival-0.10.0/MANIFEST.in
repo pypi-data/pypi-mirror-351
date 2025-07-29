@@ -1,0 +1,8 @@
+include src/parscival/version.ini
+recursive-include src/parscival/schemas *.yaml
+recursive-include src/elglib *
+prune src/elglib/**/__pycache__
+prune src/elglib/**/elglib.egg-info
+recursive-include src/parscival_specs *
+prune src/parscival_specs/**/cache
+global-exclude *~

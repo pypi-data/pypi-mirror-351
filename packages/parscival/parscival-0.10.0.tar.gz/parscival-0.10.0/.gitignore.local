@@ -1,0 +1,12 @@
+*.cortext.sqlite
+*.cortext.json
+*.db
+*.hdf5
+*.sqlite3
+.vscode/
+cache/
+__pycache__/
+node_modules/
+
+# All files and directories starting with tilde (~) should be ignored
+~*
