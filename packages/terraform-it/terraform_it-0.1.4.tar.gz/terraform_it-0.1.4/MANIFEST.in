@@ -1,0 +1,3 @@
+include terraform_it/templates/*.j2
+include terraform_it/templates/*/*.j2
+include README.md
