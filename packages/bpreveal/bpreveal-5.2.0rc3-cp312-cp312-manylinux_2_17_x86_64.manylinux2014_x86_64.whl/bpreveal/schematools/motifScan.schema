@@ -1,0 +1,51 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "motifScan",
+    "description": "Schema for motifScan.py",
+    "type": "object",
+    "properties": {
+        "seqlet-cutoff-json": {
+            "type": "string"
+        },
+        "seqlet-cutoff-settings": {
+            "$ref": "/schema/motifSeqletCutoffs#/definitions/seqlet-scanning-settings"
+        },
+        "scan-settings": {
+            "type": "object",
+            "properties": {
+                "scan-contrib-h5": {
+                    "type": "string"
+                },
+                "hits-tsv": {
+                    "type": "string"
+                },
+                "num-threads": {
+                    "type": "integer",
+                    "minimum" : 3
+                }
+            },
+            "required": [
+                "scan-contrib-h5",
+                "hits-tsv",
+                "num-threads"
+            ]
+        },
+        "verbosity": {"$ref": "/schema/base#/definitions/verbosity"}
+    },
+    "oneOf": [
+        {
+            "required": [
+                "seqlet-cutoff-json"
+            ]
+        },
+        {
+            "required": [
+                "seqlet-cutoff-settings"
+            ]
+        }
+    ],
+    "required": [
+        "verbosity",
+        "scan-settings"
+    ]
+}

@@ -1,0 +1,32 @@
+! File libjaccard.pyf
+python module libslide
+interface
+    subroutine slide(source, dest, numRows, numSourceCols, numDestCols, depth, rowIndexes, colIndexes)
+        intent(c) slide
+        intent(c)
+        real intent(in),dimension(numRows, numSourceCols, depth) :: source
+        real intent(inout),dimension(numRows, numDestCols, depth) :: dest
+        integer intent(in),dimension(numRows) :: rowIndexes
+        integer intent(in),dimension(numRows) :: colIndexes
+        integer intent(in) :: numRows
+        integer intent(in) :: numSourceCols
+        integer intent(in) :: numDestCols
+        integer intent(in) :: depth
+    end subroutine slide
+
+    subroutine slideChar(source, dest, numRows, numSourceCols, numDestCols, depth, rowIndexes, colIndexes)
+        intent(c) slideChar
+        intent(c)
+        byte intent(in),dimension(numRows, numSourceCols, depth) :: source
+        real intent(inout),dimension(numRows, numDestCols, depth) :: dest
+        integer intent(in),dimension(numRows) :: rowIndexes
+        integer intent(in),dimension(numRows) :: colIndexes
+        integer intent(in) :: numRows
+        integer intent(in) :: numSourceCols
+        integer intent(in) :: numDestCols
+        integer intent(in) :: depth
+    end subroutine slideChar
+
+end interface
+end python module libslide
+! Copyright 2022-2025 Charles McAnany. This file is part of BPReveal. BPReveal is free software: You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version. BPReveal is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with BPReveal. If not, see <https://www.gnu.org/licenses/>.

@@ -1,0 +1,27 @@
+[console_scripts]
+interpretFlat = bpreveal.interpretFlat:main
+checkJson = bpreveal.checkJson:main
+interpretPisa = bpreveal.interpretPisa:main
+lengthCalc = bpreveal.lengthCalc:main
+makeLossPlots = bpreveal.makeLossPlots:main
+makePisaFigure = bpreveal.makePisaFigure:main
+makePredictions = bpreveal.makePredictions:main
+metrics = bpreveal.metrics:main
+motifAddQuantiles = bpreveal.motifAddQuantiles:main
+motifScan = bpreveal.motifScan:main
+motifSeqletCutoffs = bpreveal.motifSeqletCutoffs:main
+predictToBigwig = bpreveal.predictToBigwig:main
+prepareBed = bpreveal.prepareBed:main
+prepareTrainingData = bpreveal.prepareTrainingData:main
+shapToBigwig = bpreveal.shapToBigwig:main
+shapToNumpy = bpreveal.shapToNumpy:main
+showTrainingProgress = bpreveal.showTrainingProgress:main
+trainCombinedModel = bpreveal.trainCombinedModel:main
+trainSoloModel = bpreveal.trainSoloModel:main
+trainTransformationModel = bpreveal.trainTransformationModel:main
+bestMotifsOnly = bpreveal.tools.bestMotifsOnly:main
+lossWeights = bpreveal.tools.lossWeights:main
+shiftPisa = bpreveal.tools.shiftPisa:main
+shiftBigwigs = bpreveal.tools.shiftBigwigs:main
+tileGenome = bpreveal.tools.tileGenome:main
+
