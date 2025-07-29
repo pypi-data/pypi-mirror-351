@@ -1,0 +1,168 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.1.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry]
+name = "yadism"
+version = "0.13.6"
+description = "Yet Another Deep-Inelastic Scattering Module"
+authors = [
+  "Alessandro Candido <alessandro.candido@mi.infn.it>",
+  "Felix Hekhorn <felix.hekhorn@mi.infn.it>",
+  "Giacomo Magni <gmagni@nikhef.nl>",
+]
+license = "GPL-3.0-only"
+readme = "README.md"
+homepage = "https://n3pdf.github.io/yadism/"
+repository = "https://github.com/N3PDF/yadism/"
+documentation = "https://yadism.readthedocs.io/"
+keywords = []
+classifiers = [
+  "Operating System :: Unix",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Physics",
+]
+packages = [
+  { include = "yadism", from = "src" },
+  { include = "yadmark", from = "src" },
+  { include = "yadbox", from = "src" },
+]
+
+[tool.poetry.urls]
+"Issue Tracker" = "https://github.com/N3PDF/yadism/issues"
+"Coverage" = "https://codecov.io/gh/N3PDF/yadism"
+"Changelog" = "https://github.com/N3PDF/yadism/releases"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+numpy = "^1.22.0"
+scipy = "^1.10.0"
+numba = "^0.59.0"
+eko = "^0.14.2"
+pandas = "^2.1.4"
+rich = "^12.4.4"
+adani = "^1.0.2"
+LeProHQ = "^0.2.5"
+# pineappl dependency
+pineappl = { version = "^0.8.2", optional = true }
+# yadmark
+banana-hep = { version = "^0.6.13", optional = true }
+sqlalchemy = { version = "^1.4.21", optional = true }
+
+[tool.poetry.group.dev.dependencies]
+pdbpp = "^0.11.6"
+ipython = "^8.10.0"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.0"
+pytest-cov = "^4.0.0"
+pytest-env = "^0.6.2"
+hypothesis = "^6.39.3"
+asv = "^0.4.2"
+pylint = "^3.1.0"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+Sphinx = "^7.0.0"
+sphinx-rtd-theme = "^1.0.0"
+sphinxcontrib-bibtex = "^2.4.1"
+sphinxcontrib-details-directive = "^0.1.0"
+nbsphinx = "^0.8.8"
+ipykernel = "^6.13.0"
+
+[tool.poetry.extras]
+mark = ["banana-hep", "sqlalchemy"]
+box = ["pineappl"]
+
+[tool.poetry.scripts]
+yadnav = "yadmark.navigator:launch_navigator"
+
+[tool.poe.tasks]
+coverage = "$BROWSER htmlcov/index.html"
+test = "pytest"
+test-cov = ["test", "coverage"]
+lint = "pylint src/ -E"
+lint-warnings = "pylint src/ --exit-zero"
+sandbox = "python benchmarks/runners/sandbox.py"
+navigator = "yadnav --config benchmarks/banana.yaml"
+nav = "yadnav --config benchmarks/banana.yaml"
+asv-run = "asv run --config benchmarks/asv.conf.json master..HEAD"
+asv-preview = "asv preview --config benchmarks/asv.conf.json"
+asv-publish = "asv publish --config benchmarks/asv.conf.json"
+asv-show = "asv show --config benchmarks/asv.conf.json"
+asv-clean = { "shell" = "rm -rf benchmarks/env benchmarks/html benchmarks/results" }
+asv = ["asv-run", "asv-publish", "asv-preview"]
+docs = { "shell" = "cd docs; make html" }
+docs-view = { "shell" = "cd docs; make view" }
+docs-server = { "shell" = "cd docs; make server" }
+docs-clean = { "shell" = "cd docs; make clean" }
+docs-cleanall = { "shell" = "cd docs; make cleanall" }
+docs-install-nb = { "shell" = "python -m ipykernel install --user --name=$(basename $(poetry env info -p))" }
+
+[tool.poetry-dynamic-versioning]
+enable = false
+vcs = "git"
+style = "semver"
+dirty = true
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["src/yadism/version.py"]
+
+[tool.pytest.ini_options]
+testpaths = ['tests/', 'benchmarks/runners/']
+python_files = ['test_*.py', 'benchmark_*.py', 'regression.py']
+python_classes = ['Test*', 'Benchmark*']
+python_functions = ['test_*', 'benchmark_*']
+addopts = [
+  '--cov=yadism',
+  '--cov=yadbox',
+  '--cov-report=html',
+  '--cov-report=xml',
+  '--strict-markers',
+]
+markers = [
+  'quick_check: marks test/benchmark for quick',
+  'commit_check: marks test/benchmark to be run at each commit',
+  'full: marks test/benchmark to be run only with the full-suite',
+  'regression: marks regression tests',
+  'eko: marks eko related tests (InterpolatorDispatcher)',
+  'fonll: FONLL',
+]
+env = ["NUMBA_DISABLE_JIT=1"]
+
+
+[tool.pylint.master]
+# extensions not to check
+extension-pkg-whitelist = [
+  "numpy",
+  "numba",
+  "lhapdf",
+  "apfel",
+  "QCDNUM",
+  "xspace_bench",
+  "scipy.special",
+  "pineappl",
+  "apfelpy",
+  "adani"
+]
+ignore-paths = ["benchmarks/", "docs/", "tests/"]
+jobs = 1 # has to be 1 as pylint is NOT threadsafe
+[tool.pylint.messages_control]
+disable = ["invalid-name", "fixme"]
+[tool.pylint.reports]
+# Available formats are:
+# text, parseable, colorized, json and msvs (visual studio).
+output-format = "colorized"
+[tool.pylint.format]
+# Maximum number of characters on a single line.
+max-line-length = 100
+[tool.pylint.design]
+# Maximum number of arguments for function / method
+max-args = 10
