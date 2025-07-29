@@ -1,0 +1,29 @@
+.DS_Store
+/build/
+/bin/
+/console/dcm2niix
+# Python wrapper
+*.py[co]
+*.so
+__pycache__/
+/_skbuild/
+/_cmake_test_compile/
+/dcm2niix/_dist_ver.py
+/dcm2niix/dcm2niix
+/MANIFEST*
+/*.egg*/
+/dist/
+
+dist
+node_modules
+dcm2niix*.js
+dcm2niix*.wasm
+
+# pixi environments
+.pixi
+*.egg-info
+
+*.tar.gz
+openjpeg-2.5.3/
+v2.5.3.tar.gz*
+niivue-dcm2niix-*.tgz
