@@ -1,0 +1,16 @@
+Metadata-Version: 2.2
+Name: jax-moseq
+Version: 0.3.3
+Home-page: https://github.com/dattalab/jax-moseq/
+Author: Caleb Weinreb
+Author-email: calebsw@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+License-File: LICENSE.md
+Requires-Dist: numba>=0.56.4
+Requires-Dist: dynamax>=0.1.2
+Requires-Dist: tqdm
+Requires-Dist: optree
+Provides-Extra: cuda
+Requires-Dist: jax[cuda12]; extra == "cuda"

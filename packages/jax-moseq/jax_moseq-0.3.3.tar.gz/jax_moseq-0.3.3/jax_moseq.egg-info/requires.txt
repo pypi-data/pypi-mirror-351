@@ -1,0 +1,7 @@
+numba>=0.56.4
+dynamax>=0.1.2
+tqdm
+optree
+
+[cuda]
+jax[cuda12]
