@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: DjangoSharepointStorage
+Version: 1.1.7
+Summary: A Python library to use SharePoint as storage backend for your Django application
+Home-page: https://github.com/LundIT/DjangoSharepointStorage
+Author: Melih Sünbül
+Author-email: m.sunbul@lund-it.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: django
+Requires-Dist: Office365-REST-Python-Client
+
+Django SharePoint Storage Backend
