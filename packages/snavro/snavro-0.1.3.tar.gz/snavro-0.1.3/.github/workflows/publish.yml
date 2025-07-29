@@ -1,0 +1,138 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - '*'  # Trigger on any tag push (git flow creates tags)
+  release:
+    types: [published]  # Also support GitHub releases
+  workflow_dispatch:  # Allow manual triggering
+    inputs:
+      skip_pypi:
+        description: 'Skip PyPI upload (for testing)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[dev]"
+    
+    - name: Run tests
+      run: |
+        pytest tests/ -v
+    
+    - name: Check code formatting
+      run: |
+        black --check snavro/ tests/
+    
+    - name: Type checking
+      run: |
+        mypy snavro/
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        # Fetch full history for setuptools-scm
+        fetch-depth: 0
+        # Ensure we're on the exact tag for releases
+        ref: ${{ github.ref }}
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine setuptools-scm
+    
+    - name: Verify version from git tag
+      run: |
+        TAG_NAME=${GITHUB_REF#refs/tags/}
+        echo "Git tag: $TAG_NAME"
+        
+        VERSION=$(python -m setuptools_scm)
+        echo "Detected version: $VERSION"
+        
+        # Check if this is a clean release version (no +dev or +g suffixes)
+        if [[ "$VERSION" =~ \+.*$ ]]; then
+          echo "ERROR: Development version detected ($VERSION)"
+          echo "PyPI only accepts clean release versions like '1.2.0'"
+          echo "This usually means there are commits after the tag."
+          echo "Expected version: $TAG_NAME"
+          exit 1
+        fi
+        
+        # Verify the version matches the tag
+        if [[ "$VERSION" != "$TAG_NAME" ]]; then
+          echo "WARNING: Version mismatch!"
+          echo "Tag: $TAG_NAME"
+          echo "Detected: $VERSION"
+        fi
+        
+        echo "✓ Clean release version: $VERSION"
+    
+    - name: Build package
+      run: |
+        python -m build
+    
+    - name: Check package
+      run: |
+        twine check dist/*
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    environment: pypi
+    permissions:
+      id-token: write  # For trusted publishing
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+    
+    - name: Publish to PyPI
+      if: inputs.skip_pypi != true
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.TWINE_TOKEN }}
+        verbose: true
+    
+    - name: Skip PyPI upload (testing mode)
+      if: inputs.skip_pypi == true
+      run: |
+        echo "Skipping PyPI upload as requested"
+        echo "Built packages:"
+        ls -la dist/ 
