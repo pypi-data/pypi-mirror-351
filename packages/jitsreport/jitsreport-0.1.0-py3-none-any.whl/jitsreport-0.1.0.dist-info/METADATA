@@ -1,0 +1,98 @@
+Metadata-Version: 2.4
+Name: jitsreport
+Version: 0.1.0
+Summary: A package for generating detailed data analysis reports.
+Author: Surajit Das
+Author-email: mr.surajitdas@gmail.com
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: plotly
+Requires-Dist: scipy
+Requires-Dist: openpyxl
+Requires-Dist: statsmodels
+Requires-Dist: matplotlib
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# JITS Report [![PyPI Version](https://img.shields.io/pypi/v/jitsreport.svg)](https://pypi.org/project/jitsreport) [![Downloads](https://img.shields.io/pypi/dm/jitsreport)](https://pypi.org/project/jitsreport)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-%230A66C2?logo=linkedin)](https://www.linkedin.com/in/surajit-das-AI) 
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0008--6692--6697-a6ce39?logo=orcid)](https://orcid.org/0009-0008-6692-6697)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-%23181717?logo=github)](https://github.com/SurajitDaz/jitsreport)
+
+**By Surajit Das**  
+*25-May-2025 | AI Engineer | Doctoral Researcher*
+
+Automated data analysis and reporting tool for machine learning pipelines. Perfect for exploratory data analysis (EDA) and preprocessing insights.
+
+Install with:
+```bash
+pip install jitsreport as jr
+
+# Generate a report
+
+
+jr.generate_report_from_excel("input.xlsx", "output.html")
+
+
+==========================================================================
+==========================================================================
+
+🔍 Key Features
+📈 Comprehensive Statistical Analysis
+Variable Statistics: Distinct counts, missing values, memory usage
+
+Quantile Analysis: IQR, percentiles, range calculations
+
+Descriptive Stats: Skewness, kurtosis, CV, MAD, monotonicity checks
+
+📊 Advanced Visualization Suite
+Interactive Histograms & Boxplots
+
+Correlation Heatmaps
+
+Extreme Value Analysis:
+
+Numerical extremes (min/max values)
+
+Frequency extremes (most/least common values)
+
+Missing Value Distribution Charts
+
+📄 Automated Reporting
+Single-command HTML report generation
+
+Exportable PDF capability
+
+Interactive dashboard with:
+
+Collapsible sections
+
+Toggleable visualizations
+
+Data filtering controls
+
+🔧 Smart Data Profiling
+Automatic type detection (numeric/categorical)
+
+Duplicate row identification
+
+Correlation analysis (|r| > 0.9 warnings)
+
+Memory optimization insights
+
+
+
+
+
+
+
