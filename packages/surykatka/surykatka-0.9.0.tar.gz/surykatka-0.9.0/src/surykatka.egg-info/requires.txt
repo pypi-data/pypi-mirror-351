@@ -1,0 +1,15 @@
+setuptools>40.5.0
+requests>2.20.0
+forcediphttpsadapter
+peewee>2.10.1
+click>=7.0
+dnspython
+python-whois
+miniupnpc
+
+[dev]
+pytest
+black
+pyflakes
+mock
+httpretty

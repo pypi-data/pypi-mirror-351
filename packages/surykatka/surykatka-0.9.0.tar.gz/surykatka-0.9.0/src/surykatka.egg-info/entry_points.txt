@@ -1,0 +1,4 @@
+[console_scripts]
+surykatka = surykatka.cli:runSurykatka
+surykatkastat = surykatka.cli:runStats
+
