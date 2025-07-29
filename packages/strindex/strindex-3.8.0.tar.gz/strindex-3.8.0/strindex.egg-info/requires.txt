@@ -1,0 +1,10 @@
+pefile>=2024.8.26
+
+[filter_language]
+lingua-language-detector
+
+[gui]
+pyside6
+
+[spellcheck]
+language-tool-python
