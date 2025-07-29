@@ -1,0 +1,381 @@
+Metadata-Version: 2.4
+Name: pnt
+Version: 0.0.6
+Summary: A simple tool for generating and analyzing bibliometric citation network data from Pubmed.
+Home-page: https://github.com/jarohde/pnt
+Author: Jacob Rohde
+Author-email: jarohde1@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: networkx
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: metapub
+Requires-Dist: PyMuPDF
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# PubMed Network Toolkit (`pnt`)
+
+**pnt** is a simple Python package for extracting and analyzing bibliometric citation network data from PubMed. The package is designed to support:
+
+-   pulling citation metadata from PubMed;
+-   constructing co-authorship networks;
+-   generating edge and node lists;
+-   visualizing basic network structures; and
+-   filtering and summarizing PubMed data sets
+
+**Author**: Jacob Rohde ([jarohde1\@gmail.com](mailto:jarohde1@gmail.com))
+
+**Release notes:** Version 0.0.6 (released 2025-05-28) added a sub-package library that includes tools for filtering and summarizing PubMed data sets using locally hosted large language models (LLMs) via [Ollama](https://ollama.com). Another This package is released under the [MIT](https://choosealicense.com/licenses/mit/) license.
+
+------------------------------------------------------------------------
+
+## Package overview
+
+### GetPubMedData()
+
+Extract a citation data set from PubMed using [Metapub](https://metapub.org).
+
+``` python
+pnt.GetPubMedData(search_term, 
+                  pubmed_api_key=None, 
+                  size=250, 
+                  start_date=None, 
+                  end_date=None)
+```
+
+**Arguments/attributes:**
+
+-   **`search_term`**\
+    The only required argument. Takes a single string as a search term(s). Examples:
+
+    ``` python
+    search_term='cancer' 
+    search_term='cancer and tobacco' 
+    ```
+
+-   **`pubmed_api_key`** (optional)\
+    A string argument to specify a PubMed NCBI API key. If set, this key is registered as an environment variable, reducing API rate limiting.
+
+-   **`size`** (optional)\
+    An integer that indicates how many PubMed citations to retrieve. Default is `250`.\
+    Note: This class is intended for small-scale or exploratory data pulls.
+
+-   **`start_date` / `end_date`** (optional)\
+    String parameter(s) to specify the date range for citation retrieval. Default end_date set to current date. Format: `'YYYY, MM, DD'` (e.g., `'2023, 01, 01'`)
+
+-   **`GetPubMedData.citation_df`**\
+    A pandas `DataFrame` containing the citation data. The DataFrame includes the following columns: 'pmid', 'first_author', 'last_author', 'author_list', 'title', 'journal', 'year', 'volume', 'issue', 'pages', 'url', 'abstract', 'citation', 'doi'
+
+-   **`GetPubMedData.write_data()`**\
+    Saves the citation DataFrame to file. Accepts the following optional keyword arguments:
+
+    -   `file_type`: Format to save the file. Accepts `'csv'` or `'json'`. Default is `'csv'`.
+    -   `file_name`: Name of the output file (without extension). Default is the provided `search_term`.
+
+### pnt.GetCitationNetwork()
+
+Generate edge and node lists (and a NetworkX graph object) from a PubMed citation data set.
+
+``` python
+pnt.GetCitationNetwork(citation_dataset, 
+                       edge_type='directed')
+```
+
+**Arguments/attributes:**
+
+-   **`citation_dataset`**\
+    The only required argument. Takes an existing citation data set or a `GetPubMedData` object.
+
+-   **`edge_type`** (optional)\
+    String argument set to either `'directed'` or `'undirected'`, to signify network edge type; default is `'directed'`.
+
+-   **`GetCitationNetwork.edge_list`**\
+    Returns a pandas DataFrame of the network edge list with columns for source author, target co-author, and the journal.
+
+-   **`GetCitationNetwork.node_list`**\
+    Returns a pandas DataFrame of the network node list with columns for unique nodes, degree, and the node's associated journals.
+
+-   **`GetCitationNetwork.graph`**\
+    Returns a NetworkX graph object.
+
+-   **`GetCitationNetwork.write_data()`**\
+    Object method that writes edge_list and node_list data sets to file. Accepts the same optional arguments as `GetPubMedData.write_data()` (i.e., `'file_type'` and `'file_name'`).
+
+### single_network_plot()
+
+A simple function for plotting networks via NetworkX and Matplotlib (additional install required). Please note this function is currently a work in progress and is meant to be basic tool to plot a single graph. See NetworkX documentation for more advanced plotting needs.
+
+``` python
+pnt.single_network_plot(network, 
+                        **kwargs)
+```
+
+**Arguments:**
+
+-   **`network`**\
+    The only required argument. Takes a `GetCitationNetwork` or NetworkX graph object.
+
+-   **`title`**(optional)\
+    String argument to add a title to the plot.
+
+-   **`pos`**(optional)\
+    String argument to set the NetworkX plotting algorithm. For ease of use, the argument currently accepts one of the following layout types as a string: 'spring_layout' (default), 'kamada_kawai_layout', 'circular_layout', or 'random_layout'
+
+**Optional keyword arguments (`**kwargs`):**
+
+The function also accepts several other NetworkX keyword arguments for plotting (please see NetworkX documentation for more info on these arguments). Currently accepted arguments include:
+
+-   'arrows' (bool)
+-   'arrowsize' (int)
+-   'edge_color' (str or list/array)
+-   'font_size' (int)
+-   'node_color' (str or list/array)
+-   'node_size' (str or list/array)
+-   'verticalalignment' (str)
+-   'width' (int/float or list/array)
+-   'with_labels' (bool)
+
+------------------------------------------------------------------------
+
+## Example use case for `pnt`
+
+This example demonstrates how to use `pnt` to:
+
+1.  Extract a PubMed citation data set
+2.  Write the citation data to file
+3.  Construct a citation network graph from the data
+4.  Plot the citation network using Matplotlib
+5.  Write the resulting edge list, node list, and adjacency matrices to file
+
+``` python
+import pnt  # Assumes pnt is installed 
+
+# Extract citation data for the keyword topic 'tobacco control'
+pubmed_data = pnt.GetPubMedData(search_term='tobacco control',
+                                size=25, 
+                                start_date='2025, 1, 1',
+                                end_date='2025, 1, 31')
+
+# Access the resulting data set 
+df = pubmed_data.citation_df
+print(df)
+
+# Write the data to CSV
+pubmed_data.write_data(file_type='csv', file_name='tob_control_citations')
+
+# Create a citation network object from the data 
+network = pnt.GetCitationNetwork(pubmed_data, edge_type='directed')
+
+# Plot the citation network 
+pnt.single_network_plot(network=network,
+                        title='Example tobacco control co-citation network plot',
+                        arrows=True,
+                        with_labels=True)
+
+# Access the edge and node lists and save the data to file
+edge_df = network.edge_list
+node_df = network.node_list
+network.write_data(file_type='csv', file_name='citation_network')
+```
+
+------------------------------------------------------------------------
+
+## Literature review tools using AI (sub-package)
+
+The `AI_review_tools` sub-package includes functions to **filter** and **summarize** academic articles using a locally hosted LLM via Ollama. It leverages a DataFrame of articles, including titles and/or abstracts, to generate structured prompts for the model. The package processes articles in chunks, providing detailed summaries or filtering irrelevant papers based on custom topics. Users are also able to provide custom prompts via a .txt file.
+
+To install the package, run:
+
+``` python
+from pnt import AI_review_tools
+```
+
+*NOTE. You will need to install Ollama prior to using this package. In addition, you will need to download at least one local LLM to use alongside these functions. By default, this package uses gemma3:12b, but other models such as Mistral can be used. See here for more information about Ollama and installing local LLMs: <https://ollama.com>*
+
+### FilterLiterature()
+
+Filters out irrelevant articles from a PubMed citation data set using a local LLM via [Ollama](https://ollama.com).
+
+``` python
+AI_review_tools.filter_literature(df, 
+                                  filter_topic, 
+                                  **kwargs)
+```
+
+**Arguments/attributes:**
+
+-   **`df`**\
+    A `pandas.DataFrame` of articles with at least a `'title'` or `'abstract'` column.
+
+-   **`filter_topic`**\
+    A string representing the topic or concept to filter by (i.e., what makes an article "relevant").
+
+-   **`FilterLiterature.filter_df()`**\
+    Returns a Pandas Dataframe containing the PubMed citation data set with the filtered articles removed.
+
+-   **`FilterLiterature.write_outliers_to_csv()`**\
+    Writes removed article indices and justifications to a file named `'articles_filtered_out.csv'`.
+
+**Optional keyword arguments (`**kwargs`):**
+
+-   **`chunk_size`** (int)\
+    Number of articles sent to the LLM per request. Default is `5`. Lower numbers are preferred to increase the performance of the local LLM.
+
+-   **`model`** (str)\
+    Name of the Ollama-compatible LLM model to use. Default is `'gemma3:12b'`.
+
+-   **`filter_by`** (str)\
+    Column used for filtering. Accepts `'titles'` or `'abstracts'`. Default is `'titles'`.
+
+-   **`custom_prompt_path`** (str)\
+    File path to a custom `.txt` prompt template. If not provided, a default one is used.
+
+### SummarizeLiterature()
+
+Summarizes article content in chunks using a local LLM.
+
+``` python
+summarize_literature(df, 
+                     summary_topic, 
+                     **kwargs)
+```
+
+**Arguments/attributes:**
+
+-   **`df`**\
+    A `pandas.DataFrame` with article data. Must include an `'abstract'` or `'title'` column.
+
+-   **`summary_topic`**\
+    A string describing the focus of the summary (e.g., `"tobacco control"`).
+
+-   **`SummarizeLiterature.provide_overall_summary()`**\
+    A method that returns an overall summary of the provided PubMed data set. This method returns the summary in a paragraph string format, which is stored in **`SummarizeLiterature.overall_summary`**
+
+**Optional keyword arguments (`**kwargs`):**
+
+-   **`chunk_size`** (int)\
+    Number of articles sent to the LLM per request. Default is `3`. Lower numbers are preferred to increase the performance of the local LLM.
+
+-   **`model`** (str)\
+    Name of the Ollama-compatible LLM to use. Default is `'gemma3:12b'`.
+
+-   **`filter_by`** (str)\
+    Text field to summarize. Accepts `'abstracts'` or `'titles'`. Default is `'abstracts'`.
+
+-   **`num_summary_points`** (int)\
+    Number of summary bullet points the LLM should return per chunk. Default is `3`.
+
+-   **`custom_prompt_path`** (str)\
+    Path to a custom `.txt` prompt template. If not provided, a default one is used.
+
+-   **`provide_overall_summary`** (bool)\
+    If `True`, compiles an additional overall summary across all chunks using a second prompt.
+
+### CodeArticle()
+
+Codes an academic article using a local LLM (feature currently in development).
+
+``` python
+CodeArticle(article_pdf_path, 
+            custom_prompt_path, 
+            **kwargs)
+```
+
+**Arguments/attributes:**
+
+-   **`article_pdf_path`**\
+    Path to the PDF file of the academic article to be coded.
+
+-   **`custom_prompt_path`**\
+    Path to a `.txt` prompt codebook. The prompt should include a `{article_text}` placeholder, which will be populated with the extracted text from the given PDF.
+
+-   **`CodeArticle.coded_article_results`**\
+    Results of the coded output of the article, returned after applying the custom prompt to the extracted text.
+
+**Optional keyword arguments (`**kwargs`):**
+
+-   **`model`** (str)\
+    Name of the Ollama-compatible LLM to use. Default is `'gemma3:12b'`.
+
+-   **`clean_text`** (bool)\
+    If `True`, attempts to clean and preprocess the extracted text from the PDF before coding. Default is `True`.
+
+------------------------------------------------------------------------
+
+## Example use case for `AI_review_tools`
+
+This example demonstrates how to use `pnt` and `AI_review_tools` to:
+
+1.  Extract a PubMed citation data set
+2.  Filter the data set based on a specific topic
+3.  Write filtered articles to file
+4.  Summarize remaining articles
+
+``` python
+import pnt 
+from pnt import AI_review_tools as rev
+
+# Extract citation data set for the topic 'tobacco control'
+pubmed_data = pnt.GetPubMedData(search_term='tobacco control',
+                                size=25, 
+                                start_date='2025, 1, 1',
+                                end_date='2025, 1, 31')
+                                
+# Review the data set
+print(pubmed_data.citation_df) 
+
+
+# Filter the data set for articles about 'vaping' 
+filtered_results = rev.FilterLiterature(df=pubmed_data.citation_df,
+                                        filter_topic='vaping and eCigarettes',
+                                        filter_by='titles', # or 'abstracts'
+                                        chunk_size=5, # Set to 3 if filtering 'abstracts'
+                                        model='gemma3:12b')
+
+# Extract the filtered data set and write the outliers to file 
+print(filtered_results.filtered_df)
+filtered_results.write_outliers_to_csv()
+
+# Review the number of extracted articles removed by the filter
+print(len(pubmed_data.citation_df) - len(filtered_results.filtered_df)) 
+
+
+# Summarize chunked article batches
+summarzied_articles = rev.SummarizeLiterature(df=pubmed_data.citation_df,
+                                              summary_topic='vaping and eCigarettes',
+                                              chunk_size=3)
+# Print chunked summaries
+print(summarized_articles.processed_results)
+  
+# Extract an overall summary in paragraph form
+summarized_articles.provide_overall_summary()
+print(summarized_articles.overall_summary)
+```
+
+------------------------------------------------------------------------
+
+## Requirements
+
+-   Python 3.XX
+-   metapub - a Python library with functions to query the PubMed API
+-   numpy - a Python library for handling arrays and matrices
+-   pandas - a Python library for data management
+-   NetworkX - a Python library for network analysis
+-   PyMuPDF - a Python package for parsing PDFs
+-   Matplotlib (only if using the `single_network_plot()` function) - a Python library for plotting

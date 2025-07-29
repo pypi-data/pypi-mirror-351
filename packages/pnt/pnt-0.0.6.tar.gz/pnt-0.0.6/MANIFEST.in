@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include pnt *.py
+recursive-include pnt/AI_review_tools *.txt

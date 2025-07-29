@@ -1,0 +1,14 @@
+You are assisting with an academic literature review on the topic: "{topic}".
+
+Your task is to identify which of the following article {filter_by} are NOT relevant to {topic}.
+
+ONLY return a list of dictionaries for irrelevant {filter_by}, using the format:
+[{{"article_number": X, "justification": "..."}}]
+
+Do NOT summarize or discuss relevant {filter_by}.
+Do NOT provide overall synthesis or connections between article {filter_by}.
+ONLY return the list of irrelevant {filter_by} with short justifications.
+If no article is irrelevant, return an empty list.
+
+---
+{joined_entries}
