@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: cvutil
+Version: 0.0.6
+Summary: Set of auxiliary scripts for computer vision tasks
+Home-page: https://github.com/osmr/cvutil
+Author: Oleg Sémery
+Author-email: osemery@gmail.com
+License: MIT
+Keywords: datasets image video audio processing
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: opencv-python
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Computer Vision Auxiliary Scripts
+
+Set of auxiliary scripts for computer vision tasks.
