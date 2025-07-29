@@ -1,0 +1,16 @@
+MANIFEST.in
+README.md
+pyproject.toml
+setup.py
+./git_fixer/__init__.py
+./git_fixer/src/__init__.py
+./git_fixer/src/fake_git_history.py
+git_fixer/LICENSE
+git_fixer/__init__.py
+git_fixer.egg-info/PKG-INFO
+git_fixer.egg-info/SOURCES.txt
+git_fixer.egg-info/dependency_links.txt
+git_fixer.egg-info/entry_points.txt
+git_fixer.egg-info/top_level.txt
+git_fixer/src/__init__.py
+git_fixer/src/fake_git_history.py

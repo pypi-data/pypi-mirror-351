@@ -1,0 +1,232 @@
+# Git Fixer [![PyPI version](https://img.shields.io/pypi/v/git-fixer.svg)](https://pypi.org/project/git-fixer/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Python library and command-line tool to generate a realistic-looking Git commit history. This is useful for populating your GitHub (or GitLab) activity graph, making it appear as if you've been coding regularly. This tool creates a local Git repository with commits dated strategically according to your specifications.
+
+**Disclaimer:** This tool was originally created as a learning project and for fun. While it can generate commit histories, please use it responsibly and ethically. Judging professional skills based solely on a GitHub activity graph is not a good practice.
+
+## Key Features
+
+*   **Flexible Commit Generation**: Customize date ranges, commit frequency, and daily commit counts.
+*   **Realistic Distribution Patterns**: 
+    *   `uniform`: Evenly distributed commits.
+    *   `workHours`: More commits during typical work hours (9 AM - 5 PM, Mon-Fri).
+    *   `afterWork`: More commits during evenings and weekends.
+*   **GitHub Integration**: 
+    *   Automatically push the generated repository to your GitHub account.
+    *   Supports authentication via Personal Access Token (HTTPS) or SSH.
+    *   Option to create private or public repositories.
+    *   Securely save and load GitHub credentials for convenience.
+*   **Activity Preview**: View an ASCII art preview of the planned commit activity before generation.
+*   **Library and CLI**: Use it as a Python library in your projects or directly as a command-line tool.
+
+## Installation
+
+Once published on PyPI, you can install `git-fixer` using pip:
+
+```bash
+pip install git-fixer
+```
+
+To install the latest development version directly from GitHub:
+
+```bash
+git clone https://github.com/SirNosh/git-fixer.git
+cd git-fixer
+pip install -e .
+```
+
+## Quick Start
+
+### As a Command-Line Tool
+
+1.  **Generate a default history (last 365 days) and preview it:**
+    ```bash
+    git-fixer --preview
+    ```
+
+2.  **Generate and create the repository (in a new directory `my-history` by default):**
+    ```bash
+    git-fixer
+    ```
+
+3.  **Generate, create, and automatically push to your GitHub (will prompt for credentials if not saved/provided):**
+    ```bash
+    git-fixer --github-username YourGitHubUsername --auto-push
+    # Creates a private repository named 'my-history' by default
+    ```
+
+### As a Python Library
+
+```python
+from git_fixer import GitHistoryGenerator
+from datetime import datetime
+
+# 1. Initialize the generator
+generator = GitHistoryGenerator(
+    start_date=datetime(2023, 1, 1), # Start a year ago
+    end_date=datetime(2023, 12, 31), # End at the end of last year
+    output_dir="my_project_history",
+    distribution="workHours",
+    frequency=90, # 90% chance of commits on a given day within the pattern
+    min_commits=1,
+    max_commits=5
+)
+
+# 2. (Optional) Generate and print the commit plan preview
+generator.generate_commit_plan()
+generator.print_preview()
+
+# 3. Create the local Git repository with the generated commits
+# This step does not push to GitHub yet.
+generator.create_git_repo()
+
+print(f"Repository created in ./{generator.output_dir}")
+
+# To push to GitHub (example):
+# generator_with_gh = GitHistoryGenerator(
+#     output_dir="my_gh_project_history",
+#     github_username="YourGitHubUsername",
+#     auto_push=True # Set to True to push
+# )
+# generator_with_gh.generate_commit_plan()
+# generator_with_gh.create_git_repo() # This will attempt to push
+```
+
+## Detailed Usage
+
+### Library (`GitHistoryGenerator`)
+
+The `GitHistoryGenerator` class is the main entry point when using `git-fixer` as a library.
+
+#### Initialization Parameters:
+
+```python
+GitHistoryGenerator(
+    start_date: Optional[datetime] = None,      # Default: 365 days ago
+    end_date: Optional[datetime] = None,        # Default: today
+    frequency: int = 80,                        # 0-100% chance of commits on a day
+    distribution: str = "uniform",              # 'uniform', 'workHours', 'afterWork'
+    min_commits: int = 0,                       # Min commits on an active day
+    max_commits: int = 4,                       # Max commits on an active day
+    output_dir: str = "my-history",             # Directory for the new git repo
+    github_username: Optional[str] = None,      # Your GitHub username
+    github_token: Optional[str] = None,         # GitHub Personal Access Token (for HTTPS push)
+                                                # If None and auto_push is True, SSH push is attempted.
+    auto_push: bool = False,                    # Automatically push to GitHub after local repo creation
+    repo_private: bool = True                   # Create a private GitHub repo (if auto_pushing)
+)
+```
+
+#### Key Methods:
+
+*   `generate_commit_plan() -> Dict[datetime, int]`: Calculates the commit schedule. Returns a dictionary mapping datetimes to commit counts.
+*   `get_preview_stats() -> Dict[str, Any]`: Returns statistics about the generated plan (total commits, active days, etc.).
+*   `print_preview() -> None`: Prints an ASCII art preview of the commit activity to the console.
+*   `create_git_repo(show_progress: bool = True) -> bool`: Creates the local Git repository with the planned commits. Returns `True` on success.
+    *   If `auto_push` was enabled during initialization and `github_username` is set, this method will also attempt to push to GitHub.
+*   `push_to_github(show_progress: bool = True) -> bool`: Manually attempts to push the existing local repository to GitHub (if `github_username` is set).
+*   `save_credentials(credentials_file: str = "~/.git_fixer_credentials") -> bool`: Saves `github_username` and `github_token` to a local file (default `~/.git_fixer_credentials`) with 0600 permissions.
+*   `GitHistoryGenerator.load_credentials(credentials_file: str = "~/.git_fixer_credentials") -> Dict[str, str]`: Static method to load credentials from the specified file.
+
+#### Example: Full GitHub Push Workflow
+
+```python
+from git_fixer import GitHistoryGenerator
+
+# Option 1: Provide credentials at initialization
+gh_gen = GitHistoryGenerator(
+    output_dir="my_auto_pushed_repo",
+    github_username="YourGitHubUsername", 
+    # github_token="your_pat_here", # Optional: if not provided, will try SSH or prompt if CLI
+    auto_push=True,
+    repo_private=True
+)
+gh_gen.generate_commit_plan()
+if gh_gen.create_git_repo():
+    print("Repository created and pushed to GitHub!")
+else:
+    print("Failed to create or push repository.")
+
+# Option 2: Save credentials first, then use them
+GitHistoryGenerator.save_credentials(GitHistoryGenerator(
+    github_username="YourGitHubUsername", 
+    # github_token="your_pat_here" # Optional
+).save_credentials())
+
+creds = GitHistoryGenerator.load_credentials()
+gh_gen_loaded = GitHistoryGenerator(
+    output_dir="my_loaded_creds_repo",
+    github_username=creds.get("github_username"),
+    github_token=creds.get("github_token"),
+    auto_push=True
+)
+gh_gen_loaded.generate_commit_plan()
+gh_gen_loaded.create_git_repo()
+```
+
+### Command-Line Interface (`git-fixer`)
+
+The CLI provides access to most of the library's functionality through command-line arguments.
+
+```bash
+git-fixer [OPTIONS]
+```
+
+#### Key Options:
+
+*   `--preview`: Preview the activity graph without creating commits.
+*   `--frequency FREQUENCY`: Percentage chance (0-100) of generating commits for each day (default: 80).
+*   `--distribution {uniform,workHours,afterWork}`: Distribution pattern for commits (default: `uniform`).
+*   `--startDate YYYY/MM/DD`: Start date (default: 365 days ago).
+*   `--endDate YYYY/MM/DD`: End date (default: today).
+*   `--commitsPerDay MIN,MAX`: Range of commits per day (e.g., "0,4", default: "0,4").
+*   `--output DIRNAME`: Output directory name for the new repository (default: `my-history`).
+*   `--github-username USERNAME`: Your GitHub username.
+*   `--github-token TOKEN`: Your GitHub Personal Access Token (PAT). If pushing and this is not provided, SSH will be attempted, or you might be prompted for the token if interactive.
+*   `--auto-push`: Automatically create and push to a GitHub repository. The repository name on GitHub will be the same as `--output`.
+*   `--repo-private / --no-repo-private`: Make the GitHub repository private (default) or public when using `--auto-push`.
+*   `--save-credentials`: Save provided `--github-username` and `--github-token` to `~/.git_fixer_credentials` after a successful operation.
+*   `--use-saved-credentials`: Load and use credentials from `~/.git_fixer_credentials`.
+*   `-h, --help`: Show the help message and exit.
+
+#### CLI Examples:
+
+1.  **Generate history for the last 90 days with more activity during work hours:**
+    ```bash
+    git-fixer --startDate $(date -v-90d +%Y/%m/%d) --distribution workHours --frequency 90 --commitsPerDay "1,6"
+    ```
+    *(Note: `$(date ...)` syntax is for Linux/macOS. Adjust for your shell if needed.)*
+
+2.  **Generate history and push to a public GitHub repository named `my-public-activity`:**
+    ```bash
+    git-fixer --output my-public-activity --github-username YourGitHubUsername --auto-push --no-repo-private
+    ```
+    *(You will be prompted for your PAT if not provided via `--github-token` and HTTPS push is necessary, or if SSH keys are not set up.)*
+
+3.  **Use saved credentials to push a new history:**
+    ```bash
+    git-fixer --use-saved-credentials --auto-push --output another-history-project
+    ```
+
+## Credentials Management
+
+`git-fixer` can store your GitHub username and Personal Access Token (PAT) in a local file (`~/.git_fixer_credentials`) for convenience. 
+
+*   **Saving**: Use the `--save-credentials` flag (CLI) or `generator.save_credentials()` method (library) after providing your username and token.
+*   **Loading**: Use the `--use-saved-credentials` flag (CLI) or `GitHistoryGenerator.load_credentials()` static method (library).
+*   **Security**: The credentials file is saved with permissions `0600` (read/write for user only).
+*   **Token vs SSH**: If a token is provided and `auto_push` is enabled, `git-fixer` will attempt to push using HTTPS. If no token is provided, it will attempt to push using SSH (which requires your SSH keys to be configured with GitHub).
+
+## Contributing
+
+Contributions are welcome! Please feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/SirNosh/git-fixer).
+
+(Coming soon: More detailed contributing guidelines, development setup, and running tests.)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+*This README was enhanced with the assistance of an AI model.* 
