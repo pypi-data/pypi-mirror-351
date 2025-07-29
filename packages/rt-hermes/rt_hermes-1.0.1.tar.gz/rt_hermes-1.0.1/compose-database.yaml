@@ -1,0 +1,38 @@
+services:
+    postgres:
+        shm_size: 1gb
+        environment:
+            - POSTGRES_DB
+            - POSTGRES_USER
+            - POSTGRES_PASS=${POSTGRES_PASSWORD}
+        image: kartoza/postgis:17-3.5
+        restart: ${DOCKER_RESTART_POLICY:-unless-stopped}
+        ports:
+            - ${POSTGRES_PORT:-5434}:5432
+        volumes:
+            - hermesdb:/var/lib/postgresql/data
+            - ${POSTGRES_PGCONF:-./hermes/datamodel/alembic/postgresql.conf}:/settings/extra.conf
+        networks:
+            - hermesnet
+
+    webservice:
+        environment:
+            - POSTGRES_DB
+            - POSTGRES_USER
+            - POSTGRES_PASSWORD
+            - POSTGRES_PORT=5432
+            - POSTGRES_HOST=postgres
+        image: ghcr.io/swiss-seismological-service/rt-hermes:v1.0.0
+        # build: .
+        depends_on:
+            - postgres
+        restart: ${DOCKER_RESTART_POLICY:-unless-stopped}
+        ports:
+            - ${DOCKER_WEB_PORT:-8000}:8000
+        networks:
+            - hermesnet
+
+volumes:
+    hermesdb: {}
+networks:
+    hermesnet: {}
