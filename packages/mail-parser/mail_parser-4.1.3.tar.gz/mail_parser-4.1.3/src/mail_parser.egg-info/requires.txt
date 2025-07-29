@@ -1,0 +1,14 @@
+six
+
+[dev]
+build
+pre-commit
+wheel
+twine
+
+[test]
+coverage
+pytest
+pytest-cov
+pytest-mock
+pytest-ordering
