@@ -1,0 +1,110 @@
+[tool.poetry]
+name = "ziggy-pydust"
+version = "0.1.0"
+description = ""
+authors = ["Nicholas Gates <nick@fulcrum.so>"]
+license = "Apache 2.0"
+readme = "README.md"
+packages = [{ include = "pydust" }]
+include = ["src"]
+exclude = ["example"]
+
+[tool.poetry.plugins."pytest11"]
+pydust = "pydust.pytest_plugin"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ziglang = "^0.14.0"
+pydantic = "^2.3.0"
+setuptools = "^80.0.0"
+black = "^25.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+ruff = "^0.11.0"
+
+[tool.poetry.group.docs.dependencies]
+# For generating docs
+ziglang = "^0.14.0"
+mkdocs-material = "^9.2.6"
+mkdocs-include-markdown-plugin = "^7.1.5"
+mike = "^2.0.0"
+
+[tool.poetry.group.test.dependencies]
+numpy = "^2.0.0"
+
+[tool.poetry.scripts]
+pydust = "pydust.__main__:main"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "UP", "I"]
+# Do not auto-fix unused variables. This is really annoying when IntelliJ runs autofix while editing.
+unfixable = ["F841"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["test", "example"]
+
+# Out test modules
+
+[tool.pydust]
+root = "example/"
+build_zig = "pytest.build.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.exceptions"
+root = "example/exceptions.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.hello"
+root = "example/hello.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.gil"
+root = "example/gil.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.memory"
+root = "example/memory.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.modules"
+root = "example/modules.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.pytest"
+root = "example/pytest.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.result_types"
+root = "example/result_types.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.functions"
+root = "example/functions.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.classes"
+root = "example/classes.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.buffers"
+root = "example/buffers.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.iterators"
+root = "example/iterators.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.operators"
+root = "example/operators.zig"
+
+[[tool.pydust.ext_module]]
+name = "example.code"
+root = "example/code.zig"
