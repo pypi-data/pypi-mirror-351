@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: asncounter
+Version: 0.2.0
+Summary: Count the number of hits (HTTP, packets, etc) per autonomous system number (ASN) and related network blocks
+Author-email: Antoine Beaupré <anarcat@debian.org>
+License-Expression: AGPL-3.0-or-later
+Project-URL: Homepage, https://gitlab.com/anarcat/asncounter
+Project-URL: Issues, https://gitlab.com/anarcat/asncounter/issues
+Classifier: Environment :: Console
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pyasn
+Provides-Extra: full
+Requires-Dist: scapy; extra == "full"
+Requires-Dist: prometheus_client; extra == "full"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Dynamic: license-file
+
+# ASN counter
+
+Count the number of hits (HTTP, packets, etc) per autonomous system
+number (ASN) and related network blocks. 
+
+This is useful when you get a lot of traffic on a server to figure out
+which network is responsible for the traffic, to direct abuse
+complaints or block whole networks, or on core routers to figure out
+who your peers are and who you might want to seek particular peering
+agreements with.
+
+## Features
+
+ - reads packets from a text file (or stdin) one per line
+ - counts number of hits or packets per ASN and netblock
+ - can parse some tcpdump output or read packets directly from
+   interfaces with [scapy][]
+ - fast ASN lookups [pyasn][]
+ - automatic download of [relevant databases](https://archive.routeviews.org/route-views4/bgpdata/) from
+   [routeviews.org](https://routeviews.org/)
+ - Prometheus exporter
+ - written in Python
+ - optional Python REPL interpreter shell to drill into reports
+
+ [scapy]: https://scapy.readthedocs.io/
+ [pyasn]: https://github.com/hadiasghari/pyasn
+
+See the [manual page](asncounter.1.md) for full documentation and examples.
+
+# Installation
+
+Simply:
+
+    pip install asncounter
+
+Can also run from the source directory directly.
+
+Note that the `pip` install does not build or deploy the manual page,
+as that depends on `pandoc` or some markdown-to-man converter, which
+feels too complicated to setup in the Python tool chain.
+
+The Debian package properly builds and ships the manual page, however,
+see `debian/rules` for an example of how to package this on your own
+distribution.
+
+## Dependencies
+
+- [pyasn][]
+- [scapy][] (optional)
+- [prometheus_client][] (optional)
+
+[prometheus_client]: https://prometheus.github.io/client_python/
