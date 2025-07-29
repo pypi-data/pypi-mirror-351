@@ -1,0 +1,4 @@
+- [x] why white region around image?
+- [x] why the grid'd image res is low?
+- [ ] add vizy.summary to get info like res, rgb or else, range, etc.
+- [x] why there is a slight bit of color change in the image? (turns out due to PIL, no problem)
