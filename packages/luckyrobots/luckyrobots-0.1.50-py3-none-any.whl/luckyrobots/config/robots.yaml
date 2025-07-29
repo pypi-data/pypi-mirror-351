@@ -1,0 +1,91 @@
+so100:
+  observation_types:
+    - pixels_agent_pos
+  available_scenes:
+    - kitchen
+  available_tasks:
+    - pickandplace
+  action_space:
+    actuator_names:
+      - shoulder_pan
+      - shoulder_lift
+      - elbow_flex
+      - wrist_flex
+      - wrist_roll
+      - gripper
+    actuator_limits:
+      - name: shoulder_pan
+        lower: -1.57
+        upper: 1.57
+      - name: shoulder_lift
+        lower: -1.57
+        upper: 1.57
+      - name: elbow_flex
+        lower: -1.57
+        upper: 1.57
+      - name: wrist_flex
+        lower: -1.57
+        upper: 1.57
+      - name: wrist_roll
+        lower: -1.57
+        upper: 1.57
+      - name: gripper
+        lower: 0.0
+        upper: 0.1
+  observation_space:
+    actuator_names:
+      - shoulder_pan
+      - shoulder_lift
+      - elbow_flex
+      - wrist_flex
+      - wrist_roll
+      - gripper
+    actuator_limits:
+      - name: shoulder_pan
+        lower: -1.57
+        upper: 1.57
+      - name: shoulder_lift
+        lower: -1.57
+        upper: 1.57
+      - name: elbow_flex
+        lower: -1.57
+        upper: 1.57
+      - name: wrist_flex
+        lower: -1.57
+        upper: 1.57
+      - name: wrist_roll
+        lower: -1.57
+        upper: 1.57
+      - name: gripper
+        lower: 0.0
+        upper: 0.1
+  camera_config:
+    laptop:
+      camera_index: 0
+      fps: 60
+      camera_resolution: [640, 480]
+    phone:
+      camera_index: 1
+      fps: 60
+      camera_resolution: [640, 480]
+
+stretch_v1:
+  observation_types:
+    - pixels_agent_pos
+  available_scenes:
+    - loft
+  available_tasks:
+    - pickandplace
+    - navigation
+  action_space:
+  observation_space:
+
+dji300:
+  observation_types:
+    - pixels_agent_pos
+  available_scenes:
+    - drone_flight
+  available_tasks:
+    - navigation
+  action_space:
+  observation_space:
