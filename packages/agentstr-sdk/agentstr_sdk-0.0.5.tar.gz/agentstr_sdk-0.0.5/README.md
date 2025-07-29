@@ -1,0 +1,109 @@
+# Agentstr SDK
+
+[![Documentation](https://img.shields.io/badge/docs-online-blue.svg)](https://agentstr.com/docs)
+[![Usage Examples](https://img.shields.io/badge/examples-online-green.svg)](https://agentstr.com/usage)
+
+## Overview
+
+Agentstr SDK is a powerful toolkit for building agentic applications on the Nostr protocol. It integrates MCP (Model Context Protocol) functionality with Nostr and the Lightning Network.
+
+## Core Features
+
+### Nostr Integration
+- 📡 **NostrClient**: Core client for Nostr relay interactions
+  - Event handling and management
+  - Direct messaging
+  - Metadata operations
+
+### MCP Functionality
+- 🛠️ **NostrMCPServer**: Tool server with payment support
+  - Expose functions as tools
+  - Optional satoshi payments via NWC
+  - Tool discovery and registration
+
+- 🔍 **NostrMCPClient**: Tool client with payment handling
+  - Discover and call tools
+  - Automatic payment processing
+
+### AI & RAG
+- 🤖 **NostrAgentServer**: Agent integration server
+  - External agent communication
+  - Direct message processing
+  - Payment support for agent services
+
+- 📚 **NostrRAG**: Retrieval-Augmented Generation
+  - Query Nostr events
+  - Context-aware responses
+  - Event filtering and processing
+
+### Payment Integration
+- 💰 **NWCClient**: Nostr Wallet Connect
+  - Payment processing and management
+  - Invoice creation and handling
+  - Payment verification
+
+## Getting Started
+
+Check out our [Usage Guide](https://agentstr.com/usage) for detailed examples and tutorials.
+
+The SDK uses the pynostr library for Nostr protocol interactions and supports asynchronous communication, tool management, and payment processing.
+
+## Quick Start Example
+To demonstrate how to use the Agentstr SDK, here's an example of setting up an MCP server with mathematical tools and a client to call them:
+
+### MCP Server
+```python
+import os
+from dotenv import load_dotenv
+from agentstr.nostr_mcp_server import NostrMCPServer
+
+load_dotenv()
+
+relays = os.getenv('NOSTR_RELAYS').split(',')
+private_key = os.getenv('MCP_SERVER_PRIVATE_KEY')
+
+def add(a: int, b: int) -> int:
+    """Add two numbers."""
+    return a + b
+
+def multiply(a: int, b: int) -> int:
+    """Multiply two numbers."""
+    return a * b
+
+server = NostrMCPServer("Math MCP Server", relays=relays, private_key=private_key)
+server.add_tool(add)
+server.add_tool(multiply, name="multiply", description="Multiply two numbers")
+server.start()
+```
+
+### MCP Client
+```python
+import os
+import json
+from dotenv import load_dotenv
+from agentstr.nostr_mcp_client import NostrMCPClient
+from pynostr.key import PrivateKey
+
+load_dotenv()
+
+relays = os.getenv('NOSTR_RELAYS').split(',')
+private_key = os.getenv('MCP_CLIENT_PRIVATE_KEY')
+server_public_key = PrivateKey.from_nsec(os.getenv('MCP_SERVER_PRIVATE_KEY')).public_key.bech32()
+
+mcp_client = NostrMCPClient(mcp_pubkey=server_public_key, relays=relays, private_key=private_key)
+
+tools = mcp_client.list_tools()
+print(f'Found tools:')
+print(json.dumps(tools, indent=4))
+
+result = mcp_client.call_tool("multiply", {"a": 69, "b": 420})
+print(f'The result of 69 * 420 is: {result["content"][-1]["text"]}')
+```
+
+For more examples, see the [examples](examples) directory.
+
+### Notes
++ **Dependencies**: The SDK relies on `pynostr` for Nostr protocol interactions and `bolt11` for invoice decoding. Ensure these are installed (`pip install pynostr python-bolt11`).
++ **Environment Variables**: The examples use environment variables (`NOSTR_RELAYS`, `MCP_SERVER_PRIVATE_KEY`, `MCP_CLIENT_PRIVATE_KEY`, `NWC_CONN_STR`, etc.) for configuration, loaded via `dotenv`.
++ **Payment Handling**: Tools or agent interactions requiring satoshis use NWC for invoice creation and payment verification.
++ **Threading**: The SDK uses threading for asynchronous operations, such as listening for messages or monitoring payments.
