@@ -1,0 +1,27 @@
+Metadata-Version: 2.3
+Name: rats-apps
+Version: 0.11.1.dev20250527164753
+Summary: research analysis tools for building applications
+License: MIT
+Keywords: pipelines,machine learning,research
+Author: Elon Portugaly
+Author-email: elonp@microsoft.com
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: click
+Requires-Dist: colorlog
+Requires-Dist: dataclass-wizard
+Requires-Dist: pyyaml
+Requires-Dist: typing-extensions
+Project-URL: Documentation, https://microsoft.github.io/rats
+Project-URL: Repository, https://github.com/microsoft/rats
+Description-Content-Type: text/markdown
+
+# rats-apps
+...
+
