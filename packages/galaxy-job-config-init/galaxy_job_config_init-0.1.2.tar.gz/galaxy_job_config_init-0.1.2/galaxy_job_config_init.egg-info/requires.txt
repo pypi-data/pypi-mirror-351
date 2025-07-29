@@ -1,0 +1,6 @@
+typing-extensions
+jinja2
+PyYAML
+
+[:python_version < "3.11"]
+backports.strenum
