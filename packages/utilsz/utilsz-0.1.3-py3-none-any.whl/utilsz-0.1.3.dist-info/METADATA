@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: utilsz
+Version: 0.1.3
+Summary: Python common utils
+Home-page: https://github.com/KasperJiang/UtilsZ
+Author: Kasper Jiang
+Author-email: jiangkaibo1987@163.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: APScheduler==3.11.0
+Requires-Dist: certifi==2025.4.26
+Requires-Dist: charset-normalizer==3.4.2
+Requires-Dist: et_xmlfile==2.0.0
+Requires-Dist: idna==3.10
+Requires-Dist: numpy==2.2.6
+Requires-Dist: openpyxl==3.1.5
+Requires-Dist: pandas==2.2.3
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: pytz==2025.2
+Requires-Dist: requests==2.32.3
+Requires-Dist: six==1.17.0
+Requires-Dist: tzdata==2025.2
+Requires-Dist: tzlocal==5.3.1
+Requires-Dist: urllib3==2.4.0
+Requires-Dist: util==0.0.1
+
+# UtilsZ
+Python common utils
+
+## 使用说明
+
+                                                                       
+## 项目说明
+### 目录说明
+- README.md: 包含使用手册、项目说明
+
+### 执行依赖安装
+pip install -r requirements.txt
+
+### 依赖固化
+pip freeze > requirements.txt
+
+### 打包
+1. pip install build
+2. python -m build
+
+### 发布到pypi
+1. pip install twine  
+2. python -m twine upload --repository pypi dist/*
+3. 输入用户名和API Token。
