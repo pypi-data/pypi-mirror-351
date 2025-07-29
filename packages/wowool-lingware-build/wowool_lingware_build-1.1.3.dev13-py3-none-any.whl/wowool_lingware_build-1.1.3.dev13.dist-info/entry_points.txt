@@ -1,0 +1,4 @@
+[console_scripts]
+afst = wowool.lingware.build.tools.afst.__main__:main
+convert_domain_info = wowool.lingware.build.tools.convert_domain_info.__main__:main
+convert_language_info = wowool.lingware.build.tools.convert_language_info.__main__:main
