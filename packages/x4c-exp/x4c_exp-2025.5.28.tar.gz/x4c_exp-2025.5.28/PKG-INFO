@@ -1,0 +1,41 @@
+Metadata-Version: 2.1
+Name: x4c-exp
+Version: 2025.5.28
+Summary: x4c: Xarray for CESM
+Home-page: https://github.com/fzhu2e/x4c
+Author: Feng Zhu
+Author-email: fengzhu@ucar.edu
+License: MIT
+Keywords: Xarray,CESM,Climate Data Analysis and Visualization
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: netCDF4
+Requires-Dist: xarray
+Requires-Dist: dask
+Requires-Dist: nc-time-axis
+Requires-Dist: colorama
+Requires-Dist: tqdm
+Requires-Dist: xhistogram
+
+[![PyPI version](https://badge.fury.io/py/x4c.svg)](https://badge.fury.io/py/x4c)
+[![PyPI](https://img.shields.io/badge/python-3.11-blue.svg)]()
+<!-- [![license](https://img.shields.io/github/license/fzhu2e/x4c.svg)]() -->
+
+# x4c: Xarray for CESM
+x4c (xarray4cesm) is an Xarray extension that aims to support efficient and intuitive CESM output analysis and visualization:
+- Analysis features: regrid, various of mean calculation, annualization/seasonalization, etc.
+- Visualization features: timeseries, horizontal and vertical spatial plots, etc.
+
+> **_Disclaimer:_**  This package is still in its early stage and under active development, and its API could be changed frequently.
+
+## Documentation
+
++ Homepage: https://fzhu2e.github.io/x4c
++ Installation: https://fzhu2e.github.io/x4c/ug-installation.html
+
+
+## License
+MIT

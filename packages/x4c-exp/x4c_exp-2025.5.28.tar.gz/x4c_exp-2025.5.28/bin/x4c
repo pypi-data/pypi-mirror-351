@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+
+# ==============================================================================
+#  Author: Feng Zhu (fengzhu@ucar.edu)
+#  Date: 2025-05-10
+# ==============================================================================
+
+import argparse
+import os
+import x4c
+
+def main():
+    parser = argparse.ArgumentParser(
+            description='''
+========================================================================================
+ A scripting system for x4c
+----------------------------------------------------------------------------------------
+ Generating climo files from timeseries files:
+    x4c climo -c casename -s root_timeseries -o root_climo -t syr eyr -n nproc
+========================================================================================
+            ''', formatter_class=argparse.RawTextHelpFormatter)
+
+    parser.add_argument(
+            '-v',
+            '--version',
+            action='version',
+            version='%(prog)s version: {}'.format(x4c.__version__)
+            )
+
+    subparsers = parser.add_subparsers(help='running mode')
+    subparsers.dest = 'mode'
+
+    # climo
+    parser_climo = subparsers.add_parser('climo', help='generate climo files')
+
+    parser_climo.add_argument(
+        '-c',
+        '--casename',
+        required=True, help='casename')
+
+    parser_climo.add_argument(
+        '-s',
+        '--ts_root',
+        required=True, help='root directory for timeseries files')
+
+    parser_climo.add_argument(
+        '-o',
+        '--climo_root',
+        required=True, help='root directory for climo files')
+
+    parser_climo.add_argument(
+        '-n',
+        '--nproc',
+        required=True, help='number of processors')
+
+    parser_climo.add_argument(
+        '-t',
+        '--timespan',
+        nargs='*',
+        default=None,
+        help='the start and end year for climo calculation')
+
+    # parser_da.add_argument(
+    #     '-vb',
+    #     '--verbose',
+    #     action=argparse.BooleanOptionalAction,
+    #     help='output the verbose runtime information')
+
+
+    # parser_da.add_argument(
+    #     '-b',
+    #     '--bsub',
+    #     action=argparse.BooleanOptionalAction,
+    #     help='submit a BSUB job')
+
+    # parser_da.add_argument(
+    #     '-r',
+    #     '--run',
+    #     action=argparse.BooleanOptionalAction,
+    #     help='prepare the job without running Monte-Carlo')
+
+    #===================================================================================
+    # Executing
+    #===================================================================================
+
+    # parse the input command line
+    args = parser.parse_args()
+
+    if args.mode == 'climo':
+        case = x4c.Timeseries(os.path.join(args.ts_root, args.casename))
+        case.gen_climo(
+            output_dirpath=os.path.join(args.climo_root, args.casename),
+            casename=args.casename,
+            timespan=(int(args.timespan[0]), int(args.timespan[-1])),
+            nproc=int(args.nproc),
+        )
+
+if __name__ == '__main__':
+    main()
