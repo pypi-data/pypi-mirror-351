@@ -1,0 +1,42 @@
+*.html
+*.DS_Store
+*.ipynb_checkpoints
+*.pyc
+build/
+docs/_build/
+docs/modules/
+.cache/*
+.imdone/*
+dist/*
+*.egg*
+.tox/*
+.pytest_cache/*
+**/__pycache__
+dev/
+.coverage
+*.key
+pytest.ini
+env/*
+conda/build/*
+conda_noarch/build/*
+.pytest_cache
+.tox
+.venv
+environment.yml
+*.pickle
+*.joblib
+docs_bak
+
+# pixi environments
+.pixi
+*.egg-info
+# mkdocs site
+site
+.ruff_cache
+dev*.ipynb
+# WIP
+distributions.py
+bak/
+.cursor
+test_new.py
+conda-forge/*
