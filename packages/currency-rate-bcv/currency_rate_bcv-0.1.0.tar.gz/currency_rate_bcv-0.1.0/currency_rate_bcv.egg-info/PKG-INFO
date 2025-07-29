@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: currency_rate_bcv
+Version: 0.1.0
+Summary: Librería para obtener la tasa oficial del Euro y Dólar publicada por el Banco Central de Venezuela (BCV).
+Home-page: https://github.com/tuusuario/mi_libreria 
+Author: Jarvis Gabriel Huice Padron
+Author-email: jarvis.realg@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.32.3
+Requires-Dist: bs4>=0.0.2
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# currency_rate_bcv
+
+LibrerÃ­a en Python para obtener la tasa oficial del Euro y DÃ³lar publicada por el Banco Central de Venezuela (BCV).
+
+## DescripciÃ³n
+
+`currency_rate_bcv` permite consultar de forma sencilla y programÃ¡tica el valor actual del Euro y el DÃ³lar segÃºn la tasa oficial publicada en la pÃ¡gina del BCV. Ideal para proyectos financieros, aplicaciones de conversiÃ³n de divisas o cualquier sistema que requiera la tasa oficial venezolana.
+
+## InstalaciÃ³n
+
+Puedes instalar la librerÃ­a usando pip:
+
+```sh
+pip install currency_rate_bcv
+```
+
+O bien, clona el repositorio y usa:
+
+```sh
+pip install .
+```
+
+## Requisitos
+
+- Python >= 3.6
+- requests
+- beautifulsoup4
+
+## Uso
+
+```python
+import asyncio
+from currency_rate_bcv.currency import Currency
+
+async def main():
+    currency = Currency()
+    euro = await currency.getEuro
+    print(f"Tasa oficial del Euro: {euro}")
+    dollar = await currency.getDollar
+    print(f"Tasa oficial del DÃ³lar: {dollar}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## MÃ©todos
+
+- `getEuro`: Devuelve la tasa oficial del Euro.
+- `getDollar`: Devuelve la tasa oficial del DÃ³lar.
+
+Ambos mÃ©todos son propiedades asÃ­ncronas.
+
+## Licencia
+
+MIT
+
+## Autor
+
+Jarvis Gabriel Huice Padron  
+[jarvis.realg@gmail.com](mailto:jarvis.realg@gmail.com)
