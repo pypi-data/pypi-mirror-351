@@ -1,0 +1,192 @@
+Metadata-Version: 2.4
+Name: JTechRobotFrameworkAI
+Version: 0.1.0
+Summary: Uma biblioteca Robot Framework com recursos de IA usando Google Generative AI e CrewAI
+Home-page: https://github.com/jtech-eng/jtech-robotframework-ai
+Author: JTech
+Author-email: JTech <angelo@jtech.eng.br>
+License: MIT
+Project-URL: Homepage, https://github.com/jtech-eng/jtech-robotframework-ai
+Project-URL: Repository, https://github.com/jtech-eng/jtech-robotframework-ai.git
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: robotframework>=6.1.1
+Requires-Dist: google-generativeai>=0.3.2
+Requires-Dist: langchain>=0.1.0
+Requires-Dist: langchain-google-genai>=0.0.5
+Requires-Dist: crewai>=0.11.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: psycopg2-binary>=2.9.9
+Requires-Dist: sqlalchemy>=2.0.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# Biblioteca JTech Robot Framework AI
+
+Uma biblioteca Robot Framework que fornece keywords com recursos de IA para automação de testes usando o Google Generative AI (Gemini Pro).
+
+## Funcionalidades
+
+- Integração com o Google Generative AI (Gemini Pro)
+- Suporte para operações síncronas e assíncronas
+- Gerenciamento de histórico de chat
+- Tratamento robusto de erros e tentativas
+- Integração com LangChain para operações avançadas de IA
+
+## Instalação
+
+1. Clone este repositório:
+```bash
+git clone https://gitlab.com/veolia.com/brasil/jtech/framework-jtech/jtech-robotframework-ai.git
+cd jtech-robotframework-ai
+```
+
+2. Configure o ambiente de desenvolvimento usando o Makefile:
+```bash
+make setup
+```
+
+Este comando irá:
+- Criar um ambiente virtual Python
+- Instalar todas as dependências necessárias
+- Instalar o pacote em modo de desenvolvimento
+
+## Desenvolvimento
+
+O projeto inclui um Makefile com vários comandos úteis para desenvolvimento:
+
+```bash
+# Ver todos os comandos disponíveis
+make help
+
+# Configurar ambiente de desenvolvimento
+make setup
+
+# Executar testes
+make test
+
+# Verificar estilo do código
+make lint
+
+# Formatar código
+make format
+
+# Limpar arquivos temporários
+make clean
+
+# Desinstalar o pacote
+make uninstall
+```
+
+## Configuração
+
+### Chave da API do Google AI
+
+Você precisa de uma chave de API do Google AI para usar esta biblioteca. Você pode obter uma no [Google AI Studio](https://makersuite.google.com/app/apikey).
+
+Você pode configurar a chave da API de uma destas formas:
+
+1. Variável de ambiente:
+```bash
+export GOOGLE_API_KEY='sua-chave-api-aqui'
+```
+
+2. No seu arquivo de teste Robot Framework:
+```robot
+*** Variables ***
+${GOOGLE_API_KEY}    sua-chave-api-aqui
+```
+
+3. Ao importar a biblioteca:
+```robot
+*** Settings ***
+Library    JTechRobotFrameworkAI    sua-chave-api-aqui
+```
+
+## Uso
+
+### Uso Básico
+
+```robot
+*** Settings ***
+Library    JTechRobotFrameworkAI    ${GOOGLE_API_KEY}
+
+*** Test Cases ***
+Exemplo de Teste
+    ${resposta}=    Enviar Mensagem Para IA    Qual é a capital da França?
+    Should Contain    ${resposta}    Paris
+```
+
+### Uso Assíncrono
+
+```robot
+*** Test Cases ***
+Exemplo Assíncrono
+    ${resposta}=    Enviar Mensagem Para IA Async    Quanto é 2+2?
+    Should Contain    ${resposta}    4
+```
+
+### Gerenciamento de Histórico de Chat
+
+```robot
+*** Test Cases ***
+Exemplo de Histórico de Chat
+    Reiniciar Chat IA
+    Enviar Mensagem Para IA    Olá
+    Enviar Mensagem Para IA    Como você está?
+    ${historico}=    Obter Historia Chat IA
+    Log    ${historico}
+```
+
+## Keywords Disponíveis
+
+- `Enviar Mensagem Para IA`: Envia uma mensagem para o modelo de IA e obtém a resposta
+- `Enviar Mensagem Para IA Async`: Envia uma mensagem de forma assíncrona
+- `Reiniciar Chat IA`: Reinicia o histórico do chat
+- `Obter Historia Chat IA`: Obtém o histórico atual do chat
+
+## Tratamento de Erros
+
+A biblioteca inclui tratamento robusto de erros para:
+- Erros de autenticação da API
+- Timeouts de rede
+- Respostas inválidas
+- Limitação de taxa
+
+Todas as operações são automaticamente repetidas com backoff exponencial.
+
+## Estrutura do Projeto
+
+```
+jtech-robotframework-ai/
+├── jtech_robotframework_ai/
+│   ├── __init__.py      # Interface da biblioteca Robot Framework
+│   └── core.py          # Implementação do cliente AI
+├── tests/
+│   └── test_ai_library.robot
+├── Makefile            # Comandos de desenvolvimento
+├── README.md
+├── requirements.txt
+└── setup.py
+```
+
+## Boas Práticas
+
+1. Sempre trate a chave da API de forma segura
+2. Use variáveis de ambiente para dados sensíveis
+3. Reinicie o histórico do chat ao iniciar novos cenários de teste
+4. Implemente tratamento adequado de erros em seus testes
+5. Use operações assíncronas para melhor desempenho quando apropriado
+
+## Licença
+
+MIT License 
