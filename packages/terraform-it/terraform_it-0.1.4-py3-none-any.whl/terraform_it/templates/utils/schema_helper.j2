@@ -1,0 +1,58 @@
+{%- macro typePrimitiveSchema(name, schema, required=False, computed=False) %}
+"{{ name }}": schema.{{ get_terraform_schema_type(schema) }}Attribute{
+    {{- RequiredOptionalComputed(schema, required, computed=computed) }}
+    Description: "{{ schema.description|sanitize_description if schema.description else "UPDATE ME" }}",
+},
+{%- endmacro %}
+
+{%- macro typePrimitiveArraySchema(name, schema, required=False, computed=False) %}
+"{{ name }}": schema.{{ get_terraform_schema_type(schema) }}Attribute{
+    {{- RequiredOptionalComputed(schema, required, computed=computed) }}
+    Description: "{{ schema.description|sanitize_description if schema.description else "UPDATE ME" }}",
+    ElementType: types.{{ get_terraform_schema_type(schema.get("items")) }}Type,
+},
+{%- endmacro %}
+
+{%- macro RequiredOptionalComputed(schema, required=False, computed=False) %}
+{% if computed %} Computed: true,{% elif required %} Required:    true,{% else %} Optional:    true,{% endif %}
+{%- endmacro %}
+
+{%- macro baseBlockListAttrSchemaBuilder(name, schema, required=False, computed=False, macro_vars=None) %}
+{%- set itemSchema = schema.get("items") %}
+"{{ name }}": schema.ListNestedBlock{
+    NestedObject: schema.NestedBlockObject{
+    {{- baseBlockContent(itemSchema, computed=computed, macro_vars=macro_vars) }}
+    },
+},
+{%- endmacro %}
+
+{%- macro baseBlockObjAttrSchemaBuilder(name, schema, required=False, computed=False, macro_vars=None) %}
+"{{ name }}": schema.SingleNestedBlock{
+    {{- baseBlockContent(schema, computed=computed, macro_vars=macro_vars) }}
+},
+{%- endmacro %}
+
+{%- macro baseBlockContent(schema, computed=False, macro_vars=None) %}
+    Attributes: map[string]schema.Attribute{
+        {%- if macro_vars %}
+        {%- for name, schema in macro_vars.primitive.items() %}
+        {{- typePrimitiveSchema(name, schema, required=schema.get("required"), computed=computed) }}
+        {%- endfor %}
+
+        {%- for name, schema in macro_vars.primitive_array.items() %}
+        {{- typePrimitiveArraySchema(name, schema, required=schema.get("required"), computed=computed) }}
+        {%- endfor %}
+        {%- endif %}
+    },
+        {%- if macro_vars.non_primitive_array or macro_vars.non_primitive_obj %}
+    Blocks: map[string]schema.Block{
+        {%- for name, schema in macro_vars.non_primitive_array.items() %}
+        {{- baseBlockListAttrSchemaBuilder(name, schema, required=schema.get("required"), computed=computed) }}
+        {%- endfor %}
+
+        {%- for name, schema in macro_vars.non_primitive_obj.items() %}
+        {{- baseBlockObjAttrSchemaBuilder(name, schema, required=schema.get("required"), computed=computed) }}
+        {%- endfor %}
+    },
+    {%- endif %}
+{%- endmacro %}

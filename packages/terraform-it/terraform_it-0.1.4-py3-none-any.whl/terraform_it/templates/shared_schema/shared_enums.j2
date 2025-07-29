@@ -1,0 +1,27 @@
+type {{go_type}} string
+
+const (
+{% for const in enum_consts %}
+    {{ const }}
+{% endfor %}
+)
+
+func (e {{go_type}}) ToPointer() *{{go_type}} {
+    return &e
+}
+
+func (e *{{go_type}}) UnmarshalJSON(data []byte) error {
+    var v string
+    if err := json.Unmarshal(data, &v); err != nil {
+        return err
+    }
+    switch v {
+{% for val in enum_values %}
+        case "{{ val }}":
+           *e = {{go_type}}(v)
+           return nil
+{% endfor %}
+        default:
+            return fmt.Errorf("invalid value for {{go_type}}: %v", v)
+    }
+}
