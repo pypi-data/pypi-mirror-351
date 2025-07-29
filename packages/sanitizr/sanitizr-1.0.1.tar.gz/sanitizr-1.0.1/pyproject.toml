@@ -1,0 +1,79 @@
+# filepath: /home/jordonharrison/sanitizr/pyproject.toml
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sanitizr"
+version = "1.0.1"
+description = "Clean URLs by removing tracking parameters and decoding redirects"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "GPL-3.0-or-later"}
+authors = [
+    {name = "Sanitizr Contributors"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities"
+]
+dependencies = []
+
+[project.optional-dependencies]
+yaml = ["pyyaml>=6.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "isort>=5.12",
+    "flake8>=6.0",
+    "mypy>=1.0",
+    "pyyaml>=6.0",
+]
+docs = [
+    "mkdocs>=1.4",
+    "mkdocs-material>=9.0",
+    "mkdocstrings>=0.19",
+    "mkdocstrings-python>=0.9"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Jordonh18/sanitizr"
+"Bug Tracker" = "https://github.com/Jordonh18/sanitizr/issues"
+"Documentation" = "https://jordonh18.github.io/sanitizr"
+
+[project.scripts]
+sanitizr = "sanitizr.sanitizr.cli.__main__:main"
+
+[tool.setuptools]
+packages = ["sanitizr", "sanitizr.sanitizr", "sanitizr.sanitizr.core", "sanitizr.sanitizr.cli", "sanitizr.sanitizr.config"]
+include-package-data = true
+
+[tool.black]
+line-length = 100
+target-version = ["py38"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v"
