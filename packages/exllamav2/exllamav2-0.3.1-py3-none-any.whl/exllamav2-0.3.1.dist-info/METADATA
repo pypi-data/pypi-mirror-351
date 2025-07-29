@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: exllamav2
+Version: 0.3.1
+Home-page: https://github.com/turboderp/exllamav2
+Author: turboderp
+License: MIT
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: ninja
+Requires-Dist: fastparquet
+Requires-Dist: torch>=2.2.0
+Requires-Dist: safetensors>=0.3.2
+Requires-Dist: sentencepiece>=0.1.97
+Requires-Dist: pygments
+Requires-Dist: websockets
+Requires-Dist: regex
+Requires-Dist: numpy
+Requires-Dist: rich
+Requires-Dist: pillow>=9.1.0
+
