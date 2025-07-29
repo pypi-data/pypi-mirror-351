@@ -1,0 +1,9 @@
+sqlalchemy>=1.4.0
+networkx==3.1
+pydantic
+fastapi
+uvicorn[standard]
+httpx
+
+[aws]
+boto3
