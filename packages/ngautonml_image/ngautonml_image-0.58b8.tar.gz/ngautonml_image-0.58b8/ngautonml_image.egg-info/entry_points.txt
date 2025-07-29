@@ -1,0 +1,5 @@
+[ngautonml.make_catalog]
+algorithms = ngautonml_image:algorithms_make_catalog
+data_loaders = ngautonml_image:data_loaders_make_catalog
+splitters = ngautonml_image:splitters_make_catalog
+templates = ngautonml_image:templates_make_catalog
