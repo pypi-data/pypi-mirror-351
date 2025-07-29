@@ -1,0 +1,17 @@
+[build-system]
+requires = [ "poetry-core>=1.0.0",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "apilama"
+version = "0.1.5"
+description = "Backend API service for the PyLama ecosystem"
+authors = [ "Tom Sapletta <info@softreck.dev>",]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/py-lama/apilama"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+
+[tool.poetry.dev-dependencies]
