@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "nonebot-plugin-bfvplayerlist"
+version = "0.2.1"
+description = "A onebot plugin for querying bfv server players"
+authors = ["llbuxudong 3513392931@qq.com"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "nonebot_plugin_bfvplayerlist"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+nonebot-plugin-htmlrender = ">=0.6.0"
+nonebot2 = ">=2.3.0"
+nonebot-adapter-onebot = "^2.2.0"
+httpx = ">=0.23.0,<=1.0.0"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
