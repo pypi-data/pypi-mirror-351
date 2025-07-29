@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: articles-to-anki
+Version: 0.1.0
+Summary: A tool to generate Anki flashcards from articles using GPT-4
+Author: japancolorado
+Author-email: japancolorado <japancolorado@duck.com>
+Maintainer-email: japancolorado <japancolorado@duck.com>
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/articles-to-anki
+Project-URL: Repository, https://github.com/yourusername/articles-to-anki.git
+Project-URL: Issues, https://github.com/yourusername/articles-to-anki/issues
+Project-URL: Documentation, https://github.com/yourusername/articles-to-anki#readme
+Project-URL: Changelog, https://github.com/yourusername/articles-to-anki/blob/main/CHANGELOG.md
+Keywords: anki,flashcards,gpt,articles,study,spaced-repetition,learning,education,ai,openai
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Education
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: openai>=1.0.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: tqdm>=4.60.0
+Requires-Dist: beautifulsoup4>=4.9.0
+Requires-Dist: readability-lxml>=0.8.0
+Requires-Dist: pymupdf>=1.18.0
+Provides-Extra: advanced-similarity
+Requires-Dist: scikit-learn>=0.24.0; extra == "advanced-similarity"
+Requires-Dist: nltk>=3.6.0; extra == "advanced-similarity"
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.10.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=4.0.0; extra == "dev"
+Requires-Dist: twine>=4.0.0; extra == "dev"
+Requires-Dist: build>=0.8.0; extra == "dev"
+Requires-Dist: setuptools>=61.0; extra == "dev"
+Requires-Dist: wheel>=0.37.0; extra == "dev"
+Provides-Extra: all
+Requires-Dist: scikit-learn>=0.24.0; extra == "all"
+Requires-Dist: nltk>=3.6.0; extra == "all"
+Dynamic: author
+Dynamic: license-file
+Dynamic: requires-python
