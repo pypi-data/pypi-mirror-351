@@ -1,0 +1,114 @@
+==========================
+`python-ghostscript`
+==========================
+
+---------------------------------------------------------------------
+Python-Interface to the Ghostscript C-API
+---------------------------------------------------------------------
+
+:Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
+:Version: 0.8
+:License: GNU General Public License v3 or later (GPLv3+)
+:Homepage: https://gitlab.com/pdftools/python-ghostscript
+
+`Ghostscript`__ is a well known interpreter for the PostScript
+language and for PDF. This package implements a interface to the
+`Ghostscript C-API`__ using `ctypes`__. Both a low-level and a pythonic,
+high-level interface are provided.
+
+__ https://www.ghostscript.com/
+__ https://ghostscript.readthedocs.io/en/latest/API.html
+__ https://docs.python.org/library/ctypes.html
+
+
+This package is currently tested only under GNU/Linux. Please report
+whether it works in your environment, too. Thanks.
+
+
+Example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Here is an example for how to use the high-level interface of
+`python-ghostscript`. This implements a very basic ps2pdf-tool::
+
+  import sys
+  import locale
+  import ghostscript
+
+  args = [
+      "ps2pdf",	# actual value doesn't matter
+      "-dNOPAUSE", "-dBATCH", "-dSAFER",
+      "-sDEVICE=pdfwrite",
+      "-sOutputFile=" + sys.argv[1],
+      "-f",  sys.argv[2]
+      ]
+  ghostscript.Ghostscript(*args)
+
+Here an example for passing a string document to Ghostscript::
+
+  # documents passed to ghostscript need to be bytes
+  doc = b"""%!
+  /Helvetica findfont 20 scalefont setfont       
+  50 50 moveto
+  (Hello World) show
+  showpage
+  quit
+  """
+
+  import ghostscript
+
+  args = """test.py
+       -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite -sOutputFile=/tmp/out.pdf
+       """.split()
+
+  with ghostscript.Ghostscript(*args) as gs:
+      gs.run_string(doc)
+
+
+More examples can be found in the `examples` subdirectory of the
+distribution archive.
+
+
+Requirements and Installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Please note: This package is meant for developers. Even if there are
+  some usable examples included, installations instructions are meant
+  for developers.
+
+`python-ghostscript` requires
+
+* `Python`__ 3.6 or higher (tested with Python 3.6–3.13)
+* `setuptools`__ for installation (see below)
+* `Ghostscript`__ Version 9.0.8 or higher
+
+__ https://www.python.org/download/
+__ https://pypi.python.org/pypi/setuptools
+__ https://www.ghostscript.com/
+
+
+Installing python-ghostscript
+---------------------------------
+
+Since this package is meant for developers, we assume you have
+experience in installing Python packages.
+
+`python-ghostscript` is listed on `PyPI (Python Package Index)`__, so
+you can install it using `pip install ghostscript` as usual. Please
+refer to the manuals of `pip` for further information.
+
+__ https://pypi.python.org/pypi
+
+Alternatively you my download and unpack the source package of
+`python-ghostscript` from https://pypi.python.org/pypi/ghostscript and
+run::
+
+   python ./setup.py install
+
+
+
+.. Emacs config:
+ Local Variables:
+ mode: rst
+ ispell-local-dictionary: "american"
+ End:

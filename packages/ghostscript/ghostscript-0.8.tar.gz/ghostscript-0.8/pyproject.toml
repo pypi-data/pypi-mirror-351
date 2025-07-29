@@ -1,0 +1,6 @@
+# Copyright (C) 2023-2025 Hartmut Goebel <h.goebel@crazy-compilers.com>
+# SPDX-License-Identifier: CC0-1.0
+
+[build-system]
+requires = ['setuptools']
+build-backend = 'setuptools.build_meta'
