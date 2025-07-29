@@ -1,0 +1,34 @@
+# Denotes the bench name.
+# Should not be edited by user.
+name = "fm.com"
+
+# Enables Frappe developer mode for the bench.
+developer_mode = false
+
+# Enables admin tools (e.g., Mailpit and Adminer) for the bench.
+admin_tools = false
+
+# Sets the bench environment to either "prod" (production) or "dev" (development).
+environment_type = "prod"
+
+[ssl]
+# Sets the SSL type to be used by the bench, in this case, "letsencrypt" for Let's Encrypt.
+ssl_type = "letsencrypt"
+
+# Controls the HSTS (HTTP Strict Transport Security) header used by the bench.
+# When set to "off", the HSTS header will not be included.
+hsts = "off"
+
+# Specifies the preferred Certbot challenge method to be used for Let's Encrypt certificate validation.
+preferred_challenge = "http01"
+
+# The email address associated with Let's Encrypt.
+# This is used for notifications, recovery, and is used with `api_key` for the Global API key of Cloudflare.
+# For more information, see [this documentation](https://certbot-dns-cloudflare.readthedocs.io/en/stable/#certbot-cloudflare-key-ini).
+email = "cloudflare@example.com"
+
+# Cloudflare Global API Key for Let's Encrypt DNS01 Challenge.
+api_token = "0123456789abcdef0123456789abcdef01234567"
+
+# Cloudflare API token for Let's Encrypt DNS01 Challenge.
+api_key = "0123456789abcdef0123456789abcdef01234"
