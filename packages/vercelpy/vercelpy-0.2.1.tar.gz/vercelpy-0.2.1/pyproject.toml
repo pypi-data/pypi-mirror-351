@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "vercelpy"
+version = "0.2.1"
+description = ""
+authors = ["SuryaSekhar14 <suryasekhardatta22@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/SuryaSekhar14/vercelpy"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.32.3"
+tqdm = "^4.67.1"
+vercel-blob = "^0.4.1"
+
+
+[tool.poetry.group.dev.dependencies]
+flask = "^3.1.0"
+python-dotenv = "^1.1.0"
+poetry = "^2.1.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
