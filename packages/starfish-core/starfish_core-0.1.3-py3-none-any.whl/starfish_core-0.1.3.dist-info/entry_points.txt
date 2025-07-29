@@ -1,0 +1,4 @@
+[console_scripts]
+data-template=src.starfish.data_gen_template.cli:main
+starfish=starfish.api.cli:main
+
