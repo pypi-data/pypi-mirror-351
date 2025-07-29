@@ -1,0 +1,76 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "nrel.routee.compass"
+version = "0.11.2"
+description = "An eco-routing tool build upon RouteE-Powertrain"
+readme = "README.md"
+documentation = "nrel.github.io/routee-compass"
+requires-python = ">=3.9"
+authors = [{ name = "National Renewable Energy Laboratory" }]
+license = { text = "BSD 3-Clause License Copyright (c) 2023, Alliance for Sustainable Energy, LLC" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Topic :: Scientific/Engineering",
+]
+keywords = ["eco routing"]
+dependencies = ["toml"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "maturin",
+    "jupyter-book",
+    "ruff",
+    "sphinx-book-theme",
+    "mypy",
+    "jupyterlab",
+    "boxsdk",
+    "types-requests",
+    "types-toml",
+]
+osm = [
+    "osmnx",
+    "requests",
+    "geopandas",
+    "shapely",
+    "networkx",
+    "folium",
+    "pandas",
+    "numpy",
+    "rasterio",
+    "matplotlib",
+    "seaborn",
+]
+all = ["nrel.routee.compass[osm]", "nrel.routee.compass[dev]"]
+
+[project.urls]
+Homepage = "https://github.com/NREL/routee-compass"
+
+[tool.maturin]
+python-source = "python"
+features = ["pyo3/extension-module"]
+module-name = "nrel.routee.compass.routee_compass_py"
+manifest-path = "rust/routee-compass-py/Cargo.toml"
+include = [
+    "python/nrel/routee/compass/resources/models/*.bin",
+    "python/nrel/routee/compass/resources/*.toml",
+    "LICENSE.md",
+    "README.md",
+]
+exclude = ["rust/routee-compass-powertrain/onnxruntime/**"]
+
+[tool.mypy]
+mypy_path = "python"
+ignore_missing_imports = true
+namespace_packages = true
+explicit_package_bases = true
+strict = true
+disallow_untyped_calls = false
+exclude = ["docs", "build/", "dist/"]
