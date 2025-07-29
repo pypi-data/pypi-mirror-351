@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "virtualpulldown"
+version = "0.2.4"
+description = "A CLI tool for batch formatting protein pairs for structure prediction using LocalColabFold."
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "MIT"}
+authors = [
+  { name = "Heewhan Shin", email = "hshin40@gmail.com" }
+]
+dependencies = [
+  "biopython",
+  "pandas",
+  "openpyxl",
+  "Pillow",
+  "numpy"
+]
+[project.scripts]
+vp_prepare="virtualpulldown.v_pulldown_v2:main"
+vp_fig="virtualpulldown.makefig_auto:main"
+vp_post_install_message="virtualpulldown.cli:post_install_message"
+
+[project.urls]
+Homepage = "https://github.com/heeropang/VirtualPulldown_v.2"
+
