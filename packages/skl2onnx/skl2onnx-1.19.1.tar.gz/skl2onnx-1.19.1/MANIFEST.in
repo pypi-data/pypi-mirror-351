@@ -1,0 +1,18 @@
+# include
+include *.rst
+recursive-include docs *
+recursive-include tests *
+include LICENSE
+include README.md
+include MANIFEST.in
+include requirements.txt
+include skl2onnx/algebra/_cache/*.rst
+
+# exclude from sdist
+recursive-exclude benchmarks *
+recursive-exclude .azure-pipelines *
+recursive-exclude tests/tests_dump *
+recursive-exclude tests_onnxmltools/tests_dump *
+recursive-exclude tests/test_utils/__pycache__ *
+recursive-exclude docs/notebooks *
+exclude *.onnx
