@@ -1,0 +1,16 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+requirements.txt
+setup.cfg
+src/xpubkaleidoscope/__init__.py
+src/xpubkaleidoscope/xpub_converter.py
+src/xpubkaleidoscope.egg-info/PKG-INFO
+src/xpubkaleidoscope.egg-info/SOURCES.txt
+src/xpubkaleidoscope.egg-info/dependency_links.txt
+src/xpubkaleidoscope.egg-info/entry_points.txt
+src/xpubkaleidoscope.egg-info/requires.txt
+src/xpubkaleidoscope.egg-info/top_level.txt
+src/xpubkaleidoscope/utils/__init__.py
+tests/test_xpub_converter.py
