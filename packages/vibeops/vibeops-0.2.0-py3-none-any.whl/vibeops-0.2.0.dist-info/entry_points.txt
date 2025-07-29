@@ -1,0 +1,3 @@
+[console_scripts]
+vibeops = vibeops.cli:cli
+vibeops-server = vibeops.server:main
