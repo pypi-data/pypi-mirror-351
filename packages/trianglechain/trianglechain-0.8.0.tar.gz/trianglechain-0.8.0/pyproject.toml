@@ -1,0 +1,94 @@
+# vim:ft=toml
+[build-system]
+requires = ["hatchling==1.26.3"]  # bug fix, see https://github.com/astral-sh/rye/issues/1446
+build-backend = "hatchling.build"
+
+
+[project]
+name = "trianglechain"
+dynamic = ["version"]
+description = 'Code to plot multidimensional distributions'
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Silvan Fischbacher", email = "silvanf@phys.ethz.ch" },
+  { name = "Tomasz Kacprzak", email = "tomaszk@phys.ethz.ch" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+]
+
+dependencies = [
+  "arviz; python_version<'3.10'",
+  "arviz>0.17; python_version>='3.10'",
+  "cosmic_toolbox",
+  "KDEpy",
+  "matplotlib",
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "scipy<1.13; python_version<'3.10'",
+  "scipy; python_version>='3.10'",
+  "tqdm",
+]
+
+[project.urls]
+Source = "https://cosmo-gitlab.phys.ethz.ch/cosmo_public/trianglechain"
+Documentation = "https://cosmo-docs.phys.ethz.ch/trianglechain"
+
+[tool.hatch.version]
+path = "src/trianglechain/__init__.py"
+pattern = "__version__ = \"(?P<version>[^']+)\""
+
+[tool.uv]
+dev-dependencies = [
+    "uv", "twine", "build", "hatchling", "wheel",
+    "pre-commit", "ruff", "black",
+    "pytest", "pytest-regtest", "pytest-cov",
+    "sphinx", "sphinx-pynpoint-theme", "myst-parser"
+]
+
+[project.optional-dependencies]
+dev = [
+    "twine",
+    "pytest<7.2.0",
+    "pytest-cov",
+    "pytest-regtest",
+    "tox",
+    "flake8",
+    "black",
+    "isort",
+    "sphinx",
+    "sphinx-pynpoint-theme",
+    "myst-parser"
+]
+
+docs = [
+    "sphinx<7",
+    "sphinx-pynpoint-theme",
+    "myst-parser",
+    "nbsphinx",
+    "sphinx-copybutton",
+    "recommonmark"
+]
+
+[tool.coverage.run]
+branch = true
+
+[tool.hatch.build]
+exclude = [
+    "tests/best_fit_data",
+]
