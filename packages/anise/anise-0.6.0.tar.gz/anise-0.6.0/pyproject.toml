@@ -1,0 +1,17 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0", "numpy>=1.16.0"]
+build-backend = "maturin"
+
+[project]
+name = "anise"
+requires-python = ">=3.9,<3.13"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+manifest-path = "anise-py/Cargo.toml"
