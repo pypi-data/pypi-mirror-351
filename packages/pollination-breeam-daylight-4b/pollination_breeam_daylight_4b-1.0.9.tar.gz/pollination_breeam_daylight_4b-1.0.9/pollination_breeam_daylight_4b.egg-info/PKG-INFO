@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: pollination-breeam-daylight-4b
+Version: 1.0.9
+Summary: BREEAM daylight 4b recipe for Pollination.
+Home-page: https://github.com/pollination/breeam-daylight-4b
+Author: pollination
+Author-email: info@pollination.solutions
+Maintainer: mikkel, pollination
+Maintainer-email: mikkel@ladybug.tools, info@pollination.solutions
+License: PolyForm Shield License 1.0.0, https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt
+Project-URL: icon, https://raw.githubusercontent.com/ladybug-tools/artwork/master/icons_components/honeybee/png/breeamdaylight4b.png
+Project-URL: docker, https://hub.docker.com/r/ladybugtools/honeybee-radiance
+Keywords: honeybee,radiance,ladybug-tools,daylight,annual-daylight,breeam-daylight-4b
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pollination-two-phase-daylight-coefficient>=1.1.57
+Requires-Dist: pollination-lbt-honeybee>=0.1.17
+Requires-Dist: pollination-honeybee-display>=0.1.17
+
+# BREEAM-daylight-assessment-4b
