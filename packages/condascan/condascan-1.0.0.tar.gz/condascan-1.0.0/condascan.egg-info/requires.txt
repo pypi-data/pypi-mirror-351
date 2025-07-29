@@ -1,0 +1,7 @@
+rich
+packaging>=25.0
+pyyaml
+
+[dev]
+pytest
+bumpver
