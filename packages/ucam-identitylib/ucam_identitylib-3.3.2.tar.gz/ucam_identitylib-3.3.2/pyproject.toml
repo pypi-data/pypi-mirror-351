@@ -1,0 +1,69 @@
+[tool.poetry]
+name = "ucam-identitylib"
+version = "3.3.2"
+authors = ["University of Cambridge Information Services <devops+ucam-identitylib@uis.cam.ac.uk>"]
+description = "A module containing helpers and shared code related to identity systems within UIS, University of Cambridge."
+readme = "README.md"
+license = "MIT"
+repository = "https://gitlab.developers.cam.ac.uk/uis/devops/iam/identity-lib"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+packages = [ { include = "identitylib" } ]
+
+[tool.poe.tasks.tox]
+help = "Run the Python test suite via tox"
+cmd = "docker compose run --build --rm tox"
+
+[tool.poe.tasks.build-local]
+help = "Build and copy the latest ucam-identitylib into the dist folder"
+cmd = "docker compose run --build --rm local-copy"
+
+[tool.poe.tasks.pull-specs]
+help = "Get latest specs for APIs"
+cmd = "docker compose run --build --rm pull-specs"
+
+[tool.poe.tasks.interactive-test]
+help = "Run the interactive tests"
+cmd = "docker compose run --build --rm interactive-test"
+
+[tool.poe.tasks."interactive-test:local"]
+help = "Run the interactive tests against a locally built ucam-identitylib"
+cmd = """ bash -c "\
+    docker compose build --build-arg install_from=${source} interactive-test && \
+    docker compose run --rm interactive-test"
+"""
+args = [{name="source", required=true}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aenum = "^3.1.15"
+frozendict = "^2.3.8"
+pydantic = "^2.6.1"
+python-dateutil = "^2.8.2"
+requests = "^2.31.0"
+typing-extensions = "^4.7.1"
+urllib3 = ">=1.26,<3"
+
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.3.0"
+freezegun = "^1.2.2"
+pytest = "^8.0.0"
+pytest-cov = "^6.0.0"
+requests-mock = "^1.11.0"
+urllib3-mock = "^0.3.3"
+
+
+[tool.poetry.group.scripts.dependencies]
+pyyaml = "^6.0.1"
+gitpython = "^3.1.32"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
