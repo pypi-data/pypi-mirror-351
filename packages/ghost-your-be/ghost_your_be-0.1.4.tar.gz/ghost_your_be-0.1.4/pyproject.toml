@@ -1,0 +1,74 @@
+[tool.poetry]
+name = "ghost-your-be"
+version = "0.1.4"
+description = "A powerful tool for generating mock data and APIs"
+authors = ["Ghost Your BE Team"]
+readme = "README.md"
+packages = [{include = "ghost_your_be"}]
+license = "MIT"
+repository = "https://github.com/yourusername/ghost-your-be"
+documentation = "https://ghost-your-be.readthedocs.io"
+keywords = ["mock", "api", "data-generation", "testing", "frontend"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[tool.poetry.scripts]
+ghost-your-be = "ghost_your_be.cli:cli"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.104.0"
+uvicorn = "^0.24.0"
+sqlalchemy = "^2.0.23"
+pymysql = "^1.1.0"
+pymongo = "^4.6.0"
+faker = "^19.13.0"
+pyyaml = "^6.0.1"
+requests = "^2.31.0"
+deepdiff = "^6.3.0"
+rich = "^13.7.0"
+click = "^8.1.7"
+pydantic = "^2.5.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+black = "^23.11.0"
+isort = "^5.12.0"
+flake8 = "^6.1.0"
+mypy = "^1.7.0"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "--cov=ghost-your-be --cov-report=term-missing"
