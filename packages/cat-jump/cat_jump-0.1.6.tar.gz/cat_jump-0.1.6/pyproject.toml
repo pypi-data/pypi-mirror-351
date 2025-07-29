@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cat-jump"
+version = "0.1.6"
+description = "A terminal-based ASCII cat jump game"
+readme = "README.md"
+requires-python = ">=3.7"
+authors = [{name = "gwondoo", email = "kdh30166568@gmail.com"}]
+license = { file = "LICENSE" }
+
+dependencies = ["wcwidth"]
+
+[project.urls]
+"Homepage" = "https://github.com/gwondoo/cat_jump"
+
+[project.scripts]
+cat-jump = "cat_jump.main:main"
