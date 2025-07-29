@@ -1,0 +1,15 @@
+numpy<3.0,>=1.7
+stempeg>=0.2.4
+pyaml
+tqdm
+
+[dev]
+check-manifest
+
+[docs]
+sphinx
+sphinx_rtd_theme
+recommonmark
+
+[tests]
+pytest
