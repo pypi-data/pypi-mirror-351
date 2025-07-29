@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: flask-redis-lib
+Version: 0.1
+Summary: A specialized library for efficient Redis caching in Flask applications.
+Author: Mohan
+Author-email: mohagude5@gmail.com
+Maintainer: Mohan
+Maintainer-email: mohangude5@gmail.com
+Requires-Dist: redis==5.2.0
+Requires-Dist: Flask>=3.0.3
+Dynamic: author
+Dynamic: author-email
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: requires-dist
+Dynamic: summary
