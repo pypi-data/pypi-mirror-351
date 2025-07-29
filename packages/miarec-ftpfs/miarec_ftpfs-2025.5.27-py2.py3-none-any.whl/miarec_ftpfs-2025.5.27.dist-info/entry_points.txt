@@ -1,0 +1,3 @@
+[fs.opener]
+mftp = miarec_ftpfs.opener:FTPOpener
+mftps = miarec_ftpfs.opener:FTPOpener
