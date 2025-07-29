@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: mDLDuePico
+Version: 0.0.2
+Summary: GHI Electronics DUE MicroPython library.
+Home-page: https://www.duelink.com/
+Author: GHI Electronics
+Author-email: support@ghielectronics.com
+License: MIT
+Classifier: Programming Language :: Python :: Implementation :: MicroPython
+Requires-Dist: mDUELink
+Requires-Dist: requests (<=0.0.1)
+
