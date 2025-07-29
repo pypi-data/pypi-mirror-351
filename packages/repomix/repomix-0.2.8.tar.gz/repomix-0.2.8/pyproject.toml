@@ -1,0 +1,36 @@
+[project]
+name = "repomix"
+version = "0.2.8"
+description = "A tool for analyzing and summarizing code repositories"
+authors = [
+    { name = "Anderson", email = "andersonby@163.com" },
+]
+dependencies = [
+    "questionary>=2.0.1",
+    "chardet>=5.2.0",
+    "pyperclip>=1.9.0",
+    "tiktoken>=0.8.0",
+    "detect-secrets>=1.5.0",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+
+[project.license]
+text = "MIT"
+
+[project.scripts]
+repomix = "repomix.cli:run"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
