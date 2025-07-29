@@ -1,0 +1,75 @@
+============================
+trytoncommunity-setuptools
+============================
+
+**Shortening the boilerplate in Tryton modules**
+
+Tryton modules normally contain and require a lot of boilerplate in
+`setup.py`.  Not only this is a lot of duplicate code, also it is a burden to
+maintain this between different versions of Tryton.
+
+This package allows moving most all the meta-data and options being somewhat
+"static" between Tryton modules and Tryton Versions into `setup.cfg` and
+using a quite terse `setup.py` only.
+
+`trytoncommunity-setuptools` also supports the 'module prefix mapping` quite
+some developers and integrators use.
+
+Example `setup.py`::
+
+  from trytoncommunity_setuptools import setup, get_require_version
+
+  requires = ['lxml']
+  tests_require = [
+      get_require_version('proteus'),
+      'pycountry',
+  ]
+
+  setup('trytoncommunity', 'country_order',
+        requires=requires, tests_require=tests_require)
+
+
+Corresponding example `setup.cfg`::
+
+  [metadata]
+  ; name will be filled by trytoncommunity-setuptools
+  description  = Precedence rating for countries in Tryton
+  long_description = file: README.rst
+  long_description_content_type = text/x-rst
+  url           = https://tryton.community
+  author        = Hartmut Goebel
+  author_email  = h.goebel@crazy-compilers.com
+  license       = GPL-3.0-or-later
+  license_files = LICENSE-GPL-3.0.txt
+  keywords      = tryton, country
+  classifiers =
+    Development Status :: 5 - Production/Stable
+    License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+    Natural Language :: English
+    Natural Language :: German
+  ;; These classifiers will be added by trytoncommunity-setuptools,
+  ;  Environment :: Plugins
+  ;  Framework :: Tryton
+  ;  Intended Audience :: Developers
+  ;  Programming Language :: Python :: … filled according to Tryton version
+  ;  Programming Language :: Python :: Implementation :: CPython
+  ;  Topic :: Office/Business
+  ;  Operating System :: OS Independent
+
+  [options]
+  ;python_requires = …          # filled by trytoncommunity-setuptools
+  ;include_package_data = True  # enforced by trytoncommunity-setuptools
+  ;zip_safe = False             # enforced by trytoncommunity-setuptools
+
+
+When using a PEP 517 compliant build tool
+e.g. `build`, you need to also provide a `pyproject.toml` file::
+
+  [build-system]
+  requires = ["trytoncommunity-setuptools >= 0.3"]
+  build-backend = "setuptools.build_meta:__legacy__"
+
+.. This file is licensed under the
+   GNU Free Documentation License v1.3 or any later version.
+   Copyright the trytoncommunity-setuptools authors.
+   SPDX-License-Identifier: GFDL-1.3-or-later

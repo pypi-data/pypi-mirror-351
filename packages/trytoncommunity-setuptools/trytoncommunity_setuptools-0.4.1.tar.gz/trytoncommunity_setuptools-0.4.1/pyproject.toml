@@ -1,0 +1,26 @@
+# Copyright (C) 2023-2025 Hartmut Goebel <h.goebel@crazy-compilers.com>
+# SPDX-License-Identifier: CC0-1.0
+
+[build-system]
+requires = ['setuptools']
+build-backend = 'setuptools.build_meta'
+
+[tool.towncrier]
+title_format = '{version} ({project_date})'
+# workaround for sphinx-contrib/sphinxcontrib-towncrier#83
+directory = 'newsfragments'
+
+[tool.bumpversion]
+current_version = "0.4.1"
+commit = true
+tag = true
+tag_message = 'trytoncommunity-setuptools {new_version}'
+sign_tags = true
+# we are still in pre-1.0 state
+parse = '0.(?P<major>\d+)\.(?P<minor>\d+)'
+serialize = ['0.{major}.{minor}']
+
+[[tool.bumpversion.files]]
+filename = 'setup.cfg'
+search = 'version = {current_version}'
+replace = 'version = {new_version}'
