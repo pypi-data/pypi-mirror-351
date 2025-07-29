@@ -1,0 +1,17 @@
+MANIFEST.in
+README.md
+pyproject.toml
+src/mem_cli/__init__.py
+src/mem_cli/__main__.py
+src/mem_cli.egg-info/PKG-INFO
+src/mem_cli.egg-info/SOURCES.txt
+src/mem_cli.egg-info/dependency_links.txt
+src/mem_cli.egg-info/entry_points.txt
+src/mem_cli.egg-info/requires.txt
+src/mem_cli.egg-info/top_level.txt
+src/mem_cli/commands/__init__.py
+src/mem_cli/interface/__init__.py
+src/mem_cli/interface/doc_group.py
+src/mem_cli/interface/navigator_search.py
+src/mem_cli/interface/style.css
+src/mem_cli/interface/wizard_dynamic.py

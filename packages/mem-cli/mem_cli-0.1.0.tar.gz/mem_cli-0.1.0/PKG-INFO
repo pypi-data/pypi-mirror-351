@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: mem_cli
+Version: 0.1.0
+Summary: Interface CLI interactive avec Textual et Click
+Author-email: Guillaume Lefebvre <guillaume@ldmail.fr>
+License-Expression: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: click
+Requires-Dist: textual
+Requires-Dist: rich
+
+# mem_cli
+
+Interface CLI interactive avec Textual + Click + Rich.
