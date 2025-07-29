@@ -1,0 +1,78 @@
+Metadata-Version: 2.4
+Name: git-project
+Version: 0.0.28
+Summary: The extensible stupid project manager
+Author-email: "David A. Greene" <dag@obbligato.org>
+License-Expression: AGPL-3.0-or-later
+License-File: COPYING
+Keywords: development,git,project
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Software Development :: Version Control :: Git
+Requires-Python: >=3.9
+Requires-Dist: progressbar2>=4.4.2
+Requires-Dist: pygit2>=1.15.1
+Provides-Extra: test
+Requires-Dist: pytest; extra == 'test'
+Requires-Dist: pytest-console-scripts; extra == 'test'
+Requires-Dist: pytest-cov; extra == 'test'
+Requires-Dist: setuptools; extra == 'test'
+Description-Content-Type: text/x-rst
+
+
+===================================================
+git-project - The extensible stupid project manager
+===================================================
+
+|VersionImageLink|_
+
+|PythonVersionImageLink|_
+
+.. |VersionImageLink| image:: https://img.shields.io/pypi/v/git-project.svg
+.. _VersionImageLink: https://pypi.org/project/git-project
+.. |PythonVersionImageLink| image:: https://img.shields.io/pypi/pyversions/git-project.svg
+.. _PythonVersionImageLink: https://pypi.org/project/git-project
+
+
+-------
+
+.. contents:: Table of Contents
+
+..
+    SPDX-FileCopyrightText: 2024-present David A. Greene <dag@obbligato.org>
+
+..
+    SPDX-License-Identifier: AGPL-3.0-or-later
+
+..
+    Copyright 2023 David A. Greene
+
+..
+    This file is part of git-project
+
+..
+    git-project is free software: you can redistribute it and/or modify it under
+    the terms of the GNU Affero General Public License as published by the Free
+    Software Foundation, either version 3 of the License, or (at your option)
+    any later version.
+
+..
+    This program is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+    more details.
+
+..
+    You should have received a copy of the GNU Affero General Public License
+    along with git-project. If not, see <https://www.gnu.org/licenses/>.
+
+Authors
+=======
+*git-project* is written and maintained by |author|.
+
+.. |author| replace:: `David Greene`_
+.. _David Greene: https://github.com/greened
+

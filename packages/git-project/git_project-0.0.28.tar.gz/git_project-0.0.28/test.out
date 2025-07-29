@@ -1,0 +1,131 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.9, pytest-8.2.2, pluggy-1.5.0
+rootdir: /home/dag/src/git-project/dev
+configfile: pyproject.toml
+plugins: anyio-4.3.0, console-scripts-1.4.1
+collected 106 items
+
+tests/test_confobj.py ............                                       [ 11%]
+tests/test_git.py .......................FF............................  [ 61%]
+tests/test_gitproject.py ..                                              [ 63%]
+tests/test_main.py .                                                     [ 64%]
+tests/test_project.py ...........                                        [ 74%]
+tests/test_runnable.py ........                                          [ 82%]
+tests/test_scopedobj.py .....                                            [ 86%]
+tests/test_substitutable.py ..............                               [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_git_clone ________________________________
+
+reset_directory = None
+remote_repository = pygit2.Repository('/tmp/pytest-of-dag/pytest-14/local_remote_test_git_clone.git0/')
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7ff199ba1e50>, _basetemp=PosixPath('/tmp/pytest-of-dag/pytest-14'), _retention_count=3, _retention_policy='all')
+
+    def test_git_clone(reset_directory, remote_repository, tmp_path_factory):
+        path = tmp_path_factory.mktemp('clone-workdir')
+    
+        os.chdir(path)
+    
+        git = git_project.Git()
+    
+        remote_url = 'file://' + remote_repository.path
+    
+>       clone_path = git.clone(remote_url)
+
+/home/dag/src/git-project/dev/tests/test_git.py:441: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/dag/src/git-project/dev/src/git_project/git.py:744: in clone
+    self._repo = pygit2.clone_repository(url, target_path, bare, callbacks=callbacks)
+/home/dag/.virtualenvs/dev/lib/python3.11/site-packages/pygit2/__init__.py:217: in clone_repository
+    payload.check_error(err)
+/home/dag/.virtualenvs/dev/lib/python3.11/site-packages/pygit2/callbacks.py:93: in check_error
+    raise self._stored_exception
+/home/dag/.virtualenvs/dev/lib/python3.11/site-packages/pygit2/callbacks.py:424: in wrapper
+    return f(*args)
+/home/dag/.virtualenvs/dev/lib/python3.11/site-packages/pygit2/callbacks.py:552: in _transfer_progress_cb
+    transfer_progress(TransferProgress(stats_ptr))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <git_project.git.Git.RemoteCallbacks object at 0x7ff199a06950>
+stats = <pygit2.remotes.TransferProgress object at 0x7ff199a9f790>
+
+    def transfer_progress(self, stats):
+        if not self.started_transfer:
+            self.started_transfer = True
+            print(f'Receiving objects ({stats.total_objects})...')
+>           self.progress.start(max_value=stats.total_objects)
+E           TypeError: ProgressBar.start() got an unexpected keyword argument 'max_value'
+
+/home/dag/src/git-project/dev/src/git_project/git.py:77: TypeError
+----------------------------- Captured stdout call -----------------------------
+Remote: Counting objects 1
+Remote: Counting objects 9
+Remote: Counting objects 14
+Remote: Counting objects 14
+
+Remote: Compressing objects: 0% (0/14)
+Remote: Compressing objects: 100% (14/14), done
+
+Receiving objects (14)...
+___________________________ test_git_clone_with_path ___________________________
+
+reset_directory = None
+remote_repository = pygit2.Repository('/tmp/pytest-of-dag/pytest-14/local_remote_test_git_clone_with_path.git0/')
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7ff199ba1e50>, _basetemp=PosixPath('/tmp/pytest-of-dag/pytest-14'), _retention_count=3, _retention_policy='all')
+
+    def test_git_clone_with_path(reset_directory,
+                                 remote_repository,
+                                 tmp_path_factory):
+        path = tmp_path_factory.mktemp('clone-workdir')
+        os.chdir(path)
+    
+        git = git_project.Git()
+    
+        remote_url = 'file://' + remote_repository.path
+    
+        path = Path.cwd() / 'foo' / 'bar'
+    
+        os.makedirs(path)
+    
+        path = path / 'test-clone'
+    
+>       clone_path = git.clone(remote_url, path)
+
+/home/dag/src/git-project/dev/tests/test_git.py:482: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/dag/src/git-project/dev/src/git_project/git.py:744: in clone
+    self._repo = pygit2.clone_repository(url, target_path, bare, callbacks=callbacks)
+/home/dag/.virtualenvs/dev/lib/python3.11/site-packages/pygit2/__init__.py:217: in clone_repository
+    payload.check_error(err)
+/home/dag/.virtualenvs/dev/lib/python3.11/site-packages/pygit2/callbacks.py:93: in check_error
+    raise self._stored_exception
+/home/dag/.virtualenvs/dev/lib/python3.11/site-packages/pygit2/callbacks.py:424: in wrapper
+    return f(*args)
+/home/dag/.virtualenvs/dev/lib/python3.11/site-packages/pygit2/callbacks.py:552: in _transfer_progress_cb
+    transfer_progress(TransferProgress(stats_ptr))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <git_project.git.Git.RemoteCallbacks object at 0x7ff198a8e350>
+stats = <pygit2.remotes.TransferProgress object at 0x7ff198a8eb10>
+
+    def transfer_progress(self, stats):
+        if not self.started_transfer:
+            self.started_transfer = True
+            print(f'Receiving objects ({stats.total_objects})...')
+>           self.progress.start(max_value=stats.total_objects)
+E           TypeError: ProgressBar.start() got an unexpected keyword argument 'max_value'
+
+/home/dag/src/git-project/dev/src/git_project/git.py:77: TypeError
+----------------------------- Captured stdout call -----------------------------
+Remote: Counting objects 1
+Remote: Counting objects 14
+Remote: Counting objects 14
+
+Remote: Compressing objects: 0% (0/14)
+Remote: Compressing objects: 100% (14/14), done
+
+Receiving objects (14)...
+=========================== short test summary info ============================
+FAILED tests/test_git.py::test_git_clone - TypeError: ProgressBar.start() got...
+FAILED tests/test_git.py::test_git_clone_with_path - TypeError: ProgressBar.s...
+======================== 2 failed, 104 passed in 2.74s =========================
