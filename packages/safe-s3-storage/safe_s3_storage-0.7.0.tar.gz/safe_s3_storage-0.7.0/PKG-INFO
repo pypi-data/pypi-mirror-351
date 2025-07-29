@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: safe-s3-storage
+Version: 0.7.0
+Summary: S3 safe storage
+Author: community-of-python
+License-File: LICENSE
+Keywords: antivirus,kaspersky,s3,upload
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Communications :: File Sharing
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Typing :: Typed
+Requires-Python: >=3.12
+Requires-Dist: aioboto3
+Requires-Dist: httpx
+Requires-Dist: puremagic
+Requires-Dist: pydantic
+Requires-Dist: pyvips
+Requires-Dist: pyvips-binary
+Requires-Dist: stamina
+Requires-Dist: types-aioboto3[s3]
+Description-Content-Type: text/markdown
+
+# safe-s3-storage
+
+S3 tools for uploading files to S3 safely (antivirus check, etc) as well as downloading and deleting files.
+
+## How To Use
+
+```
+uv add safe-s3-storage
+poetry add safe-s3-storage
+```
