@@ -1,0 +1,511 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-03 19:07+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: aleksis/apps/hjelp/forms.py:12
+msgid "Your question"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:31
+msgid "Category 1"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:39
+msgid "Select a category"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:44
+msgid "Category 2"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:54
+msgid "Category 3"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:64
+msgid "Please specify the issue according to the chosen category."
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:68
+msgid "Please describe the issue in one sentence."
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:72
+msgid "Please describe the issue in more detail."
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:81
+msgid "Design of the user interface"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:88
+msgid "Speed"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:95
+msgid "User friendliness"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:102
+msgid "AlekSIS in general"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:109
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:84
+msgid "What do you like? What would you change?"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:115
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:88
+msgid "What else do you want to tell us?"
+msgstr ""
+
+#: aleksis/apps/hjelp/forms.py:121
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:92
+msgid "What do you think should be added to AlekSIS?"
+msgstr ""
+
+#: aleksis/apps/hjelp/menus.py:6
+msgid "Support"
+msgstr ""
+
+#: aleksis/apps/hjelp/menus.py:18
+#: aleksis/apps/hjelp/templates/hjelp/issue_report.html:4
+#: aleksis/apps/hjelp/templates/hjelp/issue_report.html:6
+msgid "Report an issue"
+msgstr ""
+
+#: aleksis/apps/hjelp/menus.py:29
+msgid "Give feedback"
+msgstr ""
+
+#: aleksis/apps/hjelp/menus.py:40
+msgid "FAQ"
+msgstr ""
+
+#: aleksis/apps/hjelp/menus.py:51
+#: aleksis/apps/hjelp/templates/hjelp/order_faq.html:4
+#: aleksis/apps/hjelp/templates/hjelp/order_faq.html:5
+msgid "Manage FAQ"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:16
+msgid "Can view FAQ"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:17
+msgid "Can ask FAQ question"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:18
+msgid "Can report issues"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:19
+msgid "Can send feedback"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:26 aleksis/apps/hjelp/models.py:98
+msgid "Name"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:33 aleksis/apps/hjelp/models.py:69
+#: aleksis/apps/hjelp/models.py:104
+msgid "Icon"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:36 aleksis/apps/hjelp/models.py:72
+msgid "Show"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:38
+msgid "Order"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:47
+msgid "FAQ section"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:48
+msgid "FAQ sections"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:63
+msgid "Question"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:74
+msgid "Answer"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:81
+msgid "FAQ Section"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:91
+msgid "FAQ question"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:92
+msgid "FAQ questions"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:112
+msgid "Parent category"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:114
+msgid "Free text input allowed"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:115
+msgid "Placeholder"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:129
+msgid "Issue category"
+msgstr ""
+
+#: aleksis/apps/hjelp/models.py:130
+msgid "Issue categories"
+msgstr ""
+
+#: aleksis/apps/hjelp/preferences.py:19
+msgid "Public visibility of FAQ"
+msgstr ""
+
+#: aleksis/apps/hjelp/preferences.py:29
+msgid "Recipient e-mail address for FAQ questions"
+msgstr ""
+
+#: aleksis/apps/hjelp/preferences.py:39
+msgid "Recipient e-mail address for issue reports"
+msgstr ""
+
+#: aleksis/apps/hjelp/preferences.py:49
+msgid "Recipient e-mail address for feedback"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/ask.html:4
+msgid "You have a question?"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/ask.html:5
+#: aleksis/apps/hjelp/templates/hjelp/ask.html:20
+msgid "Ask Question"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/ask.html:10
+msgid ""
+"\n"
+"      You have a question about AlekSIS and didn't find the answer to your question in the FAQ? Then you can ask us your\n"
+"      question here:\n"
+"    "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/faq.html:4
+#: aleksis/apps/hjelp/templates/hjelp/faq.html:6
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/faq.html:30
+#: aleksis/apps/hjelp/templates/hjelp/order_faq.html:77
+msgid "There are no questions in this section."
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/faq.html:40
+msgid ""
+"\n"
+"        Your question is not listed above?\n"
+"      "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/faq.html:48
+msgid ""
+"\n"
+"            Ask your question\n"
+"          "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/faq.html:53
+msgid ""
+"\n"
+"          If you have a question please ask one of your site administrators:\n"
+"        "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/feedback.html:4
+#: aleksis/apps/hjelp/templates/hjelp/feedback.html:6
+msgid "Feedback"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/feedback.html:14
+msgid ""
+"\n"
+"            Please give us detailed and honest feedback so that we can make AlekSIS even better!\n"
+"\t"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/feedback.html:113
+msgid "Send feedback"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/feedback_submitted.html:7
+msgid ""
+"\n"
+"    Feeback Submitted Successfully\n"
+"  "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/feedback_submitted.html:14
+msgid ""
+"\n"
+"      Thank you for your feedback. It was successfully submitted.\n"
+"    "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/feedback_submitted.html:20
+#: aleksis/apps/hjelp/templates/hjelp/issue_report_submitted.html:21
+#: aleksis/apps/hjelp/templates/hjelp/question_submitted.html:22
+msgid "Back to landing page"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/feedback_submitted.html:23
+msgid "Submit another feedback"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/issue_report.html:66
+msgid "Please describe your issue in <strong>one</strong> sentence"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/issue_report.html:75
+msgid "Please describe your issue <strong>more detailed</strong> (optional)"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/issue_report.html:80
+msgid "Submit bugreport"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/issue_report.html:93
+msgid "Please fill in all required fields!"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/issue_report_submitted.html:7
+msgid ""
+"\n"
+"    Issue Submitted Successfully\n"
+"  "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/issue_report_submitted.html:15
+msgid ""
+"\n"
+"      We've received your issue report and will be look at it as soon a possible. Thank you for your report.\n"
+"    "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/issue_report_submitted.html:24
+msgid "Submit another issue"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/order_faq.html:14
+msgid "Add FAQ section"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/order_faq.html:18
+msgid "Add FAQ question"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/order_faq.html:39
+#: aleksis/apps/hjelp/templates/hjelp/order_faq.html:71
+msgid "Delete"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/order_faq.html:66
+msgid "Edit"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/question_submitted.html:7
+msgid ""
+"\n"
+"    Question Submitted Successfully\n"
+"  "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/question_submitted.html:16
+msgid ""
+"\n"
+"      We've received your question and will answer as soon as possible.\n"
+"    "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/question_submitted.html:25
+msgid "Submit another question"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/hjelp/question_submitted.html:28
+msgid "Back to FAQ"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/faq.email:4
+#, python-format
+msgid "New question: %(question)s"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/faq.email:9
+#, python-format
+msgid ""
+"\n"
+"    The user %(username)s (full name: %(full_name)s, email: <%(email)s>) has asked the following question:\n"
+"    "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/faq.email:21
+#, python-format
+msgid ""
+"\n"
+"            The user %(username)s (full name: %(full_name)s, email: <a href=\"mailto:%(email)s\">&lt;%(email)s&gt;</a>)\n"
+"            has asked the following question:\n"
+"        "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:4
+#, python-format
+msgid "New feedback from %(user)s"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:9
+#, python-format
+msgid ""
+"\n"
+"    The user %(username)s (full name: %(full_name)s, email: <%(email)s>) has given the following feedback:\n"
+"\n"
+"    Design rating: %(design_rating)s out of 5 stars.\n"
+"    Performance rating: %(performance_rating)s out of 5 stars.\n"
+"    Usability rating: %(usability_rating)s out of 5 stars.\n"
+"    Overall rating: %(overall_rating)s out of 5 stars.\n"
+"\n"
+"    What do you like? What would you change?\n"
+"        %(apps)s\n"
+"    What else do you want to tell us?\n"
+"        %(more)s\n"
+"    What do you think should be added to AlekSIS?\n"
+"        %(ideas)s\n"
+"    "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:32
+#, python-format
+msgid ""
+"\n"
+"            The user %(username)s (full name: %(full_name)s, email: <a href=\"mailto:%(email)s\">&lt;%(email)s&gt;</a>)\n"
+"            has given the following feedback:\n"
+"        "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:40
+msgid "Design rating"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:51
+msgid "Performance rating"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:62
+msgid "Usability rating"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/feedback.email:73
+msgid "Overall rating"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/rebus.email:4
+#, python-format
+msgid "New issue: %(issue)s"
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/rebus.email:9
+#, python-format
+msgid ""
+"\n"
+"    The user %(username)s (full name: %(full_name)s, email: <%(email)s>) has submitted the following issue:\n"
+"    "
+msgstr ""
+
+#: aleksis/apps/hjelp/templates/templated_email/rebus.email:23
+#, python-format
+msgid ""
+"\n"
+"            The user %(username)s (full name: %(full_name)s, email: <a href=\"mailto:%(email)s\">&lt;%(email)s&gt;</a>)\n"
+"            has submitted the following issue:\n"
+"        "
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:40
+msgid "The FAQ was updated successfully."
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:73
+msgid "The FAQ section was created successfully!"
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:84
+msgid "Create FAQ section"
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:92
+msgid "The FAQ section was deleted successfully."
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:100
+msgid "The FAQ question was created successfully."
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:110
+msgid "Create FAQ question"
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:121
+msgid "The FAQ question was edited successfully."
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:127
+msgid "Edit FAQ question"
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:137
+msgid "The FAQ question was deleted successfully."
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:152
+msgid "You have submitted a question."
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:224
+msgid "You reported a problem."
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:290
+msgid "You submitted feedback."
+msgstr ""
+
+#: aleksis/apps/hjelp/views.py:291
+#, python-brace-format
+msgid "You rated AlekSIS with {overall_rating} out of 5 stars."
+msgstr ""

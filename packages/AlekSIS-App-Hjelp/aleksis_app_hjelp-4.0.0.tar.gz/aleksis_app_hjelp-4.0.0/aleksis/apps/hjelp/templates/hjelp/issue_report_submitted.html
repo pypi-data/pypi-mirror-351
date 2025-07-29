@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block no_page_title %}{% endblock no_page_title %}
+
+{% block browser_title %}
+  {% blocktrans %}
+    Issue Submitted Successfully
+  {% endblocktrans %}
+{% endblock browser_title %}
+
+{% block content %}
+  <p class="flow-text">
+    <i class="material-icons left">check</i>
+    {% blocktrans %}
+      We've received your issue report and will be look at it as soon a possible. Thank you for your report.
+    {% endblocktrans %}
+  </p>
+
+  <a href="{% url 'index' %}" class="waves-effect waves-light btn green">
+    <i class="material-icons left">home</i> {% trans "Back to landing page" %}
+  </a>
+  <a href="{% url 'report_issue' %}" class="waves-effect waves-light btn secondary-color">
+    <i class="material-icons left">history</i> {% trans "Submit another issue" %}
+  </a>
+{% endblock %}

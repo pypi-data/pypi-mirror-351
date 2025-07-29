@@ -1,0 +1,133 @@
+.rating {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 150px;
+  max-width: 600px;
+  justify-content: flex-end;
+}
+
+@media only screen and (max-width: 992px) {
+  .rating {
+    margin-top: 12px;
+    min-height: 40px;
+    justify-content: space-around;
+  }
+}
+
+.rating label {
+  display: flex;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+}
+
+.rating label:after {
+  font-family: "Material Icons";
+  -webkit-font-feature-settings: "liga";
+  position: absolute;
+  color: #777;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 40px;
+  content: "star_border";
+}
+
+.rating input {
+  display: none !important;
+}
+
+.rating > input:checked + label:after,
+.rating > input:checked ~ label:after {
+  content: "star";
+  color: #ffd700;
+}
+
+.rating > input:hover + label:after,
+.rating > input:hover ~ label:after {
+  content: "star";
+  color: #ffd700;
+}
+
+.support-input-mobile label {
+  line-height: 1rem;
+}
+
+.issue-category-icon {
+  flex-basis: 45px;
+  min-width: 45px;
+}
+
+.issue-category-field {
+  flex-grow: 1;
+  margin: 0;
+  max-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.issue-free-text-field {
+  flex-grow: 1;
+  margin: 0;
+  max-height: 40px;
+}
+
+.issue-free-text-field * {
+  margin: inherit;
+  max-height: inherit;
+}
+
+.issue-flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.handle {
+  cursor: grab;
+  user-select: none;
+}
+
+.outer-handle {
+  vertical-align: middle;
+  height: 100%;
+  position: absolute;
+}
+
+.handle-container {
+  float: left;
+  position: relative;
+}
+
+.card-panel.disabled {
+  background-color: #e6e6e6;
+}
+
+.collection-item.disabled {
+  background-color: #aaaaaa61;
+  color: #888;
+}
+
+.question-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.start-icons {
+  display: inline;
+}
+
+.main-question {
+  display: inline;
+  flex-grow: 10;
+  padding-left: 10px;
+}
+
+.end-button {
+  display: inline;
+}

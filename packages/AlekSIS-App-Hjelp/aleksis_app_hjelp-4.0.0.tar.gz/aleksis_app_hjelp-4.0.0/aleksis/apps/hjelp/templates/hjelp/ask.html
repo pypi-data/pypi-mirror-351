@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% load i18n material_form %}
+
+{% block page_title %}{% blocktrans %}You have a question?{% endblocktrans %}{% endblock page_title %}
+{% block browser_title %}{% trans "Ask Question" %}{% endblock browser_title %}
+
+
+{% block content %}
+  <p>
+    {% blocktrans %}
+      You have a question about AlekSIS and didn't find the answer to your question in the FAQ? Then you can ask us your
+      question here:
+    {% endblocktrans %}
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    {% form form=form %}{% endform %}
+
+    <button class="btn waves-effect waves-light green" type="submit" name="action">
+      {% trans "Ask Question" %}
+      <i class="material-icons right">send</i>
+    </button>
+
+  </form>
+{% endblock %}

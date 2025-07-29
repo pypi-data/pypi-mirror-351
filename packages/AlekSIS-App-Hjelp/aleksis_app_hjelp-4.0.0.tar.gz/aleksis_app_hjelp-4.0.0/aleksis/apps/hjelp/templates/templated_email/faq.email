@@ -1,0 +1,30 @@
+{% load i18n %}
+
+{% block subject %}
+    {% blocktrans with question=question|truncatewords:5 %}New question: {{ question }}{% endblocktrans %}
+{% endblock %}
+
+
+{% block plain %}
+    {% blocktrans with username=user.username full_name=user.person.full_name email=user.person.email %}
+    The user {{ username }} (full name: {{ full_name }}, email: <{{ email }}>) has asked the following question:
+    {% endblocktrans %}
+    {{ question }}
+{% endblock %}
+
+{% block html %}
+<style>
+    {% include "templated_email/html_mail.css" %}
+</style>
+<main>
+    <p>
+        {% blocktrans with username=user.username full_name=user.person.full_name email=user.person.email %}
+            The user {{ username }} (full name: {{ full_name }}, email: <a href="mailto:{{ email }}">&lt;{{ email }}&gt;</a>)
+            has asked the following question:
+        {% endblocktrans %}
+    </p>
+    <div class="card-panel">
+        <h4>{{ question }}</h4>
+    </div>
+</main>
+{% endblock %}

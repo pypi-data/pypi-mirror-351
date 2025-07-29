@@ -1,0 +1,98 @@
+{% load i18n %}
+
+{% block subject %}
+    {% blocktrans with user=user.person.full_name %}New feedback from {{ user }}{% endblocktrans %}
+{% endblock %}
+
+
+{% block plain %}
+    {% blocktrans with username=user.username full_name=user.person.full_name email=user.person.email %}
+    The user {{ username }} (full name: {{ full_name }}, email: <{{ email }}>) has given the following feedback:
+
+    Design rating: {{ design_rating }} out of 5 stars.
+    Performance rating: {{ performance_rating }} out of 5 stars.
+    Usability rating: {{ usability_rating }} out of 5 stars.
+    Overall rating: {{ overall_rating }} out of 5 stars.
+
+    What do you like? What would you change?
+        {{ apps }}
+    What else do you want to tell us?
+        {{ more }}
+    What do you think should be added to AlekSIS?
+        {{ ideas }}
+    {% endblocktrans %}
+{% endblock %}
+
+{% block html %}
+<style>
+    {% include "templated_email/html_mail.css" %}
+</style>
+<main>
+    <p>
+        {% blocktrans with username=user.username full_name=user.person.full_name email=user.person.email %}
+            The user {{ username }} (full name: {{ full_name }}, email: <a href="mailto:{{ email }}">&lt;{{ email }}&gt;</a>)
+            has given the following feedback:
+        {% endblocktrans %}
+    </p>
+    <div class="card-panel">
+        <table>
+            <tr>
+                <th>{% trans "Design rating" %}</th>
+                <td class="stars">
+                    {% for _ in " "|center:design_rating %}★{% endfor %}
+                    {% with rating="-"|add:design_rating %}
+                        {% with count=5|add:rating %}
+                            {% for _ in " "|center:count %}☆{% endfor %}
+                        {% endwith %}
+                    {% endwith %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans "Performance rating" %}</th>
+                <td class="stars">
+                    {% for _ in " "|center:performance_rating %}★{% endfor %}
+                    {% with rating="-"|add:performance_rating %}
+                        {% with count=5|add:rating %}
+                            {% for _ in " "|center:count %}☆{% endfor %}
+                        {% endwith %}
+                    {% endwith %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans "Usability rating" %}</th>
+                <td class="stars">
+                    {% for _ in " "|center:usability_rating %}★{% endfor %}
+                    {% with rating="-"|add:usability_rating %}
+                        {% with count=5|add:rating %}
+                            {% for _ in " "|center:count %}☆{% endfor %}
+                        {% endwith %}
+                    {% endwith %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans "Overall rating" %}</th>
+                <td class="stars">
+                    {% for _ in " "|center:overall_rating %}★{% endfor %}
+                    {% with rating="-"|add:overall_rating %}
+                        {% with count=5|add:rating %}
+                            {% for _ in " "|center:count %}☆{% endfor %}
+                        {% endwith %}
+                    {% endwith %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans "What do you like? What would you change?" %}</th>
+                <td>{{ apps }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "What else do you want to tell us?" %}</th>
+                <td>{{ ideas }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "What do you think should be added to AlekSIS?" %}</th>
+                <td>{{ more }}</td>
+            </tr>
+        </table>
+    </div>
+</main>
+{% endblock %}
