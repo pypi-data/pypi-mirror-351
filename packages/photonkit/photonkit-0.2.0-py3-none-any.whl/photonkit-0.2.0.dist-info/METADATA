@@ -1,0 +1,38 @@
+Metadata-Version: 2.4
+Name: photonkit
+Version: 0.2.0
+Summary: PhotonKit -- A mildly opinionated toolkit for managing your camera photo collection
+Author: Rahul Singh
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Programming Language :: Python :: 3
+Classifier: Environment :: Console
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary
+
+# PhotonKit
+
+**PhotonKit** is a mildly opinionated, blazing-fast command-line toolkit for safely backing up and organizing your camera photos and videos. Designed for macOS photo wranglers, it reads EXIF metadata to group files by date and camera, prevents clobbering, and works seamlessly with both SD cards and massive archives.
+
+- **Automated folder structure:** Organizes by year, date, camera, and file type.
+- **Supports all major formats:** JPEG, HEIC, RAW (CR2/CR3/ARW/NEF), MOV, MP4, AVI, and more.
+- **Resumable and safe:** Skips duplicates by default, or saves unique versions on demand.
+- **Per-directory cache:** Re-scans are lightning fast, only extracting EXIF for new files.
+- **Dry-run & date filtering:** Preview operations and filter files by EXIF date.
+- **EXIF overrides:** Handles edge cases (like iPhone movies) using customizable rules.
+- **MIT License:** Free for all personal and commercial use.
+
+Perfect for anyone who wants to keep their photo archives pristine and searchable—no more messy folders or lost images.
+
+See full documentation, installation, and usage at: [https://github.com/rsitools/photonkit](https://github.com/rsitools/photonkit)
