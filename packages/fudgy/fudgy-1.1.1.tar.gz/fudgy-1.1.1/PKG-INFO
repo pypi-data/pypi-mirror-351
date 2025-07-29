@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: fudgy
+Version: 1.1.1
+Summary: Replace real objects with fakes for testing purposes
+Keywords: fake,fudge,mock,stub
+Author-email: Anton Zhiyanov <m@antonz.org>
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+License-File: LICENSE
+Project-URL: Source, https://github.com/nalgeon/fudgy
+
+Fudgy replaces real objects with fakes (mocks, stubs) for testing purposes.
+
+It is a drop-in replacement for the original [Fudge](https://github.com/fudge-py/fudge) package by [Kumar McMillan](https://github.com/kumar303). Unlike the original, it supports modern versions of Python (3.9+).
+
+Install Fudgy with `pip install fudgy` instead of `pip install fudge`. Then, use it exactly as you would the original version.
+
+[Documentation](https://fudge.readthedocs.org/en/latest/)
+

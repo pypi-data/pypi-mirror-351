@@ -1,0 +1,27 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "fudgy"
+description = "Replace real objects with fakes for testing purposes"
+keywords = ["fake", "fudge", "mock", "stub"]
+authors = [
+    {name = "Anton Zhiyanov", email = "m@antonz.org"},
+]
+requires-python = ">=3.9"
+dynamic = ["version"]
+readme = "README.md"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Source = "https://github.com/nalgeon/fudgy"
+
+[tool.flit.module]
+name = "fudge"
+
+[tool.black]
+line-length = 100
