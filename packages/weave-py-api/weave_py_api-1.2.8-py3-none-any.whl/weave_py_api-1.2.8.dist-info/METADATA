@@ -1,0 +1,89 @@
+Metadata-Version: 2.1
+Name: weave-py-api
+Version: 1.2.8
+Summary: Weavechain Python API
+Author-email: Weavechain <support@weavechain.com>
+License: MIT License
+        
+        Copyright (c) 2023 Weavechain
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/weavechain/weave-py-api
+Keywords: weavechain,weave,api,layer-0,data,sharing,monetization,compute,node
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pathlib
+Requires-Dist: requests
+Requires-Dist: base58
+Requires-Dist: pynacl
+Requires-Dist: uuid
+Requires-Dist: websocket-client
+Requires-Dist: cryptography
+Requires-Dist: PyCryptodome
+Requires-Dist: paramiko
+Requires-Dist: java-random
+Requires-Dist: tomli ; python_version < "3.11"
+Provides-Extra: dev
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: bumpver ; extra == 'dev'
+Requires-Dist: isort ; extra == 'dev'
+Requires-Dist: pip-tools ; extra == 'dev'
+Requires-Dist: pytest ; extra == 'dev'
+
+## Weavechain Python API
+
+[https://weavechain.com](https://weavechain.com): Layer-0 For Data
+
+#### How to install
+
+```sh
+pip install weave-py-api
+```
+
+#### Data read sample
+
+```python
+from weaveapi import weaveapi
+from weaveapi.records import *
+from weaveapi.options import *
+from weaveapi.weaveh import *
+
+pub, pvk = generate_keys()
+print("Public key: ", pub)
+print("Private key:", pvk)
+
+node = "https://public.weavechain.com:443/92f30f0b6be2732cb817c19839b0940c"
+organization = "weavedemo"
+scope = "shared"
+table = "directory"
+
+cfg = weave_client_config(pub, pvk, node, organization)
+nodeApi, session = connect_weave_api(cfg)
+
+reply = nodeApi.read(session, scope, table, None, READ_DEFAULT_NO_CHAIN).get()
+print(reply["data"])
+```
+
+#### Docs
+
+[https://docs.weavechain.com](https://docs.weavechain.com)
