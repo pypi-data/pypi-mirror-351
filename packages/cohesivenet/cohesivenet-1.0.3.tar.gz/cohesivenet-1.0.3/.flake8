@@ -1,0 +1,9 @@
+[flake8]
+# E501 is the "Line too long" error.
+ignore = E501, W503, E203
+max-complexity=14
+
+per-file-ignores =
+    cohesivenet/models/*:C901
+    cohesivenet/rest.py:C901,F821
+    cohesivenet/api_client.py:C901
