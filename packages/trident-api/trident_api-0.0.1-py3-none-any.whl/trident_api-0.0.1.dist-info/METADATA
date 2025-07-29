@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: trident_api
+Version: 0.0.1
+Summary: An client library to connect with the Trident API for Pontus-X or EDC.
+Project-URL: source, https://git.ift.tuwien.ac.at/lab/pub/pypi/trident-client
+Author-email: Thomas Trautner <thomas.f.trautner@tuwien.ac.at>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: edc,pontus-x,trident
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Requires-Dist: requests>=2.25.1
+Description-Content-Type: text/markdown
+
+# Trident Client
+
+This is an example client library creating and keeping a session for the [trident webservice](https://iot.ift.tuwien.ac.at/trident/api).
+
+To configure the secrets, you have to create a file called `.env` containing the relevant parameters:
+
+```sh
+TRIDENT_SERVICE='https://iot.ift.tuwien.ac.at/trident'
+TRIDENT_USERNAME=''
+TRIDENT_PASSWORD=''
+```
+
