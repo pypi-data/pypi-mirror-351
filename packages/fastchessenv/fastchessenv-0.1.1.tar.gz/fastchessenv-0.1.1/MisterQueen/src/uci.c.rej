@@ -1,0 +1,21 @@
+@@ -50,15 +50,17 @@
+ static char result[4096];
+ static Search search;
+ static Board board;
+-static thrd_t thrd;
++// static thrd_t thrd;
+ 
+ static int thread_func(void *arg) {
+     do_search(&search, &board);
+     return 0;
+ }
+ 
+-static void thread_start() {
+-    thrd_create(&thrd, thread_func, NULL);
++static void thread_start() {
++    // Disable threading for simplicity on arm64
++    // thrd_create(&thrd, thread_func, NULL);
++    do_search(&search, &board);
+ }
+ 
+ void handle_uci() {
