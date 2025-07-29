@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: learnedbf
+Version: 0.6.2
+Summary: A python package for Learned Bloom Filters
+Author-email: SLIMlaboratory <slim@di.unimi.it>
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://github.com/SLIMlaboratory/learnedbf
+Project-URL: Documentation, https://learnedbf.readthedocs.io/
+Project-URL: Issues, https://github.com/SLIMlaboratory/learnedbf/issues
+Keywords: Bloom filters,Learned Bloom filters,machine learning
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 4 - Beta
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mmh3==3.0.0
+Requires-Dist: numpy==1.22.4
+Requires-Dist: packaging==25.0
+Requires-Dist: problexity==0.5.8
+Requires-Dist: pybloom_live==4.0.0
+Requires-Dist: scikit-learn==1.0.2
+Dynamic: license-file
+
+# learnedbf
+A python package for Learned Bloom Filters
