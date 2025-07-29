@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: ironbyte
+Version: 1.0.0
+Summary: Python code obfuscation tool for protecting intellectual property
+Author-email: 0xAbolfazl <0xAbolfazl@example.com>
+Project-URL: Homepage, https://github.com/0xabolfazl/ironbyte
+Project-URL: Documentation, https://github.com/0xabolfazl/ironbyte/docs
+Project-URL: BugTracker, https://github.com/0xabolfazl/ironbyte/issues
+Keywords: obfuscation,security,code-protection
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Security
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+# IronByte
+
+IronByte is a Python library for irreversible code obfuscation, designed to protect your intellectual property while allowing code execution.
+
+## Features
+
+- Irreversible obfuscation of Python code
+- Secure execution of obfuscated code
+- Lightweight with no external dependencies
+
+## Installation
+
+```bash
+pip install ironbyte
+```
+## Usage
+```bash
+from ironbyte import obfuscate, execute
+```
+# Obfuscate your code
+source_code = '''
+def hello():
+    print("Hello, World!")
+
+hello()
+'''
+
+obfuscated_code = obfuscate(source_code)
+
+# Execute obfuscated code
+execute(obfuscated_code)

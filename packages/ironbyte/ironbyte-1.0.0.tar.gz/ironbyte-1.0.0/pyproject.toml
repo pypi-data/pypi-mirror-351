@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ironbyte"
+version = "1.0.0"
+authors = [
+    {name = "0xAbolfazl", email = "0xAbolfazl@example.com"},
+]
+description = "Python code obfuscation tool for protecting intellectual property"
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = ["obfuscation", "security", "code-protection"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Security",
+]
+
+[project.urls]
+Homepage = "https://github.com/0xabolfazl/ironbyte"
+Documentation = "https://github.com/0xabolfazl/ironbyte/docs"
+BugTracker = "https://github.com/0xabolfazl/ironbyte/issues"
+
+[tool.setuptools]
+packages = ["ironbyte"]
+include-package-data = true 

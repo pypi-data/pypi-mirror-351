@@ -1,0 +1,13 @@
+MANIFEST.in
+README.md
+pyproject.toml
+ironbyte/__init__.py
+ironbyte/executor.py
+ironbyte/obfuscator.py
+ironbyte/utils.py
+ironbyte.egg-info/PKG-INFO
+ironbyte.egg-info/SOURCES.txt
+ironbyte.egg-info/dependency_links.txt
+ironbyte.egg-info/top_level.txt
+tests/test_execution.py
+tests/test_obfuscation.py
