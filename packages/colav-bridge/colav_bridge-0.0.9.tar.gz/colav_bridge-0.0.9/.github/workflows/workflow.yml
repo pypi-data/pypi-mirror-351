@@ -1,0 +1,113 @@
+name: colav-bridge CI/CD
+run-name: ${{ github.actor }} is testing colav-bridge 🚀
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    container:
+      image: ros:humble-ros-core
+
+    steps:
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          apt-get update && apt-get install -y \
+            build-essential \
+            cmake \
+            python3-pip \
+            python3-colcon-common-extensions \
+            ros-humble-ament-cmake \
+            git
+          pip install hatch
+          mkdir -p /ros2_ws/src
+          cd /ros2_ws/src && git clone https://github.com/Artemis-QUB-COLAV/colav-interfaces.git
+          source /opt/ros/humble/setup.bash && cd /ros2_ws && colcon build --packages-select colav_interfaces
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Package
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash && \
+          source /ros2_ws/install/setup.bash && \
+          hatch build
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+    container:
+      image: ros:humble-ros-core
+
+    steps:
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          apt-get update && apt-get install -y \
+            build-essential \
+            cmake \
+            python3-pip \
+            python3-colcon-common-extensions \
+            ros-humble-ament-cmake \
+            git
+          pip install hatch
+          mkdir -p /ros2_ws/src
+          cd /ros2_ws/src && git clone https://github.com/Artemis-QUB-COLAV/colav-interfaces.git
+          source /opt/ros/humble/setup.bash && cd /ros2_ws && colcon build --packages-select colav_interfaces
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Tests
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash && \
+          source /ros2_ws/install/setup.bash && \
+          hatch test
+
+  publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    if: github.event_name == 'release'
+    container:
+      image: ros:humble-ros-core
+
+    steps:
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          apt-get update && apt-get install -y \
+            build-essential \
+            cmake \
+            python3-pip \
+            python3-colcon-common-extensions \
+            ros-humble-ament-cmake \
+            git
+          pip install hatch twine
+          mkdir -p /ros2_ws/src
+          cd /ros2_ws/src && git clone https://github.com/Artemis-QUB-COLAV/colav-interfaces.git
+          source /opt/ros/humble/setup.bash && cd /ros2_ws && colcon build --packages-select colav_interfaces
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Publish to PyPI
+        env:
+          PYPI_USERNAME: __token__
+          PYPI_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          source /opt/ros/humble/setup.bash && \
+          source /ros2_ws/install/setup.bash && \
+          hatch build && \
+          twine upload dist/* -u "${PYPI_USERNAME}" -p "${PYPI_PASSWORD}" --non-interactive --verbose
