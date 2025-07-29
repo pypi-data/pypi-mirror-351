@@ -1,0 +1,47 @@
+@import url('./play_trajectory.css');
+.run-container{
+    margin-left: 30px;
+}
+
+#latest-run-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#latest-zoo-runs-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.latest-zoo-runs-container-element{
+    flex: 0 0 auto;
+    margin: 10px;
+    width: 400px;
+    max-width: 90vw;
+}
+.latest-zoo-runs-container-element > h2{
+    height: 3.0em;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.show-run-description {
+    height: 9em;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.zoo-container-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.zoo-container-container-element{
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+}
