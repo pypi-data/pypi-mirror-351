@@ -1,0 +1,129 @@
+Metadata-Version: 2.4
+Name: photonkit
+Version: 0.2.1
+Summary: PhotonKit -- A mildly opinionated toolkit for managing your camera photo collection
+Author: Rahul Singh
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Programming Language :: Python :: 3
+Classifier: Environment :: Console
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary
+
+# PhotonKit
+
+**PhotonKit** is a mildly opinionated, blazing-fast command-line toolkit for safely backing up and organizing your camera photos and videos. Designed for macOS photo wranglers, it reads EXIF metadata to group files by date and camera, prevents clobbering, and works seamlessly with both SD cards and massive archives.
+
+- **Automated folder structure:** Organizes by year, date, camera, and file type.
+- **Supports all major formats:** JPEG, HEIC, RAW (CR2/CR3/ARW/NEF), MOV, MP4, AVI, and more.
+- **Resumable and safe:** Skips duplicates by default, or saves unique versions on demand.
+- **Per-directory cache:** Re-scans are lightning fast, only extracting EXIF for new files.
+- **Dry-run & date filtering:** Preview operations and filter files by EXIF date.
+- **EXIF overrides:** Handles edge cases (like iPhone movies) using customizable rules.
+- **MIT License:** Free for all personal and commercial use.
+
+Perfect for anyone who wants to keep their photo archives pristine and searchable—no more messy folders or lost images.
+
+See full documentation, installation, and usage at: [https://github.com/rsitools/photonkit](https://github.com/rsitools/photonkit)
+
+---
+
+## 🚀 Installation
+
+**PhotonKit requires [ExifTool](https://exiftool.org/) for metadata extraction.  
+Install it first (macOS):**
+
+```bash
+brew install exiftool
+```
+
+Install PhotonKit via pip (after you’ve installed from PyPI or locally):
+
+```bash
+pip install photonkit
+```
+
+## ⚡️ How to Run
+Basic photo backup:
+
+```bash
+photonkit \
+  --source "/Volumes/SDCARD" \
+  --target "/Volumes/PhotoDrive"
+```
+
+Dry run (see what would be copied, but don’t actually copy):
+
+```bash
+photonkit \
+  --source "/Volumes/SDCARD" \
+  --target "/Volumes/PhotoDrive" \
+  --dry-run
+```
+
+Filter by EXIF date (only copy files dated on/after 2025-05-27):
+
+```bash
+photonkit \
+  --source "/Volumes/SDCARD" \
+  --target "/Volumes/PhotoDrive" \
+  --min-date 2025-05-27
+```
+
+Allow duplicate file versions (IMG_1234-1.jpg etc):
+
+```bash
+photonkit \
+  --source "/Volumes/SDCARD" \
+  --target "/Volumes/PhotoDrive" \
+  --skip-dupe false
+```
+
+## 🔎 Inspect EXIF Metadata
+
+To print all EXIF metadata from a single file, plus camera model and original timestamp:
+
+```bash
+photonkit --exif /path/to/photo-or-video
+```
+
+## 📂 Example Target Structure
+Your files will be organized like this:
+
+```yaml
+PhotoDrive/
+└── 2025/
+    └── 2025-05-27/
+        └── canon-eos-r5/
+            ├── jpg/
+            ├── raw/
+            └── video/
+```
+
+
+## 🛠 Features
+Fast, safe, and resumable
+
+Handles most camera/phone formats
+
+Per-directory EXIF cache for speed
+
+EXIF inspection mode with --exif
+
+CLI output with progress and error reporting
+
+## 🪪 License
+PhotonKit is released under the MIT License.
+
+Made with ❤️ for photo wranglers.
