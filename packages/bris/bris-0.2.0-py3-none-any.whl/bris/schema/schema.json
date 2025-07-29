@@ -1,0 +1,256 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "resource:schema.json",
+    "title": "Schema for bris inference configuration",
+    "description": "This schema provides definitions for the bris-inference configuration files",
+    "type": "object",
+    "$defs": {
+        "VerifOutput": {
+            "description": "Verif-compatible Netcdf output file",
+            "type": "object",
+            "properties": {
+                "verif": {
+                    "type": "object",
+                    "properties": {
+                        "filename": {
+                            "description": "Filename of output. Use %R for run_name",
+                            "type": "string"
+                        },
+                        "variable": {
+                            "description": "What anemoi variable to verify? Can include variables that can be diagnosed from other variables (e.g. 10si from 10u and 10v)",
+                            "type": "string"
+                        },
+                        "thresholds": {"type": "array", "items": {"type": "number"}},
+                        "quantiles": {"type": "array", "items": {"type": "number", "minimum": 0, "maximum": 1}},
+                        "units": {
+                            "description": "What units to write in the output file. If unspecified, use the units from the anemoi input dataset",
+                            "type": "string"
+                        },
+                        "obs_sources": {
+                            "type": "array",
+                            "items": {
+                                "oneOf": [
+                                    {"$ref": "#/$defs/VerifSource"},
+                                    {"$ref": "#/$defs/FrostSource"},
+                                    {"$ref": "#/$defs/AnemoiDatasetSource"}
+                                ]
+                            }
+                        },
+                        "variable_type": {
+                            "description": "What type of variable is the input data?",
+                            "type": "string",
+                            "enum": [
+                                "continuous", "logit", "threshold_probbability", "quantile"
+                            ]
+                        }
+                    },
+                    "required": ["filename", "variable", "obs_sources"]
+                }
+            },
+            "required": ["verif"]
+        },
+
+        "NetcdfOutput": {
+            "description": "Netcdf output file with MET Norway conventions",
+            "type": "object",
+            "properties": {
+                "netcdf": {
+                    "type": "object",
+                    "properties": {
+                        "filename_pattern": {
+                            "description": "Where to write the output file. Time tokens allowed (e.g. %Y%m%d)",
+                            "type": "string"
+                        },
+                        "variables": {
+                            "description": "What variables to output? Leave empty to write all",
+                            "type": "array",
+                            "items": {"type": "string"}
+                        },
+                        "extra_variables": {
+                            "description": "Derive these extra variables (use GRIB short names)",
+                            "type": "array",
+                            "items": {"type": "string"}
+                        },
+                        "proj4_str": {
+                            "description": "Assume this projection string when computing x/y coordinates",
+                            "type": "string"
+                        },
+                        "domain_name": {
+                            "description": "Retrieve projection from this predefined domain name (e.g. meps)",
+                            "type": "string"
+                        },
+                        "global_attributes": {
+                            "description": "Dictionary of global attributes to write to each output file",
+                            "type": "object"
+                        }
+                    },
+                    "required": ["filename_pattern"]
+                }
+            },
+            "required": ["netcdf"]
+        },
+
+        "VerifSource": {
+            "description": "Observations stored in a Netcdf verif file",
+            "type": "object",
+            "properties": {
+                "verif": {
+                    "type": "object",
+                    "properties": {
+                        "filename": {
+                            "description": "Where the file is located",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["filename"]
+                }
+            },
+            "required": ["verif"]
+        },
+
+        "FrostSource": {
+            "type": "object",
+            "properties": {
+                "frost": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
+                }
+            } ,
+            "required": ["frost"]
+        },
+
+        "AnemoiDatasetSource": {
+            "description": "Zarr dataset that can be read by anemoi-datasets",
+            "type": "object",
+            "properties": {
+                "anemoidataset": {
+                    "type": "object",
+                    "properties": {
+                        "dataset": {
+                            "description": "Anemoi datasets open_dataset recipe, dictionary"
+                        },
+                        "variable": {
+                            "description": "Variable name",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["dataset", "variable"]
+                }
+            },
+            "required": ["anemoidataset"]
+        },
+
+        "Forecaster": {
+            "description": "Forecaster checkpoint configuration dict",
+            "type": "object",
+            "properties": {
+                "checkpoint_path": {
+                    "description": "Full absolute path to checkpoint",
+                    "type": "string"
+                },
+                "leadtimes": {
+                    "description": "How many leadtimes (number of forecaster rollout steps) should be provided in the output? This includes the analysis leadtime.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "static_forcings_dataset": {
+                    "description": "Anemoi datasets open_dataset recipe for dataset with static forcings (e.g. z, lsm). Not required if these forcings are in the main dataset"                  
+                },
+                "switch_graph":{
+                    "description": "Optional, full path to graph file (.pt). Used to run inference for a different graph than the one used to train the model.",
+                    "type": ["string", "null"]
+                }
+            },
+            "required": ["checkpoint_path", "leadtimes"]
+        },
+
+        "Interpolator": {
+            "description": "Interpolator checkpoint configuration dict",
+            "type": "object",
+            "properties": {
+                "checkpoint_path": {
+                    "description": "Full absolute path to checkpoint",
+                    "type": "string"
+                },
+                "leadtimes": {
+                    "description": "How many leadtimes (number of forecaster rollout steps) should be interpolated in the output? Must be lower than or equal to forecaster leadtimes.",
+                    "type": "integer"
+                },
+                "static_forcings_dataset": {
+                    "description": "Anemoi datasets open_dataset recipe for dataset with static forcings (e.g. z, lsm). Not required if these forcings are in the main dataset"                  
+                },
+                "switch_graph":{
+                    "description": "Optional, full path to graph file (.pt). Used to run inference for a different graph than the one used to train the model.",
+                    "type": ["string", "null"]
+                }
+            },
+            "required": ["checkpoint_path", "leadtimes", "static_forcings_dataset"]
+        }
+    },
+    "properties": {
+        "start_date": {
+            "description": "First date to produce a forecast. E.g. 2023-11-24T12:00:00",
+            "format": "date-time"
+        },
+        "end_date": {
+            "description": "Last date to produce a forecast. E.g. 2023-11-24T12:00:00",
+            "format": "date-time"
+        },
+        "checkpoints": {
+            "description": "Dictionairy with checkpoints for different tasks.",
+            "type": "object",
+            "properties": {
+                "forecaster": {
+                    "$ref": "#/$defs/Forecaster"
+                },
+                "interpolator": {
+                    "$ref": "#/$defs/Interpolator"
+                }
+            },
+            "required": ["forecaster"]
+        },
+        "frequency": {
+            "description": "How often to make forecast runs? E.g. 6h",
+            "type": "string"
+        },
+        "workdir": {
+            "description": "Path to work directory",
+            "type": "string"
+        },
+        "dataset": {
+            "description": "Input dataset. Can be a single path, or two datasets merged by cutout. Example dataset.cutout = ['/path/dataset1', '/path/dataset2' ]",
+            "min_distance_km": {"type": "int", "minimum": 0},
+            "adjust": {"type": "string"}
+        },
+        "routing": {
+            "type": "array",
+            "items":  {
+                "type": "object",
+                "properties": {
+                    "decoder_index": {
+                        "type": "integer",
+                        "description": "Select this decoder. If model only has one decoder, use 0",
+                        "minimum": 0
+                    },
+                    "domain_index": {
+                        "type": "integer",
+                        "description": "If the model has multiple domains, only extract this domain. If empty, the whole grid is used.",
+                        "minimum": 0
+                    },
+                    "outputs": {
+                        "type": "array",
+                        "items": {
+                            "oneOf": [
+                                {"$ref": "#/$defs/NetcdfOutput"},
+                                {"$ref": "#/$defs/VerifOutput"}
+                            ]
+                        }
+                    }
+                },
+                "required": ["decoder_index", "outputs"]
+            }
+        }
+    },
+    "required": ["checkpoints", "frequency", "dataset", "workdir"]
+}
