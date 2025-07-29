@@ -1,0 +1,22 @@
+[project]
+name = "umnet-cyberark"
+version = "0.1.1"
+description = "Python package for querying Cyberark"
+authors = [
+    {name = "Amy Liebowitz",email = "amylieb@umich.edu"}
+]
+readme = "README.md"
+requires-python = ">=3.6"
+dependencies = [
+    "python-decouple (>=3.8,<4.0)",
+    "requests (>=2.32.3,<3.0.0)"
+]
+
+[tool.poetry]
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.10"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
