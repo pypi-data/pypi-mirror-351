@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kawapythonserver"
+authors = [
+    { name = "Kawa Analytics", email = "emmmanuel@kawa.ai" },
+    { name = "Kawa Analytics", email = "max@kawa.ai" },
+]
+maintainers = [
+    { name = "Kawa Analytics", email = "max@kawa.ai" },
+    { name = "Kawa Analytics", email = "emmmanuel@kawa.ai" }
+]
+description = "Kawa python server to run python scripts from Kawa - https://docs.kawa.ai"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.31.12"
+dependencies = [
+    "kywy>=0.31.4",
+    "pandas",
+    "pyarrow==16.1.0",
+    "python-dotenv>=1.0.0",
+    "pex==2.33.1"
+]
+
+[project.scripts]
+kawapythonserver = "kawapythonserver.server.start_flight_server:start_server"
