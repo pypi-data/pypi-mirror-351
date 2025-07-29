@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: gexecjs
+Version: 0.0.4
+Summary: 调用 node 执行 js，可指定编码，支持异步返回
+Home-page: https://github.com/Leviathangk/runjs
+Author: 郭一会儿
+Author-email: 1015295213@qq.com
+License: MIT Licence
+Keywords: js,runjs,execjs,grunjs,grun_js,pyexecjs
+Platform: any
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: platform
+Dynamic: summary
+
+# 介绍
+
+调用 node 执行 js ，可指定编码格式  
+支持异步调用，只要你调用的函数会返回结果就会正常返回
+
+# 安装
+
+```
+pip install -U gexecjs
+```
+
+# 示例
+
+```
+    # run_js = RunJs(filepath='test.js')
+    run_js = RunJs(content='''
+        function getCookie(){
+            return arguments
+        }
+    ''')
+    result = run_js.run('getCookie', 'Gk')
+    print(result)
+```
