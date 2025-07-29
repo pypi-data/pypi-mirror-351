@@ -1,0 +1,11 @@
+TypedPython v2.1.7046
+
+- Add atexit handler
+- Add __all__ symbol to yocto_api to enable star import, fix others accordingly
+- Add missing functions to sync api
+- Add support for firmware update
+- Add support for AddTrustedCertificates and DownloadHostCertificate//66869
+- Fix upload
+- Fix timeout on FreeAPI$
+- Fix get_friendlyName() implementation
+- Fix event and callbacks handling
