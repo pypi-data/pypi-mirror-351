@@ -1,0 +1,79 @@
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+.history
+
+### HDMF ###
+
+# Auto-generated apidocs RST files
+/docs/source/gen_modules/
+/docs/source/hdmf*.rst
+/docs/source/sg_execution_times.rst
+/docs/gallery/*.hdf5
+/docs/gallery/*.sqlite
+/docs/gallery/expanded_example_dynamic_term_set.yaml
+/docs/gallery/schemasheets/nwb_static_enums.yaml
+
+# Auto-generated files after running tutorials
+mylab.*.yaml
+*.npy
+manifest.json
+
+# Auto-generated tutorials
+/docs/source/tutorials/
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Sphinx documentation
+/docs/_build/
+/docs/build/
+
+
+# setuptools
+/build/
+/dist/
+*.egg-info
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+#PyCharm
+.idea/
+
+# shell scripts (e.g. used with fswatch)
+*.sh
+
+/docs/tmpl.conf.py
+/docs/tmpl.index.rst
+
+# coverage output
+/tests/coverage/htmlcov
+.coverage*
+coverage.xml
+
+# duecredit output
+.duecredit.p
+
+# tox
+.tox
+
+# vscode
+.vscode/
+
+#mypy
+.mypy_cache/
+
+#DS_Store
+.DS_Store
+
+#sqlite
+.sqlite
+
+# Version
+_version.py
