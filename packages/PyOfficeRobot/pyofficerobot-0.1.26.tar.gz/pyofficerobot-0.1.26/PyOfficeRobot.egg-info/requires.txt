@@ -1,0 +1,14 @@
+schedule
+pandas
+poai
+xlwt
+xlrd==1.2.0
+PySide6
+porobot
+loguru
+pofile
+
+[:platform_system == "Windows"]
+uiautomation
+pywin32
+pywinauto
