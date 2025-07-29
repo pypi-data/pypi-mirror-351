@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: iyal_text_normalizer
+Version: 1.1
+Summary: A library for transforming Tamil text to a normalized unicode form.
+Author: Sanujen Premkumar, Sathveegan Yogendrarajah, Nisanthan Sivarasa
+Author-email: sanuprem6@gmail.com, sathvee2000@gmail.com, nisanthan.20@cse.mrt.ac.lk
+Requires-Dist: fastapi==0.115.6
+Requires-Dist: pydantic==2.10.4
+Requires-Dist: requests==2.32.3
+Requires-Dist: streamlit==1.41.1
+Requires-Dist: python-dotenv==1.0.1
+Requires-Dist: googletrans==3.1.0a0
+Requires-Dist: google-transliteration-api==1.0.3
+Requires-Dist: transformers==4.47.1
+Requires-Dist: torch==2.5.1
+Requires-Dist: nltk==3.9.1
+Requires-Dist: httpx==0.13.3
+Requires-Dist: httpcore==0.9.0
+Requires-Dist: psycopg2-binary==2.9.10
+Dynamic: author
+Dynamic: author-email
+Dynamic: requires-dist
+Dynamic: summary
