@@ -1,0 +1,88 @@
+# minimal-csv-diff
+
+A minimal tool to compare CSV files and generate diff reports for data validation.
+
+## Features
+
+- Compare two CSV files with common column names
+- Interactive selection of key fields for comparison
+- Generate detailed diff reports when differences are found
+- Command-line interface for quick data validation
+- Identifies unique rows and column-level differences
+- Exports results to CSV format for further analysis
+
+## Installation
+
+```bash
+pip install minimal-csv-diff
+```
+
+## Usage
+
+### Command Line Interface
+
+Navigate to the directory containing your CSV files and run:
+
+```bash
+minimal-csv-diff
+```
+
+The tool will guide you through:
+1. Selecting the working directory
+2. Choosing file delimiter
+3. Picking two CSV files to compare
+4. Selecting columns for the surrogate key
+5. Generating a diff.csv report if differences exist
+
+### With uvx (no installation needed)
+
+Run directly without installing:
+
+```bash
+uvx minimal-csv-diff
+```
+
+### Programmatic Usage
+
+```python
+from minimal_csv_diff.main import main
+
+# Run the interactive comparison
+main()
+```
+
+## Output
+
+When differences are found, the tool generates a `diff.csv` file with:
+
+- **surrogate_key**: Concatenated key fields for row identification
+- **source**: Which file the row comes from
+- **failed_columns**: Which columns differ or "UNIQUE ROW" for rows that exist in only one file
+- **All original columns**: Complete data for comparison
+
+## Example Workflow
+
+1. Place your CSV files in a directory
+2. Run `minimal-csv-diff`
+3. Follow the prompts to select files and key columns
+4. Review the generated `diff.csv` for validation results
+
+## Development
+
+This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
+
+```bash
+git clone https://github.com/joon-solutions/looker_data_validation
+cd looker_data_validation
+uv sync
+uv run minimal-csv-diff
+```
+
+## Requirements
+
+- Python >= 3.10
+- pandas >= 2.0.0
+
+## License
+
+MIT License - see the LICENSE file for details.
