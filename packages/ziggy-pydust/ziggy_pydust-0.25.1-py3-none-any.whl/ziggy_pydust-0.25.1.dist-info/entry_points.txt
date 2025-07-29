@@ -1,0 +1,6 @@
+[console_scripts]
+pydust=pydust.__main__:main
+
+[pytest11]
+pydust=pydust.pytest_plugin
+
