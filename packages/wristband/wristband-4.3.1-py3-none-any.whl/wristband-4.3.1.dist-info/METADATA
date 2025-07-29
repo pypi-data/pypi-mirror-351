@@ -1,0 +1,57 @@
+Metadata-Version: 2.3
+Name: wristband
+Version: 4.3.1
+Summary: SDK for integrating your Python FastAPI application with Wristband. Handles user authentication and token management.
+License: MIT
+Author: fddiferd
+Author-email: fddiferd@gmail.com
+Requires-Python: >=3.11
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Dist: cryptography (>=44.0.3,<45.0.0)
+Requires-Dist: fastapi (>=0.115.12,<0.116.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Description-Content-Type: text/markdown
+
+# fastapi-auth
+SDK for integrating your Python FastAPI application with Wristband. Handles user authentication and token management.
+
+## Getting Started
+**SET PYPI TOKEN**
+```bash
+poetry config pypi-token.pypi <your-token>
+```
+
+## CICD
+- on pull to main CICD will run
+    - if the version wasnt changed a version patch will be applied
+
+**PULL FROM MAIN**
+- ensure you pull from main as the CICD could bump the version of the pyproject.toml 
+```bash
+git fetch origin main
+git merge origin/main
+```
+
+
+## Manual Publushing
+**BUILD**
+```bash
+poetry build
+```
+**BUMP VERSION**
+```bash
+# Bump patch version (4.0.1 → 4.0.2)
+poetry version patch
+
+# Bump minor version (4.0.1 → 4.1.0)
+poetry version minor
+
+# Bump major version (4.0.1 → 5.0.0)
+poetry version major
+```
+**PUBLISH**
+```bash
+poetry publish
+```
