@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "nude-classifier-2d-3d"
+version = "1.0.3"
+description = "A Python package for classifying nude images as real (3D) or drawn (2D) using a pre-trained EfficientNet-B0 model."
+authors = ["FINWAX <waxbid@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/FINWAX/img-nude-as-3d-or-2d.py"
+repository = "https://github.com/FINWAX/img-nude-as-3d-or-2d.py"
+keywords = ["image-classification", "deep-learning", "pytorch", "efficientnet", "nudes"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+include = [
+    "nude_classifier_2d_3d/models/best_efficientnet_b0.pth",
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.7.0"
+torchvision = "^0.22.0"
+pillow = "^11.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.3.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

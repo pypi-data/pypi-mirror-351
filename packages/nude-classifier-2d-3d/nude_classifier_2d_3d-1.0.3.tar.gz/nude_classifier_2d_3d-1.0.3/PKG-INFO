@@ -1,0 +1,83 @@
+Metadata-Version: 2.3
+Name: nude-classifier-2d-3d
+Version: 1.0.3
+Summary: A Python package for classifying nude images as real (3D) or drawn (2D) using a pre-trained EfficientNet-B0 model.
+License: MIT
+Keywords: image-classification,deep-learning,pytorch,efficientnet,nudes
+Author: FINWAX
+Author-email: waxbid@gmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: pillow (>=11.0.0,<12.0.0)
+Requires-Dist: torch (>=2.7.0,<3.0.0)
+Requires-Dist: torchvision (>=0.22.0,<0.23.0)
+Project-URL: Homepage, https://github.com/FINWAX/img-nude-as-3d-or-2d.py
+Project-URL: Repository, https://github.com/FINWAX/img-nude-as-3d-or-2d.py
+Description-Content-Type: text/markdown
+
+# Nude Classifier
+
+A Python package for binary classification of images to determine if they are real (3D) or drawn (2D) nude images using a pre-trained EfficientNet-B0 model.
+
+## Installation
+
+### Using pip
+
+```bash
+pip install nude-classifier-2d-3d
+```
+
+### Using Poetry
+
+```bash
+poetry add nude-classifier-2d-3d
+```
+
+## Requirements
+- Python 3.8+
+- PyTorch
+- torchvision
+- PIL (Pillow)
+
+See `requirements.txt` or `pyproject.toml` for a full list of dependencies.
+
+## Usage
+
+```python
+from nude_classifier_2d_3d import ClassifyNudeAs2dOr3d
+
+# Initialize the classifier
+classifier = ClassifyNudeAs2dOr3d()
+
+# Classify an image
+image_path = "path/to/your/image.jpg"
+prob_3d = classifier.is_3d_nude_prob(image_path)
+prob_2d = classifier.is_2d_nude_prob(image_path)
+
+print(f"Probability of 3D (real) nude: {prob_3d:.2f}")
+print(f"Probability of 2D (drawn) nude: {prob_2d:.2f}")
+```
+
+## Model Details
+
+- Architecture: EfficientNet-B0
+- Input: RGB images (will be resized to 224x224 pixels)
+- Output: Probability score for 3D (real) nude images
+- Pre-trained Model: Included in the package (models/best_efficientnet_b0.pth)
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+## Disclaimer
+
+This package is intended for research purposes only. Use responsibly and in compliance with applicable laws and regulations.
+
+
+
