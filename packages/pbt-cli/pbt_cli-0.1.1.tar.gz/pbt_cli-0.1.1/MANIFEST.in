@@ -1,0 +1,23 @@
+include README.md
+include LICENSE
+include requirements.txt
+include requirements-test.txt
+include pyproject.toml
+include setup.py
+include MANIFEST.in
+include .env.example
+recursive-include pbt *.py
+recursive-include pbt/templates *.yaml *.sql
+recursive-include pbt/static *
+recursive-include pbt/config *.json
+recursive-include pbt/web/static *
+recursive-include pbt/web/templates *
+# Only include essential docs
+include docs/API_KEYS.md
+include docs/getting_started.md
+# Exclude examples from package
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .git*
+global-exclude *.log
+global-exclude .DS_Store

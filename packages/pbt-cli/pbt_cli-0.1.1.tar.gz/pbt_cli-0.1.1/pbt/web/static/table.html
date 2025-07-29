@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBT Studio - Table View</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Override some styles for table layout */
+        body {
+            overflow: hidden;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: var(--glass-bg);
+            backdrop-filter: var(--blur-md);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .table-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .config-panel {
+            width: 400px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--blur-md);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .resize-handle {
+            position: absolute;
+            right: -5px;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            cursor: ew-resize;
+            z-index: 10;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .resize-handle::before {
+            content: '';
+            width: 3px;
+            height: 50px;
+            background: var(--glass-border);
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+        
+        .resize-handle:hover::before {
+            background: var(--primary-color);
+            width: 4px;
+            height: 80px;
+        }
+        
+        .resize-handle.resizing::before {
+            background: var(--primary-color);
+            width: 4px;
+            height: 100%;
+        }
+        
+        .models-area {
+            flex: 1;
+            display: flex;
+            overflow-x: auto;
+            background: var(--bg-secondary);
+            padding: 1rem;
+            gap: 1rem;
+        }
+        
+        .model-column {
+            min-width: 400px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--blur-md);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .model-header {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .model-output {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-section > label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .model-checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .model-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .model-checkbox:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .model-checkbox input {
+            margin-right: 0.75rem;
+        }
+        
+        .variable-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--glass-border);
+            align-items: center;
+        }
+        
+        .variable-row input {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        
+        .variable-row input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+        
+        .variable-row .var-name {
+            flex: 0 0 40%;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-weight: 500;
+        }
+        
+        .variable-row .var-value {
+            flex: 1;
+        }
+        
+        .variable-row button {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            background: rgba(255, 0, 0, 0.1);
+            border-color: rgba(255, 0, 0, 0.2);
+            color: var(--danger-color);
+            transition: all 0.2s ease;
+        }
+        
+        .variable-row button:hover {
+            background: rgba(255, 0, 0, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .welcome-message {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 3rem;
+        }
+        
+        .welcome-message i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles-container"></div>
+    
+    <div class="app-container">
+        <!-- Header -->
+        <div class="table-header">
+            <div class="header-left">
+                <h1><i class="fas fa-table"></i> PBT Studio - Table View</h1>
+                <a href="/" class="btn btn-outline" style="margin-left: 1rem;">
+                    <i class="fas fa-columns"></i> Classic View
+                </a>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-outline theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                    <i class="fas fa-moon"></i> <span id="theme-text">Dark</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="table-content">
+            <!-- Configuration Panel -->
+            <div class="config-panel" id="config-panel">
+                <div class="resize-handle" id="resize-handle"></div>
+                
+                <h2 style="margin-bottom: 1.5rem;">Configuration</h2>
+                
+                <!-- Model Selection -->
+                <div class="form-section">
+                    <label>Select Models</label>
+                    <div class="model-checkboxes" id="model-selector">
+                        <!-- Default models -->
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="claude" checked>
+                            <span>Claude 3</span>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="gpt-4" checked>
+                            <span>GPT-4</span>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="gpt-3.5-turbo" checked>
+                            <span>GPT-3.5 Turbo</span>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="ollama">
+                            <span>Ollama (Local)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Prompt -->
+                <div class="form-section">
+                    <label for="prompt-input">Prompt</label>
+                    <textarea id="prompt-input" class="prompt-textarea" 
+                              placeholder="Enter your prompt here..." 
+                              oninput="detectVariables()">Summarize the following text in {{num_sentences}} sentences:
+
+{{text}}</textarea>
+                </div>
+                
+                <!-- Variables -->
+                <div class="form-section">
+                    <label>Variables <button class="btn btn-xs" onclick="addVariable()" style="margin-left: 0.5rem;">+ Add</button></label>
+                    <div id="variables-container"></div>
+                </div>
+                
+                <!-- Expected Output -->
+                <div class="form-section">
+                    <label for="expected-output">Expected Output (Optional)</label>
+                    <textarea id="expected-output" class="expected-textarea" 
+                              placeholder="Enter expected output for scoring...">Artificial intelligence and machine learning are revolutionizing industries by processing large datasets to identify patterns and make unprecedented predictions. This transformation brings significant opportunities but also raises important ethical considerations.</textarea>
+                </div>
+                
+                <!-- Parameters -->
+                <div class="form-section">
+                    <label>Parameters</label>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-size: 0.9rem; text-transform: none;">
+                            Temperature: <span id="temperature-value">0.7</span>
+                        </label>
+                        <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7"
+                               oninput="document.getElementById('temperature-value').textContent = this.value"
+                               style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.9rem; text-transform: none;">Max Tokens</label>
+                        <input type="number" id="max-tokens" value="1000" min="1" max="4000"
+                               class="form-input">
+                    </div>
+                </div>
+                
+                <!-- Compare Button -->
+                <button class="btn btn-primary btn-large" onclick="compareModels()">
+                    <i class="fas fa-bolt"></i> Compare Models
+                </button>
+            </div>
+            
+            <!-- Models Area -->
+            <div class="models-area" id="models-area">
+                <div class="welcome-message">
+                    <div>
+                        <i class="fas fa-robot"></i>
+                        <h3>Ready to Compare</h3>
+                        <p>Select models and click "Compare Models" to see responses side-by-side.</p>
+                        <p>Each model will appear in its own column for easy comparison.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Comparing models...</p>
+            <div id="loading-progress"></div>
+        </div>
+    </div>
+    
+    <script src="/static/app.js"></script>
+    <script>
+        // Table-specific functionality
+        let isResizing = false;
+        let startX = 0;
+        let startWidth = 0;
+        
+        // Resize functionality
+        const resizeHandle = document.getElementById('resize-handle');
+        const configPanel = document.getElementById('config-panel');
+        
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startX = e.clientX;
+            startWidth = configPanel.offsetWidth;
+            resizeHandle.classList.add('resizing');
+            document.body.style.cursor = 'ew-resize';
+            e.preventDefault();
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            
+            const width = startWidth + (e.clientX - startX);
+            if (width >= 300 && width <= 600) {
+                configPanel.style.width = width + 'px';
+            }
+        });
+        
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                resizeHandle.classList.remove('resizing');
+                document.body.style.cursor = '';
+            }
+        });
+        
+        // Override display results for table layout
+        function displayResults(data) {
+            hideLoadingState();
+            
+            const modelsArea = document.getElementById('models-area');
+            modelsArea.innerHTML = '';
+            
+            data.models.forEach(model => {
+                const column = document.createElement('div');
+                column.className = 'model-column';
+                
+                // Score display
+                let scoreDisplay = '';
+                if (data.has_expected_output && model.score !== null && model.score !== undefined) {
+                    const scoreClass = model.score >= 8 ? 'score-high' : 
+                                     model.score >= 6 ? 'score-medium' : 'score-low';
+                    scoreDisplay = `<span class="score-badge ${scoreClass}">${model.score.toFixed(1)}/10</span>`;
+                }
+                
+                column.innerHTML = `
+                    <div class="model-header">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span class="model-name">${model.model}</span>
+                            ${scoreDisplay}
+                        </div>
+                        <div class="model-stats">
+                            <span class="stat-item"><i class="fas fa-clock"></i> ${model.response_time.toFixed(2)}s</span>
+                            <span class="stat-item"><i class="fas fa-coins"></i> $${model.cost.toFixed(4)}</span>
+                            <span class="stat-item"><i class="fas fa-file-alt"></i> ${model.tokens} tokens</span>
+                        </div>
+                    </div>
+                    <div class="model-output">
+                        <div class="output-text">${escapeHtml(model.output)}</div>
+                    </div>
+                `;
+                
+                modelsArea.appendChild(column);
+            });
+        }
+        
+        // Custom loadModels for table view
+        async function loadModelsTable() {
+            try {
+                const response = await fetch('/api/models');
+                const data = await response.json();
+                
+                const modelSelector = document.getElementById('model-selector');
+                modelSelector.innerHTML = '';
+                
+                data.models.forEach(model => {
+                    const label = document.createElement('label');
+                    label.className = 'model-checkbox';
+                    label.innerHTML = `
+                        <input type="checkbox" value="${model.id}" ${['claude', 'gpt-4', 'gpt-3.5-turbo'].includes(model.id) ? 'checked' : ''}>
+                        <span>${model.name}</span>
+                    `;
+                    modelSelector.appendChild(label);
+                });
+            } catch (error) {
+                console.error('Failed to load models:', error);
+                // Keep default models on error
+            }
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load models for table view
+            loadModelsTable();
+            
+            // Create particles
+            createFloatingParticles();
+            
+            // Check theme
+            const savedTheme = localStorage.getItem('pbt-theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                updateThemeToggle();
+            }
+            
+            // Detect variables from default prompt
+            detectVariables();
+        });
+        
+        // Add variable function
+        function addVariable(name = '') {
+            const container = document.getElementById('variables-container');
+            const varId = `var-${Date.now()}`;
+            
+            const varRow = document.createElement('div');
+            varRow.className = 'variable-row';
+            varRow.id = varId;
+            varRow.innerHTML = `
+                <input type="text" class="var-name" placeholder="Variable name" value="${name}">
+                <input type="text" class="var-value" placeholder="Value">
+                <button class="btn btn-sm btn-outline" onclick="removeVariable('${varId}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            container.appendChild(varRow);
+        }
+        
+        function removeVariable(id) {
+            document.getElementById(id).remove();
+        }
+        
+        // Variable detection
+        function detectVariables() {
+            const prompt = document.getElementById('prompt-input').value;
+            const variablePattern = /\{\{(\w+)\}\}/g;
+            const detectedVars = new Set();
+            
+            let match;
+            while ((match = variablePattern.exec(prompt)) !== null) {
+                detectedVars.add(match[1]);
+            }
+            
+            // Get current variables
+            const currentVars = new Set();
+            document.querySelectorAll('.variable-row').forEach(row => {
+                const nameInput = row.querySelector('.var-name');
+                if (nameInput && nameInput.value) {
+                    currentVars.add(nameInput.value);
+                }
+            });
+            
+            // Add new detected variables
+            detectedVars.forEach(varName => {
+                if (!currentVars.has(varName)) {
+                    addVariable(varName);
+                }
+            });
+        }
+        
+        // Compare models
+        async function compareModels() {
+            const prompt = document.getElementById('prompt-input').value;
+            const expectedOutput = document.getElementById('expected-output').value;
+            const temperature = parseFloat(document.getElementById('temperature').value);
+            const maxTokens = parseInt(document.getElementById('max-tokens').value);
+            
+            // Get selected models
+            const selectedModels = [];
+            document.querySelectorAll('.model-checkbox input:checked').forEach(checkbox => {
+                selectedModels.push(checkbox.value);
+            });
+            
+            if (!prompt) {
+                alert('Please enter a prompt');
+                return;
+            }
+            
+            if (selectedModels.length === 0) {
+                alert('Please select at least one model');
+                return;
+            }
+            
+            // Get variables
+            const variables = {};
+            document.querySelectorAll('.variable-row').forEach(row => {
+                const nameInput = row.querySelector('.var-name');
+                const valueInput = row.querySelector('.var-value');
+                if (nameInput && valueInput && nameInput.value && valueInput.value) {
+                    variables[nameInput.value] = valueInput.value;
+                }
+            });
+            
+            // Show loading
+            showLoadingState(selectedModels);
+            
+            try {
+                const response = await fetch('/api/compare', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt,
+                        models: selectedModels,
+                        variables,
+                        expected_output: expectedOutput,
+                        temperature,
+                        max_tokens: maxTokens
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                console.error('Comparison failed:', error);
+                alert(`Failed to compare models: ${error.message}`);
+                hideLoadingState();
+            }
+        }
+    </script>
+</body>
+</html>
