@@ -1,0 +1,170 @@
+# multilingual-search-poc
+
+Goals of this repo are to provide resources, motivation, and code (for migration and querying) to add multilingual support to our impact score and snippets features. Specfically, we add multilingual support by applying a multilingaul embedding to each document, and searching for documents using a query in any of the supported language. In this readme/repo will find migration steps to migrate a single ES index from our existing embeddings (english only and inferred outside of our system) to have an `embedding` field which is inferred by an elastic ML pipeline.
+
+Lastly at the end there are 2 queries (KNN, and a script_score query) which demonstrate the usage of this new field. these should be added to the information retrieval service once the data migration is done.
+
+Completion of this proejct should achieve 2-3 things:
+
+1. multilingual support (as metioned above)
+2. reduce the need for an "item set" of possible queries, or query expansion. (e.g. `i phone` and `iphone` should yield very similar query vectors and therefore their impact scores will be close to identical)
+3. expose our developers to an engagement with NVIDIA developers where they can help us speed up the query time of the vector-based impact score query
+
+Below are some steps to incorporate a multilingual model into both document inference and query inference (requires ES cluster version 8.12 or above). These steps include a detailed migration guide for a single index in addition to a couple of example queries to be included in IRS:
+
+
+1. add a multilingual model to the instance from console (i used [this](https://www.elastic.co/guide/en/machine-learning/current/ml-nlp-e5.html#trained-model-e5) guide) 
+```json
+PUT _inference/text_embedding/my-e5-model
+{
+  "service": "elasticsearch",
+  "service_settings": {
+    "num_allocations": 1,
+    "num_threads": 1,
+    "model_id": ".multilingual-e5-small"
+  }
+}
+```
+
+2. create a trained model pipeline using the model you made, and add it to the pipeline (see [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/ingest-pipeline-search-inference.html)). 
+
+
+```json
+PUT _ingest/pipeline/e5-small-embedding-pipeline
+// TODO improve this with error catching for embeddings
+{
+  
+  "description": "Text embedding pipeline",
+  "processors": [
+    {
+      "inference": {
+        "input_output": {
+          "input_field": "post",
+          "output_field": "post_embed"
+        },
+        "model_id": ".multilingual-e5-small"
+      }
+    }
+  ]
+}
+
+
+POST /_ingest/pipeline/e5-small-embedding-pipeline/_simulate
+{
+  "docs": [
+    {
+      "_index": "index",
+      "_id": "id",
+      "_source": {
+        "post":"hello world",
+        "foo": "bar"
+      }
+    }
+  ]
+}
+
+PUT /twitter_multilingual_test_large/_settings
+{
+  // apply to multiple indices at once? 
+  
+  "index": {
+    "default_pipeline": "e5-small-embedding-pipeline"
+  }
+}
+```
+
+Also - please ensure that a) queue capacity is high enough to handle the load and b) enough ML nodes are tasked in the cluster (jason suggests 10-15 ML nodes). 
+
+
+3. update an existing index to include the new mapping. This is a complicated set of operations, and for the best performance you should run the following operations in sequence. These are described below and should be written up into update scripts. When this os done, please do separate write and cleanup operatios to do steps 1-5 and 6-9 respectively. 
+
+
+  - ensure index is linked to e5 embeding pipeline
+  - create new index and copy old settings (while adding new)
+  - turn off CCR 
+  - increase or disable (-1) the refresh rate and disable replication
+  - run reindex operation
+
+  - add back CCR
+  - reduce the refresh rate and enable replication
+  - create an alias from the source index to the destination index
+  - delete the source index
+
+
+4. modify airflow DAGs to include new destination index name (cannot write to an alias)
+
+5. test by running the following queries, using `model_id`:
+
+```json
+// snippets query:
+POST /twitter_multilingual_test_large/_search
+{
+  "size": 10,
+  "_source": false, 
+  "fields": ["id","post","lang","location","created_timestamp"],
+  "knn": {
+    "field": "post_embed",
+    "k": 10,
+    "num_candidates": 1000,
+    "query_vector_builder": {
+      "text_embedding": { 
+        "model_id": ".multilingual-e5-small", 
+        "model_text": "hello world" 
+      }
+    },
+    "filter": {
+      "bool": {
+        "must": [
+          { "term": { "lang": "es" } },
+          { "range": { "created_timestamp": { "gte": "2022-01-01", "lte": "2024-12-31" } } }
+        ]
+      }
+    }
+  }
+}
+
+// time series query with model_id is not possible but you can split it into two separate queries
+
+POST /_ingest/pipeline/e5-small-embedding-pipeline/_simulate
+{
+
+  "_source": false, 
+  "fields": ["id","post","lang","location","created_timestamp"],
+  "docs": [
+    {
+      "_index": "index",
+      "_id": "id",
+      "_source": {
+        "post":"hello world",
+      }
+    }
+  ]
+}
+
+// second query (with query vector result from above):
+POST /twitter_multilingual_test_large/_search
+{
+  "query": {
+    "script_score": {
+      "query": {
+        "match_all": {}
+      },
+      "script": {
+        "source": "dotProduct(params.query_vector, 'embedding') + 1",
+        "params": {
+          "query_vector":[0,1,2]
+        }
+      }
+    }
+  },
+  "min_score": 1.8,
+  "aggs": {
+    "posts_per_day": {
+      "date_histogram": {
+        "field": "ingest_time",
+        "calendar_interval": "day"
+      }
+    }
+  }
+}
+```

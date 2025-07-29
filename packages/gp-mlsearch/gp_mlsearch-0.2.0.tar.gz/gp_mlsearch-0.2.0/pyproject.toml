@@ -1,0 +1,21 @@
+[build-system]
+requires       = ["setuptools>=65", "wheel"]
+build-backend  = "setuptools.build_meta"
+
+[project]
+name           = "gp-mlsearch"          # the pip install name
+version        = "0.2.0"
+description    = "K-NN + Elasticsearch helpers"
+readme         = "README.md"
+requires-python = ">=3.9"
+license        = { text = "MIT" }
+authors        = [{name="Isaac Kontomah", email="isaac.kontomah@growthprotocol.ai"}]
+
+dependencies = [
+  "elasticsearch>=8.13",
+  "sentence-transformers>=2.6",
+]
+
+[tool.setuptools]
+package-dir = {"" = "app"}      # <-- your code sits in app/
+packages    = ["db", "search"]  # whatever top-level pkgs exist in app/
