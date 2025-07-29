@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+            margin: 0;
+            padding: 2px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .header {
+            background-color: #FF6B35;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .date {
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 3px;
+            font-size: 12px;
+        }
+        .news-list {
+            padding: 10px;
+        }
+        .news-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+        .news-content {
+            flex: 1;
+        }
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        .news-rank {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            background-color: #f0f0f0;
+            color: #666;
+            border-radius: 50%;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .news-rank.top1 {
+            background-color: #FF5050;
+            color: white;
+        }
+        .news-rank.top2 {
+            background-color: #FF9300;
+            color: white;
+        }
+        .news-rank.top3 {
+            background-color: #FFB700;
+            color: white;
+        }
+        .news-rank.top4, .news-rank.top5 {
+            background-color: #FF6B35;
+            color: white;
+        }
+        .news-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1.4;
+        }
+        .footer {
+            text-align: center;
+            padding: 8px;
+            font-size: 10px;
+            color: #999;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>每日60秒读懂世界</h1>
+            <div class="date">{{ date }}</div>
+        </div>
+        <div class="news-list">
+            {% for item in news_items %}
+            <div class="news-item">
+                <span class="news-rank {% if item.index == 1 %}top1{% elif item.index == 2 %}top2{% elif item.index == 3 %}top3{% elif item.index == 4 or item.index == 5 %}top4{% endif %}">{{ item.index }}</span>
+                <div class="news-content">
+                    <div class="news-title">{{ item.title }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="footer">
+            来源：60s-api.viki.moe | 由日报插件生成
+        </div>
+    </div>
+</body>
+</html>
