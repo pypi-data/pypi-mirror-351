@@ -1,0 +1,19 @@
+[project]
+name = "icdmap"
+version = "0.1.0"
+description = "Offline ICD-9 and ICD-10 code mapping using SQLite"
+authors = [{ name = "Yong-Zhen Huang", email = "m946111005@tmu.edu.tw" }]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = ["pandas", "tqdm"]
+
+[project.scripts]
+icdmap = "icdmap.cli:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+icdmap = ["data/*.db"]
