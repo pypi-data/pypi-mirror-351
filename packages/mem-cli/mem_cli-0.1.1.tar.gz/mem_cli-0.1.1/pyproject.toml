@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mem_cli"
+version = "0.1.1"
+description = "Interface CLI interactive avec Textual et Click"
+authors = [
+  { name = "Guillaume Lefebvre", email = "guillaume@ldmail.fr" }
+]
+readme = "README.md"
+license = "MIT"
+dependencies = [
+  "click",
+  "textual",
+  "rich"
+]
+requires-python = ">=3.9"
+
+[project.scripts]
+mem-cli = "mem_cli.__main__:main"
