@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cronch"
+version = "0.0.1"
+description = "Reserved package name for the Cronch project."
+authors = [{ name = "Nolan Welch", email = "nolanwelch@outlook.com" }]
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
