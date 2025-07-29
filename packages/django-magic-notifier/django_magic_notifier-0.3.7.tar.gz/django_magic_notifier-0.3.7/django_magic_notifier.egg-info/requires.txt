@@ -1,0 +1,17 @@
+django>=2.2
+djangorestframework
+requests
+mjml-python
+
+[fcm]
+pyfcm
+
+[push]
+channels
+channels-redis
+
+[telegram]
+telethon
+
+[twilio]
+twilio
