@@ -1,0 +1,68 @@
+[Main]
+Name = {{name}}
+# Module configuration files
+#   files must end with *.conf
+ModuleDirectory = /etc/joule/module_configs
+
+# DataStream configuration files
+#   files must end with *.conf
+StreamDirectory = /etc/joule/stream_configs
+
+{% if generate_user_file %}
+# User management file
+UsersFile = /etc/joule/users.conf
+{% endif %}
+
+# Listen on address
+# set to 0.0.0.0 to listen on all interfaces
+# omit to only listen on UNIX socket
+{% if bind is not none %}
+IPAddress = {{ bind }}
+{% else %}
+# IPAddress = 127.0.0.1
+{% endif %}
+
+# Listen on port
+# required if IPAddress is specified
+{% if port is not none %}
+Port = {{ port }}
+{% else %}
+# Port = 8088
+{% endif %}
+
+# UNIX Socket directory (must be writable by joule user)
+SocketDirectory = /tmp/joule
+
+
+# PostgreSQL database connection
+# DSN format
+#   username:password@[domain|ip_address]:port/database
+Database = {{dsn}}
+
+# How often to flush stream data to database
+InsertPeriod = 5
+
+# How often to remove old data (from DataStream keep settings)
+CleanupPeriod = 60
+
+# How many lines to keep in each module log (rolling)
+MaxLogLines = 100
+
+# Echo logs so they are captured by journald. Set to yes or no
+EchoModuleLogs = yes
+
+[Proxies]
+# forward local sites as joule interfaces
+# list proxies by [site_name = URL] example:
+# NOTE: do not use "localhost", you must specify the IP address
+
+# rails_app = http://127.0.0.1:3000
+
+# This section enables HTTPS, omit to run server with HTTP,
+# you must create the appropriate keys and certificates seperately,
+# these paths are examples only
+
+# [Security]
+# Certificate =  /etc/joule/security/server.crt
+# Key = /etc/joule/security/server.key
+# CertificateAuthority = /etc/joule/security/ca.crt
