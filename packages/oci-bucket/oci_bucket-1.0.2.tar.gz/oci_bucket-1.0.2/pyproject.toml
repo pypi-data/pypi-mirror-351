@@ -1,0 +1,17 @@
+[project]
+name = "oci_bucket"
+version = "1.0.2"
+description = "Package for easy Oci Buckets management in python."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "oci>=2.153.0",
+    "twine>=6.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/dsantiago/oci_bucket"
+Repository = "https://github.com/dsantiago/oci_bucket"
