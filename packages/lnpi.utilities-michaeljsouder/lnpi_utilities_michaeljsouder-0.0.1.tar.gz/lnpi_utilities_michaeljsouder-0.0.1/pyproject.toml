@@ -1,0 +1,18 @@
+[project]
+name = "lnpi.utilities_michaeljsouder"
+version = "0.0.1"
+authors = [
+  { name="Michael Souder", email="michaeljsouder@gmail.com" },
+]
+description = "A package for dealing with automation tasks in the lnpi lab/"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.umn.edu/soude017/lnpi.utilities"
