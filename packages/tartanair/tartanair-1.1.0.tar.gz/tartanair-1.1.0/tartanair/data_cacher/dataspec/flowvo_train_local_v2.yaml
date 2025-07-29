@@ -1,0 +1,24 @@
+---
+  task: flowvo
+  dataset_frame_skip: 0
+  dataset_seq_stride: 1
+  dataset_frame_dir: true
+  data:
+    "/home/wenshan/workspace/pytorch/geometry_vision/data_cacher/data/data_tartanairv2_local.txt":
+      modality: 
+        "flow":
+          type: flow_lcam_front
+          cacher_size: [160, 160]
+          length: 1
+        "motion":
+          type: motion_lcam_front
+          cacher_size: [6]
+          length: 1
+      cacher:
+        data_root_key: tartan2 
+        subset_framenum: 500
+        worker_num: 4
+      dataset:
+      parameter:
+        intrinsics: [640, 640, 320, 320, 320, 320]
+        intrinsics_scale: [0.25, 0.25]
