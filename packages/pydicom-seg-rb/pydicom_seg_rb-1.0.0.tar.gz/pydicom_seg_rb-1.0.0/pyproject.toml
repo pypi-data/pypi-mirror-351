@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pydicom-seg-rb"
+version = "1.0.0"
+description = "Python package for DICOM-SEG medical segmentation file reading and writing"
+authors = ["Pritam Rungta <59230352+pritamrungta@users.noreply.github.com>"]
+homepage = "https://github.com/pritamrungta/pydicom-seg-rb"
+readme = "README.md"
+license = "MIT"
+include = [
+    "pydicom_seg_rb/schemas/seg-schema.json",
+    "pydicom_seg_rb/schemas/common-schema.json"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+pydicom = ">=1.4.2"
+SimpleITK = ">=1.2.5"
+numpy = ">=2"
+jsonschema = ">=3.2.0"
+
+[build-system]
+requires = ["poetry>=1.0.5"]
+build-backend = "poetry.masonry.api"
