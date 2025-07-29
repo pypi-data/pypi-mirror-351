@@ -1,0 +1,5 @@
+[sourmash.cli_script]
+compare_rows = sourmash_plugin_tables:Command_Compare_Rows
+gather_tables = sourmash_plugin_tables:Command_Gather_Tables
+hash_tables = sourmash_plugin_tables:Command_Hash_Tables
+prefetch_tables = sourmash_plugin_tables:Command_Prefetch_Tables
