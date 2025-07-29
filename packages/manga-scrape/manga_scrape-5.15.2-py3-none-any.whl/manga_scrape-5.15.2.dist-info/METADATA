@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: manga_scrape
+Version: 5.15.2
+Summary: A python package used for automating finding manga chapters
+License: GPL-3.0
+Project-URL: Homepage, https://github.com/zwimer/manga
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: argcomplete
+Requires-Dist: zstdlib
+Requires-Dist: osascript
+Requires-Dist: regex
+Requires-Dist: requests
+Requires-Dist: rich
+Requires-Dist: tldextract
+Requires-Dist: tqdm
+Dynamic: license-file
+
+# Manga
+
+A collection of tools for scraping manga websites.
+These tools are geared towards OSX but can be adapted otherwise.
