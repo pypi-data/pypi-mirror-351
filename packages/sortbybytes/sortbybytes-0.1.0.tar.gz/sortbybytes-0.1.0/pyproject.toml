@@ -1,0 +1,17 @@
+[project]
+name = "sortbybytes"
+version = "0.1.0"
+description = "Format and sort byte values like 25.6MB, 5.6KB"
+authors = [{ name = "Praveenkumar Nedumaran", email = "creatorpravin@mail.com" }]
+readme = "README.md"
+license = "MIT"
+dependencies = ["re"]
+requires-python = ">=3.7"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sortbybytes"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: sortbybytes
+Version: 0.1.0
+Summary: Format and sort byte values like 25.6MB, 5.6KB
+Author-email: Praveenkumar Nedumaran <creatorpravin@mail.com>
+License-Expression: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: re
+Dynamic: license-file
