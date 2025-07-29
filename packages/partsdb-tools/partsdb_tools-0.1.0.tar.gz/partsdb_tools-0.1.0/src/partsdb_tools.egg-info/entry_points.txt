@@ -1,0 +1,6 @@
+[console_scripts]
+partsdb-file = partsdb_tools.files:main
+partsdb-format = partsdb_tools.format:main
+partsdb-pictures = partsdb_tools.picture:main
+partsdb-tools = partsdb_tools.app:main
+partsdb-validate = partsdb_tools.validate:main
