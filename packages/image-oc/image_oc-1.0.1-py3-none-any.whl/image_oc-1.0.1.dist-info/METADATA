@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: image_oc
+Version: 1.0.1
+Summary: Simplifies basic image manipulation in Python using Pillow
+Project-URL: Source, https://github.com/ouroboroscoding/image-oc
+Project-URL: Tracker, https://github.com/ouroboroscoding/image-oc/issues
+Author-email: "Chris Nasr - Ouroboros Coding Inc." <chris@ouroboroscoding.com>
+Maintainer-email: "Chris Nasr - Ouroboros Coding Inc." <chris@ouroboroscoding.com>
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: >=3.10
+Requires-Dist: piexif<1.4,>=1.1.3
+Requires-Dist: pillow<11.1,>=11.0.0
+Requires-Dist: tools-oc<1.3,>=1.2.5
+Description-Content-Type: text/markdown
+
+# image_oc
+[![pypi version](https://img.shields.io/pypi/v/image_oc.svg)](https://pypi.org/project/image_oc) ![MIT License](https://img.shields.io/pypi/l/image_oc.svg)
+
+Simplifies image manipulation in Python using Pillow
+
+## Install
+
+### Requires
+image_oc requires python 3.10 or higher
+
+### Install via pip
+```bash
+pip install image_oc
+```
