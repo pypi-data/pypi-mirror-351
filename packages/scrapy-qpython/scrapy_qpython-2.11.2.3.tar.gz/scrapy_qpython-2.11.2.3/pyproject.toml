@@ -1,0 +1,41 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+     "setuptools >= 61.0"
+]
+
+[project]
+name = "scrapy-qpython"
+version = "2.11.2.3"
+description = "A high-level Web Crawling and Web Scraping framework"
+readme = "README.md"
+license = {text = "BSD"}
+requires-python = "==3.12.*"
+authors = [
+    { name = "The QPYPI Team", email = "qpypi@qpython.org" },
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: Android",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development",
+]
+dependencies = [
+    "twisted-qpython", 
+    "cryptography-qpython", 
+    "service-identity-qpython", 
+    "pyopenssl-qpython", 
+    "parsel-qpython", 
+    "lxml-qpython", 
+    "zope.interface", 
+    "w3lib", 
+    "typing-extensions-qpython"
+]
+
+[project.urls]
+Homepage = "https://qpypi.qpython.org/project/scrapy-qpython/"

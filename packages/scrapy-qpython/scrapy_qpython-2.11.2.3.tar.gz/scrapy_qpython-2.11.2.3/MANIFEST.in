@@ -1,0 +1,23 @@
+include scrapy/*
+recursive-include scrapy/commands *
+recursive-include scrapy/contracts *
+recursive-include scrapy/core *
+recursive-include scrapy/core/downloader *
+recursive-include scrapy/core/downloader/handlers/ *
+recursive-include scrapy/core/http2 *
+recursive-include scrapy/downloadermiddlewares *
+recursive-include scrapy/extensions *
+recursive-include scrapy/http *
+recursive-include scrapy/http/request *
+recursive-include scrapy/http/response *
+recursive-include scrapy/linkextractors *
+recursive-include scrapy/loader *
+recursive-include scrapy/pipelines *
+recursive-include scrapy/selector *
+recursive-include scrapy/settings *
+recursive-include scrapy/spiders *
+recursive-include scrapy/templates/project *
+recursive-include scrapy/templates/project/module *
+recursive-include scrapy/templates/project/module/spiders *
+recursive-include scrapy/templates/spiders *
+recursive-include scrapy/utils *

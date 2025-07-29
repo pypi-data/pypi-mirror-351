@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: scrapy-qpython
+Version: 2.11.2.3
+Summary: A high-level Web Crawling and Web Scraping framework
+Author-email: The QPYPI Team <qpypi@qpython.org>
+License: BSD
+Project-URL: Homepage, https://qpypi.qpython.org/project/scrapy-qpython/
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: Android
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development
+Requires-Python: ==3.12.*
+Description-Content-Type: text/markdown
+Requires-Dist: twisted-qpython
+Requires-Dist: cryptography-qpython
+Requires-Dist: service-identity-qpython
+Requires-Dist: pyopenssl-qpython
+Requires-Dist: parsel-qpython
+Requires-Dist: lxml-qpython
+Requires-Dist: zope.interface
+Requires-Dist: w3lib
+Requires-Dist: typing-extensions-qpython
+
+This project is a branch of [Scrapy](https://pypi.org/project/Scrapy/) on [QPython](https://www.qpython.org).
+
+# Overview
+
+Scrapy is a BSD-licensed **fast high-level web crawling and web scraping framework**, used to crawl websites and extract structured data from their pages. It can be used for a wide range of purposes, from data mining to monitoring and automated testing.
+
+Scrapy is maintained by [Zyte](https://www.zyte.com/) (formerly Scrapinghub) and [many other contributors](https://github.com/scrapy/scrapy/graphs/contributors).
+
+Check the Scrapy homepage at [https://scrapy.org](https://scrapy.org) for more information, including a list of features.
+
+
+---
+
+# Documentation
+
+Documentation is available online at [https://docs.scrapy.org/](https://docs.scrapy.org/) and in the `docs` directory.
+
+Documentation
+=============
+
+Documentation is available online at https://docs.scrapy.org/ and in the ``docs``
+directory.
