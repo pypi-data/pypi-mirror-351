@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SLAP2_UTILS"
+version = "0.5.1"
+authors = [
+  { name="Peter Hogg", email="peterhogg2006@gmail.com" },
+  { name="Jerry Tong", email="jerrytong0810@gmail.com" }
+]
+
+description = "Code to support using a SLAP2 Microscope"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MPL-2.0"} 
+
+classifiers = [
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent"
+]
+
+
+dependencies = [
+    "numpy",
+    "scipy",
+    "h5py",
+    "scikit-image",
+    "PyQT6",
+    "matplotlib",
+    "vispy",
+    "pyneurotrace",
+    "zarr",          
+    "dask"
+]
+
+[project.optional-dependencies]
+cupy = ["cupy"]
+cuda11x = ["cupy-cuda11x"]
+cuda12x = ["cupy-cuda12x"]
+examples = ["notebook"]
+
+[project.scripts]
+pySLAP2Viewer = "slap2_utils.dataviewer.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Peter-Hogg/SLAP2_Utils"
+Issues = "https://github.com/Peter-Hogg/SLAP2_Utils/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["slap2_utils", "slap2_utils.*"]
