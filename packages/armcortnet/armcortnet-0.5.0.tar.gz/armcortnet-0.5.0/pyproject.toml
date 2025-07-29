@@ -1,0 +1,25 @@
+[project]
+name = "armcortnet"
+version = "0.5.0"
+description = "An automated deep learning pipeline for segmentation of the scapula, humerus, and their respective subregions in CT scans."
+authors = [
+    {name = "gspangenberg",email = "gspangen@uwo.ca"}
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+armcrop = ">=0.8.0"
+nnunetv2 = ">=2.5"
+huggingface-hub = ">=0.25.1"
+vtk = ">=9.0" 
+simpleitkutilities = ">=0.3.0"
+
+[tool.poetry]
+packages = [{include = "armcortnet"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
