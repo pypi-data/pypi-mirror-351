@@ -1,0 +1,11 @@
+*.egg-info
+*.o
+*.pyc
+*.so
+*.swp
+.eggs
+.pytest_cache
+__pycache__
+build/
+dist/
+stsci/image/version.py
