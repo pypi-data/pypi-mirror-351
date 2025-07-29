@@ -1,0 +1,92 @@
+{% extends "cfp/event/base.html" %}
+
+{% load compress %}
+{% load i18n %}
+{% load rich_text %}
+{% load static %}
+
+{% block scripts %}
+    {% compress js %}
+        <script src="{% static "js/jquery.js" %}"></script>
+        <script src="{% static "pretalx_public_voting/vote.js" %}"></script>
+        <script src="{% static "pretalx_public_voting/share.js" %}"></script>
+    {% endcompress %}
+{% endblock %}
+
+{% block stylesheets %}
+    {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static "common/css/_forms.css" %}" />
+        <link rel="stylesheet" href="{% static "pretalx_public_voting/vote.css" %}" />
+    {% endcompress %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Public voting" %}</h1>
+    {{ request.event.public_vote_settings.text|rich_text }}
+
+    {% if filter_active %}
+        <p class="alert alert-info">
+            {% trans "A filter is active. Only limited subset of all submission is shown." %}
+            <a href="{{ remove_filter_url }}">{% trans "Click here to reset." %}</a>
+        </p>
+    {% endif %}
+
+    {% if hashed_email %}
+        <form method="POST">
+            {% csrf_token %}
+            {% for submission in submissions %}
+                <div class="card submission-card">
+                    {% if submission.image and request.event.public_vote_settings.show_session_image %}
+                        <div class="card-img-top-wrapper">
+                            <img loading="lazy" src="{{ submission.image.url }}" alt="{% trans "This talk's header image" %}" class="card-img-top">
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="public-voting-header">
+                            <h3 class="card-title">{{ submission.title }}</h3>
+                            <a href="{% url 'plugins:pretalx_public_voting:signup' event=request.event.slug %}?submission_code={{ submission.code }}" data-pretalx-voting-selector="share" class="btn btn-link" data-pretalx-voting-copied-successful-text="{% trans 'Copied!' %}">
+                                <i class="fa fa-link" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {% if not request.event.public_vote_settings.anonymize_speakers %}
+                            <p class="card-subtitle mb-2 text-muted">{{ submission.display_speaker_names }}</p>
+                        {% endif %}
+                        <div class="card-text">
+                            {{ submission.abstract|rich_text|default:'-' }}
+                            {% if request.event.public_vote_settings.show_session_description and submission.description %}
+                                {{ submission.description|rich_text|default:'-' }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-header card-footer">
+                        <strong>{% trans "Score" %}:</strong>
+                        <div class="form ml-auto">
+                            {{ submission.vote_form.score.as_field_group }}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No submissions yet.</p>
+            {% endfor %}
+            {% include "orga/includes/pagination.html" %}
+
+            <div id="save-bar">
+                <i class="fa fa-spinner fa-spin d-none"></i>
+                <div id="js-save" class="m-2">
+                    <span class="badge color-primary pretalx-vote-badge-primary d-none">Saving…</span>
+                    <span class="badge color-success pretalx-vote-badge-success d-none">Saved!</span>
+                </div>
+                <noscript>
+                    <button class="btn btn-lg btn-info" name="action" value="manual">{% trans "Save!" %}</button>
+                </noscript>
+            </div>
+        </form>
+    {% else %}
+        <p>
+            {% blocktrans trimmed %}
+                This page is invalid. Please double-check that you have followed a complete link to this place.
+            {% endblocktrans %}
+            <a href="{% url "plugins:pretalx_public_voting:signup" event=request.event.slug %}">{% trans "Click here to sign up for voting." %}</a>
+        </p>
+    {% endif %}
+{% endblock %}
