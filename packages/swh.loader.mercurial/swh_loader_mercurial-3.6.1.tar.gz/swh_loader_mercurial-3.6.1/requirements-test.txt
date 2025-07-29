@@ -1,0 +1,10 @@
+celery-types
+pytest
+pytest-mock
+swh.core[http] >= 0.0.61
+swh.loader.core[testing] >= 5.18.1
+swh.scheduler[pytest] >= 3.1.0
+swh.storage[pytest] >= 3.1.0
+types-click
+types-deprecated
+types-python-dateutil
