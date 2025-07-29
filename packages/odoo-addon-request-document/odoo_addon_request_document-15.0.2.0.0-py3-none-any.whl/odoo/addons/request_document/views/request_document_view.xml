@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_request_document_tree" model="ir.ui.view">
+        <field name="name">view.request.document.line.tree</field>
+        <field name="model">request.document</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name" />
+                <field name="request_type" />
+                <field name="name_document" />
+                <field name="total_amount_document" sum="total_document" />
+                <field name="total_amount_request" readonly="1" sum="total_request" />
+                <field name="currency_id" invisible="1" />
+                <button
+                    name="open_request_document"
+                    icon="fa-file-text-o"
+                    string="Open Details"
+                    type="object"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <!-- <record id="view_request_document_form" model="ir.ui.view">
+        <field name="name">view.request.document.line.form</field>
+        <field name="model">request.document</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <>
+                </sheet>
+            </form>
+        </field>
+    </record> -->
+
+</odoo>
