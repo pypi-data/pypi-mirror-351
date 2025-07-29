@@ -1,0 +1,55 @@
+Metadata-Version: 2.4
+Name: mem_erreur
+Version: 0.1.1
+Summary: Gestion d'exceptions avec contrôle de sévérité (_fatal)
+Home-page: https://github.com/youruser/mem_erreur
+Author: Votre Nom
+Author-email: Votre Nom <you@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/youruser/mem_erreur
+Project-URL: Bug Tracker, https://github.com/youruser/mem_erreur/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+
+# mem_erreur
+
+Package Python pour la gestion avancée des exceptions avec niveau de sévérité (`_fatal`) et enrichissement contextuel (`code`, `target`).
+
+## 📦 Installation
+
+```bash
+pip install mem_erreur
+```
+
+## 🚀 Utilisation
+
+```python
+from mem_erreur import BaseException, BaseErreur, Erreur
+
+# Erreur critique par défaut
+raise BaseException("Erreur critique", code=1001, target="service-x")
+
+# Erreur non bloquante
+raise Erreur("Erreur mineure", code=42, target={"field": "email"})
+```
+
+## 🔧 Comportement automatique
+
+- Toute exception non capturée ayant `_fatal=False` sera **ignorée silencieusement**.
+- Les autres propageront le comportement standard (stacktrace + arrêt).
+
+## 🧪 Tests
+
+```bash
+pytest
+```
+
+## 📤 Publication PyPI
+
+```bash
+python -m build
+twine upload dist/*
+```

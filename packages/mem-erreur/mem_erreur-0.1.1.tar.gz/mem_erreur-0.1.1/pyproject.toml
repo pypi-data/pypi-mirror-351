@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mem_erreur"
+version = "0.1.1"
+description = "Gestion d'exceptions avec contrôle de sévérité (_fatal)"
+authors = [
+    {name="Votre Nom", email="you@example.com"}
+]
+dependencies = []
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/youruser/mem_erreur"
+"Bug Tracker" = "https://github.com/youruser/mem_erreur/issues"
