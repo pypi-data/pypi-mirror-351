@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: hatariTools
+Version: 0.0.2
+Summary: The Hatari repository for a bunch of Python tools in water resources.
+Author-email: Saul Montoya <saulmontoya@hatarilabs.com>
+License: CC0
+Project-URL: Homepage, https://github.com/hatarilabs/hatariTools
+Keywords: MODFLOW,groundwater,hydrogeology
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fiona>=1.9.6
+Requires-Dist: geopandas>=1.0.0
+Requires-Dist: numpy<2.2.5,>=1.26.4
+Requires-Dist: pandas>=2.2.2
+Requires-Dist: scipy<1.15.2,>=1.13.0
+Requires-Dist: shapely>=1.8.2
+Requires-Dist: rasterio>=1.3.8
+Requires-Dist: flopy>=3.9.2
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: paramiko>=3.5.1
+Dynamic: license-file
+
+hatariTools
+==========================
+_The Hatari repository for a bunch of Python tools in water resources._
+
+<img src="https://raw.githubusercontent.com/hatarilabs/mf6Voronoi/refs/heads/main/examples/figures/voronoiMeshinModflow6Disv.png" alt="flopy3" style="width:50;height:20">
+
+
+## Introduction
+
