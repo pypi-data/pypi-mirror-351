@@ -1,0 +1,89 @@
+[project]
+name = "loomx"
+version = "0.1.1"
+description = "A CLI tool that adds reference and backlink metadata to markdown documentation files"
+readme = "README.md"
+authors = [{ name = "Giff Song", email = "giff.song@gmail.com" }]
+requires-python = ">=3.9"
+license = {text = "MIT"}
+keywords = ["markdown", "documentation", "links", "cli", "developer-tools"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Text Processing :: Markup :: Markdown",
+]
+
+dependencies = [
+    "click>=8.1.0",
+    "pyyaml>=6.0", 
+    "pathspec>=0.11.0",
+    "mistune>=3.0.0",
+    "tomli>=2.0.0; python_version < '3.11'",
+]
+
+[project.urls]
+Homepage = "https://github.com/pawsong/loomx-py"
+Repository = "https://github.com/pawsong/loomx-py"
+Issues = "https://github.com/pawsong/loomx-py/issues"
+
+[project.scripts]
+loomx = "loomx:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+sources = ["src"]
+only-packages = true
+exclude = ["tests"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.14.1",
+    "types-pyyaml>=6.0.0",
+    "ruff>=0.8.0",
+    "poethepoet>=0.24.0",
+    "tomli>=2.0.0; python_version < '3.11'",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.loomx]
+exclude = ["tests/fixtures/**"]
+
+[tool.poe.tasks]
+test = "pytest -v"
+test-cov = "pytest --cov=loomx --cov-report=html --cov-report=term"
+lint = "ruff check src/ tests/"
+format = "ruff format src/ tests/"
+typecheck = "mypy src/"
+check = ["lint", "typecheck", "test"]
+build = "uv build"
+clean = """
+rm -rf dist/ build/ *.egg-info .pytest_cache .coverage htmlcov .mypy_cache .ruff_cache
+find . -type d -name __pycache__ -exec rm -rf {} +
+"""
+
+[tool.mypy]
+python_version = "3.9"
+
+[[tool.mypy.overrides]]
+module = "tomli"
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py39"
