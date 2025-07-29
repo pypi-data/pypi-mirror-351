@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: filux-framework
+Version: 0.2.1
+Summary: A Python File Framework
+Author: Blonicx
+License: 
+        
+        Copyright 2025 Blonicx
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+        
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: Pillow
+Dynamic: license-file
+
+# filux-framework
+
+[![GitHub stars](https://img.shields.io/github/stars/Blonicx/filux-framework?style=social)](https://github.com/Blonicx/filux-framework/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Blonicx/filux-framework?style=social)](https://github.com/Blonicx/filux-framework/network)
+[![GitHub issues](https://img.shields.io/github/issues/Blonicx/filux-framework)](https://github.com/Blonicx/filux-framework/issues)
+[![License](https://img.shields.io/github/license/Blonicx/filux-framework)](./LICENSE.txt)
+
+filux-framework is a Python file framework for easy file and directory manipulation, metadata extraction, and more.
+
+## Features
+
+- File operations: read, write, hash, zip, rename, move, delete
+- Directory operations: list, clear, filter by extension
+- Path utilities: compare files, download files
+- Cross-platform metadata extraction (Windows enhanced)
+- Simple, object-oriented API
+
+## Installation
+
+```sh
+pip install filux-framework
+```
+
+Or clone and install locally:
+
+```sh
+git clone https://github.com/Blonicx/filux-framework.git
+cd filux-framework
+pip install .
+```
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE.txt](LICENSE.txt) for details.
+
+---
+
+> Made with ❤️ by [Blonicx](https://github.com/Blonicx)
