@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "strangeworks-rigetti"
+version = "0.2.20"
+description = "Strangeworks Rigetti SDK extension"
+readme = "DESCRIPTION.md"
+authors = ["Strange Devs <hello@strangeworks.com>"]
+license = "Apache-2.0"
+packages = [
+    {include = "strangeworks_rigetti"},
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <4.00"
+strangeworks = "^0.5.11"
+pyquil="4.16.2"
+python-dotenv = "1.0.0"
+pdflatex = "^0.1.3"
+pillow = "^11.2.1"
+matplotlib = "^3.10.3"
+pymupdf = "^1.25.5"
+
+[tool.poetry.group.dev.dependencies]
+pandas = "^2.0.1"
+scikit-learn = "^1.2.2"
+black = "^22.1.0"
+Flask = "^2.0.2"
+pytest = "^7.0.1"
+pre-commit = "^2.20.0"
+ipykernel = "^6.29.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "setuptools", "wheel"]
+build-backend = "poetry.core.masonry.api"
