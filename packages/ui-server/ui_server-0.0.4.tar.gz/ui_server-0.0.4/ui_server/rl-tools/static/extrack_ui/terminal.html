@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExTrack Terminal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.6/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.6/keybinding-vim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.6/mode-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.6/theme-tomorrow.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./lib/three.module.js",
+                "three-orbitcontrols": "./lib/OrbitControls.js"
+            }
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+        .controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .file-select-container {
+            flex-grow: 1;
+        }
+        .file-select {
+            width: 100%;
+            min-height: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            overflow-x: scroll;
+        }
+        .file-select option {
+            padding: 8px 12px;
+        }
+        #editor {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .output {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        button:hover {
+            background: #f0f0f0;
+        }
+        .vim-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        /* Switch styles */
+        .form-switch {
+            display: inline-block;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .form-switch i {
+            position: relative;
+            display: inline-block;
+            margin-right: .5rem;
+            width: 46px;
+            height: 26px;
+            background-color: #e6e6e6;
+            border-radius: 23px;
+            vertical-align: text-bottom;
+            transition: all 0.3s linear;
+        }
+        .form-switch i::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 42px;
+            height: 22px;
+            background-color: #fff;
+            border-radius: 11px;
+            transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+            transition: all 0.25s linear;
+        }
+        .form-switch i::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 22px;
+            height: 22px;
+            background-color: #fff;
+            border-radius: 11px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
+            transform: translate3d(2px, 2px, 0);
+            transition: all 0.2s ease-in-out;
+        }
+        .form-switch:active i::after {
+            width: 28px;
+            transform: translate3d(2px, 2px, 0);
+        }
+        .form-switch:active input:checked + i::after { transform: translate3d(16px, 2px, 0); }
+        .form-switch input { display: none; }
+        .form-switch input:checked + i { background-color: #67b1ae; }
+        .form-switch input:checked + i::before { transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0); }
+        .form-switch input:checked + i::after { transform: translate3d(22px, 2px, 0); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="file-select-container">
+            <select id="fileSelect" multiple class="file-select">
+            </select>
+        </div>
+        <div class="controls">
+            <button id="executeButton">Execute (Ctrl+Enter)</button>
+            <div class="vim-control">
+                <label class="form-switch">
+                    <input type="checkbox" id="vimToggle">
+                    <i></i>
+                </label>
+                <span>Vim Mode</span>
+            </div>
+        </div>
+    </div>
+    <div id="editor"></div>
+    <div id="output" class="output"></div>
+    <div id="output2" class="output" style="display: none;">
+    </div>
+</div>
+
+<script>
+
+    const experiments_path = "/experiments"
+    const STORAGE_KEYS = {
+        CODE: 'editor_code',
+        VIM_MODE: 'editor_vim_mode',
+        SELECTED_FILES: 'selected_files'
+    };
+
+    async function fetchAndProcessIndex() {
+        try {
+            const response = await fetch(`${experiments_path}/index.txt`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch the index file');
+            }
+            const text = await response.text();
+            const paths = text.split('\n').map(path => path.trim());
+            const filteredPaths = paths.filter(path => path.endsWith('.json') || path.endsWith('.json.gz'));
+            return filteredPaths.sort();
+        } catch (error) {
+            console.error('Error:', error);
+            return [];
+        }
+    }
+
+    async function main(){
+        const paths = await fetchAndProcessIndex();
+
+        const editor = ace.edit("editor");
+        editor.setTheme("ace/theme/tomorrow");
+        editor.session.setMode("ace/mode/javascript");
+        editor.setOptions({
+            fontSize: '14px',
+            showPrintMargin: false,
+        });
+
+        const savedCode = localStorage.getItem(STORAGE_KEYS.CODE) || `// Selected files data is available as 'data' object
+// Keys are file paths, values are file contents
+// Example: console.log(data)
+
+console.log("Selected files data:", data);
+
+// Example: List all selected file paths
+console.log("\\nSelected files:");
+Object.keys(data).forEach(path => console.log(path));
+scatter([{label: 'test', data: [{x: 1, y: 2}, {x: 2, y: 4}]}], "X-Label", "Y-Label", "Title");
+`;
+
+        editor.setValue(savedCode, -1);
+
+        const selectedFilesString = localStorage.getItem(STORAGE_KEYS.SELECTED_FILES) || "{}";
+        const selectedFiles = JSON.parse(selectedFilesString);
+        const fileSelect = document.getElementById('fileSelect');
+        paths.forEach(filename => {
+            const option = document.createElement('option');
+            option.value = filename;
+            option.textContent = filename;
+            if (selectedFiles[filename]) {
+                option.selected = true;
+            }
+            fileSelect.appendChild(option);
+        });
+
+        const output = document.getElementById('output');
+        const output2 = document.getElementById('output2');
+
+        const vimToggle = document.getElementById('vimToggle');
+
+        const savedVimMode = localStorage.getItem(STORAGE_KEYS.VIM_MODE) === 'true';
+        vimToggle.checked = savedVimMode;
+        editor.setKeyboardHandler(savedVimMode ? "ace/keyboard/vim" : null);
+
+        vimToggle.addEventListener('change', () => {
+            editor.setKeyboardHandler(vimToggle.checked ? "ace/keyboard/vim" : null);
+            localStorage.setItem(STORAGE_KEYS.VIM_MODE, vimToggle.checked);
+        });
+
+        fileSelect.addEventListener('keydown', (e) => {
+            if (e.key === 'a' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                Array.from(fileSelect.options).forEach(option => option.selected = true);
+            }
+        });
+        fileSelect.addEventListener('change', () => {
+            const selectedFiles = Array.from(fileSelect.selectedOptions).reduce((acc, option) => {
+                acc[option.value] = true;
+                return acc;
+            }, {});
+            localStorage.setItem(STORAGE_KEYS.SELECTED_FILES, JSON.stringify(selectedFiles));
+        });
+
+        let state = {
+            charts: []
+        }
+        async function executeCode() {
+            localStorage.setItem(STORAGE_KEYS.CODE, editor.getValue());
+
+            const fetchPromises = Array.from(fileSelect.selectedOptions).map(async (option) => {
+                const res = await fetch(`${experiments_path}/${option.value}`);
+                if (!res.ok) {
+                    throw new Error(`Failed to fetch content from ${option.value}`);
+                }
+                let content;
+                if(option.value.slice(-3) === '.gz'){
+                    const compressedData = await res.arrayBuffer();
+                    const decompressedData = pako.ungzip(new Uint8Array(compressedData), { to: 'string' });
+                    content = JSON.parse(decompressedData);
+                }
+                else{
+                    content = await res.json();
+                }
+                return [option.value, content];
+            });
+
+            const entries = await Promise.all(fetchPromises);
+            const data = Object.fromEntries(entries);
+
+            const code = editor.getValue();
+            output.textContent = '';
+
+            state.charts.map(chart => chart.destroy());
+            output2.innerHTML = '';
+            function scatter(input_data, x_axis_label, y_axis_label, title) {
+                const output2 = document.getElementById('output2');
+                output2.style.display = 'block';
+                const canvas = document.createElement('canvas');
+                canvas.style.width = '100%';
+                canvas.style.height = '500px';
+                output2.appendChild(canvas);
+                const ctx = canvas.getContext('2d');
+
+                const xAxisLabel = x_axis_label || 'X-Axis';
+                const yAxisLabel = y_axis_label || 'Y-Axis';
+                const chartTitle = title || '';
+
+                const scatter_chart = new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: input_data
+                    },
+                    options: {
+                        animation: false,
+                        plugins: {
+                            title: {
+                                display: !!chartTitle,
+                                text: chartTitle
+                            }
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                title: {
+                                    display: true,
+                                    text: xAxisLabel
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: yAxisLabel
+                                }
+                            }
+                        }
+                    }
+                });
+                state.charts.push(scatter_chart);
+            }
+
+
+            try {
+                const func = new Function('data', 'output', `
+                    const console = {
+                        log: (...args) => {
+                            output.console_container.textContent += args.map(arg =>
+                                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                            ).join(' ') + '\\n';
+                        },
+                        clear: () => {
+                            output.console_container.textContent = '';
+                        }
+                    };
+                    ${code}
+                `);
+
+                func(data, {"console_container": output, "container": output2, "scatter": scatter});
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        document.getElementById('executeButton').addEventListener('click', executeCode);
+
+        editor.commands.addCommand({
+            name: 'executeCode',
+            bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
+            exec: executeCode
+        });
+    }
+    main()
+</script>
+</body>
+</html>
+
+<!--
+
+const experiments_stub = "/experiments"
+const run_stub = Object.keys(data)[0].split("/").slice(0, -3).join("/")
+ui_path = `${experiments_stub}/${run_stub}/ui.esm.js`
+
+const container = output.container
+const training_step_data = data[Object.keys(data)[0]]
+const old_execution_id = window.terminal_execution_id === undefined ? -1 : window.terminal_execution_id;
+const execution_id = old_execution_id + 1;
+window.terminal_execution_id = execution_id
+async function main(){
+    console.log(ui_path)
+
+    const ui = await import(ui_path)
+
+    container.style.display = "block"
+    container.innerHTML = "hello"
+
+    container.innerHTML = ""
+    container.style.textAlign = "center"
+    const canvas = document.createElement('canvas')
+    canvas.width = 800
+    canvas.height = 800
+    container.appendChild(canvas);
+    container.appendChild(document.createElement("br"))
+    const button = document.createElement("button")
+    button.innerText = "reset"
+    container.appendChild(button)
+    ui_state = await ui.init(canvas, {devicePixelRatio: window.devicePixelRatio})
+    if(ui_state.cursor_grab){
+        canvas.style.cursor = "grab"
+    }
+    const drones = await Promise.all(training_step_data.map(async trajectory => {
+        const parameters = trajectory.parameters
+        parameters.ui = {
+            camera_distance: 20
+        }
+        const drone = new ui.Drone(parameters)
+        ui_state.simulator.add(drone.get())
+        const steps = trajectory.trajectory
+        return {parameters, drone, steps}
+    }))
+    const normal_dt = drones[0].steps[0].dt
+    const rollover_dt = 1
+    let dt = rollover_dt
+    let current_step = 0;
+    let last_animation_frame = new Date()
+    button.addEventListener('click', () => {
+        current_step = 0;
+        dt = rollover_dt;
+        last_animation_frame = new Date()
+    });
+    async function loop(){
+        const now = new Date()
+        if((now - last_animation_frame)/1000 >= dt){
+            current_step += 1
+            if(current_step >= drones[0].steps.length){
+                current_step = 0
+                dt = rollover_dt
+            }
+            else{
+                dt = normal_dt
+            }
+            last_animation_frame = now
+        }
+        drones.map(drone => {
+            const state = drone.steps[current_step].state
+            drone.drone.drone.position.set(...state.position)
+            drone.drone.drone.quaternion.copy(new ui_state.THREE.Quaternion(state.orientation[1], state.orientation[2], state.orientation[3], state.orientation[0]).normalize())
+        })
+        ui_state.controls.update()
+        ui_state.renderer.render(ui_state.scene, ui_state.camera);
+        if(window.terminal_execution_id === execution_id){
+            requestAnimationFrame(loop)
+        }
+    }
+    loop()
+}
+main()
+
+-->
+
+
+
+
+
+
+
+
+
+<!--
+mass_thrust_no_crash = []
+mass_thrust_crash = []
+tw_ti_no_crash = []
+tw_ti_crash = []
+tw_ti_scale_no_crash = []
+tw_ti_scale_crash = []
+initial_position_orientation_no_crash = []
+initial_position_orientation_crash = []
+Object.keys(data).forEach(path => {
+    JSON.parse(data[path]).forEach(trajectory =>{
+        // console.log(trajectory.parameters.dynamics.rotors[0].thrust_curve)
+        const single_rotor_thrust = trajectory.parameters.dynamics.rotors[0].thrust_curve.reduce((a, c) => a + c)
+        mass_thrust = {
+            x: trajectory.parameters.dynamics.mass,
+            y: single_rotor_thrust * 4
+        }
+        const thrust_to_weight = single_rotor_thrust * 4/ (trajectory.parameters.dynamics.mass*9.81)
+        const rotor_position = trajectory.parameters.dynamics.rotors[0].pose.position
+        const rotor_lever = Math.sqrt(rotor_position[0] * rotor_position[0] + rotor_position[1] * rotor_position[1] + rotor_position[2] * rotor_position[2])
+        const torque = rotor_lever * Math.sqrt(2) * single_rotor_thrust
+        const inertia = trajectory.parameters.dynamics.J[0][0]
+        const torque_to_inertia = torque / inertia
+        tw_ti = {
+            x: thrust_to_weight,
+            y: torque_to_inertia
+        }
+        tw_ti_scale = {
+            x: rotor_lever,
+            y: thrust_to_weight / torque_to_inertia
+        }
+        const initial_position = trajectory.trajectory[0].state.position
+        const initial_distance = Math.sqrt(initial_position[0] * initial_position[0] * initial_position[1] * initial_position[1] * initial_position[2] * initial_position[2])
+        const initial_orientation = trajectory.trajectory[0].state.orientation
+        const [w, x, y, z] = initial_orientation;
+        const length = Math.sqrt(x * x + y * y + z * z + w * w);
+        const angle = 2 * Math.acos(w / length);
+        const angle_degrees = angle * (180 / Math.PI);
+        let angle_degrees_normalized = angle_degrees % 360;
+        if (angle_degrees_normalized < 0) angle_degrees_normalized += 360;
+        angle_degrees_normalized = Math.min(angle_degrees_normalized, 360 - angle_degrees_normalized);
+        const position_orientation = {
+            x: initial_distance,
+            y: angle_degrees_normalized
+        }
+
+        if(trajectory.trajectory.some(x => x.terminated === true) === true){
+            mass_thrust_crash.push(mass_thrust)
+            tw_ti_crash.push(tw_ti)
+            tw_ti_scale_crash.push(tw_ti_scale)
+            initial_position_orientation_crash.push(position_orientation)
+        }
+        else{
+            mass_thrust_no_crash.push(mass_thrust)
+            tw_ti_no_crash.push(tw_ti)
+            tw_ti_scale_no_crash.push(tw_ti_scale)
+            initial_position_orientation_no_crash.push(position_orientation)
+        }
+    })
+})
+
+
+output.scatter([{label: "no crash", data: mass_thrust_no_crash}, {label: "crash", data: mass_thrust_crash}], "Mass [kg]", "Thrust [N]", "Thrust to Mass")
+output.scatter([{label: "no crash", data: tw_ti_no_crash}, {label: "crash", data: tw_ti_crash}], "Thrust to Weight Ratio", "Torque to Inertia Ratio", "Thrust to weight / Torque to Inertia")
+output.scatter([{label: "no crash", data: tw_ti_scale_no_crash}, {label: "crash", data: tw_ti_scale_crash}], "Radius [m]", "Thrust to Weight to Torque to Inertia Ratio", "Thrust to weight / Torque to Inertia by Scale")
+output.scatter([{label: "no crash", data: initial_position_orientation_no_crash}, {label: "crash", data: initial_position_orientation_crash}], "Initial Distance From Origin [m]", "Initial Orientation [degrees]", "Initial Position / Orientation")
+-->
