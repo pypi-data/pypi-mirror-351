@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: AnarchKeyClient
+Version: 1.0.0
+Summary: A Client package to connect and retrieve api keys from vault serivce called AnarchKey
+Author-email: AkiTheMemeGod <k.akashkumar@gmail.com>
+Project-URL: Homepage, https://github.com/AkiTheMemeGod/AnarchKey_PyPi_Package
+Project-URL: Bug Tracker, https://github.com/AkiTheMemeGod/AnarchKey_PyPi_Package/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# WarBorne
+
+A simple hashing library that generates hashes based on vowel counting.
+
+## Installation
+```bash
+pip install warborne
+```
+## Usage
+
+```python
+from warborne import WarBorne
+
+# Create a WarBorne instance
+wb = WarBorne()
+
+# Hash a string
+hash_value = wb.hash("Hello, World!")
+print(hash_value)
+
+# Hash a file
+file_hash = wb.hash_file("path/to/file.txt")
+print(file_hash)
+```
+
+## License MIT
