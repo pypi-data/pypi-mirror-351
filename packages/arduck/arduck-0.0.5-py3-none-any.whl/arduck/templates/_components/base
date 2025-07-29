@@ -1,0 +1,64 @@
+#include <Keyboard.h>
+{{ "#include <Keyboard_" + keyboard_layout + ".h>\n\n" if keyboard_layout != "en_US" else "\n" -}}
+
+#define KEYPRESS_DELAY {{ (1000 / ((wpm * 5) / 60)) | int if wpm else 0 }}
+#define LENGTH {{ keystrokes | length }}
+
+const char KEYSTROKES[LENGTH] = {
+{%- block keystrokes_array -%}{%- endblock -%}
+};
+
+unsigned int i = 0;
+bool hold_down = false;
+
+{% block custom_functions %}{% endblock %}
+
+void doProgrammedSleep(unsigned int i) {
+  {%- if interval_mapping|length != 0 %}
+  switch (i) {
+  {%- for index, sleep_interval in interval_mapping %}
+    case {{ index }}:
+      delay({{ sleep_interval }});
+      break;
+  {%- endfor %}
+  }
+  {%- endif %}
+}
+
+
+void setup() {
+  randomSeed(analogRead(0));
+
+  Keyboard.begin(KeyboardLayout_{{ keyboard_layout }});
+  delay(2000);
+}
+
+
+void loop() {
+  doProgrammedSleep(i);
+
+  // begin.
+  if (i == 0) {
+    {%- block on_start -%}{%- endblock %}
+  }
+
+  // end.
+  if (i == LENGTH) {
+    {%- block on_end -%}{%- endblock %}
+  }
+
+  if (KEYSTROKES[i] == 0) {
+    {%- block on_combo_switch -%}{%- endblock %}
+  } else {
+    if (hold_down) {
+      {%- block press_key -%}{%- endblock %}
+    } else {
+      {%- block write_key -%}{%- endblock %}
+    }
+
+    // keystroke delay.
+    delay({%- block keystroke_delay -%}KEYPRESS_DELAY + random((int) (0.1 * KEYPRESS_DELAY)){%- endblock -%});
+  }
+
+  i++;
+}

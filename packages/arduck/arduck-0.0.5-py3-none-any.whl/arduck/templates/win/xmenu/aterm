@@ -1,0 +1,23 @@
+{%- set __prefix_keystrokes = ["\0", "KEY_LEFT_GUI", "x", "\0", "a", "KEY_LEFT_ARROW", "\n"] -%}
+{%- set __prefix_interval_mapping = [(4, 200), (5, 500), (6, 300), (7, 700)] -%}
+
+
+{%- set keystrokes = __prefix_keystrokes + keystrokes -%}
+
+{%- for index, interval in interval_mapping -%}
+  {%- set _ = interval_mapping.pop(loop.index - 1) -%}
+  {%- set _ = interval_mapping.insert(loop.index - 1, (index + (__prefix_keystrokes | length), interval)) -%}
+{%- endfor -%}
+
+{%- if interval_mapping | length > 0 -%}
+  {%- if interval_mapping[0][0] == __prefix_interval_mapping[-1][0] == __prefix_keystrokes | length -%}
+    {%- set tmp = interval_mapping.pop(0) -%}
+    {%- set interval_mapping = __prefix_interval_mapping[:-1] + [(tmp[0], tmp[1] + __prefix_interval_mapping[-1][1])] + interval_mapping -%}
+  {%- else -%}
+    {%- set interval_mapping = __prefix_interval_mapping + interval_mapping -%}
+  {%- endif -%}
+{%- else -%}
+  {%- set interval_mapping = __prefix_interval_mapping + interval_mapping -%}
+{%- endif -%}
+
+{% include '_components/any' %}

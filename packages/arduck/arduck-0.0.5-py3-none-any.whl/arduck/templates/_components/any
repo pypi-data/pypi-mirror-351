@@ -1,0 +1,41 @@
+{% extends '_components/base' %}
+
+{% block keystrokes_array %}
+{%- for key in keystrokes %}
+  {%- if key|length == 1 -%}
+    '{{ key | replace("\0", "\\0") | replace("\f","\\f") | replace("\n","\\n") | replace("\r","\\r") | replace("\t","\\t") | replace("\v","\\v") }}'
+  {%- else -%}
+    {{ key }}
+  {%- endif -%}
+
+  {{ ", " if not loop.last else "" }}
+{%- endfor -%}
+{% endblock %}
+
+
+{% block on_end %}
+  {%- if do_repeat is not false %}
+    i = 0;
+    {{- " delay(" ~ do_repeat ~ ");" if do_repeat != 0 }}
+    return;
+  {%- else %}
+    Keyboard.end();
+    while (1) {}  // zzz.
+  {%- endif -%}
+{%- endblock %}
+
+{% block on_combo_switch %}
+    if (hold_down) {
+      Keyboard.releaseAll();
+    }
+
+    hold_down = !hold_down;
+{%- endblock %}
+
+{% block press_key %}
+      Keyboard.press(KEYSTROKES[i]);
+{%- endblock %}
+
+{% block write_key %}
+      Keyboard.write(KEYSTROKES[i]);
+{%- endblock %}

@@ -1,0 +1,124 @@
+{% extends '_components/any' %}
+
+{%- set vars = namespace(hold_down=false, special_keys=[]) -%}
+
+
+{% block keystrokes_array %}
+
+{%- for key in keystrokes %}
+  {%- if key|length == 1 -%}
+    {%- set char = key | replace("\0", "\\0") | replace("\f","\\f") | replace("\n","\\n") | replace("\r","\\r") | replace("\t","\\t") | replace("\v","\\v") -%}
+
+    {%- if key == "\0" -%}
+      {%- set vars.hold_down = not vars.hold_down -%}
+      '{{ char }}'
+
+    {%- else -%}
+      {%- if vars.hold_down -%}
+        '{{ char }}'
+
+      {%- else -%}
+        {%- if char | encode("cp1252") | btoi > 255 -%}
+          '{{ char }}'
+          {%- set _ = vars.special_keys.append(loop.index - 1) -%}
+
+        {%- else -%}
+          {{ char | encode("cp1252") | btoi}}
+
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- else -%}
+
+    {%- if not vars.hold_down -%}
+      {%- set _ = vars.special_keys.append(loop.index - 1) -%}
+
+    {%- endif -%}
+    {{ key }}
+
+  {%- endif -%}
+
+  {{ ", " if not loop.last else "" }}
+{%- endfor -%}
+{% endblock %}
+
+
+{% block custom_functions %}
+unsigned int numberToKp(unsigned int number) {
+  unsigned int digit = number % 10;
+
+  return (digit > 0) ? digit + KEY_KP_1 - 1 : KEY_KP_0;
+}
+
+
+void writeAltCode(char code) {
+  unsigned int u = code % 10, v = code % 100;
+  unsigned int n[3] = {(code - v) / 100, (v - u) / 10, u};
+
+
+  Keyboard.press(KEY_LEFT_ALT);
+
+  Keyboard.press(KEY_KP_0);
+  Keyboard.release(KEY_KP_0);
+
+  for (unsigned int i = 0; i < 3; i++) {
+    Keyboard.press(numberToKp(n[i]));
+    Keyboard.release(numberToKp(n[i]));
+  }
+
+  Keyboard.release(KEY_LEFT_ALT);
+}
+{% endblock %}
+
+
+{% block on_start %}
+    Keyboard.write(KEY_NUM_LOCK);
+{%- endblock %}
+
+
+{% block on_end %}
+  {%- if do_repeat is not false %}
+    Keyboard.write(KEY_NUM_LOCK);
+
+    i = 0;
+    {{- " delay(" ~ do_repeat ~ ");" if do_repeat != 0 }}
+    return;
+  {%- else %}
+    Keyboard.write(KEY_NUM_LOCK);
+
+    Keyboard.end();
+    while (1) {}  // zzz.
+  {%- endif -%}
+{%- endblock %}
+
+
+{% block on_combo_switch %}
+    if (hold_down) {
+      Keyboard.releaseAll();
+    }
+
+    Keyboard.write(KEY_NUM_LOCK);
+    hold_down = !hold_down;
+{%- endblock %}
+
+
+{% block press_key %}
+      Keyboard.press(KEYSTROKES[i]);
+{%- endblock %}
+
+
+{% block write_key %}
+  {%- if vars.special_keys|length != 0 %}
+      switch (i) {
+      {%- for index in vars.special_keys %}
+        case {{ index }}:
+      {%- endfor %}
+          Keyboard.write(KEYSTROKES[i]);
+          break;
+        default:
+          writeAltCode(KEYSTROKES[i]);
+      }
+  {%- else %}
+      writeAltCode(KEYSTROKES[i]);
+  {%- endif -%}
+{% endblock %}
