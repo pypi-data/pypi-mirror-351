@@ -1,0 +1,41 @@
+{
+  "mcpServers": {
+    "mcp-optimizer": {
+      "command": "python",
+      "args": ["main.py"],
+      "env": {
+        "SOLVER_TIMEOUT": "300",
+        "MAX_ITERATIONS": "10000",
+        "SOLVER_THREADS": "4",
+        "LOG_LEVEL": "INFO",
+        "CACHE_ENABLED": "true",
+        "CACHE_TTL": "3600"
+      }
+    },
+    "mcp-optimizer-local": {
+      "command": "python",
+      "args": ["/path/to/your/mcp-optimizer/main.py"],
+      "env": {
+        "SOLVER_TIMEOUT": "600",
+        "MAX_ITERATIONS": "50000",
+        "SOLVER_THREADS": "8",
+        "LOG_LEVEL": "DEBUG",
+        "ENABLE_PROFILING": "true"
+      }
+    },
+    "mcp-optimizer-production": {
+      "command": "python",
+      "args": ["main.py"],
+      "env": {
+        "SOLVER_TIMEOUT": "1800",
+        "MAX_ITERATIONS": "100000",
+        "SOLVER_THREADS": "16",
+        "LOG_LEVEL": "WARNING",
+        "CACHE_ENABLED": "true",
+        "CACHE_TTL": "7200",
+        "ENABLE_METRICS": "true",
+        "METRICS_PORT": "9090"
+      }
+    }
+  }
+} 
