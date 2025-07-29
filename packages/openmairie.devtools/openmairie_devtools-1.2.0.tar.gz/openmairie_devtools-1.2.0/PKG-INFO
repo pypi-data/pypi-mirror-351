@@ -1,0 +1,192 @@
+Metadata-Version: 2.4
+Name: openmairie.devtools
+Version: 1.2.0
+Summary: openMairie Developer Tools
+Home-page: http://www.openmairie.org/framework
+Author: openMairie
+Author-email: contact@openmairie.org
+License: GPL
+Project-URL: Source, https://gitlab.com/openmairie/openmairie.devtools/
+Keywords: openMairie
+Platform: any
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Requires-Dist: setuptools
+Requires-Dist: jinja2
+Requires-Dist: unidecode
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: platform
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: summary
+
+openmairie.devtools
+===================
+
+openMairie Developer Tools
+
+.. image:: https://img.shields.io/pypi/v/openmairie.devtools.svg
+    :target: https://pypi.python.org/pypi/openmairie.devtools/
+    :alt: Latest PyPI version
+
+.. contents::
+
+Introduction
+------------
+
+openmairie.devtools is a collection of command-line programs to handle tasks on
+`openMairie Framework <http://www.openmairie.org/framework/>`_ based projects.
+Mainly initialize environment, run tests, release a project, ...
+
+
+Installation
+------------
+
+You just need `pip <https://pip.pypa.io>`_ ::
+
+    pip install openmairie.devtools
+
+om-logo specifics
+#################
+
+For PNG rendering, Inkskape should be available. 
+On Debian-based OS (Ubuntu, etc) ::
+
+    sudo apt-get install inkscape
+
+For other OS, please visit ::
+
+    https://inkscape.org/en/release
+
+You should have the right font (**Caviar Dream**) available on your system.
+Get it there ::
+
+    https://www.fontsquirrel.com/fonts/download/Caviar-Dreams
+
+
+Available commands
+------------------
+
+- **om-tests**: should be run from the *tests* folder of your project and
+  allow you to initialize your test environment, to run all tests suites or to
+  run only one tests suite.
+
+- **om-svnexternals**: should be run from the root of your project and allow
+  you to export the externals props find in EXTERNALS.txt files. Useful when
+  you are mirroring your SVN project to GIT.
+
+- **om-logo**: this command allows you to generate SVG and PNG logo for your 
+  openMairie application, according to design's guideline available here ::
+
+    http://www.openmairie.org/communaute/ressources-graphiques/openmairie-identite-visuelle.pdf
+
+  Full documentation is available from the help 
+  command ::
+
+    om-logo --help  
+
+
+
+Changelog
+=========
+
+1.2.0 (2025-05-28)
+------------------
+
+- Fixed documentation for pabot.
+  [rasseum]
+- Added two contributors.
+  [rasseum]
+- Note: Version 1.1.1 should have been named 1.2.0. This 1.2.0 version restores
+  proper versioning by correcting several aspects.
+  [rasseum]
+
+1.1.1 (2025-04-24)
+------------------
+
+- Add pabot to openmairie.devtools.
+  [rasseum]
+
+
+1.1.0 (2023-10-08)
+------------------
+
+- Use robot and not pybot command anymore.
+  [flohcim]
+
+
+1.0.0 (2022-05-10)
+------------------
+
+- Python 3 support only.
+  [flohcim, tiazma]
+
+
+0.4.0 (2018-04-10)
+------------------
+
+- Add 'additional_sql' option config to om-tests.
+  [flohcim]
+
+
+0.3.1 (2018-01-10)
+------------------
+
+- Removed unnecessary jinja2 env options
+  [tiazma]
+
+
+0.3.0 (2018-01-10)
+------------------
+
+- Added om-logo, application logo generation
+  [tiazma]
+
+
+0.2.2 (2017-11-25)
+------------------
+
+- Remove the externals was breaking travis CI.
+  [flohcim]
+
+0.2.1 (2017-11-24)
+------------------
+
+- Filename of EXTERNALS.txt file parsed was missing.
+  [flohcim]
+
+0.2.0 (2017-11-24)
+------------------
+
+- Add om-svnexternals script.
+  [flohcim]
+
+
+0.1 (2017-11-23)
+----------------
+
+- Initial release as a python package.
+  [flohcim, fmichon, jymadier, mbroquet, nhaye, NHaye, nmeucci, oc1n, softime,
+  stimezouaght, tiazma]
+
+
+Contributors
+============
+
+* Florent Michon <flohcim@gmail.com> [flohcim][fmichon]
+* Grégory Malvolti <gmalvolti@atreal.fr> [gmalvolti]
+* Jean-Yves Madier de Champvermeil <> [jymadier]
+* Matthias Broquet <mbroquet@atreal.fr> [mbroquet][tiazma]
+* Nicolas Haye <> [nhaye][NHaye]
+* Nicolas Meucci <> [nmeucci][oc1n]
+* Sofien Timezouaght <> [softime][stimezouaght]
+* Rabah Asseum <rasseum@atreal.fr> [rasseum]
+* Sébastien Dethyre <> [sdethyre]
