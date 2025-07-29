@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: jobcrawler
+Version: 0.1.0
+Summary: Python project to automate extracting job information directly from ATS
+Author-email: Eric Yang <notmyemail@notmyemail.com>
+License: MIT
+Keywords: jobs,crawler,scraping,automation
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# jobcrawler
+Python Library to automate scraping of job information directly from ATS
