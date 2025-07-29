@@ -1,0 +1,156 @@
+# word-review-parser
+
+`word-review-parser` 是一个Python库，旨在帮助您解析Microsoft Word文档（.docx）中的审阅标记，包括修订（插入和删除的文本）和批注。它提供了一种以结构化方式访问这些信息的方法，并能将文档内容与审阅标记一起格式化输出为易于阅读的文本格式，例如类似LaTeX的 `\added{}` 和 `\deleted{}` 语法。
+
+## 核心功能
+
+*   **文档加载**：加载 `.docx` 文件。
+*   **段落读取**：提取文档中的所有段落文本。
+*   **批注提取**：获取批注的ID、作者、日期和文本内容。
+*   **修订提取**：识别并提取插入（`\added{}`）和删除（`\deleted{}`）的文本，包括作者和日期。
+*   **格式化输出**：将整个文档内容（包括段落、修订和批注）格式化为纯文本字符串，支持自定义标记。
+*   **多种输出模式**：允许单独输出增加的文本、删除的文本、批注、最终稿（接受所有修订，忽略批注）和原始稿（拒绝所有修订，忽略批注）。
+
+## 安装
+
+由于此库尚未发布到 PyPI，您可以通过以下方式在本地使用：
+
+1.  **克隆项目**：
+    ```bash
+    git clone [您的项目仓库地址]
+    cd word_review_2_tex # 或者您的项目根目录
+    ```
+2.  **安装依赖**：
+    ```bash
+    pip install python-docx lxml
+    ```
+
+## 项目结构
+
+```
+word_review_2_tex/
+├── src/
+│   ├── word_review_parser/
+│   │   ├── __init__.py             # 库的入口，暴露主要API
+│   │   ├── core.py                 # 核心逻辑：Word文档XML解析、文本提取、格式化
+│   │   └── models.py               # 数据模型定义（如 Comment, Revision 类）
+├── interface/                      # 命令行接口示例
+│   └── cli.py
+├── project.md                      # 项目计划书
+└── README.md                       # 本文件
+```
+
+## 使用方法
+
+库的核心功能封装在 `src/word_review_parser/core.py` 中的 `WordProcessor` 类里。
+
+### 1. `WordProcessor` 类初始化
+
+`WordProcessor` 类现在直接在初始化时接收 `.docx` 文件路径。您还可以自定义用于标记插入、删除和批注的字符串。
+
+```python
+from src.word_review_parser import WordProcessor
+import os
+
+# 假设您的文档在项目根目录
+docx_filepath = "example_with_comments_and_revisions.docx" 
+# 或者提供完整路径，例如：docx_filepath = "/path/to/your/document.docx"
+
+# 默认初始化 (使用 LaTeX 风格标记)
+processor_default = WordProcessor(docx_filepath)
+
+# 自定义标记初始化 (例如，Markdown 风格)
+processor_custom_tags = WordProcessor(
+    docx_filepath,
+    added_tag_start="**++", added_tag_end="++**",
+    deleted_tag_start="~~--", deleted_tag_end="--~~",
+    comment_tag_start="[COMMENT: ", comment_tag_end="]"
+)
+
+# 加载文档
+if not processor_default.load_document():
+    print("文档加载失败。")
+    exit()
+
+# --- 示例用法 ---
+
+# a. 读取所有段落
+print("\n--- 文档段落 ---")
+for i, paragraph_text in enumerate(processor_default.read_paragraphs()):
+    print(f"段落 {i+1}: {paragraph_text}")
+
+# b. 读取所有批注
+print("\n--- 文档批注 ---")
+comments_list = list(processor_default.read_comments())
+if comments_list:
+    for i, comment in enumerate(comments_list):
+        print(f"批注 {i+1}:")
+        print(f"  作者: {comment['author']}")
+        print(f"  日期: {comment['date']}")
+        print(f"  文本: {comment['text']}")
+else:
+    print("未找到批注。")
+
+# c. 读取所有修订（插入/删除）
+print("\n--- 文档修订 ---")
+revisions_list = list(processor_default.read_revisions())
+if revisions_list:
+    for i, revision in enumerate(revisions_list):
+        print(f"修订 {i+1}:")
+        print(f"  类型: {revision['type']}")
+        print(f"  作者: {revision['author']}")
+        print(f"  日期: {revision['date']}")
+        print(f"  文本: {revision['text']}")
+else:
+    print("未找到修订。")
+
+# d. 获取包含修订和批注的格式化文档文本 (使用默认标记)
+print("\n--- 格式化文档（含修订和批注，默认标记）---")
+formatted_doc_text = processor_default.get_document_with_revisions_and_comments_formatted()
+print(formatted_doc_text)
+
+# e. 获取包含修订和批注的格式化文档文本 (使用自定义标记)
+print("\n--- 格式化文档（含修订和批注，自定义标记）---")
+if processor_custom_tags.load_document(): # 重新加载文档以使用自定义处理器
+    formatted_doc_text_custom = processor_custom_tags.get_document_with_revisions_and_comments_formatted()
+    print(formatted_doc_text_custom)
+else:
+    print("文档加载失败，无法使用自定义标记进行格式化。")
+
+# f. 单独输出各种类型的内容
+print("\n--- 仅输出增加的文本 ---")
+print(processor_default.get_added_text_formatted())
+
+print("\n--- 仅输出删除的文本 ---")
+print(processor_default.get_deleted_text_formatted())
+
+print("\n--- 仅输出批注 ---")
+print(processor_default.get_comments_formatted())
+
+print("\n--- 输出最终稿（接受所有修订，忽略批注）---")
+print(processor_default.get_final_draft())
+
+print("\n--- 输出原始稿（忽略所有修订，包含删除的文本，忽略批注）---")
+print(processor_default.get_original_draft())
+
+# g. 文本替换（注意：此功能在处理带修订/批注的文档时有局限性，不推荐直接使用）
+# old_text = "示例文本" # Change this to text present in your file
+# new_text = "替换后的示例文本"
+# output_filepath = "./modified_" + os.path.basename(docx_filepath)
+# processor_default.replace_text(old_text, new_text)
+# processor_default.save_document(output_filepath)
+# print(f"\n已尝试文本替换并保存到: {output_filepath}")
+# print("警告：直接文本替换在带修订/批注的文档上不推荐。")
+```
+
+### 2. 命令行接口示例 (`interface/cli.py`)
+
+`interface/cli.py` 文件提供了一个全面的命令行接口，演示了 `WordProcessor` 类的所有新功能。您可以直接运行它来测试：
+
+```bash
+python interface/cli.py
+```
+
+## 贡献与未来计划
+
+欢迎对本项目进行贡献！请参阅 `project.md` 文件了解详细的项目计划、未来展望和改进方向。
