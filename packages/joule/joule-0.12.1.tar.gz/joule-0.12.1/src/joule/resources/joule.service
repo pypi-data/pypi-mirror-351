@@ -1,0 +1,15 @@
+[Unit]
+Description = "Joule Daemon"
+After = syslog.target
+
+[Service]
+Type = simple
+ExecStart = /usr/local/bin/jouled
+StandardOutput = journal
+StandardError = journal
+Restart = always
+RestartSec = 5
+User = joule
+
+[Install]
+WantedBy = multi-user.target

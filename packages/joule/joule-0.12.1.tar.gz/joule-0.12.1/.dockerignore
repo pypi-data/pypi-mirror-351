@@ -1,0 +1,15 @@
+build
+dist
+docs
+.eggs
+docserver
+htmlcov
+venv
+tests
+Joule.egg-info
+postgres-data
+configs
+API_demo.ipynb
+**/__pycache__/
+pylintrc
+*.egg-info

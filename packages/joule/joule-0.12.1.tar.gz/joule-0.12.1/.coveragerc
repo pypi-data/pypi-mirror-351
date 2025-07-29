@@ -1,0 +1,25 @@
+[paths]
+source = 
+  src/
+  /joule/src
+  /usr/local/lib/python3.11/dist-packages
+
+[run]
+source_pkgs = joule
+parallel = True
+# Note: the docker containers do not seem to respect this setting 
+# it works fine putting everything in the root directory even if it
+# does look messy while the test runs
+#data_file = coverage_reports/.coverage
+#relative_files = True
+
+[report]
+omit =
+  src/joule/version.py
+
+exclude_lines =
+  pragma: no cover
+  def __repr__
+  if __name__ == "__main__":
+  if TYPE_CHECKING:
+  if self.debug:

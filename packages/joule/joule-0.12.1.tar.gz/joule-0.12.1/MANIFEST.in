@@ -1,0 +1,6 @@
+recursive-include src/joule/resources *
+recursive-include src/joule/client/builtins *
+recursive-include src/joule/sql *
+recursive-include src/joule/cli/admin/local_postgres_templates *
+
+global-exclude *.py[co]
