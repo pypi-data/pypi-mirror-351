@@ -1,0 +1,59 @@
+name: Tests
+on:
+  push:
+    branches:
+      - main
+      - "**"
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+      - "*.rst"
+      - "*.txt"
+  pull_request:
+    branches:
+      - main
+      - "*.x"
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+      - "*.rst"
+      - "*.txt"
+jobs:
+  tests:
+    name: ${{ matrix.platform.name }} Python ${{ matrix.python }}
+    runs-on: ${{ matrix.platform.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - os: ubuntu-latest
+            name: Linux
+          - os: macos-latest
+            name: MacOS
+          - os: windows-latest
+            name: Windows
+        python:
+          - "3.11"
+          - "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install and cache Linux packages
+        if: ${{ runner.os == 'Linux' }}
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: binutils qtbase5-dev qt5-qmake libpugixml1v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.4.12"
+          enable-cache: true
+          cache-dependency-glob: "**/pyproject.toml"
+      - name: Install Python and dependencies
+        run: |
+          uv python install ${{ matrix.python }}
+          uv venv
+          uv pip install .[test]
+      - name: Run tests
+        run: |
+          ${{ (runner.os == 'Windows' && '.venv\Scripts\activate') || 'source .venv/bin/activate' }}
+          pytest -n auto tests/

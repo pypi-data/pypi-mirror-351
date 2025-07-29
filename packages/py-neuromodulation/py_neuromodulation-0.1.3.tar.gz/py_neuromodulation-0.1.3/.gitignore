@@ -1,0 +1,213 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.pypirc/
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+/test_data
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Visual Studio Code
+.vscode
+
+# PyCharm
+.idea
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Ignore pickles
+*.pkl
+**/*.pkl
+*.p
+
+.pdf
+
+sphinx/sub/*
+
+docs/build/*
+docs/source/_build/*
+docs/previous/*
+docs/source/auto_examples/*
+docs/source/data/*
+
+examples/data/derivatives/*
+examples/other_examples/*
+examples/plot_7_lsl_example.ipynb
+examples/lange_n8.ipynb
+
+examples/sub/*
+examples/utils/*
+examples/temp_raw.fif
+
+sub/
+
+py_neuromodulation/data/derivatives/*
+
+.python-version
+
+py_neuromodulation/ConnectivityDecoding/connectome_folder/*
+
+plot_0_first_demo.py
+plot_1_example_BIDS.py
+temp_raw.fif
+
+requirements.lock
+requirements-dev.lock
+
+docs/source/bin/pandoc
+
+docs/source/sg_execution_times.rst
+
+figures_ucsf/*
+catboost_info/*
+out_per
+.DS_Store
+
+# Temp dev files
+# Testing scripts
+/*.py 
+# Stream output
+/*.csv
+/*.db
+/*.sqlite
+# Profiler files
+/*.prof
+/profiling/*
+# Test output
+test_data/
+# various lock files
+package-lock.json
+package-lock.json.bak
+uv.lock
+# temporarily ignore the frontend build
+/gui_dev/dist
+/gui/frontend
+# Node modules
+gui_dev/node_modules/*
+# LSL log file
+lsllog.txt
+#Old Bun binary lockfile
+bun.lockb
+test/data/*
+uv.lock
+
+sub_SETTINGS.yaml
+sub_SIDECAR.json

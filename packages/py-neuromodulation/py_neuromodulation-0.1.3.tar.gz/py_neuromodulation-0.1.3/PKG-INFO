@@ -1,0 +1,189 @@
+Metadata-Version: 2.4
+Name: py_neuromodulation
+Version: 0.1.3
+Summary: Real-time analysis of intracranial neurophysiology recordings.
+Project-URL: Homepage, https://neuromodulation.github.io/py_neuromodulation/
+Project-URL: Documentation, https://neuromodulation.github.io/py_neuromodulation/
+Project-URL: Repository, https://github.com/neuromodulation/py_neuromodulation
+Project-URL: Issues, https://github.com/neuromodulation/py_neuromodulation/issues
+Author-email: Timon Merk <timon.merk@charite.de>
+Maintainer: Timon Merk
+License: MIT License
+        
+        Copyright (c) 2021 Interventional Cognitive Neuromodulation - Neumann Lab Berlin
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: dbs,deep-brain-stimulation,ecog,eeg,electrocorticography,ieeg,machine-learning,real-time
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.11
+Requires-Dist: cbor2>=5.6.4
+Requires-Dist: fastapi
+Requires-Dist: fooof
+Requires-Dist: imbalanced-learn
+Requires-Dist: joblib>=1.3.2
+Requires-Dist: llvmlite>=0.43.0
+Requires-Dist: matplotlib>=3.9.0
+Requires-Dist: mne
+Requires-Dist: mne-bids>=0.8
+Requires-Dist: mne-connectivity
+Requires-Dist: mne-lsl>=1.2.0
+Requires-Dist: mrmr-selection
+Requires-Dist: msgpack
+Requires-Dist: msgpack>=1.1.0
+Requires-Dist: nibabel>=5.3.2
+Requires-Dist: nolds>=0.6.1
+Requires-Dist: numba>=0.60.0
+Requires-Dist: numpy>=1.21.2
+Requires-Dist: numpy>=2.0.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: pyarrow>=14.0.2
+Requires-Dist: pybispectra>=1.2.0
+Requires-Dist: pydantic>=2.7.3
+Requires-Dist: pyparrm
+Requires-Dist: pyqt6
+Requires-Dist: pywebview
+Requires-Dist: scikit-learn>=0.24.2
+Requires-Dist: scikit-optimize
+Requires-Dist: scipy>=1.7.1
+Requires-Dist: seaborn>=0.11
+Requires-Dist: skops>=0.10.0
+Requires-Dist: uvicorn[standard]>=0.30.6
+Requires-Dist: uvloop; platform_system != 'Windows'
+Provides-Extra: dev
+Requires-Dist: notebook; extra == 'dev'
+Requires-Dist: pytest-cov; extra == 'dev'
+Requires-Dist: pytest-sugar; extra == 'dev'
+Requires-Dist: pytest>=8.0.2; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: notebook; extra == 'docs'
+Requires-Dist: numpydoc; extra == 'docs'
+Requires-Dist: pydata-sphinx-theme; extra == 'docs'
+Requires-Dist: pytest-cov; extra == 'docs'
+Requires-Dist: pytest-sugar; extra == 'docs'
+Requires-Dist: pytest>=8.0.2; extra == 'docs'
+Requires-Dist: recommonmark; extra == 'docs'
+Requires-Dist: ruff; extra == 'docs'
+Requires-Dist: sphinx; extra == 'docs'
+Requires-Dist: sphinx-gallery; extra == 'docs'
+Requires-Dist: sphinx-togglebutton; extra == 'docs'
+Provides-Extra: test
+Requires-Dist: pytest-xdist; extra == 'test'
+Requires-Dist: pytest>=8.0.2; extra == 'test'
+Description-Content-Type: text/x-rst
+
+py_neuromodulation
+==================
+
+Documentation: https://neuromodulation.github.io/py_neuromodulation/
+
+Analyzing neural data can be a troublesome, trial and error prone,
+and beginner unfriendly process. *py_neuromodulation* allows using a simple
+interface for extraction of established neurophysiological features and includes commonly applied pre -and postprocessing methods.
+
+Only **time series data** with a corresponding **sampling frequency** are required for feature extraction.
+
+The output will be a `pandas.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_ including different time-resolved computed features. Internally a **stream** get's initialized,
+which resembles an *online* data-stream that can in theory also be be used with a hardware acquisition system. 
+
+The following features are currently included:
+
+* oscillatory: fft, stft or bandpass filtered band power
+* `temporal waveform shape <https://www.sciencedirect.com/science/article/pii/S1364661316302182>`_
+* `fooof <https://fooof-tools.github.io/fooof/>`_
+* `mne_connectivity estimates <https://mne.tools/mne-connectivity/stable/index.html>`_ 
+* `Hjorth parameter <https://en.wikipedia.org/wiki/Hjorth_parameters>`_
+* `non-linear dynamical estimates <https://nolds.readthedocs.io/en/latest/>`_
+* various burst features
+* line length 
+* and more...
+
+
+Find here the preprint of **py_neuromodulation** called *"Invasive neurophysiology and whole brain connectomics for neural decoding in patients with brain implants"* [1]_.
+
+The original intention for writing this toolbox was movement decoding from invasive brain signals [2]_.
+The application however could be any neural decoding problem.
+*py_neuromodulation* offers wrappers around common practice machine learning methods for efficient analysis.
+
+Find the documentation here neuromodulation.github.io/py_neuromodulation/ for example usage and parametrization.
+
+Installation
+============
+
+py_neuromodulation requires at least python 3.10. For installation you can use pip:
+
+.. code-block::
+
+    pip install py-neuromodulation
+
+Alternatively you can also clone the pacakge and install it using `uv <https://docs.astral.sh/uv/>`_:
+
+.. code-block::
+
+    uv python install 3.10
+    uv venv
+    . .venv/bin/activate
+    uv sync
+
+
+Then *py_neuromodulation* can be imported via:
+
+.. code-block::
+
+    import py_neuromodulation as nm
+
+Basic Usage
+===========
+
+.. code-block:: python
+    
+    import py_neuromodulation as nm
+    import numpy as np
+    
+    NUM_CHANNELS = 5
+    NUM_DATA = 10000
+    sfreq = 1000  # Hz
+    sampling_rate_features_hz = 3  # Hz
+
+    data = np.random.random([NUM_CHANNELS, NUM_DATA])
+
+    stream = nm.Stream(sfreq=sfreq, data=data, sampling_rate_features_hz=sampling_rate_features_hz)
+    features = stream.run()
+
+Check the `Usage <https://py-neuromodulation.readthedocs.io/en/latest/usage.html>`_ and `First examples <https://py-neuromodulation.readthedocs.io/en/latest/auto_examples/plot_0_first_demo.html>`_ for further introduction.
+
+Contact information
+-------------------
+For any question or suggestion please find my contact
+information at `my GitHub profile <https://github.com/timonmerk>`_.
+
+Contributing guide
+------------------
+https://neuromodulation.github.io/py_neuromodulation/contributing.html
+
+
+References
+----------
+
+.. [1] Merk, T. et al. *Invasive neurophysiology and whole brain connectomics for neural decoding in patients with brain implants*, `https://doi.org/10.21203/rs.3.rs-3212709/v1` (2023).
+.. [2] Merk, T. et al. *Electrocorticography is superior to subthalamic local field potentials for movement decoding in Parkinson’s disease*. Elife 11, e75126, `https://doi.org/10.7554/eLife.75126` (2022).
