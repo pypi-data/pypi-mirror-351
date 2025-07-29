@@ -1,0 +1,563 @@
+# serializer version: 1
+# name: test_render_annotations_complex
+  '''
+  # quartodoc.tests.example_signature.a_complex_signature { #quartodoc.tests.example_signature.a_complex_signature }
+  
+  ```python
+  tests.example_signature.a_complex_signature(
+      x: list[C | int | None],
+      y: pathlib.Pathlib,
+      z,
+  )
+  ```
+  
+  ## Parameters {.doc-section .doc-section-parameters}
+  
+  | Name   | Type                                                                                 | Description                   | Default    |
+  |--------|--------------------------------------------------------------------------------------|-------------------------------|------------|
+  | x      | [list](`list`)\[[C](`quartodoc.tests.example_signature.C`) \| [int](`int`) \| None\] | The x parameter               | _required_ |
+  | y      | [pathlib](`pathlib`).[Pathlib](`pathlib.Pathlib`)                                    | The y parameter               | _required_ |
+  | z      |                                                                                      | The z parameter (unannotated) | _required_ |
+  '''
+# ---
+# name: test_render_annotations_complex_no_interlinks
+  '''
+  # quartodoc.tests.example_signature.a_complex_signature { #quartodoc.tests.example_signature.a_complex_signature }
+  
+  ```python
+  tests.example_signature.a_complex_signature(
+      x: list[C | int | None],
+      y: pathlib.Pathlib,
+      z,
+  )
+  ```
+  
+  ## Parameters {.doc-section .doc-section-parameters}
+  
+  | Name   | Type                     | Description                   | Default    |
+  |--------|--------------------------|-------------------------------|------------|
+  | x      | list\[C \| int \| None\] | The x parameter               | _required_ |
+  | y      | pathlib.Pathlib          | The y parameter               | _required_ |
+  | z      |                          | The z parameter (unannotated) | _required_ |
+  '''
+# ---
+# name: test_render_doc_class[embedded]
+  '''
+  # quartodoc.tests.example_class.C { #quartodoc.tests.example_class.C }
+  
+  ```python
+  tests.example_class.C(x, y)
+  ```
+  
+  The short summary.
+  
+  The extended summary,
+  which may be multiple lines.
+  
+  ## Parameters {.doc-section .doc-section-parameters}
+  
+  | Name   | Type   | Description          | Default    |
+  |--------|--------|----------------------|------------|
+  | x      | str    | Uses signature type. | _required_ |
+  | y      | int    | Uses manual type.    | _required_ |
+  
+  ## Attributes
+  
+  | Name | Description |
+  | --- | --- |
+  | [SOME_ATTRIBUTE](#quartodoc.tests.example_class.C.SOME_ATTRIBUTE) | An attribute |
+  | [some_property](#quartodoc.tests.example_class.C.some_property) | A property |
+  | [z](#quartodoc.tests.example_class.C.z) | A documented init attribute |
+  
+  ## Classes
+  
+  | Name | Description |
+  | --- | --- |
+  | [D](#quartodoc.tests.example_class.C.D) | A nested class |
+  
+  ### D { #quartodoc.tests.example_class.C.D }
+  
+  ```python
+  tests.example_class.C.D()
+  ```
+  
+  A nested class
+  
+  ## Methods
+  
+  | Name | Description |
+  | --- | --- |
+  | [some_class_method](#quartodoc.tests.example_class.C.some_class_method) | A class method |
+  | [some_method](#quartodoc.tests.example_class.C.some_method) | A method |
+  
+  ### some_class_method { #quartodoc.tests.example_class.C.some_class_method }
+  
+  ```python
+  tests.example_class.C.some_class_method()
+  ```
+  
+  A class method
+  
+  ### some_method { #quartodoc.tests.example_class.C.some_method }
+  
+  ```python
+  tests.example_class.C.some_method()
+  ```
+  
+  A method
+  '''
+# ---
+# name: test_render_doc_class[flat]
+  '''
+  # quartodoc.tests.example_class.C { #quartodoc.tests.example_class.C }
+  
+  ```python
+  tests.example_class.C(x, y)
+  ```
+  
+  The short summary.
+  
+  The extended summary,
+  which may be multiple lines.
+  
+  ## Parameters {.doc-section .doc-section-parameters}
+  
+  | Name   | Type   | Description          | Default    |
+  |--------|--------|----------------------|------------|
+  | x      | str    | Uses signature type. | _required_ |
+  | y      | int    | Uses manual type.    | _required_ |
+  
+  ## Attributes
+  
+  | Name | Description |
+  | --- | --- |
+  | [SOME_ATTRIBUTE](#quartodoc.tests.example_class.C.SOME_ATTRIBUTE) | An attribute |
+  | [some_property](#quartodoc.tests.example_class.C.some_property) | A property |
+  | [z](#quartodoc.tests.example_class.C.z) | A documented init attribute |
+  
+  ## Classes
+  
+  | Name | Description |
+  | --- | --- |
+  | [D](#quartodoc.tests.example_class.C.D) | A nested class |
+  
+  ## D { #quartodoc.tests.example_class.C.D }
+  
+  ```python
+  tests.example_class.C.D()
+  ```
+  
+  A nested class
+  
+  ## Methods
+  
+  | Name | Description |
+  | --- | --- |
+  | [some_class_method](#quartodoc.tests.example_class.C.some_class_method) | A class method |
+  | [some_method](#quartodoc.tests.example_class.C.some_method) | A method |
+  
+  ## some_class_method { #quartodoc.tests.example_class.C.some_class_method }
+  
+  ```python
+  tests.example_class.C.some_class_method()
+  ```
+  
+  A class method
+  
+  ## some_method { #quartodoc.tests.example_class.C.some_method }
+  
+  ```python
+  tests.example_class.C.some_method()
+  ```
+  
+  A method
+  '''
+# ---
+# name: test_render_doc_class_attributes_section
+  '''
+  # quartodoc.tests.example_class.AttributesTable { #quartodoc.tests.example_class.AttributesTable }
+  
+  ```python
+  tests.example_class.AttributesTable()
+  ```
+  
+  The short summary.
+  
+  ## Attributes {.doc-section .doc-section-attributes}
+  
+  | Name   | Type   | Description         |
+  |--------|--------|---------------------|
+  | x      | str    | Uses signature type |
+  | y      | int    | Uses manual type    |
+  | z      | float  | Defined in init     |
+  '''
+# ---
+# name: test_render_doc_module[embedded]
+  '''
+  # quartodoc.tests.example { #quartodoc.tests.example }
+  
+  `tests.example`
+  
+  A module
+  
+  ## Attributes
+  
+  | Name | Description |
+  | --- | --- |
+  | [a_attr](#quartodoc.tests.example.a_attr) | An attribute |
+  
+  ## Classes
+  
+  | Name | Description |
+  | --- | --- |
+  | [AClass](#quartodoc.tests.example.AClass) | A class |
+  
+  ### AClass { #quartodoc.tests.example.AClass }
+  
+  ```python
+  tests.example.AClass()
+  ```
+  
+  A class
+  
+  #### Attributes
+  
+  | Name | Description |
+  | --- | --- |
+  | [a_attr](#quartodoc.tests.example.AClass.a_attr) | A class attribute |
+  
+  #### Methods
+  
+  | Name | Description |
+  | --- | --- |
+  | [a_method](#quartodoc.tests.example.AClass.a_method) | A method |
+  
+  ##### a_method { #quartodoc.tests.example.AClass.a_method }
+  
+  ```python
+  tests.example.AClass.a_method()
+  ```
+  
+  A method
+  
+  ## Functions
+  
+  | Name | Description |
+  | --- | --- |
+  | [a_func](#quartodoc.tests.example.a_func) | A function |
+  
+  ### a_func { #quartodoc.tests.example.a_func }
+  
+  ```python
+  tests.example.a_func()
+  ```
+  
+  A function
+  '''
+# ---
+# name: test_render_doc_module[flat]
+  '''
+  # quartodoc.tests.example { #quartodoc.tests.example }
+  
+  `tests.example`
+  
+  A module
+  
+  ## Attributes
+  
+  | Name | Description |
+  | --- | --- |
+  | [a_attr](#quartodoc.tests.example.a_attr) | An attribute |
+  
+  ## Classes
+  
+  | Name | Description |
+  | --- | --- |
+  | [AClass](#quartodoc.tests.example.AClass) | A class |
+  
+  ## AClass { #quartodoc.tests.example.AClass }
+  
+  ```python
+  tests.example.AClass()
+  ```
+  
+  A class
+  
+  ### Attributes
+  
+  | Name | Description |
+  | --- | --- |
+  | [a_attr](#quartodoc.tests.example.AClass.a_attr) | A class attribute |
+  
+  ### Methods
+  
+  | Name | Description |
+  | --- | --- |
+  | [a_method](#quartodoc.tests.example.AClass.a_method) | A method |
+  
+  #### a_method { #quartodoc.tests.example.AClass.a_method }
+  
+  ```python
+  tests.example.AClass.a_method()
+  ```
+  
+  A method
+  
+  ## Functions
+  
+  | Name | Description |
+  | --- | --- |
+  | [a_func](#quartodoc.tests.example.a_func) | A function |
+  
+  ## a_func { #quartodoc.tests.example.a_func }
+  
+  ```python
+  tests.example.a_func()
+  ```
+  
+  A function
+  '''
+# ---
+# name: test_render_doc_module[linked]
+  '''
+  # quartodoc.tests.example { #quartodoc.tests.example }
+  
+  `tests.example`
+  
+  A module
+  
+  ## Attributes
+  
+  | Name | Description |
+  | --- | --- |
+  | [](`~quartodoc.tests.example.a_attr`) | An attribute |
+  
+  ## Classes
+  
+  | Name | Description |
+  | --- | --- |
+  | [](`~quartodoc.tests.example.AClass`) | A class |
+  
+  ## Functions
+  
+  | Name | Description |
+  | --- | --- |
+  | [](`~quartodoc.tests.example.a_func`) | A function |
+  '''
+# ---
+# name: test_render_doc_signature_name
+  '''
+  # example.a_func { #quartodoc.tests.example.a_func }
+  
+  ```python
+  a_func()
+  ```
+  
+  A function
+  '''
+# ---
+# name: test_render_doc_signature_name_alias_of_alias
+  '''
+  # example.a_nested_alias { #quartodoc.tests.example.a_nested_alias }
+  
+  ```python
+  tests.example.a_nested_alias()
+  ```
+  
+  A nested alias target
+  '''
+# ---
+# name: test_render_docstring_numpy_linebreaks
+  '''
+  # f_numpy_with_linebreaks { #quartodoc.tests.example_docstring_styles.f_numpy_with_linebreaks }
+  
+  ```python
+  tests.example_docstring_styles.f_numpy_with_linebreaks(a, b)
+  ```
+  
+  A numpy style docstring.
+  
+  ## Parameters {.doc-section .doc-section-parameters}
+  
+  | Name   | Type   | Description      | Default    |
+  |--------|--------|------------------|------------|
+  | a      |        | The a parameter. | _required_ |
+  | b      | str    | The b parameter. | _required_ |
+  '''
+# ---
+# name: test_render_docstring_styles[google]
+  '''
+  # f_google { #quartodoc.tests.example_docstring_styles.f_google }
+  
+  ```python
+  tests.example_docstring_styles.f_google(a, b)
+  ```
+  
+  A google style docstring.
+  
+  ## Parameters {.doc-section .doc-section-parameters}
+  
+  | Name   | Type   | Description      | Default    |
+  |--------|--------|------------------|------------|
+  | a      | int    | The a parameter. | _required_ |
+  | b      | str    | The b parameter. | _required_ |
+  
+  ## Custom Admonition {.doc-section .doc-section-custom-admonition}
+  
+  Some text.
+  '''
+# ---
+# name: test_render_docstring_styles[numpy]
+  '''
+  # f_numpy { #quartodoc.tests.example_docstring_styles.f_numpy }
+  
+  ```python
+  tests.example_docstring_styles.f_numpy(a, b)
+  ```
+  
+  A numpy style docstring.
+  
+  ## Parameters {.doc-section .doc-section-parameters}
+  
+  | Name   | Type   | Description      | Default    |
+  |--------|--------|------------------|------------|
+  | a      |        | The a parameter. | _required_ |
+  | b      | str    | The b parameter. | _required_ |
+  
+  ## Custom Admonition {.doc-section .doc-section-custom-admonition}
+  
+  Some text.
+  '''
+# ---
+# name: test_render_docstring_styles[sphinx]
+  '''
+  # f_sphinx { #quartodoc.tests.example_docstring_styles.f_sphinx }
+  
+  ```python
+  tests.example_docstring_styles.f_sphinx(a, b)
+  ```
+  
+  A sphinx style docstring.
+  
+  ## Parameters {.doc-section .doc-section-parameters}
+  
+  | Name   | Type   | Description      | Default    |
+  |--------|--------|------------------|------------|
+  | a      | int    | The a parameter. | _required_ |
+  | b      | str    | The b parameter. | _required_ |
+  '''
+# ---
+# name: test_render_numpydoc_section_return[int\n    A description.]
+  '''
+  Code
+      Parameters
+      ---
+      int
+          A description.
+  
+      Returns
+      ---
+      int
+          A description.
+  
+      Attributes
+      ---
+      int
+          A description.
+  
+  Default
+      # Parameters {.doc-section .doc-section-parameters}
+  
+      | Name   | Type   | Description    | Default    |
+      |--------|--------|----------------|------------|
+      | int    |        | A description. | _required_ |
+  
+      # Returns {.doc-section .doc-section-returns}
+  
+      | Name   | Type   | Description    |
+      |--------|--------|----------------|
+      |        | int    | A description. |
+  
+      # Attributes {.doc-section .doc-section-attributes}
+  
+      | Name   | Type   | Description    |
+      |--------|--------|----------------|
+      | int    |        | A description. |
+  
+  List
+      # Parameters {.doc-section .doc-section-parameters}
+  
+      <code>[**int**]{.parameter-name} [:]{.parameter-annotation-sep} []{.parameter-annotation}</code>
+  
+      :   A description.
+  
+      # Returns {.doc-section .doc-section-returns}
+  
+      <code>[]{.parameter-name} [:]{.parameter-annotation-sep} [int]{.parameter-annotation}</code>
+  
+      :   A description.
+  
+      # Attributes {.doc-section .doc-section-attributes}
+  
+      <code>[**int**]{.parameter-name} [:]{.parameter-annotation-sep} []{.parameter-annotation}</code>
+  
+      :   A description.
+  '''
+# ---
+# name: test_render_numpydoc_section_return[name: int\n    A `"description"`.]
+  '''
+  Code
+      Parameters
+      ---
+      name: int
+          A `"description"`.
+  
+      Returns
+      ---
+      name: int
+          A `"description"`.
+  
+      Attributes
+      ---
+      name: int
+          A `"description"`.
+  
+  Default
+      # Parameters {.doc-section .doc-section-parameters}
+  
+      | Name   | Type   | Description        | Default    |
+      |--------|--------|--------------------|------------|
+      | name   |        | A `"description"`. | _required_ |
+  
+      # Returns {.doc-section .doc-section-returns}
+  
+      | Name   | Type   | Description        |
+      |--------|--------|--------------------|
+      | name   | int    | A `"description"`. |
+  
+      # Attributes {.doc-section .doc-section-attributes}
+  
+      | Name   | Type   | Description        |
+      |--------|--------|--------------------|
+      | name   | int    | A `"description"`. |
+  
+  List
+      # Parameters {.doc-section .doc-section-parameters}
+  
+      <code>[**name**]{.parameter-name} [:]{.parameter-annotation-sep} []{.parameter-annotation}</code>
+  
+      :   A `"description"`.
+  
+      # Returns {.doc-section .doc-section-returns}
+  
+      <code>[**name**]{.parameter-name} [:]{.parameter-annotation-sep} [int]{.parameter-annotation}</code>
+  
+      :   A `"description"`.
+  
+      # Attributes {.doc-section .doc-section-attributes}
+  
+      <code>[**name**]{.parameter-name} [:]{.parameter-annotation-sep} [int]{.parameter-annotation}</code>
+  
+      :   A `"description"`.
+  '''
+# ---

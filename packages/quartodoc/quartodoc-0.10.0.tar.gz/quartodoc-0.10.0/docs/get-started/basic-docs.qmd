@@ -1,0 +1,55 @@
+---
+title: Configuring site
+jupyter:
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+## Site configuration
+
+quartodoc is configured by adding a `quartodoc` section to your `_quarto.yml`:
+
+```yaml
+quartodoc:
+  style: pkgdown
+  dir: reference
+  package: quartodoc
+  sections:
+    - title: Some functions
+      desc: Functions to inspect docstrings.
+      contents:
+        - get_object
+        - preview
+```
+
+### Top-level options
+
+The `quartodoc` section takes a `style` field, specifying which [](`quartodoc.Builder`)
+to use (currently "pkgdown" or "single-page"; see [Examples](/examples/)).
+
+```{python}
+#| echo: false
+#| output: asis
+from quartodoc import get_object, MdRenderer
+
+obj = get_object("quartodoc", "Builder")
+renderer = MdRenderer()
+
+doc_parts = obj.docstring.parsed
+doc_params = [entry for entry in doc_parts if entry.kind.name == "parameters"][0]
+print(renderer.render(doc_params))
+```
+
+### Section options
+
+The `sections` field defines which functions to document.
+
+It commonly requires three pieces of configuration:
+
+* `title`: a title for the section
+* `desc`: a description for the section
+* `contents`: a list of functions to document
+
+You can also replace `title` with `subtitle` to create a sub-section.

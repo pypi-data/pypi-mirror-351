@@ -1,0 +1,97 @@
+---
+jupyter:
+  kernel: python3
+---
+
+:::::: {.column-page }
+
+
+```{python}
+#| output: asis
+#| echo: false
+
+def gallery(entries):
+    combined = "\n\n".join(entries)
+
+    return f":::::: {{.gallery .list .grid}}\n{combined}\n::::::"
+
+
+def gallery_entry(src_thumbnail: str, href: str, title: str, href_ref=None, href_source=None):
+    href_ref = href if href_ref is None else href_ref
+    href_source = href if href_source is None else href_source
+
+    return f"""
+<div class="card border-2 rounded-3 g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-4 mb-2">
+<a class="gallery-href" href="{href}">
+  <div class="card-header py-1 px-2 border-bottom border-1 bg-light">
+  <h6>{title}</h6>
+  </div>
+  <div class="gallery-card-body">
+  <img src="{src_thumbnail}">
+  </div>
+  <ul class="gallery-links">
+    <li>
+      <a class="view-reference" href="{href_ref}">Reference Page</a>
+    </li>
+    <li>
+      <a class="view-source" href="{href_source}">Source</a>
+    </li>
+  </ul>
+</a>
+</div>
+"""
+
+def gallery_entry_cta():
+    href = "https://github.com/machow/quartodoc/discussions/new?category=general&title=New%20Doc%20Site:"
+    return f"""
+<div class="gallery-card-cta card border-2 rounded-3 g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-4 mb-2">
+<a class="gallery-href" href="{href}" target="_blank">
+  Get help creating documentation ⚡️
+</a>
+</div>
+"""
+
+print(
+  gallery([
+    gallery_entry(
+        "images/siuba-home.jpeg",
+        "https://siuba.org",
+        "Siuba",
+        href_ref = "https://siuba.org/api",
+        href_source = "https://github.com/machow/siuba.org",
+    ),
+    gallery_entry(
+        "images/pins-home.jpeg",
+        "https://rstudio.github.io/pins-python",
+        "Pins",
+        href_ref = "https://rstudio.github.io/pins-python/reference",
+        href_source = "http://github.com/rstudio/pins-python",
+    ),
+    gallery_entry(
+        "images/vetiver-home.jpeg",
+        "https://rstudio.github.io/vetiver-python",
+        "Vetiver",
+        href_ref = "https://rstudio.github.io/vetiver-python/stable/reference",
+        href_source = "https://github.com/rstudio/vetiver-python",
+    ),
+    gallery_entry(
+        "images/shiny-home.jpeg",
+        "https://shiny.rstudio.com/py/",
+        "Shiny",
+        href_ref = "https://shiny.rstudio.com/py/api",
+        href_source = "https://github.com/rstudio/py-shiny",
+    ),
+    gallery_entry(
+        "images/shinyswatch-home.jpeg",
+        "https://posit-dev.github.io/py-shinyswatch/",
+        "Shinyswatch",
+        href_ref = "https://posit-dev.github.io/py-shinyswatch/reference",
+        href_source = "https://github.com/posit-dev/py-shinyswatch",
+    ),
+    gallery_entry_cta()
+  ])
+)
+```
+
+
+::::::
