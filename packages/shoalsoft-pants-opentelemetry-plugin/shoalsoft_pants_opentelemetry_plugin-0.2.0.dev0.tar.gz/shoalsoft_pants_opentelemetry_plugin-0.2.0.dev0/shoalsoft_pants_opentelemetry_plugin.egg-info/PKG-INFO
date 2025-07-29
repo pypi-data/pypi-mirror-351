@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: shoalsoft-pants-opentelemetry-plugin
+Version: 0.2.0.dev0
+Summary: Pantsbuild OpenTelemetry Plugin from Shoal Software LLC
+Requires-Python: ==3.11.*
+Requires-Dist: grpcio==1.70.0
+Requires-Dist: opentelemetry-api==1.29.0
+Requires-Dist: opentelemetry-exporter-otlp==1.29.0
+Requires-Dist: opentelemetry-sdk==1.29.0
