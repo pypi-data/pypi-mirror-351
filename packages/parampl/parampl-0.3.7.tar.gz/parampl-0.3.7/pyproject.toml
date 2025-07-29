@@ -1,0 +1,23 @@
+[project]
+name = "parampl"
+version = "0.3.7"
+requires-python = ">=3.13"
+description = "Formatting paragraphs for matplotlib text"
+authors = [{name="duckrojo", email="3063609+duckrojo@users.noreply.github.com"},
+          ]
+readme = "README.md"
+dependencies = [
+    "matplotlib>=3.10.3",
+]
+
+[project.urls]
+Documentation = "https://parampl.readthedocs.io/en/latest/"
+Repository = "https://github.com/duckrojo/parampl"
+
+[dependency-groups]
+docs = [
+    "numpydoc>=1.8.0",
+    "sphinx>=8.2.3",
+    "sphinx-rtd-theme>=3.0.2",
+]
+
