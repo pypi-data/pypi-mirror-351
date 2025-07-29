@@ -1,0 +1,6 @@
+[console_scripts]
+arvados-cwl-runner = arvados_cwl:main
+cwl-runner = arvados_cwl:main
+
+[cwltest.fsaccess]
+fsaccess = arvados_cwl.fsaccess:get_fsaccess
