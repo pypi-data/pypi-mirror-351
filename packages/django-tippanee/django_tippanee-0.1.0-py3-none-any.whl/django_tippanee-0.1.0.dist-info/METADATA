@@ -1,0 +1,68 @@
+Metadata-Version: 2.4
+Name: django-tippanee
+Version: 0.1.0
+Summary: A reusable Django app for generic comments with DRF API support
+Home-page: https://github.com/urwithajit9/django-tippanee
+Author: Ajit kumar
+Author-email: ajitkumar.pu@gmail.com
+License: MIT
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4.2
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Django>=4.2
+Requires-Dist: djangorestframework>=3.15
+Requires-Dist: django-filter>=23.5
+Dynamic: license-file
+
+# Django Tippanee
+
+A reusable Django app for a generic comment system with DRF API support, using `GenericForeignKey` to attach comments to any model.
+
+## Installation
+
+```bash
+pip install django-tippanee  # after uploading to pypi
+
+pip install git+https://github.com/urwithajit9/django-tippanee.git
+```
+
+## Usage
+
+- Add to INSTALLED_APPS:
+
+```python
+
+INSTALLED_APPS = [
+    ...
+    'django_tippanee',
+]
+```
+
+- Include URLs:
+
+```python
+urlpatterns = [
+    path('api/comments/', include('django_tippanee.urls')),
+]
+
+```
+
+- Run migrations
+
+```python
+python manage.py migrate
+```
+
+## API Endpoints
+
+- GET /api/comments/: List comments (filter by content_type, object_id).
+
+- POST /api/comments/: Create a comment.
