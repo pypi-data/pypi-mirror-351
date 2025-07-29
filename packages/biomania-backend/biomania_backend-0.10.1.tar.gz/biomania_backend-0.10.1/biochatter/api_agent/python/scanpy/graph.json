@@ -1,0 +1,679 @@
+{
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "api": "scanpy.tools.paga",
+      "id": "scanpy.tools.paga"
+    },
+    {
+      "api": "scanpy.plotting.paga",
+      "id": "scanpy.plotting.paga"
+    },
+    {
+      "api": "scanpy.preprocessing.neighbors",
+      "id": "scanpy.preprocessing.neighbors"
+    },
+    {
+      "api": "scanpy.tools.umap",
+      "id": "scanpy.tools.umap"
+    },
+    {
+      "api": "scanpy.plotting.scatter",
+      "id": "scanpy.plotting.scatter"
+    },
+    {
+      "api": "scanpy.tools.leiden",
+      "id": "scanpy.tools.leiden"
+    },
+    {
+      "api": "scanpy.plotting.umap",
+      "id": "scanpy.plotting.umap"
+    },
+    {
+      "api": "scanpy.tools.louvain",
+      "id": "scanpy.tools.louvain"
+    },
+    {
+      "api": "scanpy.plotting.heatmap",
+      "id": "scanpy.plotting.heatmap"
+    },
+    {
+      "api": "scanpy.plotting.dotplot",
+      "id": "scanpy.plotting.dotplot"
+    },
+    {
+      "api": "scanpy.plotting.violin",
+      "id": "scanpy.plotting.violin"
+    },
+    {
+      "api": "scanpy.plotting.dendrogram",
+      "id": "scanpy.plotting.dendrogram"
+    },
+    {
+      "api": "scanpy.tools.diffmap",
+      "id": "scanpy.tools.diffmap"
+    },
+    {
+      "api": "scanpy.plotting.diffmap",
+      "id": "scanpy.plotting.diffmap"
+    },
+    {
+      "api": "scanpy.preprocessing.log1p",
+      "id": "scanpy.preprocessing.log1p"
+    },
+    {
+      "api": "scanpy.preprocessing.highly_variable_genes",
+      "id": "scanpy.preprocessing.highly_variable_genes",
+      "_comment": "These products are curated from doc, from 'variances' to the end are actually non-existent.Products are not always fully generated, such as the current case.When testing dependencies, results would show non-existent dependencies. Although we already fixed this problem in dependency finder program,this is still a problematic software design making return values unclear and unfixed.We should encourage fixed api name, arguments and return values.In the meanwhile, returning an object is acceptable only if it is fixed.Note that we hope products can be automatically extracted from doc through LLM.If doc provides vague information products, then we believe it is poorly designed."
+    },
+    {
+      "api": "scanpy.plotting.highly_variable_genes",
+      "id": "scanpy.plotting.highly_variable_genes"
+    },
+    {
+      "api": "scanpy.plotting.pca",
+      "id": "scanpy.plotting.pca"
+    },
+    {
+      "api": "scanpy.tools.embedding_density",
+      "id": "scanpy.tools.embedding_density"
+    },
+    {
+      "api": "scanpy.plotting.embedding_density",
+      "id": "scanpy.plotting.embedding_density"
+    },
+    {
+      "api": "scanpy.tools.rank_genes_groups",
+      "id": "scanpy.tools.rank_genes_groups"
+    },
+    {
+      "api": "scanpy.plotting.rank_genes_groups_dotplot",
+      "id": "scanpy.plotting.rank_genes_groups_dotplot"
+    },
+    {
+      "api": "scanpy.plotting.correlation_matrix",
+      "id": "scanpy.plotting.correlation_matrix",
+      "_deprecated": true,
+      "_comment": "Not found in doc."
+    },
+    {
+      "api": "root",
+      "id": "root"
+    },
+    {
+      "api": "scanpy.plotting.highest_expr_genes",
+      "id": "scanpy.plotting.highest_expr_genes"
+    },
+    {
+      "api": "scanpy.plotting.tsne",
+      "id": "scanpy.plotting.tsne"
+    },
+    {
+      "api": "scanpy.tools.tsne",
+      "id": "scanpy.tools.tsne"
+    },
+    {
+      "api": "scanpy.plotting.tracksplot",
+      "id": "scanpy.plotting.tracksplot"
+    },
+    {
+      "api": "scanpy.plotting.clustermap",
+      "id": "scanpy.plotting.clustermap"
+    },
+    {
+      "api": "scanpy.preprocessing.pca",
+      "id": "scanpy.preprocessing.pca"
+    },
+    {
+      "api": "scanpy.plotting.stacked_violin",
+      "id": "scanpy.plotting.stacked_violin"
+    }
+  ],
+  "edges": [
+    {
+      "dependencies": [
+        "data.uns[\"neighbors\"]",
+        "data.obsp[\"connectivities\"]"
+      ],
+      "source": "scanpy.preprocessing.neighbors",
+      "target": "scanpy.tools.umap",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.uns[\"neighbors\"]",
+        "data.obsp[\"connectivities\"]"
+      ],
+      "source": "scanpy.preprocessing.neighbors",
+      "target": "scanpy.tools.leiden",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.uns[\"neighbors\"]",
+        "data.obsp[\"connectivities\"]"
+      ],
+      "source": "scanpy.preprocessing.neighbors",
+      "target": "scanpy.tools.louvain",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.uns[\"neighbors\"]",
+        "data.obsp[\"connectivities\"]"
+      ],
+      "source": "scanpy.preprocessing.neighbors",
+      "target": "scanpy.tools.diffmap",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obsm[\"X_umap\"]"
+      ],
+      "source": "scanpy.tools.umap",
+      "target": "scanpy.plotting.scatter",
+      "args": {
+        "basis": "umap"
+      },
+      "arg_types": {
+        "basis": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obsm[\"X_umap\"]"
+      ],
+      "source": "scanpy.tools.umap",
+      "target": "scanpy.plotting.umap",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obsm[\"X_umap\"]"
+      ],
+      "source": "scanpy.tools.umap",
+      "target": "scanpy.tools.embedding_density",
+      "args": {
+        "basis": "umap"
+      },
+      "arg_types": {
+        "basis": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obsm[\"X_umap\"]"
+      ],
+      "source": "scanpy.tools.umap",
+      "target": "scanpy.plotting.embedding_density",
+      "args": {
+        "basis": "umap"
+      },
+      "arg_types": {
+        "basis": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"leiden\"]"
+      ],
+      "source": "scanpy.tools.leiden",
+      "target": "scanpy.plotting.umap",
+      "args": {
+        "color": "leiden"
+      },
+      "arg_types": {
+        "color": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"leiden\"]"
+      ],
+      "source": "scanpy.tools.leiden",
+      "target": "scanpy.plotting.diffmap",
+      "args": {
+        "color": "leiden"
+      },
+      "arg_types": {
+        "color": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"leiden\"]"
+      ],
+      "source": "scanpy.tools.leiden",
+      "target": "scanpy.tools.rank_genes_groups",
+      "args": {
+        "groupby": "leiden"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"leiden\"]"
+      ],
+      "source": "scanpy.tools.leiden",
+      "target": "scanpy.plotting.rank_genes_groups_dotplot",
+      "args": {
+        "groupby": "leiden"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"leiden\"]"
+      ],
+      "source": "scanpy.tools.leiden",
+      "target": "scanpy.plotting.correlation_matrix",
+      "args": {
+        "groupby": "leiden"
+      },
+      "arg_types": {
+        "groupby": "str"
+      },
+      "_deprecated": true,
+      "_comment": "Not found sc.pl.correlation_matrix in doc."
+    },
+    {
+      "dependencies": [
+        "data.obs[\"louvain\"]"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.heatmap",
+      "args": {
+        "groupby": "louvain"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"louvain\"]"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.dotplot",
+      "args": {
+        "groupby": "louvain"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"louvain\"]"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.violin",
+      "args": {
+        "groupby": "louvain"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"louvain\"]"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.dendrogram",
+      "args": {
+        "groupby": "louvain"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"louvain\"]"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.pca",
+      "args": {
+        "color": "louvain"
+      },
+      "arg_types": {
+        "color": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obsm[\"X_diffmap\"]"
+      ],
+      "source": "scanpy.tools.diffmap",
+      "target": "scanpy.plotting.diffmap",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.X"
+      ],
+      "source": "scanpy.preprocessing.log1p",
+      "target": "scanpy.preprocessing.highly_variable_genes",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.X"
+      ],
+      "source": "scanpy.preprocessing.log1p",
+      "target": "scanpy.plotting.highly_variable_genes",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.var[\"dispersions_norm\"]",
+        "data.var[\"highly_variable\"]",
+        "data.var[\"means\"]",
+        "data.var[\"dispersions\"]"
+      ],
+      "source": "scanpy.preprocessing.highly_variable_genes",
+      "target": "scanpy.plotting.highly_variable_genes",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"umap_density\"]",
+        "data.uns[\"umap_density_params\"]"
+      ],
+      "source": "scanpy.tools.embedding_density",
+      "target": "scanpy.plotting.embedding_density",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.uns[\"rank_genes_groups\"]"
+      ],
+      "source": "scanpy.tools.rank_genes_groups",
+      "target": "scanpy.plotting.rank_genes_groups_dotplot",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.X"
+      ],
+      "source": "root",
+      "target": "scanpy.preprocessing.neighbors",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.X"
+      ],
+      "source": "root",
+      "target": "scanpy.preprocessing.log1p",
+      "args": {
+        "data": "data"
+      },
+      "arg_types": {
+        "data": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.X"
+      ],
+      "source": "root",
+      "target": "scanpy.plotting.highest_expr_genes",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.X"
+      ],
+      "source": "root",
+      "target": "scanpy.tools.tsne",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obsm['X_tsne']"
+      ],
+      "source": "scanpy.tools.tsne",
+      "target": "scanpy.plotting.tsne",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obsm['X_tsne']"
+      ],
+      "source": "scanpy.tools.tsne",
+      "target": "scanpy.tools.embedding_density",
+      "args": {
+        "basis": "tsne"
+      },
+      "arg_types": {
+        "basis": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs['louvain']"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.tsne",
+      "args": {
+        "color": "louvain"
+      },
+      "arg_types": {
+        "color": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs['louvain']"
+      ],
+      "source": "scanpy.tools.tsne",
+      "target": "scanpy.plotting.embedding_density",
+      "args": {
+        "basis": "tsne"
+      },
+      "arg_types": {
+        "basis": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"louvain\"]"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.tracksplot",
+      "args": {
+        "groupby": "louvain"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"leiden\"]"
+      ],
+      "source": "scanpy.tools.leiden",
+      "target": "scanpy.plotting.tracksplot",
+      "args": {
+        "groupby": "leiden"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"louvain\"]"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.clustermap",
+      "args": {
+        "obs_keys": "louvain"
+      },
+      "arg_types": {
+        "obs_keys": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"leiden\"]"
+      ],
+      "source": "scanpy.tools.leiden",
+      "target": "scanpy.plotting.clustermap",
+      "args": {
+        "obs_keys": "leiden"
+      },
+      "arg_types": {
+        "obs_keys": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.X"
+      ],
+      "source": "root",
+      "target": "scanpy.plotting.clustermap",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.X"
+      ],
+      "source": "root",
+      "target": "scanpy.preprocessing.pca",
+      "args": {
+        "data": "data"
+      },
+      "arg_types": {
+        "data": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obsm[\"X_pca\"]"
+      ],
+      "source": "scanpy.preprocessing.pca",
+      "target": "scanpy.plotting.pca",
+      "args": {
+        "adata": "data"
+      },
+      "arg_types": {
+        "adata": "object"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"louvain\"]"
+      ],
+      "source": "scanpy.tools.louvain",
+      "target": "scanpy.plotting.stacked_violin",
+      "args": {
+        "groupby": "louvain"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    },
+    {
+      "dependencies": [
+        "data.obs[\"leiden\"]"
+      ],
+      "source": "scanpy.tools.leiden",
+      "target": "scanpy.plotting.stacked_violin",
+      "args": {
+        "groupby": "leiden"
+      },
+      "arg_types": {
+        "groupby": "str"
+      }
+    }
+  ]
+}
