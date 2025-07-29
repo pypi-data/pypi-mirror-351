@@ -1,0 +1,38 @@
+# VK Parser
+
+## Пример
+
+```python
+import os
+from enum import Enum
+
+from dotenv import load_dotenv
+from pydantic import BaseModel
+from novikovtv_parser_tenchat.main import make_csv_file
+
+
+class ParserAPIType(int, Enum):
+    """Перечисление типов парсера API."""
+    Deferred = 0  # Отложенный парсинг
+    Day = 1  # Дневной парсинг
+    Night = 2  # Ночной парсинг
+
+
+class ParserRequest(BaseModel):
+    """Модель запроса на парсинг."""
+    tg_user_id: int
+    query: str
+    type: ParserAPIType
+
+
+async def vk(parser_request: ParserRequest):
+    """Выполняет парсинг TenChat по запросу пользователя."""
+    load_dotenv()
+
+    login = os.getenv("LOGIN_TENCHAT")
+    password = os.getenv("PASSWORD_TENCHAT")
+    max_communities = int(os.getenv("MAX_COMMUNITIES_TENCHAT"))
+    search_query = parser_request.query
+
+    csv_text = await make_csv_text(login, password, search_query, max_communities)
+```
