@@ -1,0 +1,14 @@
+click
+joblib
+numpy
+scikit-learn<2,>=1.4
+onnxconverter-common
+
+[datasets]
+datasets
+pandas
+
+[dev]
+pytest
+pytest-benchmark[histogram]
+onnxruntime
