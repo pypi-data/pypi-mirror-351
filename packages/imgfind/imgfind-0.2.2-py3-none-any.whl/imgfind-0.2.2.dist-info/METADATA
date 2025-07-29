@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: imgfind
+Version: 0.2.2
+Summary: Find and modify images in a directory, similar to findutils
+Project-URL: Source, https://github.com/Alanaktion/imgfind
+Requires-Python: >=3.5
+Requires-Dist: Pillow
+Requires-Dist: piexif
