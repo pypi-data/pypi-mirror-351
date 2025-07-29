@@ -1,0 +1,34 @@
+{
+	"benchmarks": [
+		{
+			"name": "dhrystone1B",
+			"path": "dhrystone1B.wasm",
+			"score-parser": "Dhrystones per Second:\\s+(?P<score>\\d+)",
+			"output-validator": "Dhrystones per Second:"
+		},
+		{
+			"name": "dhrystone1M",
+			"path": "dhrystone1M.wasm",
+			"score-parser": "Dhrystones per Second:\\s+(?P<score>\\d+)",
+			"output-validator": "Dhrystones per Second:"
+		},
+		{
+			"name": "dhrystone10M",
+			"path": "dhrystone10M.wasm",
+			"score-parser": "Dhrystones per Second:\\s+(?P<score>\\d+)",
+			"output-validator": "Dhrystones per Second:"
+		},
+		{
+			"name": "dhrystone100M",
+			"path": "dhrystone100M.wasm",
+			"score-parser": "Dhrystones per Second:\\s+(?P<score>\\d+)",
+			"output-validator": "Dhrystones per Second:"
+		},
+		{
+			"name": "dhrystoneMAX",
+			"path": "dhrystoneMAX.wasm",
+			"score-parser": "Dhrystones per Second:\\s+(?P<score>\\d+)",
+			"output-validator": "Dhrystones per Second:"
+		}
+	]
+}
