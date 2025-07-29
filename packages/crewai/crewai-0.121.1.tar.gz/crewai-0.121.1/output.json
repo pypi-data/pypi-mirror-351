@@ -1,0 +1,92 @@
+[
+    {
+        "timestamp": "2025-05-15 11:41:26",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "started"
+    },
+    {
+        "timestamp": "2025-05-15 11:41:41",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "completed",
+        "output": "Large reasoning models (LRMs) are a transformative development in artificial intelligence, focusing on enhancing the reasoning capabilities of language models. Prominent examples of LRMs include OpenAI-o1, DeepSeek-R1, and Qwen-QwQ. These models signify a shift towards leveraging test-time scaling and decomposing complex tasks into cognitive chains, allowing even smaller models to tackle intricate problems effectively. These LRMs utilize various innovative techniques to enhance their reasoning prowess. For instance, methodologies such as Monte Carlo Tree Search are applied to refine decision-making processes through simulated exploration. Additionally, deliberate introduction of errors aids in error correction during reasoning tasks, while a strategy like knowledge distillation helps in refining reasoning paths for improved model performance.\n\nA key component of these large reasoning models is their knowledge retrieval capability. This feature empowers advanced retrieval-augmented generation (RAG) systems, which combine the strengths of retrieval and reasoning to enable more sophisticated AI agents. For example, Self-RAG incorporates agent-centric search procedures into its reasoning workflows, intelligently determining when and how to retrieve knowledge using strategically curated datasets with specialized tokens. Models like Search-o1 and Search-R1 further the retrieval abilities through reinforcement learning training, while techniques such as RARE optimize reasoning via knowledge retrieval, facilitating a dual enhancement approach where knowledge aids in reasoning advancement.\n\nDomain-specific intelligence represents a significant challenge for large language models due to the need for specific knowledge and complex reasoning tailored to various application areas. The Retrieval-Augmented Reasoning Modeling (RARE) paradigm innovatively separates knowledge storage from reasoning modeling, allowing LRMs to excel in domain-specific reasoning without excessive reliance on parameter-heavy memorization. Through integration with external knowledge bases, RARE-trained models prioritize advanced reasoning capabilities, demonstrating superior performance across benchmarks as compared to substantial models like GPT-4 and other retrieval-augmented counterparts. This paradigm encourages LRMs to develop context-aware cognitive processes, marking a shift towards efficient, scalable domain-specific intelligence."
+    },
+    {
+        "timestamp": "2025-05-16 13:36:22",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "started"
+    },
+    {
+        "timestamp": "2025-05-16 13:36:32",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "completed",
+        "output": "Large reasoning models, such as OpenAI-o1, DeepSeek-R1, and Qwen-QwQ, represent an innovative shift in model design, focusing on enhancing test-time performance through extended reasoning steps. These models aim to enable smaller systems to tackle complex tasks by breaking down problems into cognitive chains, which allows them to handle sophisticated inferences more effectively. This emerging paradigm employs diverse strategies such as Monte Carlo Tree Search for decision enhancement, deliberate error injection for improved error correction, and the distillation of reasoning paths. Additionally, these models often augment the capabilities of reasoning-augmented retrieval systems like RAG (Retrieval-Augmented Generation), providing advanced frameworks that integrate reasoning capabilities into retrieval models.\n\nFurthermore, large language models, trained on enormous datasets with billions of parameters, have shown versatile performance across various domains, enhancing capabilities in mathematical reasoning, task automation, and beyond. However, there's growing interest in developing domain-specific intelligence, which demands specialized reasoning skills and domain-specific knowledge. While open-domain systems like general-purpose LLMs are designed to serve a wide range of user scenarios, more refined models aim to address specific domain challenges, such as those in healthcare or finance. The development of domain-specific LLMs represents a critical step towards achieving more nuanced and specialized reasoning capabilities.\n\nA novel approach, the Retrieval-Augmented Reasoning Modeling (RARE) paradigm, addresses limitations in traditional large-scale models by decoupling knowledge storage from reasoning functions. By outsourcing domain knowledge to external, maintainable databases and focusing model training on domain-specific reasoning, RARE optimizes the reasoning process without relying on extensive memorization of knowledge, enabling lightweight models to achieve state-of-the-art performance. For instance, models like Llama-3.1-8B and Qwen-2.5-7B, trained under this approach, have demonstrated superior accuracy on medical benchmarks, outperforming even larger generic models like GPT-4. The RARE methodology illustrates a paradigm shift towards scalable, domain-specific intelligence by leveraging compact, reasoning-optimized models integrated with comprehensive knowledge stores."
+    },
+    {
+        "timestamp": "2025-05-16 13:36:56",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "started"
+    },
+    {
+        "timestamp": "2025-05-16 13:37:08",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "completed",
+        "output": "Large reasoning models (LRMs), such as OpenAI-o1, DeepSeek-R1, and Qwen-QwQ, exemplify a significant evolution in artificial intelligence, focusing particularly on the enhancement of reasoning skills through extended reasoning steps. This approach allows smaller models to handle complex tasks by breaking down problems into manageable cognitive chains. These models utilize diverse methodologies to enhance reasoning capabilities, such as Monte Carlo Tree Search for decision-making enhancements and deliberate error injection for improving error correction processes. Furthermore, they employ strategies like knowledge distillation of reasoning paths and the integration of agentic reasoning workflows seen in advanced systems like Self-RAG, which incorporates specialized tokens to guide the reasoning process.\n\nIn the broader context of large language models (LLMs), these systems have been developed using extensive corpora comprising billions of parameters and have demonstrated superior performance across various general-domain and reasoning tasks. This accomplishment has significantly impacted fields such as mathematical reasoning and task automation, highlighting the flexibility and power of LLMs. However, despite their broad capabilities, traditional LLMs face challenges when addressing domain-specific tasks, especially those requiring specialized knowledge. This necessity drives the development of domain-specific intelligence to improve the applicability of AI in specialized fields like medical information processing, which is essential for more effective and precise task handling in scenarios requiring complex, nuanced reasoning.\n\nAddressing the limitations inherent in scale-driven approaches, the Retrieval-Augmented Reasoning Modeling (RARE) paradigm offers a novel solution by dissociating knowledge from reasoning optimization. By externalizing domain knowledge to retrievable sources and internalizing sophisticated reasoning patterns, RARE models avoid the pitfalls of excessive parameter use and shift focus towards developing higher-order cognitive reasoning skills. Through empirical experimentation, RARE-trained models, like Llama-3.1-8B, have surpassed even large-scale models like GPT-4 in domain-specific reasoning tasks, achieving substantial improvements in accuracy. This paradigm not only enhances reasoning capabilities but also establishes a scalable path for developing domain-specific intelligence by leveraging maintainable external knowledge bases to support the reasoning processes of compact, optimized models."
+    },
+    {
+        "timestamp": "2025-05-16 13:40:42",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "started"
+    },
+    {
+        "timestamp": "2025-05-16 13:40:53",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "completed",
+        "output": "Large reasoning models, such as OpenAI-o1, DeepSeek-R1, and Qwen-QwQ, have marked a significant shift in computational paradigms, emphasizing test-time scaling via extended reasoning steps. This shift allows these models to tackle complex problems by breaking them down into cognitive chains. The development of reasoning models has seen the introduction of various strategies to enhance their capabilities, such as Monte Carlo Tree Search to improve decision-making through simulation, and deliberate error injection for enhancing error correction. Additionally, the integration of knowledge distillation of reasoning paths is prevalent. In advanced knowledge retrieval systems, reasoning capabilities are increasingly leveraged to power more refined Retrieval-Augmented Generation (RAG) systems, as seen in models like Self-RAG. These systems utilize curated datasets and agentic search workflows to finesse retrieval processes.\n\nThe role of large language models (LLMs) extends beyond general knowledge representation to include mathematical reasoning and task automation. Nonetheless, as the application demands grow, there is a distinct need for domain-specific models that can handle tasks requiring specialized knowledge and reasoning proficiency. Examples include medical-specific LLMs tailored for healthcare contexts and general-purpose LLMs for various open-domain tasks. As capabilities evolve, models like RARE demonstrate impressive performance in enhancing domain-specific reasoning, managing to outperform even larger models such as GPT-4 by relying on sophisticated external knowledge bases and reasoning optimization mechanics. The results from such models highlight the feasibility of achieving high accuracy and updatable system intelligence without necessitating major model scaling.\n\nIn experimental setups, the lightweight models trained with Retrieval-Augmented Reasoning Modeling, such as Llama-3.1-8B and Qwen-2.5-7B, have demonstrated state-of-the-art performance exceeding that of large-scaled models like GPT-4 in terms of accuracy, especially in specialized contexts such as medical benchmarks and open-domain multi-modal evaluations. RARE-trained models not only surpass retrieval-augmented GPT-4 and Deepseek-R1 but also underscore the success of the RARE paradigm\u2014a framework that separates knowledge storage from reasoning modeling. This approach allows for the development of higher-order cognitive processes, foregrounds context-driven reasoning over memorization, and supports a move towards maintainable, scalable models centered on sophisticated, contextualized inference."
+    },
+    {
+        "timestamp": "2025-05-16 13:54:43",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "started"
+    },
+    {
+        "timestamp": "2025-05-16 13:54:55",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "completed",
+        "output": "Large reasoning models (LRMs) such as OpenAI-o1, DeepSeek-R1, and Qwen-QwQ represent a significant advancement in the field of artificial intelligence, particularly in test-time scaling with long reasoning steps. This paradigm enables smaller models to handle complex tasks by breaking down problems into manageable cognitive chains, enhancing their problem-solving capabilities. Various strategies have been employed in reasoning modeling to improve these models, including the use of Monte Carlo Tree Search for decision-making simulation, deliberate error injection for better error correction, and knowledge distillation of reasoning paths. These techniques collectively aim to enhance the decision-making abilities of reasoning models, allowing them to perform sophisticated cognitive tasks efficiently.\n\nFurther developments in large reasoning models have been made in knowledge retrieval and retrieval-augmented generation (RAG) systems. These systems, such as Self-RAG, integrate agentic search workflows into their reasoning processes, learning optimal retrieval methods through curated datasets. Search-o1 and Search-R1 models further this advancement with reinforcement learning training, which enhances retrieval through reasoning techniques. Conversely, models like RARE optimize reasoning modeling by integrating retrieval techniques, allowing for externalized domain knowledge to be used effectively without over-reliance on internal data storage, ensuring better updatability and adaptability in domain-specific applications.\n\nThrough the development of the Retrieval-Augmented Reasoning Modeling (RARE) approach, a new paradigm in large reasoning models has emerged. This strategy decouples knowledge storage from reasoning optimization, effectively bypassing the need for parameter-intensive memorization and enabling models to focus on higher-order cognitive processes. Experiments have shown that lightweight models trained under the RARE framework, such as Llama-3.1-8B and Qwen-2.5-7B, outperform large-scale generic models like GPT-4, achieving significant accuracy improvements in specialized tasks. This offers a well-suited solution for domain-specific intelligence demands, driving more sophisticated and contextualized reasoning systems by integrating compact models with maintainable external knowledge bases."
+    },
+    {
+        "timestamp": "2025-05-16 13:55:33",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "started"
+    },
+    {
+        "timestamp": "2025-05-16 13:55:43",
+        "task_name": null,
+        "task": "Your goal is to answer the question based on the knowledge sources: what are some large reasoning models?",
+        "agent": "Agent",
+        "status": "completed",
+        "output": "Large reasoning models, abbreviated as LRMs, are a significant development in artificial intelligence aimed at enhancing the reasoning capabilities of language models. Notable examples of these include OpenAI-o1, DeepSeek-R1, and Qwen-QwQ. These models represent a paradigm shift in test-time scaling by facilitating long reasoning steps that allow even smaller models to address complex tasks. This is achieved by breaking down problems into \"cognitive chains\", which streamline problem-solving processes. Various strategies are employed in reasoning modeling, such as Monte Carlo Tree Search, deliberate error injection for error correction, and knowledge dissemination through strategic reasoning paths. These methodologies empower more sophisticated retrieval-augmented generation (RAG) systems, highlighting the interplay between retrieval and reasoning.\n\nThe capabilities of large reasoning models have transcended across various domains, notably in mathematical reasoning and task automation. Traditional large language models (LLMs) with billion-scale parameters have shown extraordinary prowess in performing general-domain knowledge tasks. However, there's a growing recognition of the need for domain-specific intelligence that requires tailored knowledge and reasoning skills. This requirement is evident both in specialized domains, such as medical language models, and in general-purpose scenarios facilitated by open-domain generalist LLMs. These models are being challenged to overcome issues like knowledge hallucination, maximizing constrained parameter budgets, and improving reasoning capabilities aligned with domain-specific needs.\n\nAgainst this backdrop, the Retrieval-Augmented Reasoning Modeling (RARE) paradigm emerges. It proposes a transformative approach by decoupling knowledge storage from reasoning optimization. By emphasizing contextualized reasoning over rote memorization, RARE models externalize domain knowledge to retrievable sources while honing domain-specific reasoning patterns during training. This strategic shift allows lightweight models like Llama-3.1-8B, trained with RARE, to achieve state-of-the-art performance, outperforming traditional large-scale models such as GPT-4. By synergizing maintainable external knowledge bases with compact reasoning-oriented models, RARE offers a scalable path to achieving domain-specific intelligence, enhancing both the accuracy and updatability of these intelligent systems."
+    }
+]

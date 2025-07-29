@@ -1,0 +1,207 @@
+interactions:
+- request:
+    body: '{"messages": [{"role": "user", "content": "Tell me a joke."}], "model":
+      "gpt-4o-mini"}'
+    headers:
+      accept:
+      - application/json
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '86'
+      content-type:
+      - application/json
+      cookie:
+      - _cfuvid=8NrWEBP3dDmc8p2.csR.EdsSwS8zFvzWI1kPICaK_fM-1737568015338-0.0.1.1-604800000;
+        __cf_bm=pKr3NwXmTZN9rMSlKvEX40VPKbrxF93QwDNHunL2v8Y-1737568015-1.0.1.1-nR0EA7hYIwWpIBYUI53d9xQrUnl5iML6lgz4AGJW4ZGPBDxFma3PZ2cBhlr_hE7wKa5fV3r32eMu_rNWMXD.eA
+      host:
+      - api.openai.com
+      user-agent:
+      - OpenAI/Python 1.59.6
+      x-stainless-arch:
+      - arm64
+      x-stainless-async:
+      - 'false'
+      x-stainless-lang:
+      - python
+      x-stainless-os:
+      - MacOS
+      x-stainless-package-version:
+      - 1.59.6
+      x-stainless-raw-response:
+      - 'true'
+      x-stainless-retry-count:
+      - '0'
+      x-stainless-runtime:
+      - CPython
+      x-stainless-runtime-version:
+      - 3.12.7
+    method: POST
+    uri: https://api.openai.com/v1/chat/completions
+  response:
+    content: "{\n  \"id\": \"chatcmpl-AsZ6VyjuUcXYpChXmD8rUSy6nSGq8\",\n  \"object\":
+      \"chat.completion\",\n  \"created\": 1737568015,\n  \"model\": \"gpt-4o-mini-2024-07-18\",\n
+      \ \"choices\": [\n    {\n      \"index\": 0,\n      \"message\": {\n        \"role\":
+      \"assistant\",\n        \"content\": \"Why did the scarecrow win an award?  \\n\\nBecause
+      he was outstanding in his field!\",\n        \"refusal\": null\n      },\n      \"logprobs\":
+      null,\n      \"finish_reason\": \"stop\"\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\":
+      12,\n    \"completion_tokens\": 19,\n    \"total_tokens\": 31,\n    \"prompt_tokens_details\":
+      {\n      \"cached_tokens\": 0,\n      \"audio_tokens\": 0\n    },\n    \"completion_tokens_details\":
+      {\n      \"reasoning_tokens\": 0,\n      \"audio_tokens\": 0,\n      \"accepted_prediction_tokens\":
+      0,\n      \"rejected_prediction_tokens\": 0\n    }\n  },\n  \"service_tier\":
+      \"default\",\n  \"system_fingerprint\": \"fp_72ed7ab54c\"\n}\n"
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 90615dc03b6c5cb1-RDU
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 22 Jan 2025 17:46:56 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      alt-svc:
+      - h3=":443"; ma=86400
+      openai-organization:
+      - crewai-iuxna1
+      openai-processing-ms:
+      - '825'
+      openai-version:
+      - '2020-10-01'
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-ratelimit-limit-requests:
+      - '30000'
+      x-ratelimit-limit-tokens:
+      - '150000000'
+      x-ratelimit-remaining-requests:
+      - '29999'
+      x-ratelimit-remaining-tokens:
+      - '149999979'
+      x-ratelimit-reset-requests:
+      - 2ms
+      x-ratelimit-reset-tokens:
+      - 0s
+      x-request-id:
+      - req_4c1485d44e7461396d4a7316a63ff353
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: '{"messages": [{"role": "user", "content": "Tell me a joke."}], "model":
+      "gpt-4o-mini", "stop": []}'
+    headers:
+      accept:
+      - application/json
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '98'
+      content-type:
+      - application/json
+      cookie:
+      - _cfuvid=SdF3I7OnpnyNSLZLuSSxYaNQrc_n.7bKg5KCsfdantw-1748367230988-0.0.1.1-604800000;
+        __cf_bm=JcsEfqhjUZ.WBN3e4KE_8N_bEeSiHhuFjewR59DgxR8-1748367230-1.0.1.1-_ylqyHHDr3mvQNRRKGvu5qs04t46MhiBN6L.zooCwFWPuVnacuzN_MS7_4aWldnJk35.bXvHX7MvPZm0xtcoFCHIAqHuojjXzbara5d59ok
+      host:
+      - api.openai.com
+      user-agent:
+      - OpenAI/Python 1.68.2
+      x-stainless-arch:
+      - arm64
+      x-stainless-async:
+      - 'false'
+      x-stainless-lang:
+      - python
+      x-stainless-os:
+      - MacOS
+      x-stainless-package-version:
+      - 1.68.2
+      x-stainless-raw-response:
+      - 'true'
+      x-stainless-read-timeout:
+      - '600.0'
+      x-stainless-retry-count:
+      - '1'
+      x-stainless-runtime:
+      - CPython
+      x-stainless-runtime-version:
+      - 3.12.9
+    method: POST
+    uri: https://api.openai.com/v1/chat/completions
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA4xSy27bMBC86yu2PFuFLat+XQoEAVr03CIomkCgyJW0LkWyJBXFCPzvBSXHUtoU
+        6IWHnZ3hzO4+JwCMJDsAEw0PorUqvSn918d69+3Y2afvpI7Vry/2bv/59rY/nj6xRWSY8ogivLDe
+        C9NahYGMHmHhkAeMqqttvltvttlmPQCtkagirbYhzU3akqY0W2Z5utymq92F3RgS6NkBfiQAAM/D
+        G31qiU/sAMvFS6VF73mN7HBtAmDOqFhh3HvygevAFhMojA6oB+t3zQkkSQgNghfcoXCmh540cA28
+        505+vNf3+gYF7zxCg9BzD6YLUVSSroE0NOShIlTy3fwXh1XneUyqO6VmANfaBB4nNeR7uCDnayJl
+        autM6f+gsoo0+aZwyL3R0b0PxrIBPScAD8PkulfDYNaZ1oYimJ84fLfKRjk27WsGbi9gMIGrqZ7t
+        F2+oFRIDJ+Vnk2eCiwblxJzWxDtJZgYks8x/m3lLe8xNuv4f+QkQAm1AWViHksTrwFObw3jN/2q7
+        zngwzDy6RxJYBEIX9yCx4p0ab4z5kw/YFhXpGp11NB5aZYsPOZZ5KTf7NUvOyW8AAAD//wMAFTUn
+        dnYDAAA=
+    headers:
+      CF-RAY:
+      - 946743431a64ed37-SJC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 27 May 2025 17:34:23 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      openai-organization:
+      - crewai-iuxna1
+      openai-processing-ms:
+      - '517'
+      openai-version:
+      - '2020-10-01'
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-envoy-upstream-service-time:
+      - '524'
+      x-ratelimit-limit-requests:
+      - '30000'
+      x-ratelimit-limit-tokens:
+      - '150000000'
+      x-ratelimit-remaining-requests:
+      - '29999'
+      x-ratelimit-remaining-tokens:
+      - '149999993'
+      x-ratelimit-reset-requests:
+      - 2ms
+      x-ratelimit-reset-tokens:
+      - 0s
+      x-request-id:
+      - req_fec15a00e2d7dd28daf217e8dae8f27c
+    status:
+      code: 200
+      message: OK
+version: 1

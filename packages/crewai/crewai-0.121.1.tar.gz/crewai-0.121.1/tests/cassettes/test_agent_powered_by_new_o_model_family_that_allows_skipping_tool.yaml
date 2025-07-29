@@ -1,0 +1,450 @@
+interactions:
+- request:
+    body: '{"messages": [{"role": "user", "content": "You are test role. test backstory\nYour
+      personal goal is: test goal\nYou ONLY have access to the following tools, and
+      should NEVER make up tools that are not listed here:\n\nTool Name: multiplier\nTool
+      Arguments: {''first_number'': {''description'': None, ''type'': ''int''}, ''second_number'':
+      {''description'': None, ''type'': ''int''}}\nTool Description: Useful for when
+      you need to multiply two numbers together.\n\nIMPORTANT: Use the following format
+      in your response:\n\n```\nThought: you should always think about what to do\nAction:
+      the action to take, only one name of [multiplier], just the name, exactly as
+      it''s written.\nAction Input: the input to the action, just a simple JSON object,
+      enclosed in curly braces, using \" to wrap keys and values.\nObservation: the
+      result of the action\n```\n\nOnce all necessary information is gathered, return
+      the following format:\n\n```\nThought: I now know the final answer\nFinal Answer:
+      the final answer to the original input question\n```\nCurrent Task: What is
+      3 times 4?\n\nThis is the expected criteria for your final answer: The result
+      of the multiplication.\nyou MUST return the actual complete content as the final
+      answer, not a summary.\n\nBegin! This is VERY important to you, use the tools
+      available and give your best Final Answer, your job depends on it!\n\nThought:"}],
+      "model": "o3-mini", "stop": ["\nObservation:"]}'
+    headers:
+      accept:
+      - application/json
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '1409'
+      content-type:
+      - application/json
+      host:
+      - api.openai.com
+      user-agent:
+      - OpenAI/Python 1.68.2
+      x-stainless-arch:
+      - arm64
+      x-stainless-async:
+      - 'false'
+      x-stainless-lang:
+      - python
+      x-stainless-os:
+      - MacOS
+      x-stainless-package-version:
+      - 1.68.2
+      x-stainless-raw-response:
+      - 'true'
+      x-stainless-read-timeout:
+      - '600.0'
+      x-stainless-retry-count:
+      - '0'
+      x-stainless-runtime:
+      - CPython
+      x-stainless-runtime-version:
+      - 3.12.8
+    method: POST
+    uri: https://api.openai.com/v1/chat/completions
+  response:
+    content: "{\n  \"id\": \"chatcmpl-BHIc6Eoq1bS5hOxvIXvHm8rvcS3Sg\",\n  \"object\":
+      \"chat.completion\",\n  \"created\": 1743462826,\n  \"model\": \"o3-mini-2025-01-31\",\n
+      \ \"choices\": [\n    {\n      \"index\": 0,\n      \"message\": {\n        \"role\":
+      \"assistant\",\n        \"content\": \"```\\nThought: I need to multiply 3 by
+      4 using the multiplier tool.\\nAction: multiplier\\nAction Input: {\\\"first_number\\\":
+      3, \\\"second_number\\\": 4}\",\n        \"refusal\": null,\n        \"annotations\":
+      []\n      },\n      \"finish_reason\": \"stop\"\n    }\n  ],\n  \"usage\": {\n
+      \   \"prompt_tokens\": 289,\n    \"completion_tokens\": 369,\n    \"total_tokens\":
+      658,\n    \"prompt_tokens_details\": {\n      \"cached_tokens\": 0,\n      \"audio_tokens\":
+      0\n    },\n    \"completion_tokens_details\": {\n      \"reasoning_tokens\":
+      320,\n      \"audio_tokens\": 0,\n      \"accepted_prediction_tokens\": 0,\n
+      \     \"rejected_prediction_tokens\": 0\n    }\n  },\n  \"service_tier\": \"default\",\n
+      \ \"system_fingerprint\": \"fp_617f206dd9\"\n}\n"
+    headers:
+      CF-RAY:
+      - 92938a09c9a47ac2-SJC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 31 Mar 2025 23:13:50 GMT
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - __cf_bm=57u6EtH_gSxgjHZShVlFLmvT2llY2pxEvawPcGWN0xM-1743462830-1.0.1.1-8YjbI_1pxIPv3qB9xO7RckBpDDlGwv7AhsthHf450Nt8IzpLPd.RcEp0.kv8tfgpjeUfqUzksJIbw97Da06HFXJaBC.G0OOd27SqDAx4z2w;
+        path=/; expires=Mon, 31-Mar-25 23:43:50 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=Gr1EyX0LLsKtl8de8dQsqXR2qCChTYrfTow05mWQBqs-1743462830990-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      openai-organization:
+      - crewai-iuxna1
+      openai-processing-ms:
+      - '4384'
+      openai-version:
+      - '2020-10-01'
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-ratelimit-limit-requests:
+      - '30000'
+      x-ratelimit-limit-tokens:
+      - '150000000'
+      x-ratelimit-remaining-requests:
+      - '29999'
+      x-ratelimit-remaining-tokens:
+      - '149999677'
+      x-ratelimit-reset-requests:
+      - 2ms
+      x-ratelimit-reset-tokens:
+      - 0s
+      x-request-id:
+      - req_2308de6953e2cfcb6ab7566dbf115c11
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: '{"messages": [{"role": "user", "content": "You are test role. test backstory\nYour
+      personal goal is: test goal\nYou ONLY have access to the following tools, and
+      should NEVER make up tools that are not listed here:\n\nTool Name: multiplier\nTool
+      Arguments: {''first_number'': {''description'': None, ''type'': ''int''}, ''second_number'':
+      {''description'': None, ''type'': ''int''}}\nTool Description: Useful for when
+      you need to multiply two numbers together.\n\nIMPORTANT: Use the following format
+      in your response:\n\n```\nThought: you should always think about what to do\nAction:
+      the action to take, only one name of [multiplier], just the name, exactly as
+      it''s written.\nAction Input: the input to the action, just a simple JSON object,
+      enclosed in curly braces, using \" to wrap keys and values.\nObservation: the
+      result of the action\n```\n\nOnce all necessary information is gathered, return
+      the following format:\n\n```\nThought: I now know the final answer\nFinal Answer:
+      the final answer to the original input question\n```\nCurrent Task: What is
+      3 times 4?\n\nThis is the expected criteria for your final answer: The result
+      of the multiplication.\nyou MUST return the actual complete content as the final
+      answer, not a summary.\n\nBegin! This is VERY important to you, use the tools
+      available and give your best Final Answer, your job depends on it!\n\nThought:"},
+      {"role": "assistant", "content": "12"}, {"role": "assistant", "content": "```\nThought:
+      I need to multiply 3 by 4 using the multiplier tool.\nAction: multiplier\nAction
+      Input: {\"first_number\": 3, \"second_number\": 4}\nObservation: 12"}], "model":
+      "o3-mini", "stop": ["\nObservation:"]}'
+    headers:
+      accept:
+      - application/json
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '1649'
+      content-type:
+      - application/json
+      cookie:
+      - __cf_bm=57u6EtH_gSxgjHZShVlFLmvT2llY2pxEvawPcGWN0xM-1743462830-1.0.1.1-8YjbI_1pxIPv3qB9xO7RckBpDDlGwv7AhsthHf450Nt8IzpLPd.RcEp0.kv8tfgpjeUfqUzksJIbw97Da06HFXJaBC.G0OOd27SqDAx4z2w;
+        _cfuvid=Gr1EyX0LLsKtl8de8dQsqXR2qCChTYrfTow05mWQBqs-1743462830990-0.0.1.1-604800000
+      host:
+      - api.openai.com
+      user-agent:
+      - OpenAI/Python 1.68.2
+      x-stainless-arch:
+      - arm64
+      x-stainless-async:
+      - 'false'
+      x-stainless-lang:
+      - python
+      x-stainless-os:
+      - MacOS
+      x-stainless-package-version:
+      - 1.68.2
+      x-stainless-raw-response:
+      - 'true'
+      x-stainless-read-timeout:
+      - '600.0'
+      x-stainless-retry-count:
+      - '0'
+      x-stainless-runtime:
+      - CPython
+      x-stainless-runtime-version:
+      - 3.12.8
+    method: POST
+    uri: https://api.openai.com/v1/chat/completions
+  response:
+    content: "{\n  \"id\": \"chatcmpl-BHIcBrSyMUt4ujKNww9ZR2m0FJgPj\",\n  \"object\":
+      \"chat.completion\",\n  \"created\": 1743462831,\n  \"model\": \"o3-mini-2025-01-31\",\n
+      \ \"choices\": [\n    {\n      \"index\": 0,\n      \"message\": {\n        \"role\":
+      \"assistant\",\n        \"content\": \"```\\nThought: I now know the final answer\\nFinal
+      Answer: 12\\n```\",\n        \"refusal\": null,\n        \"annotations\": []\n
+      \     },\n      \"finish_reason\": \"stop\"\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\":
+      341,\n    \"completion_tokens\": 29,\n    \"total_tokens\": 370,\n    \"prompt_tokens_details\":
+      {\n      \"cached_tokens\": 0,\n      \"audio_tokens\": 0\n    },\n    \"completion_tokens_details\":
+      {\n      \"reasoning_tokens\": 0,\n      \"audio_tokens\": 0,\n      \"accepted_prediction_tokens\":
+      0,\n      \"rejected_prediction_tokens\": 0\n    }\n  },\n  \"service_tier\":
+      \"default\",\n  \"system_fingerprint\": \"fp_617f206dd9\"\n}\n"
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 92938a25ec087ac2-SJC
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 31 Mar 2025 23:13:52 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      alt-svc:
+      - h3=":443"; ma=86400
+      openai-organization:
+      - crewai-iuxna1
+      openai-processing-ms:
+      - '1818'
+      openai-version:
+      - '2020-10-01'
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-ratelimit-limit-requests:
+      - '30000'
+      x-ratelimit-limit-tokens:
+      - '150000000'
+      x-ratelimit-remaining-requests:
+      - '29999'
+      x-ratelimit-remaining-tokens:
+      - '149999636'
+      x-ratelimit-reset-requests:
+      - 2ms
+      x-ratelimit-reset-tokens:
+      - 0s
+      x-request-id:
+      - req_01bee1028234ea669dc8ab805d877b7e
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: !!binary |
+      ColNCiQKIgoMc2VydmljZS5uYW1lEhIKEGNyZXdBSS10ZWxlbWV0cnkS4EwKEgoQY3Jld2FpLnRl
+      bGVtZXRyeRLODAoQ+kK/JetGOTwuqvb0jB1ushIISnNroAo8ih0qDENyZXcgQ3JlYXRlZDABOZBZ
+      Rt1Vc0MYQQgEUd1Vc0MYShsKDmNyZXdhaV92ZXJzaW9uEgkKBzAuMTIxLjFKGgoOcHl0aG9uX3Zl
+      cnNpb24SCAoGMy4xMi45Si4KCGNyZXdfa2V5EiIKIDliZjJjZGU2YmM1YzQyMDFkNjliOWJjZmZm
+      MzViZmI5SjEKB2NyZXdfaWQSJgokODVhMzZmNzQtNDZhMy00NGY2LTliYWEtYTU3YmRmMmQ1ZDAz
+      ShwKDGNyZXdfcHJvY2VzcxIMCgpzZXF1ZW50aWFsShEKC2NyZXdfbWVtb3J5EgIQAEoaChRjcmV3
+      X251bWJlcl9vZl90YXNrcxICGAJKGwoVY3Jld19udW1iZXJfb2ZfYWdlbnRzEgIYAko6ChBjcmV3
+      X2ZpbmdlcnByaW50EiYKJDA1NGQ1YTNiLWQ1ZjctNDRlZS05YzgyLTBmY2NmYzY0MTk4Yko7Chtj
+      cmV3X2ZpbmdlcnByaW50X2NyZWF0ZWRfYXQSHAoaMjAyNS0wNS0yN1QxMDo0NDo1Mi45NjkzOTFK
+      kgUKC2NyZXdfYWdlbnRzEoIFCv8EW3sia2V5IjogIjhiZDIxMzliNTk3NTE4MTUwNmU0MWZkOWM0
+      NTYzZDc1IiwgImlkIjogIjgzZDZmNGYwLTkwYzktNGJkYS04YWIxLTcyOTQyNTU2ZTY3MiIsICJy
+      b2xlIjogIlJlc2VhcmNoZXIiLCAidmVyYm9zZT8iOiBmYWxzZSwgIm1heF9pdGVyIjogMjUsICJt
+      YXhfcnBtIjogbnVsbCwgImZ1bmN0aW9uX2NhbGxpbmdfbGxtIjogIiIsICJsbG0iOiAiZ3B0LTRv
+      LW1pbmkiLCAiZGVsZWdhdGlvbl9lbmFibGVkPyI6IGZhbHNlLCAiYWxsb3dfY29kZV9leGVjdXRp
+      b24/IjogZmFsc2UsICJtYXhfcmV0cnlfbGltaXQiOiAyLCAidG9vbHNfbmFtZXMiOiBbXX0sIHsi
+      a2V5IjogIjlhNTAxNWVmNDg5NWRjNjI3OGQ1NDgxOGJhNDQ2YWY3IiwgImlkIjogImIzYjI0YjQ3
+      LTQ1MmQtNDI4MC1iZjcyLWE4NGQ3NzZlNzE1YyIsICJyb2xlIjogIlNlbmlvciBXcml0ZXIiLCAi
+      dmVyYm9zZT8iOiBmYWxzZSwgIm1heF9pdGVyIjogMjUsICJtYXhfcnBtIjogbnVsbCwgImZ1bmN0
+      aW9uX2NhbGxpbmdfbGxtIjogIiIsICJsbG0iOiAiZ3B0LTRvLW1pbmkiLCAiZGVsZWdhdGlvbl9l
+      bmFibGVkPyI6IGZhbHNlLCAiYWxsb3dfY29kZV9leGVjdXRpb24/IjogZmFsc2UsICJtYXhfcmV0
+      cnlfbGltaXQiOiAyLCAidG9vbHNfbmFtZXMiOiBbXX1dSu8DCgpjcmV3X3Rhc2tzEuADCt0DW3si
+      a2V5IjogIjU5YzczOGQ0ZGFlNzk2ZTVhMjJkYmMyZTUxOThjMjBkIiwgImlkIjogIjllNjNkNjkx
+      LWFlNzgtNDM1Yy05MTc2LTdlMzQ0NTAyMTI1MCIsICJhc3luY19leGVjdXRpb24/IjogZmFsc2Us
+      ICJodW1hbl9pbnB1dD8iOiBmYWxzZSwgImFnZW50X3JvbGUiOiAiUmVzZWFyY2hlciIsICJhZ2Vu
+      dF9rZXkiOiAiOGJkMjEzOWI1OTc1MTgxNTA2ZTQxZmQ5YzQ1NjNkNzUiLCAidG9vbHNfbmFtZXMi
+      OiBbXX0sIHsia2V5IjogImM1MDJjNTc0NWMyNzgxYWY1MWIyZjNlZjVkNjJmYzc0IiwgImlkIjog
+      ImVlYzVhYjVmLWFlNWQtNGZiMi05M2YyLTc2MTc3ZjhlZjM3ZSIsICJhc3luY19leGVjdXRpb24/
+      IjogZmFsc2UsICJodW1hbl9pbnB1dD8iOiBmYWxzZSwgImFnZW50X3JvbGUiOiAiU2VuaW9yIFdy
+      aXRlciIsICJhZ2VudF9rZXkiOiAiOWE1MDE1ZWY0ODk1ZGM2Mjc4ZDU0ODE4YmE0NDZhZjciLCAi
+      dG9vbHNfbmFtZXMiOiBbXX1degIYAYUBAAEAABKABAoQfFAGkOIIig+/7x/H2Jk8xhIIuIIe54FX
+      JgIqDFRhc2sgQ3JlYXRlZDABOdDzcN1Vc0MYQSiMcd1Vc0MYSi4KCGNyZXdfa2V5EiIKIDliZjJj
+      ZGU2YmM1YzQyMDFkNjliOWJjZmZmMzViZmI5SjEKB2NyZXdfaWQSJgokODVhMzZmNzQtNDZhMy00
+      NGY2LTliYWEtYTU3YmRmMmQ1ZDAzSi4KCHRhc2tfa2V5EiIKIDU5YzczOGQ0ZGFlNzk2ZTVhMjJk
+      YmMyZTUxOThjMjBkSjEKB3Rhc2tfaWQSJgokOWU2M2Q2OTEtYWU3OC00MzVjLTkxNzYtN2UzNDQ1
+      MDIxMjUwSjoKEGNyZXdfZmluZ2VycHJpbnQSJgokMDU0ZDVhM2ItZDVmNy00NGVlLTljODItMGZj
+      Y2ZjNjQxOThiSjoKEHRhc2tfZmluZ2VycHJpbnQSJgokYjAyNGVlZDktYjE5YS00MWNjLWEzYTkt
+      MjM0Y2E2MjIyYzBmSjsKG3Rhc2tfZmluZ2VycHJpbnRfY3JlYXRlZF9hdBIcChoyMDI1LTA1LTI3
+      VDEwOjQ0OjUyLjk2OTMwMUo7ChFhZ2VudF9maW5nZXJwcmludBImCiQxZGUzZWRkZS1kMDA4LTRk
+      N2EtYmE2Yi0xNDBmY2VkNGJlY2J6AhgBhQEAAQAAEoAEChBmBoRo14WHy2vS9A2nvn67EggYZTLf
+      JZjjAyoMVGFzayBDcmVhdGVkMAE5WCzT3VVzQxhBONjT3VVzQxhKLgoIY3Jld19rZXkSIgogOWJm
+      MmNkZTZiYzVjNDIwMWQ2OWI5YmNmZmYzNWJmYjlKMQoHY3Jld19pZBImCiQ4NWEzNmY3NC00NmEz
+      LTQ0ZjYtOWJhYS1hNTdiZGYyZDVkMDNKLgoIdGFza19rZXkSIgogYzUwMmM1NzQ1YzI3ODFhZjUx
+      YjJmM2VmNWQ2MmZjNzRKMQoHdGFza19pZBImCiRlZWM1YWI1Zi1hZTVkLTRmYjItOTNmMi03NjE3
+      N2Y4ZWYzN2VKOgoQY3Jld19maW5nZXJwcmludBImCiQwNTRkNWEzYi1kNWY3LTQ0ZWUtOWM4Mi0w
+      ZmNjZmM2NDE5OGJKOgoQdGFza19maW5nZXJwcmludBImCiQ5MGVmNjM1MC0yYzFmLTRiMDMtODQ3
+      OS1kMmI5NTA0OGZlMjlKOwobdGFza19maW5nZXJwcmludF9jcmVhdGVkX2F0EhwKGjIwMjUtMDUt
+      MjdUMTA6NDQ6NTIuOTY5MzUySjsKEWFnZW50X2ZpbmdlcnByaW50EiYKJDI4NTQwM2U5LTlhY2Mt
+      NDIzYy05M2ZhLTA0ZTc3NzY2MDViMHoCGAGFAQABAAASzgwKENQqvuRu2//11CWawS0Ta9MSCG1H
+      ItqRy+ldKgxDcmV3IENyZWF0ZWQwATkok1XeVXNDGEG4P1/eVXNDGEobCg5jcmV3YWlfdmVyc2lv
+      bhIJCgcwLjEyMS4xShoKDnB5dGhvbl92ZXJzaW9uEggKBjMuMTIuOUouCghjcmV3X2tleRIiCiA5
+      YmYyY2RlNmJjNWM0MjAxZDY5YjliY2ZmZjM1YmZiOUoxCgdjcmV3X2lkEiYKJDg1YTM2Zjc0LTQ2
+      YTMtNDRmNi05YmFhLWE1N2JkZjJkNWQwM0ocCgxjcmV3X3Byb2Nlc3MSDAoKc2VxdWVudGlhbEoR
+      CgtjcmV3X21lbW9yeRICEABKGgoUY3Jld19udW1iZXJfb2ZfdGFza3MSAhgCShsKFWNyZXdfbnVt
+      YmVyX29mX2FnZW50cxICGAJKOgoQY3Jld19maW5nZXJwcmludBImCiQwNTRkNWEzYi1kNWY3LTQ0
+      ZWUtOWM4Mi0wZmNjZmM2NDE5OGJKOwobY3Jld19maW5nZXJwcmludF9jcmVhdGVkX2F0EhwKGjIw
+      MjUtMDUtMjdUMTA6NDQ6NTIuOTY5MzkxSpIFCgtjcmV3X2FnZW50cxKCBQr/BFt7ImtleSI6ICI4
+      YmQyMTM5YjU5NzUxODE1MDZlNDFmZDljNDU2M2Q3NSIsICJpZCI6ICI4M2Q2ZjRmMC05MGM5LTRi
+      ZGEtOGFiMS03Mjk0MjU1NmU2NzIiLCAicm9sZSI6ICJSZXNlYXJjaGVyIiwgInZlcmJvc2U/Ijog
+      ZmFsc2UsICJtYXhfaXRlciI6IDI1LCAibWF4X3JwbSI6IG51bGwsICJmdW5jdGlvbl9jYWxsaW5n
+      X2xsbSI6ICIiLCAibGxtIjogImdwdC00by1taW5pIiwgImRlbGVnYXRpb25fZW5hYmxlZD8iOiBm
+      YWxzZSwgImFsbG93X2NvZGVfZXhlY3V0aW9uPyI6IGZhbHNlLCAibWF4X3JldHJ5X2xpbWl0Ijog
+      MiwgInRvb2xzX25hbWVzIjogW119LCB7ImtleSI6ICI5YTUwMTVlZjQ4OTVkYzYyNzhkNTQ4MThi
+      YTQ0NmFmNyIsICJpZCI6ICJiM2IyNGI0Ny00NTJkLTQyODAtYmY3Mi1hODRkNzc2ZTcxNWMiLCAi
+      cm9sZSI6ICJTZW5pb3IgV3JpdGVyIiwgInZlcmJvc2U/IjogZmFsc2UsICJtYXhfaXRlciI6IDI1
+      LCAibWF4X3JwbSI6IG51bGwsICJmdW5jdGlvbl9jYWxsaW5nX2xsbSI6ICIiLCAibGxtIjogImdw
+      dC00by1taW5pIiwgImRlbGVnYXRpb25fZW5hYmxlZD8iOiBmYWxzZSwgImFsbG93X2NvZGVfZXhl
+      Y3V0aW9uPyI6IGZhbHNlLCAibWF4X3JldHJ5X2xpbWl0IjogMiwgInRvb2xzX25hbWVzIjogW119
+      XUrvAwoKY3Jld190YXNrcxLgAwrdA1t7ImtleSI6ICI1OWM3MzhkNGRhZTc5NmU1YTIyZGJjMmU1
+      MTk4YzIwZCIsICJpZCI6ICI5ZTYzZDY5MS1hZTc4LTQzNWMtOTE3Ni03ZTM0NDUwMjEyNTAiLCAi
+      YXN5bmNfZXhlY3V0aW9uPyI6IGZhbHNlLCAiaHVtYW5faW5wdXQ/IjogZmFsc2UsICJhZ2VudF9y
+      b2xlIjogIlJlc2VhcmNoZXIiLCAiYWdlbnRfa2V5IjogIjhiZDIxMzliNTk3NTE4MTUwNmU0MWZk
+      OWM0NTYzZDc1IiwgInRvb2xzX25hbWVzIjogW119LCB7ImtleSI6ICJjNTAyYzU3NDVjMjc4MWFm
+      NTFiMmYzZWY1ZDYyZmM3NCIsICJpZCI6ICJlZWM1YWI1Zi1hZTVkLTRmYjItOTNmMi03NjE3N2Y4
+      ZWYzN2UiLCAiYXN5bmNfZXhlY3V0aW9uPyI6IGZhbHNlLCAiaHVtYW5faW5wdXQ/IjogZmFsc2Us
+      ICJhZ2VudF9yb2xlIjogIlNlbmlvciBXcml0ZXIiLCAiYWdlbnRfa2V5IjogIjlhNTAxNWVmNDg5
+      NWRjNjI3OGQ1NDgxOGJhNDQ2YWY3IiwgInRvb2xzX25hbWVzIjogW119XXoCGAGFAQABAAASgAQK
+      EJHbzSORvZus4pdwVpmYg90SCFgbo2lo0frjKgxUYXNrIENyZWF0ZWQwATnIR3neVXNDGEFo1Hne
+      VXNDGEouCghjcmV3X2tleRIiCiA5YmYyY2RlNmJjNWM0MjAxZDY5YjliY2ZmZjM1YmZiOUoxCgdj
+      cmV3X2lkEiYKJDg1YTM2Zjc0LTQ2YTMtNDRmNi05YmFhLWE1N2JkZjJkNWQwM0ouCgh0YXNrX2tl
+      eRIiCiA1OWM3MzhkNGRhZTc5NmU1YTIyZGJjMmU1MTk4YzIwZEoxCgd0YXNrX2lkEiYKJDllNjNk
+      NjkxLWFlNzgtNDM1Yy05MTc2LTdlMzQ0NTAyMTI1MEo6ChBjcmV3X2ZpbmdlcnByaW50EiYKJDA1
+      NGQ1YTNiLWQ1ZjctNDRlZS05YzgyLTBmY2NmYzY0MTk4Yko6ChB0YXNrX2ZpbmdlcnByaW50EiYK
+      JGIwMjRlZWQ5LWIxOWEtNDFjYy1hM2E5LTIzNGNhNjIyMmMwZko7Cht0YXNrX2ZpbmdlcnByaW50
+      X2NyZWF0ZWRfYXQSHAoaMjAyNS0wNS0yN1QxMDo0NDo1Mi45NjkzMDFKOwoRYWdlbnRfZmluZ2Vy
+      cHJpbnQSJgokMWRlM2VkZGUtZDAwOC00ZDdhLWJhNmItMTQwZmNlZDRiZWNiegIYAYUBAAEAABKA
+      BAoQYwwSb2ocnBeXCuz1oO4TJxIICDbdDj+hP+gqDFRhc2sgQ3JlYXRlZDABOeD+wt5Vc0MYQZiH
+      w95Vc0MYSi4KCGNyZXdfa2V5EiIKIDliZjJjZGU2YmM1YzQyMDFkNjliOWJjZmZmMzViZmI5SjEK
+      B2NyZXdfaWQSJgokODVhMzZmNzQtNDZhMy00NGY2LTliYWEtYTU3YmRmMmQ1ZDAzSi4KCHRhc2tf
+      a2V5EiIKIGM1MDJjNTc0NWMyNzgxYWY1MWIyZjNlZjVkNjJmYzc0SjEKB3Rhc2tfaWQSJgokZWVj
+      NWFiNWYtYWU1ZC00ZmIyLTkzZjItNzYxNzdmOGVmMzdlSjoKEGNyZXdfZmluZ2VycHJpbnQSJgok
+      MDU0ZDVhM2ItZDVmNy00NGVlLTljODItMGZjY2ZjNjQxOThiSjoKEHRhc2tfZmluZ2VycHJpbnQS
+      JgokOTBlZjYzNTAtMmMxZi00YjAzLTg0NzktZDJiOTUwNDhmZTI5SjsKG3Rhc2tfZmluZ2VycHJp
+      bnRfY3JlYXRlZF9hdBIcChoyMDI1LTA1LTI3VDEwOjQ0OjUyLjk2OTM1Mko7ChFhZ2VudF9maW5n
+      ZXJwcmludBImCiQyODU0MDNlOS05YWNjLTQyM2MtOTNmYS0wNGU3Nzc2NjA1YjB6AhgBhQEAAQAA
+      EpwIChD6Qr8l60Y5PC6q9vSMHW6yEghKc2ugCjyKHSoMQ3JldyBDcmVhdGVkMAE5iNKq31VzQxhB
+      kPSy31VzQxhKGwoOY3Jld2FpX3ZlcnNpb24SCQoHMC4xMjEuMUoaCg5weXRob25fdmVyc2lvbhII
+      CgYzLjEyLjlKLgoIY3Jld19rZXkSIgogY2E3YzAxMzZlYzdiZjVkZTc1ZGU1ZDI2Njk5ZGEzYjRK
+      MQoHY3Jld19pZBImCiQ3ZjA1MmY0OS1mNjNjLTQ5YTMtYTgyNC0yY2I4OWY3ZjdiMDBKHAoMY3Jl
+      d19wcm9jZXNzEgwKCnNlcXVlbnRpYWxKEQoLY3Jld19tZW1vcnkSAhAAShoKFGNyZXdfbnVtYmVy
+      X29mX3Rhc2tzEgIYAUobChVjcmV3X251bWJlcl9vZl9hZ2VudHMSAhgBSjoKEGNyZXdfZmluZ2Vy
+      cHJpbnQSJgokMjY0NTk1ZGQtYWZkYy00ZjM3LWJlN2QtZGRjOTNlYThhMDY3SjsKG2NyZXdfZmlu
+      Z2VycHJpbnRfY3JlYXRlZF9hdBIcChoyMDI1LTA1LTI3VDEwOjQ0OjUzLjAwNzU4MErRAgoLY3Jl
+      d19hZ2VudHMSwQIKvgJbeyJrZXkiOiAiOGJkMjEzOWI1OTc1MTgxNTA2ZTQxZmQ5YzQ1NjNkNzUi
+      LCAiaWQiOiAiNGU0ZjQ0YTUtYWM1MC00MzgyLTk5NzAtMTYzYmE1ZDIzZmNhIiwgInJvbGUiOiAi
+      UmVzZWFyY2hlciIsICJ2ZXJib3NlPyI6IGZhbHNlLCAibWF4X2l0ZXIiOiAyNSwgIm1heF9ycG0i
+      OiBudWxsLCAiZnVuY3Rpb25fY2FsbGluZ19sbG0iOiAiIiwgImxsbSI6ICJncHQtNG8tbWluaSIs
+      ICJkZWxlZ2F0aW9uX2VuYWJsZWQ/IjogZmFsc2UsICJhbGxvd19jb2RlX2V4ZWN1dGlvbj8iOiBm
+      YWxzZSwgIm1heF9yZXRyeV9saW1pdCI6IDIsICJ0b29sc19uYW1lcyI6IFtdfV1K/gEKCmNyZXdf
+      dGFza3MS7wEK7AFbeyJrZXkiOiAiOTQ0YWVmMGJhYzg0MGYxYzI3YmQ4M2E5MzdiYzM2MWIiLCAi
+      aWQiOiAiNmExNzljMDEtYTdkMS00MzU0LWJhOTgtZmU1ZGExZjVhYWExIiwgImFzeW5jX2V4ZWN1
+      dGlvbj8iOiB0cnVlLCAiaHVtYW5faW5wdXQ/IjogZmFsc2UsICJhZ2VudF9yb2xlIjogIlJlc2Vh
+      cmNoZXIiLCAiYWdlbnRfa2V5IjogIjhiZDIxMzliNTk3NTE4MTUwNmU0MWZkOWM0NTYzZDc1Iiwg
+      InRvb2xzX25hbWVzIjogW119XXoCGAGFAQABAAASgAQKEHxQBpDiCIoPv+8fx9iZPMYSCLiCHueB
+      VyYCKgxUYXNrIENyZWF0ZWQwATnYRPffVXNDGEGoyfffVXNDGEouCghjcmV3X2tleRIiCiBjYTdj
+      MDEzNmVjN2JmNWRlNzVkZTVkMjY2OTlkYTNiNEoxCgdjcmV3X2lkEiYKJDdmMDUyZjQ5LWY2M2Mt
+      NDlhMy1hODI0LTJjYjg5ZjdmN2IwMEouCgh0YXNrX2tleRIiCiA5NDRhZWYwYmFjODQwZjFjMjdi
+      ZDgzYTkzN2JjMzYxYkoxCgd0YXNrX2lkEiYKJDZhMTc5YzAxLWE3ZDEtNDM1NC1iYTk4LWZlNWRh
+      MWY1YWFhMUo6ChBjcmV3X2ZpbmdlcnByaW50EiYKJDI2NDU5NWRkLWFmZGMtNGYzNy1iZTdkLWRk
+      YzkzZWE4YTA2N0o6ChB0YXNrX2ZpbmdlcnByaW50EiYKJDJlZjIxNTJlLTQ0NDgtNDFkOS05MzA4
+      LTkwOTUwZDVhMzg5OUo7Cht0YXNrX2ZpbmdlcnByaW50X2NyZWF0ZWRfYXQSHAoaMjAyNS0wNS0y
+      N1QxMDo0NDo1My4wMDc1NTNKOwoRYWdlbnRfZmluZ2VycHJpbnQSJgokODA2ZjY5MmUtNDk2My00
+      ZDlkLWIyYTgtNDdhYTdjMjkyODA2egIYAYUBAAEAABLRDAoQ+kK/JetGOTwuqvb0jB1ushIISnNr
+      oAo8ih0qDENyZXcgQ3JlYXRlZDABOcB9/eBVc0MYQZinBeFVc0MYShsKDmNyZXdhaV92ZXJzaW9u
+      EgkKBzAuMTIxLjFKGgoOcHl0aG9uX3ZlcnNpb24SCAoGMy4xMi45Si4KCGNyZXdfa2V5EiIKIDQ3
+      M2U0ZGJkMjk5ODc3MTIwZWI3NWMyNWRhNjIyMzc1SjEKB2NyZXdfaWQSJgokNjQ2YzEyN2EtZTZj
+      OC00OTY5LThhZjYtOWM3NDY5ZGMwMmY0ShwKDGNyZXdfcHJvY2VzcxIMCgpzZXF1ZW50aWFsShEK
+      C2NyZXdfbWVtb3J5EgIQAEoaChRjcmV3X251bWJlcl9vZl90YXNrcxICGAJKGwoVY3Jld19udW1i
+      ZXJfb2ZfYWdlbnRzEgIYAko6ChBjcmV3X2ZpbmdlcnByaW50EiYKJDY2ZWViOThkLTJiYjgtNDc2
+      Yi04N2FiLTFmZTlkMjBhMDFlNEo7ChtjcmV3X2ZpbmdlcnByaW50X2NyZWF0ZWRfYXQSHAoaMjAy
+      NS0wNS0yN1QxMDo0NDo1My4wMzIyMDNKhwUKC2NyZXdfYWdlbnRzEvcECvQEW3sia2V5IjogIjMy
+      ODIxN2I2YzI5NTliZGZjNDdjYWQwMGU4NDg5MGQwIiwgImlkIjogIjA4OWFhYWVmLWI2NTgtNDNl
+      Mi04NTg0LTcyMzM5ZGQzM2NlMiIsICJyb2xlIjogIkNFTyIsICJ2ZXJib3NlPyI6IGZhbHNlLCAi
+      bWF4X2l0ZXIiOiAyNSwgIm1heF9ycG0iOiBudWxsLCAiZnVuY3Rpb25fY2FsbGluZ19sbG0iOiAi
+      IiwgImxsbSI6ICJncHQtNG8tbWluaSIsICJkZWxlZ2F0aW9uX2VuYWJsZWQ/IjogdHJ1ZSwgImFs
+      bG93X2NvZGVfZXhlY3V0aW9uPyI6IGZhbHNlLCAibWF4X3JldHJ5X2xpbWl0IjogMiwgInRvb2xz
+      X25hbWVzIjogW119LCB7ImtleSI6ICI4YmQyMTM5YjU5NzUxODE1MDZlNDFmZDljNDU2M2Q3NSIs
+      ICJpZCI6ICJmYjAwYTQyZS1jNGRlLTQ5MjMtOTRhZi02YTc0OGYxMmU3MTkiLCAicm9sZSI6ICJS
+      ZXNlYXJjaGVyIiwgInZlcmJvc2U/IjogZmFsc2UsICJtYXhfaXRlciI6IDI1LCAibWF4X3JwbSI6
+      IG51bGwsICJmdW5jdGlvbl9jYWxsaW5nX2xsbSI6ICIiLCAibGxtIjogImdwdC00by1taW5pIiwg
+      ImRlbGVnYXRpb25fZW5hYmxlZD8iOiBmYWxzZSwgImFsbG93X2NvZGVfZXhlY3V0aW9uPyI6IGZh
+      bHNlLCAibWF4X3JldHJ5X2xpbWl0IjogMiwgInRvb2xzX25hbWVzIjogW119XUr9AwoKY3Jld190
+      YXNrcxLuAwrrA1t7ImtleSI6ICIwOGNkZTkwOTM5MTY5OTQ1NzMzMDJjNzExN2E5NmNkNSIsICJp
+      ZCI6ICJkYTI4ZmM1Ni1lZWQyLTRlMmQtOGExZC1jYzcwYTM2YmM1NGQiLCAiYXN5bmNfZXhlY3V0
+      aW9uPyI6IGZhbHNlLCAiaHVtYW5faW5wdXQ/IjogZmFsc2UsICJhZ2VudF9yb2xlIjogIkNFTyIs
+      ICJhZ2VudF9rZXkiOiAiMzI4MjE3YjZjMjk1OWJkZmM0N2NhZDAwZTg0ODkwZDAiLCAidG9vbHNf
+      bmFtZXMiOiBbIm11bHRpcGxpZXIiXX0sIHsia2V5IjogIjgwYWE3NTY5OWY0YWQ2MjkxZGJlMTBl
+      NGQ2Njk4MDI5IiwgImlkIjogIjJjYjQ4NDUzLTAyNWYtNGY3Mi1iYmJhLThmMWZjNjhhMjY4MiIs
+      ICJhc3luY19leGVjdXRpb24/IjogZmFsc2UsICJodW1hbl9pbnB1dD8iOiBmYWxzZSwgImFnZW50
+      X3JvbGUiOiAiUmVzZWFyY2hlciIsICJhZ2VudF9rZXkiOiAiOGJkMjEzOWI1OTc1MTgxNTA2ZTQx
+      ZmQ5YzQ1NjNkNzUiLCAidG9vbHNfbmFtZXMiOiBbIm11bHRpcGxpZXIiXX1degIYAYUBAAEAABKA
+      BAoQfFAGkOIIig+/7x/H2Jk8xhIIuIIe54FXJgIqDFRhc2sgQ3JlYXRlZDABOdDqG+FVc0MYQRhc
+      HOFVc0MYSi4KCGNyZXdfa2V5EiIKIDQ3M2U0ZGJkMjk5ODc3MTIwZWI3NWMyNWRhNjIyMzc1SjEK
+      B2NyZXdfaWQSJgokNjQ2YzEyN2EtZTZjOC00OTY5LThhZjYtOWM3NDY5ZGMwMmY0Si4KCHRhc2tf
+      a2V5EiIKIDA4Y2RlOTA5MzkxNjk5NDU3MzMwMmM3MTE3YTk2Y2Q1SjEKB3Rhc2tfaWQSJgokZGEy
+      OGZjNTYtZWVkMi00ZTJkLThhMWQtY2M3MGEzNmJjNTRkSjoKEGNyZXdfZmluZ2VycHJpbnQSJgok
+      NjZlZWI5OGQtMmJiOC00NzZiLTg3YWItMWZlOWQyMGEwMWU0SjoKEHRhc2tfZmluZ2VycHJpbnQS
+      JgokMTY5NDljMzQtYjA2ZS00YzlmLWIzZTAtMDAzYmMzYTE4NzJhSjsKG3Rhc2tfZmluZ2VycHJp
+      bnRfY3JlYXRlZF9hdBIcChoyMDI1LTA1LTI3VDEwOjQ0OjUzLjAzMjEzN0o7ChFhZ2VudF9maW5n
+      ZXJwcmludBImCiRiNDNmNmU4NC01ZDkxLTQ3NjItYTFmMC0zY2U3YjNhOTRjYjd6AhgBhQEAAQAA
+      Eo4BChBmBoRo14WHy2vS9A2nvn67EggYZTLfJZjjAyoKVG9vbCBVc2FnZTABOZhNDuJVc0MYQbCo
+      E+JVc0MYShsKDmNyZXdhaV92ZXJzaW9uEgkKBzAuMTIxLjFKGQoJdG9vbF9uYW1lEgwKCm11bHRp
+      cGxpZXJKDgoIYXR0ZW1wdHMSAhgBegIYAYUBAAEAABKABAoQ6HE0A9EoHt7IvPVD38EH+xIIQZ/4
+      YU72OPMqDFRhc2sgQ3JlYXRlZDABObjrVOJVc0MYQTBVVeJVc0MYSi4KCGNyZXdfa2V5EiIKIDQ3
+      M2U0ZGJkMjk5ODc3MTIwZWI3NWMyNWRhNjIyMzc1SjEKB2NyZXdfaWQSJgokNjQ2YzEyN2EtZTZj
+      OC00OTY5LThhZjYtOWM3NDY5ZGMwMmY0Si4KCHRhc2tfa2V5EiIKIDgwYWE3NTY5OWY0YWQ2Mjkx
+      ZGJlMTBlNGQ2Njk4MDI5SjEKB3Rhc2tfaWQSJgokMmNiNDg0NTMtMDI1Zi00ZjcyLWJiYmEtOGYx
+      ZmM2OGEyNjgySjoKEGNyZXdfZmluZ2VycHJpbnQSJgokNjZlZWI5OGQtMmJiOC00NzZiLTg3YWIt
+      MWZlOWQyMGEwMWU0SjoKEHRhc2tfZmluZ2VycHJpbnQSJgokN2FhNjcwZWItZGQxNS00Mjc5LTg4
+      OTItZmM4NTFiZTRiZDUySjsKG3Rhc2tfZmluZ2VycHJpbnRfY3JlYXRlZF9hdBIcChoyMDI1LTA1
+      LTI3VDEwOjQ0OjUzLjAzMjE3NEo7ChFhZ2VudF9maW5nZXJwcmludBImCiRmYWExZTg1My03NGVk
+      LTQ3ZmQtYThlZC04OTE3OTE2NjdiMDR6AhgBhQEAAQAAEo4BChCR280jkb2brOKXcFaZmIPdEghY
+      G6NpaNH64yoKVG9vbCBVc2FnZTABOUBQA+NVc0MYQcBqCeNVc0MYShsKDmNyZXdhaV92ZXJzaW9u
+      EgkKBzAuMTIxLjFKGQoJdG9vbF9uYW1lEgwKCm11bHRpcGxpZXJKDgoIYXR0ZW1wdHMSAhgBegIY
+      AYUBAAEAAA==
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '9868'
+      Content-Type:
+      - application/x-protobuf
+      User-Agent:
+      - OTel-OTLP-Exporter-Python/1.31.1
+    method: POST
+    uri: https://telemetry.crewai.com:4319/v1/traces
+  response:
+    body:
+      string: "\n\0"
+    headers:
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/x-protobuf
+      Date:
+      - Tue, 27 May 2025 17:44:53 GMT
+    status:
+      code: 200
+      message: OK
+version: 1

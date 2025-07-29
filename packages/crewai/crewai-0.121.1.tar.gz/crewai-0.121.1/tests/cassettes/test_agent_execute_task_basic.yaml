@@ -1,0 +1,203 @@
+interactions:
+- request:
+    body: '{"messages": [{"role": "system", "content": "You are test role. test backstory\nYour
+      personal goal is: test goal\nTo give my best complete final answer to the task
+      respond using the exact following format:\n\nThought: I now can give a great
+      answer\nFinal Answer: Your final answer must be the great and the most complete
+      as possible, it must be outcome described.\n\nI MUST use these formats, my job
+      depends on it!"}, {"role": "user", "content": "\nCurrent Task: Calculate 2 +
+      2\n\nThis is the expect criteria for your final answer: The result of the calculation\nyou
+      MUST return the actual complete content as the final answer, not a summary.\n\nBegin!
+      This is VERY important to you, use the tools available and give your best Final
+      Answer, your job depends on it!\n\nThought:"}], "model": "gpt-4o-mini", "stop":
+      ["\nObservation:"]}'
+    headers:
+      accept:
+      - application/json
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '833'
+      content-type:
+      - application/json
+      host:
+      - api.openai.com
+      user-agent:
+      - OpenAI/Python 1.59.6
+      x-stainless-arch:
+      - arm64
+      x-stainless-async:
+      - 'false'
+      x-stainless-lang:
+      - python
+      x-stainless-os:
+      - MacOS
+      x-stainless-package-version:
+      - 1.59.6
+      x-stainless-raw-response:
+      - 'true'
+      x-stainless-retry-count:
+      - '0'
+      x-stainless-runtime:
+      - CPython
+      x-stainless-runtime-version:
+      - 3.12.7
+    method: POST
+    uri: https://api.openai.com/v1/chat/completions
+  response:
+    content: "{\n  \"id\": \"chatcmpl-AoJqi2nPubKHXLut6gkvISe0PizvR\",\n  \"object\":
+      \"chat.completion\",\n  \"created\": 1736556064,\n  \"model\": \"gpt-4o-mini-2024-07-18\",\n
+      \ \"choices\": [\n    {\n      \"index\": 0,\n      \"message\": {\n        \"role\":
+      \"assistant\",\n        \"content\": \"I now can give a great answer  \\nFinal
+      Answer: The result of the calculation 2 + 2 is 4.\",\n        \"refusal\": null\n
+      \     },\n      \"logprobs\": null,\n      \"finish_reason\": \"stop\"\n    }\n
+      \ ],\n  \"usage\": {\n    \"prompt_tokens\": 161,\n    \"completion_tokens\":
+      25,\n    \"total_tokens\": 186,\n    \"prompt_tokens_details\": {\n      \"cached_tokens\":
+      0,\n      \"audio_tokens\": 0\n    },\n    \"completion_tokens_details\": {\n
+      \     \"reasoning_tokens\": 0,\n      \"audio_tokens\": 0,\n      \"accepted_prediction_tokens\":
+      0,\n      \"rejected_prediction_tokens\": 0\n    }\n  },\n  \"service_tier\":
+      \"default\",\n  \"system_fingerprint\": \"fp_bd83329f63\"\n}\n"
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 9000dbe81c55bf7f-ATL
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 11 Jan 2025 00:41:05 GMT
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - __cf_bm=LCNQO7gfz6xDjDqEOZ7ha3jDwPnDlsjsmJyScVf4UUw-1736556065-1.0.1.1-2ZcyBDpLvmxy7UOdCrLd6falFapRDuAu6WcVrlOXN0QIgZiDVYD0bCFWGCKeeE.6UjPHoPY6QdlEZZx8.0Pggw;
+        path=/; expires=Sat, 11-Jan-25 01:11:05 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=cRATWhxkeoeSGFg3z7_5BrHO3JDsmDX2Ior2i7bNF4M-1736556065175-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      alt-svc:
+      - h3=":443"; ma=86400
+      openai-organization:
+      - crewai-iuxna1
+      openai-processing-ms:
+      - '1060'
+      openai-version:
+      - '2020-10-01'
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-ratelimit-limit-requests:
+      - '30000'
+      x-ratelimit-limit-tokens:
+      - '150000000'
+      x-ratelimit-remaining-requests:
+      - '29999'
+      x-ratelimit-remaining-tokens:
+      - '149999810'
+      x-ratelimit-reset-requests:
+      - 2ms
+      x-ratelimit-reset-tokens:
+      - 0s
+      x-request-id:
+      - req_463fbd324e01320dc253008f919713bd
+    http_version: HTTP/1.1
+    status_code: 200
+- request:
+    body: !!binary |
+      CsMZCiQKIgoMc2VydmljZS5uYW1lEhIKEGNyZXdBSS10ZWxlbWV0cnkSmhkKEgoQY3Jld2FpLnRl
+      bGVtZXRyeRLPCAoQ+kK/JetGOTwuqvb0jB1ushIISnNroAo8ih0qDENyZXcgQ3JlYXRlZDABOVgF
+      eXdgc0MYQQgSgHdgc0MYShsKDmNyZXdhaV92ZXJzaW9uEgkKBzAuMTIxLjFKGgoOcHl0aG9uX3Zl
+      cnNpb24SCAoGMy4xMi45Si4KCGNyZXdfa2V5EiIKIGMzMDc2MDA5MzI2NzYxNDQ0ZDU3YzcxZDFk
+      YTNmMjdjSjEKB2NyZXdfaWQSJgokMWFlNDNlNTQtN2M1NC00NTczLWEzNTYtNTA1NjViMzFhZjA5
+      ShwKDGNyZXdfcHJvY2VzcxIMCgpzZXF1ZW50aWFsShEKC2NyZXdfbWVtb3J5EgIQAEoaChRjcmV3
+      X251bWJlcl9vZl90YXNrcxICGAFKGwoVY3Jld19udW1iZXJfb2ZfYWdlbnRzEgIYAUo6ChBjcmV3
+      X2ZpbmdlcnByaW50EiYKJGQ0ZTNlMzhjLTU5MTctNDFmMy1iNzNhLWJiOWE5NGEzMWM1OUo7Chtj
+      cmV3X2ZpbmdlcnByaW50X2NyZWF0ZWRfYXQSHAoaMjAyNS0wNS0yN1QxMDo0NTozOC41MDcyNDlK
+      6gIKC2NyZXdfYWdlbnRzEtoCCtcCW3sia2V5IjogIjk4ZjNiMWQ0N2NlOTY5Y2YwNTc3MjdiNzg0
+      MTQyNWNkIiwgImlkIjogImU4ZDAyOTkwLTYzZDYtNGE2NS05OTk0LTdiZTU2N2JjNGEwYiIsICJy
+      b2xlIjogIkZyaWVuZGx5IE5laWdoYm9yIiwgInZlcmJvc2U/IjogZmFsc2UsICJtYXhfaXRlciI6
+      IDI1LCAibWF4X3JwbSI6IG51bGwsICJmdW5jdGlvbl9jYWxsaW5nX2xsbSI6ICIiLCAibGxtIjog
+      ImdwdC00by1taW5pIiwgImRlbGVnYXRpb25fZW5hYmxlZD8iOiBmYWxzZSwgImFsbG93X2NvZGVf
+      ZXhlY3V0aW9uPyI6IGZhbHNlLCAibWF4X3JldHJ5X2xpbWl0IjogMiwgInRvb2xzX25hbWVzIjog
+      WyJkZWNpZGUgZ3JlZXRpbmdzIl19XUqYAgoKY3Jld190YXNrcxKJAgqGAlt7ImtleSI6ICI4MGQ3
+      YmNkNDkwOTkyOTAwODM4MzJmMGU5ODMzODBkZiIsICJpZCI6ICI5ODAxMTljMy0yZDhhLTRmMzMt
+      OTkwMi1hYjU3YWY3YjY3NDYiLCAiYXN5bmNfZXhlY3V0aW9uPyI6IGZhbHNlLCAiaHVtYW5faW5w
+      dXQ/IjogZmFsc2UsICJhZ2VudF9yb2xlIjogIkZyaWVuZGx5IE5laWdoYm9yIiwgImFnZW50X2tl
+      eSI6ICI5OGYzYjFkNDdjZTk2OWNmMDU3NzI3Yjc4NDE0MjVjZCIsICJ0b29sc19uYW1lcyI6IFsi
+      ZGVjaWRlIGdyZWV0aW5ncyJdfV16AhgBhQEAAQAAEoAEChB8UAaQ4giKD7/vH8fYmTzGEgi4gh7n
+      gVcmAioMVGFzayBDcmVhdGVkMAE50DGYd2BzQxhBSJuYd2BzQxhKLgoIY3Jld19rZXkSIgogYzMw
+      NzYwMDkzMjY3NjE0NDRkNTdjNzFkMWRhM2YyN2NKMQoHY3Jld19pZBImCiQxYWU0M2U1NC03YzU0
+      LTQ1NzMtYTM1Ni01MDU2NWIzMWFmMDlKLgoIdGFza19rZXkSIgogODBkN2JjZDQ5MDk5MjkwMDgz
+      ODMyZjBlOTgzMzgwZGZKMQoHdGFza19pZBImCiQ5ODAxMTljMy0yZDhhLTRmMzMtOTkwMi1hYjU3
+      YWY3YjY3NDZKOgoQY3Jld19maW5nZXJwcmludBImCiRkNGUzZTM4Yy01OTE3LTQxZjMtYjczYS1i
+      YjlhOTRhMzFjNTlKOgoQdGFza19maW5nZXJwcmludBImCiRlMzVmN2I3ZS0xYzhlLTRiODEtOWZl
+      Ni1lMmM5MmM1OGIzMzFKOwobdGFza19maW5nZXJwcmludF9jcmVhdGVkX2F0EhwKGjIwMjUtMDUt
+      MjdUMTA6NDU6MzguNTA3MjE3SjsKEWFnZW50X2ZpbmdlcnByaW50EiYKJDViYzcyMjY4LWZiOTEt
+      NGMyMy04NmJjLTRlOTdhNTcxMjZlZnoCGAGFAQABAAASqwgKEPpCvyXrRjk8Lqr29IwdbrISCEpz
+      a6AKPIodKgxDcmV3IENyZWF0ZWQwATmgF8/QYHNDGEG449bQYHNDGEobCg5jcmV3YWlfdmVyc2lv
+      bhIJCgcwLjEyMS4xShoKDnB5dGhvbl92ZXJzaW9uEggKBjMuMTIuOUouCghjcmV3X2tleRIiCiAx
+      ZGM2NjJmN2I3N2I4ZGMwY2FlYTU0ZWQ2M2QwM2VlY0oxCgdjcmV3X2lkEiYKJDA0NjY1MWZhLWY3
+      N2MtNDQ3ZC1iMTc3LTcwYmI4MThmYTJjNEocCgxjcmV3X3Byb2Nlc3MSDAoKc2VxdWVudGlhbEoR
+      CgtjcmV3X21lbW9yeRICEABKGgoUY3Jld19udW1iZXJfb2ZfdGFza3MSAhgBShsKFWNyZXdfbnVt
+      YmVyX29mX2FnZW50cxICGAFKOgoQY3Jld19maW5nZXJwcmludBImCiRiNWViMTMxYy0wNDczLTQ5
+      NGYtOWVhZi0wNmI4NmYwYWNjYWRKOwobY3Jld19maW5nZXJwcmludF9jcmVhdGVkX2F0EhwKGjIw
+      MjUtMDUtMjdUMTA6NDU6NDAuMDA2MjY0StgCCgtjcmV3X2FnZW50cxLIAgrFAlt7ImtleSI6ICIz
+      NzY1NDZmN2NmNjc4MmNhOTI2NzhjMTY5ZjkzNGVhOSIsICJpZCI6ICI5MDQ1ZGMxYy0xNzUzLTQ5
+      M2EtYmNmNi01MjVkNzRiOWU5OTMiLCAicm9sZSI6ICJJbmZvcm1hdGlvbiBBZ2VudCIsICJ2ZXJi
+      b3NlPyI6IGZhbHNlLCAibWF4X2l0ZXIiOiAyNSwgIm1heF9ycG0iOiBudWxsLCAiZnVuY3Rpb25f
+      Y2FsbGluZ19sbG0iOiAiIiwgImxsbSI6ICJncHQtNG8tbWluaSIsICJkZWxlZ2F0aW9uX2VuYWJs
+      ZWQ/IjogZmFsc2UsICJhbGxvd19jb2RlX2V4ZWN1dGlvbj8iOiBmYWxzZSwgIm1heF9yZXRyeV9s
+      aW1pdCI6IDIsICJ0b29sc19uYW1lcyI6IFtdfV1KhgIKCmNyZXdfdGFza3MS9wEK9AFbeyJrZXki
+      OiAiODZmZTU1NjdkMWY0MWIxZjg0NDVlNGY4ZDRiZjQwZTYiLCAiaWQiOiAiYTgwZmQwYjctNTk0
+      Yi00ZjU5LTg1YmItZDlhMDMxOTBiMDAyIiwgImFzeW5jX2V4ZWN1dGlvbj8iOiBmYWxzZSwgImh1
+      bWFuX2lucHV0PyI6IGZhbHNlLCAiYWdlbnRfcm9sZSI6ICJJbmZvcm1hdGlvbiBBZ2VudCIsICJh
+      Z2VudF9rZXkiOiAiMzc2NTQ2ZjdjZjY3ODJjYTkyNjc4YzE2OWY5MzRlYTkiLCAidG9vbHNfbmFt
+      ZXMiOiBbXX1degIYAYUBAAEAABKABAoQfFAGkOIIig+/7x/H2Jk8xhIIuIIe54FXJgIqDFRhc2sg
+      Q3JlYXRlZDABObiaaNNgc0MYQTAEadNgc0MYSi4KCGNyZXdfa2V5EiIKIDFkYzY2MmY3Yjc3Yjhk
+      YzBjYWVhNTRlZDYzZDAzZWVjSjEKB2NyZXdfaWQSJgokMDQ2NjUxZmEtZjc3Yy00NDdkLWIxNzct
+      NzBiYjgxOGZhMmM0Si4KCHRhc2tfa2V5EiIKIDg2ZmU1NTY3ZDFmNDFiMWY4NDQ1ZTRmOGQ0YmY0
+      MGU2SjEKB3Rhc2tfaWQSJgokYTgwZmQwYjctNTk0Yi00ZjU5LTg1YmItZDlhMDMxOTBiMDAySjoK
+      EGNyZXdfZmluZ2VycHJpbnQSJgokYjVlYjEzMWMtMDQ3My00OTRmLTllYWYtMDZiODZmMGFjY2Fk
+      SjoKEHRhc2tfZmluZ2VycHJpbnQSJgokOWUwNzQ4MTctZmRlNi00OWY2LWI4ZGUtYjNmOTRlODJk
+      MzMzSjsKG3Rhc2tfZmluZ2VycHJpbnRfY3JlYXRlZF9hdBIcChoyMDI1LTA1LTI3VDEwOjQ1OjQw
+      LjAwNjIzN0o7ChFhZ2VudF9maW5nZXJwcmludBImCiRhMzAxOTM4MC02OTI0LTQwYTQtOGE4Mi04
+      ZTIyYzc2NmVjYTd6AhgBhQEAAQAA
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3270'
+      Content-Type:
+      - application/x-protobuf
+      User-Agent:
+      - OTel-OTLP-Exporter-Python/1.31.1
+    method: POST
+    uri: https://telemetry.crewai.com:4319/v1/traces
+  response:
+    body:
+      string: "\n\0"
+    headers:
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/x-protobuf
+      Date:
+      - Tue, 27 May 2025 17:45:43 GMT
+    status:
+      code: 200
+      message: OK
+version: 1
