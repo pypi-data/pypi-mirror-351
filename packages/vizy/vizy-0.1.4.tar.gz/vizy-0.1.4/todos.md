@@ -1,0 +1,7 @@
+- [x] why white region around image?
+- [x] why the grid'd image res is low?
+- [x] add vizy.summary to get info like res, dtype, rgb or else, range, etc.
+- [x] why there is a slight bit of color change in the image? (turns out due to PIL, no problem)
+- [ ] add github action to publish on pypi automatically
+- [ ] add unit tests
+- [ ] buy me a coffee banner
