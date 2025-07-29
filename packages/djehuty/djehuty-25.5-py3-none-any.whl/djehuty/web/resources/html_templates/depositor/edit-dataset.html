@@ -1,0 +1,562 @@
+{% extends "layout.html" %}
+{% block headers %}
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/quill.min.js"></script>
+<script src="/static/js/utils.js?cache=1744290797"></script>
+<script src="/static/js/edit-dataset.js?cache=1744290797"></script>
+<script src="/static/js/dropzone.min.js"></script>
+<script nonce="{{nonce}}">
+Dropzone.autoDiscover = false;
+{%- if not article.thumb_origin %}
+var initial_thumbnail_file_uuid = "";
+{%- else %}
+var initial_thumbnail_file_uuid = "{{article.thumb_origin}}";
+{%- endif %}
+{%- if article.is_shared_with_me %}
+    const is_shared_with_me = true;
+    const permissions = {{permissions|tojson}};
+{%- else %}
+    const is_shared_with_me = false;
+    const permissions = {
+        "metadata_read": true, "metadata_edit": true, "metadata_remove": true,
+        "data_read": true, "data_edit": true, "data_remove": true
+    }
+{%- endif %}
+jQuery(document).ready(function (){
+    root_categories = [];
+    jQuery(".hide-for-javascript").removeClass("hide-for-javascript");
+    jQuery(".subcategory-wrapper").hide();
+{%- for category in categories: %}
+    root_categories.push("{{category.uuid}}");
+    jQuery("#category_{{category.uuid}}").change(function () {
+        if (this.checked) {
+            jQuery("#category_{{category.uuid}}").prop("checked", true);
+            jQuery("#subcategories_{{category.uuid}}").slideDown(200);
+        } else {
+            jQuery("#subcategories_{{category.uuid}} input[name='categories']").prop("checked", false);
+            jQuery("#subcategories_{{category.uuid}}").slideUp(200);
+        }
+    });
+{%- endfor %}
+    activate ("{{container_uuid}}", permissions, function() {
+{%- if article.is_shared_with_me and not permissions.metadata_edit %}
+    jQuery("#content-wrapper :input").prop("disabled", "disabled").css("background", "#EEE");
+    jQuery(".ql-editor").prop("contenteditable", false).css("background", "#EEE");
+    jQuery(".upload-container").css("background", "#EEE");
+{%- endif %}
+{%- if article.is_shared_with_me and not permissions.data_edit %}
+    jQuery(".upload-container").after('<div style="padding: .5em; margin-bottom: 1em; text-align: left" class="notice-box">You do not have permission to upload files.</div>');
+    jQuery(".upload-container").hide();
+{%- endif %}
+    });
+});
+</script>
+<link href="/static/css/quill.4tu.css" rel="stylesheet">
+<link href="/static/css/dropzone.min.css" rel="stylesheet">
+<link href="/static/css/form.css?cache=1738927707" rel="stylesheet">
+<style nonce="{{nonce}}">
+#share-form {display: none}
+.upload-wrapper { text-align: center; }
+.upload-container {
+    display: block;
+    width: auto;
+    border: 2pt dashed #ccc;
+    background: #f9f9f9;
+    border-radius: .5em;
+    margin: auto auto 1em auto;
+    vertical-align: middle;
+    text-align: center;
+    color: #333;
+}
+.upload-container:hover { cursor: pointer; }
+.upload-container p { font-size: 1.2em; }
+.file-incomplete-warning { font-style: italic; color: red; }
+.file-size {
+    background: #fffaea;
+    margin-left: .5em;
+    padding: .25em;
+    border-radius: .25em;
+    border: solid 2pt #ffeecc;
+    font-size: 0.9em;
+}
+table#files tbody tr td:nth-child(2) { min-width: 260px; }
+table#files tbody tr td:nth-child(3) { width: 15px; text-align: right; }
+#collaborators-form input[type="text"] {
+  width: calc(100% - 15pt);
+  background: #fff;
+  margin: 0px;
+  border-radius: 5pt;
+  border: solid 1px #ccc;
+  padding: .5em;
+}
+#collaborators-form thead th { min-width: 1em; }
+#collaborators-form .rotate {
+  transform-origin: 25px 15px;
+  transform: rotate(-45deg);
+  max-width: 10px;
+  width: 10px;
+  padding: 0px;
+  height: 50px;
+  font-weight: normal;
+}
+#collaborators-form .type-end { border-right: solid 1px #ddd; }
+#collaborators-form .type-begin { border-left: solid 1px #ddd; }
+#collaborators-form tbody td:last-child { text-align: center; }
+#collaborator-ac  { width: 790px; max-width:790px; padding: .5em; }
+.autocomplete {padding: 0em 0.7em 0em 0.7em}
+#file { display: none; }
+#expanded-categories { display: none; }
+#expanded-collaborators { display: none; }
+.files td { text-align: left; }
+#software_upload_field h4 {
+    font-size: 1.25em;
+    margin: .75em 0em .25em 0em;
+    font-weight: bold;
+}
+#access-wrapper #access-type-wrapper {
+    border: none;
+    border-bottom: solid 2pt #333;
+    border-radius: 0em;
+    width: 812pt !important;
+    padding-bottom: 0pt;
+}
+#access-wrapper #access-type-wrapper label { border-radius: .5em .5em 0em 0em;  }
+#access-wrapper input[type="text"],
+#access-wrapper input[type="datetime-local"],
+#access-wrapper input[type="date"],
+#access-wrapper textarea,
+#access-wrapper .options-wrapper { width: 812pt !important; }
+#access-wrapper select,
+#access-wrapper .ql-toolbar.ql-4tu,
+#access-wrapper .texteditor { width: 832pt !important; }
+#embargoed_access_form { display: none }
+#restricted_access_form { display: none; }
+#file-upload h4 { font-size: 1.5em; padding: 0em; margin: .75em 0em .75em 0em; }
+#categories-wrapper .subitem-checkbox { margin-left: 3em; }
+#new-author, #update-author { text-align: center; line-height: 3.5em; height: 3.5em; }
+#new-funding { text-align: center; line-height: 3.5em; height: 3.5em; }
+#new-author-form, #author-inline-edit-form td { padding: 1em; }
+#new-author-form label, #author-inline-edit-form label { background: #eee; }
+#new-author-form input[type="text"], #author-inline-edit-form input[type="text"] { width: 800pt; }
+#new-funding-form { padding: 1em; }
+#new-funding-form label { background: #eee; }
+#new-funding-form input[type="text"] { width: 800pt; }
+#geolocation-wrapper label { background: #eee; }
+#geolocation-wrapper input[type="text"] { width: 812pt; }
+#references-list { display: none; border: none; }
+#references-list thead { display: none; }
+#tags-list { display: none; border: none; padding: 0em; }
+#tags-list li {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0em 1em .5em 0em;
+  padding: .5em;
+  border-radius: .5em;
+  background: #fffaea;
+  border: solid 1pt #ffeeaa;
+  color: #000;
+}
+#groups-wrapper h4 {
+    padding: .5em;
+    margin: .5em 0em 0em 0em;
+    font-weight: bold;
+    font-size: 1em;
+    background: #eee;
+    border-radius: .5em;
+    user-select: none;
+}
+#groups-wrapper h4:nth-child(1) { margin: 0em; }
+#metadata_reason_field, #external_link_field, #file_upload_field { display: none; }
+#git-files { margin: 0em; padding: 0em; }
+#git-files li { list-style-type: none; margin: 0em; padding: .5em; }
+#git-files li:nth-child(even) { background: #fafafa; }
+#embargo_options { display: none; }
+#refresh-git-files { font-size: .75em; }
+.decline-button a { background: #aa3333 !important; }
+.decline-button a:hover { background: #cc3333 !important; }
+.preview-button a { background: #736f53 !important; }
+.preview-button a:hover { background: #96937e !important; }
+.private-links-button a { background: #53736f !important; }
+.private-links-button a:hover { background: #7e9693 !important; }
+#doi-wrapper p { margin: 0pt; }
+.article-content-loader { display: none; }
+#files-table-actions { text-align: right; }
+#thumbnails-wrapper input[type="radio"] { display: none; }
+.thumbnail-item { display: inline-block; overflow: hidden; margin: .5em; min-height: 180pt; max-height: 180pt;}
+.thumbnail-item-img-wrapper { display: block; margin: auto; min-height: 150pt; height: 150pt; line-height: 150pt; }
+.thumbnail-item img { overflow: hidden; user-select: none; width: 150pt; height: auto; max-height: 150pt; vertical-align: middle; }
+.thumbnail-item label { background: #fff !important; border: solid 2pt #aaa; border-radius: .5em !important; }
+.thumbnail-item-title { text-overflow: ellipsis; max-width: 150pt; width: fit-content; white-space: nowrap; }
+.thumbnail-item-title p { text-align: center; width: 150pt; margin: 0pt; border-top: 1pt solid #aaa; }
+.thumbnail-item:hover label { cursor: pointer; opacity: 1.0; }
+.thumbnail-inactive label { border: 2pt solid #aaa; opacity: 0.5; }
+.thumbnail-active label { border: 2pt solid #f49120; opacity: 1.0; }
+#api-upload { text-align: left; }
+#api-upload pre { font-size: 0.9em; white-space: pre-wrap; overflow-wrap: anywhere; }
+#api-upload-fold { display: none; }
+.no-margin { margin: 0em; padding: 0em; }
+</style>
+{% endblock %}
+{% block submenu %}
+<ul>
+  {%- if article.is_under_review and is_reviewing %}
+  <li><a href="/logout">&#8592; Go back</a>
+  {%- else %}
+  <li><a href="/my/datasets">&#8592; Go back</a>
+  {%- endif %}
+  {%- if article.is_shared_with_me and not permissions.metadata_edit %}
+  <li class="active corporate-identity-submenu-active">Read-only dataset
+  {%- else %}
+  <li class="active corporate-identity-submenu-active">Edit dataset
+  {%- endif %}
+  {%- if not article.is_shared_with_me or permissions.metadata_edit %}
+  <li class="hide-for-javascript save-button"><a id="save" href="#">Save draft</a>
+  {%- endif %}
+  {%- if not article.is_under_review and not article.is_shared_with_me %}
+  <li class="hide-for-javascript submit-button"><a id="submit" href="#">Submit for review</a>
+  {%- endif %}
+  {%- if article.is_under_review and is_reviewing %}
+  <li class="hide-for-javascript publish-button"><a id="publish" href="#">Publish</a>
+  <li class="hide-for-javascript decline-button"><a id="decline" href="#">Decline</a>
+  {%- endif %}
+  {%- if not article.is_shared_with_me or permissions.metadata_remove %}
+  <li class="hide-for-javascript delete-button"><a id="delete" href="#">Delete</a>
+  {%- endif %}
+  {%- if not article.is_shared_with_me %}
+  <li class="hide-for-javascript preview-button"><a id="preview" href="#">Preview</a>
+  <li class="hide-for-javascript private-links-button"><a id="private-links" target="_blank" href="/my/datasets/{{article["uuid"]}}/private_links?go_back=no">Private access</a>
+  {%- endif %}
+</ul>
+{% endblock %}
+{% block body %}
+<div class="article-content-loader"></div>
+<div class="article-content">
+{%- if article.title == "Untitled item" %}
+<h1>Add new dataset</h1>
+{%- elif article.is_shared_with_me and not permissions.metadata_edit %}
+<h1>Read-only dataset</h1>
+{%- else %}
+<h1>Edit dataset</h1>
+{%- endif %}
+<noscript>
+  <p class="no-script">Sorry, this page requires JavaScript to work correctly.</p>
+</noscript>
+<div class="hide-for-javascript">
+<h2>Dataset details</h2>
+<p>Fields marked with <span class="required-field">&#8727;</span> are required.</p>
+<label for="title">Title</label><div class="fas fa-question-circle help-icon"><span class="help-text">Give your research a title that is more descriptive than just a file name. This will help making your items discoverable via search engines such as Google. The title should have at least three characters.</span></div><span class="required-field">&#8727;</span>
+<input type="text" id="title" name="title" {%- if article.title != "Untitled item" %}value="{{article["title"]}}"{% else %}placeholder="Untitled item"{% endif %} />
+<label for="authors">Authors</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select authors from the list or manually add them by creating a new author record. Hit enter after adding each author and drag and drop names to arrange them in the order you wish.</span></div><span class="required-field">&#8727;</span>
+<input type="text" id="authors" name="authors" />
+<table class="inside-form-table multi-list" id="authors-list">
+  <thead>
+    <tr><th>Author</th><th colspan="4">Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+{%- if not disable_collaboration: %}
+<label>Collaborators <span class="beta-badge">Beta</span></label><div class="fas fa-question-circle help-icon"><span class="help-text">Add people who can collaborate on this dataset.  Collaborators are not visible on the publication, but instead are given access to this form to either change metadata, or upload files.</span></div>
+<div id="collaborator-wrapper" class="options-wrapper">
+<a id="expand-collaborators-button" href="#">{% if article.is_shared_with_me %}Show{% else %}Manage{% endif %} collaborators</a>
+<div class="expand-collaborators">
+</div>
+<div id="expanded-collaborators">
+  <table id="collaborators-form" class="corporate-identity-table">
+    <thead>
+      <tr>
+        <th colspan="1" scope="colgroup">Collaborator</th>
+        <th colspan="2" scope="colgroup">Metadata<div class="fas fa-question-circle help-icon"><span class="help-text">Refers to all the fields on this page</span></div></th>
+        <th colspan="3" scope="colgroup">Files<div class="fas fa-question-circle help-icon"><span class="help-text">Refers to the uploaded files</span></div></th>
+        <th colspan="2" scope="colgroup"></th>
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"><span class="fas fa-glasses"title="Read"></span></th>
+        <th scope="col"><span class="fas fa-pen"title="Edit"></span></th>
+        <th scope="col"><span class="fas fa-glasses"title="Read"></span></th>
+        <th scope="col"><span class="fas fa-pen"title="Edit"></span></th>
+        <th scope="col"><span class="fas fa-eraser"title="Delete"></span></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+</div>
+{%- endif %}
+
+<label>Description</label><div class="fas fa-question-circle help-icon"><span class="help-text">Add as much context as possible so that others can interpret your research and reproduce it. Make sure you include methodology, techniques used, and if relevant information about approval for data collection to confirm adherence to legal or ethical requirements. The description should have at least four characters.</span></div><span class="required-field">&#8727;</span>
+<div id="description" class="texteditor">
+  {{article["description"] | default("", True) | replace("\\n", "<br>") | safe }}
+</div>
+<label>Licence &#38; Access</label>
+<div id="access-wrapper">
+  <div id="access-type-wrapper" class="options-wrapper">
+<input type="radio" name="access_type" id="open_access" value="open" checked="checked" /><!--
+--><label for="open_access" class="no-head">Open access</label><!--
+--><input type="radio" name="access_type" id="embargoed_access" value="embargoed" /><!--
+--><label for="embargoed_access" class="no-head">Embargoed access</label><!--
+--><input type="radio" name="access_type" id="restricted_access" value="restricted" /><!--
+--><label for="restricted_access" class="no-head">Restricted access</label>
+  </div>
+  <div class="access_level" id="open_access_form">
+    <p>
+      Open access is the default setting in {{site_name}} by which your dataset will be directly accessible to others.
+    </p>
+    <label for="license_open" class="inner-head">Licence</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select the appropriate licence from the list. Need to know more? Read our <a target="_blank" rel="noopener noreferrer" href="https://data.4tu.nl/info/en/use/publish-cite/upload-your-data-in-our-data-repository/licencing">guidance</a> for more information on the licence types we offer.</span></div><span class="required-field"> &#8727;</span>
+    <select id="license_open" class="license-selector" name="license">
+      <option value="" disabled selected>Select a licence</option>
+    </select>
+  </div>
+  <div class="access_level" id="embargoed_access_form">
+    <p>
+      Embargo is a period during which a dataset is unavailable and not accessible to anyone else.
+      Please enter the end date of the embargo period and add the reason why the files are under embargo.
+    </p>
+    <label for="license_embargoed" class="inner-head">Licence</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select the appropriate licence from the list. Need to know more? Read our <a target="_blank" rel="noopener noreferrer" href="https://data.4tu.nl/info/en/use/publish-cite/upload-your-data-in-our-data-repository/licencing">guidance</a> for more information on the licence types we offer.</span></div><span class="required-field"> &#8727;</span>
+    <select id="license_embargoed" class="license-selector" name="license">
+      <option value="" disabled selected>Select a licence</option>
+    </select>
+    <label for="embargo_until_date" class="inner-head">Until date</label><span class="required-field"> &#8727;</span>
+    <input id="embargo_until_date" type="date" name="embargo_until_date" value="{{article["embargo_until_date"]}}" />
+    <label class="inner-head">Embargo type</label><span class="required-field"> &#8727;</span>
+    <div id="record-type-wrapper" class="options-wrapper">
+      <input type="radio" name="embargo_type" id="files_only_embargo" value="file" /><!--
+--><label for="files_only_embargo" class="no-head">Files-only embargo</label>
+      <input type="radio" name="embargo_type" id="content_embargo" value="article" /><!--
+--><label for="content_embargo" class="no-head">Full content embargo</label></div>
+    <label class="inner-head">Reason</label><span class="required-field"> &#8727;</span>
+    <div id="embargo_reason" class="texteditor">
+      {{article["embargo_reason"] | default("", True) | replace("\\n", "<br>") | safe }}
+    </div>
+  </div>
+  <div class="access_level" id="restricted_access_form">
+    <p>
+      Restricted access allows you to share your dataset under specific
+      conditions and with users who have been granted access. Please specify
+      the End-User Licence Agreement (EULA) in which you specify the
+      conditions under which you grant users access to your data files,
+      and add the reason why your dataset is restricted.
+    </p>
+    <label class="inner-head">Reason</label><span class="required-field"> &#8727;</span>
+    <div id="restricted_access_reason" class="texteditor">
+      {{article["embargo_reason"] | default("", True) | replace("\\n", "<br>") | safe }}
+    </div>
+    <label class="inner-head">EULA</label><span class="required-field"> &#8727;</span>
+    <div id="restricted_access_eula" class="texteditor">
+      {{article["eula"] | default("", True) | replace("\\n", "<br>") | safe }}
+    </div>
+    <!--
+        * Upload box for EULA document.
+        * Reason for restricted access field.
+      -->
+  </div>
+</div>
+<label>Categories</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select one or multiple categories that this research best correlates with.</span></div><span class="required-field">&#8727;</span>
+<div id="categories-wrapper" class="options-wrapper">
+  <a id="expand-categories-button" href="#">Select categories</a>
+  <div class="expand-categories"></div>
+  <div id="expanded-categories">
+{%- for root in categories: %}
+<input type="checkbox" name="categories" value="{{root.uuid}}" id="category_{{root.uuid}}"><!--
+--><label class="item-label" for="category_{{root.uuid}}">{{root.title}}</label><br>
+<div id="subcategories_{{root.uuid}}" class="subcategory-wrapper">
+{%- for sub in root.subcategories: %}
+<input class="subitem-checkbox" type="checkbox" name="categories" value="{{sub.uuid}}" id="category_{{sub.uuid}}"><!--
+--><label class="subitem-label no-head" for="category_{{sub.uuid}}">{{sub.title}}</label><br>
+{%- endfor %}
+</div>
+{%- endfor %}
+  </div>
+</div>
+<label>Group</label><span class="required-field"> &#8727;</span>
+<div id="groups-wrapper">
+{%- if article.group_name is not none and article.group_name is defined %}
+<h4>{{article.group_name}}</h4>
+<input class="subitem-checkbox" type="radio" name="groups" value="{{article.group_id}}" id="group_{{article.group_id}}" checked="checked"><!--
+--><label class="subitem-label no-head" for="group_{{article.group_id}}">{{article.group_name}}</label><br>
+{%- elif not groups: %}
+<p>No group association found.  Please contact <a href="mailto:{{support_email_address}}">support</a>.</p>
+{%- else %}
+{%- for group in groups: %}
+<h4>{{group.name}}</h4>
+<div id="subgroups_{{group.id}}" class="subgroup-wrapper">
+<input class="subitem-checkbox" type="radio" name="groups" value="{{group.id}}" id="group_{{group.id}}" {% if account.group_id == group.id: %}checked="checked"{% endif %}><!--
+--><label class="subitem-label no-head" for="group_{{group.id}}">{{group.name}}</label><br>
+{%- for sub in group.subgroups: %}
+<input class="subitem-checkbox" type="radio" name="groups" value="{{sub.id}}" id="group_{{sub.id}}"><!--
+--><label class="subitem-label no-head" for="group_{{sub.id}}">{{sub.name}}</label><br>
+{%- endfor %}
+</div>
+{%- endfor %}
+{%- endif %}
+</div>
+<label for="publisher">Publisher</label>
+<input type="text" id="publisher" name="publisher" value="{% if article["publisher"] %}{{article["publisher"]}}{% else %}{{site_name}}{% endif %}">
+<label for="funding">Funding</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select from the list by searching for funder name, grant number or grant name or manually add them by creating a new funding record.</span></div>
+<input type="text" id="funding" name="funding" />
+<table class="inside-form-table multi-list" id="funding-list">
+  <thead>
+    <tr><th>Name</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<h3 class="corporate-identity-h3">Linked resource &amp; references</h3>
+<p>If the dataset is published as part of a scientific paper, add its title and DOI here.</p>
+<label for="resource_title">Resource title</label><div class="fas fa-question-circle help-icon"><span class="help-text">Please add the title of the peer-reviewed article/paper or research you want to link back to. This will appear on the public page as the link title. If you add the Resource title, you will need to complete the Resource DOI field.</span></div>
+<input type="text" id="resource_title" name="resource_title" value="{{article["resource_title"] | default("", True)}}" />
+<label for="resource_doi">Resource DOI</label><div class="fas fa-question-circle help-icon"><span class="help-text">Please add the DOI of the peer-reviewed article/paper or research you want to link back to. This is the link destination for the Resource title. If you add the Resource DOI, you will need to complete the Resource title field.</span></div>
+<input type="text" id="resource_doi" name="resource_doi" value="{{article["resource_doi"] | default("", True)}}" />
+<p>Add any other relevant URLs or DOIs below.</p>
+<label for="references">References</label><div class="fas fa-question-circle help-icon"><span class="help-text">Add references (links) to any relevant content or external sources that help describe the resource. All links must be full, valid URLs or DOIs in order to function, eg: https://doi.org/10.4233/uuid:35022242-b3ba-48d9-b3f6-c6ab20b8cc19. Hit return to enter new references.</span></div>
+<div class="input-with-button">
+  <input type="text" id="references" name="references" value="" />
+  <a id="add-reference-button" class="form-button corporate-identity-standard-button" href="#">Add reference</a>
+</div>
+<table class="inside-form-table" id="references-list">
+  <thead>
+    <tr><th>Reference</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<label>DOI reservation</label><div class="fas fa-question-circle help-icon"><span class="help-text">Upon publication, a DOI will be assigned to your dataset. If you need to have the DOI before publication, you can use this value.</span></div>
+<div id="doi-wrapper" class="options-wrapper">
+  <p>The DOI of your dataset will be: <strong>{{article["doi"]}}</strong></p>
+</div>
+<h3 class="corporate-identity-h3">Findability</h3>
+<label for="language">Language</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select a language from the list.</span></div><span class="required-field">&#8727;</span>
+{% set item = article %}
+{% include 'depositor/language-selector.html' %}
+<label for="time_coverage">Time coverage</label><div class="fas fa-question-circle help-icon"><span class="help-text">Indicate the dates to which the data refer. Enter the year, or the beginning and ending date.</span></div>
+<input type="text" id="time_coverage" name="time_coverage" value="{{article["time_coverage"] | default("", True)}}" />
+<label>Geolocation</label><div class="fas fa-question-circle help-icon"><span class="help-text">When your dataset covers geographical data, fill in the following section </span></div>
+<div id="geolocation-wrapper">
+  <label class="inner-head" for="geolocation">Name</label><div class="fas fa-question-circle help-icon"><span class="help-text">The geographic area to which the data refer (e.g. municipality, town/city, region, country)</span></div>
+  <input type="text" id="geolocation" name="geolocation" placeholder="Example: Dam Square, Amsterdam" value="{{article["geolocation"] | default("", True)}}" />
+  <label class="inner-head" for="longitude">Longitude</label><div class="fas fa-question-circle help-icon"><span class="help-text">Geographic longitude in decimal degrees, East is positive, West is negative. Values: -180 to 180.</span></div>
+  <input type="text" id="longitude" name="longitude" placeholder="Example: 4.893" value="{{article["longitude"] | default("", True)}}" />
+  <label class="inner-head" for="latitude">Latitude</label><div class="fas fa-question-circle help-icon"><span class="help-text">Geographic latitude in decimal degrees, North is positive, South is negative. Values: -90 to 90.</span></div>
+  <input type="text" id="latitude" name="latitude" placeholder="Example: 52.893" value="{{article["latitude"] | default("", True)}}" />
+</div>
+<label for="format">File format(s)</label><div class="fas fa-question-circle help-icon"><span class="help-text">Format of the data file(s), e.g. the media type like image/jpeg or a description like &#8220;gzipped shape files&#8221;.</span></div>
+<input type="text" id="format" name="format" placeholder="Example: image/jpeg" value="{{article["format"] | default("", True)}}" />
+<label for="data_link">Data Link</label><div class="fas fa-question-circle help-icon"><span class="help-text">Link to extra data that belong to the current item, e.g. an OpenDAP catalog with netCDF files on our OpenDAP server.</span></div>
+<input type="text" id="data_link" name="data_link" placeholder="Link to extra data related to the current item" value="{{article["data_link"] | default("", True)}}" />
+<label for="derived_from">Derived From</label><div class="fas fa-question-circle help-icon"><span class="help-text">URL of the dataset from which the current item was derived.</span></div>
+<input type="text" id="derived_from" name="derived_from" value="{{article["derived_from"] | default("", True)}}" />
+<label for="same_as">Same As</label><div class="fas fa-question-circle help-icon"><span class="help-text">URL of exactly the same data. This can be a copy in another location or an alternative URL that redirects to the current item.</span></div>
+<input type="text" id="same_as" name="same_as" value="{{article["same_as"] | default("", True)}}" />
+<label for="tag">Keywords</label><div class="fas fa-question-circle help-icon"><span class="help-text">Add at least 4 keywords that will help make your research more discoverable. Use a semicolon (;) or hit return after each keyword you enter.</span></div><span class="required-field">&#8727;</span>
+<div class="input-with-button">
+  <input type="text" id="tag" name="tag" value="" placeholder="keyword 1; keyword 2; keyword 3; keyword 4" />
+  <a id="add-keyword-button" class="form-button corporate-identity-standard-button" href="#">Add keyword</a>
+</div>
+<ul id="tags-list"></ul>
+<label for="organizations">Organizations</label><div class="fas fa-question-circle help-icon"><span class="help-text">Name of the organizations that contributed to the creation of the resource. Separate different names with a semicolon (;)</span></div>
+<textarea id="organizations" name="organizations" placeholder="Example: Delft University of Technology">{{article["organizations"] | default("", True) }}</textarea>
+<h3 class="corporate-identity-h3">Files</h3>
+<label>Type</label>
+<div id="record-type-wrapper" class="options-wrapper">
+<input type="radio" name="record_type" id="metadata_record_only" value="meta" /><!--
+--><label for="metadata_record_only" class="no-head">Metadata-only record</label><!--
+--><input type="radio" name="record_type" id="external_link" value="link" /><!--
+--><label for="external_link" class="no-head">External link</label><!--
+--><input type="radio" name="record_type" id="upload_files" value="files" /><!--
+--><label for="upload_files" class="no-head">File deposit</label><!--
+--><input type="radio" name="record_type" id="upload_software" value="software" /><!--
+--><label for="upload_software" class="no-head">Software deposit</label>
+</div>
+<div id="metadata_reason_field" class="record-type-field">
+  <p>Only use this option when there are no files to attach.  Enter the reason
+    for creating a metadata only record and why the files cannot be shared.</p>
+  <label for="metadata_only_reason">Reason</label>
+  <input type="text" name="metadata_only_reason" id="metadata_only_reason" value="{{article["metadata_reason"]}}"/>
+</div>
+<div id="external_link_field" class="record-type-field">
+  <p>Only use when no files can be attached. Add the URL where your files can
+    be found. Note that {{site_name}} is not responsible for maintaining the
+    link or for its validity.</p>
+  <label for="external_link">External URL</label>
+  <input type="text" name="external_url" id="external_url" value="{{article["url"]}}" />
+</div>
+<div id="software_upload_field" class="record-type-field">
+  <h4 class="corporate-identity-h4">Publish source code through Git</h4>
+  <p>To publish from a Git repository, push a branch to the <code>{{site_shorttag}}</code> remote.</p>
+  <p>First, add the <code>{{site_shorttag}}</code> remote:</p>
+  <pre>git remote add {{site_shorttag}} {{base_url}}/v3/datasets/{{article.git_uuid}}.git</pre>
+  <p>Then, push the repository to it:</p>
+  <pre>
+git push {{site_shorttag}} --all
+git push {{site_shorttag}} --tags</pre>
+  <p>When publishing a newer version of this dataset in the future, the Git <code>remote</code> location will be reset.
+    So when your dataset has been published, remove the remote:</p>
+  <pre>git remote remove {{site_shorttag}}</pre>
+  <h4 class="corporate-identity-h4">Git repository files and branches <span class="no-select"> &nbsp;<a id="refresh-git-files" href="#" class="fas fa-sync"></a></span></h4>
+  <label>Git default branch</label><div class="fas fa-question-circle help-icon"><span class="help-text">The selected branch will be the branch a user is in after pulling the Git repository.</span></div>
+  <select id="git-branches">
+    <option value="" disabled="disabled">Select branch</option>
+  </select>
+  <label for="git-repository-name">Git repository name</label><div class="fas fa-question-circle help-icon"><span class="help-text">This will be used as the folder name when cloning the repository.</span></div>
+  <input type="text" id="git-repository-name" name="git-repository-name" value="{{article["git_repository_name"]}}" />
+  <label for="git-code-hosting-page">Code hosting project URL</label><div class="fas fa-question-circle help-icon"><span class="help-text">A link to the project page on Gitlab, Github or another code hosting platform.</span></div>
+  <input type="text" id="git-code-hosting-url" name="git-code-hosting-url" value="{{article["git_code_hosting_url"]}}" />
+  <label id="git-files-label">Git file list</label>
+  <div id="git-files-wrapper" class="options-wrapper">
+    <ul id="git-files"></ul>
+  </div>
+  <h4 class="corporate-identity-h4">Distribution artefacts</h4>
+  <p>
+    Software packages oftentimes have separate distribution tarballs
+    produced by a build system. If applicable, upload them as files below.
+  </p>
+</div>
+<div id="file_upload_field" class="upload-wrapper record-type-field">
+<form id="dropzone-field" class="upload-container dropzone" action="/v3/datasets/{{container_uuid}}/upload" method="post">
+  <div class="fallback">
+    <input type="file" name="file" id="file" aria-label="Upload file" multiple="">
+  </div>
+</form>
+  <div id="api-upload">
+    <p>Or <a id="api-upload-toggle" href="#">upload from another computer or server</a>.</p>
+    <div id="api-upload-fold" class="options-wrapper">
+      <p>Files can also be uploaded through an API call for which a copy/pasteable example is displayed here:</p>
+      <pre>curl --http1.1 -X POST "{{base_url}}/v3/datasets/{{container_uuid}}/upload" -H 'Accept: application/json' -H 'Authorization: token {{api_token}}' -F "file=@<strong>path/to/your/file/here</strong>"</pre>
+      <p>The displayed token is valid until you log out. However, the token can be any token generated from the <a href="/my/dashboard">Dashboard</a> using the <a href="/my/sessions/new">Create API token</a> button.</p>
+    </div>
+  </div>
+</div>
+<div id="files-wrapper" class="record-type-field">
+  <div id="files-table-actions">
+    {%- if is_reviewing %}
+    <a id="repair-md5s" href="/admin/maintenance/repair-md5s/{{container_uuid}}" target="_blank">Repair MD5 sums</a>
+    {%- endif %}
+    <a id="remove-all-files" href="#">Remove all files</a>
+  </div>
+  <table class="inside-form-table" id="files">
+    <thead>
+      <tr><th>Filename</th><th>MD5 Checksum</th><th>Actions</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+<div id="thumbnail-files-wrapper">
+<label>Thumbnail</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select a file from your file deposit as a thumbnail of your dataset.</span></div>
+<div id="thumbnails-wrapper"></div>
+</div>
+</div>
+</div>
+<h3 class="corporate-identity-h3">Terms and agreement</h3>
+<input type="checkbox" name="deposit_agreement" id="deposit_agreement">
+<label class="no-head" for="deposit_agreement">I agree with the <a target="_blank" rel="noopener noreferrer" href="/s/docs/deposit-agreement.pdf">Deposit Agreement</a>.</label><span class="required-field">&#8727;</span><br />
+<input type="checkbox" name="publish_agreement" id="publish_agreement">
+<label class="no-head" for="publish_agreement">I agree that my dataset will be published once
+  the review is complete.</label><span class="required-field">&#8727;</span>
+{%- if not article.is_shared_with_me or permissions.metadata_edit %}
+<p class="no-margin"><a class="hide-for-javascript save-button button" id="save_bottom" href="#">Save draft</a></p>
+{%- endif %}
+</div>
+</div>
+{% endblock %}

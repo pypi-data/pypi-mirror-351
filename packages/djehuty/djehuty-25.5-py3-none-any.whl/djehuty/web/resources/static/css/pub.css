@@ -1,0 +1,61 @@
+#wrapper #content a             { text-decoration: none }
+#wrapper #content #doi          {  margin-bottom: 1em; padding: .5em .5em .5em 0em; border-radius: .25em; width: 500px; }
+#wrapper #content #doi span.doi-label { border: solid 1pt #000; color: #fff; background-color: #000; padding: 5px; font-weight: bold; border-radius: .25em 0em 0em .25em; }
+#wrapper #content #doi span.doi-value { border-top: solid 1pt #d4aa00; border-bottom: solid 1pt #d4aa00; border-right: solid 1pt #d4aa00; color: #000; background-color: #ffeeaa; padding: 5px; border-radius: 0em .25em .25em 0em; }
+#wrapper #content #doi #container_doi       { display: none; position: absolute; background-color: #fff; width: 500px; border: 2px solid #000; padding:5px }
+#wrapper #content #doi:hover #container_doi { display: block }
+#wrapper #content #type         { text-transform: uppercase; font-weight: bold }
+#wrapper #content #metadata #versions { margin-top: 0px }
+#wrapper #content #description  { margin-top: 1em; padding: .5em; background: #fff; border: solid 1pt #ccc; border-radius: .5em }
+#wrapper #content #description p { margin-top: 0; margin-bottom:0 }
+#wrapper #content #authors img, #contributors img  { height: 15px }
+#wrapper #content .metric       { float: left; background: #fff; border: solid 1pt #ccc; border-radius: .5em; padding: .5em; margin: 0em 1em 0em 0em; text-align: center }
+#wrapper #content .metric .number { font-size: 18pt; font-weight: bold }
+#wrapper #content #categories   { padding-top: 1em; clear: left }
+#tags, #geo, #time_coverage, #dates, #collections, #peer, #references, #publisher, #format, #organizations,
+#contributors, #funding, #usage, #derived_from, #same_as, #language, #licence, #export, #data_link, #code-hosting-url { margin: 0em; }
+#wrapper #content #funding ul   { list-style-type: square; margin-left: 20px }
+#wrapper #content #funding .funder_name { display: block; color: #999 }
+#wrapper #content #files .size  { display: inline-block; width:120px; font-size:12px; color: #999; text-align:right; margin-right:5px }
+#wrapper #content #files .md5   { font-size: 75%;  color: #333; font-family: monospace; margin: auto 1em auto 1em; }
+#wrapper #content #metadata #left_column  { width: 65%; margin-bottom:10px }
+#wrapper #content #metadata #right_column { float: right; width: 33%; margin-bottom:10px }
+#wrapper #content .warning      { background-color: #ff0 }
+#wrapper #content .label        { font-size: 1.25em; margin: 1em 0em .5em 0em; }
+#wrapper #content ul            { list-style-type: none; padding:0; margin:0}
+#wrapper #content #data         { clear: right; border-top: 1px solid #000; margin-bottom: 10px }
+#wrapper #content #collect, #cite, #versions { display: none; padding: 1em; margin-bottom: 1em; border-radius: 0em .5em .5em .5em }
+#wrapper #content #collect-btn, #cite-btn { border: none; border-radius: .5em; padding: .5em; text-align: center; font-size: 12pt; }
+#wrapper #content #versions_hide { border: none }
+#wrapper #content #citation     { background: #fff; border: solid 1pt #ccc; border-radius: .25em; padding: .25em; margin-bottom: 1em; }
+#wrapper #content #type_versions { margin-bottom:10px }
+#wrapper #content #versions     { width: 220px; position:absolute; }
+#wrapper #content #versions-btn { padding: 1pt 7.5pt 1pt 0pt; background-color: transparent; border: none; font: inherit; font-size: inherit; }
+#wrapper #content #versions-btn:hover { text-decoration: underline; cursor: pointer }
+#wrapper #content #versions a   { display: block }
+#wrapper #content #versions div { color: #999 }
+#wrapper #content .is_active    { font-weight: bold }
+#wrapper #content .small        { font-size: 75%; opacity: 0.8 }
+#wrapper #content #orcid img    { height: 20px }
+#wrapper #content #has-account  { margin-top: 80px; clear: both }
+#wrapper #content #limited_access p { margin-top: 5px; margin-bottom: 5px }
+#wrapper #content #limited_access h4 { margin-top: 10px; margin-bottom: 0px }
+#wrapper #content #is_own_item { padding:5px; border-radius:5px; background-color: #ffeeaa }
+#wrapper #content #private_view { padding:5px; border-radius:5px; background-color: #ffeeaa }
+.public-button {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14pt;
+    text-transform: capitalize;
+    padding: .25em .5em .25em .5em;
+    margin: 0em .25em .25em 0em;
+    border-radius: .5em;
+    border: 0pt;
+}
+#collections ul li a { font-size: 14pt; }
+#download-all-files-message { display: none; border-radius: .5em; margin-top: 1em; }
+#download-all-files-message p { padding: 1em; color: #fff; }
+#collect h3, #cite h3 { margin-top: 0em; font-size: 1.25em !important; font-weight: bold; }
+#cite-btn.close, #collect-btn.close { border-radius: .5em .5em 0em 0em !important; }
+#cite-btn.secondary, #collect-btn.secondary { background: none !important; color: #000; font-weight: normal; text-decoration: underline; border-radius: .5em .5em 0em 0em; }
+#versions-btn.old-version-style { background: #ff0 !important; }

@@ -1,0 +1,318 @@
+{%- block public_metadata  %}
+<h2>{{item.title}}</h2>
+
+{%- if item.is_embargoed and item.embargo_type == "article": %}
+<p>This {{item_type}} is under embargo until {{item.embargo_until_date}}.</p>
+{%- else: %}
+
+{%- if not private_view: %}
+    {%- set thisversion = item.version %}
+    {%- set latest = versions[0].version %}
+    {%- set old = thisversion < latest %}
+{%- endif %}
+
+<div id="metadata">
+ {%- if private_view %}
+  {%- if doi %}
+ <div id="doi"><span>doi:</span> {{doi}}</a></div>
+  {%- endif %}
+ {%- else %}
+    <div id="doi"><span class="doi-label">DOI:</span><a class="corporate-identity" href="https://doi.org/{{doi}}" target="_blank" rel="noopener noreferrer" title="opens in new window"><span class="doi-value">{{doi}}</span></a>
+  {%- if container_doi and not old %}
+        <div id="container_doi">The DOI displayed above is for this specific version of this {{item_type}}, which is currently the latest. Newer versions may be published in the future.
+            For a link that will always point to the latest version, please use<br />
+            <span>DOI:</span> <a class="corporate-identity" href="https://doi.org/{{container_doi}}" target="_blank" rel="noopener noreferrer" title="opens in new window">{{container_doi}}</a></div>
+  {%- endif %}
+    </div>
+    <button id="cite-btn" class="corporate-identity-standard-button" title="Show citation.">Cite</button>
+  {%- if my_collections %}
+    <button id="collect-btn" class="corporate-identity-standard-button" title="Add this {{item.defined_type_name}} to one of your collections.">Collect</button>
+  {%- endif %}
+    <div id="cite">
+        <h3>Datacite citation style</h3>
+        <div id="citation">{{citation}}</div>
+        <a class="corporate-identity" href="https://doi.datacite.org/dois/{{item.doi|replace('/','%2F')}}" target="_blank" rel="noopener noreferrer" title="opens in new window">Other citation styles (APA, Harvard, MLA, Vancouver, Chicago, IEEE) available at Datacite</a>
+    </div>
+  {%- if my_collections %}
+    <div id="collect">
+        <h3>Add to collection</h3>
+    </div>
+  {%- endif %}
+{%- endif %}
+{%- if item_type == "dataset" %}
+    {%- set dtype = item.defined_type_name|capitalize %}
+{%- else %}
+    {%- set dtype = "Collection" %}
+{%- endif %}
+    <div id="type_versions">
+        <h3 class="label" id="type">{{ dtype }}</h3>
+{%- if not private_view and versions[1:2] %}
+        <button id="versions-btn" title="Choose another version."
+            {%- if old %}class="old-version-style"{%- endif %}>Version {{thisversion}}
+            {%- if old %} (old){%- endif %} <span id="versions-arrow" class="fas fa-angle-down"></span> </button>
+        <div id="versions">
+    {%- for ver in versions %}
+        {%- set v = ver.version %}
+        {%- set label = "Version "~v~" - "~ver.posted_date[:10] %}
+        {%- if v == latest %}{%- set label = label~" (latest)" %}{%- endif %}
+        {%- if v == thisversion %}
+            <div>{{label}}</div>
+        {%- else %}
+            <a class="corporate-identity" href="/{{item_type}}s/{{item.container_uuid}}/{{v}}">{{label}}</a>
+        {%- endif %}
+    {%- endfor %}
+        </div>
+{%- endif %}
+    </div>
+
+    <div id="right_column">
+{%- if member != "other" and not anonymize %}
+        <div id="member">
+            <a class="corporate-identity" href="/institutions/{{member_url_name}}"><img src="/static/images/logo-{{member}}.png" alt="{{member_url_name.replace('_',' ')}} logo" /></a>
+        </div>
+{%- endif %}
+{%- if statistics %}
+        <div id="usage">
+            <h3 class="label">Usage statistics</h3>
+    {%- for metric in statistics %}
+            <div class="metric">
+                <div class="number">{{statistics[metric]}}</div>
+                {{metric.replace("cites", "citations")}}
+            </div>
+    {%- endfor %}
+        </div>
+{%- endif %}
+        <div id="categories">
+          <h3 class="label">Categories</h3>
+          <ul>
+            {%- for cat in categories %}
+            <li><a class="corporate-identity public-button" href="/categories/{{cat.id}}">{{cat.title}}</a></li>
+            {%- endfor %}
+            </ul>
+        </div>
+        <div id="tags">
+            <h3 class="label">Keywords</h3>
+            {%- for tag in tags|sort %}
+            {%- set query = '"'~tag~'"' %}
+            <a class="corporate-identity public-button" href="/search?searchscope=tag&search={{query|urlencode}}">{{tag}}</a>
+            {%- endfor %}
+        </div>
+{%- set geo = item.geolocation %}
+{%- set lat = coordinates.lat %}
+{%- set lon = coordinates.lon %}
+{%- if geo or lat or lon %}
+    {%- set vlat = coordinates.lat_valid %}
+    {%- set vlon = coordinates.lon_valid %}
+        <div id="geo">
+            <h3 class="label">Geolocation</h3>
+    {%- if geo %}
+            <div id = "geo_name">{{geo}}</div>
+    {%- endif %}
+    {%- if lat %}
+            <div id = "lat">lat (N): {{lat}}</div>
+    {%- endif %}
+    {%- if lon %}
+            <div id = "lon">lon (E): {{lon}}</div>
+    {%- endif %}
+    {%- if vlat and vlon %}
+            <a class="corporate-identity" href="https://www.openstreetmap.org/?mlat={{vlat}}&mlon={{vlon}}#map=12/{{vlat}}/{{vlon}}"
+               target="_blank" rel="noopener noreferrer" title="opens in new window">view on openstreetmap</a>
+    {%- endif %}
+        </div>
+{%- endif %}
+{%- if item.time_coverage %}
+        <div id="time_coverage">
+            <h3 class="label">Time coverage</h2>
+            {{item.time_coverage}}
+        </div>
+{%- endif %}
+{%- if item_type == "dataset" %}
+    {%- if item.license_url %}
+        <div id="licence">
+            <h3 class="label">Licence</h2>
+            <a class="corporate-identity public-button" href="{{item.license_url}}" target="_blank" rel="noopener noreferrer" title="opens in new window">
+              {{item.license_name}}</a>
+    {%- if item.license_remarks %}
+            <div>{{item.license_remarks}}</div>
+    {%- endif %}
+        </div>
+    {%- endif %}
+    <div id="interoperability">
+        <h3 class="label">Interoperability</h3>
+        <ul>
+        {%- if show_iiif_link %}
+        <li><a href="/iiif/v3/{{item.container_uuid}}/{{item.version | default('draft')}}/manifest" class="corporate-identity public-button" target="_blank" rel="noopener noreferrer" title="IIIF Manifest">IIIF Manifest</a>
+        {%- endif %}
+        <li><a href="/v3/datasets/{{item.container_uuid}}/{% if item.version %}versions/{{item.version}}/{% endif %}ro-crate-metadata.json" class="corporate-identity public-button" target="_blank" rel="noopener noreferrer" title="RO-Crate Metadata">RO-Crate Metadata</a>
+        </ul>
+    </div>
+    {%- if collections %}
+        <div id="collections">
+            <h3 class="label">Collection{%- if collections[1:] %}s{%- endif %}</h3>
+            <ul>
+        {%- for c in collections %}
+                <li><a class="corporate-identity" href="/collections/{{c.container_uuid}}">{{c.title}}</a></li>
+        {%- endfor %}
+            </ul>
+        </div>
+    {%- endif %}
+    {%- if not private_view %}
+        <div id="export">
+            <h3 class="label">Export as...</h3>
+            <a class="corporate-identity public-button" href="/export/refworks/datasets/{{id_version}}">RefWorks</a>
+            <a class="corporate-identity public-button" href="/export/bibtex/datasets/{{id_version}}">BibTeX</a>
+            <a class="corporate-identity public-button" href="/export/refman/datasets/{{id_version}}">Reference Manager</a>
+            <a class="corporate-identity public-button" href="/export/endnote/datasets/{{id_version}}">Endnote</a>
+            <a class="corporate-identity public-button" href="/export/datacite/datasets/{{id_version}}">DataCite</a>
+            <a class="corporate-identity public-button" href="/export/nlm/datasets/{{id_version}}">NLM</a>
+            <a class="corporate-identity public-button" href="/export/dc/datasets/{{id_version}}">DC</a>
+            <a class="corporate-identity public-button" href="/export/cff/datasets/{{id_version}}">CFF</a>
+        </div>
+    {%- endif %}
+{%- endif %}
+    </div>
+    
+    <div id="left_column">
+{%- if not anonymize %}
+      <div id="authors">by
+{%- for a in authors %}
+        <a class="corporate-identity{%- if a.is_active %} is_active{%- endif %}" href="/authors/{{a.uuid}}">{{a.full_name}}</a>
+    {%- if a.orcid_id %}
+            <a class="corporate-identity" href="https://orcid.org/{{a.orcid_id}}" target="_blank" rel="noopener noreferrer" title="opens in new window"><img src="/static/images/orcid.svg" alt="orcid logo" title="orcid profile (new window)" /></a>
+    {%- endif %}
+    {%- if loop.revindex0 %}, {%- endif %}
+{%- endfor %}
+        </div>
+{%- endif %}
+        <div id="description">
+{%- autoescape false %}
+        {%- if item.description %}
+        {{ item.description.replace('\\n', '\n') }}
+        {%- endif %}
+{%- endautoescape %}
+        </div>
+        <div id="dates">
+            <h3 class="label">History</h3>
+{%- for (date, dtype) in dates %}
+            <ul>
+                  <li>{{date}} {{dtype}}</li>
+            </ul>
+{%- endfor %}
+        </div>
+{%- if item.publisher %}
+        <div id="publisher">
+            <h3 class="label">Publisher</h3>
+                {{item.publisher}}
+        </div>
+{%- endif %}
+{%- if item.format %}
+        <div id="format">
+            <h3 class="label">Format</h3>
+            {{ item.format.replace('\\n', '\n') }}
+        </div>
+{%- endif %}
+{%- if item.resource_doi %}
+        <div id="peer">
+            <h3 class="label">Associated peer-reviewed publication</h3>
+            <a class="corporate-identity" href="https://doi.org/{{item.resource_doi}}" target="_blank" rel="noopener noreferrer" title="opens in new window">{{item.resource_title}}</a>
+        </div>
+{%- endif %}
+{%- if references %}
+        <div id="references">
+            <h3 class="label">References</h3>
+            <ul>
+    {%- for r in references %}
+                <li><a class="corporate-identity" href="{{r.url}}" target="_blank" rel="noopener noreferrer" title="opens in new window">{{r.url}}</a></li>
+    {%- endfor %}
+            </ul>
+        </div>
+{%- endif %}
+{%- if item.git_code_hosting_url %}
+        <div id="code-hosting-url">
+            <h3 class="label">Code hosting project url</h3>
+            <a href="{{item.git_code_hosting_url}}">{{item.git_code_hosting_url}}</a>
+        </div>
+{%- endif %}
+{%- if derived_from %}
+        <div id="derived_from">
+            <h3 class="label">Derived from</h3>
+            <ul>
+    {%- for d in derived_from %}
+                <li><a class="corporate-identity" href="{{d}}" target="_blank" rel="noopener noreferrer" title="opens in new window">{{d}}</a></li>
+    {%- endfor %}
+            </ul>
+        </div>
+{%- endif %}
+{%- if item.same_as %}
+        <div id="same_as">
+            <h3 class="label">Same as</h3>
+            <a class="corporate-identity" href="{{item.same_as}}" target="_blank" rel="noopener noreferrer" title="opens in new window">{{item.same_as}}</a>
+        </div>
+{%- endif %}
+{%- if item.data_link %}
+        <div id="data_link">
+            <h3 class="label">Data link</h3>
+            <a class="corporate-identity" href="{{item.data_link}}" target="_blank" rel="noopener noreferrer" title="opens in new window">{{item.data_link}}</a>
+        </div>
+{%- endif %}
+{%- if item.language %}
+    {%- if item.language != 'en' %}
+        <div id="language">
+            <h3 class="label">Language</h3>
+            {{item.language}}
+        </div>
+    {%- endif %}
+{%- endif %}
+{%- if fundings %}
+        <div id="funding">
+            <h3 class="label">Funding</h3>
+            <ul>
+    {%- for funding in fundings %}
+                <li>
+        {%- if funding.title %}
+                    <span class="funding_title">{{funding.title}}</span>
+        {%- endif %}
+        {%- if funding.grant_code %}
+                    <span class="grant_code">(grant code {{funding.grant_code}})</span>
+        {%- endif %}
+        {%- if funding.url %}
+                    [<a class="corporate-identity" href="{{funding.url}}" target="_blank" rel="noopener noreferrer" title="opens in new window">more info...</a>]
+        {%- endif %}
+        {%- if funding.funder_name %}
+                    <span class="funder_name">
+                        {{funding.funder_name}}
+                    </span>
+        {%- endif %}
+                </li>
+    {%- endfor %}
+          </ul>
+        </div>
+{%- endif %}
+{%- if item.organizations %}
+    {%- autoescape false %}
+        <div id="organizations">
+            <h3 class="label">Organizations</h3>
+            {{ item.organizations.replace('\n', '<br />') }}
+        </div>
+    {%- endautoescape %}
+{%- endif %}
+{%- if contributors %}
+        <div id="contributors">
+            <h3 class="label">Contributors</h3>
+            <ul>
+    {%- for c in contributors %}
+                <li>
+                    {{c.name}} 
+        {%- if c.orcid %}
+                    <a class="corporate-identity" href="https://orcid.org/{{c.orcid}}" target="_blank" rel="noopener noreferrer" title="opens in new window"><img src="/static/images/orcid.svg" alt="orcid logo" title="orcid profile (new window)" /></a>
+        {%- endif %}
+                </li>
+    {%- endfor %}
+            </ul>
+        </div>
+{%- endif %}
+    </div>
+</div>
+{%- endif %}
+{%- endblock %}
+

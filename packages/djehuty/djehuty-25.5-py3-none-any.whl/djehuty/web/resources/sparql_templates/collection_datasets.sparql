@@ -1,0 +1,19 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT DISTINCT ?container_uuid ?dataset_uuid ?date ?type ?title
+WHERE {
+  GRAPH <{{state_graph}}> {
+    <{{collection}}>    djht:datasets/rdf:rest*/rdf:first  ?dataset_container .
+    ?dataset_container  rdf:type                           djht:DatasetContainer ;
+                        djht:first_online_date             ?date ;
+                        djht:latest_published_version      ?dataset .
+    ?dataset            rdf:type                           djht:Dataset ;
+                        djht:title                         ?title ;
+                        djht:defined_type_name             ?type .
+
+    BIND(STRAFTER(STR(?dataset_container), "container:") AS ?container_uuid)
+    BIND(STRAFTER(STR(?dataset), "dataset:")             AS ?dataset_uuid)
+  }
+}
+ORDER BY ASC(?title) DESC(?date)
+{% endblock %}

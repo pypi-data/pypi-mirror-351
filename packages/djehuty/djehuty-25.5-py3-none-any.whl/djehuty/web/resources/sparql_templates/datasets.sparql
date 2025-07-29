@@ -1,0 +1,236 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+{%- if return_count %}
+SELECT (COUNT(DISTINCT ?dataset) AS ?datasets)
+{%- else %}
+{#- The wrapping in STR() is added because Virtuoso outputs one row for
+ #- non-typed and one row for a typed literal. #}
+SELECT DISTINCT ?account_uuid ?citation ?confidential_reason ?container_uuid
+                ?created_date ?defined_type ?defined_type_name
+                ?description ?doi ?embargo_until_date ?is_public
+                ?embargo_reason ?embargo_title ?embargo_type ?figshare_url
+                ?funding ?group_id ?has_linked_file ?dataset_id ?eula
+                ?institution_id ?is_active ?is_confidential ?is_embargoed ?is_restricted
+                ?is_metadata_record ?license_id ?license_name ?license_url ?license_spdx
+                ?metadata_reason ?modified_date ?published_date ?container_doi
+                ?resource_doi ?resource_title ?size ?status ?thumb ?declined_date
+                ?timeline_posted ?has_draft (STR(?publisher_ut) AS ?publisher)
+                ?timeline_publisher_publication ?timeline_first_online
+                ?timeline_revision ?timeline_submission ?title ?url
+                ?url_private_api ?url_private_html ?url_public_api ?thumb_origin
+                ?url_public_html ?version (STR(?language_ut) AS ?language) ?time_coverage
+                ?geolocation ?longitude ?latitude ?format ?organizations
+                ?data_link ?same_as ?contributors ?review_status
+                ?license_remarks ?container_uri (?dataset AS ?uri) ?uuid
+                ?is_under_review (?review AS ?review_uri) ?review_submit_date
+                ?totals_created_at ?total_downloads ?total_views ?total_shares
+                ?total_cites ?git_uuid ?agreed_to_deposit_agreement ?agreed_to_publish
+                ?private_link_is_expired ?is_shared_with_me ?anonymize
+                ?git_repository_name ?git_code_hosting_url ?group_name
+{%endif%}
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?container_uri      rdf:type                  djht:DatasetContainer .
+    OPTIONAL { ?container_uri djht:dataset_id     ?dataset_id . }
+
+    {%- if is_published is none and is_latest is none: %}
+    ?dataset            djht:container            ?container_uri .
+    {%- elif is_latest %}
+    ?container_uri      djht:latest_published_version ?dataset .
+    {%- elif is_published %}
+    ?container_uri      djht:published_versions/rdf:rest*/rdf:first ?dataset .
+    {%- else %}
+    ?container_uri      djht:draft                ?dataset .
+    {%- endif %}
+
+    {%- if private_link_id_string is not none %}
+    ?dataset            djht:private_links/rdf:rest*/rdf:first ?private_link .
+    ?private_link       djht:id                   ?private_link_id_string .
+    OPTIONAL { ?private_link djht:anonymize       ?anonymize . }
+    {%- endif %}
+
+    OPTIONAL {
+      ?review           rdf:type                  djht:Review ;
+                        djht:dataset              ?dataset .
+      OPTIONAL { ?review  djht:status/rdfs:label  ?review_status . }
+      ?review           djht:request_date         ?review_submit_date .
+    }
+
+    ?dataset            djht:title                ?title .
+    OPTIONAL { ?dataset djht:version              ?version . }
+
+    OPTIONAL {
+      ?account          rdf:type                  djht:Account .
+      ?account          djht:institution_id       ?institution_id .
+    }
+
+    {%- if collection_uri is not none %}
+    ?collection         rdf:type                  djht:Collection .
+    ?collection         djht:datasets/rdf:rest*/rdf:first ?container_uri .
+    {%- endif %}
+    {%- if categories is not none: %}
+    ?dataset            djht:categories/rdf:rest*/rdf:first ?category .
+    ?category           djht:id                   ?category_id .
+    ?category           djht:parent_id            ?parent_category_id .
+    {%- endif %}
+
+    OPTIONAL { ?container_uri djht:first_online_date    ?timeline_first_online . }
+    OPTIONAL { ?container_uri djht:totals_created_at    ?totals_created_at . }
+    OPTIONAL { ?container_uri djht:total_downloads      ?total_downloads .   }
+    OPTIONAL { ?container_uri djht:total_views          ?total_views .       }
+    OPTIONAL { ?container_uri djht:total_shares         ?total_shares .      }
+    OPTIONAL { ?container_uri djht:total_cites          ?total_cites .       }
+    OPTIONAL { ?container_uri djht:doi                  ?container_doi .     }
+
+    OPTIONAL { ?dataset djht:publisher_publication_date ?timeline_publisher_publication . }
+    OPTIONAL { ?dataset djht:submission_date      ?timeline_submission . }
+    OPTIONAL { ?dataset djht:posted_date          ?timeline_posted . }
+    OPTIONAL { ?dataset djht:revision_date        ?timeline_revision . }
+
+    OPTIONAL {
+      ?dataset          djht:license               ?license_url .
+      ?license_url      rdf:type                   djht:License .
+      ?license_url      djht:id                    ?license_id .
+      ?license_url      djht:name                  ?license_name .
+      OPTIONAL { ?license_url djht:spdx            ?license_spdx . }
+    }
+
+    OPTIONAL { ?dataset djht:git_uuid              ?git_uuid . }
+    OPTIONAL { ?dataset djht:citation              ?citation . }
+    OPTIONAL { ?dataset djht:confidential_reason   ?confidential_reason . }
+    OPTIONAL { ?dataset djht:created_date          ?created_date . }
+    OPTIONAL { ?dataset djht:defined_type          ?defined_type . }
+    OPTIONAL { ?dataset djht:defined_type_name     ?defined_type_name . }
+    OPTIONAL { ?dataset djht:description           ?description . }
+    OPTIONAL { ?dataset djht:doi                   ?doi . }
+    OPTIONAL { ?dataset djht:embargo_until_date    ?embargo_until_date . }
+    OPTIONAL { ?dataset djht:embargo_type          ?embargo_type . }
+    OPTIONAL { ?dataset djht:embargo_title         ?embargo_title . }
+    OPTIONAL { ?dataset djht:embargo_reason        ?embargo_reason . }
+    OPTIONAL { ?dataset djht:eula                  ?eula . }
+    OPTIONAL { ?dataset djht:figshare_url          ?figshare_url . }
+    OPTIONAL { ?dataset djht:funding               ?funding . }
+    OPTIONAL { ?dataset djht:group_id              ?group_id . }
+    OPTIONAL { ?dataset djht:handle                ?handle . }
+    OPTIONAL { ?dataset djht:has_linked_file       ?has_linked_file . }
+    OPTIONAL { ?dataset djht:is_active             ?is_active . }
+    OPTIONAL { ?dataset djht:is_public             ?is_public . }
+    OPTIONAL { ?dataset djht:is_confidential       ?is_confidential . }
+    OPTIONAL { ?dataset djht:is_metadata_record    ?is_metadata_record . }
+    OPTIONAL { ?dataset djht:metadata_reason       ?metadata_reason . }
+    OPTIONAL { ?dataset djht:modified_date         ?modified_date . }
+    OPTIONAL { ?dataset djht:published_date        ?published_date . }
+    OPTIONAL { ?dataset djht:declined_date         ?declined_date . }
+    OPTIONAL { ?dataset djht:resource_doi          ?resource_doi . }
+    OPTIONAL { ?dataset djht:resource_title        ?resource_title . }
+    OPTIONAL { ?dataset djht:size                  ?size . }
+    OPTIONAL { ?dataset djht:status                ?status . }
+    OPTIONAL { ?dataset djht:thumb                 ?thumb . }
+    OPTIONAL { ?dataset djht:thumb_origin          ?thumb_origin . }
+    OPTIONAL { ?dataset djht:url                   ?url . }
+    OPTIONAL { ?dataset djht:url_private_api       ?url_private_api . }
+    OPTIONAL { ?dataset djht:url_private_html      ?url_private_html . }
+    OPTIONAL { ?dataset djht:url_public_api        ?url_public_api . }
+    OPTIONAL { ?dataset djht:url_public_html       ?url_public_html . }
+    OPTIONAL { ?dataset djht:tags/rdf:rest*/rdf:first ?tag . }
+    {#- Custom fields. #}
+    OPTIONAL { ?dataset djht:publisher             ?publisher_ut . }
+    OPTIONAL { ?dataset djht:language              ?language_ut . }
+    OPTIONAL { ?dataset djht:time_coverage         ?time_coverage . }
+    OPTIONAL { ?dataset djht:geolocation           ?geolocation . }
+    OPTIONAL { ?dataset djht:longitude             ?longitude . }
+    OPTIONAL { ?dataset djht:latitude              ?latitude . }
+    OPTIONAL { ?dataset djht:format                ?format . }
+    OPTIONAL { ?dataset djht:organizations         ?organizations . }
+    OPTIONAL { ?dataset djht:data_link             ?data_link . }
+    OPTIONAL { ?dataset djht:same_as               ?same_as . }
+    OPTIONAL { ?dataset djht:contributors          ?contributors . }
+    OPTIONAL { ?dataset djht:license_remarks       ?license_remarks . }
+    OPTIONAL { ?dataset djht:agreed_to_deposit_agreement ?agreed_to_deposit_agreement . }
+    OPTIONAL { ?dataset djht:agreed_to_publish     ?agreed_to_publish . }
+    OPTIONAL { ?dataset djht:git_repository_name   ?git_repository_name . }
+    OPTIONAL { ?dataset djht:git_code_hosting_url  ?git_code_hosting_url . }
+    OPTIONAL {
+      ?dataset   djht:association_criteria  ?association_criteria .
+      ?group_uri rdf:type                   djht:InstitutionGroup .
+      ?group_uri djht:association_criteria  ?association_criteria .
+      ?group_uri djht:name                  ?group_name .
+    }
+    ?container_uri      djht:account              ?account .
+    {%- if not disable_collaboration %}
+    OPTIONAL {
+      ?dataset            rdf:type            djht:Dataset .
+      ?collaborator       rdf:type            djht:Collaborator .
+      ?collaborator       djht:item           ?dataset .
+      ?collaborator       djht:account        ?collaborator_account .
+    }
+    OPTIONAL {
+      ?dataset            rdf:type                   djht:Dataset .
+      ?dataset            djht:association_criteria  ?association_criteria .
+
+      ?group_uri          rdf:type                   djht:InstitutionGroup .
+      ?group_uri          djht:association_criteria  ?association_criteria .
+      ?group_uri          djht:members/rdf:rest*/rdf:first ?member_uri .
+
+      ?member_uri         djht:is_supervisor         "true"^^xsd:boolean .
+      ?member_uri         djht:account               ?member_account .
+    }
+    {%- endif %}
+
+    {%- if search_for_raw is not none: %}
+    OPTIONAL {
+      ?dataset          djht:authors/rdf:rest*/rdf:first/djht:full_name ?author .
+    }
+    {%- endif %}
+
+    OPTIONAL { ?dataset djht:is_under_review       ?is_under_review_tmp . }
+    BIND(COALESCE(?is_under_review_tmp, "false"^^xsd:boolean) AS ?is_under_review)
+
+    BIND(STRAFTER(STR(?container_uri), "container:") AS ?container_uuid)
+    BIND(STRAFTER(STR(?dataset), "dataset:")         AS ?uuid)
+    BIND(STRAFTER(STR(?account), "account:")         AS ?account_uuid)
+    {%- if is_published %}
+    BIND (xsd:boolean (EXISTS { ?container_uri djht:draft ?draft_dataset . }) AS ?has_draft)
+    {%- endif %}
+    BIND((BOUND(?embargo_until_date)  && ?embargo_until_date > NOW()) AS ?is_embargoed)
+    BIND((!BOUND(?embargo_until_date) && BOUND(?embargo_type)) AS ?is_restricted)
+
+    {%- if private_link_id_string is not none %}
+    OPTIONAL { ?private_link djht:expires_date     ?private_link_expires_date . }
+    {#- Wrapping the xsd:dateTime in strings is needed because Virtuoso seems to
+     #- return 1 for 2023-07-07 < 2023-07-06. String comparison works because the
+     #- xsd:dateTime format is YYYY-MM-DD. #}
+    BIND((BOUND(?private_link_expires_date) && STR(?private_link_expires_date) < STR(NOW())) AS ?private_link_is_expired)
+    {%- else %}
+    BIND("false"^^xsd:boolean AS ?private_link_is_expired)
+    {%- endif %}
+    {%- if account_uuid is not none %}
+    BIND(xsd:boolean((?collaborator_account = <account:{{account_uuid}}> ||
+                      ?member_account = <account:{{account_uuid}}>) &&
+                     ?account != <account:{{account_uuid}}>) AS ?is_shared_with_me)
+    {%- else %}
+    BIND("false"^^xsd:boolean AS ?is_shared_with_me)
+    {%- endif %}
+  }
+{%- if is_under_review is not none: %}
+{%- if is_under_review: %}
+FILTER (?is_under_review = "true"^^xsd:boolean)
+{%- else %}
+FILTER (?is_under_review = "false"^^xsd:boolean)
+{%- endif %}
+{%- endif %}
+{%- if collection_uri is not none %}
+FILTER (?collection = <{{collection_uri}}>)
+{%- endif %}
+{%- if account_uuid is not none: %}
+  {%- if disable_collaboration %}
+FILTER (?account = <account:{{account_uuid}}>)
+  {%- else %}
+FILTER (?account = <account:{{account_uuid}}> ||
+        ?collaborator_account = <account:{{account_uuid}}> ||
+        (?member_account = <account:{{account_uuid}}> && BOUND(?association_criteria)))
+  {%- endif %}
+{%- endif %}
+{% if filters is not none %}{{ filters | safe }}{% endif %}
+}
+{% endblock %}

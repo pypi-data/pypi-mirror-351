@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>Overview of {{site_name}}</h1>
+{% for category in categories: %}
+<h2>{{category.title}}</h2>
+{% for item in category.articles: %}
+<div class="tile-item">
+  <a href="/datasets/{{item.container_uuid}}">{% if item.thumb | length: %}
+  <img class="tile-preview" src="{{item.thumb}}" aria-hidden="true" alt="thumbnail for {{item.container_uuid}}" />
+  {% else: %}
+  <img class="tile-preview" src="/static/images/dataset-thumb.svg" aria-hidden="true" alt="thumbnail for {{item.container_uuid}}" />
+  {% endif %}</a>
+  <div class="tile-title"><a href="/datasets/{{item.container_uuid}}">{{item.title}}</a></div>
+  <div class="tile-date">Posted on {{item.timeline_posted | truncate(10,False,'')}}</div>
+  <div class="tile-authors">
+  </div>
+</div>
+{% endfor %}
+<p class="corporate-identity"><a class="corporate-identity" href="/categories/{{category.id}}">View all datasets of {{category.title}} &rarr;</a></p>
+{% endfor %}
+{% endblock %}

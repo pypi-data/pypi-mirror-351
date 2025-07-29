@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block headers %}
+<script nonce="{{nonce}}">
+var group_ids = "{% for item in sub_groups: %}{{item.group_id}}{{ ',' if not loop.last else '' }}{% endfor %}";
+</script>
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/ranking.js?cache=1742461855"></script>
+{% endblock %}
+{% block body %}
+<h1>{{group.group_name}}</h1>
+
+<h2>Top datasets</h2>
+<div id="top-buttons" class="tabs corporate-identity">
+  <ul>
+    <li class="top-downloads"><a href="#">Downloads</a>
+    <li class="top-views"><a href="#">Views</a>
+    <li class="top-shares"><a href="#">Shares</a>
+    <li class="top-cites"><a href="#">Citations</a>
+  </ul>
+</div>
+<div id="top-datasets-wrapper" class="corporate-identity-border">
+  <table id="top-datasets">
+    <thead>
+      <tr class="corporate-identity-background"><th>Dataset</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Latest datasets</h2>
+<div id="latest-datasets-loader" class="loader"></div>
+<div id="latest-datasets"></div>
+
+<h2>All datasets</h2>
+{% for item in articles %}
+<div class="tile-item">
+  <a href="/datasets/{{item.container_uuid}}">{% if item.thumb | length: %}
+  <img class="tile-preview" src="{{item.thumb}}" aria-hidden="true" alt="thumbnail for {{item.container_uuid}}" />
+  {% else: %}
+  <img class="tile-preview" src="/static/images/dataset-thumb.svg" aria-hidden="true" alt="thumbnail for {{item.container_uuid}}" />
+  {% endif %}</a>
+  <div class="tile-title"><a href="/datasets/{{item.container_uuid}}">{{item.title}}</a></div>
+  <div class="tile-date">Posted on {{item.timeline_posted | truncate(10,False,'')}}</div>
+  <div class="tile-authors">
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+DELETE {
+  GRAPH <{{state_graph}}> {
+    ?review          djht:assigned_to           ?assigned_to .
+    {% if status is not none %}
+    ?review          djht:status                ?status .
+    {%- endif%}{% if reminder_date is not none %}
+    ?review          djht:reminder_date         ?reminder_date .
+    {%- endif%}
+  }
+}
+INSERT {
+  GRAPH <{{state_graph}}> {
+    {%- if assigned_to is not none %}
+    ?review          djht:assigned_to          <account:{{assigned_to | safe}}> .
+    {%- endif%}{% if status is not none %}
+    ?review          djht:status               djht:Review{{status | safe}} .
+    {%- endif%}{% if reminder_date is not none %}
+    ?review          djht:reminder_date        "{{reminder_date | safe}}"^^xsd:dateTime .
+    {%- endif%}
+  }
+}
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?review              rdf:type                  djht:Review .
+    {%- if dataset_uri is not none %}
+    ?review djht:dataset <{{dataset_uri}}>
+    {%- endif %}
+    OPTIONAL { ?review   djht:assigned_to           ?assigned_to . }
+    OPTIONAL { ?review   djht:status                ?status . }
+    OPTIONAL { ?review   djht:reminder_date         ?reminder_date . }
+  }
+  FILTER (?review = <{{review_uri}}>)
+}
+{% endblock %}

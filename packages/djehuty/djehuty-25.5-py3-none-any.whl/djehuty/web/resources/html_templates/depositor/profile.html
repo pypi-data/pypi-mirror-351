@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+{% block headers %}
+<meta http-equiv="Cache-control" content="no-cache">
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/utils.js?cache=1744290797"></script>
+<script src="/static/js/edit-profile.js?cache=1741959850"></script>
+<script src="/static/js/dropzone.min.js"></script>
+<script nonce="{{nonce}}">
+Dropzone.autoDiscover = false;
+jQuery(document).ready(function (){
+    root_categories = []
+    jQuery(".hide-for-javascript").removeClass("hide-for-javascript");
+    jQuery(".subcategory-wrapper").hide();
+{%- for category in categories: %}
+    root_categories.push("{{category.uuid}}");
+    jQuery("#category_{{category.uuid}}").change(function () {
+        if (this.checked) {
+            jQuery("#category_{{category.uuid}}").prop("checked", true);
+            jQuery("#subcategories_{{category.uuid}}").slideDown(200);
+        } else {
+            jQuery("#subcategories_{{category.uuid}} input[name='categories']").prop("checked", false);
+            jQuery("#subcategories_{{category.uuid}}").slideUp(200);
+        }
+    });
+{%- endfor %}
+    activate ('{{account.account_uuid}}');
+});
+</script>
+<link href="/static/css/dropzone.min.css" rel="stylesheet">
+<link href="/static/css/form.css?cache=1738927707" rel="stylesheet">
+<style nonce="{{nonce}}">
+#expanded-categories { display: none; }
+#categories-wrapper .subitem-checkbox { margin-left: 3em; }
+.upload-container {
+    display: block;
+    width: 200px;
+    height: 200px;
+    border: 2pt dashed #ccc;
+    background: #f9f9f9;
+    border-radius: .5em;
+    margin: auto auto 1em auto;
+    vertical-align: middle;
+    text-align: center;
+    color: #333;
+}
+.upload-container:hover { cursor: pointer; }
+.upload-container p { font-size: 1.0em; line-height: .5em; }
+    .dz-button { line-height: 1.5em !important; font-size: 15pt !important; font-weight: normal !important;{% if account.profile_image: %} display: none;{% endif %} }
+.small-text { text-align: center; font-size: small; }
+.small-text a { color: #cc0000; }
+.small-text a:hover { color: #ff0000; }
+.profile-image {
+    {%- if account.profile_image %}
+    background: url('/v3/profile/picture');
+    {%- endif %}
+    background-size: contain;
+    background-repeat: none;
+}
+</style>
+{% endblock %}
+{% block submenu %}
+<ul>
+  <li class="hide-for-javascript"><a id="dashboard" href="/my/dashboard">My Dashboard</a>
+  <li class="active corporate-identity-submenu-active">Profile
+  <li class="hide-for-javascript save-button"><a id="save" href="#">Save</a>
+{%- if account.author_uuid != "unknown" %}
+  <li class="hide-for-javascript"><a id="show-public-profile" href="/authors/{{account.author_uuid}}">Public profile</a>
+  {%- if orcid_client_id is not none: %}
+    {%- if "orcid" not in account or account.orcid is none or account.orcid == "": %}
+  <li class="hide-for-javascript orcid-button"><a id="connect-with-orcid" href="/my/profile/connect-with-orcid"><span class="fab fa-orcid"></span>Connect ORCID</a>
+    {%- else: %}
+    <li class="hide-for-javascript orcid-button"><a href="https://orcid.org/{{account.orcid}}"><span class="fab fa-orcid"></span><strong>{{account.orcid}}</strong></a>
+    {%- endif %}
+  {%- endif %}
+{%- endif %}
+</ul>
+{% endblock %}
+{% block body %}
+<h1>Profile</h1>
+<h2>Profile picture</h2>
+    <form id="upload-profile-image" class="upload-container dropzone {% if account.profile_image: %}profile-image{% endif%}" action="/v3/profile/picture" method="post" enctype="multipart/form-data">
+  <div class="fallback">
+    <input type="file" name="file" id="file" aria-label="Upload your profile picture">
+  </div>
+</form>
+{%- if account.profile_image: %}
+<p class="small-text"><a id="remove-image" href="#">Remove profile image</a></p>
+{%- endif %}
+<p class="small-text">Upload a JPG or PNG image of (ideally) 800 by 800 pixels.</p>
+
+<h2>Professional details</h2>
+
+<label for="first_name">First name</label>
+<input type="text" id="first_name" name="first_name" value="{{account.first_name}}" />
+
+<label for="last_name">Last name</label>
+<input type="text" id="last_name" name="last_name" value="{{account.last_name}}" />
+
+<label for="last_name">Job title</label>
+<input type="text" id="job_title" name="job_title" value="{{account.job_title}}" />
+
+<label for="location">Location</label>
+<input type="text" id="location" name="location" value="{{account.location}}" />
+
+<label for="twitter">Twitter</label>
+<input type="text" id="twitter" name="twitter" value="{{account.twitter}}" />
+
+<label for="linkedin">LinkedIn</label>
+<input type="text" id="linkedin" name="linkedin" value="{{account.linkedin}}" />
+
+<label for="website">Website</label>
+<input type="text" id="website" name="website" value="{{account.website}}" />
+
+<label for="biography">Biography</label>
+<textarea id="biography" name="biography">{{account.biography | default("", True) }}</textarea>
+
+<label>Fields of interest</label>
+<div id="categories-wrapper" class="options-wrapper">
+  <a id="expand-categories-button" href="#">Select categories</a>
+  <div class="expand-categories"></div>
+  <div id="expanded-categories">
+{%- for root in categories: %}
+<input type="checkbox" name="categories" value="{{root.uuid}}" id="category_{{root.uuid}}"><!--
+--><label class="item-label" for="category_{{root.uuid}}">{{root.title}}</label><br>
+<div id="subcategories_{{root.uuid}}" class="subcategory-wrapper">
+{%- for sub in root.subcategories: %}
+<input class="subitem-checkbox" type="checkbox" name="categories" value="{{sub.uuid}}" id="category_{{sub.uuid}}"><!--
+--><label class="subitem-label no-head" for="category_{{sub.uuid}}">{{sub.title}}</label><br>
+{%- endfor %}
+</div>
+{%- endfor %}
+  </div>
+</div>
+
+{% endblock %}

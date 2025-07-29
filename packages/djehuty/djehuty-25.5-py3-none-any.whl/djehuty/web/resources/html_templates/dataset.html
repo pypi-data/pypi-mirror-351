@@ -1,0 +1,138 @@
+{%- extends "layout.html" %}
+{%- set doi = item.doi %}
+{%- set pid = item.dataset_id %}
+{%- set item_type = "dataset" %}
+{%- block headers %}
+{%- if item.embargo_type is not defined or item.embargo_type != 'article' %}
+    {%- include 'jsonld.html' %}
+{%- endif %}
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/landing_page.js?cache=1742461855"></script>
+<script src="/static/js/quill.min.js"></script>
+<script src="/static/js/utils.js?cache=1744290797"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/pub.css?cache=1742203405" />
+<link href="/static/css/quill.4tu.css" rel="stylesheet">
+<link href="/static/css/form.css?cache=1739977731" rel="stylesheet">
+<style nonce="{{nonce}}">
+#access-request-wrapper { display: none; }
+#content-wrapper {padding: 0}
+</style>
+<script nonce="{{nonce}}">
+const dataset_uuid = "{{item.container_uuid}}";
+</script>
+{%- endblock %}
+{%- block body %}
+{%- include 'public_metadata.html' %}
+<div id="data">
+{%- if item.is_embargoed %}
+    <h3 class="label">DATA - under embargo</h3>
+        <div id="limited_access">
+            <p>The files in this dataset are under embargo{%- if item.embargo_until_date %} until {{item.embargo_until_date}}{%- endif %}.</p>
+    {%- if item.embargo_reason or item.confidential_reason %}
+            <h4>Reason</h4>
+        {%- autoescape false %}
+        {%- if item.embargo_reason %}
+            {{item.embargo_reason}}
+        {%- else %}
+            {{item.confidential_reason}}
+        {%- endif %}
+        {%- endautoescape %}
+    {%- endif %}
+       </div>
+{%- elif item.is_restricted %}
+    <h3 class="label">DATA - restricted access</h3>
+        <div id="limited_access">
+            <h4>Reason</h4>
+    {%- autoescape false %}
+    {%- if item.embargo_reason %}
+            {{item.embargo_reason}}
+    {%- elif item.confidential_reason %}
+            {{item.confidential_reason}}
+    {%- else %}
+            Data is confidential.
+    {%- endif %}
+    {%- if item.eula %}
+            <h4>End User Licence Agreement</h4>
+            {{item.eula}}
+    {%- endif %}
+    {%- endautoescape %}
+        </div>
+        {%- include 'dataset_access_request.html' %}
+{%- elif item.is_metadata_record %}
+    <h3 class="label">DATA - not available</h3>
+        <div id="metadata_only">
+    {%- if item.metadata_reason %}
+            {{item.metadata_reason}}
+    {%- else %}
+            Data is undisclosed.
+    {%- endif %}
+        </div>
+{%- endif %}
+{%- if is_own_item and (item.is_restricted or item.is_embargoed) %}
+    <div id="is_own_item">As the owner of this dataset, you have access to the data files.</div>
+{%- elif private_view and (item.is_restricted or item.is_embargoed) %}
+    <div id="private_view">As you are on a private link, you have access to the data files.</div>
+{%- endif %}
+{%- if not(item.is_restricted or item.is_embargoed) and files %}
+    <h3 class="label">DATA</h3>
+{%- endif %}
+{%- if is_own_item or private_view or not(item.is_restricted or item.is_embargoed) %}
+{%- if services %}
+    <div id="services">
+        <div class="label">data service</div>
+        <ul>
+    {%- for url in services %}
+            <li><a class="corporate-identity" href="{{url}}" target="_blank" rel="noopener noreferrer" title="opens in new window">{{url}}</a></li>
+    {%- endfor %}
+        </ul>
+    </div>
+{%- endif%}
+{%- if opendap %}
+    <div id="opendap">
+        <div class="label">OPeNDAP data service</div>
+        <ul>
+    {%- for url in opendap %}
+            <li>
+                <a class="corporate-identity" href="{{url}}" target="_blank" rel="noopener noreferrer" title="opens in new window">{{url}}</a>
+                [<a class="corporate-identity" href="{{url|replace('.html','.xml')}}" target="_blank" rel="noopener noreferrer">xml</a>]
+            </li>
+    {%- endfor %}
+        </ul>
+    </div>
+{%- endif%}
+{%- if git_repository_url %}
+    <div id="git-repository">
+      <p>To access the source code, use the following command:</p>
+      <pre>git clone {{git_repository_url}}{%- if item.git_repository_name %} "{{item.git_repository_name}}"{%- endif %}</pre>
+      <p>Or <a class="underline" href="{{git_repository_url}}/zip">download the latest commit as a ZIP</a>.</p>
+    </div>
+{%- endif %}
+{%- if files %}
+    <div id="files">
+        <h3 class="label">Files ({{files|length}})</h3>
+        <ul>
+    {%- for file in files %}
+            <li>
+              {%- if "size" in file: %}<span class="size">{{'{:,}'.format(file.size)}} bytes</span>{%- endif %}<!--
+              --><span class="md5">MD5:<code>{{file.computed_md5}}</code></span><!--
+              {%- if file.handle is defined and file.handle is not none %}
+              --><a href="https://hdl.handle.net/{{file.handle}}"><img src="/static/images/handle-logo.png" class="handle-icon" alt="Handle" /></a><!--
+              {%- endif %}
+              --><a class="corporate-identity" href="/file/{{item.container_uuid}}/{{file.uuid}}">{{file.name}}</a>
+            </li>
+    {%- endfor %}
+    {%- if files|length > 1 %}
+            <li class="zip">
+                    <a id="download-all-files" class="corporate-identity" href="/ndownloader/items/{{item.container_uuid}}/versions/{{item.version | default('draft', False)}}">download all files (zip)</a>
+                <div id="total_size">{{'{:,}'.format(files_size)}} bytes unzipped</div>
+            </li>
+    {%- endif %}
+        </ul>
+        <div id="download-all-files-message"></div>
+    </div>
+{%- endif %}
+{%- endif %}
+</div>
+</div>
+
+{%- endblock %}

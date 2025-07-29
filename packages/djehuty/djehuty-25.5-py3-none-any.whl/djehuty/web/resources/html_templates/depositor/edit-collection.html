@@ -1,0 +1,229 @@
+{% extends "layout.html" %}
+{% block headers %}
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+<script src="/static/js/quill.min.js"></script>
+<script src="/static/js/utils.js?cache=1744290797"></script>
+<script src="/static/js/edit-collection.js?cache=1744290797"></script>
+<script nonce="{{nonce}}">
+jQuery(document).ready(function () {
+    root_categories = []
+    jQuery(".subcategory-wrapper").hide();
+{%- for category in categories: %}
+    root_categories.push("{{category.uuid}}");
+    jQuery("#category_{{category.uuid}}").change(function () {
+        if (this.checked) {
+            jQuery("#category_{{category.uuid}}").prop("checked", true);
+            jQuery("#subcategories_{{category.uuid}}").slideDown(200);
+        } else {
+            jQuery("#subcategories_{{category.uuid}} input[name='categories']").prop("checked", false);
+            jQuery("#subcategories_{{category.uuid}}").slideUp(200);
+        }
+    });
+{%- endfor %}
+    activate ("{{collection.container_uuid}}");
+});
+</script>
+<link href="/static/css/quill.4tu.css" rel="stylesheet">
+<link href="/static/css/form.css?cache=1738927707" rel="stylesheet">
+<style nonce="{{nonce}}">
+.files td { text-align: left; }
+#expanded-categories { display: none; }
+#file-upload h4 { font-size: 1.5em; padding: 0em; margin: .75em 0em .75em 0em; }
+#categories-wrapper .subitem-checkbox { margin-left: 3em; }
+#authors-list { display: none; border: none; }
+#authors-list thead { display: none; }
+#articles-list { display: none; border: none; }
+#articles-list thead { display: none; }
+#new-author { text-align: center; line-height: 3.5em; height: 3.5em; }
+#new-funding { text-align: center; line-height: 3.5em; height: 3.5em; }
+#new-author-form { padding: 1em; }
+#new-author-form label { background: #eee; }
+#new-author-form input[type="text"] { width: 800pt; }
+#new-funding-form { padding: 1em; }
+#new-funding-form label { background: #eee; }
+#new-funding-form input[type="text"] { width: 800pt; }
+#references-list { display: none; border: none; }
+#references-list thead { display: none; }
+#record-type-wrapper input[type="radio"],
+#type-wrapper input[type="radio"]{ display: none; }
+#record-type-wrapper label,
+#type-wrapper label{ padding: .5em; border-radius: .5em; user-select: none; }
+#record-type-wrapper label:hover,
+#type-wrapper label:hover{ cursor: pointer; background: #eee; }
+#record-type-wrapper input[type="radio"]:checked+label,
+#type-wrapper input[type="radio"]:checked+label {
+    background: #505050;
+    color: #fff;
+    border-radius: .5em;
+    opacity: 1.0 !important;
+}
+#record-type-wrapper input[type="radio"]:disabled+label {
+    opacity: 0.5;
+    cursor: auto;
+}
+#groups-wrapper h4 {
+    padding: .5em;
+    margin: .5em 0em 0em 0em;
+    font-weight: bold;
+    font-size: 1em;
+    background: #eee;
+    border-radius: .5em;
+    user-select: none;
+}
+#groups-wrapper h4:nth-child(1) { margin: 0em; }
+#metadata_reason_field, #external_link_field, #file_upload_field { display: none; }
+#geolocation-wrapper label { background: #eee; }
+#geolocation-wrapper input[type="text"] { width: 812pt; }
+#tags-list { display: none; border: none; padding: 0em; }
+#tags-list li {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0em 1em .5em 0em;
+  padding: .5em;
+  border-radius: .5em;
+  background: #fffaea;
+  border: solid 1pt #ffeeaa;
+  color: #000;
+}
+#doi-wrapper p { margin: 0pt; }
+.collection-content-loader { display: none; }
+.private-links-button a { background: #53736f !important; }
+.private-links-button a:hover { background: #7e9693 !important; }
+</style>
+{% endblock %}
+{% block submenu %}
+<ul>
+  <li><a href="/my/collections">&#8592; Go back</a>
+  <li class="active corporate-identity-submenu-active">Edit collection
+  <li class="hide-for-javascript save-button"><a id="save" href="#">Save draft</a>
+  <li class="hide-for-javascript publish-button"><a id="publish" href="#">Publish</a>
+  <li class="hide-for-javascript delete-button"><a id="delete" href="#">Delete</a>
+  <li class="hide-for-javascript private-links-button"><a id="private-links" target="_blank" href="/my/collections/{{collection["uuid"]}}/private_links?go_back=no">Private access</a>
+</ul>
+{% endblock %}
+{% block body %}
+<div class="collection-content-loader"></div>
+<div class="collection-content">
+{%- if collection.title == "Untitled collection" %}
+<h1>Add new collection</h1>
+{%- else %}
+<h1>Edit collection</h1>
+{%- endif %}
+<noscript>
+  <p class="no-script">Sorry, this page requires JavaScript to work correctly.</p>
+</noscript>
+<div class="hide-for-javascript">
+<h2>Collection details</h2>
+<p>Fields marked with <span class="required-field">&#8727;</span> are required.</p>
+<label for="title">Title</label><div class="fas fa-question-circle help-icon"><span class="help-text">Give your collection a title. This will help making your items discoverable via search engines such as Google. The title should have at least three characters.</span></div><span class="required-field">&#8727;</span>
+<input type="text" id="title" name="title" {%- if collection.title != "Untitled collection" %}value="{{collection.title}}"{% else %}placeholder="Untitled collection"{% endif %} />
+<label for="authors">Authors</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select authors from the list or manually add them by creating a new author record. Hit enter after adding each author and drag and drop names to arrange them in the order you wish.</span></div><span class="required-field">&#8727;</span>
+<input type="text" id="authors" name="authors" />
+<table class="inside-form-table" id="authors-list">
+  <thead>
+    <tr><th>Author</th><th colspan="3">Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<label>Description</label><div class="fas fa-question-circle help-icon"><span class="help-text">Add as much context as possible so that others can interpret your research and reproduce it. Make sure you include methodology, techniques used, and if relevant information about approval for data collection to confirm adherence to legal or ethical requirements. The description should have at least four characters.</span></div><span class="required-field">&#8727;</span>
+<div id="description" class="texteditor">
+  {{collection["description"] | default("", True) | replace("\\n", "<br>") | safe }}
+</div>
+<label>Categories</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select one or multiple categories that this research best correlates with.</span></div><span class="required-field">&#8727;</span>
+<div id="categories-wrapper" class="options-wrapper">
+  <a id="expand-categories-button" href="#">Select categories</a>
+  <div class="expand-categories"></div>
+  <div id="expanded-categories">
+{%- for root in categories: %}
+<input type="checkbox" name="categories" value="{{root.uuid}}" id="category_{{root.uuid}}"><!--
+--><label class="item-label" for="category_{{root.uuid}}">{{root.title}}</label><br>
+<div id="subcategories_{{root.uuid}}" class="subcategory-wrapper">
+{%- for sub in root.subcategories: %}
+<input class="subitem-checkbox" type="checkbox" name="categories" value="{{sub.uuid}}" id="category_{{sub.uuid}}"><!--
+--><label class="subitem-label no-head" for="category_{{sub.uuid}}">{{sub.title}}</label><br>
+{%- endfor %}
+</div>
+{%- endfor %}
+  </div>
+</div>
+<label>Group</label><span class="required-field"> &#8727;</span>
+<div id="groups-wrapper">
+{%- for group in groups: %}
+<h4>{{group.name}}</h4>
+<div id="subgroups_{{group.id}}" class="subgroup-wrapper">
+<input class="subitem-checkbox" type="radio" name="groups" value="{{group.id}}" id="group_{{group.id}}" {% if account.group_id == group.id: %}checked="checked"{% endif %}><!--
+--><label class="subitem-label no-head" for="group_{{group.id}}">{{group.name}}</label><br>
+{%- for sub in group.subgroups: %}
+<input class="subitem-checkbox" type="radio" name="groups" value="{{sub.id}}" id="group_{{sub.id}}"><!--
+--><label class="subitem-label no-head" for="group_{{sub.id}}">{{sub.name}}</label><br>
+{%- endfor %}
+</div>
+{%- endfor %}
+</div>
+<label for="publisher">Publisher</label>
+<input type="text" id="publisher" name="publisher" value="{% if collection["publisher"] %}{{collection["publisher"]}}{% else %}{{site_name}}{% endif %}">
+<label for="funding">Funding</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select from the list by searching for funder name, grant number or grant name or manually add them by creating a new funding record.</span></div>
+<input type="text" id="funding" name="funding" />
+<table class="inside-form-table multi-list" id="funding-list">
+  <thead>
+    <tr><th>Name</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<h3>Linked resource &amp; references</h3>
+<p>If the collection is published as part of a scientific paper, add its title and DOI here.</p>
+<label for="resource_title">Resource title</label><div class="fas fa-question-circle help-icon"><span class="help-text">Please add the title of the peer-reviewed article/paper or research you want to link back to. This will appear on the public page as the link title. If you add the Resource title, you will need to complete the Resource DOI field.</span></div>
+<input type="text" id="resource_title" name="resource_title" value="{{collection["resource_title"] | default("", True)}}" />
+<label for="resource_doi">Resource DOI</label><div class="fas fa-question-circle help-icon"><span class="help-text">Please add the DOI of the peer-reviewed article/paper or research you want to link back to. This is the link destination for the Resource title. If you add the Resource DOI, you will need to complete the Resource title field.</span></div>
+<input type="text" id="resource_doi" name="resource_doi" value="{{collection["resource_doi"] | default("", True)}}" />
+<p>Add any other relevant URLs or DOIs below.</p>
+<label for="references">References</label><div class="fas fa-question-circle help-icon"><span class="help-text">Add references (links) to any relevant content or external sources that help describe the resource. All links must be full, valid URLs or DOIs in order to function, eg: https://doi.org/10.4233/uuid:35022242-b3ba-48d9-b3f6-c6ab20b8cc19. Hit return to enter new references.</span></div>
+<div class="input-with-button">
+  <input type="text" id="references" name="references" value="" />
+  <a id="add-reference-button" class="form-button corporate-identity-standard-button" href="#">Add reference</a>
+</div>
+<table class="inside-form-table" id="references-list">
+  <thead>
+    <tr><th>Reference</th><th>Actions</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<label>DOI reservation</label><div class="fas fa-question-circle help-icon"><span class="help-text">Upon publication, a DOI will be assigned to your collection. If you need to have the DOI before publication, you can use this value.</span></div>
+<div id="doi-wrapper" class="options-wrapper">
+  <p>The DOI of your collection will be: <strong>{{collection["doi"]}}</strong></p>
+</div>
+<h3>Findability</h3>
+<label for="language">Language</label><div class="fas fa-question-circle help-icon"><span class="help-text">Select a language from the list.</span></div><span class="required-field">&#8727;</span>
+{% set item = collection %}
+{% include 'depositor/language-selector.html' %}
+<label for="time_coverage">Time coverage</label><div class="fas fa-question-circle help-icon"><span class="help-text">Indicate the dates to which the data in the collection refer. Enter the year, or the beginning and ending date.</span></div>
+<input type="text" id="time_coverage" name="time_coverage" value="{{collection["time_coverage"] | default("", True)}}" />
+<label>Geolocation</label>
+<div id="geolocation-wrapper">
+  <label for="geolocation">Name</label><div class="fas fa-question-circle help-icon"><span class="help-text">The geographic area to which the data in the collection refer (e.g. municipality, town/city, region, country)</span></div>
+  <input type="text" id="geolocation" name="geolocation" placeholder="Example: Dam Square, Amsterdam" value="{{collection["geolocation"] | default("", True)}}" />
+  <label for="longitude">Longitude</label><div class="fas fa-question-circle help-icon"><span class="help-text">Geographic longitude in decimal degrees, East is positive, West is negative. Values: -180 to 180.</span></div>
+  <input type="text" id="longitude" name="longitude" placeholder="Example: 4.893" value="{{collection["longitude"] | default("", True)}}" />
+  <label for="latitude">Latitude</label><div class="fas fa-question-circle help-icon"><span class="help-text">Geographic latitude in decimal degrees, North is positive, South is negative. Values: -90 to 90.</span></div>
+  <input type="text" id="latitude" name="latitude" placeholder="Example: 52.893" value="{{collection["latitude"] | default("", True)}}" />
+</div>
+<label for="tag">Keywords</label><div class="fas fa-question-circle help-icon"><span class="help-text">Add at least 4 keywords that will help make your research more discoverable. Use a semicolon (;) or hit return after each keyword you enter.</span></div><span class="required-field">&#8727;</span>
+<div class="input-with-button">
+  <input type="text" id="tag" name="tag" value="" placeholder="keyword 1; keyword 2; keyword 3; keyword 4" />
+  <a id="add-keyword-button" class="form-button corporate-identity-standard-button" href="#">Add keyword</a>
+</div>
+<ul id="tags-list"></ul>
+<label for="organizations">Organizations</label><div class="fas fa-question-circle help-icon"><span class="help-text">Name of the organizations that contributed to the creation of the resources in the collection. Separate different names with a semicolon (;)</span></div>
+<textarea id="organizations" name="organizations" placeholder="Example: Delft University of Technology">{{collection["organizations"] | default("", True) }}</textarea>
+<h3>Datasets</h3>
+<div id="articles-selection">
+  <label for="article-search">Dataset search</label>
+  <input type="text" id="article-search" name="article-search" />
+  <table id="articles-list" class="inside-form-table">
+    <thead><th>Dataset</th><th>Actions</th></thead>
+    <tbody></tbody>
+  </table>
+</div>
+</div>
+</div>
+{% endblock %}

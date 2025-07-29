@@ -1,0 +1,47 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT DISTINCT ?index ?tag (?tag_node AS ?originating_blank_node)
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?container      rdf:type/rdfs:subClassOf djht:Container .
+    ?item_uri       djht:container            ?container .
+    ?item_uri       djht:tags/rdf:rest*       ?tag_node .
+    ?tag_node       rdf:first                 ?tag ;
+                    djht:index                ?index .
+
+    {%- if account_uuid is not none %}
+    ?container      djht:account              ?account .
+    {%- if not disable_collaboration %}
+    OPTIONAL {
+      ?collaborator rdf:type                  djht:Collaborator .
+      ?collaborator djht:item                 ?item_uri .
+      ?collaborator djht:account              ?collaborator_account .
+      ?collaborator djht:metadata_read        "true"^^xsd:boolean .
+    }
+    OPTIONAL {
+      ?group_uri          rdf:type djht:InstitutionGroup .
+      ?item_uri           djht:association_criteria        ?association_criteria .
+      ?group_uri          djht:association_criteria        ?association_criteria .
+      ?group_uri          djht:members/rdf:rest*/rdf:first ?member_uri .
+      ?member_uri         djht:is_supervisor "true"^^xsd:boolean .
+      ?member_uri         djht:account ?member_account .
+    }
+    {%- endif %}
+    {%- endif %}
+  }
+{%- if account_uuid is not none %}
+  {%- if disable_collaboration %}
+  FILTER (?account = <account:{{account_uuid}}>)
+  {%- else %}
+  FILTER (?account = <account:{{account_uuid}}> ||
+          ?collaborator_account = <account:{{account_uuid}}> ||
+          ?member_account = <account:{{account_uuid}}>)
+  {%- endif %}
+{%- endif %}
+{%- if item_uri is not none %}
+  FILTER (?item_uri = <{{item_uri}}>)
+{%- endif %}
+{%- if filters is not none %}{{ filters | safe }}{% endif %}
+}
+{% endblock %}
+

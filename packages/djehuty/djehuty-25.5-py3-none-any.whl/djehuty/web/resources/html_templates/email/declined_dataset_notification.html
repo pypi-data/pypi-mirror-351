@@ -1,0 +1,10 @@
+{% extends "email/dataset_declined.html" %}
+{% block prebody %}
+<h1>Dataset declined</h1>
+<p>
+  Dataset UUID: <code>{{dataset.uuid}}</code><br />
+  Container UUID: <code>{{dataset.container_uuid}}</code>
+</p>
+<p>The following message was sent to {{account_email}}:</p>
+<hr />
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT DISTINCT ?id ?uuid ?parent_id ?parent_uuid ?title ?source_id ?taxonomy_id
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?category        rdf:type             djht:Category .
+    ?category        djht:id               ?id .
+    ?category        djht:title            ?title .
+
+    OPTIONAL {
+      ?category djht:parent_id             ?parent_id .
+      ?parent_category djht:id             ?parent_id .
+
+      BIND(STRAFTER(STR(?parent_category), "category:") AS ?parent_uuid)
+    }
+
+    OPTIONAL { ?category  djht:source_id   ?source_id . }
+    OPTIONAL { ?category  djht:taxonomy_id ?taxonomy_id . }
+
+    ?account         rdf:type             djht:Account .
+    ?account         djht:categories/rdf:rest*/rdf:first ?category .
+
+    BIND(STRAFTER(STR(?category), "category:") AS ?uuid)
+  }
+  FILTER (?account = <account:{{account_uuid}}>)
+{%- if filters is not none %}{{ filters | safe }}{% endif %}
+}
+{% endblock %}

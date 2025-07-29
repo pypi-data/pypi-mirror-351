@@ -1,0 +1,10 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+SELECT DISTINCT ?uri
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?uri     rdf:type     djht:{{record_type}} ;
+             djht:{{identifier_name}} {{identifier}} .
+  }
+}
+{% endblock %}

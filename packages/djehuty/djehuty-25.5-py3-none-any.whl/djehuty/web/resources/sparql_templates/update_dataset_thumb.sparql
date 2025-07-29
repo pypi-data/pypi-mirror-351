@@ -1,0 +1,36 @@
+{% extends "prefixes.sparql" %}
+{% block query %}
+DELETE {
+  GRAPH <{{state_graph}}> {
+    ?dataset djht:thumb  ?thumb .
+    ?dataset djht:thumb_origin  ?thumb_origin .
+  }
+}
+{%- if file_uuid is not none: %}
+INSERT {
+  GRAPH <{{state_graph}}> {
+    ?dataset djht:thumb  "/thumbnails/{{dataset_uuid}}.{{extension}}"^^xsd:string .
+    ?dataset djht:thumb_origin "{{file_uuid}}"^^xsd:string .
+  }
+}
+{%- endif %}
+WHERE {
+  GRAPH <{{state_graph}}> {
+    ?dataset rdf:type     djht:Dataset .
+    {%- if version is not none %}
+    ?dataset djht:version {{version | safe}}.
+    {%- endif %}
+    ?dataset djht:container/djht:account <account:{{account_uuid}}> .
+    OPTIONAL { ?dataset djht:thumb ?thumb . }
+    OPTIONAL { ?dataset djht:thumb_origin  ?thumb_origin . }
+
+    ?file    rdf:type       djht:File .
+    ?dataset djht:files/rdf:rest*/rdf:first ?file .
+
+    {%- if file_uuid is not none: %}
+    FILTER (?file = <file:{{file_uuid}}>)
+    {%- endif %}
+    FILTER (?dataset = <dataset:{{dataset_uuid}}>)
+  }
+}
+{% endblock %}
