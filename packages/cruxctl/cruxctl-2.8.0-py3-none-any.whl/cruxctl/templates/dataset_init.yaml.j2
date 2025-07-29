@@ -1,0 +1,57 @@
+id: some_workflow_id
+run_uber_step: true
+version: 1.2.0
+dag:
+   dag_catchup: false
+   dag_start_date: '2024-01-01'
+   enable_delivery_cache: false
+   max_active_runs: 1
+   owner: SomeOwner
+   priority_weight: 1
+   schedule_interval: '@once'
+   queue: kubernetes
+   tags:
+   - a_tag
+metadata:
+    dataset_id: {{dataset_id}}
+    data_product_id: {{data_product_id}}
+    org_id: {{org_id}}
+global:
+  global:
+    encoding: ascii
+    schema_def:
+        fields:
+            - data_type: STRING
+              name: some_field_1
+            - data_type: INTEGER
+              name: some_field_2
+            - data_type: DATE
+              date_format: '%Y%m%d'
+              name: some_field_3
+        na_values: [ '', '#N/A', '#N/A N/A', '#NA', '-1.#IND', '-1.#QNAN', '-NaN', '-nan', '1.#IND', '1.#QNAN', 'N/A',
+                   'NULL', 'NaN', 'NA', 'n/a', 'nan', 'null', 'Null', '+NaN', '+nan' ]
+    crux_api_conf: ${SOME_WORKFLOW_ID_API}
+    endpoint: ${API_HOST}
+  extract:
+    action_class: pipeline.crux_pdk.actions.extract.extractor.Extractor
+    fetch_method: fetch_directory
+    remote_path: /some/path
+    connection:
+      type: SOME_CONNECTION
+      conf: ${SOME_CONFIGURATION}
+pipelines:
+  - id: pipeline1
+    global:
+      global:
+        supplier_implied_date_regex: active_ts_users_(?P<YYYY>\d{4})(?P<MM>\d{2})(?P<DD>\d{2})
+        provenance_file_patterns:
+            origin_patterns:
+                - active_ts_users_(?P<YYYY>\d{4})(?P<MM>\d{2})(?P<DD>\d{2})
+            return_patterns:
+                - active_ts_users_(?P<YYYY>\d{4})(?P<MM>\d{2})(?P<DD>\d{2})
+    steps:
+      - id: extract
+        conf:
+          file_patterns:
+            - some_file_{FD_YYYY}{FD_MM}{FD_DD}\.csv
+      - id: process
