@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "PyBGL"
+version = "0.11.2"
+description = "PyBGL is a pure Python graph library inspited from the BGL (Boost Graph Library). It gathers algorithms from the graph theory, language theory and dynamic programming background."
+authors = ["Marc-Olivier Buob <marc-olivier.buob@nokia-bell-labs.com>"]
+license = "BSD-3 license"
+readme = "README.md"
+packages = [{include = "pybgl", from = "src"}]
+
+# https://docs.pytest.org/en/7.1.x/reference/customize.html
+[tool.pytest.ini_options]
+pythonpath = "src"
+minversion = "7.2.1"
+addopts = "--doctest-modules --showlocals --capture=no --exitfirst --failed-first"
+testpaths = [
+    "tests"
+]
+
+# https://github.com/python-poetry/poetry/issues/9293
+[[tool.poetry.source]]
+name = "pypi-public"
+url = "https://pypi.org/simple/"
+
+[tool.poetry.dependencies]
+python = ">= 3.8, < 4.0"
+ipython = ">= 8.10.0"
+#poetry-plugin-export = "*"
+#dulwich = "*"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=7.2.1"
+pytest-runner = "*"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pip = "*"
+flake8 = "*"
+tox = "*"
+coverage = "*"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+pydata-sphinx-theme = "*"
+Sphinx = ">=6.0.0"
+sphinx_copybutton = "*"
+sphinx_mdinclude = "*"
+
+[build-system]
+requires = ["poetry-core", "dulwich", "poetry-plugin-export"]
+build-backend = "poetry.core.masonry.api"
