@@ -1,0 +1,13 @@
+[project]
+name = "mysqlwrapper"  # unique name on PyPI!
+version = "0.1.1"
+description = "A lightweight wrapper for PyMySQL with auto-cursor decorators"
+authors = [{ name = "Ventros", email = "ventros.development@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["pymysql"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

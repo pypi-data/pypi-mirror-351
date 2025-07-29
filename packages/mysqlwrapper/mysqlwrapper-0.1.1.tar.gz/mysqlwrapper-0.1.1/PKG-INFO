@@ -1,0 +1,94 @@
+Metadata-Version: 2.4
+Name: mysqlwrapper
+Version: 0.1.1
+Summary: A lightweight wrapper for PyMySQL with auto-cursor decorators
+Author-email: Ventros <ventros.development@gmail.com>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pymysql
+Dynamic: license-file
+
+# mysqlwrapper
+
+A lightweight wrapper around **PyMySQL** that simplifies database access by providing decorators for automatic cursor handling — sync and async.
+
+---
+
+## 🚀 Features
+
+- ✅ Easy setup with `db_credentials()`
+- ✅ Decorators to auto-inject a `cursor` into your functions
+- ✅ Works with both synchronous and asynchronous code
+- ✅ Ideal for bots, microservices, or CLI tools needing MySQL access
+
+---
+
+## 📦 Installation
+
+```bash
+pip install mysqlwrapper
+```
+
+⚙️ Setup
+Before using the decorators or connection functions, initialize your database credentials once at the start of your app:
+
+```python
+Copy
+Edit
+from mysql_db_decorator import db_credentials
+
+db_credentials(
+    user="your_username",
+    password="your_password",
+    database="your_db_name",
+    host="your_db_host"
+)
+```
+
+You can also call this in a bot.on_ready() event, startup file, or config module.
+
+🪄 Usage
+Synchronous Example
+```python
+Copy
+Edit
+from mysql_db_decorator import ensure_cursor
+
+@ensure_cursor
+def get_users(*, cursor):
+    cursor.execute("SELECT username FROM users")
+    return [row[0] for row in cursor.fetchall()]
+
+```
+
+Asynchronous Example (e.g., with a Discord bot)
+```python
+Copy
+Edit
+from mysql_db_decorator import async_ensure_cursor
+
+@async_ensure_cursor
+async def get_users(*, cursor):
+    cursor.execute("SELECT username FROM users")
+    return [row[0] for row in cursor.fetchall()]
+```
+
+🛠 Low-Level Access
+Need a raw connection?
+
+```python
+Copy
+Edit
+from mysql_db_decorator import db_connect
+
+conn = db_connect()
+cursor = conn.cursor()
+```
+
+📄 License
+This project is licensed under the MIT License.
+
+✉️ Author
+Ventros
