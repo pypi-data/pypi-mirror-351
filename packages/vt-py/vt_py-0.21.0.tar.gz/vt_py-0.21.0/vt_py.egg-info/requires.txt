@@ -1,0 +1,8 @@
+aiohttp
+aiofiles
+
+[test]
+pytest
+pytest_httpserver
+pytest_asyncio
+flask
