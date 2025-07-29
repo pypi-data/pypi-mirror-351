@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: pypeertube
+Version: 0.0.1
+Summary: Python module to interact with a Peertube instance's API.
+Author-email: CaramelConnoisseur <me@caramelconnoisseur.dev>
+License-Expression: GPL-3.0-only
+Project-URL: Source, https://github.com/CaramelConnoisseur/PyPeertube
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Multimedia
+Classifier: Topic :: Multimedia :: Video
+Classifier: Topic :: Multimedia :: Video :: Display
+Classifier: Typing :: Typed
+Requires-Python: ~=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests~=2.32.3
+Dynamic: license-file
+
+# PyPeertube
+
+Python module to interact with a Peertube instance's API.
+
+**This is an early alpha - use at your own risk.**
