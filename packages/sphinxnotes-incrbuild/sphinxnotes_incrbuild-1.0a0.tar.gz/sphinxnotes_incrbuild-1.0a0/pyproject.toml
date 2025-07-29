@@ -1,0 +1,86 @@
+# This file is generated from sphinx-notes/cookiecutter.
+# You need to consider modifying the TEMPLATE or modifying THIS FILE.
+
+# This file is used to configure your project.
+# Read more about the various options under:
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#declaring-project-metadata
+
+[project]
+name = "sphinxnotes-incrbuild"
+description = "Make sure incremental build available in CI/CD environment"
+readme = "README.rst"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+authors = [ { name = "Shengyu Zhang" } ]
+maintainers = [ { name = "Shengyu Zhang" } ]
+keywords = ["sphinx", "extension", "documentation", "sphinxnotes"]
+classifiers = [
+    # "Development Status :: 4 - Beta",
+    "Environment :: Plugins",
+    "Framework :: Sphinx",
+    "Framework :: Sphinx :: Extension",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+]
+
+requires-python = ">=3.8"
+dependencies = [
+    "Sphinx >= 4",
+    "colorama",
+    "pypi_simple",
+]
+
+dynamic = ["version"] # required by setuptools_scm, see section [build-system]
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "twine",
+    "cruft",
+    "ruff",
+    "pre-commit"
+]
+test = [
+    "pytest",
+]
+docs = [
+    "furo",
+    "sphinxnotes-project",
+    "sphinx_design",
+    "sphinx_copybutton",
+    "sphinxcontrib-gtagjs",
+    "sphinxnotes-comboroles",
+]
+
+[project.urls]
+homepage = "https://sphinx.silverrainz.me/incrbuild"
+documentation = "https://sphinx.silverrainz.me/incrbuild"
+repository = "https://github.com/sphinx-notes/incrbuild"
+changelog = "https://sphinx.silverrainz.me/incrbuild/changelog.html"
+tracker = "https://github.com/sphinx-notes/incrbuild/issues"
+
+[project.scripts]
+"sphinx-incrbuild" = "sphinxnotes.incrbuild.__main__:main"
+"sphinxnotes-incrbuild" = "sphinxnotes.incrbuild.__main__:main"
+
+[build-system]
+requires = ["setuptools>=46.1.0", "setuptools_scm[toml]>=5", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+# For smarter version schemes and other configuration options,
+# check out https://github.com/pypa/setuptools_scm
+version_scheme = "no-guess-dev"
+
+[tool.setuptools.packages.find]
+# Find namespace package,
+# check out https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#finding-namespace-packages
+where = ["src"]
+
+[tool.setuptools.package-data]
+# A maps from PACKAGE NAMES to lists of glob patterns,
+# see also https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+"sphinxnotes.incrbuild.gittools" = ["git-tools/git-restore-mtime"]
