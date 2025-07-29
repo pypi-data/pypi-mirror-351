@@ -1,0 +1,69 @@
+Metadata-Version: 2.4
+Name: coppertop-bones-dm
+Version: 2025.5.1.1
+Summary: The dangermouse standard library for coppertop and bones
+Home-page: https://github.com/coppertop-bones/dm
+Download-URL: 
+Author: David Briant
+Author-email: dangermouseb@forwarding.cc
+License: OSI Approved :: Apache Software License
+Keywords: multiple,dispatch,piping,pipeline,pipe,functional,multimethods,multidispatch,functools,lambda,curry,currying,dataframe,polars,pandas
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Utilities
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: coppertop-bones
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# dm
+
+Includes:
+- the dm core library for coppertop and bones
+- Jupyter notebooks and Python code examples using coppertop, bones and dm
+
+Use this - https://nbviewer.jupyter.org - if github doesn't render properly. 
+
+E.g. https://nbviewer.jupyter.org/github/DangerMouseB/coppertop-bones-demo/blob/main/jupyter/think%20bayes/Ch%201%2C2%2C3%20-%20models.ipynb
+
+
+<br>
+
+#### Notebook dependencies and coppertop
+
+I have matplotlib, plotnine, numpy, pandas, scipy, pymc3, etc, installed.
+
+Install coppertop-bones-demo via `python -m pip install coppertop-bones-dm`. This also installs coppertop-bones.
+
+Alternatively clone https://github.com/coppertop-bones/coppertop-bones and https://github.com/coppertop-bones/dm 
+and ensure your PYTHONPATH is set to include the src folders, for example:
+
+```
+/Users/david/repos/github/coppertop-bones/coppertop/src 
+/Users/david/repos/github/coppertop-bones/dm/src
+```
+
+Alternatively, you can manually set `sys.path` to include the coppertop-bones/src folder and then at the top of a 
+notebook you can do the following:
+
+```
+from coppertop.core import ensurePath
+'/Users/david/repos/github/coppertop-bones/dm/src' >> ensurePath       # <= set this to your path
+```
+
+The notebook should be good to go.
+
