@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-23 12:49+0000\n"
+"PO-Revision-Date: 2022-06-03 22:18+0000\n"
+"Last-Translator: Serhii Horichenko <m@sgg.im>\n"
+"Language-Team: Ukrainian <https://translate.edugit.org/projects/aleksis/"
+"aleksis-app-ldap/uk/>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 "
+"? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > "
+"14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % "
+"100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"X-Generator: Weblate 4.12.1\n"
+
+#: aleksis/apps/ldap/model_extensions.py:8
+#: aleksis/apps/ldap/model_extensions.py:9
+msgid "LDAP Distinguished Name"
+msgstr "Унікальне ім'я (DN) LDAP"
+
+#: aleksis/apps/ldap/preferences.py:8
+msgid "LDAP"
+msgstr "LDAP"
+
+#: aleksis/apps/ldap/preferences.py:17
+msgid "Enable LDAP sync"
+msgstr "Увімкнути синхронізацію LDAP"
+
+#: aleksis/apps/ldap/preferences.py:26
+msgid "Create missing persons for LDAP users"
+msgstr "Створити відсутніх осіб для LDAP-користувачів"
+
+#: aleksis/apps/ldap/preferences.py:35
+msgid "Sync LDAP user with person on login"
+msgstr "Синхронізувати користувача LDAP з особою під час входу в систему"
+
+#: aleksis/apps/ldap/preferences.py:44
+msgid "Create LDAP user on registration"
+msgstr "Створити користувача LDAP під час реєстрації"
+
+#: aleksis/apps/ldap/preferences.py:53
+msgid "Comma-separated list of RDN fields for new user entries"
+msgstr "Список RDN-полів через кому для нових користувачів"
+
+#: aleksis/apps/ldap/preferences.py:62
+msgid "Enable ldap group sync"
+msgstr "Увімкнути синхронізацію LDAP-груп"
+
+#: aleksis/apps/ldap/preferences.py:71
+msgid "Field for short name of group"
+msgstr "Поле для скороченої назви групи"
+
+#: aleksis/apps/ldap/preferences.py:81
+msgid "Regular expression to match LDAP value for group short name against"
+msgstr ""
+"Регулярний вираз для пошуку відповідного значення LDAP скороченої назви групи"
+
+#: aleksis/apps/ldap/preferences.py:82 aleksis/apps/ldap/preferences.py:114
+msgid "e.g. class_(?P<class>.*); separate multiple patterns by |"
+msgstr "напр. class_(?P<class>.*); розділить патерни знаком |"
+
+#: aleksis/apps/ldap/preferences.py:92
+msgid "Replacement template to apply to group short name"
+msgstr "Шаблон заміни для скороченої назви групи"
+
+#: aleksis/apps/ldap/preferences.py:93 aleksis/apps/ldap/preferences.py:125
+msgid "e.g. \\g<class>; separate multiple templates by |"
+msgstr "напр. \\g<class>; розділить шаблони знаком |"
+
+#: aleksis/apps/ldap/preferences.py:103
+msgid "Field for name of group"
+msgstr "Поле для назви групи"
+
+#: aleksis/apps/ldap/preferences.py:113
+msgid "Regular expression to match LDAP value for group name against,"
+msgstr "Регулярний вираз для пошуку відповідного значення LDAP назви групи"
+
+#: aleksis/apps/ldap/preferences.py:124
+msgid "Replacement template to apply to group name"
+msgstr "Шаблон для заміни назви групи"
+
+#: aleksis/apps/ldap/preferences.py:135
+msgid "LDAP field with dn of group owner"
+msgstr "Поле LDAP із DN власника групи"
+
+#: aleksis/apps/ldap/preferences.py:145 aleksis/apps/ldap/util/ldap_sync.py:125
+msgid "LDAP sync matching fields"
+msgstr "Синхронізація LDAP відповідних полей"
+
+#: aleksis/apps/ldap/preferences.py:147
+msgid "Distinguished Name"
+msgstr "Унікальне ім'я (DN)"
+
+#: aleksis/apps/ldap/preferences.py:148
+msgid "UID"
+msgstr "UID"
+
+#: aleksis/apps/ldap/preferences.py:159
+msgid "LDAP sync matching mode"
+msgstr "Режим відповідності для синхронізації LDAP"
+
+#: aleksis/apps/ldap/preferences.py:160
+msgid "All fields must match"
+msgstr "Повинні співпадати усі поля"
+
+#: aleksis/apps/ldap/preferences.py:160
+msgid "Any one field must match"
+msgstr "Повинно співпасти будь-яке поле"
+
+#: aleksis/apps/ldap/preferences.py:169
+msgid "Change LDAP password on AlekSIS password change"
+msgstr "Заміняти пароль LDAP зі зміною пароля AlekSIS"
+
+#: aleksis/apps/ldap/preferences.py:178
+msgid "Use admin account (or auth account if unset) to change passwords"
+msgstr ""
+"Для зміни пароля використовувати обліковий запис адміністратора (або "
+"авторизованого користувача, якщо не позначено)"
+
+#: aleksis/apps/ldap/preferences.py:187
+msgid "DN of LDAP admin account (if other than LDAP auth account)"
+msgstr ""
+"DN запис адміністратора LDAP (якщо відрізняється від авторизованого "
+"користувача LDAP)"
+
+#: aleksis/apps/ldap/preferences.py:196
+msgid "Password of LDAP admin account (if other than LDAP auth account)"
+msgstr ""
+"Пароль адміністратора LDAP (якщо відрізняється від авторизованого "
+"користувача LDAP)"
+
+#: aleksis/apps/ldap/util/ldap_sync.py:90
+#, python-brace-format
+msgid "LDAP field for '{field.verbose_name}' on {model._meta.label}"
+msgstr "Поле LDAP для '{field.verbose_name}' в {model._meta.label}"
+
+#: aleksis/apps/ldap/util/ldap_sync.py:100
+msgid "Regular expression to match LDAP value for"
+msgstr "Регулярний вираз для пошуку значення LDAP для"
+
+#: aleksis/apps/ldap/util/ldap_sync.py:112
+#, python-brace-format
+msgid "Replacement template to apply to '{field.verbose_name}'"
+msgstr "Шаблон заміни для використання у '{field.verbose_name}'"

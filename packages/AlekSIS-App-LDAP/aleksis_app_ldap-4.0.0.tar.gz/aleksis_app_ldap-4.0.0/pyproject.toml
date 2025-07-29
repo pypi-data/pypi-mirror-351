@@ -1,0 +1,94 @@
+[tool.poetry]
+name = "AlekSIS-App-LDAP"
+version = "4.0.0"
+packages = [
+    { include = "aleksis" }
+]
+readme = "README.rst"
+include = [
+    { path = "aleksis/**/*.mo", format = ["sdist", "wheel"] },
+    { path = "*.rst", format = "sdist" },
+    { path = "docs/*", format = "sdist" },
+    { path = "docs/**/*", format = "sdist" },
+    { path = "conftest.py", format = "sdist" },
+    { path = "tox.ini", format = "sdist" }
+]
+
+description = "AlekSIS (School Information System) — App LDAP (General LDAP import/export)"
+authors = ["Tom Teichler <tom.teichler@teckids.org>", "Dominik George <dominik.george@teckids.org>"]
+maintainers = ["Jonathan Weth <jonathan.weth@teckids.org>", "Dominik George <dominik.george@teckids.org>"]
+license = "EUPL-1.2-or-later"
+homepage = "https://aleksis.org"
+repository = "https://edugit.org/AlekSIS/official/AlekSIS-App-LDAP"
+documentation = "https://aleksis.org/AlekSIS/docs/html/"
+keywords = ["SIS", "education", "school", "ldap", "users"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django :: 3.0",
+    "Intended Audience :: Education",
+    "Topic :: Education",
+    "Typing :: Typed",
+]
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "gitlab"
+url = "https://edugit.org/api/v4/projects/461/packages/pypi/simple"
+priority = "supplemental"
+[tool.poetry.dependencies]
+python = "^3.10"
+django-ldapdb = "^1.4.0"
+aleksis-core = {version = "^4.0.0", extras = ["ldap"]}
+python-magic = "^0.4.22"
+
+[tool.poetry.plugins."aleksis.app"]
+ldap = "aleksis.apps.ldap.apps:LDAPConfig"
+
+[tool.poetry.group.dev.dependencies]
+django-stubs = "^5.0.0"
+safety = "^2.3.5"
+
+ruff = "^0.11.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3"
+pytest-django = "^4.9"
+pytest-django-testing-postgresql = "^0.2"
+pytest-cov = "^6.0.0"
+pytest-sugar = "^1.0.0"
+selenium = "^4.27.0"
+freezegun = "^1.5.0"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^8.0.0"
+sphinxcontrib-django = "^2.3.0"
+sphinxcontrib-svg2pdfconverter = "^1.1.1"
+sphinx-autodoc-typehints = "^1.7"
+sphinx_material = "^0.0.36"
+[tool.ruff]
+exclude = ["migrations"]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "UP", "B", "SIM", "I", "DJ", "A", "S"]
+ignore = ["UP034", "UP015", "B028"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"**/*/tests/**/*.py" = ["S101", "ARG", "FBT", "PLR2004", "S311", "S105"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["aleksis"]
+section-order = ["future", "standard-library", "django", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.isort.sections]
+django = ["django"]
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

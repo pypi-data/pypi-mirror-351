@@ -1,0 +1,73 @@
+Metadata-Version: 2.3
+Name: AlekSIS-App-LDAP
+Version: 4.0.0
+Summary: AlekSIS (School Information System) — App LDAP (General LDAP import/export)
+License: EUPL-1.2-or-later
+Keywords: SIS,education,school,ldap,users
+Author: Tom Teichler
+Author-email: tom.teichler@teckids.org
+Maintainer: Jonathan Weth
+Maintainer-email: jonathan.weth@teckids.org
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django :: 3.0
+Classifier: Intended Audience :: Education
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Education
+Classifier: Typing :: Typed
+Requires-Dist: aleksis-core[ldap] (>=4.0.0,<5.0.0)
+Requires-Dist: django-ldapdb (>=1.4.0,<2.0.0)
+Requires-Dist: python-magic (>=0.4.22,<0.5.0)
+Project-URL: Documentation, https://aleksis.org/AlekSIS/docs/html/
+Project-URL: Homepage, https://aleksis.org
+Project-URL: Repository, https://edugit.org/AlekSIS/official/AlekSIS-App-LDAP
+Description-Content-Type: text/x-rst
+
+AlekSIS (School Information System) — App LDAP (General LDAP import/export)
+==================================================================================================
+
+AlekSIS
+-------
+
+This is an application for use with the `AlekSIS®`_ platform.
+
+Features
+--------
+
+* Configurable sync strategies
+* Management commands for ldap import
+* Mass import of users and groups
+* Sync LDAP users and groups on login
+
+Licence
+-------
+
+::
+
+  Copyright © 2020, 2021, 2022 Dominik George <dominik.george@teckids.org>
+  Copyright © 2020 Tom Teichler <tom.teichler@teckids.org>
+
+  Licenced under the EUPL, version 1.2 or later, by Teckids e.V. (Bonn, Germany).
+
+Please see the LICENCE.rst file accompanying this distribution for the
+full licence text or on the `European Union Public Licence`_ website
+https://joinup.ec.europa.eu/collection/eupl/guidelines-users-and-developers
+(including all other official language versions).
+
+Trademark
+---------
+
+AlekSIS® is a registered trademark of the AlekSIS open source project, represented
+by Teckids e.V. Please refer to the `trademark policy`_ for hints on using the trademark
+AlekSIS®.
+
+.. _AlekSIS®: https://aleksis.org/
+.. _European Union Public Licence: https://eupl.eu/
+.. _trademark policy: https://aleksis.org/pages/about
+
