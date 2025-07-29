@@ -1,0 +1,28 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "setuptools-scm>=8.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simple_vllm"
+version = "0.0.1"
+description = "VLLM & Unsloth Wrapper for simple local inference."
+authors = [
+    {name = "Nikolai Rozanov", email = "nikolai.rozanov@gmail.com"},
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+
+
+dependencies = [
+    "unsloth==2025.5.7",
+    "vllm==0.8.5.post1"
+]
+
+
+[tool.setuptools]
+include-package-data = true
+packages = ["simple_vllm"]
+
