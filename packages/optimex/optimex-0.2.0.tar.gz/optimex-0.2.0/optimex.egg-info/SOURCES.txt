@@ -1,0 +1,16 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+optimex/__init__.py
+optimex/converter.py
+optimex/lca_processor.py
+optimex/optimizer.py
+optimex/postprocessing.py
+optimex.egg-info/PKG-INFO
+optimex.egg-info/SOURCES.txt
+optimex.egg-info/dependency_links.txt
+optimex.egg-info/requires.txt
+optimex.egg-info/top_level.txt
+tests/test_lca_processing.py
+tests/test_optimization.py
