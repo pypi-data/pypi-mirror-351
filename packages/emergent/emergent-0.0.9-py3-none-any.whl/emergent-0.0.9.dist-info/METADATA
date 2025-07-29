@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: emergent
+Version: 0.0.9
+Summary: Emergent's Python module.
+Project-URL: Homepage, https://github.com/toni-akintola/modelpy-module
+Project-URL: Website, https://modelpy.kekoawong.com/
+Author-email: Oluwatoni Akintola <oakintol@nd.edu>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10.7
+Requires-Dist: matplotlib==3.9.2
+Requires-Dist: networkx==3.3
+Requires-Dist: numpy==2.0.0
+Requires-Dist: scipy==1.15.1
+Description-Content-Type: text/markdown
+
+# Emergent
+
+Run the following command to install Emergent to your virtual environment:
+`python3 -m pip install emergent`
+
+Thanks for using Emergent!
