@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: sample-pipeline
+Version: 0.1.0
+Summary: Sample pipeline
+Requires-Python: >=3.10
+Requires-Dist: numpy>=2.2.4
+Requires-Dist: torch>=2.6.0
+Requires-Dist: tyro>=0.9.18
+Description-Content-Type: text/markdown
+
+# Sample Pipeline
+A simple python script meant to simulate a more complicated operation.
