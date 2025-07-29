@@ -1,0 +1,242 @@
+Metadata-Version: 2.4
+Name: loomx
+Version: 0.1.0
+Summary: A CLI tool that adds reference and backlink metadata to markdown documentation files
+Project-URL: Homepage, https://github.com/pawsong/loomx-py
+Project-URL: Repository, https://github.com/pawsong/loomx-py
+Project-URL: Issues, https://github.com/pawsong/loomx-py/issues
+Author-email: Giff Song <giff.song@gmail.com>
+License: MIT
+License-File: LICENSE
+Keywords: cli,developer-tools,documentation,links,markdown
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Documentation
+Classifier: Topic :: Software Development :: Documentation
+Classifier: Topic :: Text Processing :: Markup :: Markdown
+Requires-Python: >=3.9
+Requires-Dist: click>=8.1.0
+Requires-Dist: mistune>=3.0.0
+Requires-Dist: pathspec>=0.11.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: tomli>=2.0.0; python_version < '3.11'
+Description-Content-Type: text/markdown
+
+<!-- @loomx
+  references:
+    - /docs/developer-guide/architecture.md
+    - /docs/examples.md
+    - /docs/user-guide/configuration.md
+    - /docs/user-guide/getting-started.md
+  backlinks: []
+-->
+
+# loomx
+
+A CLI tool that adds reference and backlink metadata to markdown documentation files, helping AI coding agents better understand project context.
+
+## What is loomx?
+
+loomx scans your markdown files, extracts links between documents, and adds metadata blocks that clearly show:
+
+- Which files each document references
+- Which files link back to each document
+
+This creates a web of connections that makes it easier for both humans and AI to navigate and understand your documentation structure.
+
+## Installation
+
+```bash
+pip install loomx
+```
+
+Or install from source:
+
+```bash
+git clone https://github.com/pawsong/loomx-py.git
+cd loomx-py
+pip install -e .
+```
+
+### Requirements
+
+- Python 3.9+
+
+## Quick Start
+
+1. Navigate to your project directory:
+
+```bash
+cd /path/to/your/project
+```
+
+2. Update all markdown files with reference metadata:
+
+```bash
+loomx update
+```
+
+3. Check for broken links:
+
+```bash
+loomx check
+```
+
+## Features
+
+- **Smart Link Detection**: Uses AST-based parsing for accurate link extraction
+- **Bidirectional Linking**: Automatically calculates and maintains backlinks
+- **Repository-Aware**: All paths are relative to your repository root
+- **Git-Friendly**: Respects `.gitignore` patterns
+- **Non-Invasive**: Metadata blocks are invisible in rendered markdown
+- **Fast**: Efficiently processes large documentation sets
+
+## How it works
+
+loomx adds hidden metadata blocks to your markdown files:
+
+```markdown
+<!-- @loomx
+  references:
+  - /docs/api-reference.md
+  - /docs/getting-started.md
+  backlinks:
+  - /README.md
+-->
+
+# Your Document Title
+
+Your content continues as normal...
+```
+
+These metadata blocks are:
+
+- **Invisible on GitHub** and other markdown renderers
+- **Automatically maintained** - just run `loomx update`
+- **AI-friendly** - structured data that coding assistants can parse
+
+## Commands
+
+### `loomx update`
+
+Scans all markdown files and updates their reference metadata.
+
+Options:
+
+- `--dry-run` - Preview changes without modifying files
+- `--verbose` - Show detailed progress
+- `--path PATH` - Specify root directory (default: current directory)
+
+### `loomx check`
+
+Verifies all links between markdown files are valid.
+
+Options:
+
+- `--path PATH` - Specify root directory (default: current directory)
+
+## Configuration
+
+loomx automatically ignores common directories:
+
+- `.git`
+- `node_modules`
+- `__pycache__`
+- `.venv`
+- `dist`
+- `build`
+
+You can add custom exclusions in `pyproject.toml`:
+
+```toml
+[tool.loomx]
+exclude = ["tests/fixtures/**", "docs/drafts/**"]
+```
+
+## Documentation
+
+- [Getting Started Guide](./docs/user-guide/getting-started.md)
+- [Configuration Options](./docs/user-guide/configuration.md)
+- [Examples](./docs/examples.md)
+- [Architecture Overview](./docs/developer-guide/architecture.md)
+
+## Development
+
+### Setup
+
+```bash
+# Quick setup (recommended)
+./setup.sh
+
+# Or manual setup:
+uv venv
+source .venv/bin/activate
+uv sync --all-groups
+uv pip install -e .
+```
+
+### Testing
+
+```bash
+# Run tests
+poe test
+
+# Run tests with coverage
+poe test-cov
+```
+
+### Code Quality
+
+```bash
+# Run linter
+poe lint
+
+# Format code
+poe format
+
+# Type checking
+poe typecheck
+
+# Run all checks (lint, typecheck, test)
+poe check
+```
+
+### Other Tasks
+
+```bash
+# Build package
+poe build
+
+# Clean build artifacts
+poe clean
+```
+
+## Examples
+
+See [docs/examples.md](./docs/examples.md) for detailed usage examples, including:
+
+- Pre-commit hooks
+- GitHub Actions integration
+- Monorepo support
+- Real-world use cases
+
+## Why loomx?
+
+When working with AI coding assistants, providing context about how files relate to each other helps them:
+
+- Navigate documentation more effectively
+- Understand the full scope of changes
+- Make better suggestions based on related content
+
+loomx makes these relationships explicit and machine-readable.
+
+## License
+
+MIT
