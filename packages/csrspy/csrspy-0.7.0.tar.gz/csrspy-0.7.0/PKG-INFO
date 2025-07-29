@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: csrspy
+Version: 0.7.0
+Summary: ITRF/NAD83CSRS coordinate transforms in Python
+Author-email: Taylor Denouden <taylor.denouden@hakai.org>
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Requires-Dist: pyproj>=3.6
+Provides-Extra: dev
+Requires-Dist: pre-commit>=3.3.3; extra == 'dev'
+Requires-Dist: ruff>=0.6.2; extra == 'dev'
+Requires-Dist: tox>=4.6; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: coverage>=7.2; extra == 'test'
+Requires-Dist: pytest>=7.4; extra == 'test'
