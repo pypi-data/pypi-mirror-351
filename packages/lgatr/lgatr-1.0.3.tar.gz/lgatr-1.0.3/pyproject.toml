@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lgatr"
+version = "1.0.3"
+description = "A versatile Lorentz-equivariant transformer for high-energy physics"
+requires-python = ">=3.9"
+readme = "README.md"
+authors = [
+  { name = "Jonas Spinner", email = "j.spinner@thphys.uni-heidelberg.de" },
+  { name = "Víctor Bresó", email = "breso@thphys.uni-heidelberg.de" },
+]
+dependencies = [
+    "torch>=2.0",
+    "einops",
+    "opt_einsum",
+]
+
+[project.urls]
+homepage = "https://github.com/heidelberg-hepml/lgatr"
+repository = "https://github.com/heidelberg-hepml/lgatr"
+
+[tool.setuptools.package-data]
+"lgatr" = ["primitives/*.pt"]
