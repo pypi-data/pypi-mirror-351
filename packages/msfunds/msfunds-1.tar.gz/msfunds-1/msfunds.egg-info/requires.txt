@@ -1,0 +1,8 @@
+pandas
+ua_generator
+httpx
+beautifulsoup4
+nest_asyncio
+
+[:python_version < "3.9"]
+importlib_resources
