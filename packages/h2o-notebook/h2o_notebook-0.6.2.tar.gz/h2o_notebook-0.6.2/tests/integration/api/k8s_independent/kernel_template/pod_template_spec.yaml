@@ -1,0 +1,25 @@
+metadata:
+  annotations:
+    custom-key: custom-value
+  creationTimestamp: null
+spec:
+  containers:
+    - name: driverless-ai
+      resources: {} # needed for the test to pass
+      env:
+        - name: CUSTOM_VAR
+          value: "CUSTOM_VAL"
+        - name: DRIVERLESS_AI_OVERRIDE_VIRTUAL_CORES
+          value: "20"
+    - name: custom-container
+      resources: {} # needed for the test to pass
+      image: gcr.io/vorvan/h2oai/mockdai
+      ports:
+        - containerPort: 21212
+          protocol: TCP
+      args: [ "--port", "1111" ]
+  tolerations:
+    - key: "dedicated"
+      operator: "Equal"
+      value: "steam"
+      effect: "NoSchedule"

@@ -1,0 +1,9 @@
+metadata:
+  annotations:
+    custom-key: custom-value
+spec:
+  containers:
+    - name: driverless-ai
+      resources: {}
+  # unknown-field foo
+  foo: "whatever"
