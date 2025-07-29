@@ -1,0 +1,3 @@
+[console_scripts]
+pyobfuscator-advanced = pyobfuscator.cli:main
+pyobfuscator-advanced-gui = pyobfuscator.gui:main
