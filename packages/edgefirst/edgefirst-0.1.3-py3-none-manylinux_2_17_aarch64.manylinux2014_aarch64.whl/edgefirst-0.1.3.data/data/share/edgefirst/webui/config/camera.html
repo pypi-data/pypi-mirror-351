@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Configuration</title>
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/full.css" rel="stylesheet" type="text/css" />
+
+    <script src="../js/tailwind.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #060606;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            overflow-y: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            max-height: auto;
+            margin-top: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .comment {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .form-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .navbar-end .btn-circle svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .navbar-end .btn-circle:hover svg {
+            color: #e2e8f0;
+        }
+
+        .navbar-end .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-end .btn-circle.btn-lg {
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-end .btn-circle.btn-lg svg {
+            margin-top: -5px;
+            width: 25px;
+            height: 25px;
+            color: white;
+        }
+
+        .navbar-end .btn-circle.btn-lg:hover svg {
+            color: #e2e8f0;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .loading-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Save Button Container */
+        .button-container {
+            position: sticky;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            background: linear-gradient(to top, white 60%, transparent);
+        }
+
+        /* Save Button Style */
+        button#saveConfig {
+            background-color: #2563eb;
+            /* Bright blue color */
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        button#saveConfig:hover {
+            background-color: #1d4ed8;
+            /* Slightly darker blue on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        button#saveConfig:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button#saveConfig:focus {
+            outline: 2px solid #60a5fa;
+            /* Light blue outline when focused */
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar bg-base-100">
+        <div class="navbar-start">
+            <a href="/" class="btn btn-ghost text-xl"><img class="header__logo me-2" src="../assets/auzoneLogo.svg"
+                    alt=""></a>
+        </div>
+        <div class="navbar-center">
+            <span class="text-xl">Camera Configuration</span>
+        </div>
+        <div class="navbar-end">
+            <ul class="menu menu-horizontal px-1">
+
+                </li>
+                <a href="/settings" class="btn btn-ghost btn-circle btn-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </a>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Camera Configuration</h2>
+
+            <div class="comment">
+                Configure the settings for the camera device, resolution, and streaming options.
+            </div>
+
+            <div class="form-group">
+                <label for="camera">Camera Device:</label>
+                <input type="text" id="camera" name="camera" placeholder="/dev/video3">
+            </div>
+
+            <div class="form-group">
+                <label for="cameraSize">Camera Size:</label>
+                <input type="text" id="cameraSize" name="cameraSize" placeholder="1920 1080">
+            </div>
+
+            <div class="form-group">
+                <label for="streamSize">Stream Size:</label>
+                <input type="text" id="streamSize" name="streamSize" placeholder="1920 1080">
+            </div>
+
+            <div class="form-group">
+                <label for="mirror">Mirror:</label>
+                <select id="mirror" name="mirror">
+                    <option value="none">None</option>
+                    <option value="horizontal">Horizontal</option>
+                    <option value="vertical">Vertical</option>
+                    <option value="both">Both</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="h264Bitrate">H.264 Bitrate:</label>
+                <select id="h264Bitrate" name="h264_Bitrate">
+                    <option value="auto">Auto</option>
+                    <option value="mbps5">5 Mbps</option>
+                    <option value="mbps25">25 Mbps</option>
+                    <option value="mbps50">50 Mbps</option>
+                    <option value="mbps100">100 Mbps</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="h264">H.264 Streaming:</label>
+                <input type="checkbox" id="h264" name="h264">
+                <label for="h264">Enabled</label>
+            </div>
+
+            <div class="form-group">
+                <label for="jpeg">JPEG Streaming:</label>
+                <input type="checkbox" id="jpeg" name="jpeg">
+                <label for="jpeg">Enabled</label>
+            </div>
+
+            <div class="button-container">
+                <button id="saveConfig">
+                    Save Configuration
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div>Saving configuration...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch(`/config/camera/details`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    document.getElementById('camera').value = data.CAMERA || '';
+                    const cameraSize = Array.isArray(data.CAMERA_SIZE) ? data.CAMERA_SIZE.join(' ') : (data.CAMERA_SIZE || '');
+                    document.getElementById('cameraSize').value = cameraSize.replace(/,/g, ' ');
+                    const streamSize = Array.isArray(data.STREAM_SIZE) ? data.STREAM_SIZE.join(' ') : (data.STREAM_SIZE || '');
+                    document.getElementById('streamSize').value = streamSize.replace(/,/g, ' ');
+                    document.getElementById('mirror').value = data.MIRROR || '';
+                    document.getElementById('h264Bitrate').value = data.H264_BITRATE || '';
+                    document.getElementById('h264').checked = data.H264 === 'true';
+                    document.getElementById('jpeg').checked = data.JPEG === 'true';
+                })
+                .catch(error => console.error('Error fetching config:', error));
+        });
+
+        document.getElementById('saveConfig').addEventListener('click', function () {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'block';
+
+            const camera = document.getElementById('camera').value;
+            const cameraSize = document.getElementById('cameraSize').value;
+            const streamSize = document.getElementById('streamSize').value;
+            const mirror = document.getElementById('mirror').value;
+            const h264Bitrate = document.getElementById('h264Bitrate').value;
+            const h264 = document.getElementById('h264').checked ? 'true' : 'false';
+            const jpeg = document.getElementById('jpeg').checked ? 'true' : 'false';
+
+            fetch('/config/camera', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fileName: "camera",
+                    camera: camera,
+                    camera_size: cameraSize,
+                    stream_size: streamSize,
+                    mirror: mirror,
+                    h264_bitrate: h264Bitrate,
+                    h264: h264,
+                    jpeg: jpeg
+                })
+            })
+                .then(response => {
+                    loadingOverlay.style.display = 'none';
+                    if (response.ok) {
+                    } else {
+                        alert('Error saving configuration');
+                    }
+                })
+                .catch(error => {
+                    loadingOverlay.style.display = 'none';
+                    console.error('Error:', error);
+                    alert('Error saving configuration');
+                });
+        });
+    </script>
+</body>
+
+</html>

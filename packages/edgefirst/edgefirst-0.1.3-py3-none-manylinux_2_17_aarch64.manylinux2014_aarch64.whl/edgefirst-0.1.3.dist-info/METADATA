@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: edgefirst
+Version: 0.1.3
+Summary: EdgeFirst Launcher
+License: Proprietary
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Homepage, https://edgefirst.studio
+Project-URL: Documentation, https://doc.edgefirst.ai
+
+# EdgeFirst Launcher
+
+This is the EdgeFirst Launcher which is responsible for managing the EdgeFirst Middleware in user-mode, which means a user launches the services manually from the command-line rather than system-managed where the services are under the control of systemd and installed into the system.
+
+The user-mode Middleware is meant to be installed using `pip install edgefirst` which will install the service binaries, webui, and supporting assets such as the default people detection model.
+

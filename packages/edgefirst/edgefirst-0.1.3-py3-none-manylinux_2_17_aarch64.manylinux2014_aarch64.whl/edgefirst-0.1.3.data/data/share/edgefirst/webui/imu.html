@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMU Data Visualization</title>
+    <link href="./css/full.css" rel="stylesheet" type="text/css" />
+
+    <script src="./js/tailwind.js"></script>
+    <link href="./css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        canvas {
+            display: block;
+            flex: 1;
+            z-index: 1;
+        }
+
+        #imu-data {
+            position: absolute;
+            z-index: 100;
+            top: 8px;
+            right: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-end .btn-circle svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .navbar-end .btn-circle:hover svg {
+            color: #e2e8f0;
+        }
+
+        .navbar-end .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-end .btn-circle.btn-lg {
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-end .btn-circle.btn-lg svg {
+            margin-top: -5px;
+            width: 25px;
+            height: 25px;
+            color: white;
+        }
+
+        .navbar-end .btn-circle.btn-lg:hover svg {
+            color: #e2e8f0;
+        }
+
+        #modeIndicator {
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar bg-base-100">
+        <div class="navbar-start">
+            <a href="/" class="btn btn-ghost text-xl"><img class="header__logo me-2" src="assets/auzoneLogo.svg"
+                    alt=""></a>
+        </div>
+        <div class="navbar-center">
+            <span class="text-xl">IMU</span>
+        </div>
+        <div class="navbar-end">
+            <div class="flex items-center gap-4">
+                <div id="recorderIndicator" class="hidden relative group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 96 96" fill="currentColor">
+                        <circle cx="48" cy="48" r="32" />
+                    </svg>
+                    <div
+                        class="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                        Recording
+                    </div>
+                </div>
+                <div class="relative group" id="statusContainer">
+                    <div class="flex items-center gap-2">
+                        <div id="modeIndicator"
+                            class="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600 flex items-center gap-2">
+                            <span id="modeText">Loading...</span>
+                            <svg class="animate-spin h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </div>
+                        <button onclick="showServiceStatus()" class="btn btn-ghost btn-circle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="absolute right-0 mt-2 hidden group-hover:block z-50">
+                        <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-4 w-64">
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900 mb-2">Service Status</div>
+                                <div id="quickStatusContent" class="space-y-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="menu menu-horizontal px-1">
+                    <a href="/settings" class="btn btn-ghost btn-circle btn-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-8 h-8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="imu-data">
+            <div class="stats shadow">
+                <div id="timeout" class="stat hidden">
+                    <div class="stat-title text-error">Timeout</div>
+                    <div id="timeout-val" class="stat-desc text-error">Verify if IMU service is running</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Roll</div>
+                    <div id="roll" class="stat-value text-xl">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Pitch</div>
+                    <div id="pitch" class="stat-value text-xl">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Yaw</div>
+                    <div id="yaw" class="stat-value text-xl">0</div>
+                </div>
+            </div>
+            <button onclick="resetIMU()" class="btn btn-primary mt-4 w-full">Reset Orientation</button>
+        </div>
+    </main>
+
+    <script>
+        window.resetIMU = function () {
+            window.initialQuaternion = null;
+            window.currentQuaternion = null;
+            window.initialYaw = null;
+
+            if (window.cameraModel) {
+                window.cameraModel.position.set(0, 0, 0);
+                window.cameraModel.rotation.set(
+                    0,
+                    0,
+                    -Math.PI / 2
+                );
+                window.euler = new THREE.Euler(0, 0, 0, 'XYZ');
+            }
+
+            document.getElementById('roll').innerText = '0.00°';
+            document.getElementById('pitch').innerText = '0.00°';
+            document.getElementById('yaw').innerText = '0.00°';
+
+            window.needsCalibration = true;
+        }
+    </script>
+
+    <script type="module">
+        window.cameraModel = null;
+        window.initialQuaternion = null;
+        window.currentQuaternion = null;
+        window.euler = null;
+        window.needsCalibration = true;
+        window.initialYaw = null;
+
+        import * as THREE from './js/three.js';
+        import { STLLoader } from './js/STLLoader.js'
+        import { CdrReader } from './js/Cdr.js';
+        let scene, camera, renderer;
+        let cameraModel;
+        let initialQuaternion = null;
+        let lastServiceStatuses = null;
+        let lastDeviceData = null;
+        let lastCheckTime = 0;
+        let pendingCheck = null;
+        let timeoutId = null;
+        let statusCheckInterval = null;
+        let lastReplayStatus = null;
+        let lastQuickStatusUpdate = 0;
+        const loadingHTML = `
+            <div id="modelLoadingIndicator" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                <div class="bg-white rounded-lg p-6 flex flex-col items-center">
+                    <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600 mb-4"></div>
+                    <p class="text-gray-700">Loading 3D Model...</p>
+                </div>
+            </div>
+        `;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true }); // Added antialias
+            renderer.setSize(window.innerWidth - 200, window.innerHeight);
+
+            const container = document.createElement('div');
+            container.innerHTML = loadingHTML;
+            document.body.appendChild(container.firstElementChild);
+
+            document.body.querySelector('main').appendChild(renderer.domElement);
+            camera.position.z = 5;
+            const loader = new STLLoader();
+            const loadingIndicator = document.getElementById('modelLoadingIndicator');
+
+            loader.load(
+                'assets/models/maivin2.stl',
+                function (geometry) {
+                    const material = new THREE.MeshPhongMaterial({
+                        color: 0x333333,
+                        shininess: 30,
+                        flatShading: true
+                    });
+
+                    geometry.computeVertexNormals();
+                    geometry.center();
+
+                    cameraModel = new THREE.Mesh(geometry, material);
+                    cameraModel.scale.set(0.025, 0.025, 0.025);
+                    cameraModel.rotation.set(
+                        Math.PI / 2,
+                        0,
+                        Math.PI / 2
+                    );
+
+                    scene.add(cameraModel);
+
+                    loadingIndicator.remove();
+
+                    renderer.render(scene, camera);
+                },
+                function (xhr) {
+                    if (xhr.lengthComputable) {
+                        const percentComplete = (xhr.loaded / xhr.total) * 100;
+                    }
+                },
+                function (error) {
+                    console.error('Error loading model:', error);
+                    loadingIndicator.innerHTML = `
+                        <div class="bg-white rounded-lg p-6 flex flex-col items-center">
+                            <div class="text-red-600 mb-4">
+                                <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                            </div>
+                            <p class="text-gray-700">Failed to load 3D model</p>
+                        </div>
+                    `;
+                }
+            );
+
+            const hemiLight = new THREE.HemisphereLight(0x8d7c7c, 0x494966, 3);
+            scene.add(hemiLight);
+
+            addShadowedLight(1, 1, 1, 0xffffff, 3.5);
+            addShadowedLight(0.5, 1, -1, 0xffd500, 3);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        function quaternionToEuler(x, y, z, w) {
+            const roll = Math.atan2(2.0 * (w * x + y * z), 1.0 - 2.0 * (x * x + y * y)) * (180 / Math.PI);
+            const pitch = Math.asin(2.0 * (w * y - z * x)) * (180 / Math.PI);
+            const yaw = Math.atan2(2.0 * (w * z + x * y), 1.0 - 2.0 * (y * y + z * z)) * (180 / Math.PI);
+
+            return { roll, pitch, yaw };
+        }
+
+
+        function updateOrientation(x, y, z, w) {
+            const euler = quaternionToEuler(x, y, z, w);
+
+            if (window.initialYaw === null) {
+                window.initialYaw = euler.yaw;
+            }
+
+            const relativeYaw = euler.yaw - window.initialYaw;
+
+            document.getElementById('roll').innerText = `${euler.roll.toFixed(2)}°`;
+            document.getElementById('pitch').innerText = `${euler.pitch.toFixed(2)}°`;
+            document.getElementById('yaw').innerText = `${relativeYaw.toFixed(2)}°`;
+
+            if (cameraModel) {
+                cameraModel.rotation.set(
+                    euler.pitch * Math.PI / 180,
+                    relativeYaw * Math.PI / 180,
+                    euler.roll * Math.PI / 180
+                );
+            }
+        }
+
+        function resetTimeout() {
+            clearTimeout(timeoutId);
+            document.getElementById('timeout-val').innerText = '';
+            document.getElementById('timeout').classList.add('hidden')
+            timeoutId = setTimeout(() => {
+                document.getElementById('timeout-val').innerText = 'Verify if IMU service is running';
+                document.getElementById('timeout').classList.remove('hidden')
+            }, 15000);
+        }
+
+        function addShadowedLight(x, y, z, color, intensity) {
+            const directionalLight = new THREE.DirectionalLight(color, intensity);
+            directionalLight.position.set(x, y, z);
+            scene.add(directionalLight);
+
+            directionalLight.castShadow = true;
+
+            const d = 1;
+            directionalLight.shadow.camera.left = -d;
+            directionalLight.shadow.camera.right = d;
+            directionalLight.shadow.camera.top = d;
+            directionalLight.shadow.camera.bottom = -d;
+
+            directionalLight.shadow.camera.near = 1;
+            directionalLight.shadow.camera.far = 4;
+
+            directionalLight.shadow.bias = -0.002;
+        }
+
+        init();
+        animate();
+
+        let socket = new WebSocket('/rt/imu/');
+
+        socket.binaryType = 'arraybuffer'; // Receive data as ArrayBuffer
+
+        socket.onmessage = function (event) {
+            const arrayBuffer = event.data;
+            const dataView = new DataView(arrayBuffer);
+            const reader = new CdrReader(dataView, { endian: 'big' }); // Specify big-endian here
+
+            try {
+                // Deserialize IMU data
+                const header_stamp_sec = reader.uint32(); // Read header.stamp.sec
+                const header_stamp_nsec = reader.uint32(); // Read header.stamp.nsec
+                const header_frame_id = reader.string(); // Read header.frame_id.len
+
+                const orientation_x = reader.float64(); // Read orientation.x
+                const orientation_y = reader.float64(); // Read orientation.y
+                const orientation_z = reader.float64(); // Read orientation.z
+                const orientation_w = reader.float64(); // Read orientation.w
+
+                const angular_velocity_x = reader.float64(); // Read angular_velocity.x
+                const angular_velocity_y = reader.float64(); // Read angular_velocity.y
+                const angular_velocity_z = reader.float64(); // Read angular_velocity.z
+
+                const linear_acceleration_x = reader.float64(); // Read linear_acceleration.x
+                const linear_acceleration_y = reader.float64(); // Read linear_acceleration.y
+                const linear_acceleration_z = reader.float64(); // Read linear_acceleration.z
+
+                // Update visualization
+                updateOrientation(orientation_x, orientation_y, orientation_z, orientation_w);
+                resetTimeout();
+            } catch (error) {
+                console.error("Failed to deserialize IMU data:", error);
+            }
+        };
+
+        socket.onerror = function (error) {
+            console.error(`WebSocket error: ${error}`);
+        };
+
+        socket.onclose = function (event) {
+            console.log('WebSocket connection closed');
+        };
+        resetTimeout();
+
+        window.showServiceStatus = async function () {
+            const dialog = document.getElementById('serviceStatusDialog');
+            const content = document.getElementById('serviceStatusContent');
+
+            dialog.classList.remove('hidden');
+
+            try {
+                const deviceResponse = await fetch('/config/webui/details');
+                if (!deviceResponse.ok) throw new Error(`HTTP error! status: ${deviceResponse.status}`);
+                const deviceData = await deviceResponse.json();
+                const isRaivin = deviceData.DEVICE?.toLowerCase().includes('raivin');
+                const baseServices = ["camera", "imu", "navsat", "model"];
+                const raivinServices = ["radarpub", "fusion"];
+                const services = isRaivin ? [...baseServices, ...raivinServices] : baseServices;
+
+                const response = await fetch('/config/service/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ services })
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                const serviceStatuses = await response.json();
+                content.innerHTML = '';
+
+                serviceStatuses.forEach(({ service, status, enabled }) => {
+                    const isRunning = status === 'running';
+                    const isEnabled = enabled === 'enabled';
+
+                    const statusColor = isRunning ? 'bg-green-500' : 'bg-red-500';
+                    const enabledColor = isEnabled ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600';
+
+                    const serviceName = service
+                        .replace('.service', '')
+                        .split('-')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                        .join(' ');
+
+                    content.innerHTML += `
+                        <div class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-sm font-medium text-gray-900">${serviceName}</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full ${enabledColor} inline-flex items-center w-fit">
+                                    ${isEnabled ? 'Enabled' : 'Disabled'}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-medium ${isRunning ? 'text-green-600' : 'text-red-600'}">
+                                    ${isRunning ? 'Running' : 'Stopped'}
+                                </span>
+                                <div class="w-2 h-2 rounded-full ${statusColor}"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error fetching service status:', error);
+                content.innerHTML = `
+                    <div class="flex items-center gap-2 p-3 text-red-800 bg-red-50 rounded-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-sm font-medium">Error loading service status</span>
+                    </div>
+                `;
+            }
+        }
+
+        window.hideServiceStatus = function () {
+            const dialog = document.getElementById('serviceStatusDialog');
+            dialog.classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('serviceStatusDialog').addEventListener('click', function (event) {
+                if (event.target === this) {
+                    hideServiceStatus();
+                }
+            });
+        });
+
+
+        async function updateQuickStatus() {
+            const now = performance.now();
+            try {
+                if (!lastDeviceData) {
+                    const deviceResponse = await fetch('/config/webui/details');
+                    if (!deviceResponse.ok) throw new Error(`HTTP error! status: ${deviceResponse.status}`);
+                    lastDeviceData = await deviceResponse.json();
+                }
+
+                const isRaivin = lastDeviceData.DEVICE?.toLowerCase().includes('raivin');
+                const baseServices = ["camera", "imu", "navsat", "model"];
+                const raivinServices = ["radarpub", "fusion"];
+                const services = isRaivin ? [...baseServices, ...raivinServices] : baseServices;
+
+                const response = await fetch('/config/service/status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ services })
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const serviceStatuses = await response.json();
+                requestAnimationFrame(() => {
+                    const quickStatusContent = document.getElementById('quickStatusContent');
+                    const nonRunningServices = serviceStatuses.filter(({ status }) => status !== 'running');
+
+                    if (nonRunningServices.length === 0) {
+                        quickStatusContent.innerHTML = `
+                            <div class="flex items-center justify-center text-green-600">
+                                <span class="h-2 w-2 rounded-full bg-green-500 mr-2"></span>
+                                All Services Running
+                            </div>
+                        `;
+                    } else {
+                        quickStatusContent.innerHTML = `
+                            <div class="text-red-600 mb-2">
+                                <span class="h-2 w-2 rounded-full bg-red-500 mr-2 inline-block"></span>
+                                Inactive Services:
+                            </div>
+                            ${nonRunningServices.map(({ service }) => `
+                                <div class="flex items-center justify-between text-gray-600">
+                                    <span>${service.replace('.service', '').split('-').map(word =>
+                            word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</span>
+                                    <span class="text-red-500">Inactive</span>
+                                </div>
+                            `).join('')}
+                        `;
+                    }
+
+                    quickStatusContent.innerHTML += `
+                        <button onclick="showServiceStatus()" 
+                                class="w-full mt-4 text-sm text-blue-600 hover:text-blue-800 flex items-center justify-center gap-1">
+                            <span>Click for more details</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    `;
+                });
+
+                lastQuickStatusUpdate = now;
+            } catch (error) {
+                console.error('Error updating quick status:', error);
+                requestAnimationFrame(() => {
+                    const quickStatusContent = document.getElementById('quickStatusContent');
+                    quickStatusContent.innerHTML = `
+                        <div class="text-red-600">
+                            Error checking service status
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        async function checkReplayStatus() {
+            try {
+                const deviceResponse = await fetch('/config/webui/details');
+                if (!deviceResponse.ok) throw new Error(`HTTP error! status: ${deviceResponse.status}`);
+                const deviceData = await deviceResponse.json();
+                const isRaivin = deviceData.DEVICE?.toLowerCase().includes('raivin');
+                console.log(isRaivin);
+                const services = isRaivin ?
+                    ["camera", "imu", "navsat", "radarpub"] :
+                    ["camera", "imu", "navsat"];
+                const serviceResponse = await fetch('/config/service/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ services })
+                });
+
+                if (!serviceResponse.ok) throw new Error(`HTTP error! status: ${serviceResponse.status}`);
+                const serviceStatuses = await serviceResponse.json();
+                const statusMap = serviceStatuses.reduce((acc, { service, status }) => {
+                    acc[service] = status;
+                    return acc;
+                }, {});
+                const replayResponse = await fetch('/replay-status');
+                if (!replayResponse.ok) throw new Error(`HTTP error! status: ${replayResponse.status}`);
+                const statusText = await replayResponse.text();
+                const isReplay = statusText.trim() === "Replay is running";
+
+                const modeIndicator = document.getElementById('modeIndicator');
+                const modeText = document.getElementById('modeText');
+                const loadingSpinner = modeIndicator.querySelector('svg.animate-spin');
+                if (loadingSpinner) {
+                    loadingSpinner.remove();
+                }
+                const allSensorsInactive = services.every(service => statusMap[service] !== 'running');
+                const allSensorActive = services.every(service => statusMap[service] === 'running');
+                if (allSensorsInactive && !isReplay) {
+                    modeText.textContent = "Stopped";
+                    modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 flex items-center gap-2";
+                }
+                else if (isReplay) {
+                    if (!allSensorsInactive) {
+                        modeText.textContent = "Replay Mode (Degraded)";
+                        modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 flex items-center gap-2";
+                    } else {
+                        modeText.textContent = "Replay Mode";
+                        modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 flex items-center gap-2";
+                    }
+                } else {
+                    const isCameraDown = !statusMap['camera'] || statusMap['camera'] !== 'running';
+                    const isradarpubDown = !statusMap['radarpub'] || statusMap['radarpub'] !== 'running';
+                    const isDegraded = (isRaivin && isradarpubDown) || isCameraDown;
+
+                    if (!allSensorActive) {
+                        modeText.textContent = "Live Mode (Degraded)";
+                        modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800 flex items-center gap-2";
+                    } else {
+                        modeText.textContent = "Live Mode";
+                        modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 flex items-center gap-2";
+                    }
+                }
+
+                await updateQuickStatus();
+            } catch (error) {
+                console.error('Error checking replay status:', error);
+                const modeIndicator = document.getElementById('modeIndicator');
+                const modeText = document.getElementById('modeText');
+                const loadingSpinner = modeIndicator.querySelector('svg.animate-spin');
+                if (loadingSpinner) loadingSpinner.remove();
+                modeText.textContent = "Status Unknown";
+                modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 flex items-center gap-2";
+            }
+        }
+
+        document.addEventListener('visibilitychange', async () => {
+            if (document.visibilityState === 'visible') {
+                requestIdleCallback(() => {
+                    checkReplayStatus();
+                    updateQuickStatus();
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkReplayStatus();
+            await checkRecorderStatus();
+            statusCheckInterval = setInterval(async () => {
+                await checkReplayStatus();
+                await checkRecorderStatus();
+            }, 30000);
+        });
+
+        window.addEventListener('beforeunload', () => {
+            clearInterval(statusCheckInterval);
+            lastQuickStatusUpdate = 0;
+            lastDeviceData = null;
+            lastServiceStatuses = null;
+            lastReplayStatus = null;
+        });
+
+        async function checkRecorderStatus() {
+            try {
+                const response = await fetch('/recorder-status');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const statusText = await response.text();
+                const isRecording = statusText.trim() === "Recorder is running";
+
+                const recorderIndicator = document.getElementById('recorderIndicator');
+
+                if (isRecording) {
+                    recorderIndicator.classList.remove('hidden');
+                    recorderIndicator.className = "text-red-600 animate-pulse relative group";
+                } else {
+                    recorderIndicator.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error('Error checking recorder status:', error);
+                const recorderIndicator = document.getElementById('recorderIndicator');
+                recorderIndicator.classList.add('hidden');
+            }
+        }
+        window.addEventListener('load', async () => {
+            const modeIndicator = document.getElementById('modeIndicator');
+            const loadingSpinner = modeIndicator?.querySelector('svg.animate-spin');
+            if (loadingSpinner) loadingSpinner.remove();
+            await Promise.all([
+                checkReplayStatus(),
+                updateQuickStatus()
+            ]);
+            statusCheckInterval = setInterval(() => {
+                if (document.visibilityState === 'visible') {
+                    requestIdleCallback(async () => {
+                        await Promise.all([
+                            checkReplayStatus(),
+                            updateQuickStatus()
+                        ]);
+                    });
+                }
+            }, 60000);
+            resetTimeout();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (statusCheckInterval) {
+                clearInterval(statusCheckInterval);
+            }
+        });
+
+        const quickStatusHTML = `
+            <div id="quickStatusDropdown" class="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden hidden">
+                <div class="p-4">
+                    <div id="quickStatusContent" class="space-y-2">
+                        <!-- Content will be dynamically updated -->
+                    </div>
+                </div>
+            </div>
+        `;
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.createElement('div');
+            container.innerHTML = quickStatusHTML;
+            document.body.appendChild(container.firstElementChild);
+
+            const styleElement = document.createElement('style');
+            styleElement.textContent += `
+                #quickStatusDropdown {
+                    z-index: 40;
+                    max-height: calc(100vh - 100px);
+                    overflow-y: auto;
+                }
+
+                #quickStatusDropdown::-webkit-scrollbar {
+                    width: 6px;
+                }
+
+                #quickStatusDropdown::-webkit-scrollbar-track {
+                    background: #f1f1f1;
+                    border-radius: 3px;
+                }
+
+                #quickStatusDropdown::-webkit-scrollbar-thumb {
+                    background: #888;
+                    border-radius: 3px;
+                }
+
+                #quickStatusDropdown::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+            `;
+            document.head.appendChild(styleElement);
+
+
+            updateQuickStatus();
+        });
+    </script>
+
+    <div id="serviceStatusDialog"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-gray-100">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800">System Status</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="/config/services"
+                            class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            Configure Services
+                        </a>
+                        <button onclick="hideServiceStatus()"
+                            class="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="serviceStatusContent" class="space-y-3 overflow-y-auto max-h-[60vh]">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
