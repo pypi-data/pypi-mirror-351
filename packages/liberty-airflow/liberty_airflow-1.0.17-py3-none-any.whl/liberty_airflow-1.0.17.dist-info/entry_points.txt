@@ -1,0 +1,5 @@
+[console_scripts]
+airflow-install = liberty.scheduler.airflow.manager.install:install_airflow
+airflow-start = liberty.scheduler.airflow.manager.start:start_airflow
+airflow-stop = liberty.scheduler.airflow.manager.stop:stop_airflow
+liberty-airflow = liberty.scheduler.main:main
