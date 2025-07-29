@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codexl"
+version = "0.1.0"
+description = "A tool to manage multiple git repositories and working directories"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Codexl Team", email = "contact@codexl.dev"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: MacOS",
+    "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: System :: Systems Administration",
+]
+keywords = ["git", "repository", "management", "cli", "development"]
+requires-python = ">=3.7"
+dependencies = [
+    "click>=8.0.0",
+    "gitpython>=3.1.0",
+    "pyyaml>=6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/codexl-team/codexl"
+Repository = "https://github.com/codexl-team/codexl.git"
+Issues = "https://github.com/codexl-team/codexl/issues"
+
+[project.scripts]
+codexl = "codexl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["codexl*"] 
