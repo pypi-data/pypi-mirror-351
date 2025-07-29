@@ -1,0 +1,54 @@
+[project]
+name = "basicest"
+dynamic = []
+description = "Minimal SSG"
+authors = [
+    {name = "Jamie Bliss",email = "jamie@ivyleav.es"}
+]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+requires-python = ">=3.12,<4"
+dependencies = [
+    "jinjax (>=0.56)"
+]
+optional-dependencies.serve = [
+  "colorama>=0.4.6",
+  "starlette>=0.35",
+  "uvicorn>=0.25",
+  "watchfiles>=0.20",
+  "websockets>=11",
+]
+version = "0.4.0"
+
+[project.urls]
+Homepage = "https://basicest.ivyleav.es/"
+Repository = "https://github.com/AstraLuma/basicest"
+
+[project.scripts]
+basicest = 'basicest:main'
+basicest-serve = 'basicest.serve:main'
+
+
+[tool.poetry]
+requires-poetry = ">=2.0"
+packages = [
+    { include = "basicest", from = "src" },
+    { include = "__basicest__.py", from = "src" },
+]
+
+
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.8"
+poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
+
+
+[tool.poetry-dynamic-versioning]
+enable = false
+dirty = false
+bump = true
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
