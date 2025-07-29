@@ -1,0 +1,18 @@
+syntax: glob
+
+*.pyc
+.idea/**
+build/**
+dist/**
+.pytest_cache/**
+.vscode/**
+xnat.iml
+*.egg-info/**
+xnat/version.py
+doc/_build/**
+
+syntax: regexp
+^toms-test$
+syntax: regexp
+^\.project$
+^\.pydevproject$
