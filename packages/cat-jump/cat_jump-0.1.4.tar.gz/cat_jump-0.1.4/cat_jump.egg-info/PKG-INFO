@@ -1,0 +1,111 @@
+Metadata-Version: 2.4
+Name: cat-jump
+Version: 0.1.4
+Summary: A terminal-based ASCII cat jump game
+Author-email: Your Name <you@example.com>
+License: MIT License
+        
+        Copyright (c) 2025 gwondoo
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: wcwidth
+Dynamic: license-file
+
+# Cat Jump
+
+A terminal-based ASCII cat jump game inspired by the classic Chrome dinosaur game.  
+Jump over emoji obstacles, enjoy animated backgrounds, and rack up your score as the game speeds up!
+
+---
+
+## Installation
+
+```bash
+pip install cat-jump
+```
+
+---
+
+## How to Play
+
+```bash
+cat-jump
+```
+
+---
+
+## 🎮 Controls
+
+| Key         | Action         |
+|-------------|----------------|
+| Space / ↑   | Jump           |
+| Ctrl + C    | Quit the game  |
+| Every 100pts| 🔔 Beep sound  |
+
+---
+
+## Features
+
+- Cute animated ASCII cat
+- Random emoji obstacles
+- Background effects (stars, clouds, etc.)
+- Progressive difficulty (faster obstacle speed)
+- Physics-based jump & gravity
+- 100-point milestone alerts
+
+---
+
+## Requirements
+
+- Python >= 3.7
+- `wcwidth` library
+
+---
+
+## Screenshot
+
+```
+Score: 320
+   /\_/\
+   ฅ •ﻌ• ฅ             💣          
+                   🪵     
+--------------------------------------------------
+```
+
+---
+
+## For Developers
+
+### Run locally
+
+```bash
+git clone https://github.com/gwondoo/cat_jump.git
+cd cat_jump
+python -m cat_jump.main
+```
+
+---
+
+## 📜 License
+
+MIT License © 2025 gwondoo
