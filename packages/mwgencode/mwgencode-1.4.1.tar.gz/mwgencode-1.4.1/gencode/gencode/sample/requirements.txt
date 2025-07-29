@@ -1,0 +1,17 @@
+cython >= 0.29.13
+mwutils>=0.1.36
+mwpermission >= 0.1.26
+mwsdk >= 0.2.14
+python-consul==1.1.0
+# 避免 非字母和数字的url参数需另外执行 decode的问题
+yarl==1.4.2
+Werkzeug>=0.15.5
+Flask-Redis-Sentinel>=2.0.1
+redis>=4.1.3
+mwauth>=0.4.45
+Flask-SQLAlchemy>=3.0.2
+SQLAlchemy>=2.0.7
+Flask>=2.2.2
+connexion[swagger-ui]>=2.14.1
+pymysql>=1.0.2
+
