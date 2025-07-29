@@ -1,0 +1,108 @@
+[build-system]
+requires = ["setuptools>=61.1.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zgw-consumers-oas"
+version = "1.1.0"
+description = "Tooling to deal with OpenAPI specifications, extracted from zgw-consumers."
+authors = [
+    {name = "Maykin Media", email = "support@maykinmedia.nl"}
+]
+readme = "README.rst"
+license = {file = "LICENSE"}
+keywords = ["Django", "ZGW", "Common Ground", "VNG", "API", "OpenAPI", "OAS", "mTLS"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.2",
+    "Intended Audience :: Developers",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "django>=3.2",
+    "typing_extensions>=4.5.0",
+    "Faker>=0.7.0",
+    "pyyaml",
+]
+
+[project.urls]
+Homepage = "https://github.com/maykinmedia/zgw-consumers-oas"
+"Bug Tracker" = "https://github.com/maykinmedia/zgw-consumers-oas/issues"
+"Source Code" = "https://github.com/maykinmedia/zgw-consumers-oas"
+
+[project.optional-dependencies]
+mocks = [
+    "requests-mock",
+]
+tests = [
+    "pytest",
+    "pytest-django",
+    "tox",
+    "isort",
+    "black",
+    "flake8",
+]
+coverage = [
+    "pytest-cov",
+]
+release = [
+    "bump-my-version",
+]
+
+[tool.setuptools.packages.find]
+include = ["zgw_consumers_oas*"]
+namespaces = false
+
+[tool.isort]
+profile = "black"
+combine_as_imports = true
+known_django = "django"
+known_first_party="zgw_consumers_oas"
+sections=["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+skip = ["env", ".tox", ".history"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+DJANGO_SETTINGS_MODULE = "testapp.settings"
+
+[tool.bumpversion]
+current_version = "1.1.0"
+files = [
+    {filename = "pyproject.toml"},
+    {filename = "README.rst"},
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+    "zgw_consumers_oas"
+]
+omit = [
+    "zgw_consumers_oas/migrations/*",
+]
+
+[tool.coverage.report]
+exclude_also = [
+    "if (typing\\.)?TYPE_CHECKING:",
+    "@(typing\\.)?overload",
+    "class .*\\(.*Protocol.*\\):",
+    "@(abc\\.)?abstractmethod",
+    "raise NotImplementedError",
+    "\\.\\.\\.",
+    "pass",
+]
+omit = [
+    "zgw_consumers_oas/migrations/*",
+]
+
+[tool.coverage.html]
+directory = "cover"
