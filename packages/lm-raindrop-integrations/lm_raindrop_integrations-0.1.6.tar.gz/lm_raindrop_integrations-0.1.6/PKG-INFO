@@ -1,0 +1,67 @@
+Metadata-Version: 2.4
+Name: lm-raindrop-integrations
+Version: 0.1.6
+Summary: Python SDK for integrating LiquidMetal's Raindrop API with popular frameworks and tools
+Home-page: https://github.com/liquidmetal-ai/lm-raindrop-integrations
+Author: LiquidMetal
+Author-email: LiquidMetal <customer@liquidmetal.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/liquidmetal-ai/lm-raindrop-integrations
+Project-URL: Bug Tracker, https://github.com/liquidmetal-ai/lm-raindrop-integrations/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: langchain-core>=0.1.0
+Requires-Dist: lm-raindrop>=0.1.6
+Provides-Extra: langchain
+Requires-Dist: langchain-core>=0.1.0; extra == "langchain"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# LiquidMetal Raindrop Integrations
+
+Python SDK for integrating LiquidMetal's Raindrop API with popular frameworks and tools.
+
+## Installation
+
+Install the base package:
+
+```shell
+pip install lm-raindrop-integrations
+```
+
+## Supported Integrations
+
+Raindrop SmartBuckets currently supports the following integrations:
+
+### LangChain Retriever
+
+Example usage with LangChain:
+
+```python
+from lm_raindrop_integrations import LangchainSmartBucketRetriever
+import os
+
+# Initialize the retriever
+retriever = LangchainSmartBucketRetriever(
+    api_key="your-api-key",  # or use RAINDROP_API_KEY env var
+    bucket_name="my-bucket"
+)
+
+# Search for documents
+results = retriever.invoke("What is machine learning?")
+
+# Process results
+for doc in results:
+    print(f"Content: {doc.page_content}")
+    print(f"Score: {doc.metadata['score']}")
+    print(f"Source: {doc.metadata['source']}")
+    print("---")
+```
+
+
