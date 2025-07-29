@@ -1,0 +1,105 @@
+# Project build file
+
+[build-system]
+requires = ['setuptools']
+build-backend = 'setuptools.build_meta'
+
+[project]
+version = '0.2.2'
+
+name = 'xarray-histogram'
+authors = [
+    {name='Clément Haëck', email='clement.haeck@posteo.net'}
+]
+description = 'Compute histograms from XArray data.'
+
+readme = 'README.md'
+requires-python = '>=3.11'
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'License :: OSI Approved :: MIT License',
+
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.11',
+    'Operating System :: OS Independent',
+
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'Topic :: Utilities'
+]
+
+dependencies = [
+    'boost-histogram',
+    'numpy',
+    'xarray'
+]
+
+[project.optional-dependencies]
+full = [
+     'dask',
+     'scipy'
+]
+dev = [
+    'dask',
+    'scipy',
+    'sphinx',
+    'sphinx-book-theme',
+    'ruff',
+    'mypy>=1.5',
+    'pytest>=7.4',
+    'coverage',
+    'pytest-cov'
+]
+tests = [
+    'dask',
+    'scipy',
+    'pytest>=7.4',
+    'coverage',
+    'pytest-cov'
+]
+
+[project.urls]
+'Source' = 'https://github.com/Descanonge/xarray-histogram'
+'Documentation' = 'https://xarray-histogram.readthedocs.io'
+
+[tool.mypy]
+disable_error_code = ['annotation-unchecked']
+# allow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 88
+target-version = 'py311'
+
+[tool.ruff.format]
+quote-style = 'double'
+
+[tool.ruff.lint]
+ignore = [
+       'E226', # missing whitespace around arithmetic operator
+       'D204', # one blank line after class
+       'D213', # multiline docstring start at 2nd line
+       'D417', # not all parameters need doc
+]
+
+select = [
+       'E',  # pycodestyle
+       'W',  # pycodestyle
+       'I',  # isort
+       'N',  # pep8-name
+       'B',  # bugbear
+       'G',  # flake8-logging-format
+       'F',  # pyflakes
+       'UP',  #pyupgrade
+       'D',  #pydocstyle
+       'PL', #pylint
+]
+
+unfixable = ["F401"]
+
+[tool.ruff.lint.pycodestyle]
+max-line-length = 90
+
+[tool.ruff.lint.pydocstyle]
+convention = 'numpy'

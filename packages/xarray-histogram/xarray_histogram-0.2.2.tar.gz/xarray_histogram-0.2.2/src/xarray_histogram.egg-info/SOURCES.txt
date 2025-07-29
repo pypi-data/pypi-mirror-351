@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+src/xarray_histogram/__init__.py
+src/xarray_histogram/accessor.py
+src/xarray_histogram/core.py
+src/xarray_histogram/py.typed
+src/xarray_histogram.egg-info/PKG-INFO
+src/xarray_histogram.egg-info/SOURCES.txt
+src/xarray_histogram.egg-info/dependency_links.txt
+src/xarray_histogram.egg-info/requires.txt
+src/xarray_histogram.egg-info/top_level.txt
+tests/test_accessor.py
+tests/test_histogram.py
