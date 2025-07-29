@@ -1,0 +1,71 @@
+[tool.poetry]
+name = "pycocoedit"
+version = "0.0.1"
+description = "Advanced editing tools for COCO dataset annotations"
+authors = ["hachimada <60519909+hachimada@users.noreply.github.com>"]
+readme = "README.md"
+license = "Apache-2.0"
+keywords = ["COCO", "annotation", "dataset", "filter", "computer vision"]
+classifiers = [
+  "Development Status :: 4 - Beta",     
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: Apache Software License",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering :: Image Recognition",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <4.0"
+typing-extensions = "^4.13.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+mypy = "^1.10.0"
+ruff = "^0.4.9"
+pre-commit = "^4.2.0"
+pytest-cov = "^6.1.1"
+toml = "^0.10.2"
+types-toml = "^0.10.8.20240310"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs-material = "^9.6.12"
+mkdocs = "^1.6.1"
+mkdocstrings = {extras = ["python"], version = "^0.29.1"}
+pymdown-extensions = "^10.14.3"
+mkdocs-linkcheck = "^1.0.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+extend-select = ["I", "D"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D"]
+"**/__init__.py" = ["D104"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.format]
+
+[tool.mypy]
+python_version = "3.10"
+strict = false
+allow_redefinition = true
+
+[tool.poetry.urls]
+homepage = "https://github.com/Nao-Y1996/pycocoedit"
+repository = "https://github.com/Nao-Y1996/pycocoedit"
+"Bug Tracker" = "https://github.com/Nao-Y1996/pycocoedit/issues"
