@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: ug_gemeinde
+Version: 1.7.0
+Summary: Adressverwaltung für Gemeinden
+License-File: LICENSE
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Requires-Dist: pillow
+Requires-Dist: psycopg2-binary
+Requires-Dist: pyyaml
+Requires-Dist: rich
+Requires-Dist: ugbib-divers
+Requires-Dist: ugbib-modell
+Requires-Dist: ugbib-tkinter
+Requires-Dist: ugbib-werkzeug
+Description-Content-Type: text/markdown
+
+ug_gemeinde
+===========
+
+Adressverwaltung für Gemeinden.
+
+Das Programm wurde und wird von Ulrich Goebel speziell für die Anforderungen von kirchlichen Gemeinden entwickelt.
+
+Das hier verfügbare Paket beinhaltet ausschließlich die GUI für diese Adressverwaltung. Die Daten werden in einer PostgreSQL-Datenbank gehalten, die auf einem eigenen Server läuft. Auswertungen, also PDFs zum Ausdrucken von Adresslisten u.a. werden ebenso auf diesem Server durch einen Cron-Job regelmäßig hergestellt und über eine Nextcloud bereitgestellt.
+
+Durch die spezielle Architektur ist das Paket kaum für jedermann brauchbar. Falls es aber Interesse gibt, kann man sich gerne an Ulrich Goebel wenden (ulrich@fam-goebel.de).
