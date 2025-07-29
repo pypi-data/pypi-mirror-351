@@ -1,0 +1,110 @@
+digraph memory_graph {
+	node [shape=plaintext]
+	node609065088 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="seagreen3" PORT="table">
+    <TR><TD BORDER="0"> </TD></TR>
+</TABLE>
+> xlabel=type]
+	node140454944441616 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> smaller </TD><TD BORDER="1"> None </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 33 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> larger </TD><TD BORDER="1"> None </TD></TR>
+</TABLE>
+> xlabel=BinTree]
+	node140454944441312 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> smaller </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1" STYLE="ROUNDED"> larger </TD></TR>
+    <TR><TD BORDER="1"> None </TD><TD BORDER="1"> 5 </TD><TD BORDER="1" PORT="ref0"> </TD></TR>
+</TABLE>
+> xlabel=BinTree]
+	node140454944441312:ref0 -> node140454944441616:table [style=solid]
+	node140454945520048 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> smaller </TD><TD BORDER="1"> None </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 51 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> larger </TD><TD BORDER="1"> None </TD></TR>
+</TABLE>
+> xlabel=BinTree]
+	node140454945519776 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> smaller </TD><TD BORDER="1"> None </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 62 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> larger </TD><TD BORDER="1"> None </TD></TR>
+</TABLE>
+> xlabel=BinTree]
+	node140454944248688 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> smaller </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1" STYLE="ROUNDED"> larger </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1"> 65 </TD><TD BORDER="1"> None </TD></TR>
+</TABLE>
+> xlabel=BinTree]
+	node140454944248688:ref0 -> node140454945519776:table [style=solid]
+	node140454945581456 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> smaller </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1" STYLE="ROUNDED"> larger </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1"> 53 </TD><TD BORDER="1" PORT="ref1"> </TD></TR>
+</TABLE>
+> xlabel=BinTree]
+	node140454945581456:ref0 -> node140454945520048:table [style=solid]
+	node140454945581456:ref1 -> node140454944248688:table [style=solid]
+	node140454945581136 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> smaller </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1" STYLE="ROUNDED"> larger </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1"> 97 </TD><TD BORDER="1"> None </TD></TR>
+</TABLE>
+> xlabel=BinTree]
+	node140454945581136:ref0 -> node140454945581456:table [style=solid]
+	node140454946080144 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> smaller </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1" STYLE="ROUNDED"> larger </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1"> 49 </TD><TD BORDER="1" PORT="ref1"> </TD></TR>
+</TABLE>
+> xlabel=BinTree]
+	node140454946080144:ref0 -> node140454944441312:table [style=solid]
+	node140454946080144:ref1 -> node140454945581136:table [style=solid]
+	node140454944573120 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> BinTree </TD><TD BORDER="1" STYLE="ROUNDED"> tree </TD><TD BORDER="1" STYLE="ROUNDED"> n </TD><TD BORDER="1" STYLE="ROUNDED"> i </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1" PORT="ref1"> </TD><TD BORDER="1"> 100 </TD><TD BORDER="1"> 7 </TD><TD BORDER="1"> 51 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node140454944573120:ref0 -> node609065088:table [style=solid]
+	node140454944573120:ref1 -> node140454946080144:table [style=solid]
+	node140454944572992 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> self </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1"> 51 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node140454944572992:ref0 -> node140454946080144:table [style=solid]
+	node140454944573440 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> self </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1"> 51 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node140454944573440:ref0 -> node140454945581136:table [style=solid]
+	node140454944573568 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> self </TD><TD BORDER="1" STYLE="ROUNDED"> value </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1"> 51 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node140454944573568:ref0 -> node140454945581456:table [style=solid]
+	node140454944516416 [label=<
+<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="khaki" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> 0: &lt;module&gt; </TD><TD BORDER="1" STYLE="ROUNDED"> 1: BinTree.add </TD><TD BORDER="1" STYLE="ROUNDED"> 2: BinTree.add </TD><TD BORDER="1" STYLE="ROUNDED"> 3: BinTree.add </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1" PORT="ref1"> </TD><TD BORDER="1" PORT="ref2"> </TD><TD BORDER="1" PORT="ref3"> </TD></TR>
+</TABLE>
+> xlabel=call_stack]
+	node140454944516416:ref0 -> node140454944573120:table [style=solid]
+	node140454944516416:ref1 -> node140454944572992:table [style=solid]
+	node140454944516416:ref2 -> node140454944573440:table [style=solid]
+	node140454944516416:ref3 -> node140454944573568:table [style=solid]
+subgraph { rank=same; node140454944573120 -> node140454944572992 -> node140454944573440 -> node140454944573568[weight=10, style=invis]; }
+subgraph { rank=same; node609065088 -> node140454946080144[weight=10, style=invis]; }
+subgraph { rank=same; node140454944441312 -> node140454945581136[weight=10, style=invis]; }
+subgraph { rank=same; node140454944441616 -> node140454945581456[weight=10, style=invis]; }
+subgraph { rank=same; node140454945520048 -> node140454944248688[weight=10, style=invis]; }
+}

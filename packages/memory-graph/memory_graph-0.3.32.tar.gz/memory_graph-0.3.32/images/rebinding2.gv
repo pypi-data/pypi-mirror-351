@@ -1,0 +1,26 @@
+digraph memory_graph {
+	node [shape=plaintext]
+	node136300394024512 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="lightcoral" PORT="table">
+    <TR><TD BORDER="0"><font color="#505050">0</font></TD><TD BORDER="1"> 4 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">1</font></TD><TD BORDER="1"> 3 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">2</font></TD><TD BORDER="1"> 2 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">3</font></TD><TD BORDER="1"> 1 </TD></TR>
+</TABLE>
+> xlabel=list]
+	node136300384395072 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="lightcoral" PORT="table">
+    <TR><TD BORDER="0"><font color="#505050">0</font></TD><TD BORDER="1"> 100 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">1</font></TD><TD BORDER="1"> 200 </TD></TR>
+</TABLE>
+> xlabel=list]
+	node136300383668096 [label=<
+<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> a </TD><TD BORDER="1" STYLE="ROUNDED"> b </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1" PORT="ref1"> </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node136300383668096:ref0 -> node136300394024512:table [style=solid]
+	node136300383668096:ref1 -> node136300384395072:table [style=solid]
+subgraph { rank=same; node136300394024512 -> node136300384395072[weight=10, style=invis]; }
+}

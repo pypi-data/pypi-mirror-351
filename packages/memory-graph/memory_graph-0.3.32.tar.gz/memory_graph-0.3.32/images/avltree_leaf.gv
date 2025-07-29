@@ -1,0 +1,22 @@
+digraph memory_graph {
+	node [shape=plaintext]
+	node137269417373552 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="sandybrown" PORT="table">
+    <TR><TD BORDER="1"> key:10 value:ten </TD></TR>
+</TABLE>
+> xlabel="Node"]
+	node137269413267168 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="seagreen1" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> _root </TD><TD BORDER="1" STYLE="ROUNDED"> _count </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1"> 4 </TD></TR>
+</TABLE>
+> xlabel=AVLTree]
+	node137269413267168:ref0 -> node137269417373552:table [style=solid]
+	node137269415724864 [label=<
+<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> tree </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node137269415724864:ref0 -> node137269413267168:table [style=solid]
+}
