@@ -1,0 +1,17 @@
+*.c
+*.cpp
+*.so
+__pycache__
+pytest_cache
+ruff_cache
+.DS_Store
+dist/
+.coverage*
+.coverage
+*.html
+.mise.toml
+*.ipynb
+.vscode/settings.json
+.vscode/
+.ruff_cache
+.pytest_cache

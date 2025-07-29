@@ -1,0 +1,5 @@
+example_lib/**
+tests/**
+!example_lib/.gitkeep
+!tests/.gitkeep
+caller_outputs.json
