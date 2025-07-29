@@ -1,0 +1,25 @@
+Screen {
+    background: black;
+    color: white;
+}
+#title {
+    padding: 1;
+    content-align: center;
+    color: cyan;
+    text-style: bold;
+}
+ListView > ListItem {
+    padding: 1;
+    border: round grey;
+    margin: 0 1;
+}
+Input, Select, Button {
+    padding: 1;
+    border: round green;
+    margin: 1;
+}
+MarkdownViewer {
+    border: round blue;
+    padding: 2;
+    margin: 1;
+}
