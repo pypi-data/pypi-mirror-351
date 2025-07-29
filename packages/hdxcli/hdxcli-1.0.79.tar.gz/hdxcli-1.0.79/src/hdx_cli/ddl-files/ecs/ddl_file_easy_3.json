@@ -1,0 +1,36 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "content": {
+        "type": "binary"
+      },
+      "content_sha256": {
+        "type": "keyword"
+      },
+      "created": {
+        "type": "date"
+      },
+      "file": {
+        "properties": {
+          "path": {
+            "type": "keyword"
+          }
+        }
+      },
+      "fleet_id": {
+        "type": "keyword"
+      },
+      "service": {
+        "properties": {
+          "name": {
+            "type": "keyword"
+          },
+          "version": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
