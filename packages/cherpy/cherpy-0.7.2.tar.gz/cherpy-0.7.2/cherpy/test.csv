@@ -1,0 +1,1923 @@
+RecID,IncidentID,CreatedDateTime,CreatedDuring,CreatedBy,CreatedByID,Status,StatusDesc,Service,Category,Subcategory,SpecificsTypeId,Description,Impact,Urgency,Priority,ClosedDateTime,ClosedBy,ClosedByID,IsPrivate,Cost,LastModTimeStamp,OwnedByTeam,OwnedByTeamID,OwnedBy,OwnedByID,OwnedByWorkgroup,OwnedByWorkgroupID,CustomerTypeID,ServiceRecipientID,CloseDescription,LinkedProblem,LastModifiedDateTime,LastModBy,LastModByID,ConfigItemTypeID,ConfigItemRecID,IncidentDurationInDays,IncidentType,SLARespondByDeadline,SLAID,SLAName,SLATargetTimeID,SLAResolveByDeadline,ClosedOn1stCall,Source,Detail,ChangeID,MultipleConfig,OwnedByEmail,IncidentDurationInHours,ServiceRecipientDisplayName,OwnedByManager,OwnedByManagerEmail,CreatedByEmail,InitialITContact,InitialITContactEmail,PendingReason,ReviewByDeadline,ProjectCode,Task,PhaseRecordStatus,PhaseClassifyStatus,PhaseInvestigateStatus,PhaseRFWStatus,PhaseResolveStatus,PhaseCloseStatus,PhaseApprovalsStatus,WrkflwCurrentPhase,OutsourcedService,OutsourcedVendorID,OutsourcedVendorName,Stat_NumberOfTouches,Stat_FirstCallResolution,Stat_IncidentEscalated,Stat_NumberOfEscalations,Stat_24x7ElapsedTime,Stat_IncidentReopened,Stat_DateTimeResponded,Stat_ResponseTime,Stat_SLAResponseBreached,Stat_SLAResolutionBreached,Stat_TotalDLHOfIncident,LastModifiedByEmail,Temp_reopen,Temp_pending,Temp_open,Temp_status_set,Temp_Active,Temp_Accepted,Temp_Resolved,Temp_Assigned,ServiceID,PendingPreviousStatus,PortalAffectsPrimaryFunction,PortalAffectsMultipleUsers,PortalAltContactInfo,SelfServiceContactInfoCorrect,MatchingText,Notes,NoteEntry,SLAIDForCustomer,SLAIDForService,SLAIDForCI,LinkedSLAs,SLANameForCI,SLANameForCustomer,SLANameForService,Temp_showSLAInfo,VendorName,VendorID,ReasonForBreach,ConfigItemDisplayName,CICritical,BreachNotes,OneStepPicker,ShowAllServices,ShowContactInformation,ServiceEntitlements,ServiceCustomerIsEntitled,SSSection1Complete,SSSection2Complete,SSSection3Complete,SSSection4Complete,ServiceRecipientInformationIsNotCorrect,CombinedKB,ParentTicket,TotalTasks,Stat_SLAResolutionWarning,Stat_SLAResponseWarning,Stat_SLAResolutionGood,Stat_SLAResponseGood,Stat_DateTimeAssigned,Stat_DateTimeInProgress,Stat_DateTimeResolved,Stat_DateTimeClosed,Stat_DateTimeReOpened,SLAResponseWarning,SLAResolutionWarning,PendingStartDateTime,PendingEndDateTime,STCTimeInMinutes,TotalSTCTimeInMinutes,Location,Temp_Dependency,NextStatus,NextStatusText,NextStatusOneStep,SelectedStatus,NoOneStep,SLA_Key,StatusID,SubcategoryID,SmartClassifySearchString,TotalTaskTime,Temp_taskTime,Temp_taskDetails,ConfigItemType,ApprovalBlockID,ClonedIncidentID,OriginalIncidentID,NeverFixedIncident,RecurringIncident,WasCIDown,CIDownStartDateTime,CIDownEndDateTime,Barcode,MajorIncident,MajorIncidentRecID,MajorIncidentID,HasNoOpenTasks,Temp_childID,Temp_childRecID,Cause,ClonedIncident,Comments,CommentsEntry,CIDowntimeInMinutes,PortalWizardCounter,PortalUrgencyFields,PortalRequestDescription,PortalRequiredIncidentFields,ShortDescription,Withdraw,CustomerSubscriptionLevel,ServiceCartID,CartItemID,SCTRecID,TasksInProgress,TasksClosed,TaskClosedCount,TasksOnHold,SCTFired,RequesterDepartment,Level2EscalationComplete,Level3EscalationComplete,DefaultTeam,Level2EscalationTeam,Level3EscalationTeam,PhaseSetOrder,ServiceCatalogTemplateName,RequesterDisplayName,RequesterID,RouteID,RouteAssignmentGroup,RecipientServiceAreaID,Temp_TechnicianEmailFromMonitor,Temp_TechncianNameFromMonitor,Temp_TechnicianTeamFromMonitor,TeamSupervisorID,TeamManagerID,TeamDirectorID,SLARespondByInitialEscalation,SLARespondBySecondaryEscalation,SLARespondByTertiaryEscalation,PagingPriorityChanged,PagingOwnedByTeamChanged,PagingIncidentChanged,ISSummary,CustomerSummary,BroadcastStartDate,BroadcastEndDate,CustomerEscalationCount,ServiceDeskTeamID,ServiceDeskSupervisorID,ServiceDeskManagerID,RouteAlternateAssignmentGroup,ViewAccess,ServicePickerID,Scope,Selfservicealtlocation,Selfservicealtdepartment,VendorTicket,Servicerequestoraltcontactinfo,Servicerequestoraltlocation,Servicerequestoraltdept,IncidentTemplateID,IncidentTemplateName,ServiceRecipientManagerID,ServiceRecipientManagerLoginID,ServiceRecipenetPhone,ServiceRecipientEmail,ServiceRecipientDepartment,ServiceRecipientLocation,ServiceRecoveryDate,ServiceRecoveryComments,ServiceRecoveryComplete,ServiceRecoveryNeeded,EmailOwnedByGroup,SolarWindsAlertID,PortalAltPhone,PortalUserName,Alternatecontactname,Reopenedcount,Quicktcktcreated,ConfigItemOwnedByTeam,TeamManagerName,TeamDirectorName,NumberOfDaysToResolve,ShowTaskOnlyTemplates,IncidentChildID,ServerFQDN,QuickTemplateFilter,CustomerDepartmentName,PagingOption,DoNotNotifyRecipient,DoNotNotifyOwnedBy,DoNotNotifyOwnedByTeam,DoNotNotifyRequestor,CIDoNotPage,ServiceRecipientManagerRecID,PendingTemplateTasks,TaskTemplateRecID,PHI,PageOnCriticalINC,PageOnCritiicalSR,PageOnHighINC,PageOnHighSR,PageOnMediumINC,PageOnMediumSR,PageOnLowINC,PageOnLowSR,InitialSaveDateTime,LastPagedDate,TicketTypeChangedDate,PageTriggeredDate,TeamAssignmentMethod,ServiceRecipientDepartmentCode,IncidentParentID,RCAID,ServiceImpactStartDate,ServiceRestorationDate,ISOpsCommander,IncidentCommander,ScribeOpsCommander,IncidentScribe,ITResolutionField,ScribeNotes,Stat_convertedToRequest,ShowCIPreview,MasterTrackingTicket,IsMasterTicket,MasterTicketChildren,ServiceRecipientLastKnownPhone,RequestorLastKnownPhone,AlsoNotifyEmail,RequestorNickName,RecipientServiceAreaAltID,CreatedDOW,PortalStatusRequestCount,CustomerRanking,TimeAllocation,WorkEstimate,EnhancementRecID,PortalViewCount,TechnicianViewCount,ExpectedCompletionDate,ServiceRecipientIsRequestor,ComputerName,TicketOwnerSummary,Stat_DateTimeReportingInactive,Stat_DateTimeAssignedToOwnedBy,MajorIncidentTicket,ServiceRecipientIDProofSuccess,ServiceRecipientIDProofFailure,RequesterIDProofSuccess,RequesterIDProofFailure,IDProofFlagRecipient,IDProofFlagRequester,IDProofImageRequester,IDProofImageRecipient,AdhocCustomerName,AdhocCustomerEmail,AdhocCustomerPhone,RecipientNotFound,PrimaryContact,PortalActiveTab,CustomerUpdateRecID,RequestRequiresManagerApproval,StopSave,IncompletePortalRequest,PortalSubcategoryRecID,CreatedByTeam,BroadcastAffectedService,BroadcastID,PreviousStatus,IsSecurityRelated,CreationMethod,ReSendResolutionNotice
+942e8ce1a309c42acfe05a4e0794f619e2bee0cafe,2003,10/14/2017 2:47:35 PM,8 to 5 Monday thru Friday,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Adrienne Sousa-Goldstein
+Preferred Name: Adrienne
+Lawson ID: 50122
+Site: Salmon Creek Hospital
+Organization: Cardiac Services
+Department: Cardiac Rehab
+Cost Center: 600-3440
+Job Title: Cardiac Rehab Specialist
+Job Code: 04147
+Manager: False
+Manager's Name: Jodi Haynes
+Manager's Emp No: 15664
+Manager's Login: JHAYNES
+Start Date: 10/23/2017
+Previous AD Login:",,,3,11/3/2017 9:41:38 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce18a16b8d94c140e4e16a136421f4574f03f,"This Pre-hire has already been completed. Reference WO74464. 
+Access has been configured for Adrienne Sousa-Goldstein and we have sent a separate email with detailed account information. (Message was sent to: Haynes, Jodi T :LSC Mgr Rehab Program.)",,11/15/2022 9:01:41 AM,Madeline C Gibson,942676880d7c010ed4f9d145d2989a2e6b909c384e,,,19.79,Service Request,10/16/2017 2:47:35 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,,,10/20/2017 2:47:35 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,474.90,Adrienne Sousa-Goldstein,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,863,False,False,0,28494,False,10/16/2017 9:35:37 AM,0,False,False,0,mcgibson@lhs.org,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,10/16/2017 9:35:35 AM,10/16/2017 9:35:37 AM,10/16/2017 9:40:53 AM,11/3/2017 9:41:38 AM,,,,,,0,0,Vancouver,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,,,0.00,0,,,,Pre-hire: for Adrienne Sousa-Goldstein,False,,,,,False,False,0,False,False,Cardiac Rehab,True,False,,,,5.0,,Jodi Haynes,942e755396ebcce9c7928241a899d933cd7adabd7e,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,10/16/2017 2:47:35 PM,10/16/2017 2:47:35 PM,10/16/2017 2:47:35 PM,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,JHAYNES,,,Cardiac Rehab,Salmon Creek Hospital,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,12/18/2017 8:52:22 AM,,,,,,,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,23,,False,,,12/4/2020 2:01:39 AM,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce2901706487d178b4628b5539efd676c63c0,2004,10/14/2017 2:47:58 PM,Only on weekends,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Elizabeth W Barr
+Preferred Name: Elizabeth
+Lawson ID: 50123
+Site: Meridian Park Hospital
+Organization: Surgery Services
+Department: Surgery General
+Cost Center: 300-3010
+Job Title: Registered Nurse
+Job Code: 06025
+Manager: False
+Manager's Name: Sherri Valdez
+Manager's Emp No: 21541
+Manager's Login: SVALDEZ
+Start Date: 10/23/2017
+Previous AD Login:",,,3,11/3/2017 9:55:14 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce28374b95c316d9c475d9b5978ad9f04eacc,"Access has been configured for Elizabeth Barr and we have sent a separate email with detailed account information. (Message was sent to: Valdez, Sherri D :LMP Nurse Manager.) This is a duplicate Pre-hire request of Work Order 74465.",,11/3/2017 9:55:14 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,,,19.80,Service Request,10/16/2017 2:47:58 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:47:58 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,475.12,Elizabeth W Barr,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,10,False,False,0,28507,False,10/16/2017 9:41:51 AM,0,False,False,0,,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,10/16/2017 9:41:47 AM,10/16/2017 9:41:51 AM,10/16/2017 9:54:12 AM,11/3/2017 9:55:14 AM,,10/16/2017 1:47:58 PM,10/18/2017 8:47:00 AM,,,0,0,Tualatin,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,,,0.00,0,,,,Pre-hire: for Elizabeth W Barr,False,,,,,False,False,0,False,False,Surgery General,True,False,,,,5.0,,Sherri Valdez,942e7556cbd430cee880bd41edb6d14e5397386f21,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,,,,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,SVALDEZ,,,Surgery General,Meridian Park Hospital,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,,,,,,,,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,1,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce35fbb5b0fd4c11f46c7af3bfe2358f1789d,2005,10/14/2017 2:48:19 PM,Only on weekends,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Maria P Sanchez
+Preferred Name: Maria
+Lawson ID: 50125
+Site: Meridian Park Hospital
+Organization: Central Sterile
+Department: Central Sterile
+Cost Center: 300-3252
+Job Title: Central Sterile Technician
+Job Code: 02086
+Manager: False
+Manager's Name: Jaime Miller
+Manager's Emp No: 16132
+Manager's Login: JAMMILLE
+Start Date: 10/23/2017
+Previous AD Login:",,,3,11/3/2017 9:58:04 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce352a78763a31ef8436daccaa4bf7c443a0f,"Access has been configured for Maria Sanchez and we have sent a separate email with detailed account information. (Message was sent to: Miller, Jaime  :LMP Mgr Central Sterile.) This is a duplicate of Pre-hire request WO74466",,9/12/2018 12:56:58 PM,Andreas P Gionis,94267687fc705e2290f5f24a0a981511853d9c4a62,,,19.80,Service Request,10/16/2017 2:48:19 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:48:19 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,475.16,Maria P Sanchez,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,11,False,False,0,28510,False,10/16/2017 9:55:56 AM,0,False,False,0,AGIONIS@LHS.ORG,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,10/16/2017 9:55:16 AM,10/16/2017 9:55:56 AM,10/16/2017 9:57:13 AM,11/3/2017 9:58:04 AM,,10/16/2017 1:48:19 PM,10/18/2017 8:48:00 AM,,,0,0,Tualatin,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,,,0.00,0,,,,Pre-hire: for Maria P Sanchez,False,,,,,False,False,0,False,False,Central Sterile,True,False,,,,5.0,,Jaime Miller,942e755407aaba0125fd1e4068a4bcae92e7210988,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,,,,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,JAMMILLE,,,Central Sterile,Meridian Park Hospital,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,9/12/2018 12:56:58 PM,,,,,,195826,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,2,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce4233258674ea24b472f9dfcf162e31d7364,2006,10/14/2017 2:48:38 PM,Only on weekends,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Charles Griffith
+Preferred Name: Charles
+Lawson ID: 50145
+Site: None per Lawson
+Organization: Legacy Medical Group
+Department: LMG Cardiology
+Cost Center: 800-8165
+Job Title: Medical Assistant
+Job Code: 04009
+Manager: False
+Manager's Name: Mark Carlson
+Manager's Emp No: 22595
+Manager's Login: MFCARLSO
+Start Date: 10/23/2017
+Previous AD Login:",,,3,11/3/2017 8:38:30 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce416e908638a7dbb4230b7197b52629d8418,"Access has been configured for Charles Griffith and we have sent a separate email with detailed account information. (Message was sent to: Carlson, Mark F :LMG Mgr Clinic.)",,1/22/2018 4:20:18 PM,Luke D Mims,9426768819c9cad0ce0ec34e9080653a798ebeab04,,,19.74,Service Request,10/16/2017 2:48:38 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:48:38 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,473.83,Charles Griffith,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,11,False,False,0,28430,False,10/16/2017 8:37:10 AM,0,False,False,0,LMIMS@LHS.ORG,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,10/16/2017 8:28:07 AM,10/16/2017 8:37:10 AM,10/16/2017 8:37:57 AM,11/3/2017 8:38:30 AM,,10/16/2017 1:48:38 PM,10/18/2017 8:48:00 AM,,,0,0,- None -,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,,,0.00,0,,,,Pre-hire: for Charles Griffith,False,,,,,False,False,0,False,False,LMG Cardiology,True,False,,,,5.0,,Mark Carlson,942e755749d18d318e49e44a3e84441004e40e1688,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,,,,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,MFCARLSO,,,LMG Cardiology,None per Lawson,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,1/22/2018 4:20:18 PM,,,,,,59337,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,2,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce4ebb1ae244b3d834b28ad0c213b166aa98b,2007,10/14/2017 2:48:58 PM,Only on weekends,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Keenan P Crosbie
+Preferred Name: Keenan
+Lawson ID: 50127
+Site: Good Samaritan Hospital
+Organization: Lab
+Department: GSH Hospital Operations
+Cost Center: 160-5310
+Job Title: Lab Assistant
+Job Code: 04028
+Manager: False
+Manager's Name: Marco Castaneda
+Manager's Emp No: 26209
+Manager's Login: MACASTAN
+Start Date: 10/23/2017
+Previous AD Login:",,,3,11/3/2017 10:01:06 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce4deb812c7fa824348ef868e650fee0b09f7,"Access has been configured for Keenan Crosbie and we have sent a separate email with detailed account information. (Message was sent to: Castaneda, Marco A :LLS Mgr Laboratory.)",,11/3/2017 10:01:06 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,,,19.80,Service Request,10/16/2017 2:48:58 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:48:58 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,475.20,Keenan P Crosbie,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,10,False,False,0,28512,False,10/16/2017 9:57:57 AM,0,False,False,0,,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,10/16/2017 9:57:53 AM,10/16/2017 9:57:57 AM,10/16/2017 10:00:16 AM,11/3/2017 10:01:06 AM,,10/16/2017 1:48:58 PM,10/18/2017 8:48:00 AM,,,0,0,Portland,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,,,0.00,0,,,,Pre-hire: for Keenan P Crosbie,False,,,,,False,False,0,False,False,GSH Hospital Operations,True,False,,,,5.0,,Marco Castaneda,942e7586e4d30de99673094154833f45497a2e7b68,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,,,,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,MACASTAN,,,GSH Hospital Operations,Good Samaritan Hospital,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,,,,,,,,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,0,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce5b018cc8298995b49beb1d8f800982ec392,2008,10/14/2017 2:49:18 PM,8 to 5 Monday thru Friday,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Joe Morin
+Preferred Name: Joe
+Lawson ID: 50134
+Site: Mt Hood Medical Center
+Organization: Diagnostic Imaging
+Department: CT Scan
+Cost Center: 350-3516
+Job Title: CT Technologist
+Job Code: 04514
+Manager: False
+Manager's Name: Jennifer Baker
+Manager's Emp No: 31001
+Manager's Login: JENBAKER
+Start Date: 10/23/2017
+Previous AD Login:",,,3,11/3/2017 10:05:07 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce5a3935d8bf88dcc464eaf642614ab2af45b,"Access has been configured for Joe Morin and we have sent a separate email with detailed account information. (Message was sent to: Baker, Jennifer A :LMH Mgr Imaging Services.) This is a duplicate Pre-hire request of WO74489.",,2/28/2023 10:26:45 AM,Cherwell Automation,943a5617abd7cb54a456664edfb1de7643baf5e8f7,,,19.80,Service Request,10/16/2017 2:49:18 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:49:18 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,475.26,Joe Morin,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,38,False,False,0,28516,False,10/16/2017 10:03:24 AM,0,False,False,0,,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,,10/16/2017 10:03:24 AM,10/16/2017 10:04:05 AM,11/3/2017 10:05:07 AM,,10/16/2017 1:49:18 PM,10/18/2017 8:49:18 AM,,,0,0,Gresham,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,"2/28/2023 10:25 AM by  (Sessions, Jane D :LSO Mgr IS Applications) JSession@lhs.org
+I will check with Cheryl and Andrea.
+ 
+Jane D. Sessions, MA Phil | Legacy Health | Manager, IS Imaging Systems
+Cell: 503-616-0917 Office: 503-415-5508
+ 
+Next PTO: TBD
+
+ 
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG> 
+Sent: Tuesday, February 28, 2023 10:12 AM
+To: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion""
+ 
+Jane,
+
+Please confirm with Cheryl, however these should not present an issue due to the time frame of the EPIC or Cloverleaf resourcing needs.  The two database servers will be handled by Niel and the consultants - SMPCPACSBDB1 and SSCCPACSBDB1.  The web server is non-impacting - SECCPACSWEB1 is part of a high availability pair (SECCPACSWEB1).  Niel and the consultants will also handle the bulk of this work.  CheryI is aware of and these dates and approved them, and upon a closer look I believe we can proceed as planned. 
+
+Proposed changes and Engineers Assigned for completeness:
+ 
+Hostname
+Upgrade Date
+Engineer
+SECCPACSBDB1
+13-Mar
+Niel
+SEHCPACSXFR1
+13-Mar
+Niel
+SMHCPACSBDB1
+14-Mar
+Bryan
+SSHCPACSBDB1
+14-Mar
+Robert S
+SECCPACSWEB2
+14-Mar
+Niel
+SMPCPACSBDB1
+15-Mar
+Robert S
+SSCCPACSBDB1
+15-Mar
+Robert S
+SECCPACSWEB1
+15-Mar
+Niel
+SEHCPACSBDB1
+16-Mar
+Bryan
+SGSCPACSBDB1
+16-Mar
+Bryan
+
+
+
+
+
+Curtis Stoecklin
+Manager – Application Hosting | (503) 869-0389
+ 
+From: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org> 
+Sent: Tuesday, February 28, 2023 9:47 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion""
+ 
+Hi Curtis, Just a little worried about the overlap with our Epic upgrade on 3/15.  We are also doing a cloverleaf upgrade a day or so later and Cheryl is needed for both efforts.
+ 
+Jane
+ 
+ 
+Jane D. Sessions, MA Phil | Legacy Health | Manager, IS Imaging Systems
+Cell: 503-616-0917 Office: 503-415-5508
+ 
+Next PTO: TBD
+
+ 
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG> 
+Sent: Tuesday, February 28, 2023 9:16 AM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion""
+ 
+Proposed dates, pending CAB
+
+3/16 - OS upgrade SEHCPACSBDB1 and SGSCPACSBDB1
+3/15 - OS upgrade SECCPACSWEB1
+3/14 - OS Upgrade SECCPACSWEB2
+3/14  - OS upgrade SSHCPACSBDB1
+3/14 - OS upgrade SMHCPACSBDB1
+3/14 - OS Upgrade SECCPACSWEB2
+3/14  - OS upgrade SSHCPACSBDB1
+3/14 - OS upgrade SMHCPACSBDB1
+3/13 - OS upgrade SEHCPACSXFR1 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, February 17, 2023 7:10:52 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Resource assignments have been made, Curtis is building this as project for tracking hours.
+Meridian Park virtualizations completed.
+Good Sam virtualizations scheduled for W/E 3/10. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, February 3, 2023 3:17:26 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Remaining virtualizations:
+SMPCPACSBDB1 - Completed 1/31
+SGSCPACSBDB1 - 2/7
+SMPCPACSXAUS1 - 2/9
+SGSCPACSXA1/XA2 - 3/8
+SMPCPACSUS1 - 3/9
+
+Tentative schedule proposed to CPACS team and consulting team for Mid-March rollout, it would look like the following if approved:
+
+Week 1- Niel to train PE team on Monday in the process for in-place OS upgrade, then perform virtualizations of available day servers (outlined in linked Excel document) through Thursday completing all available systems.
+
+Week 2 - Niel to work overnight starting overnight on Sunday ending overnight on Wednesday on all overnight systems, return to work for day shift on Friday of this week to cover after UCS upgrade on Thursday evening.
+
+The above would close out all necessary remaining CPACS work and take the servers themselves out of the critical risk zone (it is noted that virtualization of remaining systems is priority one as there is not a strong backup/restore process on the remaining assets as identified.) 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, January 26, 2023 1:00:38 AM
+To: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+completed checklist item 'virtualize 3D servers' as this part is done. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>
+Sent: Thursday, January 26, 2023 12:18:33 AM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Thursday, January 26, 2023 12:12:39 AM
+To: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+following 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>
+Sent: Wednesday, January 25, 2023 11:30:44 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Wednesday, January 25, 2023 11:29:00 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Wednesday, January 25, 2023 11:12:57 PM
+To: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Niel to train the rest of us on imaging servers and backup DB servers. Working with Cheryl to group servers. Looking at ~14 week process starting 1/31 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:37:28 PM
+To: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Target is 2 servers per week, starting the week of 2/6, pausing for the following 2 weeks, then resuming the 2/wk cadence on 2/27. Target end date of mid-April. 
+
+Curtis and Niel to work with Cheryl on batching the servers into groups and updating the spreadsheet accordingly. Niel to coordinate timing of each batch with Cheryl and coordinate upgrade walkthrough with PE staff. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:34:29 PM
+To: Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following... 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:24:36 PM
+To: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+follow
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, January 20, 2023 3:39:42 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+follow 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS Application Hosting Planner plan.
+ 
+ 
+2/28/2023 10:11 AM by  (Stoecklin, Curtis J :LSO Mgr App Hosting) CSTOECKL@LHS.ORG
+Jane,
+
+Please confirm with Cheryl, however these should not present an issue due to the time frame of the EPIC or Cloverleaf resourcing needs.  The two database servers will be handled by Niel and the consultants - SMPCPACSBDB1 and SSCCPACSBDB1.  The web server is non-impacting - SECCPACSWEB1 is part of a high availability pair (SECCPACSWEB1).  Niel and the consultants will also handle the bulk of this work.  CheryI is aware of and these dates and approved them, and upon a closer look I believe we can proceed as planned. 
+
+Proposed changes and Engineers Assigned for completeness:
+ 
+Hostname
+Upgrade Date
+Engineer
+SECCPACSBDB1
+13-Mar
+Niel
+SEHCPACSXFR1
+13-Mar
+Niel
+SMHCPACSBDB1
+14-Mar
+Bryan
+SSHCPACSBDB1
+14-Mar
+Robert S
+SECCPACSWEB2
+14-Mar
+Niel
+SMPCPACSBDB1
+15-Mar
+Robert S
+SSCCPACSBDB1
+15-Mar
+Robert S
+SECCPACSWEB1
+15-Mar
+Niel
+SEHCPACSBDB1
+16-Mar
+Bryan
+SGSCPACSBDB1
+16-Mar
+Bryan
+
+
+
+
+
+
+
+Curtis Stoecklin
+Manager – Application Hosting | (503) 869-0389
+ 
+From: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org> 
+Sent: Tuesday, February 28, 2023 9:47 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion""
+ 
+Hi Curtis, Just a little worried about the overlap with our Epic upgrade on 3/15.  We are also doing a cloverleaf upgrade a day or so later and Cheryl is needed for both efforts.
+ 
+Jane
+ 
+ 
+Jane D. Sessions, MA Phil | Legacy Health | Manager, IS Imaging Systems
+Cell: 503-616-0917 Office: 503-415-5508
+ 
+Next PTO: TBD
+
+ 
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG> 
+Sent: Tuesday, February 28, 2023 9:16 AM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion""
+ 
+Proposed dates, pending CAB
+
+3/16 - OS upgrade SEHCPACSBDB1 and SGSCPACSBDB1
+3/15 - OS upgrade SECCPACSWEB1
+3/14 - OS Upgrade SECCPACSWEB2
+3/14  - OS upgrade SSHCPACSBDB1
+3/14 - OS upgrade SMHCPACSBDB1
+3/14 - OS Upgrade SECCPACSWEB2
+3/14  - OS upgrade SSHCPACSBDB1
+3/14 - OS upgrade SMHCPACSBDB1
+3/13 - OS upgrade SEHCPACSXFR1 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, February 17, 2023 7:10:52 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Resource assignments have been made, Curtis is building this as project for tracking hours.
+Meridian Park virtualizations completed.
+Good Sam virtualizations scheduled for W/E 3/10. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, February 3, 2023 3:17:26 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Remaining virtualizations:
+SMPCPACSBDB1 - Completed 1/31
+SGSCPACSBDB1 - 2/7
+SMPCPACSXAUS1 - 2/9
+SGSCPACSXA1/XA2 - 3/8
+SMPCPACSUS1 - 3/9
+
+Tentative schedule proposed to CPACS team and consulting team for Mid-March rollout, it would look like the following if approved:
+
+Week 1- Niel to train PE team on Monday in the process for in-place OS upgrade, then perform virtualizations of available day servers (outlined in linked Excel document) through Thursday completing all available systems.
+
+Week 2 - Niel to work overnight starting overnight on Sunday ending overnight on Wednesday on all overnight systems, return to work for day shift on Friday of this week to cover after UCS upgrade on Thursday evening.
+
+The above would close out all necessary remaining CPACS work and take the servers themselves out of the critical risk zone (it is noted that virtualization of remaining systems is priority one as there is not a strong backup/restore process on the remaining assets as identified.) 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, January 26, 2023 1:00:38 AM
+To: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+completed checklist item 'virtualize 3D servers' as this part is done. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>
+Sent: Thursday, January 26, 2023 12:18:33 AM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Thursday, January 26, 2023 12:12:39 AM
+To: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+following 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>
+Sent: Wednesday, January 25, 2023 11:30:44 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Wednesday, January 25, 2023 11:29:00 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Wednesday, January 25, 2023 11:12:57 PM
+To: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Niel to train the rest of us on imaging servers and backup DB servers. Working with Cheryl to group servers. Looking at ~14 week process starting 1/31 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:37:28 PM
+To: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Target is 2 servers per week, starting the week of 2/6, pausing for the following 2 weeks, then resuming the 2/wk cadence on 2/27. Target end date of mid-April. 
+
+Curtis and Niel to work with Cheryl on batching the servers into groups and updating the spreadsheet accordingly. Niel to coordinate timing of each batch with Cheryl and coordinate upgrade walkthrough with PE staff. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:34:29 PM
+To: Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following... 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:24:36 PM
+To: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+follow
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, January 20, 2023 3:39:42 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+follow 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS Application Hosting Planner plan.
+ 
+ 
+2/28/2023 9:47 AM by  (Sessions, Jane D :LSO Mgr IS Applications) JSession@lhs.org
+Hi Curtis, Just a little worried about the overlap with our Epic upgrade on 3/15.  We are also doing a cloverleaf upgrade a day or so later and Cheryl is needed for both efforts.
+ 
+Jane
+ 
+ 
+Jane D. Sessions, MA Phil | Legacy Health | Manager, IS Imaging Systems
+Cell: 503-616-0917 Office: 503-415-5508
+ 
+Next PTO: TBD
+
+ 
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG> 
+Sent: Tuesday, February 28, 2023 9:16 AM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion""
+ 
+Proposed dates, pending CAB
+
+3/16 - OS upgrade SEHCPACSBDB1 and SGSCPACSBDB1
+3/15 - OS upgrade SECCPACSWEB1
+3/14 - OS Upgrade SECCPACSWEB2
+3/14  - OS upgrade SSHCPACSBDB1
+3/14 - OS upgrade SMHCPACSBDB1
+3/14 - OS Upgrade SECCPACSWEB2
+3/14  - OS upgrade SSHCPACSBDB1
+3/14 - OS upgrade SMHCPACSBDB1
+3/13 - OS upgrade SEHCPACSXFR1 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, February 17, 2023 7:10:52 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Resource assignments have been made, Curtis is building this as project for tracking hours.
+Meridian Park virtualizations completed.
+Good Sam virtualizations scheduled for W/E 3/10. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, February 3, 2023 3:17:26 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Remaining virtualizations:
+SMPCPACSBDB1 - Completed 1/31
+SGSCPACSBDB1 - 2/7
+SMPCPACSXAUS1 - 2/9
+SGSCPACSXA1/XA2 - 3/8
+SMPCPACSUS1 - 3/9
+
+Tentative schedule proposed to CPACS team and consulting team for Mid-March rollout, it would look like the following if approved:
+
+Week 1- Niel to train PE team on Monday in the process for in-place OS upgrade, then perform virtualizations of available day servers (outlined in linked Excel document) through Thursday completing all available systems.
+
+Week 2 - Niel to work overnight starting overnight on Sunday ending overnight on Wednesday on all overnight systems, return to work for day shift on Friday of this week to cover after UCS upgrade on Thursday evening.
+
+The above would close out all necessary remaining CPACS work and take the servers themselves out of the critical risk zone (it is noted that virtualization of remaining systems is priority one as there is not a strong backup/restore process on the remaining assets as identified.) 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, January 26, 2023 1:00:38 AM
+To: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+completed checklist item 'virtualize 3D servers' as this part is done. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>
+Sent: Thursday, January 26, 2023 12:18:33 AM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Thursday, January 26, 2023 12:12:39 AM
+To: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+following 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Sessions, Jane D :LSO Mgr IS Applications <JSession@lhs.org>
+Sent: Wednesday, January 25, 2023 11:30:44 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Wednesday, January 25, 2023 11:29:00 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Wednesday, January 25, 2023 11:12:57 PM
+To: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Niel to train the rest of us on imaging servers and backup DB servers. Working with Cheryl to group servers. Looking at ~14 week process starting 1/31 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:37:28 PM
+To: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Target is 2 servers per week, starting the week of 2/6, pausing for the following 2 weeks, then resuming the 2/wk cadence on 2/27. Target end date of mid-April. 
+
+Curtis and Niel to work with Cheryl on batching the servers into groups and updating the spreadsheet accordingly. Niel to coordinate timing of each batch with Cheryl and coordinate upgrade walkthrough with PE staff. 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:34:29 PM
+To: Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+Following... 
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Dugan, Bryan P :LSO IS <BDUGAN@LHS.ORG>
+Sent: Wednesday, January 25, 2023 9:24:36 PM
+To: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+follow
+These comments are about the task CPACS 2008 to 2016 OS Conversion in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, January 20, 2023 3:39:42 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""CPACS 2008 to 2016 OS Conversion"" 
+ 
+follow 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS Application Hosting Planner plan.
+ 
+ 
+1/20/2022 11:14 AM by  (Stoecklin, Curtis J :LSO Mgr App Hosting) CSTOECKL@LHS.ORG
+Answers my question, thnakyou.  Starting the PO now.
+ 
+Curtis Stoecklin
+Manager – Application Hosting | (503) 869-0389
+ 
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG> 
+Sent: Thursday, January 20, 2022 11:14 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses Year 3 - CY2022""
+ 
+I do not know what exactly was purchased last year. If the purchase was separated between standard and datacenter cores, then yes you read it correctly. 
+These comments are about the task 2008%20Extended%20Support%20Licenses%20Year%203%20-%20CY2022 in the plan IS%20Application%20Hosting%20Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, January 20, 2022 7:07:38 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses Year 3 - CY2022"" 
+ 
+Ryan, am I correct in my reading of this: 204 std cores and 160 datacenter cores? 
+These comments are about the task 2008%20Extended%20Support%20Licenses%20Year%203%20-%20CY2022 in the plan IS%20Application%20Hosting%20Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Wednesday, January 19, 2022 8:26:33 AM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses Year 3 - CY2022"" 
+ 
+Awaiting quote from CDW. Followed up with Tim and Charlie thread 'Windows 2008 Extended Support (ESUs) Quote Need' 
+These comments are about the task 2008%20Extended%20Support%20Licenses%20Year%203%20-%20CY2022 in the plan IS%20Application%20Hosting%20Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Tuesday, January 11, 2022 7:16:50 PM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses Year 3 - CY2022"" 
+ 
+Two new tabs have been added to the document, 2008 CY22 and Totals CY22. The updated count is 364. 
+These comments are about the task 2008%20Extended%20Support%20Licenses%20Year%203%20-%20CY2022 in the plan IS%20Application%20Hosting%20Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Monday, January 10, 2022 10:25:44 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""2008 Extended Support Licenses Year 3 - CY2022"" 
+ 
+following 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS%20Application%20Hosting%20Planner plan.
+ 
+ 
+8/26/2021 2:30 PM by  (Edwards, Jon :LSO Dir IS Technology) JSEDWARD@LHS.ORG
+No small feat by any means – this while balancing all that work to seal up the exploit Microsoft graciously gave us over the course of years…..nice work all!
+ 
+From: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG> 
+Sent: Thursday, August 26, 2021 2:28 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses""
+ 
+Congratulations!  
+ 
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG> 
+Sent: Thursday, August 26, 2021 2:25 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses""
+ 
+Yep. I double checked the list we had remaining, they're all licensed. Closing this out. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, August 24, 2021 9:30:13 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Riggs - are we clear to close this task? 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, August 9, 2021 9:07:01 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+With the printnightmare patching, all 2008 servers have extended support purchased. At this time, below are the straggling servers. A ticket is open with Microsoft to understand and resolve the extended support activation issues with these servers.
+
+SECGEHEMOCCG1
+SECGEHEMOINT1
+SECGEHEMODB1
+SECGEHEMOINT2
+SEHCPACSXFR1
+SGSCPACSXA1
+SSCCPACSXAUS1 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Wednesday, July 28, 2021 5:46:44 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+2008 Rauland servers were completed last night. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, July 27, 2021 6:14:25 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+2nd round ESU entitlement confirmed. Activation and patching of these hosts will occur in the next Tier 0 window on the evening of Monday the 2nd into the morning of Tuesday the 3rd. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, July 27, 2021 3:47:56 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Awaiting 2nd round (~50 machines) of ESU entitlement from CDW. Curtis verifying. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, July 26, 2021 5:57:21 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Assigning to Travis Riggs for coordination of activation. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, July 19, 2021 4:13:55 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+PO 2000462129 sent to CDW for these. Followed up with CDW on thread 'RE: [EXTERNAL] RE: Legacy Health CY 2021 Extended Support for Win 2008' asking Chris Daya from CDW about entitlement. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, July 13, 2021 3:56:05 AM
+To: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Purchase sent on REQ 3331865 now with Jill Sojak in supply chain. Follow up set 7/16 for Curtis to check entitlement with CDW. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>
+Sent: Monday, July 12, 2021 8:37:25 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Tagging in for updates 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, July 12, 2021 8:31:17 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Asked for refresh of quote from CDW 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Saturday, June 19, 2021 12:02:16 AM
+To: Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Re: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Copy that.  I'll get these ordered and installed to get patching going.
+ 
+Curtis Stoecklin
+Cell: (503) 869-0389
+From: Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, June 18, 2021 1:40:45 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Curtis I think I verbality approved to move forward. Charge to your cost center. Lets do it! Jeff 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Friday, June 18, 2021 8:27:59 PM
+To: Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Followed up, still awaiting executive decision and funding approval. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>
+Sent: Friday, May 28, 2021 9:40:17 PM
+To: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+following
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, May 28, 2021 4:44:47 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+following 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Friday, May 28, 2021 4:19:32 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Quote back at $56,000. Working on approvals. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, May 25, 2021 6:49:41 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Reached out to CDW and awaiting pricing back. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Wednesday, April 14, 2021 3:20:47 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+It is, and is up to date. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, April 13, 2021 11:36:12 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Riggs, is the attached spreadsheet the source of truth for licenses needed? 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Monday, April 12, 2021 10:51:15 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+SEHR5LEHCFGV, SMHR5LMHCFGV, and SSOR5TSTCFGV have been shutdown and replaced with 2012r2 vms. The others would require an app upgrade to update. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, April 6, 2021 8:41:20 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Holding until I hear from Travis and Rauland, may move to 2012 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS Application Hosting Planner plan.
+ 
+ 
+8/26/2021 2:28 PM by  (Olson, Jeff :LSO VP IS Technology) JJOlson@LHS.ORG
+Congratulations!  
+ 
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG> 
+Sent: Thursday, August 26, 2021 2:25 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses""
+ 
+Yep. I double checked the list we had remaining, they're all licensed. Closing this out. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, August 24, 2021 9:30:13 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Riggs - are we clear to close this task? 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, August 9, 2021 9:07:01 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+With the printnightmare patching, all 2008 servers have extended support purchased. At this time, below are the straggling servers. A ticket is open with Microsoft to understand and resolve the extended support activation issues with these servers.
+
+SECGEHEMOCCG1
+SECGEHEMOINT1
+SECGEHEMODB1
+SECGEHEMOINT2
+SEHCPACSXFR1
+SGSCPACSXA1
+SSCCPACSXAUS1 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Wednesday, July 28, 2021 5:46:44 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+2008 Rauland servers were completed last night. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, July 27, 2021 6:14:25 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+2nd round ESU entitlement confirmed. Activation and patching of these hosts will occur in the next Tier 0 window on the evening of Monday the 2nd into the morning of Tuesday the 3rd. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, July 27, 2021 3:47:56 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Awaiting 2nd round (~50 machines) of ESU entitlement from CDW. Curtis verifying. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, July 26, 2021 5:57:21 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Assigning to Travis Riggs for coordination of activation. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, July 19, 2021 4:13:55 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+PO 2000462129 sent to CDW for these. Followed up with CDW on thread 'RE: [EXTERNAL] RE: Legacy Health CY 2021 Extended Support for Win 2008' asking Chris Daya from CDW about entitlement. 
+These comments are about the task 2008 Extended Support Licenses Year 1 & 2 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, July 13, 2021 3:56:05 AM
+To: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Purchase sent on REQ 3331865 now with Jill Sojak in supply chain. Follow up set 7/16 for Curtis to check entitlement with CDW. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>
+Sent: Monday, July 12, 2021 8:37:25 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Tagging in for updates 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, July 12, 2021 8:31:17 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Asked for refresh of quote from CDW 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Saturday, June 19, 2021 12:02:16 AM
+To: Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Re: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Copy that.  I'll get these ordered and installed to get patching going.
+ 
+Curtis Stoecklin
+Cell: (503) 869-0389
+From: Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, June 18, 2021 1:40:45 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Curtis I think I verbality approved to move forward. Charge to your cost center. Lets do it! Jeff 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Friday, June 18, 2021 8:27:59 PM
+To: Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Followed up, still awaiting executive decision and funding approval. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>
+Sent: Friday, May 28, 2021 9:40:17 PM
+To: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+following
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, May 28, 2021 4:44:47 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+following 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Friday, May 28, 2021 4:19:32 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Quote back at $56,000. Working on approvals. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, May 25, 2021 6:49:41 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Reached out to CDW and awaiting pricing back. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Wednesday, April 14, 2021 3:20:47 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+It is, and is up to date. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, April 13, 2021 11:36:12 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Riggs, is the attached spreadsheet the source of truth for licenses needed? 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Monday, April 12, 2021 10:51:15 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+SEHR5LEHCFGV, SMHR5LMHCFGV, and SSOR5TSTCFGV have been shutdown and replaced with 2012r2 vms. The others would require an app upgrade to update. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, April 6, 2021 8:41:20 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Holding until I hear from Travis and Rauland, may move to 2012 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS Application Hosting Planner plan.
+ 
+ 
+6/18/2021 5:02 PM by  (Stoecklin, Curtis J :LSO Mgr App Hosting) CSTOECKL@LHS.ORG
+Copy that.  I'll get these ordered and installed to get patching going.
+ 
+Curtis Stoecklin
+Cell: (503) 869-0389
+From: Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, June 18, 2021 1:40:45 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Curtis I think I verbality approved to move forward. Charge to your cost center. Lets do it! Jeff 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Friday, June 18, 2021 8:27:59 PM
+To: Ostroy, Rachel (she/her) :LSO Dir IS Applications <ROSTROY@LHS.ORG>; Olson, Jeff(he/him) :LSO VP IS Technology <JJOlson@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Followed up, still awaiting executive decision and funding approval. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Ostroy, Rachel :LSO Dir IS Applications <ROSTROY@LHS.ORG>
+Sent: Friday, May 28, 2021 9:40:17 PM
+To: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+following
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP IS Technology <JJOlson@LHS.ORG>
+Sent: Friday, May 28, 2021 4:44:47 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+following 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Friday, May 28, 2021 4:19:32 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Quote back at $56,000. Working on approvals. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, May 25, 2021 6:49:41 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Reached out to CDW and awaiting pricing back. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Wednesday, April 14, 2021 3:20:47 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+It is, and is up to date. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, April 13, 2021 11:36:12 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Riggs, is the attached spreadsheet the source of truth for licenses needed? 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Monday, April 12, 2021 10:51:15 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Extended Support Licenses"" 
+ 
+SEHR5LEHCFGV, SMHR5LMHCFGV, and SSOR5TSTCFGV have been shutdown and replaced with 2012r2 vms. The others would require an app upgrade to update. 
+These comments are about the task 2008 Extended Support Licenses in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, April 6, 2021 8:41:20 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""2008 Extended Support Licenses"" 
+ 
+Holding until I hear from Travis and Rauland, may move to 2012 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS Application Hosting Planner plan.
+ 
+ 
+9/25/2020 8:27 AM by  (Hole, Brian W :LSO Mgr Cyber Security) BHOLE@LHS.ORG
+Yes, yes yes.
+ 
+Great job
+ 
+-Brian
+ 
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG> 
+Sent: Thursday, September 24, 2020 8:40 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472""
+ 
+Final 2008 DC demoted and powered off, a 2012R2 DC in its place. 10 of 10 Legacy DCs are now remediated. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, September 24, 2020 11:41:06 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Targeting Legacys last troublesome DC to be replaced EOD. 
+
+Meeting with LRI friday to lend a hand with their domain
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, September 24, 2020 5:44:10 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+9 of 10 DCs are patched. ssorodc2v fails to boot after patch and troubleshooting has not produced success. Replacing ssorodc2v with a fresh 2012 R2 vm. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, September 24, 2020 4:31:42 PM
+To: Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+I've opened up 582518 to cybersecurity to provide this. I experience an issue with tenable where the data I pull can be cached from scans on previous days. Cybersecurity has the secret sauce to get this data fresh.
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>
+Sent: Thursday, September 24, 2020 3:35:17 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Really great work!  Thank you for your attention to this.  
+ 
+I would like an independent scan (Nessus?) of the full environment to see which servers are still don’t have the patch.  I realize that non-domain controller 2008 servers will show up but I would still like to have us see that list.
+ 
+Can someone take this task on?
+ 
+Jeff.
+ 
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG> 
+Sent: Thursday, September 24, 2020 8:31 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472""
+ 
+Nine out of the ten vulnerable Legacy domain controllers have received extended support and are patched against this vulnerability. the DMZ RODC ssorodc2v fails to boot after the patch, and team is working on mitigation plans at this time for this one remaining DC. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Wednesday, September 23, 2020 9:49:41 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+My task complete. We have LRI and Legacy entitlement. Assigning to Mr Riggs and Saddler 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 11:52:47 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+No entitlement has been provided by CDW at the time of this writing. I expect we will have to push this change to Wednesday. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 7:02:55 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+PO issued to CDW for the two LRI extended support licenses. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 5:24:47 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Ryan completed 11910, the two SILVHOSPNET.ORG Win 2008 domain controllers have been replaced with 2012 R2 domain controllers. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 5:00:20 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Interesting point - after install of the KB, we will have the ability to see the source of any insecure connection attempts in our environment. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 4:57:45 AM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Lou Ann Spencer confirms PO has been sent to CDW.
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Monday, September 21, 2020 10:24:55 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Created CRQ 11939 for the DC updates. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, September 21, 2020 9:17:57 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+With Andrew Cox out on APL, Lou Ann Spencer is pushing this through as high priority. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, September 21, 2020 8:00:38 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Expecting entitlement to ESU keys by EOD 9/22 if supply chain gets this PO over today. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, September 21, 2020 7:40:59 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Sent to CDW on REQ 3123087 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, September 21, 2020 7:30:03 PM
+To: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+quote received by CDW for support ~$4,700 for 10 severs for the year. Processing PO 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>
+Sent: Monday, September 21, 2020 7:21:28 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Following... 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Thursday, September 17, 2020 8:03:23 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+following 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, September 17, 2020 7:50:19 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Cybersecurity is asking we plug the hole. Provided core count to CDWG for extended support Quote. Travis Riggs looking at any possible DC reductions to reduce costs. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Thursday, September 17, 2020 6:35:59 PM
+To: Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+following 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>
+Sent: Thursday, September 17, 2020 6:17:10 PM
+To: Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+following 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>
+Sent: Thursday, September 17, 2020 6:15:36 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+following 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, September 17, 2020 5:49:37 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Ryan is running with the replacement of the two SilvHospNet DCs with 2012 DCs.
+
+Awaiting call on exploitability from Cyber Security.
+
+Curtis working with CDW to find out cost for extended support on the 10 LEGACY domain DCs that are vulnerable. 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS Application Hosting Planner plan.
+ 
+ 
+9/24/2020 8:35 AM by  (Olson, Jeff :LSO VP Interim) JJOlson@LHS.ORG
+Really great work!  Thank you for your attention to this.  
+ 
+I would like an independent scan (Nessus?) of the full environment to see which servers are still don’t have the patch.  I realize that non-domain controller 2008 servers will show up but I would still like to have us see that list.
+ 
+Can someone take this task on?
+ 
+Jeff.
+ 
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG> 
+Sent: Thursday, September 24, 2020 8:31 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472""
+ 
+Nine out of the ten vulnerable Legacy domain controllers have received extended support and are patched against this vulnerability. the DMZ RODC ssorodc2v fails to boot after the patch, and team is working on mitigation plans at this time for this one remaining DC. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Wednesday, September 23, 2020 9:49:41 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+My task complete. We have LRI and Legacy entitlement. Assigning to Mr Riggs and Saddler 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 11:52:47 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+No entitlement has been provided by CDW at the time of this writing. I expect we will have to push this change to Wednesday. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 7:02:55 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+PO issued to CDW for the two LRI extended support licenses. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 5:24:47 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Ryan completed 11910, the two SILVHOSPNET.ORG Win 2008 domain controllers have been replaced with 2012 R2 domain controllers. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 5:00:20 AM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Interesting point - after install of the KB, we will have the ability to see the source of any insecure connection attempts in our environment. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, September 22, 2020 4:57:45 AM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Lou Ann Spencer confirms PO has been sent to CDW.
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Monday, September 21, 2020 10:24:55 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Created CRQ 11939 for the DC updates. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, September 21, 2020 9:17:57 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+With Andrew Cox out on APL, Lou Ann Spencer is pushing this through as high priority. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, September 21, 2020 8:00:38 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Expecting entitlement to ESU keys by EOD 9/22 if supply chain gets this PO over today. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, September 21, 2020 7:40:59 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Sent to CDW on REQ 3123087 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, September 21, 2020 7:30:03 PM
+To: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>; Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+quote received by CDW for support ~$4,700 for 10 severs for the year. Processing PO 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Trtek, Jeremy A :LSO Mgr IS Technology <JTRTEK@LHS.ORG>
+Sent: Monday, September 21, 2020 7:21:28 PM
+To: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Following... 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 (zerologon) in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Riggs, Travis J :LSO IS <TRiggs@LHS.ORG>
+Sent: Thursday, September 17, 2020 8:03:23 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+following 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, September 17, 2020 7:50:19 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Cybersecurity is asking we plug the hole. Provided core count to CDWG for extended support Quote. Travis Riggs looking at any possible DC reductions to reduce costs. 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Thursday, September 17, 2020 6:35:59 PM
+To: Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>; Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+following 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Olson, Jeff :LSO VP Interim <JJOlson@LHS.ORG>
+Sent: Thursday, September 17, 2020 6:17:10 PM
+To: Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+following 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Hole, Brian W :LSO Mgr Cyber Security <BHOLE@LHS.ORG>
+Sent: Thursday, September 17, 2020 6:15:36 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+following 
+These comments are about the task 2008 Domain Controller Exploits around CVE-2020-1472 in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, September 17, 2020 5:49:37 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""2008 Domain Controller Exploits around CVE-2020-1472"" 
+ 
+Ryan is running with the replacement of the two SilvHospNet DCs with 2012 DCs.
+
+Awaiting call on exploitability from Cyber Security.
+
+Curtis working with CDW to find out cost for extended support on the 10 LEGACY domain DCs that are vulnerable. 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS Application Hosting Planner plan.",,0.00,0,,,,Pre-hire: for Joe Morin,False,,,,,False,False,0,False,False,CT Scan,True,False,,,,5.0,,Jennifer Baker,,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,,,,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,JENBAKER,,,CT Scan,Mt Hood Medical Center,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,9/24/2020 8:35:34 AM,,,,,,683920,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,0,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce66fd6ec3cfc151041dfbacd2fc0e80d231f,2009,10/14/2017 2:49:37 PM,8 to 5 Monday thru Friday,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Joshua D Rumley
+Preferred Name: Joshua
+Lawson ID: 50132
+Site: Mt Hood Medical Center
+Organization: Food and Nutrition
+Department: Food and Nutrition
+Cost Center: 350-4020
+Job Title: Cook
+Job Code: 02078
+Manager: False
+Manager's Name: Tyrell Comeaux
+Manager's Emp No: 37885
+Manager's Login: TCOMEAUX
+Start Date: 10/23/2017
+Previous AD Login:",,,3,11/3/2017 10:08:18 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce6638c597cfe238e42b0aded1ae4f66f1d84,"Access has been configured for Joshua Rumley and we have sent a separate email with detailed account information. (Message was sent to: Comeaux, Tyrell A :LMH Mgr Support Services.) This is a duplicate of Pre-hire Request WO74468.",,11/22/2021 3:08:51 PM,Carl M England,9468bde21874c149ee6a654e889106fdd7aefcdc07,,,19.80,Service Request,10/16/2017 2:49:37 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:49:37 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,475.31,Joshua D Rumley,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,12,False,False,0,28519,False,10/16/2017 10:07:11 AM,0,False,False,0,CMENGLAN@LHS.ORG,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,10/16/2017 10:04:34 AM,10/16/2017 10:07:11 AM,10/16/2017 10:07:33 AM,11/3/2017 10:08:18 AM,,10/16/2017 1:49:37 PM,10/18/2017 8:49:37 AM,,,0,0,Gresham,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,,,0.00,0,,,,Pre-hire: for Joshua D Rumley,False,,,,,False,False,0,False,False,Food and Nutrition,True,False,,,,5.0,,Tyrell Comeaux,942e758ff5937ebe2c2cdf4d8891d6b0067c5d259b,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,10/16/2017 2:49:37 PM,10/16/2017 2:49:37 PM,10/16/2017 2:49:37 PM,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,TCOMEAUX,,,Food and Nutrition,Mt Hood Medical Center,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,11/22/2021 3:08:46 PM,,,,,,,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,0,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce735a486eb732dca4f4ca491500dd1d4337d,2010,10/14/2017 2:49:57 PM,Only on weekends,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Malesha Shavers
+Preferred Name: Malesha
+Lawson ID: 50142
+Site: Emanuel Hospital
+Organization: Environmental Services
+Department: Environmental Services
+Cost Center: 150-4050
+Job Title: Support Services
+Job Code: 02256
+Manager: False
+Manager's Name: Deborah Deb Hassler
+Manager's Emp No: 37416
+Manager's Login: DHASSLER
+Start Date: 10/30/2017
+Previous AD Login:",,,3,11/3/2017 10:13:42 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce7284c97703b83bc4894a6c8121ff95826f1,"Access has been configured for Malesha Shavers and we have sent a separate email with detailed account information. (Message was sent to: Hassler, Deb :LEH Dir Clinical and Support Svcs.)",,11/3/2017 10:13:42 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,,,19.81,Service Request,10/16/2017 2:49:57 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:49:57 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,475.40,Malesha Shavers,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,10,False,False,0,28524,False,10/16/2017 10:07:53 AM,0,False,False,0,,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,10/16/2017 10:07:50 AM,10/16/2017 10:07:53 AM,10/16/2017 10:12:49 AM,11/3/2017 10:13:42 AM,,10/16/2017 1:49:57 PM,10/18/2017 8:49:00 AM,,,0,0,Portland,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,,,0.00,0,,,,Pre-hire: for Malesha Shavers,False,,,,,False,False,0,False,False,Environmental Services,True,False,,,,5.0,,Deborah Deb Hassler,942e758faeaa1ef32f7523411f909f172f5df64762,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,,,,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,DHASSLER,,,Environmental Services,Emanuel Hospital,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,,,,,,,,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,1,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce7fb5c39abf69e0c47bd9489910e3a179e48,2011,10/14/2017 2:50:17 PM,Only on weekends,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Donald Z Peters
+Preferred Name: Donald
+Lawson ID: 50133
+Site: Eugene Laboratory
+Organization: Lab
+Department: Eugene Laboratory
+Cost Center: 160-5415
+Job Title: Medical Technologist
+Job Code: 04104
+Manager: False
+Manager's Name: Teddi O'Connor
+Manager's Emp No: 24574
+Manager's Login: TOCONNOR
+Start Date: 10/30/2017
+Previous AD Login:",,,3,11/3/2017 10:16:43 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce7eecc005477132949a2804246e59cdf0f05,Access has been configured for   and we have sent a separate email with detailed account information. (Message was sent to: .) This is a duplicate of Pre-hire request WO74490.,,11/3/2017 10:16:43 AM,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,,,19.81,Service Request,10/16/2017 2:50:17 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:50:17 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,475.44,Donald Z Peters,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,12/30/1899 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,10,False,False,0,28526,False,10/16/2017 10:13:16 AM,0,False,False,0,,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,True,True,10/16/2017 10:13:14 AM,10/16/2017 10:13:16 AM,10/16/2017 10:15:49 AM,11/3/2017 10:16:43 AM,,10/16/2017 1:50:17 PM,10/18/2017 8:50:00 AM,,,0,0,Eugene,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,,,0.00,0,,,,Pre-hire: for Donald Z Peters,False,,,,,False,False,0,False,False,Eugene Laboratory,True,False,,,,5.0,,Teddi O'Connor,942e75861a3550bf073c60443fa7de23f4db2f1909,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,,,,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,TOCONNOR,,,Eugene Laboratory,Eugene Laboratory,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43022.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,False,False,False,,,,,,,,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,0,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
+942e8ce8bef3e54208d6664ab3aa6ea95d68cb0410,2012,10/14/2017 2:50:36 PM,,Cherwell  Production Service Account ,942debf9172e785d11b17f4838b9bac53b3d72f4e2,Closed,Incident is closed,Access and install services,Access requests,Add/new,942b0ac9546aa86bbdaa534ac9a93189c4a742e5a9,"Pre-hire: for Renato Pascual
+Preferred Name: Renato
+Lawson ID: 50146
+Site: System Office-1120 Bldg
+Organization: IS
+Department: IS End User Computing
+Cost Center: 400-4311
+Job Title: AV Design Support Specialist
+Job Code: 04240
+Manager: False
+Manager's Name: Thomas Bier
+Manager's Emp No: 38459
+Manager's Login: TBIER
+Start Date: 10/30/2017
+Previous AD Login:",,,3,1/11/2018 11:43:09 PM,Jeff Gramlich,942618662ffe3907947dfe48e3a6b3593d2a233443,False,0.00,Byte[] Array,Identity Services,94261897e0f8f8f9b4387e47c7ac773f253978a4fc,Rob A Crawford,942676881af47d7563fbc642f69b07b71e39055dbd,,,,942e8ce8b1054584e2a32c46b0aed89e6361c55f3f,The Pre-hire request was completed on 10/16/2017. The ticket was pending a job code update for Epic Access. Tony was provided the user ID and password to sign on to the Network account. Tony has been actively using the Network account since. The job code now shows no Epic access is needed and the ticket is now closed.,,12/8/2023 1:04:48 PM,Cherwell Automation,943a5617abd7cb54a456664edfb1de7643baf5e8f7,,,89.37,Service Request,10/16/2017 2:50:36 PM,938aad773b01d0140385e84d19aa5205c5acf8c839,Corporate,,10/20/2017 2:50:36 PM,False,Event,,,False,ROCRAWFO@LHS.ORG,2144.88,Renato Pascual,Elizabeth A Martin,ELMARTIN@LHS.ORG,,Cherwell  Production Service Account ,,,10/23/2017 12:00:00 AM,,,Complete,Complete,Complete,Not Required,Complete,Complete,Not Required,,False,,,109,False,False,0,128693,False,10/16/2017 10:46:47 AM,0,False,True,0,,False,False,False,,False,False,False,False,942ae22cc1b7ac7eaf19144c1d8d67c36984147aea,In Progress,,,,False,Access and install services Access requests Add/new,,,,,," ,  , ",,,,,,,,,False,,,False,False,"Platinum, Gold, Silver, Bronze",False,False,False,False,False,False,,False,0.00,False,False,False,True,10/16/2017 10:46:43 AM,10/16/2017 10:46:47 AM,12/28/2017 12:05:51 PM,1/11/2018 11:43:09 PM,,10/16/2017 1:50:36 PM,10/18/2017 8:50:36 AM,10/16/2017 11:04:01 AM,,0,0,Portland,False,,,"<Trebuchet><ActionInfoDef ID=""93d969b712f8",,,_Service Request,cc7383192e644834b6531d0da56194e5,942ae2334e5ab7fdd0371248f69dc8953fd4289d9c,Add/new,0.00,,,,,,,False,False,False,,,,False,,,True,,,,,"12/8/2023 1:04 PM by  (Stoecklin, Curtis J :LSO Mgr App Hosting) CSTOECKL@LHS.ORG
+Powerscribe:  I’ve spun up a task to remove from monitoring and power down.  Then awaiting Natalie to create tasks for the rest of the decom.
+ 
+Curtis Stoecklin
+Manager – Application Hosting | (503) 869-0389
+ 
+From: Erlebacher, Melissa A :LSO IS <MERLEBAC@LHS.ORG> 
+Sent: Friday, December 8, 2023 9:04 AM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Erlebacher, Melissa A :LSO IS <MERLEBAC@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life""
+ 
+The old 2012 R2 PowerScribe servers are just waiting for decommission. Request 1148992 submitted 10/23, picked up by Natalie Davis but I don't see any movement on this one yet. I reminded her about the ticket on 11/27. As of today 12/8, the servers are still pingable. Can they at least be powered off? 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, December 8, 2023 4:54:02 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Erlebacher, Melissa A :LSO IS <MERLEBAC@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+All 2012 servers require additional action to apply patches, no patches other than the ones intervened manually on test environment succeeded. Work should be pushed to analyst teams on these servers as the work-around is simply manual install of the patches. Monitoring in December cycle with test environment to ensure that automated patching functions as expected moving forward.
+
+Do we want to do the following options?
+
+1) Wait until December cycle to determine whether or not additional remediation is needed for the analyst teams to apply the initial ESU patching (no special skills required, it's literally installing patches by hand.)
+2) Wait until January cycle to determine whether or not automated patching will correct all of the issues?
+
+Risk of option number 2 is going to be 60 days behind schedule on patching, even systems in Azure such as HRCase did not automatically apply the ESU patches, and the images in Azure are native and not migrated from on-premise. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, December 5, 2023 6:07:17 AM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Erlebacher, Melissa A :LSO IS <MERLEBAC@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Pushing date as next step is for Curtis to bill departments. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, November 24, 2023 3:48:26 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Erlebacher, Melissa A :LSO IS <MERLEBAC@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Readiness testing with the 2012 R2 servers touched this week (as of this writing there were no non-R2 systems left in the environment!) showed that there is likely additional action required in both Azure and on-premise for 2012 R2 patching to be occurring after the release date. Recommendation is likely to put the onus on the application owner to resolve these particular issues are they're simple (manually applying the first patch.) After the initial round is completed with the November 2023 cycle and related servicing the next recommendation is to determine if automated patching functions as intended with the December 2023 cycle. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, October 20, 2023 8:58:56 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Erlebacher, Melissa A :LSO IS <MERLEBAC@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Bumping out to next Friday following Patch Tuesday in November, this will be the first readiness test of organizational infrastructure. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, October 13, 2023 3:49:51 PM
+To: Erlebacher, Melissa A :LSO IS <MERLEBAC@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Final patch cycle without requiring paid support is underway, November cycle will 100% require the ESU enabled on all 2012 systems (Ryan's previous comment confirms that this is done and we're clear to proceed when the November release is pushed to organization, recommend allocating a resource or two to maintain/monitor the patch cycle that month, the cycle actively begins on 11/16.) 
+
+SCCM will be able to retrieve the patches and apply on those operating systems where the ESU is applied. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Erlebacher, Melissa A :LSO IS <MERLEBAC@LHS.ORG>
+Sent: Tuesday, October 10, 2023 9:12:28 PM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+following 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Friday, October 6, 2023 3:15:00 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+All on-prem 2012 servers are now connected to Azure Arc and have ESU enabled. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Tuesday, October 3, 2023 5:40:45 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Joseph Johnson states the new discounted 2012 ESU SKU is ready and loaded on email thread ""RE: [EXTERNAL] RE: Legacy Health - Windows Server 2012 ESU through Azure ARC"". 'Hi Curtis, You are good to go. You can now just go into your Azure Arc Portal and obtain the Windows Server 2012 R2 ESU’s."" - Joseph
+'
+Ryan, feel free to go at it. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Friday, September 29, 2023 4:42:48 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+I have provided a cost estimate of extended support for Powerscribe360 to Jane to pass onto the vendor.
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, September 29, 2023 2:21:29 PM
+To: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Jane/Melissa have requested that ad-hoc licensing be added to the PowerScribe servers as they're going to remain around. This cost needs to be tracked as it is known that the vendor is 100% at fault for the slow times and not meeting the deadlines given. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Edwards, Jon :LSO Dir IS Technology <JSEDWARD@LHS.ORG>
+Sent: Thursday, September 14, 2023 11:01:39 PM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Following 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Wednesday, September 13, 2023 10:55:02 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Based upon the inventory I collected this afternoon, we have 50 servers still running 2012. The 30 servers that are running on-perm will be added to Azure Arc after the Epic DR event and hard change freeze has been lifted. Adding the on-perm servers to Azure Arc will reduce the cost of extended support. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Thursday, September 7, 2023 2:10:58 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Large batch of servers are under decom, inventory to be built end of next week of remaining 2012 systems. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Wednesday, August 30, 2023 2:30:54 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Additional inventory to be delivered with all remaining 2012 systems in mid-September. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, August 4, 2023 5:30:54 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+There are no Server 2012 systems remaining in the environment, only 2012 R2 (which follows the same end of life cadence.)
+
+Final timelines:
+2012 R2 final Microsoft patch - 10/10/2023
+2012 R2 begins requiring paid support for patching on-premise (this is an included feature if the server lives in Azure and is supposed to be automatically enabled) - 11/14/2023 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, July 28, 2023 2:57:20 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+New inventory generated and reviewed on 7/27, known that PACS servers are being removed from the list for Synapse application - these are the following findings otherwise:
+1 2008 server still exists in Azure and is at critical risk as it is only supported until end of 2023. (SECSONOSITEV)
+No 2012 servers still exist in the environment.
+86 2012 R2 servers still exist in the environment, Synapse 4 environment decom will remove 29 of these. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, July 21, 2023 2:41:32 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+This item needs to come back into final focus for one major final sweep prior to building inventory (recommend inventory build to be completed at end of month to cut PO for remaining 2012 systems that will undergo support arrangements.) Scheduled time on calendar to build out that inventory. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Wednesday, July 5, 2023 2:40:25 PM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Synapse (large set of remaining 2012 systems) is on target for retirement after major upgrade W.E. 7/15. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Monday, April 24, 2023 10:32:28 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+I just reviewed spreadsheet and updated several status to done. We’re down to 30 servers with the status scheduled. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, April 7, 2023 4:57:13 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Updated list of all systems in scope. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Wednesday, March 22, 2023 8:59:34 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Emailed all managers of systems remaining and requesting timelines. Tickets for the work already exist. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Friday, April 8, 2022 2:05:12 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Updated list to reflect the latest changes, multiple upgrades performed. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Tuesday, March 22, 2022 10:02:29 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+SCCM as an application will be off of this list by end of April. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Monday, March 14, 2022 5:20:29 AM
+To: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+bringing into planning.  adding this to everyone's time sheets 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Saddler, Ryan I :LSO IS <RSADDLER@LHS.ORG>
+Sent: Friday, February 18, 2022 9:22:16 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+following 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Thursday, February 17, 2022 11:17:23 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Peter, Greg :LSO IS <GPETER@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Added list to document (as of today) raw export of blended Cherwell and AD data - https://legacyhealth.sharepoint.com/:x:/r/teams/ISApplicationHostingTeam/_layouts/15/Doc.aspx?sourcedoc=%7B71317544-5EF3-4AB4-8271-54EAFDE4B683%7D&file=AD-ServerRisk.xlsx&action=default&mobileredirect=true 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Thursday, February 17, 2022 5:48:38 PM
+To: Peter, Greg :LSO IS <GPETER@LHS.ORG>; Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Niel, Can I get a 2003, 2008, 2012 list in 'ol excel please (or link to a living SharePoint list).  I'm ready to take this one on.  A decade is a long run for an OS.  If you ask me, too long for one that does not have a start button in R1.  You can then assign this task just to me for the action. 
+These comments are about the task Windows Server 2012 End of Life in the plan IS Application Hosting Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Peter, Greg :LSO IS <GPETER@LHS.ORG>
+Sent: Saturday, January 22, 2022 2:16:34 PM
+To: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>; Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+following 
+These comments are about the task Windows%20Server%202012%20End%20of%20Life in the plan IS%20Application%20Hosting%20Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Stoecklin, Curtis J :LSO Mgr App Hosting <CSTOECKL@LHS.ORG>
+Sent: Friday, January 21, 2022 11:28:17 PM
+To: Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>; Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Curtis to fit into roadmap. 
+These comments are about the task Windows%20Server%202012%20End%20of%20Life in the plan IS%20Application%20Hosting%20Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Heynderickx, Marc G :LSO IS <MHEYNDER@LHS.ORG>
+Sent: Friday, January 7, 2022 11:11:10 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Following 
+These comments are about the task Windows%20Server%202012%20End%20of%20Life in the plan IS%20Application%20Hosting%20Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Thursday, December 30, 2021 5:31:06 PM
+To: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>; IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: RE: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Automated Inventory Buildout, per page build-out by OS (except 2003 can be included with 2008):
+Check inventory using both AD and Cherwell as automated sources with a daily refresh including:
+Newly detected 2003 - 2012 R2 servers
+Whether a status has changed in Cherwell or AD
+Build a comments field that is able to be updated per server by PM and project team members.
+AD: Query domain controller in HDC (DC1V or DC2V) that aren't commonly targeted direct by applications
+SQL database as Cherwell source as this is also impacting to application'
+Build visually like: https://patchingcalendar.lhsnt.legacyhs/RubrikBackupReport.html, include input capability for running comments (history)
+column into DB with data, automatically insert date/time of comment.
+Extended Support Update purchasing as a column - query OS for licensing status and ESU
+On 2012/2012 R2 note that ESU will be required as of 10/10/2023. Microsoft's strategy is 3 years of ESU (support included in Azure,
+but Azure has to migrated to on-premise if we reach ESU end date and are still running that operating system.)
+Column for Azure vs On-Premise 
+These comments are about the task Windows%20Server%202012%20End%20of%20Life in the plan IS%20Application%20Hosting%20Planner.
+Reply in Microsoft Planner or reply to this email to add a task comment.
+From: Morgan, Niel W :LSO IS <NWMORGAN@LHS.ORG>
+Sent: Thursday, November 4, 2021 7:10:21 PM
+To: IS Application Hosting Team <ISApplicationHostingTeam@LegacyHealth.onmicrosoft.com>
+Subject: Comments on task ""Windows Server 2012 End of Life"" 
+ 
+Reviewing 2012-based server inventory. 
+Reply in Microsoft Planner
+
+You can also reply to this email to add a task comment.
+This task is in the IS%20Application%20Hosting%20Planner plan.",,0.00,0,,,,* job Code 04240 Pre-hire: for Renato Pascual,False,,,,,False,False,0,False,False,IS End User Computing,True,False,,,,5.0,,Thomas Bier,942e75902f686d7249e509480191d27b2b6620ce16,,,,,,,94272b8551c353c3db36534940b2b3e41ad1613c9e,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,94267687fabff6c347a5154e5093167e05ac9de3b3,,,,1/1/1900 12:00:00 AM,1/1/1900 12:00:00 AM,False,,,12/30/1899 12:00:00 AM,12/30/1899 12:00:00 AM,0,94261897dfa96e42fa9b32488681567f9f09711bb7,94267688187feaf4a5d4bc4fcbb4ff685c67a4bc0a,94267687fb12ab7c39e4b64b80a8ca40b054ba47e8,,,,,,,,,,,9427cd0754bb8c03b2e06e40dbbbf2720b055a868c,"INT: Staff new hire, pre-hire, or rehire",,TBIER,,,IS End User Computing,System Office-1120 Bldg,10/14/2017 12:00:00 AM,,False,False,,,,,,0,False,,Elizabeth A Martin,Janine A Jacobs,43096.000,False,,,All Templates,,Email,False,False,False,False,False,,False,,,False,False,False,False,False,True,False,False,12/14/2017 7:43:41 PM,12/18/2017 7:29:48 AM,,,,,,,,,,,,,,,,False,False,False,0,,,,,,,0,,,,,0,1,,False,,,,,No,0,0,0,0,,,,,,,,False,,,,False,,False,,,,,,False,,
