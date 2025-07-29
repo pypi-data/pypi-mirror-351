@@ -1,0 +1,51 @@
+{
+  "input_path": "/home/parsaizme/Documents/arch-parsa/stuff/job/alm.dev/alm.overview/iNVKSA.xlsx",
+  "output_dir": "split_files",
+  "rows_per_iteration": 5,
+  "processed_ranges": [
+    {
+      "file": "split_files/iNVKSA_part001.xlsx",
+      "start_row": 1,
+      "end_row": 5,
+      "iteration": 1
+    }
+  ],
+  "last_row_processed": 4,
+  "timestamp": "2025-05-27T16:33:15.586172",
+  "columns": 22,
+  "file_profile": {
+    "total_rows": 1,
+    "total_columns": 22,
+    "data_types": {
+      "ZONE": "float64",
+      "SITE": "object",
+      "LONGITUDE": "float64",
+      "LATITUDE": "float64",
+      "SITE_STATUS": "object",
+      "NODE": "object",
+      "TECHNOLOGY_SUPPORTED": "object",
+      "INSERTION_DATE": "datetime64[ns]",
+      "NODE_TYPE": "object",
+      "MANUFACTURER": "object",
+      "ELEMENT": "object",
+      "MODEL": "object",
+      "PART_NUMBER": "object",
+      "INVENTORY_FLAG": "float64",
+      "SERIAL_NUMBER": "object",
+      "DUMP_SERIAL_NUMBER": "object",
+      "DESCRIPTION": "float64",
+      "MANUFACTURING_DATE": "datetime64[ns]",
+      "ISSUE_NUMBER": "float64",
+      "ACTUAL_SITE": "object",
+      "INSERT_DATE": "datetime64[ns]",
+      "UPDATE_DATE": "datetime64[ns]"
+    }
+  },
+  "memory_usage": [
+    {
+      "iteration": 1,
+      "memory_before_mb": 256.19140625,
+      "memory_after_mb": 260.640625
+    }
+  ]
+}
