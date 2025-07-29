@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: autoed
+Version: 0.3.1
+License-File: LICENSE
+Requires-Dist: argcomplete
+Requires-Dist: argparse
+Requires-Dist: attr
+Requires-Dist: h5py
+Requires-Dist: hdf5plugin
+Requires-Dist: matplotlib
+Requires-Dist: nexgen >=0.8.5
+Requires-Dist: numpy
+Requires-Dist: pathlib
+Requires-Dist: psutil
+Requires-Dist: pydantic
+Requires-Dist: python-daemon
+Requires-Dist: uvicorn
+Requires-Dist: watchdog ==4.0.0
+Provides-Extra: server
+Requires-Dist: fastapi[standard] ; extra == 'server'
+Requires-Dist: python-jose ; extra == 'server'
+Requires-Dist: pyyaml ; extra == 'server'
+
