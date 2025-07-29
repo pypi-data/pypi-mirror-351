@@ -1,0 +1,24 @@
+include sqlalchemy/*
+recursive-include sqlalchemy/connectors *
+recursive-include sqlalchemy/cyextension *
+recursive-include sqlalchemy/dialects *
+recursive-include sqlalchemy/dialects/mssql *
+recursive-include sqlalchemy/dialects/oracle *
+recursive-include sqlalchemy/dialects/mysql *
+recursive-include sqlalchemy/dialects/postgresql *
+recursive-include sqlalchemy/dialects/sqlite *
+recursive-include sqlalchemy/engine *
+recursive-include sqlalchemy/event *
+recursive-include sqlalchemy/ext *
+recursive-include sqlalchemy/ext/asyncio *
+recursive-include sqlalchemy/ext/declarative *
+recursive-include sqlalchemy/ext/mypy *
+recursive-include sqlalchemy/future *
+recursive-include sqlalchemy/orm *
+recursive-include sqlalchemy/pool *
+recursive-include sqlalchemy/sql *
+recursive-include sqlalchemy/testing *
+recursive-include sqlalchemy/testing/fixtures *
+recursive-include sqlalchemy/testing/plugin *
+recursive-include sqlalchemy/testing/suite *
+recursive-include sqlalchemy/util *
