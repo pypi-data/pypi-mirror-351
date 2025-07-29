@@ -1,0 +1,78 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pr-generator-agent"
+version = "1.2.0"
+description = "AI-powered Pull Request Description Generator"
+authors = [
+    {name = "Daniel Scholl", email = "daniel.scholl@microsoft.com"},
+]
+dependencies = [
+    "anthropic>=0.18.1",
+    "gitpython>=3.1.42",
+    "openai>=1.12.0",
+    "tiktoken>=0.6.0",
+    "google-generativeai>=0.4.0"
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+dev = [
+    "black>=24.2.0",
+    "build>=1.0.3",
+    "flake8>=7.0.0",
+    "flake8-docstrings>=1.7.0",
+    "flake8-bugbear>=24.0.0",
+    "flake8-comprehensions>=3.14.0",
+    "flake8-simplify>=0.21.0",
+    "isort>=5.13.2",
+    "colorama>=0.4.6",
+    "pytest>=8.0.2",
+    "pytest-cov>=4.1.0",
+    "bandit[toml]>=1.7.5",
+    "safety>=3.0.0",
+    "pip-audit>=2.6.0",
+    "mypy>=1.8.0",
+    "types-requests>=2.31.0",
+    "pre-commit>=3.5.0"
+]
+
+[project.scripts]
+aipr = "aipr.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["aipr"]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "--cov=aipr --cov-report=term-missing"
+
+[tool.flake8]
+max-line-length = 100
+extend-ignore = ["E203"]  # Ignore whitespace before ':' (conflicts with Black)
+per-file-ignores = [
+    "__init__.py:F401",  # Ignore unused imports in __init__.py files
+    "tests/*:F401,F841"  # Ignore unused imports and variables in tests
+]
+
+[project.urls]
+"Repository" = "https://github.com/danielscholl/mr-generator-agent"
