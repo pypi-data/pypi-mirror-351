@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: plainmp
+Version: 0.3.0.post1
+Summary: Very fast motion planning for articulated robot, through a bit of premature-optimization (C++ core with Python bindings) *less than 1ms for moderate problems
+Author: Hirokazu Ishida
+License: MPL2.0 for C++ core and BSD3 for Python bindings
+License-File: cpp/LICENSE-MPL2
+License-File: LICENSE-BSD3
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: scikit-robot>=0.0.44
+Requires-Dist: pyyaml
+Requires-Dist: robot_descriptions
+Requires-Dist: osqp<1.0.0
