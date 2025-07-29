@@ -1,0 +1,22 @@
+Metadata-Version: 2.3
+Name: torm-storage
+Version: 1.3.1
+Summary: TinyDB storage with orjson and msgpack
+Author: IDNatte
+Author-email: idnatte@gmail.com
+Requires-Python: >=3.9,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: msgpack (>=1.1.0,<2.0.0)
+Requires-Dist: orjson (>=3.10.15,<4.0.0)
+Requires-Dist: tinydb (>=4.8.2,<5.0.0)
+Description-Content-Type: text/markdown
+
+# TinyDB with orjson + msgpack
+
+docs TBA
+
