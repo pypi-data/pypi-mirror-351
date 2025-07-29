@@ -1,0 +1,13 @@
+terraform {
+  required_providers {
+    {{client_name}} = {
+      source = "rivet-gg/{{client_name}}"
+    }
+  }
+}
+
+provider "{{client_name}}" {}
+
+data "{{client_name}}_{{resource_name}}" "test" {
+  "UPDATE ME!"
+}

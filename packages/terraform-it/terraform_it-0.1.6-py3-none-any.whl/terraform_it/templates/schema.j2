@@ -1,0 +1,28 @@
+{%- import "utils/schema_helper.j2" as schemaMacros %}
+
+func (r *{{ resource_name }}Resource) Schema(_ context.Context, _ resource.SchemaRequest, response *resource.SchemaResponse) {
+	response.Schema = schema.Schema{
+		Description: "Provides a Datadog {{ resource_name }} resource. This can be used to create and manage Datadog {{ resource_name }}.",
+		Attributes: map[string]schema.Attribute{
+            {%- for name, schema in macro_vars.primitive.items() %}
+            {{- schemaMacros.typePrimitiveSchema(name, schema, required=schema.get("required")) }}
+			{%- endfor %}
+
+            {%- for name, schema in macro_vars.primitive_array.items() %}
+            {{- schemaMacros.typePrimitiveArraySchema(name, schema, required=schema.get("required")) }}
+            {%- endfor %}
+            "id": utils.ResourceIDAttribute(),
+		},
+        {%- if macro_vars.non_primitive_array or macro_vars.non_primitive_obj %}
+		Blocks: map[string]schema.Block{
+            {%- for name, schema in macro_vars.non_primitive_array.items() %}
+            {{- schemaMacros.baseBlockListAttrSchemaBuilder(name, schema, required=schema.get("required"), computed=computed, macro_vars=macro_vars) }}
+            {%- endfor %}
+
+            {%- for name, schema in macro_vars.non_primitive_obj.items() %}
+            {{- schemaMacros.baseBlockObjAttrSchemaBuilder(name, schema, required=schema.get("required"), computed=computed, macro_vars=schema["ref_schema"]) }}
+            {%- endfor %}
+		},
+        {%- endif %}
+	}
+}
