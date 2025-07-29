@@ -1,0 +1,15 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+countsy.egg-info/PKG-INFO
+countsy.egg-info/SOURCES.txt
+countsy.egg-info/dependency_links.txt
+countsy.egg-info/entry_points.txt
+countsy.egg-info/top_level.txt
+src/__init__.py
+src/cli.py
+src/counting.py
+src/output_formatting.py
+src/parsing.py
+test/test_cli.py
