@@ -1,0 +1,25 @@
+[project]
+name = "umnetdb-utils"
+version = "0.1.4"
+description = "Helper classes for querying UMnet databases"
+authors = [
+    {name = "Amy Liebowitz",email = "amylieb@umich.edu"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "sqlalchemy (>=2.0.41,<3.0.0)",
+    "oracledb (>=3.1.0,<4.0.0)",
+    "psycopg[binary] (>=3.2.9,<4.0.0)",
+    "python-decouple (>=3.8,<4.0)"
+]
+
+[tool.poetry]
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.10"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
