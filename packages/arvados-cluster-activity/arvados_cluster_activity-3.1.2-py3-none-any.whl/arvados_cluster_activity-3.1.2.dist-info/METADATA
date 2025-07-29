@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: arvados-cluster-activity
+Version: 3.1.2
+Summary: Summarize cluster activity from Arvados audit logs and Prometheus metrics
+Home-page: https://arvados.org
+Download-URL: https://github.com/arvados/arvados.git
+Author: Arvados
+Author-email: info@arvados.org
+License: GNU Affero General Public License, version 3.0
+Requires-Dist: arvados-python-client (==3.1.2)
+Provides-Extra: prometheus
+Requires-Dist: prometheus-api-client ; extra == 'prometheus'
+
