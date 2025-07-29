@@ -1,0 +1,16 @@
+You are assisting with an academic literature review on the topic: "{topic}".
+
+Your task is to synthesize the key themes and findings across these abstracts into {num_summary_points} summary points.
+
+Each summary point should be 3-4 sentences.
+
+For each summary point, identify the articles that support the summary separated by a semicolon (e.g., "1; 3; 4").
+
+Do NOT summarize each abstract individually.
+
+ONLY return a list of summary points using this format:
+[{{"summary point": "...", "supporting articles": "..."}}]
+
+
+---
+{joined_entries}

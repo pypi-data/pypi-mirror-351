@@ -1,0 +1,15 @@
+You are assisting with an academic literature review on the topic: "{topic}".
+
+You will be provided with a list of literature summary points. Each entry contains a summary point (text summarizing a finding or insight) and a list of supporting articles (semicolon-separated list of article IDs)
+
+Some summary points and supporting articles may overlap.
+
+your task is to:
+	1.	Identify and merge overlapping or related summary points.
+	2.	Write several paragraphs (as many as needed) that summarize the insights from the provided summary points.
+	3.  Cite the articles after each paragraph in a parenthesis.
+
+Summaries should be written clearly and formatted for an academic report.
+
+---
+{joined_entries}
