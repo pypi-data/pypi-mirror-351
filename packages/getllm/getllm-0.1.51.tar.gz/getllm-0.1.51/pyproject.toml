@@ -1,0 +1,28 @@
+[build-system]
+requires = [ "poetry-core>=1.0.0",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "getllm"
+version = "0.1.50"
+description = "Python LLM operations service for the DevLama ecosystem"
+authors = [ "Tom Sapletta <info@softreck.dev>",]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/py-lama/getllm"
+[[tool.poetry.packages]]
+include = "getllm"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+requests = "^2.31.0"
+bs4 = "^0.0.1"
+beautifulsoup4 = "^4.12.2"
+python-dotenv = "^1.0.0"
+questionary = "^2.0.1"
+
+[tool.poetry.scripts]
+getllm = "getllm.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
