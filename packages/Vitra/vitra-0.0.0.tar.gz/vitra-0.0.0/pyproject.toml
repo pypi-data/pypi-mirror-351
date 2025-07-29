@@ -1,0 +1,20 @@
+[project]
+name = "Vitra"
+version = "0.0.0"
+description = "This package is reserved for the Vitra project. Updates will be available soon."
+authors = [{ name = "Artur Arantes" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = ["jinja2>=3.1"]
+
+[project.urls]
+Homepage = "https://pypi.org/project/vitra/"
+# Repository = "https://github.com/seuusuario/vitra"
+
+[project.scripts]
+vitra = "vitra.cli:main"
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
