@@ -1,0 +1,90 @@
+# Valinix
+
+**Valinix** is a lightweight, customizable validation library designed to simplify user input validation in CLI-based Python projects.
+
+---
+
+## 🚀 Features
+
+- Validate passwords with customizable rules
+- Strict validation with clear and formatted error messages
+- Easily extendable for email, username, and more (coming soon!)
+- Two validation styles:
+  - ✅ Boolean-style: `is_valid_password`
+  - ⚠️ Exception-style: `validate_password`
+
+---
+
+## 📦 Installation
+
+```
+// cmd
+pip install valinix
+```
+
+---
+
+### 🛠️ Usage
+
+*1. Boolean-style Validation*
+Returns True if the password is valid, otherwise False.
+```
+//python
+from valinix import is_valid_password
+
+if is_valid_password("MySecret123!"):
+    print("Valid password")
+else:
+    print("Invalid password")
+```
+
+*2. Exception-style Validation*
+Raises a ValidationError with formatted reasons if validation fails.
+```
+// python
+from valinix import validate_password, ValidationError
+
+try:
+    validate_password("short")
+except ValidationError as e:
+    print("Invalid Password:")
+    print(e)
+```
+
+*🔧 Custom Rules*
+All validation functions accept the following optional parameters:
+```
+// python
+validate_password(
+    "MyPass123",
+    min_length=10,
+    max_length=100,
+    require_upper=True,
+    require_lower=True,
+    require_digit=True,
+    require_special=False
+)
+```
+
+---
+
+#### 📌 Default Rules
+Minimum length: 8  
+Maximum length: 50  
+Password must not contain spaces  
+
+*Requires:*
+One Uppercase letter  
+One Lowercase letter  
+One Digit    
+One Special Character  
+
+---
+
+#### 🧑‍💻 Author
+**CodeCaret**
+
+---
+
+##### 📄 License
+MIT License. See [LICENSE](LICENSE) file for details.
