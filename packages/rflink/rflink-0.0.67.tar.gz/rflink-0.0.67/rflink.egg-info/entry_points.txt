@@ -1,0 +1,3 @@
+[console_scripts]
+rflink = rflink.__main__:main
+rflinkproxy = rflinkproxy.__main__:main

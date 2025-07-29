@@ -1,0 +1,9 @@
+docopt
+pyserial
+pyserial-asyncio-fast
+
+[:python_version < "3.11"]
+async_timeout
+
+[:python_version < "3.5"]
+typing
