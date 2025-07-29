@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "memra"
+version = "0.1.2"
+description = "A declarative orchestration framework for AI-powered business workflows"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Memra Team", email = "info@memra.co"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "pydantic>=2.0.0",
+    "httpx>=0.24.0",
+    "typing-extensions>=4.0.0"
+]
+
+[project.urls]
+Homepage = "https://memra.co"
+Repository = "https://github.com/memra-platform/memra-sdk"
+Documentation = "https://memra.co"
+"Bug Reports" = "https://github.com/memra-platform/memra-sdk/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["memra*"]
