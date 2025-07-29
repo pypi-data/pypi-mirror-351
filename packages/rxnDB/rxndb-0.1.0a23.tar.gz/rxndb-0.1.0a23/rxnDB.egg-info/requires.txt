@@ -1,0 +1,15 @@
+shiny
+shinywidgets
+anywidget
+pandas
+plotly
+ruamel.yaml
+fastparquet
+faicons
+
+[dev]
+pytest
+pip
+pytest-cov
+pandas-stubs
+shinylive
