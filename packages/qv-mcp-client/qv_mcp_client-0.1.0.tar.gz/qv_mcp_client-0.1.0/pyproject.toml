@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qv-mcp-client"
+version = "0.1.0"
+description = "A Python client library for the Model Context Protocol (MCP) that provides clean, async connectivity to MCP servers"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Thomas Bernhard", email = "thomas@quantyverse.com"}
+]
+keywords = [
+    "mcp", "model-context-protocol", "ai", "llm", "client", "async", 
+    "anthropic", "claude", "quantyverse"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Framework :: AsyncIO",
+]
+dependencies = [
+    "mcp>=1.9.1",
+]
+
+[project.urls]
+Homepage = "https://www.quantyverse.ai"
+Documentation = "https://github.com/quantyverse/qv-mcp-client#readme"
+Repository = "https://github.com/quantyverse/qv-mcp-client"
+Issues = "https://github.com/quantyverse/qv-mcp-client/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/qv_mcp_client"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/examples",
+    "/README.md",
+    "/LICENSE",
+]
+
