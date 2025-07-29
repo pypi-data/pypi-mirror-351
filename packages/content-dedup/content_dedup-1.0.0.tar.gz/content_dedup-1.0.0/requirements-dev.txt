@@ -1,0 +1,29 @@
+-r requirements.txt
+pytest>=6.0.0
+pytest-cov>=3.0.0
+black>=22.0.0
+flake8>=4.0.0
+mypy>=0.950
+coverage>=6.0.0
+pre-commit>=2.15.0
+jieba>=0.42.0
+langdetect>=1.0.9
+nltk>=3.7.0
+
+# 發佈和版本管理相關
+build>=0.8.0
+twine>=4.0.0
+wheel>=0.37.0
+setuptools>=45.0.0
+setuptools_scm>=6.0.0
+bump2version>=1.0.0
+
+# 代碼品質檢查
+pylint>=2.15.0
+radon>=5.1.0
+isort>=5.10.0
+check-manifest>=0.48
+
+# 安全檢查
+safety>=2.0.0
+bandit>=1.7.4

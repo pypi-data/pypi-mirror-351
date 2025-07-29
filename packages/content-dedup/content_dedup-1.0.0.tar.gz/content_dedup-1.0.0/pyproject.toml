@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+#addopts = "-v --tb=short --cov=content_dedup --cov-report=term-missing"
+addopts = "-v --tb=short"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.setuptools_scm]
+# 自動版本號管理 (可選，如果想用 git tags 管理版本)
+# write_to = "content_dedup/_version.py"
+# fallback_version = "1.0.0"
+
+[tool.coverage.run]
+source = ["content_dedup"]
+omit = [
+    "tests/*",
+    "setup.py",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/site-packages/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:"
+]
+show_missing = true
+precision = 2
+
+[tool.check-manifest]
+ignore = [
+    ".github/*",
+    ".gitignore",
+    "*.pyc",
+    "*.pyo",
+    "*~",
+    ".DS_Store",
+    ".pytest_cache",
+    ".coverage",
+    "coverage.xml",
+    ".tox",
+    ".venv",
+    "venv",
+    "*.egg-info/*"
+]
