@@ -1,0 +1,29 @@
+[project]
+name = "ckan-mcp-server"
+version = "0.0.1"
+description = "A Model Context Protocol (MCP) server for the CKAN API that enables browsing and managing CKAN data portals through MCP-compatible clients."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name="Ondics GmbH", email="info@ondics.de" },
+]
+license-files = ["LICENSE"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+dependencies = [
+    "ckanapi",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/ondics/ckan-mcp-server"
+Issues = "https://github.com/ondics/ckan-mcp-server/issues"
+Disussions = "https://github.com/ondics/ckan-mcp-server/discussions"
+
+[tool.uv]
+package = true
