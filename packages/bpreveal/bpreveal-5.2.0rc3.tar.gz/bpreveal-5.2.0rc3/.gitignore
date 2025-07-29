@@ -1,0 +1,16 @@
+**/.ipynb*
+tmp
+dist
+test
+scratch
+.snakemake
+src/__pycache__
+src/tools/__pycache__
+src/schematools/__pycache__
+src/internal/__pycache__
+doc/_*
+doc/*.rst
+**/*.bw
+**/*.so
+demoData
+**/.nfs0000*

@@ -1,0 +1,140 @@
+<pisa-graph-configuration> ::=
+    {
+        "pisa": <pisa-section>,
+        "coordinates": <coordinates-section>,
+        "importance": <profile-section>,
+        "predictions": <profile-section>,
+        "annotations": <annotation-section>,
+        "figure": {<figure-base>},
+       «"use-annotation-colors": <boolean>,»
+        "min-value": <number>
+    }
+
+<pisa-plot-configuration> ::=
+    {
+        "pisa": <pisa-section>,
+        "coordinates": <coordinates-section>,
+        "importance": <profile-section>,
+        "predictions": <profile-section>,
+        "annotations": <annotation-section>,
+        "figure": <plot-figure-section>
+    }
+
+<pisa-section> ::=
+    {
+       «"rasterize": <boolean>,»
+        <pisa-color-map-section>
+        <pisa-data-section>
+    }
+
+<pisa-data-section> ::=
+    "h5-name": <string>
+  | "values": [<list-of-list-of-number>]
+
+<pisa-color-map-section> ::=
+    <empty>
+  | "color-map": "clip",
+  | "color-map": "noclip",
+
+<list-of-list-of-number> ::=
+    <list-of-number>«, <list-of-number>»
+
+<coordinates-section> ::=
+    {
+        <sequence-source-section>
+        "midpoint-offset": <integer>,
+        "input-slice-width": <integer>,
+        "output-slice-width": <integer>,
+        "genome-window-start": <integer>,
+        "genome-window-chrom": <integer>,
+    }
+
+<sequence-source-section> ::=
+    <empty>
+  | "genome-fasta": <file-name>,
+  | "sequence": <string>,
+
+<profile-section> ::=
+    {
+        <profile-source>,
+       «"show-sequence": <boolean>,»
+        <profile-color-section>
+    }
+
+<profile-source> ::=
+    "bigwig-name": <string>
+  | "values": [<list-of-number>]
+
+<profile-color-section> ::=
+    <empty>
+  | "color": <color-spec>
+  | "color": <sequence-color-spec>
+  | "color": [<list-of-sequence-color-spec>]
+  | "color": [<list-of-color-spec>]
+
+<annotation-section> ::=
+    {
+       «"bed-name": <file-name>,»
+       «"name-colors": {<dict-of-name-color>},»
+       «"custom": [<list-of-annotation>]»
+    }
+
+<dict-of-name-color> ::=
+    <empty>
+  | <name-color>«, <dict-of-name-color>»
+
+<name-color> ::=
+    <string>: <color-spec>
+
+<list-of-annotation> ::=
+    <empty>
+  | <annotation>«, <list-of-annotation>»
+
+<annotation> ::=
+    {
+        "start": <integer>,
+        "end": <integer>,
+        "name": <string>,
+       «"shape": <annotation-shape-type>,»
+        <annotation-position>
+        "color": <color-spec>
+    }
+
+<annotation-shape-type> ::=
+    "diamond" | "wedge" | "box" | "indel" | "snp" | "A" | "C"
+  | "G" | "T" | "d" | "Ǎ" | "Č" | "Ǧ" | "Ť"
+
+<annotation-position> ::=
+    <empty>
+  | "top": <number>,
+    "bottom": <number>,
+
+<figure-base> ::=
+    "bottom": <number>,
+    "left": <number>,
+    "width": <number>,
+    "height": <number>,
+   «"annotation-height": <number>,»
+   «"tick-font-size": <integer>,»
+   «"label-font-size": <integer>,»
+   «"miniature": <boolean>»
+    "color-span": <number>
+
+<plot-figure-section> ::=
+    {
+        <grid-mode-section>
+        <diagonal-mode-section>
+        <figure-base>
+    }
+
+<grid-mode-section> ::=
+    <empty>
+  | "grid-mode": "on",
+  | "grid-mode": "off",
+
+<diagonal-mode-section> ::=
+    <empty>
+  | "diagonal-mode": "on"
+  | "diagonal-mode": "off"
+  | "diagonal-mode": "edge"
+

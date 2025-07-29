@@ -1,0 +1,51 @@
+<motif-seqlet-cutoffs-configuration> ::=
+    {
+        <seqlet-scanning-settings>,
+        <verbosity-section>
+    }
+
+<seqlet-scanning-settings> ::=
+   «"seqlets-tsv" : <file-name>,»
+    "modisco-h5" : <file-name>,
+   «<seqlet-contrib-section>»
+    <pattern-spec-section>,
+    <quantile-cutoff-section>,
+    "trim-threshold" : <number>,
+    "trim-padding" : <integer>,
+   «"quantile-json" : <file-name>,»
+    "background-probs" : <vector-or-genome>
+
+<quantile-cutoff-section> ::=
+    "seq-match-quantile" : <number-or-null>,
+    "contrib-match-quantile" : <number-or-null>,
+    "contrib-magnitude-quantile" : <number-or-null>
+
+<pattern-spec-section> ::=
+    "patterns" : "all"
+  | "patterns" : [<list-of-pattern-specs>]
+
+<list-of-pattern-specs> ::=
+  | <pattern-spec>«, <list-of-pattern-specs>»
+
+<pattern-spec> ::=
+    {
+       «<quantile-cutoff-section>,»
+        "metacluster-name" : <string>,
+        <pattern-option>
+    }
+
+<pattern-option> ::=
+     "pattern-name" : <string>
+    «"short-name" : <string>}»
+  |  "pattern-names" : [<list-of-string>]
+    «"short-names" : [<list-of-string>]»
+
+<vector-or-genome> ::=
+    "danRer11" | "hg38" | "dm6" | "mm10" | "sacCer3"
+  | [<number>, <number>, <number>, <number>],
+
+
+<seqlet-contrib-section> ::=
+    "modisco-contrib-h5" : <file-name>,
+    "modisco-window": <integer>,
+

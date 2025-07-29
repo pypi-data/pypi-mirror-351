@@ -1,0 +1,21 @@
+<make-figure-configuration> ::= 
+    {
+        "graph-configs": [<list-of-graph-config>]
+        "plot-configs": [<list-of-plot-config>]
+        «"width": <integer>»
+        «"height": <integer>»
+        «"output-png": <file-name>»
+        «"output-pdf": <file-name>»
+        «"output-gui": <boolean>»
+        «"dpi": <integer>»
+        «"transparent": <boolean>»
+        <verbosity-section>
+    }
+
+<list-of-plot-config> ::=
+    <empty>
+  | <pisa-plot-configuration>«, <list-of-plot-config>»
+
+<list-of-graph-config> ::=
+    <empty>
+  | <pisa-graph-configuration>«, <list-of-graph-config>»
