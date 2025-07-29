@@ -1,0 +1,32 @@
+{% asset 'dc_log_view/dc_log_view' %}
+
+{% block page %}
+
+{% if logs %}
+
+<p>
+Click on the log titles below to expand the log entries present in this DC resource.
+</p>
+
+<div class="dcor-log-view">
+
+	{% for keyval in logs|dictsort %}
+	<details class="dc_log_view">
+    	<summary class="dc_log_view">{{ keyval[0]|e }}</summary>
+    	<span class="dc_log_view">
+			{% for line in logs[keyval[0]] %}
+				{{ line|e }}<br>
+			{% endfor %}
+		</span>
+	</details>
+	{% endfor %}
+
+</div>
+
+{% else %}
+<p>
+This DC resource does not contain any logs.
+</p>
+{% endif %}
+
+{% endblock %}
