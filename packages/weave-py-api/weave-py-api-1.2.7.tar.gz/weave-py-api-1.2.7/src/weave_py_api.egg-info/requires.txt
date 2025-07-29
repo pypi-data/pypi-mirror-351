@@ -1,0 +1,20 @@
+pathlib
+requests
+base58
+pynacl
+uuid
+websocket-client
+cryptography
+PyCryptodome
+paramiko
+java-random
+
+[:python_version < "3.11"]
+tomli
+
+[dev]
+black
+bumpver
+isort
+pip-tools
+pytest
