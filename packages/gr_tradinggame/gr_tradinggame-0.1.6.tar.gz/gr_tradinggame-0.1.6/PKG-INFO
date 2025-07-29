@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: gr_tradinggame
+Version: 0.1.6
+Summary: Add your description here
+Author-email: Soeren Wolfers <soeren.wolfers@gresearch.com>
+Requires-Python: >=3.11
+Requires-Dist: cloudpickle==3.1.1
+Requires-Dist: flask-ngrok==0.0.25
+Requires-Dist: flask==3.1.1
+Requires-Dist: ipython==7.34.0
+Requires-Dist: ipywidgets==7.7.1
+Requires-Dist: numpy==2.0.2
+Requires-Dist: pandas==2.2.2
+Requires-Dist: plotly==5.10.0
+Requires-Dist: pyngrok==7.2.8
+Requires-Dist: requests==2.32.3
+Description-Content-Type: text/markdown
+
+# Trading game for recruitment events. 
+
+## Usage
+
+`pip install gr-tradinggame`
+
+### Manual game
+
+1. Run the code in `manual/example.py` in a notebook (looks best on Colab, with fullscreen cell display). 
+2. Have teams shout / show their decisions and enter them by clicking buttons. 
+
+### Coding game
+
+1. Run the code in `coding/example_server.py`. 
+2. The output will contain `Serving <id>`. Give that `id` to the teams and have them test and submit their solutions with that `id` as in `coding/example_client.py`. 
+3. Run the code in `coding/example_gui.py` to see who wins.
