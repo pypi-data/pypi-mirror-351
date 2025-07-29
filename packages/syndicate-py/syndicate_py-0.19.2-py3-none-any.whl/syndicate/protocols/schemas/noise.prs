@@ -1,0 +1,83 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+# https://noiseprotocol.org/
+
+# ---------------------------------------------------------------------------
+# Binding and connection
+
+NoiseStepType = =noise .
+
+# In a gatekeeper.Step, use ServiceSelector as detail.
+NoiseStepDetail = ServiceSelector .
+
+# In a gatekeeper.PathStep, use a NoiseSpec as detail.
+NoisePathStepDetail = NoiseSpec .
+
+# In a gatekeeper.Description, use a NoiseServiceSpec as detail.
+NoiseDescriptionDetail = NoiseServiceSpec .
+
+# ---------------------------------------------------------------------------
+# Specification of target and bind addresses
+
+ServiceSelector = any .
+
+NoiseSpec = {
+  # The `serviceSelector` to use in a `NoiseStep` for `gatekeeper.Resolve`.
+  service: ServiceSelector,
+  # The responder's static public key. If not required (uncommon!), supply the empty ByteString.
+  key: bytes,
+}
+& @protocol NoiseProtocol
+& @preSharedKeys NoisePreSharedKeys
+.
+
+NoiseServiceSpec = @base NoiseSpec & @secretKey SecretKeyField .
+SecretKeyField = @present { secretKey: bytes } / @invalid { secretKey: any } / @absent {} .
+
+# If absent, a default of DefaultProtocol is used. Most services will speak the default.
+NoiseProtocol = @present { protocol: string } / @invalid { protocol: any } / @absent {} .
+DefaultProtocol = "Noise_NK_25519_ChaChaPoly_BLAKE2s" .
+
+# If present, Noise pre-shared-keys (PSKs) are drawn from the sequence as required; if the
+# sequence is exhausted or not supplied, an all-zeros key is used each time a PSK is needed.
+NoisePreSharedKeys = @present { preSharedKeys: [bytes ...] } / @invalid { preSharedKeys: any } / @absent {} .
+
+# ---------------------------------------------------------------------------
+# Handshaking and running a session
+
+# 1. initiator asserts <resolve <noise ServiceSelector> #:A> at Gatekeeper
+# 2. gatekeeper asserts <accepted #:B> at #:A
+# 3. initiator asserts <initiator #:C> at #:B and then sends `Packet`s to #:B
+# 4. responder sends `Packet`s to #:C
+#
+# Sessions begin with introduction of initiator (#:C) and responder (#:B) to each other, and
+# then proceed by sending `Packet`s (from #:C) to #:B and (from #:B) to #:C according to
+# the Noise protocol definition. Each `Packet` represents a complete logical unit of
+# communication; for example, a complete Turn when layering the Syndicate protocol over Noise.
+# Note well the restriction on Noise messages: no individual complete packet or packet fragment
+# may exceed 65535 bytes (N.B. not 65536!). When `fragmented`, each portion of a `Packet` is a
+# complete Noise "transport message"; when `complete`, the whole thing is likewise a complete
+# "transport message".
+#
+# Retraction of the `Initiator` ends the session from the initiator-side; retraction of the
+# `<accepted ...>` assertion ends the session from the responder-side.
+
+SessionItem = Initiator / Packet .
+# Assertion
+Initiator = <initiator @initiatorSession #:Packet> .
+# Message
+Packet = @complete bytes / @fragmented [bytes ...] .
+
+# When layering Syndicate protocol over noise,
+#
+#  - the canonical encoding of the serviceSelector is the prologue
+#  - protocol.Packets MUST be encoded using the machine-oriented Preserves syntax
+#  - zero or more Turns are permitted per noise.Packet
+#  - each Turn must fit inside a single noise.Packet (fragment if needed)
+#  - payloads inside a noise.Packet may be padded at the end with byte 0x80 (128), which
+#    encodes `#f` in the machine-oriented Preserves syntax.
+#
+# In summary, each noise.Packet, once (reassembled and) decrypted, will be a sequence of zero
+# or more machine-encoded protocol.Packets, followed by zero or more 0x80 bytes.
+.

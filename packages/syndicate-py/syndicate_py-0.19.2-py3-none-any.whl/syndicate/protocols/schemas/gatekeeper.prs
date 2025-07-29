@@ -1,0 +1,87 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+# ---------------------------------------------------------------------------
+# Protocol at *gatekeeper* entities
+
+# Assertion. Gatekeeper will attempt to resolve `step`, responding with a `Resolved` to
+# `observer`.
+Resolve = <resolve @step Step @observer #:Resolved> .
+Resolved = <accepted @responderSession #:any> / Rejected .
+Step = <<rec> @stepType symbol [@detail any]> .
+
+# ---------------------------------------------------------------------------
+# Protocol at dataspaces *associated* with gatekeeper entities
+
+# ## Handling `Resolve` requests
+#
+# When the gatekeeper entity receives a `Resolve` assertion (call it R1), it
+#
+#  1. asserts a `Resolve` (call it R2) into its associated dataspace that
+#     is the same as R1 except it has a different `observer`; and
+#
+#  2. observes a `Bind` with `description` matching the `step` of R1/R2
+#     according to `stepType` (e.g. treatment of SturdyStepType is not the
+#     same as treatment of NoiseStepType).
+#
+# Normally, an appropriate `Bind` is expected to exist. If the gatekeeper
+# sees the `Bind` first, it takes the `target` from it and does whatever
+# `stepType` mandates before replying to R1's observer.
+#
+# However, if a `Resolved` is asserted to R2's observer before a `Bind`
+# appears, that resolution is relayed on to R1's observer directly, be it
+# positive or negative, and the gatekeeper stops waiting for a `Bind`.
+#
+# This way, entities can keep an eye out for `Resolve` requests that will
+# never complete, and answer `Rejected` to them even when no matching
+# `Bind` exists. Entities could also use `Resolve` requests to synthesize a
+# `Bind` in a "just-in-time" fashion.
+#
+# ## General treatment of `Bind` assertions
+#
+# When the gatekeeper sees a `Bind`, independently of any potential
+# `Resolve` requests, it computes an appropriate PathStep from
+# `description` pointing at `target`, and responds with a `Bound` to
+# `observer` (if supplied).
+#
+Bind = <bind @description Description @target #:any @observer BindObserver> .
+Description = <<rec> @stepType symbol [@detail any]> .
+BindObserver = @present #:Bound / @absent #f .
+Bound = <bound @pathStep PathStep> / Rejected .
+
+# ---------------------------------------------------------------------------
+# Protocol at client-side dataspaces, for resolution utilities
+
+# Assertion. In response to observation of this with appropriate captures/wildcards in `addr`
+# and `resolved`, respondent will follow `route.pathSteps` starting from one of the
+# `route.transports`, asserting `ResolvePath` with the final `Resolved` as well as the selected
+# transport `addr` and a `control` for it.
+ResolvePath = <resolve-path @route Route @addr any @control #:TransportControl @resolved Resolved> .
+
+TransportConnection = <connect-transport @addr any @control #:TransportControl @resolved Resolved> .
+ResolvedPathStep = <path-step @origin #:Resolve @pathStep PathStep @resolved Resolved> .
+PathStep = <<rec> @stepType symbol [@detail any]> .
+
+# A `Route` describes a network path that can be followed to reach some target entity.
+#
+# It starts with a set of zero or more possible non-Syndicate `transports`. These could be
+# `transportAddress.Tcp` values or similar. They are just suggestions; it's quite possible the
+# endpoint is reachable by some means not listed. The network outside Syndicate is, after all,
+# pretty diverse! In particular, *zero* `transports` may be provided, in which case some
+# out-of-band means has to be used to make that first connection.
+#
+# The `transports` give instructions for contacting the first entity in the `Route` path. Often
+# this will be a `gatekeeper`, or a `noise` protocol endpoint, or both. Occasionally, it may
+# even be the desired target entity. Subsequent `pathSteps` describe how to proceed from the
+# initial entity to the target.
+#
+# (`transports` should by rights be a set, not a sequence, but that opens up a Can Of Worms
+# regarding dataspace patterns including literal sets that I can't deal with right now.)
+Route = <route @transports [any ...] @pathSteps PathStep ...> .
+
+TransportControl = ForceDisconnect .
+ForceDisconnect = <force-disconnect> .
+
+# ---------------------------------------------------------------------------
+
+Rejected = <rejected @detail any> .

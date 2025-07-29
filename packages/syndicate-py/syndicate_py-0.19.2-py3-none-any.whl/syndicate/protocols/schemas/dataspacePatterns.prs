@@ -1,0 +1,30 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+# Dataspace patterns: *almost* a sublanguage of attenuation patterns.
+#
+# One key difference is that Dataspace patterns are extensible, in that
+# they ignore fields not mentioned in group patterns.
+
+Pattern =
+    / @discard <_>
+    / <bind @pattern Pattern>
+    / <lit @value AnyAtom>
+    / <group @type GroupType @entries { any: Pattern ...:... }>
+.
+
+GroupType =
+    / <rec @label any>
+    / <arr>
+    / <dict>
+.
+
+AnyAtom =
+    / @bool bool
+    / @double double
+    / @int int
+    / @string string
+    / @bytes bytes
+    / @symbol symbol
+    / @embedded #:any
+.
