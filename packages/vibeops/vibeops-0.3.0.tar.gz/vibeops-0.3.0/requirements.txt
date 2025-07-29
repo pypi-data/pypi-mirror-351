@@ -1,0 +1,17 @@
+# Core dependencies
+fastmcp>=0.1.0
+click>=8.0.0
+rich>=13.0.0
+requests>=2.28.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+# AWS and cloud dependencies
+boto3>=1.26.0
+GitPython>=3.1.0
+
+# Optional server dependencies (install with pip install vibeops[server])
+# fastapi>=0.104.0
+# uvicorn[standard]>=0.24.0
+# sse-starlette>=1.6.0
+
