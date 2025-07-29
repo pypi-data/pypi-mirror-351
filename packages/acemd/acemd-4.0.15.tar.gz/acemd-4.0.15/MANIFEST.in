@@ -1,0 +1,8 @@
+include acemd/logging.ini
+include acemd/LICENSE
+graft acemd/share
+prune tests 
+prune package
+prune docs
+prune .github
+exclude Makefile conda_deps* pytest.ini update_license_header.py .gitattributes .gitignore

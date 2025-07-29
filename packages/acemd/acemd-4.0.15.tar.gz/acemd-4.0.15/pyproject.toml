@@ -1,0 +1,48 @@
+[project]
+name = "acemd"
+description = "ACEMD is the next generation molecular dynamic simulation software"
+authors = [{ name = "Acellera", email = "info@acellera.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+dynamic = ["version"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: POSIX :: Linux",
+]
+dependencies = [
+  "openmm==8.2.1rc1",
+  "moleculekit>=1.9.35",
+  "pyyaml",
+  "natsort",
+  "requests",
+  "openmm-torch",
+  "torch",
+  "torchmd-net>=2.4.10",
+  "torchani",
+  "huggingface_hub",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Acellera/acemd"
+"Bug Tracker" = "https://github.com/Acellera/acemd/issues"
+
+[project.scripts]
+acemd = "acemd.acemd:_acemd_cli"
+acemd_register = "acemd.licensing:acemd_register"
+
+[tool.setuptools.packages.find]
+where = [""]
+include = ["acemd*"]
+namespaces = false
+
+[tool.setuptools_scm]
+
+[tool.pytest.ini_options]
+python_files = "*.py"
+python_classes = "_Test"
+python_functions = "_test*"
+testpaths = ["tests"]
+
+[build-system]
+requires = ["setuptools", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
