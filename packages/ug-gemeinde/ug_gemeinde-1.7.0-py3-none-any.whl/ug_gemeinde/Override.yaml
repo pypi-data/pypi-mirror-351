@@ -1,0 +1,32 @@
+## Override.yaml
+#
+# Einzulesen mit PyYAML
+
+##  PostgreSQL Server Daten
+#       PG_HOST
+#           I.d.R. 138.199.218.230, also der Hetzner vServer
+#       PG_PORT
+#       PG_DATABASE
+PSQL_HOST: '138.199.218.230'
+PSQL_PORT: '22555'
+PSQL_DATABASE: 'cg'
+
+## SQL_INJECTION_MAXLENGTH
+## SQL_INJECTION_BLACKLIST
+#       Werte aus Filter-Feldern der Navis werden in SELECT Abfragen auf der
+#       PostgreSQL-Datenbank verwendet. Aus Historischen und technischen Gründen
+#       war es nicht ohne weiteres möglich, dass über parametrisierte
+#       cursor.execute(...) zu programmieren. Daher schützen wir uns hier
+#       anders (und wohl letztlich nicht vollständig) vor SQL Injection Angriffen:
+#       1. Wir erlauben Filter-Werte nur bis zu einer Länge von maximal
+#             SQL_INJECTION_MAXLENGTH
+#       2. Wir eliminieren alle Zeichen aus
+#             SQL_INJECTION_BLACKLIST
+#          aus dem Filter-Wert
+#       Die Kombination aus beidem gibt einen nicht schlechten Schutz.
+#       Insb. wird der eingegebene Filter-Wert zuerst auf die maximale Länge
+#       reduziert. D.h. um so mehr kritische Zeichen aus der Blacklist
+#       vorkommen, um so mehr tatsächlich relevante Zeichen gehen verloren
+#       Vgl. bibModell.buildFilterSQL
+SQL_INJECTION_MAXLENGTH: 7
+SQL_INJECTION_BLACKLIST: ["'", '"', ';', '=', '(', ')', '[', ']', '{', '}', '\\', '-', '*', '/']
