@@ -1,0 +1,17 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+Maniverse.egg-info/PKG-INFO
+Maniverse.egg-info/SOURCES.txt
+Maniverse.egg-info/dependency_links.txt
+Maniverse.egg-info/top_level.txt
+src/PyManiverse.cpp
+src/Manifold/Grassmann.cpp
+src/Manifold/Manifold.cpp
+src/Manifold/Orthogonal.cpp
+src/Manifold/Simplex.cpp
+src/Manifold/TransRotInvPointCloud.cpp
+src/Optimizer/HessUpdate.cpp
+src/Optimizer/SubSolver.cpp
+src/Optimizer/TrustRegion.cpp
