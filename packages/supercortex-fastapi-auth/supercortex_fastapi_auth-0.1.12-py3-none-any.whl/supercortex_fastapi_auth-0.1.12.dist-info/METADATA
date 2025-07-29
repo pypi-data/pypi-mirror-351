@@ -1,0 +1,90 @@
+Metadata-Version: 2.4
+Name: supercortex-fastapi-auth
+Version: 0.1.12
+Summary: Authentication and authorization for FastAPI applications
+Author-email: Isaac Harrison Gutekunst <isaac@supercortex.io>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/igutekunst/supercortex-auth
+Project-URL: Bug Tracker, https://github.com/igutekunst/supercortex-auth/issues
+Project-URL: Repository, https://github.com/igutekunst/supercortex-auth
+Project-URL: Documentation, https://github.com/igutekunst/supercortex-auth#readme
+Keywords: fastapi,authentication,authorization,jwt,supercortex
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: Security
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.68.0
+Requires-Dist: pyjwt[crypto]>=2.1.0
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: cryptography>=3.4.0
+
+# SuperCortex Auth Libraries
+
+This directory contains the client libraries for integrating with the SuperCortex Auth System.
+
+## Libraries
+
+### Python Library (`supercortex-fastapi-auth`)
+- **Location**: `src/supercortex_fastapi_auth/`
+- **Purpose**: Adds authentication support to FastAPI services
+- **Features**: JWT validation, middleware, dependencies, protected routes
+
+### React Library (`@supercortex/auth-client`)
+- **Location**: `superocrtex-react-auth/`
+- **Purpose**: Frontend integration with auth system
+- **Features**: React hooks, auth context, API interceptors
+
+## Quick Start
+
+See the main [README.md](../README.md) for complete integration instructions.
+
+### Python Library
+```python
+from supercortex_fastapi_auth import Auth
+
+auth = Auth(auth_url="https://auth.apps.yourdomain.com")
+auth.setup(app)
+```
+
+### React Library
+```tsx
+import { AuthProvider, useAuth } from '@supercortex/auth-client';
+
+// Wrap your app
+<AuthProvider>{children}</AuthProvider>
+
+// Use in components
+const { user, login, logout } = useAuth();
+```
+
+## Development
+
+### Python Library
+```bash
+cd libraries
+pip install -e .
+```
+
+### React Library
+```bash
+cd libraries/superocrtex-react-auth
+npm install
+npm run build
+```
+
+## Examples
+
+See the `examples/` directory for complete usage examples.
+
+## Documentation
+
+For complete documentation, architecture details, and integration guides, see the main [README.md](../README.md). 
