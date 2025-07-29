@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: google-iris
+Version: 0.0.1a0
+Summary: Iris
+Author: Iris Team
+Author-email: jaindeepali@google.com
+Requires-Python: >=3.10
+License-File: LICENSE
+Requires-Dist: typing
+Requires-Dist: absl-py>=1.0.0
+Requires-Dist: numpy<2.0.0,>=1.21.5
+Requires-Dist: scipy>=1.15.2
+Requires-Dist: dm-launchpad[tensorflow]
+Requires-Dist: ml-collections>=0.1.1
+Provides-Extra: all
+Requires-Dist: gym; extra == "all"
+Requires-Dist: pyglove; extra == "all"
+Requires-Dist: ribs; extra == "all"
+Provides-Extra: extras
+Requires-Dist: pyglove; extra == "extras"
+Requires-Dist: ribs; extra == "extras"
+Provides-Extra: rl
+Requires-Dist: gym; extra == "rl"
+
