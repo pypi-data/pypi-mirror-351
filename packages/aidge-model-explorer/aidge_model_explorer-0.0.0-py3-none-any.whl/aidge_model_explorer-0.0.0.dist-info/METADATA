@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: aidge_model_explorer
+Version: 0.0.0
+Summary: Aidge module for model explorer: https://github.com/google-ai-edge/model-explorer.
+Project-URL: Homepage, https://www.deepgreen.ai/en/platform
+Project-URL: Documentation, https://eclipse.dev/aidge/
+Project-URL: Repository, https://gitlab.eclipse.org/eclipse/aidge/aidge_model_explorer
+Project-URL: Issues, https://gitlab.eclipse.org/eclipse/aidge/aidge_model_explorer/-/issues/
+Project-URL: Changelog, https://gitlab.eclipse.org/eclipse/aidge/aidge_model_explorer/-/releases
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: ai-edge-model-explorer
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+
+# Aidge Model Adapter
+
+Plugin of the framework Google Model Explorer to visualize Aidge graphs.
+
+## Examples
+
+### Visualize ONNX file
+
+```bash
+model-explorer aidge_mobilenetV2.onnx --extensions=aidge_model_explorer
+```
+
+### Visualize wrapper method
+
+**Note:** This function will automatically embed the visualization in a Jupyter Notebook cell if ran in a notebook, otherwise it will simply open a page in your browser.
+
+```python
+import aidge_core
+import aidge_model_explorer
+
+lstm = aidge_core.LSTM(in_channels=4, hidden_channels=8, seq_length=5)
+model = aidge_core.get_connected_graph_view(lstm)
+
+aidge_model_explorer.visualize(model, "LSTM")
+```
+
+### Visualize from config
+
+```python
+import aidge_core
+import aidge_model_explorer
+import model_explorer
+
+
+lstm = aidge_core.LSTM(in_channels=4, hidden_channels=8, seq_length=5)
+lstm_model = aidge_core.get_connected_graph_view(lstm)
+
+config = aidge_model_explorer.config()
+config.add_graphview(lstm_model, "lstm")
+model_explorer.visualize_from_config(config)
+```
