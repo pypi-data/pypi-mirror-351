@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: unblob
+Version: 25.5.26
+Requires-Dist: arpy>=2.3.0
+Requires-Dist: attrs>=23.1.0
+Requires-Dist: click>=8.1.7
+Requires-Dist: cryptography>=41.0
+Requires-Dist: dissect-cstruct>=4.0,<5.0
+Requires-Dist: jefferson>=0.4.5
+Requires-Dist: lark>=1.1.8
+Requires-Dist: lief>=0.16.1
+Requires-Dist: lz4>=4.3.2,!=4.4.3
+Requires-Dist: plotext>=4.2.0,<6.0
+Requires-Dist: pluggy>=1.3.0
+Requires-Dist: pyfatfs>=1.0.5
+Requires-Dist: pyperscan>=0.3.0
+Requires-Dist: python-magic>=0.4.27
+Requires-Dist: pyzstd
+Requires-Dist: rarfile>=4.1
+Requires-Dist: rich>=13.3.5
+Requires-Dist: structlog>=24.1.0
+Requires-Dist: treelib>=1.7.0
+Requires-Dist: ubi-reader>=0.8.9
+License-File: LICENSE
+Summary: Extract files from any kind of container formats
+Author: ONEKEY <support@onekey.com>
+Author-email: ONEKEY <support@onekey.com>
+License: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+
+# unblob
+
+unblob is an _accurate, fast, and easy-to-use_ **extraction suite**. It parses
+unknown binary blobs for more than 30 different _archive, compression, and
+file-system formats_, **extracts** their **content recursively**, and **carves**
+out **unknown chunks** that have not been accounted for.
+
+Unblob is _free to use_, licensed with the _MIT license_. It has a
+Command Line Interface and can be used as a Python library.  
+This turns unblob into the perfect companion for extracting, **analyzing**,
+and **reverse engineering firmware images**.
+
+See more at https://unblob.org.
+
+## Demo
+
+![](docs/demo.svg)
+
