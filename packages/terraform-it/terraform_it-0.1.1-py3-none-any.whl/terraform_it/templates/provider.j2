@@ -1,0 +1,94 @@
+package provider
+
+import (
+	"context"
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/provider"
+	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"rivet/blob/main/sdks/api/full/go/client"
+	http "net/http"
+)
+
+var _ provider.Provider = &{{client_name}}Provider{}
+
+type {{client_name}}Provider struct {
+	// version is set to the provider version on release, "dev" when the
+	// provider is built and ran locally, and "test" when running acceptance
+	// testing.
+	version string
+}
+
+// {{client_name}}ProviderModel describes the provider data model.
+type {{client_name}}ProviderModel struct {
+	ServerURL types.String `tfsdk:"server_url"`
+}
+
+func (p *{{client_name}}Provider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "{{client_name | lower }}"
+	resp.Version = p.version
+}
+
+func (p *{{client_name}}Provider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		Description: {{description}},
+		Attributes: map[string]schema.Attribute{
+			"server_url": schema.StringAttribute{
+				MarkdownDescription: "Server URL",
+				Optional:            true,
+				Required:            false,
+			},
+		},
+	}
+}
+
+func (p *{{client_name}}Provider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	var data {{client_name}}ProviderModel
+
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	ServerURL := data.ServerURL.ValueString()
+
+	if ServerURL == "" {
+		ServerURL = "{{servers[0]['url']}}"
+	}
+
+	var ClientOptions := {
+		BaseURL: ServerURL,
+		HTTPClient: http.DefaultClient,
+	}
+
+	client, err := client.NewClient(ClientOptions)
+
+	resp.DataSourceData = client
+	resp.ResourceData = client
+}
+
+func (p *{{client_name}}Provider) Resources(ctx context.Context) []func() resource.Resource {
+	return []func() resource.Resource{
+		{% for resource in resources %}
+		New{{resource}}Resource,
+		{% endfor %}
+	}
+}
+
+func (p *{{client_name}}Provider) DataSources(ctx context.Context) []func() datasource.DataSource {
+	return []func() datasource.DataSource{
+		{% for resource in resources %}
+		New{{resource}}DataSource,
+		{% endfor %}
+	}
+}
+
+func New(version string) func() provider.Provider {
+	return func() provider.Provider {
+		return &{{client_name}}Provider{
+			version: version,
+		}
+	}
+}

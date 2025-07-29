@@ -1,0 +1,7 @@
+func (r *{{resource_name}}ResourceModel) RefreshFromShared{{read_operation}}Response(resp *shared.{{read_responseBody}}) {
+	if resp != nil {
+		{% for property in read_properties -%}
+		{{ property[0] }} = types.{{property[1] | capitalize}}Value(resp.{{ property[0] | capitalize }})
+		{% endfor %}
+	}
+}
