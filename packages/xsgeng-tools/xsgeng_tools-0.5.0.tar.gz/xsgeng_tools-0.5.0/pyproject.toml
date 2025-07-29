@@ -1,0 +1,25 @@
+[project]
+name = "xsgeng-tools"
+description = "my tools for pic"
+version = "0.5.0"
+dependencies = [
+    "numpy",
+    "scipy",
+]
+
+requires-python = ">=3.7"
+
+authors = [
+  {name = "xsgeng", email = "xsgeng@siom.ac.cn"}
+]
+
+license = {file = "LICENSE"}
+readme = "README.md"
+keywords = ["Plasma Physics", "Strong field"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+]
+
+[project.urls]
+Homepage = "https://github.com/xsgeng/mytools"
