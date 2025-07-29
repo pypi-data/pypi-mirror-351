@@ -1,0 +1,135 @@
+name,value_type,Is_metric,description
+account_currency,13,No,Currency that is used by your ad account.
+account_id,14,No,"The ID number of your ad account, which groups your advertising activity. Your ad account includes your campaigns, ads and billing."
+account_name,13,No,"The name of your ad account, which groups your advertising activity. Your ad account includes your campaigns, ads and billing."
+action_values,15,Yes,The total value of all conversions attributed to your ads.
+actions,15,Yes,"The total number of actions people took that are attributed to your ads. Actions may include engagement, clicks or conversions."
+ad_click_actions,15,Yes,ad_click_actions
+ad_id,14,No,The unique ID of the ad you're viewing in reporting.
+ad_impression_actions,15,Yes,ad_impression_actions
+ad_name,13,No,The name of the ad you're viewing in reporting.
+adset_end,13,No,adset_start
+adset_id,14,No,"The unique ID of the ad set you're viewing in reporting. An ad set is a group of ads that share the same budget, schedule, delivery optimization and targeting."
+adset_name,13,No,"The name of the ad set you're viewing in reporting. An ad set is a group of ads that share the same budget, schedule, delivery optimization and targeting."
+adset_start,13,No,adset_start
+age_targeting,13,No,age_targeting
+attribution_setting,13,No,"The default attribution window to be used when the attribution result is calculated. Each ad set has its own attribution setting value. The attribution setting for a campaign or an account is calculated based on existing ad sets. Returns mixed, indicating multiple attribution settings, skan, indicating SKAdNetwork attribution of iOS 14 app install campaigns, and na, indicating no ad set in a campaign or account. Both 1-day and 7-day click attribution settings will include iOS14.5 modeled conversions (from opted out users) which will provide a more accurate view of ad performance and enable our delivery systems to optimize based on more comprehensive data."
+auction_bid,14,Yes,auction_bid
+auction_competitiveness,14,Yes,auction_competitiveness
+auction_max_competitor_bid,14,Yes,auction_max_competitor_bid
+buying_type,13,No,"The method by which you pay for and target ads in your campaigns: through dynamic auction bidding, fixed-price bidding, or reach and frequency buying. This field is currently only visible at the campaign level."
+campaign_id,14,No,The unique ID number of the ad campaign you're viewing in reporting. Your campaign contains ad sets and ads.
+campaign_name,13,No,The name of the ad campaign you're viewing in reporting. Your campaign contains ad sets and ads.
+canvas_avg_view_percent,14,Yes,"The average percentage of the Instant Experience that people saw. An Instant Experience is a screen that opens after someone interacts with your ad on a mobile device. It may include a series of interactive or multimedia components, including video, images product catalog and more."
+canvas_avg_view_time,14,Yes,"The average total time, in seconds, that people spent viewing an Instant Experience. An Instant Experience is a screen that opens after someone interacts with your ad on a mobile device. It may include a series of interactive or multimedia components, including video, images product catalog and more."
+catalog_segment_value,15,Yes,The total value of all conversions from your catalog segment attributed to your ads.
+catalog_segment_value_mobile_purchase_roas,15,Yes,The total return on ad spend (ROAS) from mobile app purchases for your catalog segment.
+catalog_segment_value_omni_purchase_roas,15,Yes,The total return on ad spend (ROAS) from all purchases for your catalog segment.
+catalog_segment_value_website_purchase_roas,15,Yes,The total return on ad spend (ROAS) from website purchases for your catalog segment.
+clicks,14,Yes,The number of clicks on your ads.
+conversion_lead_rate,14,Yes,conversion_lead_rate
+conversion_rate_ranking,13,Yes,"A ranking of your ad's expected conversion rate. Your ad is ranked against ads with your optimization goal that competed for the same audience. Possible values include BELOW_AVERAGE_10, BELOW_AVERAGE_20, BELOW_AVERAGE_35, AVERAGE, ABOVE_AVERAGE, or UNKNOWN if there's not enough information about the ad. This metric is an ad relevance diagnostic and does not apply to campaigns or ad sets, only ads."
+conversion_values,15,Yes,"The total value of all conversions across all channels (i.e. website, mobile app, offline, and on-facebook) attributed to your ads. Visit the Ads Action Stats reference for a list of conversion values."
+conversions,15,Yes,"The total number of conversions across all channels (i.e. website, mobile app, offline, and on-facebook) attributed to your ads. Visit the Ads Action Stats reference for a list of conversions."
+converted_product_quantity,15,Yes,The number of products purchased which are recorded by your merchant partner's pixel or app SDK for a given product ID and driven by your ads. Has to be used together with converted product ID breakdown.
+converted_product_value,15,Yes,The value of purchases recorded by your merchant partner's pixel or app SDK for a given product ID and driven by your ads. Has to be used together with converted product ID breakdown.
+cost_per_15_sec_video_view,15,Yes,cost_per_15_sec_video_view
+cost_per_2_sec_continuous_video_view ,15,Yes,cost_per_2_sec_continuous_video_view 
+cost_per_action_type,15,Yes,The average cost of a relevant action.
+cost_per_ad_click,15,Yes,cost_per_ad_click
+cost_per_conversion,15,Yes,"The average cost of a conversion across all channels (i.e. website, mobile app, offline, and on-facebook). Conversions include contact, customize_product, donate, find_location, schedule, start_trial, submit_application, subscribe, recurring_subscription_payment, cancel_subscription, ad_click, ad_impression."
+cost_per_conversion_lead ,14,Yes,cost_per_conversion_lead 
+cost_per_dda_countby_convs,14,Yes,cost_per_dda_countby_convs
+cost_per_estimated_ad_recallers,14,Yes,"The average cost for each estimated ad recall lift. This metric is only available for assets in the Brand awareness, Post engagement and Video views Objectives. This metric is estimated and in development."
+cost_per_inline_link_click,14,Yes,The average cost of each inline link click.
+cost_per_inline_post_engagement,14,Yes,The average cost of each inline post engagement.
+cost_per_one_thousand_ad_impression,15,Yes,cost_per_one_thousand_ad_impression
+cost_per_outbound_click,15,Yes,The average cost for each outbound click.
+cost_per_thruplay,15,Yes,The average cost for each ThruPlay. This metric is in development.
+cost_per_unique_action_type,15,Yes,The average cost of each unique action. This metric is estimated.
+cost_per_unique_click,14,Yes,The average cost for each unique click (all). This metric is estimated.
+cost_per_unique_conversion,15,Yes,cost_per_unique_conversion
+cost_per_unique_inline_link_click,14,Yes,The average cost of each unique inline link click. This metric is estimated.
+cost_per_unique_outbound_click,15,Yes,The average cost for each unique outbound click. This metric is estimated.
+cpc,14,Yes,The average cost for each click (all).
+cpm,14,Yes,"The average cost for 1,000 impressions."
+cpp,14,Yes,"The average cost to reach 1,000 people. This metric is estimated."
+created_time,13,No,created_time
+creative_media_type,13,No,creative_media_type
+ctr,14,Yes,The percentage of times people saw your ad and performed a click (all).
+date_start,13,No,The start date for your data. This is controlled by the date range you've selected for your reporting view.
+date_stop,13,No,The end date for your data. This is controlled by the date range you've selected for your reporting view.
+dda_countby_convs,14,Yes,dda_countby_convs
+dda_results,16,Yes,Estimated incremental conversions caused by a given ad based on the objective and settings you selected. This is a modeled value.
+engagement_rate_ranking,13,Yes,"A ranking of your ad's expected engagement rate. Engagement includes all clicks, likes, comments and shares. Your ad is ranked against ads that competed for the same audience. Possible values include BELOW_AVERAGE_10, BELOW_AVERAGE_20, BELOW_AVERAGE_35, AVERAGE, ABOVE_AVERAGE, or UNKNOWN if there's not enough information about the ad. This metric is an ad relevance diagnostic and does not apply to campaigns or ad sets, only ads."
+estimated_ad_recall_rate,14,Yes,"The rate at which an estimated number of additional people, when asked, would remember seeing your ads within 2 days. This metric is only available for assets in the Brand awareness, Post engagement and Video views Objectives. This metric is estimated and in development."
+estimated_ad_recall_rate_lower_bound,14,Yes,estimated_ad_recall_rate_lower_bound
+estimated_ad_recall_rate_upper_bound,14,Yes,estimated_ad_recall_rate_upper_bound
+estimated_ad_recallers,14,Yes,"An estimate of the number of additional people who may remember seeing your ads, if asked, within 2 days. This metric is only available for assets in the Brand awareness, Post engagement and Video views Objectives. This metric is estimated and in development."
+estimated_ad_recallers_lower_bound,14,Yes,estimated_ad_recallers_lower_bound
+estimated_ad_recallers_upper_bound,14,Yes,estimated_ad_recallers_upper_bound
+frequency,14,Yes,The average number of times each person saw your ad. This metric is estimated.
+full_view_impressions,14,Yes,The number of Full Views on your Page's posts as a result of your ad.
+full_view_reach,14,Yes,The number of people who performed a Full View on your Page's post as a result of your ad.
+gender_targeting,13,No,gender_targeting
+impressions,14,Yes,The number of times your ads were on screen.
+inline_link_click_ctr,14,Yes,The percentage of time people saw your ads and performed an inline link click.
+inline_link_clicks,14,Yes,"The number of clicks on links to select destinations or experiences, on or off Facebook-owned properties. Inline link clicks use a fixed 1-day-click attribution window."
+inline_post_engagement,14,Yes,The total number of actions that people take involving your ads. Inline post engagements use a fixed 1-day-click attribution window.
+instagram_upcoming_event_reminders_set,14,Yes,"The number of reminders set on an upcoming event, taking into account reminders unset."
+instant_experience_clicks_to_open,14,Yes,The number of clicks on your ad that open an Instant Experience. This metric is in development.
+instant_experience_clicks_to_start,14,Yes,The number of times an interactive component in an Instant Experience starts. This metric is in development.
+instant_experience_outbound_clicks,15,Yes,The number of clicks on links in an Instant Experience that take people off Facebook-owned properties. This metric is in development.
+interactive_component_tap,15,Yes,interactive_component_tap
+labels,13,No,labels
+location,13,No,location
+marketing_messages_cost_per_delivered,14,Yes,marketing_messages_cost_per_delivered
+marketing_messages_cost_per_link_btn_click,14,Yes,marketing_messages_cost_per_link_btn_click
+marketing_messages_spend,14,Yes,marketing_messages_spend
+mobile_app_purchase_roas,15,Yes,The total return on ad spend (ROAS) from mobile app purchases. This is based on the value that you assigned when you set up the app event.
+objective,13,No,The objective reflecting the goal you want to achieve with your advertising. It may be different from the selected objective of the campaign in some cases.
+optimization_goal,13,No,The optimization goal you selected for your ad or ad set. Your optimization goal reflects what you want to optimize for the ads.
+outbound_clicks,15,Yes,The number of clicks on links that take people off Facebook-owned properties.
+outbound_clicks_ctr,15,Yes,The percentage of times people saw your ad and performed an outbound click.
+place_page_name,13,No,The name of the place page involved in impression or click. Has to be used together with Business Locations breakdown.
+purchase_roas,15,Yes,The total return on ad spend (ROAS) from purchases. This is based on information received from one or more of your connected Facebook Business Tools and attributed to your ads.
+qualifying_question_qualify_answer_rate,14,Yes,qualifying_question_qualify_answer_rate
+quality_ranking,13,Yes,"A ranking of your ad's perceived quality. Quality is measured using feedback on your ads and the post-click experience. Your ad is ranked against ads that competed for the same audience. Possible values include BELOW_AVERAGE_10, BELOW_AVERAGE_20, BELOW_AVERAGE_35, AVERAGE, ABOVE_AVERAGE, or UNKNOWN if there's not enough information about the ad. This metric is an ad relevance diagnostic (https://www.facebook.com/help/403110480493160) and does not apply to campaigns or ad sets, only ads."
+reach,14,Yes,"The number of people who saw your ads at least once. Reach is different from impressions, which may include multiple views of your ads by the same people. This metric is estimated."
+social_spend,14,Yes,The total amount you've spent so far for your ads showed with social information. (ex: Jane Doe likes this).
+spend,14,Yes,"The estimated total amount of money you've spent on your campaign, ad set or ad during its schedule. This metric is estimated."
+total_postbacks,13,Yes,The total number of postbacks received from Apple’s SKAdNetwork API. Postbacks from SKAdNetwork provide visibility into the number of app installs and post-install events that occurred. This metric is reported by a third-party API.
+total_postbacks_detailed,15,Yes,"Used to fetch detailed insights of total postbacks received from Apple’s SKAdNetwork API by using it along with breakdowns such as skan_campaign_id, is_conversion_id_modeled, etc. This metric is reported by a third-party API."
+total_postbacks_detailed_v4,15,Yes,The total number of postbacks received from Apple’s SKAdNetwork API. Postbacks from SKAdNetwork provide visibility into the number of app installs and post-install events that occurred. This metric is reported by a third-party API.
+user_segment_key,13,No,"The user segment (ex: new, existing) of Advantage+ Shopping Campaigns (ASC). Existing user is specified by the custom audience in ASC settings."
+unique_actions,15,Yes,unique_actions
+unique_clicks,14,Yes,unique_clicks
+unique_conversions,15,Yes,unique_conversions
+unique_ctr,14,Yes,unique_ctr
+unique_inline_link_click_ctr,14,Yes,unique_inline_link_click_ctr
+unique_inline_link_clicks,14,Yes,unique_inline_link_clicks
+unique_link_clicks_ctr,14,Yes,unique_link_clicks_ctr
+unique_outbound_clicks,15,Yes,unique_outbound_clicks
+unique_outbound_clicks_ctr,15,Yes,unique_outbound_clicks_ctr
+unique_video_continuous_2_sec_watched_actions,15,Yes,unique_video_continuous_2_sec_watched_actions
+unique_video_view_15_sec,15,Yes,unique_video_view_15_sec
+updated_time,13,No,updated_time
+video_15_sec_watched_actions,15,Yes,"The number of times your video played for at least 15 seconds, or for nearly its total length if it's shorter than 30 seconds. For each impression of a video, we'll count video views separately and exclude any time spent replaying the video."
+video_30_sec_watched_actions,15,Yes,"The number of times your video played for at least 30 seconds, or for nearly its total length if it's shorter than 30 seconds. For each impression of a video, we'll count video views separately and exclude any time spent replaying the video."
+video_avg_time_watched_actions,15,Yes,"The average time a video was played, including any time spent replaying the video for a single impression."
+video_continuous_2_sec_watched_actions,15,Yes,"The average time a video was played, including any time spent replaying the video for a single impression."
+video_p100_watched_actions,15,Yes,"The number of times your video was played at 100% of its length, including plays that skipped to this point."
+video_p25_watched_actions,15,Yes,"The number of times your video was played at 25% of its length, including plays that skipped to this point."
+video_p50_watched_actions,15,Yes,"The number of times your video was played at 50% of its length, including plays that skipped to this point."
+video_p75_watched_actions,15,Yes,"The number of times your video was played at 75% of its length, including plays that skipped to this point."
+video_p95_watched_actions,15,Yes,"The number of times your video was played at 95% of its length, including plays that skipped to this point."
+video_play_actions,15,Yes,"The number of times your video starts to play. This is counted for each impression of a video, and excludes replays. This metric is in development."
+video_play_curve_actions,17,Yes,"A video-play based curve graph that illustrates the percentage of video plays that reached a given second. Entries 0 to 14 represent seconds 0 thru 14. Entries 15 to 17 represent second ranges [15 to 20), [20 to 25), and [25 to 30). Entries 18 to 20 represent second ranges [30 to 40), [40 to 50), and [50 to 60). Entry 21 represents plays over 60 seconds."
+video_play_retention_0_to_15s_actions,17,Yes,video_play_retention_0_to_15s_actions
+video_play_retention_20_to_60s_actions,17,Yes,video_play_retention_20_to_60s_actions
+video_play_retention_graph_actions,17,Yes,video_play_retention_graph_actions
+video_thruplay_watched_actions,15,Yes,video_thruplay_watched_actions
+video_time_watched_actions,15,Yes,video_time_watched_actions
+website_ctr,15,Yes,The percentage of times people saw your ad and performed a link click.
+website_purchase_roas,15,Yes,The total return on ad spend (ROAS) from website purchases. This is based on the value of all conversions recorded by the Facebook pixel on your website and attributed to your ads.
+wish_bid,14,Yes,wish_bid

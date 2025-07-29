@@ -1,0 +1,44 @@
+name,description
+ad_format_asset,"The ID of the ad format asset involved in impression, click, or action"
+age,The age range of the people you've reached.
+app_id,"The ID of the application associated with the Ad Account or Campaign requested. The application information, including its ID, is viewable in the App Dashboard."
+body_asset,"The ID of the body asset involved in impression, click, or action."
+call_to_action_asset,"The ID of the call to action asset involved in impression, click, or action."
+coarse_conversion_value,"Allows advertisers and ad networks to receive directional post-install quality insights when the volume of campaign conversions isn't high enough to meet the privacy threshold needed to unlock the standard conversion value. Possible values of this breakdown are low, medium and high."
+country,"The country where the people you've reached are located. This is based on information, such as a person's hometown, their current city, and the geographical location where they tend to be when they visit Meta."
+description_asset,"The ID of the description asset involved in impression, click, or action."
+fidelity_type,"To differentiate StoreKit-rendered ads from view-through ads, SKAdNetwork defines a fidelity-type parameter, which you include in the ad signature and receive in the install-validation postback. Use a fidelity-type value of 1 for StoreKit-rendered ads and attributable web ads, and 0 for view-through ads."
+gender,Gender of people you've reached. People who don't list their gender are shown as 'not specified'.
+hsid,"The hsid key is available for ad impressions that use SKAdNetwork 4 and later. This integer can have up to four digits. You can encode information about your advertisement in each set of digits; you may receive two, three, or all four digits of the sourceIdentifier in the first winning postback, depending on the ad impression's postback data tier."
+image_asset,"The ID of the image asset involved in impression, click, or action."
+impression_device,"The device where your last ad was served to someone on Meta. For example \""iPhone\"" if someone viewed your ad on an iPhone."
+is_conversion_id_modeled,"A boolean flag that indicates whether the conversion_bits are modeled. A 0 indicates conversion_bits aren't modeled, and a 1 indicates that conversion_bits are modeled."
+landing_destination,landing_destination
+link_url_asset,"The ID of the URL asset involved in impression, click or action."
+mdsa_landing_destination,mdsa_landing_destination
+media_asset_url,media_asset_url
+media_creator,media_creator
+media_destination_url,media_destination_url
+media_format,media_format
+media_origin_url,media_origin_url
+media_text_content,media_text_content
+postback_sequence_index,"Sequence of postbacks received from SkAdNetwork API version 4.0. Possible values of this breakdown are 0 (first postback), 1 (second postback) and 2 (third postback)."
+product_id,"The ID of the product involved in impression, click, or action."
+redownload,Boolean flag that indicates the customer redownloaded and reinstalled the app when the value is true. A 1 indicates customer has reinstalled the app and 0 indicates that customer hasn’t reinstalled the app.
+region,"The regions where the people you've reached are located. This is based on information such as a person's hometown, their current city and the geographical location where they tend to be when they visit Facebook."
+skan_campaign_id,The raw campaign ID received as a part of Skan postback from iOS 15+.
+skan_conversion_id,The assigned Conversion ID (also referred to as Priority ID) of the event and/or event bundle configured in the application’s SKAdNetwork configuration schema. The app events configuration can be viewed and adjusted in Facebook Events Manager. You can learn more about configuring your app events for Apple's SKAdNetwork here.
+skan_version,skan_version
+title_asset,"The ID of the title asset involved in impression, click or action."
+video_asset,"The ID of the video asset involved in impression, click or action."
+dma,The Designated Market Area (DMA) regions are the 210 geographic areas in the United States in which local television viewing is measured by The Nielsen Company.
+frequency_value,The number of times an ad in your Reach and Frequency campaign was served to each Accounts Center account.
+hourly_stats_aggregated_by_advertiser_time_zone,"Hourly breakdown aggregated by the time ads were delivered in the advertiser's time zone. For example, if your ads are scheduled to run from 9 AM to 11 AM, but they reach audiences in multiple time zones, they may deliver from 9 AM to 1 PM in the advertiser's time zone. Stats will be aggregated into four groups 9 AM - 10 AM, 10 AM - 11 AM, 11 AM - 12 PM, and 12 PM - 1 PM."
+hourly_stats_aggregated_by_audience_time_zone,"Hourly breakdown aggregated by the time ads were delivered in the audiences' time zone. For example, if your ads are scheduled to run from 9:00 am to 11:00 am, but they reach audiences in multiple time zones, they may deliver from 9:00 am to 1:00 pm in the advertiser's time zone. Stats are aggregated into 2 groups: 9:00 am to 10:00 am and 10:00 am to 11:00 am."
+mmm,mmm
+place_page_id,The ID of the place page involved in impression or click.
+publisher_platform,"Which platform your ad was shown, for example on Facebook, Instagram, or Audience Network."
+platform_position,"Where your ad was shown within a platform, for example on Facebook desktop Feed, or Instagram Mobile Feed."
+device_platform,"The type of device, mobile or desktop, used by people when they viewed or clicked on an ad, as shown in ads reporting."
+standard_event_content_type,standard_event_content_type
+marketing_messages_btn_name,marketing_messages_btn_name

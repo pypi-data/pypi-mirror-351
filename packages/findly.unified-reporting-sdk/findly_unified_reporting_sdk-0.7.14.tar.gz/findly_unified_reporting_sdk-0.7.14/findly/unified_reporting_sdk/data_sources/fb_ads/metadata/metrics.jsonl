@@ -1,0 +1,102 @@
+{"name":"action_values","value_type":15,"description":"The total value of all conversions attributed to your ads.", "is_numeric": true}
+{"name":"actions","value_type":15,"description":"The total number of actions people took that are attributed to your ads. Actions may include engagement, clicks or conversions.", "is_numeric": true}
+{"name":"ad_click_actions","value_type":15,"description":"ad_click_actions", "is_numeric": true}
+{"name":"ad_impression_actions","value_type":15,"description":"ad_impression_actions", "is_numeric": true}
+{"name":"auction_bid","value_type":14,"description":"auction_bid", "is_numeric": true}
+{"name":"auction_competitiveness","value_type":14,"description":"auction_competitiveness", "is_numeric": true}
+{"name":"auction_max_competitor_bid","value_type":14,"description":"auction_max_competitor_bid", "is_numeric": true}
+{"name":"canvas_avg_view_percent","value_type":14,"description":"The average percentage of the Instant Experience that people saw. An Instant Experience is a screen that opens after someone interacts with your ad on a mobile device. It may include a series of interactive or multimedia components, including video, images product catalog and more.", "is_numeric": true}
+{"name":"canvas_avg_view_time","value_type":14,"description":"The average total time, in seconds, that people spent viewing an Instant Experience. An Instant Experience is a screen that opens after someone interacts with your ad on a mobile device. It may include a series of interactive or multimedia components, including video, images product catalog and more.", "is_numeric": true}
+{"name":"catalog_segment_value","value_type":15,"description":"The total value of all conversions from your catalog segment attributed to your ads.", "is_numeric": true}
+{"name":"catalog_segment_value_mobile_purchase_roas","value_type":15,"description":"The total return on ad spend (ROAS) from mobile app purchases for your catalog segment.", "is_numeric": true}
+{"name":"catalog_segment_value_omni_purchase_roas","value_type":15,"description":"The total return on ad spend (ROAS) from all purchases for your catalog segment.", "is_numeric": true}
+{"name":"catalog_segment_value_website_purchase_roas","value_type":15,"description":"The total return on ad spend (ROAS) from website purchases for your catalog segment.", "is_numeric": true}
+{"name":"clicks","value_type":14,"description":"The number of clicks on your ads.", "is_numeric": true}
+{"name":"conversion_lead_rate","value_type":14,"description":"conversion_lead_rate", "is_numeric": true}
+{"name":"conversion_rate_ranking","value_type":13,"description":"A ranking of your ad's expected conversion rate. Your ad is ranked against ads with your optimization goal that competed for the same audience. Possible values include BELOW_AVERAGE_10, BELOW_AVERAGE_20, BELOW_AVERAGE_35, AVERAGE, ABOVE_AVERAGE, or UNKNOWN if there's not enough information about the ad. This metric is an ad relevance diagnostic and does not apply to campaigns or ad sets, only ads.", "is_numeric": false}
+{"name":"conversion_values","value_type":15,"description":"The total value of all conversions across all channels (i.e. website, mobile app, offline, and on-facebook) attributed to your ads. Visit the Ads Action Stats reference for a list of conversion values.", "is_numeric": true}
+{"name":"conversions","value_type":15,"description":"The total number of conversions across all channels (i.e. website, mobile app, offline, and on-facebook) attributed to your ads. Visit the Ads Action Stats reference for a list of conversions.", "is_numeric": true}
+{"name":"converted_product_quantity","value_type":15,"description":"The number of products purchased which are recorded by your merchant partner's pixel or app SDK for a given product ID and driven by your ads. Has to be used together with converted product ID breakdown.", "is_numeric": true}
+{"name":"converted_product_value","value_type":15,"description":"The value of purchases recorded by your merchant partner's pixel or app SDK for a given product ID and driven by your ads. Has to be used together with converted product ID breakdown.", "is_numeric": true}
+{"name":"cost_per_15_sec_video_view","value_type":15,"description":"cost_per_15_sec_video_view", "is_numeric": true}
+{"name":"cost_per_2_sec_continuous_video_view ","value_type":15,"description":"cost_per_2_sec_continuous_video_view ", "is_numeric": true}
+{"name":"cost_per_action_type","value_type":15,"description":"The average cost of a relevant action.", "is_numeric": true}
+{"name":"cost_per_ad_click","value_type":15,"description":"cost_per_ad_click", "is_numeric": true}
+{"name":"cost_per_conversion","value_type":15,"description":"The average cost of a conversion across all channels (i.e. website, mobile app, offline, and on-facebook). Conversions include contact, customize_product, donate, find_location, schedule, start_trial, submit_application, subscribe, recurring_subscription_payment, cancel_subscription, ad_click, ad_impression.", "is_numeric": true}
+{"name":"cost_per_conversion_lead ","value_type":14,"description":"cost_per_conversion_lead ", "is_numeric": true}
+{"name":"cost_per_dda_countby_convs","value_type":14,"description":"cost_per_dda_countby_convs", "is_numeric": true}
+{"name":"cost_per_estimated_ad_recallers","value_type":14,"description":"The average cost for each estimated ad recall lift. This metric is only available for assets in the Brand awareness, Post engagement and Video views Objectives. This metric is estimated and in development.", "is_numeric": true}
+{"name":"cost_per_inline_link_click","value_type":14,"description":"The average cost of each inline link click.", "is_numeric": true}
+{"name":"cost_per_inline_post_engagement","value_type":14,"description":"The average cost of each inline post engagement.", "is_numeric": true}
+{"name":"cost_per_one_thousand_ad_impression","value_type":15,"description":"cost_per_one_thousand_ad_impression", "is_numeric": true}
+{"name":"cost_per_outbound_click","value_type":15,"description":"The average cost for each outbound click.", "is_numeric": true}
+{"name":"cost_per_thruplay","value_type":15,"description":"The average cost for each ThruPlay. This metric is in development.", "is_numeric": true}
+{"name":"cost_per_unique_action_type","value_type":15,"description":"The average cost of each unique action. This metric is estimated.", "is_numeric": true}
+{"name":"cost_per_unique_click","value_type":14,"description":"The average cost for each unique click (all). This metric is estimated.", "is_numeric": true}
+{"name":"cost_per_unique_inline_link_click","value_type":14,"description":"The average cost of each unique inline link click. This metric is estimated.", "is_numeric": true}
+{"name":"cost_per_unique_outbound_click","value_type":15,"description":"The average cost for each unique outbound click. This metric is estimated.", "is_numeric": true}
+{"name":"cpc","value_type":14,"description":"The average cost for each click (all).", "is_numeric": true}
+{"name":"cpm","value_type":14,"description":"The average cost for 1,000 impressions.", "is_numeric": true}
+{"name":"cpp","value_type":14,"description":"The average cost to reach 1,000 people. This metric is estimated.", "is_numeric": true}
+{"name":"ctr","value_type":14,"description":"The percentage of times people saw your ad and performed a click (all).", "is_numeric": true}
+{"name":"dda_countby_convs","value_type":14,"description":"dda_countby_convs", "is_numeric": true}
+{"name":"dda_results","value_type":16,"description":"Estimated incremental conversions caused by a given ad based on the objective and settings you selected. This is a modeled value.", "is_numeric": true}
+{"name":"engagement_rate_ranking","value_type":13,"description":"A ranking of your ad's expected engagement rate. Engagement includes all clicks, likes, comments and shares. Your ad is ranked against ads that competed for the same audience. Possible values include BELOW_AVERAGE_10, BELOW_AVERAGE_20, BELOW_AVERAGE_35, AVERAGE, ABOVE_AVERAGE, or UNKNOWN if there's not enough information about the ad. This metric is an ad relevance diagnostic and does not apply to campaigns or ad sets, only ads.", "is_numeric": false}
+{"name":"estimated_ad_recall_rate","value_type":14,"description":"The rate at which an estimated number of additional people, when asked, would remember seeing your ads within 2 days. This metric is only available for assets in the Brand awareness, Post engagement and Video views Objectives. This metric is estimated and in development.", "is_numeric": true}
+{"name":"estimated_ad_recallers","value_type":14,"description":"An estimate of the number of additional people who may remember seeing your ads, if asked, within 2 days. This metric is only available for assets in the Brand awareness, Post engagement and Video views Objectives. This metric is estimated and in development.", "is_numeric": true}
+{"name":"frequency","value_type":14,"description":"The average number of times each person saw your ad. This metric is estimated.", "is_numeric": true}
+{"name":"full_view_impressions","value_type":14,"description":"The number of Full Views on your Page's posts as a result of your ad.", "is_numeric": true}
+{"name":"full_view_reach","value_type":14,"description":"The number of people who performed a Full View on your Page's post as a result of your ad.", "is_numeric": true}
+{"name":"impressions","value_type":14,"description":"The number of times your ads were on screen.", "is_numeric": true}
+{"name":"inline_link_click_ctr","value_type":14,"description":"The percentage of time people saw your ads and performed an inline link click.", "is_numeric": true}
+{"name":"inline_link_clicks","value_type":14,"description":"The number of clicks on links to select destinations or experiences, on or off Facebook-owned properties. Inline link clicks use a fixed 1-day-click attribution window.", "is_numeric": true}
+{"name":"inline_post_engagement","value_type":14,"description":"The total number of actions that people take involving your ads. Inline post engagements use a fixed 1-day-click attribution window.", "is_numeric": true}
+{"name":"instagram_upcoming_event_reminders_set","value_type":14,"description":"The number of reminders set on an upcoming event, taking into account reminders unset.", "is_numeric": true}
+{"name":"instant_experience_clicks_to_open","value_type":14,"description":"The number of clicks on your ad that open an Instant Experience. This metric is in development.", "is_numeric": true}
+{"name":"instant_experience_clicks_to_start","value_type":14,"description":"The number of times an interactive component in an Instant Experience starts. This metric is in development.", "is_numeric": true}
+{"name":"instant_experience_outbound_clicks","value_type":15,"description":"The number of clicks on links in an Instant Experience that take people off Facebook-owned properties. This metric is in development.", "is_numeric": true}
+{"name":"interactive_component_tap","value_type":15,"description":"interactive_component_tap", "is_numeric": true}
+{"name":"marketing_messages_cost_per_delivered","value_type":14,"description":"marketing_messages_cost_per_delivered", "is_numeric": true}
+{"name":"marketing_messages_cost_per_link_btn_click","value_type":14,"description":"marketing_messages_cost_per_link_btn_click", "is_numeric": true}
+{"name":"marketing_messages_spend","value_type":14,"description":"marketing_messages_spend", "is_numeric": true}
+{"name":"mobile_app_purchase_roas","value_type":15,"description":"The total return on ad spend (ROAS) from mobile app purchases. This is based on the value that you assigned when you set up the app event.", "is_numeric": true}
+{"name":"outbound_clicks","value_type":15,"description":"The number of clicks on links that take people off Facebook-owned properties.", "is_numeric": true}
+{"name":"outbound_clicks_ctr","value_type":15,"description":"The percentage of times people saw your ad and performed an outbound click.", "is_numeric": true}
+{"name":"purchase_roas","value_type":15,"description":"The total return on ad spend (ROAS) from purchases. This is based on information received from one or more of your connected Facebook Business Tools and attributed to your ads.", "is_numeric": true}
+{"name":"qualifying_question_qualify_answer_rate","value_type":14,"description":"qualifying_question_qualify_answer_rate", "is_numeric": true}
+{"name":"quality_ranking","value_type":13,"description":"A ranking of your ad's perceived quality. Quality is measured using feedback on your ads and the post-click experience. Your ad is ranked against ads that competed for the same audience. Possible values include BELOW_AVERAGE_10, BELOW_AVERAGE_20, BELOW_AVERAGE_35, AVERAGE, ABOVE_AVERAGE, or UNKNOWN if there's not enough information about the ad. This metric is an ad relevance diagnostic (https:\/\/www.facebook.com\/help\/403110480493160) and does not apply to campaigns or ad sets, only ads.", "is_numeric": false}
+{"name":"reach","value_type":14,"description":"The number of people who saw your ads at least once. Reach is different from impressions, which may include multiple views of your ads by the same people. This metric is estimated.", "is_numeric": true}
+{"name":"social_spend","value_type":14,"description":"The total amount you've spent so far for your ads showed with social information. (ex: Jane Doe likes this).", "is_numeric": true}
+{"name":"spend","value_type":14,"description":"The estimated total amount of money you've spent on your campaign, ad set or ad during its schedule. This metric is estimated.", "is_numeric": true}
+{"name":"total_postbacks","value_type":14,"description":"The total number of postbacks received from Apple\u2019s SKAdNetwork API. Postbacks from SKAdNetwork provide visibility into the number of app installs and post-install events that occurred. This metric is reported by a third-party API.", "is_numeric": true}
+{"name":"total_postbacks_detailed","value_type":15,"description":"Used to fetch detailed insights of total postbacks received from Apple\u2019s SKAdNetwork API by using it along with breakdowns such as skan_campaign_id, is_conversion_id_modeled, etc. This metric is reported by a third-party API.", "is_numeric": true}
+{"name":"total_postbacks_detailed_v4","value_type":15,"description":"The total number of postbacks received from Apple\u2019s SKAdNetwork API. Postbacks from SKAdNetwork provide visibility into the number of app installs and post-install events that occurred. This metric is reported by a third-party API.", "is_numeric": true}
+{"name":"unique_actions","value_type":15,"description":"unique_actions", "is_numeric": true}
+{"name":"unique_clicks","value_type":14,"description":"unique_clicks", "is_numeric": true}
+{"name":"unique_ctr","value_type":14,"description":"unique_ctr", "is_numeric": true}
+{"name":"unique_inline_link_click_ctr","value_type":14,"description":"unique_inline_link_click_ctr", "is_numeric": true}
+{"name":"unique_inline_link_clicks","value_type":14,"description":"unique_inline_link_clicks", "is_numeric": true}
+{"name":"unique_link_clicks_ctr","value_type":14,"description":"unique_link_clicks_ctr", "is_numeric": true}
+{"name":"unique_outbound_clicks","value_type":15,"description":"unique_outbound_clicks", "is_numeric": true}
+{"name":"unique_outbound_clicks_ctr","value_type":15,"description":"unique_outbound_clicks_ctr", "is_numeric": true}
+{"name":"unique_video_continuous_2_sec_watched_actions","value_type":15,"description":"unique_video_continuous_2_sec_watched_actions", "is_numeric": true}
+{"name":"unique_video_view_15_sec","value_type":15,"description":"unique_video_view_15_sec", "is_numeric": true}
+{"name":"video_15_sec_watched_actions","value_type":15,"description":"The number of times your video played for at least 15 seconds, or for nearly its total length if it's shorter than 30 seconds. For each impression of a video, we'll count video views separately and exclude any time spent replaying the video.", "is_numeric": true}
+{"name":"video_30_sec_watched_actions","value_type":15,"description":"The number of times your video played for at least 30 seconds, or for nearly its total length if it's shorter than 30 seconds. For each impression of a video, we'll count video views separately and exclude any time spent replaying the video.", "is_numeric": true}
+{"name":"video_avg_time_watched_actions","value_type":15,"description":"The average time a video was played, including any time spent replaying the video for a single impression.", "is_numeric": true}
+{"name":"video_continuous_2_sec_watched_actions","value_type":15,"description":"The average time a video was played, including any time spent replaying the video for a single impression.", "is_numeric": true}
+{"name":"video_p100_watched_actions","value_type":15,"description":"The number of times your video was played at 100% of its length, including plays that skipped to this point.", "is_numeric": true}
+{"name":"video_p25_watched_actions","value_type":15,"description":"The number of times your video was played at 25% of its length, including plays that skipped to this point.", "is_numeric": true}
+{"name":"video_p50_watched_actions","value_type":15,"description":"The number of times your video was played at 50% of its length, including plays that skipped to this point.", "is_numeric": true}
+{"name":"video_p75_watched_actions","value_type":15,"description":"The number of times your video was played at 75% of its length, including plays that skipped to this point.", "is_numeric": true}
+{"name":"video_p95_watched_actions","value_type":15,"description":"The number of times your video was played at 95% of its length, including plays that skipped to this point.", "is_numeric": true}
+{"name":"video_play_actions","value_type":15,"description":"The number of times your video starts to play. This is counted for each impression of a video, and excludes replays. This metric is in development.", "is_numeric": true}
+{"name":"video_play_curve_actions","value_type":17,"description":"A video-play based curve graph that illustrates the percentage of video plays that reached a given second. Entries 0 to 14 represent seconds 0 thru 14. Entries 15 to 17 represent second ranges [15 to 20), [20 to 25), and [25 to 30). Entries 18 to 20 represent second ranges [30 to 40), [40 to 50), and [50 to 60). Entry 21 represents plays over 60 seconds.", "is_numeric": true}
+{"name":"video_play_retention_0_to_15s_actions","value_type":17,"description":"video_play_retention_0_to_15s_actions", "is_numeric": true}
+{"name":"video_play_retention_20_to_60s_actions","value_type":17,"description":"video_play_retention_20_to_60s_actions", "is_numeric": true}
+{"name":"video_play_retention_graph_actions","value_type":17,"description":"video_play_retention_graph_actions", "is_numeric": true}
+{"name":"video_thruplay_watched_actions","value_type":15,"description":"video_thruplay_watched_actions", "is_numeric": true}
+{"name":"video_time_watched_actions","value_type":15,"description":"video_time_watched_actions", "is_numeric": true}
+{"name":"website_ctr","value_type":15,"description":"The percentage of times people saw your ad and performed a link click.", "is_numeric": true}
+{"name":"website_purchase_roas","value_type":15,"description":"The total return on ad spend (ROAS) from website purchases. This is based on the value of all conversions recorded by the Facebook pixel on your website and attributed to your ads.", "is_numeric": true}
+{"name":"wish_bid","value_type":14,"description":"wish_bid", "is_numeric": true}
