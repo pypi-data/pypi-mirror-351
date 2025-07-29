@@ -1,0 +1,829 @@
+Metadata-Version: 2.4
+Name: cs-fileutils
+Version: 20250528
+Summary: My grab bag of convenience functions for files and filenames/pathnames.
+Keywords: python2,python3
+Author-email: Cameron Simpson <cs@cskk.id.au>
+Description-Content-Type: text/markdown
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Requires-Dist: cs.buffer>=20250428
+Requires-Dist: cs.context>=20250528
+Requires-Dist: cs.deco>=20250513
+Requires-Dist: cs.filestate>=20181107
+Requires-Dist: cs.fs>=20220429
+Requires-Dist: cs.gimmicks>=20211208
+Requires-Dist: cs.lex>=20200914
+Requires-Dist: cs.logutils>=20250323
+Requires-Dist: cs.pfx>=20210731
+Requires-Dist: cs.progress>=20250528
+Requires-Dist: cs.py3>=20220523
+Requires-Dist: cs.range>=20230701
+Requires-Dist: cs.resources>=20250325
+Requires-Dist: cs.result>=20250306
+Requires-Dist: cs.threads>=20250528
+Requires-Dist: cs.units>=20250528
+Project-URL: MonoRepo Commits, https://bitbucket.org/cameron_simpson/css/commits/branch/main
+Project-URL: Monorepo Git Mirror, https://github.com/cameron-simpson/css
+Project-URL: Monorepo Hg/Mercurial Mirror, https://hg.sr.ht/~cameron-simpson/css
+Project-URL: Source, https://github.com/cameron-simpson/css/blob/main/lib/python/cs/fileutils.py
+
+My grab bag of convenience functions for files and filenames/pathnames.
+
+*Latest release 20250528*:
+* atomic_filename: make all parameters after the filename keyword only.
+* makelockfile: include the Thread name in the Pfx context, write the pid and Thread name into the lock file.
+
+Short summary:
+* `abspath_from_file`: Return the absolute path of `path` with respect to `from_file`, as one might do for an include file.
+* `atomic_copy2`: Call `shutil.copy2` to copy `srcpath` to `dstpath` via a temporary file using `atomic_filename`. This differs from `shutil.copy2` in 2 ways: - it is an error if `dstpath` already exists unless you supply `exists_ok=True` - the new copy appears atomicly when the copy is complete instead of be visible partially complete during the copy The `follow_symlinks=True` parameter is passed to `shutil.copy2`. Other keyword parameters are passed to `atomic_filename`.
+* `atomic_filename`: A context manager to create `filename` atomicly on completion. This yields a `NamedTemporaryFile` to use to create the file contents. On completion the temporary file is renamed to the target name `filename`.
+* `BackedFile`: A RawIOBase duck type which uses a backing file for initial data and writes new data to a front scratch file.
+* `BackedFile_TestMethods`: Mixin for testing subclasses of BackedFile. Tests self.backed_fp.
+* `byteses_as_fd`: Deliver the iterable of bytes `bss` as a readable file descriptor. Return the file descriptor. Any keyword arguments are passed to `CornuCopyBuffer.as_fd`.
+* `common_path_prefix`: Return the common path prefix of the `paths`.
+* `compare`: Compare the contents of two file-like objects `f1` and `f2` for equality.
+* `copy_data`: Copy `nbytes` of data from `fpin` to `fpout`, return the number of bytes copied.
+* `crop_name`: Crop a file basename so as not to exceed `name_max` in length. Return the original `name` if it already short enough. Otherwise crop `name` before the file extension to make it short enough.
+* `datafrom`: General purpose reader for files yielding data from `offset`.
+* `datafrom_fd`: General purpose reader for file descriptors yielding data from `offset`. **Note**: This does not move the file descriptor position **if** the file is seekable.
+* `file_data`: Read `nbytes` of data from `fp` and yield the chunks as read.
+* `files_property`: A property whose value reloads if any of a list of files changes.
+* `find`: Walk a directory tree `path` yielding selected paths.
+* `findup`: Test the pathname `abspath(path)` and each of its ancestors against the callable `test`, yielding paths satisfying the test.
+* `gzifopen`: Context manager to open a file which may be a plain file or a gzipped file.
+* `iter_fd`: Iterate over data from the file descriptor `fd`.
+* `iter_file`: Iterate over data from the file `f`.
+* `lines_of`: Generator yielding lines from a file until EOF. Intended for file-like objects that lack a line iteration API.
+* `lockfile`: A context manager which takes and holds a lock file. An open file descriptor is kept for the lock file as well to aid locating the process holding the lock file using eg `lsof`. This is just a context manager shim for `makelockfile` and all keyword arguments are plumbed through.
+* `make_files_property`: Construct a decorator that watches multiple associated files.
+* `makelockfile`: Create a lockfile and return its path. If `keepopen`, return a `(lockpath,lockfd)` 2-tuple.
+* `max_suffix`: Compute the highest existing numeric suffix for names starting with `prefix`.
+* `mkdirn`: Create a new directory named `path+sep+n`, where `n` exceeds any name already present.
+* `NamedTemporaryCopy`: A context manager yielding a temporary copy of `filename` as returned by `NamedTemporaryFile(**nt_kw)`.
+* `NullFile`: Writable file that discards its input.
+* `Pathname`: Subclass of str presenting convenience properties useful for format strings related to file paths.
+* `poll_file`: Watch a file for modification by polling its state as obtained by `FileState()`. Call `reload_file(path)` if the state changes. Return `(new_state,reload_file(path))` if the file was modified and was unchanged (stable state) before and after the reload_file(). Otherwise return `(None,None)`.
+* `read_data`: Read `nbytes` of data from `fp`, return the data.
+* `read_from`: Generator to present text or data from an open file until EOF.
+* `ReadMixin`: Useful read methods to accomodate modes not necessarily available in a class.
+* `rename_excl`: Safely rRename `oldpath` to `newpath`. Raise `FileExistsError` if `newpath` already exists.
+* `rewrite`: Rewrite the file `filepath` with data from the file object `srcf`. Return `True` if the content was changed, `False` if unchanged.
+* `rewrite_cmgr`: Rewrite a file, presented as a context manager.
+* `RWFileBlockCache`: A scratch file for storing data.
+* `saferename`: Rename a path using `os.rename()`, but raise an exception if the target path already exists. Note: slightly racey.
+* `seekable`: Try to test whether a filelike object is seekable.
+* `Tee`: An object with .write, .flush and .close methods which copies data to multiple output files.
+* `tee`: Context manager duplicating `.write` and `.flush` from `fp` to `fp2`.
+* `tmpdir`: Return the pathname of the default temporary directory for scratch data, the environment variable `$TMPDIR` or `'/tmp'`.
+* `tmpdirn`: Make a new temporary directory with a numeric suffix.
+* `trysaferename`: A `saferename()` that returns `True` on success, `False` on failure.
+
+Module contents:
+- <a name="abspath_from_file"></a>`abspath_from_file(path, from_file)`: Return the absolute path of `path` with respect to `from_file`,
+  as one might do for an include file.
+- <a name="atomic_copy2"></a>`atomic_copy2(srcpath, dstpath, *, follow_symlinks=True, **af_kw)`: Call `shutil.copy2` to copy `srcpath` to `dstpath` via a
+  temporary file using `atomic_filename`.
+  This differs from `shutil.copy2` in 2 ways:
+  - it is an error if `dstpath` already exists unless you supply
+    `exists_ok=True`
+  - the new copy appears atomicly when the copy is complete
+    instead of be visible partially complete during the copy
+  The `follow_symlinks=True` parameter is passed to `shutil.copy2`.
+  Other keyword parameters are passed to `atomic_filename`.
+- <a name="atomic_filename"></a>`atomic_filename(filename, *, exists_ok=False, placeholder=False, dir=None, prefix=None, suffix=None, rename_func=None, **tempfile_kw)`: A context manager to create `filename` atomicly on completion.
+  This yields a `NamedTemporaryFile` to use to create the file contents.
+  On completion the temporary file is renamed to the target name `filename`.
+
+  If the caller decides to _not_ create the target they may remove the
+  temporary file. This is not considered an error.
+
+  Parameters:
+  * `filename`: the file name to create
+  * `exists_ok`: default `False`;
+    if true it not an error if `filename` already exists
+  * `placeholder`: create a placeholder file at `filename`
+    while the real contents are written to the temporary file
+  * `dir`: passed to `NamedTemporaryFile`, specifies the directory
+    to hold the temporary file; the default is `dirname(filename)`
+    to ensure the rename is atomic
+  * `prefix`: passed to `NamedTemporaryFile`, specifies a prefix
+    for the temporary file; the default is a dot (`'.'`) plus the prefix
+    from `splitext(basename(filename))`
+  * `suffix`: passed to `NamedTemporaryFile`, specifies a suffix
+    for the temporary file; the default is the extension obtained
+    from `splitext(basename(filename))`
+  * `rename_func`: a callable accepting `(tempname,filename)`
+    used to rename the temporary file to the final name; the
+    default is `os.rename` if `exists_ok` or `placeholder`,
+    otherwise `rename_excl`.
+    This parametr exists to accept something such as `FSTags.move`.
+  Other keyword arguments are passed to the `NamedTemporaryFile` constructor.
+
+  Example:
+
+      >>> import os
+      >>> from os.path import exists as existspath
+      >>> fn = 'test_atomic_filename'
+      >>> with atomic_filename(fn, mode='w') as f:
+      ...     assert not existspath(fn)
+      ...     print('foo', file=f)
+      ...     assert not existspath(fn)
+      ...
+      >>> assert existspath(fn)
+      >>> assert open(fn).read() == 'foo\n'
+      >>> os.remove(fn)
+- <a name="BackedFile"></a>`Class `BackedFile(ReadMixin)``: A RawIOBase duck type
+  which uses a backing file for initial data
+  and writes new data to a front scratch file.
+
+*`BackedFile.__init__(self, back_file, dirpath=None)`*:
+Initialise the BackedFile using `back_file` for the backing data.
+
+*`BackedFile.__enter__(self)`*:
+BackedFile instances offer a context manager that take the lock,
+allowing synchronous use of the file
+without implementing a suite of special methods like pread/pwrite.
+
+*`BackedFile.close(self)`*:
+Close the BackedFile.
+Flush contents. Close the front_file if necessary.
+
+*`BackedFile.datafrom(self, offset)`*:
+Generator yielding natural chunks from the file commencing at offset.
+
+*`BackedFile.seek(self, pos, whence=0)`*:
+Adjust the current file pointer offset.
+
+*`BackedFile.switch_back_file(self, new_back_file)`*:
+Switch out one back file for another. Return the old back file.
+
+*`BackedFile.tell(self)`*:
+Report the current file pointer offset.
+
+*`BackedFile.write(self, b)`*:
+Write data to the front_file.
+- <a name="BackedFile_TestMethods"></a>`Class `BackedFile_TestMethods``: Mixin for testing subclasses of BackedFile.
+  Tests self.backed_fp.
+
+*`BackedFile_TestMethods.test_BackedFile(self)`*:
+Test function for a BackedFile to use in unit test suites.
+- <a name="byteses_as_fd"></a>`byteses_as_fd(bss, **kw)`: Deliver the iterable of bytes `bss` as a readable file descriptor.
+        Return the file descriptor.
+        Any keyword arguments are passed to `CornuCopyBuffer.as_fd`.
+
+        Example:
+
+             # present a passphrase for use as in input file descrptor
+             # for a subprocess
+             rfd = byteses_as_fd([(passphrase + '
+  ').encode()])
+- <a name="common_path_prefix"></a>`common_path_prefix(*paths)`: Return the common path prefix of the `paths`.
+
+  Note that the common prefix of `'/a/b/c1'` and `'/a/b/c2'`
+  is `'/a/b/'`, _not_ `'/a/b/c'`.
+
+  Callers may find it useful to preadjust the supplied paths
+  with `normpath`, `abspath` or `realpath` from `os.path`;
+  see the `os.path` documentation for the various caveats
+  which go with those functions.
+
+  Examples:
+
+      >>> # the obvious
+      >>> common_path_prefix('', '')
+      ''
+      >>> common_path_prefix('/', '/')
+      '/'
+      >>> common_path_prefix('a', 'a')
+      'a'
+      >>> common_path_prefix('a', 'b')
+      ''
+      >>> # nonempty directory path prefixes end in os.sep
+      >>> common_path_prefix('/', '/a')
+      '/'
+      >>> # identical paths include the final basename
+      >>> common_path_prefix('p/a', 'p/a')
+      'p/a'
+      >>> # the comparison does not normalise paths
+      >>> common_path_prefix('p//a', 'p//a')
+      'p//a'
+      >>> common_path_prefix('p//a', 'p//b')
+      'p//'
+      >>> common_path_prefix('p//a', 'p/a')
+      'p/'
+      >>> common_path_prefix('p/a', 'p/b')
+      'p/'
+      >>> # the comparison strips complete unequal path components
+      >>> common_path_prefix('p/a1', 'p/a2')
+      'p/'
+      >>> common_path_prefix('p/a/b1', 'p/a/b2')
+      'p/a/'
+      >>> # contrast with cs.lex.common_prefix
+      >>> common_prefix('abc/def', 'abc/def1')
+      'abc/def'
+      >>> common_path_prefix('abc/def', 'abc/def1')
+      'abc/'
+      >>> common_prefix('abc/def', 'abc/def1', 'abc/def2')
+      'abc/def'
+      >>> common_path_prefix('abc/def', 'abc/def1', 'abc/def2')
+      'abc/'
+- <a name="compare"></a>`compare(f1, f2, mode='rb')`: Compare the contents of two file-like objects `f1` and `f2` for equality.
+
+  If `f1` or `f2` is a string, open the named file using `mode`
+  (default: `"rb"`).
+- <a name="copy_data"></a>`copy_data(fpin, fpout, nbytes, rsize=None)`: Copy `nbytes` of data from `fpin` to `fpout`,
+  return the number of bytes copied.
+
+  Parameters:
+  * `nbytes`: number of bytes to copy.
+    If `None`, copy until EOF.
+  * `rsize`: read size, default `DEFAULT_READSIZE`.
+- <a name="crop_name"></a>`crop_name(name, ext=None, name_max=255)`: Crop a file basename so as not to exceed `name_max` in length.
+  Return the original `name` if it already short enough.
+  Otherwise crop `name` before the file extension
+  to make it short enough.
+
+  Parameters:
+  * `name`: the file basename to crop
+  * `ext`: optional file extension;
+    the default is to infer the extension with `os.path.splitext`.
+  * `name_max`: optional maximum length, default: `255`
+- <a name="datafrom"></a>`datafrom(f, offset=None, readsize=None, maxlength=None)`: General purpose reader for files yielding data from `offset`.
+
+  *WARNING*: this function might move the file pointer.
+
+  Parameters:
+  * `f`: the file from which to read data;
+    if a string, the file is opened with mode="rb";
+    if an int, treated as an OS file descriptor;
+    otherwise presumed to be a file-like object.
+    If that object has a `.fileno()` method, treat that as an
+    OS file descriptor and use it.
+  * `offset`: starting offset for the data
+  * `maxlength`: optional maximum amount of data to yield
+  * `readsize`: read size, default DEFAULT_READSIZE.
+
+  For file-like objects, the read1 method is used in preference
+  to read if available. The file pointer is briefly moved during
+  fetches.
+- <a name="datafrom_fd"></a>`datafrom_fd(fd, offset=None, readsize=None, aligned=True, maxlength=None)`: General purpose reader for file descriptors yielding data from `offset`.
+  **Note**: This does not move the file descriptor position
+  **if** the file is seekable.
+
+  Parameters:
+  * `fd`: the file descriptor from which to read.
+  * `offset`: the offset from which to read.
+    If omitted, use the current file descriptor position.
+  * `readsize`: the read size, default: `DEFAULT_READSIZE`
+  * `aligned`: if true (the default), the first read is sized
+    to align the new offset with a multiple of `readsize`.
+  * `maxlength`: if specified yield no more than this many bytes of data.
+- <a name="file_data"></a>`file_data(fp, nbytes=None, rsize=None)`: Read `nbytes` of data from `fp` and yield the chunks as read.
+
+  Parameters:
+  * `nbytes`: number of bytes to read; if None read until EOF.
+  * `rsize`: read size, default DEFAULT_READSIZE.
+- <a name="files_property"></a>`files_property(func)`: A property whose value reloads if any of a list of files changes.
+
+  Note: this is just the default mode for `make_files_property`.
+
+  `func` accepts the file path and returns the new value.
+  The underlying attribute name is `'_'+func.__name__`,
+  the default from `make_files_property()`.
+  The attribute *{attr_name}*`_lock` is a mutex controlling access to the property.
+  The attributes *{attr_name}*`_filestates` and *{attr_name}*`_paths` track the
+  associated file states.
+  The attribute *{attr_name}*`_lastpoll` tracks the last poll time.
+
+  The decorated function is passed the current list of files
+  and returns the new list of files and the associated value.
+
+  One example use would be a configuration file with recurive
+  include operations; the inner function would parse the first
+  file in the list, and the parse would accumulate this filename
+  and those of any included files so that they can be monitored,
+  triggering a fresh parse if one changes.
+
+  Example:
+
+      class C(object):
+        def __init__(self):
+          self._foo_path = '.foorc'
+        @files_property
+        def foo(self,paths):
+          new_paths, result = parse(paths[0])
+          return new_paths, result
+
+  The load function is called on the first access and on every
+  access thereafter where an associated file's `FileState` has
+  changed and the time since the last successful load exceeds
+  the poll_rate (1s). An attempt at avoiding races is made by
+  ignoring reloads that raise exceptions and ignoring reloads
+  where files that were stat()ed during the change check have
+  changed state after the load.
+- <a name="find"></a>`find(path, select=None, sort_names=True)`: Walk a directory tree `path`
+  yielding selected paths.
+
+  Note: not selecting a directory prunes all its descendants.
+- <a name="findup"></a>`findup(path, test, first=False)`: Test the pathname `abspath(path)` and each of its ancestors
+  against the callable `test`,
+  yielding paths satisfying the test.
+
+  If `first` is true (default `False`)
+  this function always yields exactly one value,
+  either the first path satisfying the test or `None`.
+  This mode supports a use such as:
+
+      matched_path = next(findup(path, test, first=True))
+      # post condition: matched_path will be `None` on no match
+      # otherwise the first matching path
+- <a name="gzifopen"></a>`gzifopen(path, mode='r', *a, **kw)`: Context manager to open a file which may be a plain file or a gzipped file.
+
+  If `path` ends with `'.gz'` then the filesystem paths attempted
+  are `path` and `path` without the extension, otherwise the
+  filesystem paths attempted are `path+'.gz'` and `path`.  In
+  this way a path ending in `'.gz'` indicates a preference for
+  a gzipped file otherwise an uncompressed file.
+
+  However, if exactly one of the paths exists already then only
+  that path will be used.
+
+  Note that the single character modes `'r'`, `'a'`, `'w'` and `'x'`
+  are text mode for both uncompressed and gzipped opens,
+  like the builtin `open` and *unlike* `gzip.open`.
+  This is to ensure equivalent behaviour.
+- <a name="iter_fd"></a>`iter_fd(fd, **kw)`: Iterate over data from the file descriptor `fd`.
+- <a name="iter_file"></a>`iter_file(f, **kw)`: Iterate over data from the file `f`.
+- <a name="lines_of"></a>`lines_of(fp, partials=None)`: Generator yielding lines from a file until EOF.
+  Intended for file-like objects that lack a line iteration API.
+- <a name="lockfile"></a>`lockfile(path, _lockmap={}, _lockmap_lock=<unlocked _thread.lock object at 0x10f290750>, **makelockfile_kw)`: A context manager which takes and holds a lock file.
+  An open file descriptor is kept for the lock file as well
+  to aid locating the process holding the lock file using eg `lsof`.
+  This is just a context manager shim for `makelockfile`
+  and all keyword arguments are plumbed through.
+- <a name="make_files_property"></a>`make_files_property(attr_name=None, unset_object=None, poll_rate=1.0)`: Construct a decorator that watches multiple associated files.
+
+  Parameters:
+  * `attr_name`: the underlying attribute, default: `'_'+func.__name__`
+  * `unset_object`: the sentinel value for "uninitialised", default: `None`
+  * `poll_rate`: how often in seconds to poll the file for changes,
+    default from `DEFAULT_POLL_INTERVAL`: `1.0`
+
+  The attribute *attr_name*`_lock` controls access to the property.
+  The attributes *attr_name*`_filestates` and *attr_name*`_paths` track the
+  associated files' state.
+  The attribute *attr_name*`_lastpoll` tracks the last poll time.
+
+  The decorated function is passed the current list of files
+  and returns the new list of files and the associated value.
+
+  One example use would be a configuration file with recursive
+  include operations; the inner function would parse the first
+  file in the list, and the parse would accumulate this filename
+  and those of any included files so that they can be monitored,
+  triggering a fresh parse if one changes.
+
+  Example:
+
+      class C(object):
+        def __init__(self):
+          self._foo_path = '.foorc'
+        @files_property
+        def foo(self,paths):
+          new_paths, result = parse(paths[0])
+          return new_paths, result
+
+  The load function is called on the first access and on every
+  access thereafter where an associated file's `FileState` has
+  changed and the time since the last successful load exceeds
+  the `poll_rate`.
+
+  An attempt at avoiding races is made by
+  ignoring reloads that raise exceptions and ignoring reloads
+  where files that were `os.stat()`ed during the change check have
+  changed state after the load.
+- <a name="makelockfile"></a>`makelockfile(path, *, ext='.lock', poll_interval=None, timeout=None, runstate: Optional[cs.resources.RunState] = <function uses_runstate.<locals>.<lambda> at 0x10f05fb00>, keepopen=False, max_interval=37)`: Create a lockfile and return its path.
+  If `keepopen`, return a `(lockpath,lockfd)` 2-tuple.
+
+  The lockfile can be removed with `os.remove`.
+  This is the core functionality supporting the `lockfile()`
+  context manager.
+
+  Parameters:
+  * `path`: the base associated with the lock file,
+    often the filesystem object whose access is being managed.
+  * `ext`: the extension to the base used to construct the lockfile name.
+    Default: `".lock"`
+  * `timeout`: maximum time to wait before failing.
+    Default: `None` (wait forever).
+    Note that zero is an accepted value
+    and requires the lock to succeed on the first attempt.
+  * `poll_interval`: polling frequency when timeout is not 0.
+  * `runstate`: optional `RunState` duck instance supporting cancellation.
+    Note that if a cancelled `RunState` is provided
+    no attempt will be made to make the lockfile.
+  * `keepopen`: optional flag, default `False`:
+    if true, do not close the lockfile and return `(lockpath,lockfd)`
+    being the lock file path and the open file descriptor
+- <a name="max_suffix"></a>`max_suffix(dirpath, prefix)`: Compute the highest existing numeric suffix
+  for names starting with `prefix`.
+
+  This is generally used as a starting point for picking
+  a new numeric suffix.
+- <a name="mkdirn"></a>`mkdirn(path, sep='')`: Create a new directory named `path+sep+n`,
+  where `n` exceeds any name already present.
+
+  Parameters:
+  * `path`: the basic directory path.
+  * `sep`: a separator between `path` and `n`.
+    Default: `''`
+- <a name="NamedTemporaryCopy"></a>`NamedTemporaryCopy(f, progress=False, progress_label=None, **nt_kw)`: A context manager yielding a temporary copy of `filename`
+  as returned by `NamedTemporaryFile(**nt_kw)`.
+
+  Parameters:
+  * `f`: the name of the file to copy, or an open binary file,
+    or a `CornuCopyBuffer`
+  * `progress`: an optional progress indicator, default `False`;
+    if a `bool`, show a progress bar for the copy phase if true;
+    if an `int`, show a progress bar for the copy phase
+    if the file size equals or exceeds the value;
+    otherwise it should be a `cs.progress.Progress` instance
+  * `progress_label`: option progress bar label,
+    only used if a progress bar is made
+  Other keyword parameters are passed to `tempfile.NamedTemporaryFile`.
+- <a name="NullFile"></a>`Class `NullFile``: Writable file that discards its input.
+
+  Note that this is _not_ an open of `os.devnull`;
+  it just discards writes and is not the underlying file descriptor.
+
+*`NullFile.__init__(self)`*:
+Initialise the file offset to 0.
+
+*`NullFile.flush(self)`*:
+Flush buffered data to the subsystem.
+
+*`NullFile.write(self, data)`*:
+Discard data, advance file offset by length of data.
+- <a name="Pathname"></a>`Class `Pathname(builtins.str)``: Subclass of str presenting convenience properties useful for
+  format strings related to file paths.
+
+*`Pathname.__format__(self, fmt_spec)`*:
+Calling format(<Pathname>, fmt_spec) treat `fmt_spec` as a new style
+formatting string with a single positional parameter of `self`.
+
+*`Pathname.abs`*:
+The absolute form of this Pathname.
+
+*`Pathname.basename`*:
+The basename of this Pathname.
+
+*`Pathname.dirname`*:
+The dirname of the Pathname.
+
+*`Pathname.isabs`*:
+Whether this Pathname is an absolute Pathname.
+
+*`Pathname.short`*:
+The shortened form of this Pathname.
+
+*`Pathname.shorten(self, prefixes=None)`*:
+Shorten a Pathname using ~ and ~user.
+- <a name="poll_file"></a>`poll_file(path, old_state, reload_file, missing_ok=False)`: Watch a file for modification by polling its state as obtained
+  by `FileState()`.
+  Call `reload_file(path)` if the state changes.
+  Return `(new_state,reload_file(path))` if the file was modified
+  and was unchanged (stable state) before and after the reload_file().
+  Otherwise return `(None,None)`.
+
+  This may raise an `OSError` if the `path` cannot be `os.stat()`ed
+  and of course for any exceptions that occur calling `reload_file`.
+
+  If `missing_ok` is true then a failure to `os.stat()` which
+  raises `OSError` with `ENOENT` will just return `(None,None)`.
+- <a name="read_data"></a>`read_data(fp, nbytes, rsize=None)`: Read `nbytes` of data from `fp`, return the data.
+
+  Parameters:
+  * `nbytes`: number of bytes to copy.
+    If `None`, copy until EOF.
+  * `rsize`: read size, default `DEFAULT_READSIZE`.
+- <a name="read_from"></a>`read_from(fp, rsize=None, tail_mode=False, tail_delay=None)`: Generator to present text or data from an open file until EOF.
+
+  Parameters:
+  * `rsize`: read size, default: DEFAULT_READSIZE
+  * `tail_mode`: if true, yield an empty chunk at EOF, allowing resumption
+    if the file grows.
+- <a name="ReadMixin"></a>`Class `ReadMixin``: Useful read methods to accomodate modes not necessarily available in a class.
+
+  Note that this mixin presumes that the attribute `self._lock`
+  is a threading.RLock like context manager.
+
+  Classes using this mixin should consider overriding the default
+  .datafrom method with something more efficient or direct.
+
+*`ReadMixin.bufferfrom(self, offset)`*:
+Return a CornuCopyBuffer from the specified `offset`.
+
+*`ReadMixin.datafrom(self, offset, readsize=None)`*:
+Yield data from the specified `offset` onward in some
+approximation of the "natural" chunk size.
+
+*NOTE*: UNLIKE the global datafrom() function, this method
+MUST NOT move the logical file position. Implementors may need
+to save and restore the file pointer within a lock around
+the I/O if they do not use a direct access method like
+os.pread.
+
+The aspiration here is to read data with only a single call
+to the underlying storage, and to return the chunks in
+natural sizes instead of some default read size.
+
+Classes using this mixin must implement this method.
+
+*`ReadMixin.read(self, size=-1, offset=None, longread=False)`*:
+Read up to `size` bytes, honouring the "single system call"
+spirit unless `longread` is true.
+
+Parameters:
+* `size`: the number of bytes requested. A size of -1 requests
+  all bytes to the end of the file.
+* `offset`: the starting point of the read; if None, use the
+  current file position; if not None, seek to this position
+  before reading, even if `size` == 0.
+* `longread`: switch from "single system call" to "as many
+  as required to obtain `size` bytes"; short data will still
+  be returned if the file is too short.
+
+*`ReadMixin.read_n(self, n)`*:
+Read `n` bytes of data and return them.
+
+Unlike traditional file.read(), RawIOBase.read() may return short
+data, thus this workalike, which may only return short data if it
+hits EOF.
+
+*`ReadMixin.readinto(self, barray)`*:
+Read data into a bytearray.
+- <a name="rename_excl"></a>`rename_excl(oldpath, newpath)`: Safely rRename `oldpath` to `newpath`.
+  Raise `FileExistsError` if `newpath` already exists.
+- <a name="rewrite"></a>`rewrite(filepath, srcf, mode='w', backup_ext=None, do_rename=False, do_diff=None, empty_ok=False, overwrite_anyway=False)`: Rewrite the file `filepath` with data from the file object `srcf`.
+  Return `True` if the content was changed, `False` if unchanged.
+
+  Parameters:
+  * `filepath`: the name of the file to rewrite.
+  * `srcf`: the source file containing the new content.
+  * `mode`: the write-mode for the file, default `'w'` (for text);
+    use `'wb'` for binary data.
+  * `empty_ok`: if true (default `False`),
+    do not raise `ValueError` if the new data are empty.
+  * `overwrite_anyway`: if true (default `False`),
+    skip the content check and overwrite unconditionally.
+  * `backup_ext`: if a nonempty string,
+    take a backup of the original at `filepath + backup_ext`.
+  * `do_diff`: if not `None`, call `do_diff(filepath,tempfile)`.
+  * `do_rename`: if true (default `False`),
+    rename the temp file to `filepath`
+    after copying the permission bits.
+    Otherwise (default), copy the tempfile to `filepath`;
+    this preserves the file's inode and permissions etc.
+- <a name="rewrite_cmgr"></a>`rewrite_cmgr(filepath, mode='w', **kw)`: Rewrite a file, presented as a context manager.
+
+  Parameters:
+  * `mode`: file write mode, defaulting to "w" for text.
+
+  Other keyword parameters are passed to `rewrite()`.
+
+  Example:
+
+      with rewrite_cmgr(pathname, do_rename=True) as f:
+          ... write new content to f ...
+- <a name="RWFileBlockCache"></a>`Class `RWFileBlockCache``: A scratch file for storing data.
+
+*`RWFileBlockCache.__init__(self, pathname=None, dirpath=None, suffix=None, lock=None)`*:
+Initialise the file.
+
+Parameters:
+* `pathname`: path of file. If None, create a new file with
+  tempfile.mkstemp using dir=`dirpath` and unlink that file once
+  opened.
+* `dirpath`: location for the file if made by mkstemp as above.
+* `lock`: an object to use as a mutex, allowing sharing with
+  some outer system. A Lock will be allocated if omitted.
+
+*`RWFileBlockCache.close(self)`*:
+Close the file descriptors.
+
+*`RWFileBlockCache.closed`*:
+Test whether the file descriptor has been closed.
+
+*`RWFileBlockCache.get(self, offset, length)`*:
+Get data from `offset` of length `length`.
+
+*`RWFileBlockCache.put(self, data)`*:
+Store `data`, return offset.
+- <a name="saferename"></a>`saferename(oldpath, newpath)`: Rename a path using `os.rename()`,
+  but raise an exception if the target path already exists.
+  Note: slightly racey.
+- <a name="seekable"></a>`seekable(fp)`: Try to test whether a filelike object is seekable.
+
+  First try the `IOBase.seekable` method, otherwise try getting a file
+  descriptor from `fp.fileno` and `os.stat()`ing that,
+  otherwise return `False`.
+- <a name="Tee"></a>`Class `Tee``: An object with .write, .flush and .close methods
+  which copies data to multiple output files.
+
+*`Tee.__init__(self, *fps)`*:
+Initialise the Tee; any arguments are taken to be output file objects.
+
+*`Tee.add(self, output)`*:
+Add a new output.
+
+*`Tee.close(self)`*:
+Close all the outputs and close the Tee.
+
+*`Tee.flush(self)`*:
+Flush all the outputs.
+
+*`Tee.write(self, data)`*:
+Write the data to all the outputs.
+Note: does not detect or accodmodate short writes.
+- <a name="tee"></a>`tee(fp, fp2)`: Context manager duplicating `.write` and `.flush` from `fp` to `fp2`.
+- <a name="tmpdir"></a>`tmpdir()`: Return the pathname of the default temporary directory for scratch data,
+  the environment variable `$TMPDIR` or `'/tmp'`.
+- <a name="tmpdirn"></a>`tmpdirn(tmp=None)`: Make a new temporary directory with a numeric suffix.
+- <a name="trysaferename"></a>`trysaferename(oldpath, newpath)`: A `saferename()` that returns `True` on success,
+  `False` on failure.
+
+# Release Log
+
+
+
+*Release 20250528*:
+* atomic_filename: make all parameters after the filename keyword only.
+* makelockfile: include the Thread name in the Pfx context, write the pid and Thread name into the lock file.
+
+*Release 20250429*:
+lockfile: protect in-process calls with an NRLock to reduce filesystem contention between threads and to detect recursive attempts at the same lockfile.
+
+*Release 20250103*:
+* New rename_excl(oldpath,newpath) to rename oldpath to newpath provided newpath does not exist - race free unlike obsolete saferename.
+* atomic_filename: use rename_excl.
+* Moved file_based and @file_property from cs.fileutils to cs.cache.
+
+*Release 20241122*:
+New atomic_copy2 function which is an atomic version of shutil.copy2.
+
+*Release 20241007.1*:
+Bugfix for @atomic_filename.
+
+*Release 20241007*:
+atomic_filename: new feature - the caller may remove the temporary file to indicate that the target file should not be made.
+
+*Release 20240723*:
+lockfile: now a purer shim for makelockfile.
+
+*Release 20240709*:
+rewrite: return True if the content is modified, False otherwise.
+
+*Release 20240630*:
+makelockfile: cap the retry poll interval at 37s, just issue a warning if the lock file is already gone on exit (eg manual removal).
+
+*Release 20240316*:
+Fixed release upload artifacts.
+
+*Release 20240201*:
+* makelockfile: new optional keepopen parameter - if true return the lock path and an open file descriptor.
+* lockfile(): keep the lock file open to aid debugging with eg lsof.
+
+*Release 20231129*:
+* atomic_filename: accept optional rename_func to use instead of os.rename, supports using FSTags.move.
+* atomic_filename: clean up the temp file.
+
+*Release 20230421*:
+atomic_filename: raise FileExistsError instead of ValueError if not exists_ok and existspath(filename).
+
+*Release 20230401*:
+Replaced a lot of runstate plumbing with @uses_runstate.
+
+*Release 20221118*:
+atomic_filename: use shutil.copystat instead of shutil.copymode, bugfix the associated logic.
+
+*Release 20220429*:
+Move longpath and shortpath to cs.fs, leave legacy names behind.
+
+*Release 20211208*:
+* Move NDJSON stuff to separate cs.ndjson module.
+* New gzifopen() function to open either a gzipped file or an uncompressed file.
+
+*Release 20210906*:
+Additional release because I'm unsure @atomic_filename made it into the previous release.
+
+*Release 20210731*:
+New atomic_filename context manager wrapping NamedTemporaryFile for presenting a file after its contents are prepared.
+
+*Release 20210717*:
+Updates for recent cs.mappings-20210717 release.
+
+*Release 20210420*:
+* Forensic prefix for NamedTemporaryCopy.
+* UUIDNDJSONMapping: provide an empty .scan_errors on instantiation, avoids AttributeError if a scan never occurs.
+
+*Release 20210306*:
+* datafrom_fd: fix use-before-set of is_seekable.
+* RWFileBlockCache.put: remove assert(len(data)>0), adjust logic.
+
+*Release 20210131*:
+crop_name: put ext before name_max, more likely to be specified, I think.
+
+*Release 20201227.1*:
+Docstring tweak.
+
+*Release 20201227*:
+scan_ndjson: optional errors_list to accrue errors during the scan.
+
+*Release 20201108*:
+Bugfix rewrite_cmgr, failed to flush a file before copying its contents.
+
+*Release 20201102*:
+* Newline delimited JSON (ndjson) support.
+* New UUIDNDJSONMapping implementing a singleton cs.mappings.LoadableMappingMixin of cs.mappings.UUIDedDict subclass instances backed by an NDJSON file.
+* New scan_ndjson() function to yield newline delimited JSON records.
+* New write_ndjson() function to write newline delimited JSON records.
+* New append_ndjson() function to append a single newline delimited JSON record to a file.
+* New NamedTemporaryCopy for creating a temporary copy of a file with an optional progress bar.
+* rewrite_cmgr: turn into a simple wrapper for rewrite.
+* datafrom: make the offset parameter optional, tweak the @strable open function.
+* datafrom_fd: support nonseekable file descriptors, document that for these the file position is moved (no pread support).
+* New iter_fd and iter_file to return iterators of a file's data by utilising a CornuCopyBuffer.
+* New byteses_as_fd to return a readable file descriptor receiving an iterable of bytes via a CornuCopyBuffer.
+
+*Release 20200914*:
+New common_path_prefix to compare pathnames.
+
+*Release 20200517*:
+* New crop_name() function to crop a file basename to fit within a specific length.
+* New find() function complimenting findup (UNTESTED).
+
+*Release 20200318*:
+New findup(path,test) generator to walk up a file tree.
+
+*Release 20191006*:
+Adjust import of cs.deco.cachedmethod.
+
+*Release 20190729*:
+datafrom_fd: make `offset` optional, defaulting to fd position at call.
+
+*Release 20190617*:
+@file_based: adjust use of @cached from cached(wrap0, **dkw) to cached(**dkw)(wrap0).
+
+*Release 20190101*:
+datafrom: add maxlength keyword arg, bugfix fd and f.fileno cases.
+
+*Release 20181109*:
+* Various bugfixes for BackedFile.
+* Use a file's .read1 method if available in some scenarios.
+* makelockfile: accept am optional RunState control parameter, improve some behaviour.
+* datafrom_fd: new optional maxlength parameter limiting the amount of data returned.
+* datafrom_fd: by default, perform an initial read to align all subsequent reads with the readsize.
+* drop fdreader, add datafrom(f, offset, readsize) accepting a file or a file descriptor, expose datafrom_fd.
+* ReadMixin.datafrom now mandatory. Add ReadMixin.bufferfrom.
+* Assorted other improvements, minor bugfixes, documentation improvements.
+
+*Release 20171231.1*:
+Trite DISTINFO fix, no semantic changes.
+
+*Release 20171231*:
+Update imports, bump DEFAULT_READSIZE from 8KiB to 128KiB.
+
+*Release 20170608*:
+* Move lockfile and the SharedAppend* classes to cs.sharedfile.
+* BackedFile internal changes.
+
+*Release 20160918*:
+* BackedFile: redo implementation of .front_file to fix resource leak; add .__len__; add methods .spans, .front_spans and .back_spans to return information about front vs back data.
+* seek: bugfix: seek should return the new file offset.
+* BackedFile does not subclass RawIOBase, it just works like one.
+
+*Release 20160828*:
+* Use "install_requires" instead of "requires" in DISTINFO.
+* Rename maxFilenameSuffix to max_suffix.
+* Pull in OpenSocket file-like socket wrapper from cs.venti.tcp.
+* Update for cs.asynchron changes.
+* ... then move cs.fileutils.OpenSocket into new module cs.socketutils.
+* New Tee class, for copying output to multiple files.
+* NullFile class which discards writes (==> no-op for Tee).
+* New class SavingFile to accrue output and move to specified pathname when complete.
+* Memory usage improvements.
+* Polyfill non-threadsafe implementation of pread if os.pread does not exist.
+* New function seekable() to probe a file for seekability.
+* SharedAppendFile: provide new .open(filemode) context manager for allowing direct file output for external users.
+* New function makelockfile() presenting the logic to create a lock file separately from the lockfile context manager.
+* Assorted bugfixes and improvements.
+
+*Release 20150116*:
+Initial PyPI release.
