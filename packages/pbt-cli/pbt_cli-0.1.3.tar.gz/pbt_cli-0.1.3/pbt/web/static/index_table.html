@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBT Studio - Visual LLM Comparison Tool</title>
+    <link rel="stylesheet" href="/static/styles_table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="floating-particles" id="particles-container"></div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <i class="fas fa-robot"></i>
+                <h1>PBT Studio</h1>
+                <span class="version-badge">v2.0</span>
+                <a href="/" class="btn btn-sm btn-outline" style="margin-left: 1rem;" title="Back to classic view">
+                    <i class="fas fa-columns"></i> Classic View
+                </a>
+            </div>
+            <nav>
+                <button class="btn btn-outline" onclick="showSavedPrompts()">
+                    <i class="fas fa-bookmark"></i> Saved
+                </button>
+                <button class="btn btn-outline" onclick="showHistory()">
+                    <i class="fas fa-history"></i> History
+                </button>
+                <button class="btn btn-outline theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                    <i class="fas fa-moon"></i> <span id="theme-text">Dark</span>
+                </button>
+                <button class="btn btn-primary" onclick="showSettings()">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Comparison Table -->
+    <main class="comparison-container">
+        <div class="comparison-table" id="comparison-table">
+            <!-- Input Column -->
+            <div class="table-column input-column">
+                <div class="column-header">
+                    <h3>Configuration</h3>
+                    <button class="btn btn-sm btn-outline" onclick="loadExample()">
+                        <i class="fas fa-lightbulb"></i> Example
+                    </button>
+                </div>
+                
+                <div class="column-content">
+                    <!-- Model Selection -->
+                    <div class="form-section">
+                        <label>Select Models</label>
+                        <div id="model-selector" class="model-selector-grid">
+                            <!-- Model checkboxes will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Prompt Input -->
+                    <div class="form-section">
+                        <label for="prompt-input">Prompt Template</label>
+                        <textarea id="prompt-input" class="prompt-textarea" 
+                                  placeholder="Enter your prompt here..."
+                                  oninput="detectVariables()"></textarea>
+                    </div>
+
+                    <!-- Variables -->
+                    <div class="form-section">
+                        <label>Variables 
+                            <button class="btn btn-xs" onclick="addVariable()">+ Add</button>
+                        </label>
+                        <div id="variables-container">
+                            <!-- Variables will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Expected Output -->
+                    <div class="form-section">
+                        <label for="expected-output">Expected Output (Optional)</label>
+                        <textarea id="expected-output" class="expected-textarea" 
+                                  placeholder="Enter expected output for automatic scoring..."></textarea>
+                    </div>
+
+                    <!-- Parameters -->
+                    <div class="form-section">
+                        <label>Parameters</label>
+                        <div class="parameters-grid">
+                            <div class="param-item">
+                                <label for="temperature">Temperature: <span id="temperature-value">0.7</span></label>
+                                <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7"
+                                       oninput="document.getElementById('temperature-value').textContent = this.value">
+                            </div>
+                            <div class="param-item">
+                                <label for="max-tokens">Max Tokens</label>
+                                <input type="number" id="max-tokens" value="1000" min="1" max="4000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compare Button -->
+                    <button class="btn btn-primary btn-large" onclick="compareModels()">
+                        <i class="fas fa-bolt"></i> Compare Models
+                    </button>
+                </div>
+            </div>
+
+            <!-- Model Output Columns (Dynamic) -->
+            <div class="model-columns" id="model-columns">
+                <!-- Welcome State -->
+                <div class="welcome-state">
+                    <i class="fas fa-robot fa-4x"></i>
+                    <h3>Welcome to PBT Studio 2.0</h3>
+                    <p>Select models and enter a prompt to compare their responses side by side.</p>
+                    <p>The new table layout makes it easier to compare multiple models at once!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Comparing models...</p>
+            <div id="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Metrics Summary Bar -->
+    <div id="metrics-bar" class="metrics-bar" style="display: none;">
+        <div class="metrics-container">
+            <div class="metric-item">
+                <span class="metric-label">Avg Response Time</span>
+                <span class="metric-value" id="avg-response-time">-</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">Total Cost</span>
+                <span class="metric-value" id="total-cost">-</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">Best Score</span>
+                <span class="metric-value" id="best-score">-</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">Fastest Model</span>
+                <span class="metric-value" id="fastest-model">-</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- History Modal -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Comparison History</h3>
+                <button class="modal-close" onclick="closeModal('history-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="history-list" class="history-list">
+                    <!-- History items will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Saved Prompts Modal -->
+    <div id="saved-prompts-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Saved Prompts</h3>
+                <button class="modal-close" onclick="closeModal('saved-prompts-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="saved-prompts-list" class="saved-prompts-list">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i> Loading saved prompts...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button class="modal-close" onclick="closeModal('settings-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h4>API Configuration</h4>
+                    <p class="text-muted">API keys are managed through environment variables.</p>
+                </div>
+                <div class="settings-section">
+                    <h4>Display Options</h4>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="auto-scroll" checked>
+                        Auto-scroll to results
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="show-tokens" checked>
+                        Show token counts
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app_table.js"></script>
+</body>
+</html>
