@@ -1,0 +1,40 @@
+[project]
+name = "month-range"
+version = "0.0.7"
+description = "Handling of month based time ranges."
+requires-python = ">=3.13"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "Felix Hofmann", email = "felix@hofmann.rocks"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Utilities",
+]
+keywords = ["date", "month", "range", "calendar", "period", "finance", "quarter", "fiscal"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.2",
+    "pytest>=7.0",
+]
+
+[tool.ruff]
+indent-width = 4
+line-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"] # ignore unused imports in __init__.py files
+
+[tool.ruff.lint.pylint]
+max-args = 3
