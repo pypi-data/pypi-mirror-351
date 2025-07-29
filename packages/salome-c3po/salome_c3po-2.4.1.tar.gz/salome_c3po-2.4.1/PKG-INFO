@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: salome-c3po
+Version: 2.4.1
+Summary: Collaborative Code Coupling PlatfOrm
+Home-page: https://github.com/code-coupling/c3po
+Author: CEA
+Author-email: cyril.patricot@cea.fr
+Maintainer: Cyril Patricot
+Maintainer-email: cyril.patricot@cea.fr
+License: 3-Clause BSD
+Requires-Python: >=2.7, !=3.0.*, !=3.1.*
+Requires-Dist: icoco>=2.0.3
+Provides-Extra: pytest
+Requires-Dist: pytest; extra == "pytest"
+Requires-Dist: pytest-cov; extra == "pytest"
+Requires-Dist: pytest-html; extra == "pytest"
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: license
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
