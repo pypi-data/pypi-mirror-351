@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: ngapp
+Version: 0.0.2.dev2236
+Requires-Python: >=3.9
+Requires-Dist: certifi
+Requires-Dist: orjson
+Requires-Dist: pint
+Requires-Dist: pydantic==2.*
+Requires-Dist: urllib3
+Requires-Dist: webgpu
+Provides-Extra: local
+Requires-Dist: websockets; extra == "local"
+Requires-Dist: watchdog; extra == "local"
+Requires-Dist: wheel; extra == "local"
+Requires-Dist: setuptools; extra == "local"
