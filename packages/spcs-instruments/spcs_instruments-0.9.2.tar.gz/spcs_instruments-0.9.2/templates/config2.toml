@@ -1,0 +1,18 @@
+[experiment.info]
+name = "John Doe"
+email = "test@canterbury.ac.nz"
+experiment_name = "Multi-DAQ Test Experiment"
+experiment_description = "This experiment uses two Fake DAQ devices for testing."
+
+[device.Test_DAQ_1]
+gate_time = 1.0
+averages = 64
+trace = false
+[device.Test_Spectrometer]
+initial_wavelength = 500.0
+final_wavelength = 600.0
+step_size = 0.01
+
+[device.Test_cryostat]
+set_point = 3.0
+desired_stability = 0.05
