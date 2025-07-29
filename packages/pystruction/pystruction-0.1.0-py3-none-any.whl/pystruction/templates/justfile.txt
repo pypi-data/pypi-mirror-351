@@ -1,0 +1,36 @@
+run:
+    uv run {{project_name}}
+
+test:
+    uv run coverage run -m pytest
+
+lint:
+    uvx ruff check --fix
+
+doclint:
+    uvx ruff pydoclint src tests
+
+type:
+    uvx mypy --strict src tests
+    uvx pyright
+
+stats:
+    uvx radon mi src tests
+    uvx radon cc src tests
+    uvx radon hal src tests
+    uvx radon raw src tests
+
+precommit:
+    uvx pre-commit autoupdate --repo https://github.com/pre-commit/pre-commit-hooks
+    uvx pre-commit autoupdate --repo https://github.com/astral-sh/ruff-pre-commit
+    uvx pre-commit autoupdate --repo https://github.com/rubik/xenon
+    uvx pre-commit run --all-files
+
+bandit:
+    uvx bandit -r src tests
+
+docserve:
+    uvx mkdocs serve
+
+docbuild
+    uvx mkdocs build

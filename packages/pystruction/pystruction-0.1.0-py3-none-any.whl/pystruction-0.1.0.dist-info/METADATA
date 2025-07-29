@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: pystruction
+Version: 0.1.0
+Summary: Python Project Starter Template Command Line Tool
+Requires-Python: >=3.12
+Requires-Dist: jinja2>=3.1.6
+Requires-Dist: typer>=0.15.4
