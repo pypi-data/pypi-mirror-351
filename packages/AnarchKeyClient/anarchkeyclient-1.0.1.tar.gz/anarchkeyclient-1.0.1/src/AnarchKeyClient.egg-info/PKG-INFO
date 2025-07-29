@@ -1,0 +1,45 @@
+Metadata-Version: 2.4
+Name: AnarchKeyClient
+Version: 1.0.1
+Summary: A Client package to connect and retrieve api keys from vault serivce called AnarchKey
+Author-email: AkiTheMemeGod <k.akashkumar@gmail.com>
+Project-URL: Homepage, https://github.com/AkiTheMemeGod/AnarchKey_PyPi_Package
+Project-URL: Bug Tracker, https://github.com/AkiTheMemeGod/AnarchKey_PyPi_Package/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# AnarchKey Client
+
+A Python client library for connecting to and retrieving API keys from the AnarchKey vault service.
+## Description
+AnarchKeyClient provides a simple interface to securely retrieve API keys stored in the AnarchKey vault service. This package helps developers manage API credentials for their projects without hardcoding sensitive information in their codebase.
+
+## Installation
+```bash
+pip install AnarchKeyClient
+```
+## Usage
+
+```python
+from AnarchKeyClient import AnarchKeyClient
+
+# Initialize the client with your username and AnarchKey API key
+client = AnarchKeyClient(username="YourUsername", api_key="YourAnarchKeyAPIKey")
+
+# Retrieve an API key for a specific project
+response = client.get_api_key(project_name="YourProjectName")
+
+# Check if request was successful
+if response["success"]:
+    api_key = response["key"]
+    print(f"Retrieved API key: {api_key}")
+else:
+    print(f"Error: {response['message']}")
+```
+
+## License MIT
