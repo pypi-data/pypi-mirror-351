@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2da7dad3-4ef1-4900-87f2-9cefdd7ccf52" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.devcontainer/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.devcontainer/devcontainer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env.sample" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.pre-commit-config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.python-version" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/reference.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mkdocs.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/opensymbiose/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/opensymbiose/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_main.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2xiPD6n1N30jW8oWsUNN1btOzOl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
+    <layout>
+      <window_info id="Commit_Guest" show_stripe_button="false" />
+      <window_info id="Pull Requests" />
+      <window_info id="Learn" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.50111115" visible="true" weight="0.25035715" />
+      <window_info id="Commit" order="1" weight="0.25" />
+      <window_info id="Structure" order="2" sideWeight="0.4988889" side_tool="true" visible="true" weight="0.25035715" />
+      <window_info anchor="bottom" id="NextEditPredictionSettingsToolwindow" show_stripe_button="false" />
+      <window_info anchor="bottom" id="TypeScript" />
+      <window_info anchor="bottom" id="aws.sqs" show_stripe_button="false" />
+      <window_info anchor="bottom" id="aws.cloudformation" show_stripe_button="false" />
+      <window_info anchor="bottom" id="File Transfer" />
+      <window_info anchor="bottom" id="aws.cloudwatchlogs" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Database Changes" order="1" weight="0.29530448" />
+      <window_info anchor="bottom" id="Problems" order="1" />
+      <window_info anchor="bottom" id="Problems View" order="2" />
+      <window_info anchor="bottom" id="TODO" order="3" sideWeight="0.5002005" weight="0.3309963" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3294621" />
+      <window_info anchor="bottom" id="YouTrack" order="4" weight="0.29530448" />
+      <window_info anchor="bottom" id="Services" order="4" />
+      <window_info anchor="bottom" id="Python Packages" order="5" weight="0.1" />
+      <window_info anchor="bottom" id="Find" order="5" show_stripe_button="false" weight="0.29557195" />
+      <window_info anchor="bottom" id="aws.toolkit.explorer" order="6" sideWeight="0.26236045" weight="0.471564" />
+      <window_info anchor="bottom" id="Python Console" order="6" weight="0.1" />
+      <window_info anchor="bottom" id="Debug" order="9" show_stripe_button="false" weight="0.3383764" />
+      <window_info anchor="bottom" id="HfCacheToolWindow" order="10" weight="0.33033174" />
+      <window_info anchor="bottom" id="Run" order="11" sideWeight="0.6979419" visible="true" weight="0.41365314" />
+      <window_info anchor="right" id="PR AI Assistant" show_stripe_button="false" />
+      <window_info anchor="right" id="Jupyter Variables" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
+      <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
+      <window_info anchor="right" id="Database" order="2" weight="0.25" />
+      <window_info anchor="right" id="github.copilotToolWindow" order="2" show_stripe_button="false" weight="0.14550781" />
+      <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="4" weight="0.25" />
+      <window_info anchor="right" id="Plots" order="5" weight="0.1" />
+      <window_info anchor="right" id="Merge Requests" order="5" weight="0.25253904" />
+      <window_info active="true" anchor="right" id="GitHub Copilot Chat" order="7" visible="true" weight="0.2951172" />
+      <window_info anchor="right" id="ElectroJunToolWindow" order="8" sideWeight="0.67079747" weight="0.14785156" />
+      <window_info anchor="right" id="Endpoints" order="12" sideWeight="0.5005133" weight="0.14785156" />
+      <window_info anchor="right" id="Welcome to GitHub Copilot" order="13" show_stripe_button="false" sideWeight="0.73763955" weight="0.4716146" />
+      <window_info anchor="right" id="Hierarchy" order="14" weight="0.2951172" />
+      <window_info anchor="right" id="Coverage" order="15" weight="0.19589844" />
+      <window_info anchor="right" id="Bookmarks" order="16" weight="0.19589844" />
+      <window_info anchor="right" id="SciView" order="17" weight="0.32994792" />
+      <window_info anchor="right" id="Backup and Sync History" order="18" sideWeight="0.49886495" weight="0.2951172" />
+      <window_info anchor="right" id="documentation.v2" order="19" sideWeight="0.3292026" side_tool="true" weight="0.33066404" />
+    </layout>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.159" />
+        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2da7dad3-4ef1-4900-87f2-9cefdd7ccf52" name="Changes" comment="" />
+      <created>1748417797720</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748417797720</updated>
+      <workItem from="1748422716633" duration="36000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT_PROFILE" value="Default" />
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+</project>
