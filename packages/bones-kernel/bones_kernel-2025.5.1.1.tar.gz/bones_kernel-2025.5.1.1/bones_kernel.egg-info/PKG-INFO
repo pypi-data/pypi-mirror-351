@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: bones-kernel
+Version: 2025.5.1.1
+Summary: The bones kernel for coppertop
+Home-page: https://github.com/coppertop-bones/bones-kernel
+Download-URL: 
+Author: David Briant
+Author-email: dangermouseb@forwarding.cc
+License: OSI Approved :: Apache Software License
+Keywords: multiple,dispatch,piping,pipeline,pipe,functional,multimethods,multidispatch,functools,lambda,curry,currying
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Utilities
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: NOTICE
+Requires-Dist: numpy>=1.17.3
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+The bones kernel for coppertop
