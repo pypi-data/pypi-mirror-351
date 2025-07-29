@@ -1,0 +1,33 @@
+{
+    "google_search": {
+        "trigger_word": [
+            "search on Google", 
+            "google search", 
+            "find information", 
+            "look up", 
+            "search web", 
+            "browse the internet", 
+            "google it", 
+            "find details online", 
+            "search for info", 
+            "do a web search",
+            "check online", 
+            "find resources", 
+            "get information", 
+            "online search", 
+            "look up information", 
+            "find data", 
+            "internet lookup", 
+            "get search results", 
+            "web query", 
+            "explore online"
+        ],
+        "sample_payload": {
+            "engine": "string",
+            "query": "string",
+            "location": "string",
+            "num": "string"
+        },
+        "prerequisite": null
+    }
+}
