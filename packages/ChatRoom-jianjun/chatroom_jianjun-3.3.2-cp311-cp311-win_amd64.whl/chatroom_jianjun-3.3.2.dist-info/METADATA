@@ -1,0 +1,74 @@
+Metadata-Version: 2.4
+Name: ChatRoom-jianjun
+Version: 3.3.2
+Summary: Connecting python's !
+Home-page: https://github.com/EVA-JianJun/ChatRoom-V3
+Author: jianjun
+Author-email: 910667956@qq.com
+Description-Content-Type: text/markdown
+Requires-Dist: cprint-jianjun>=1.6.0
+Requires-Dist: pycryptodome>=3.15.0
+Requires-Dist: bcrypt>=3.2.0
+Requires-Dist: psutil>=5.7.0
+Requires-Dist: numpy>=1.23.3
+Requires-Dist: pywin32>=306
+Requires-Dist: pynput>=1.7.6
+Requires-Dist: rich>=13.4.2
+Requires-Dist: opencv-python>=4.7.0.72
+Requires-Dist: ttkbootstrap>=1.9.0
+Requires-Dist: yagmail>=0.15.280
+Requires-Dist: pyperclip>=1.8.2
+Requires-Dist: celldict>=2.0.1
+Requires-Dist: ntplib>=0.4.0
+Requires-Dist: PyLibreHardwareMonitor>=1.2.2
+Requires-Dist: cloudpickle>=3.0.0
+Requires-Dist: dill>=0.3.8
+Requires-Dist: pygments>=2.17.2
+Requires-Dist: pystray>=0.19.5
+Requires-Dist: pillow
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: summary
+
+# ChatRoom V3
+
+**Python分布式计算框架！**
+
+![main][1]
+
+## 简介
+
+ChatRoom V3 是一个通过网络连接的分布式交互计算框架。
+
+每一个节点都是集群网络中独立的服务端和客户端，通过自定义的交互沟通回调函数实现程序需求。
+
+## 主要功能
+
+* 📤 发送数据
+* 📥 请求数据
+* 📁 发送文件
+* 📂 下载文件
+* 📂 发送目录
+* 🔄 共享变量
+* 🔄 共享状态
+
+## 辅助功能
+
+* 💾 数据存储
+* 📧 邮件服务
+* 📊 日志监控
+* 🔄 流控设定
+* 🔒 权限配置
+* ⭐ 优先设置
+* ⚫ 黑白名单
+* 🔐 加密传输
+
+## 文档
+
+[ChatRoom V3 Wiki](https://github.com/EVA-JianJun/ChatRoom-V3/wiki)
+
+[1]: ./images/main.png
