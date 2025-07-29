@@ -1,0 +1,22 @@
+# Include documentation and configuration
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+include setup.py
+
+# Include data files
+include sanitizr/cleanurl/data/*.json
+
+# Include tests but not in the actual package
+recursive-include tests *.py
+
+# Exclude development and build artifacts
+exclude .github
+exclude .gitignore
+exclude .coverage
+exclude .pytest_cache
+exclude *.egg-info
+exclude build
+exclude dist
+prune __pycache__
