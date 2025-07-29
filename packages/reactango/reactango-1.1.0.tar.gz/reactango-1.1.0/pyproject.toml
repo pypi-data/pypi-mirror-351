@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reactango"  # <<< CHANGED: New package name for PyPI
+version = "1.1.0" # Or your current version
+authors = [
+  { name="Muhammad Abdullah", email="muhmmadabdullah6346@gmail.com" },
+]
+description = "A CLI tool that simplify React and Django Implementation."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    # ... other classifiers ...
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "questionary>=1.10.0,<2.0.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Abdullah6346/ReacTango-v1" # <<< CHANGED (update your repo name too if it changes)
+"Bug Tracker" = "https://github.com/Abdullah6346/ReacTango-v1/issues" # <<< CHANGED
+"Repository" = "https://github.com/Abdullah6346/ReacTango-v1" # <<< CHANGED
+
+[project.scripts]
+reactango = "reactango_cli.cli:main" 
