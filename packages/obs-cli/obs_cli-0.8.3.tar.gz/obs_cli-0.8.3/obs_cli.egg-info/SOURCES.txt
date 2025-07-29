@@ -1,0 +1,15 @@
+.gitignore
+LICENSE
+README.md
+obs_cli.py
+pyproject.toml
+.github/dependabot.yml
+.github/workflows/lint.yaml
+.github/workflows/pypi.yaml
+.github/workflows/release.yaml
+obs_cli.egg-info/PKG-INFO
+obs_cli.egg-info/SOURCES.txt
+obs_cli.egg-info/dependency_links.txt
+obs_cli.egg-info/entry_points.txt
+obs_cli.egg-info/requires.txt
+obs_cli.egg-info/top_level.txt
