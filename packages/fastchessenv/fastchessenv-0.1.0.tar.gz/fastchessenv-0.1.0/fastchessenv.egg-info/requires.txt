@@ -1,0 +1,7 @@
+cffi>=1.0.0
+numpy
+python-chess
+
+[dev]
+pytest>=7.0.1
+open-spiel>=1.1.0
