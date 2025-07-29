@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "altruistclient"
+version = "0.1.0"
+description = "Async library for discovering and fetching data from Altruist sensors"
+authors = [
+    "Alena Bugrova <bugrovaad@gmail.com>",
+]
+license = "Apache-2.0"
+
+repository = "https://github.com/LoSk-p/altruistclient"
+
+readme = "README.md"
+
+packages = [
+    { include = "altruistclient" },
+]
+exclude = [
+    ".gitignore",
+    ]
+
+[tool.poetry.dependencies]
+python = ">=3.9, <4.0"
+aiohttp = ">=3.11.0,<4.0.0"
+zeroconf = ">=0.143.0,<1.0.0"
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
