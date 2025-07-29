@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: ezids
+Version: 1.0.0
+Summary: A simple host-based intrusion detection system with a PyQt GUI.
+Author: Nolan Coe
+Requires-Dist: PyQt6
+Dynamic: author
+Dynamic: requires-dist
+Dynamic: summary
