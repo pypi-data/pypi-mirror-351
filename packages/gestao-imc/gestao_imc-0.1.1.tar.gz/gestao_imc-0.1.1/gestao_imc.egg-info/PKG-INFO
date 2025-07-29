@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: gestao_imc
+Version: 0.1.1
+Summary: Ferramenta para gestão de IMC com base em dados de pessoas.
+Home-page: https://github.com/Goncalo-Soares12/MADS-Grupo-4---Gestao-IMC-
+Author: Gonçalo Soares, Ruben Abreu, Flávio Santos, Jessica Gonçalves
+Author-email: seu@email.com
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: datetime
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: summary
+
+# Gestão de IMC
+
+Ferramenta simples para cálculo e categorização do IMC com visualização em gráfico.
