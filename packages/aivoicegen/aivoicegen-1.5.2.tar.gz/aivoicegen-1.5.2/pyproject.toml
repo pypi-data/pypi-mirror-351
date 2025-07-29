@@ -1,0 +1,97 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aivoicegen"
+version = "1.5.2"
+description = "AI-powered Text-to-Speech web application with multiple provider support"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "Michael Jabbour"}]
+maintainers = [{name = "Michael Jabbour"}]
+keywords = [
+    "text-to-speech", 
+    "tts", 
+    "ai", 
+    "voice", 
+    "speech-synthesis", 
+    "openai", 
+    "elevenlabs", 
+    "google-cloud", 
+    "gemini",
+    "flask",
+    "web-app"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+    "Environment :: Web Environment",
+    "Framework :: Flask"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "openai>=1.3.0",
+    "flask==2.3.3",
+    "flask-cors==4.0.2",
+    "pydub==0.25.1",
+    "requests>=2.32.3",
+    "google-cloud-texttospeech>=2.14.0",
+    "google-generativeai>=0.1.0rc1",
+    "elevenlabs>=1.0.0",
+    "python-dotenv>=1.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/michaeljabbour/aivoicegen"
+Documentation = "https://github.com/michaeljabbour/aivoicegen#readme"
+Repository = "https://github.com/michaeljabbour/aivoicegen"
+"Bug Tracker" = "https://github.com/michaeljabbour/aivoicegen/issues"
+"Source Code" = "https://github.com/michaeljabbour/aivoicegen"
+
+[project.scripts]
+aivoicegen = "aivoicegen.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aivoicegen*"]
+exclude = ["tests*", "docs*", "outputs*", ".backup-complex-files*"]
+
+[tool.setuptools.package-data]
+aivoicegen = [
+    "static/*",
+    "static/**/*"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

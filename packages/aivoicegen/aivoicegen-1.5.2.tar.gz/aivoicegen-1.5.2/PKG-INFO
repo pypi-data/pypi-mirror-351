@@ -1,0 +1,988 @@
+Metadata-Version: 2.4
+Name: aivoicegen
+Version: 1.5.2
+Summary: AI-powered Text-to-Speech web application with multiple provider support
+Author: Michael Jabbour
+Maintainer: Michael Jabbour
+License: MIT License
+        
+        Copyright (c) 2025 AI Voice Generator Team
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/michaeljabbour/aivoicegen
+Project-URL: Documentation, https://github.com/michaeljabbour/aivoicegen#readme
+Project-URL: Repository, https://github.com/michaeljabbour/aivoicegen
+Project-URL: Bug Tracker, https://github.com/michaeljabbour/aivoicegen/issues
+Project-URL: Source Code, https://github.com/michaeljabbour/aivoicegen
+Keywords: text-to-speech,tts,ai,voice,speech-synthesis,openai,elevenlabs,google-cloud,gemini,flask,web-app
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Multimedia :: Sound/Audio :: Speech
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Flask
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: openai>=1.3.0
+Requires-Dist: flask==2.3.3
+Requires-Dist: flask-cors==4.0.2
+Requires-Dist: pydub==0.25.1
+Requires-Dist: requests>=2.32.3
+Requires-Dist: google-cloud-texttospeech>=2.14.0
+Requires-Dist: google-generativeai>=0.1.0rc1
+Requires-Dist: elevenlabs>=1.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Dynamic: license-file
+
+# 🎙️ AI Voice Generator
+
+> **Transform text into high-quality speech using multiple AI-powered TTS services with an intuitive ChatGPT-inspired interface.**
+
+[![PyPI version](https://badge.fury.io/py/aivoicegen.svg)](https://badge.fury.io/py/aivoicegen)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Flask](https://img.shields.io/badge/framework-Flask-green.svg)](https://flask.palletsprojects.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](#testing)
+[![Downloads](https://pepy.tech/badge/aivoicegen)](https://pepy.tech/project/aivoicegen)
+
+AI Voice Generator is a production-ready web application that converts text to speech using multiple TTS providers including OpenAI, ElevenLabs, Google Cloud, and Gemini. Features intelligent text optimization, advanced voice controls, persistent history, and a sleek dark-themed interface.
+
+## 📋 Table of Contents
+
+- [✨ Key Features](#-key-features)
+- [🚀 Quick Start](#-quick-start)
+- [📦 Installation](#-installation)
+- [⚙️ Configuration](#️-configuration)
+- [🎯 Usage Guide](#-usage-guide)
+- [🧪 Testing](#-testing)
+- [🏗️ Architecture](#️-architecture)
+- [🔧 API Reference](#-api-reference)
+- [🎨 Customization](#-customization)
+- [📊 Performance](#-performance)
+- [🔒 Security](#-security)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [📚 Documentation](#-documentation)
+
+## ✨ Key Features
+
+### 🎤 **Multi-Provider TTS Support**
+- **OpenAI**: High-quality voices with speed control (tts-1, tts-1-hd)
+- **ElevenLabs**: Premium voices with advanced settings (stability, similarity, style)
+- **Google Cloud**: 200+ voices in 40+ languages
+- **Gemini**: Preview TTS with unique voice options
+
+### 🧠 **Intelligent Text Enhancement**
+- **AI-powered optimization** using OpenAI GPT or Gemini
+- **Multiple enhancement modes**: Default, Shorter, Longer, Retry
+- **TTS-focused improvements**: Grammar, flow, conversational tone
+- **Basic optimization** for all services (abbreviation expansion, formatting)
+
+### 🎛️ **Advanced Voice Controls**
+- **Service-specific settings**: Speed (OpenAI), Voice parameters (ElevenLabs)
+- **Real-time parameter adjustment** with instant feedback
+- **Voice search and filtering** across all providers
+- **Dynamic voice loading** based on service availability
+
+### 🎭 **Emotion-Aware TTS**
+- **Intelligent emotion detection** from text content
+- **7 emotion types**: Joy, Sadness, Anger, Fear, Surprise, Calm, Neutral
+- **Context-sensitive voice modulation** based on detected emotion
+- **Confidence scoring** with manual override options
+- **Auto-analysis** with real-time text processing
+
+### 📡 **Real-Time Streaming**
+- **Chunk-based audio generation** for long texts
+- **Live progress tracking** with detailed status updates
+- **Streaming-optimized** for OpenAI TTS services
+- **Cancellable operations** with real-time feedback
+- **Enhanced UX** for processing large content
+
+### 💾 **Persistent Data Management**
+- **SQLite database** for reliable history storage
+- **Automatic file management** in organized outputs directory
+- **Server-side audio storage** with secure file serving
+- **Comprehensive generation metadata** tracking
+
+### 🎨 **Premium User Experience**
+- **ChatGPT-inspired dark theme** with Tailwind CSS
+- **Responsive design** for desktop and mobile
+- **Auto-playing history** with visual indicators
+- **Real-time status updates** and notifications
+- **Drag-and-drop file support** for text input
+
+### 🔧 **Developer-Friendly**
+- **Comprehensive test suite** (unit, integration, performance)
+- **Provider pattern architecture** for easy service addition
+- **RESTful API design** with clear documentation
+- **Environment-based configuration** with sample files
+- **Extensive error handling** and logging
+
+## 🚀 Quick Start
+
+### 📦 Installation from PyPI (Recommended)
+
+```bash
+# Install from PyPI
+pip install aivoicegen
+
+# Run the application
+aivoicegen
+
+# Or run directly with Python
+python -m aivoicegen
+```
+
+### 🛠️ Development Installation
+
+#### Prerequisites
+- Python 3.8+
+- Git
+- FFmpeg (for audio processing)
+
+#### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/aivoicegen.git
+cd aivoicegen
+
+# Set up virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Install in development mode
+pip install -e .
+
+# Configure environment
+cp .env.sample .env
+# Edit .env with your API keys
+
+# Run the application
+aivoicegen
+```
+
+Visit `http://127.0.0.1:5000` and start generating speech! 🎉
+
+## 📦 Installation
+
+### System Requirements
+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| Python | 3.8+ | 3.11+ |
+| RAM | 512MB | 2GB+ |
+| Storage | 1GB | 5GB+ |
+| Network | Basic | Broadband |
+
+### Detailed Installation
+
+#### 1. Clone Repository
+```bash
+git clone https://github.com/yourusername/aivoicegen.git
+cd aivoicegen
+```
+
+#### 2. Virtual Environment
+```bash
+# Create environment
+python -m venv venv
+
+# Activate (choose your platform)
+source venv/bin/activate          # macOS/Linux
+venv\Scripts\activate             # Windows
+conda activate venv               # Conda
+```
+
+#### 3. Install Dependencies
+```bash
+# Core dependencies
+pip install -r requirements.txt
+
+# Development dependencies (optional)
+pip install -r requirements-dev.txt
+```
+
+#### 4. Install FFmpeg
+
+**macOS:**
+```bash
+brew install ffmpeg
+```
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update && sudo apt install ffmpeg
+```
+
+**Windows:**
+1. Download from [FFmpeg website](https://ffmpeg.org/download.html)
+2. Extract to `C:\ffmpeg`
+3. Add `C:\ffmpeg\bin` to PATH
+
+**Verify installation:**
+```bash
+ffmpeg -version
+```
+
+## ⚙️ Configuration
+
+### Quick Setup with Config Command (Recommended)
+
+The easiest way to configure AIVoiceGen is using the built-in config system:
+
+```bash
+# Interactive setup - will guide you through API key configuration
+aivoicegen config init
+
+# Set individual API keys
+aivoicegen config set --key OPENAI_API_KEY
+aivoicegen config set --key ELEVENLABS_API_KEY
+
+# View current configuration
+aivoicegen config list
+
+# Get specific configuration value
+aivoicegen config get --key OPENAI_API_KEY
+```
+
+**Configuration Features:**
+- 📁 **Centralized storage**: Config saved to `~/.aivoicegen/config.json`
+- 🔒 **Secure input**: API keys hidden during entry
+- 📥 **Smart defaults**: Audio files saved to Downloads/AIVoiceGen
+- 🔄 **Fallback support**: Environment variables still work
+
+### Manual Environment Setup
+
+Alternatively, you can still use environment variables:
+
+```bash
+# Create .env file (development only)
+cp .env.sample .env
+```
+
+### API Provider Configuration
+
+#### 🤖 **OpenAI Configuration**
+
+```env
+OPENAI_API_KEY=sk-your-openai-api-key-here
+```
+
+**Features:**
+- 6 high-quality voices (alloy, echo, fable, onyx, nova, shimmer)
+- 2 models (tts-1 for speed, tts-1-hd for quality)
+- Speed control (0.25x - 4x)
+- Text optimization with GPT
+
+**Setup:**
+1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Create API key
+3. Add to `.env` file
+
+**Pricing:** ~$0.015 per 1K characters
+
+#### 🎭 **ElevenLabs Configuration**
+
+```env
+ELEVENLABS_API_KEY=your-elevenlabs-api-key-here
+```
+
+**Features:**
+- Premium voice cloning
+- Advanced voice controls (stability, similarity, style)
+- Multilingual support
+- Custom voice training
+
+**Setup:**
+1. Visit [ElevenLabs](https://elevenlabs.io/subscription)
+2. Get API key from profile
+3. Add to `.env` file
+
+**Pricing:** Freemium model, paid plans available
+
+#### ☁️ **Google Cloud Configuration**
+
+```env
+GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
+```
+
+**Features:**
+- 200+ voices in 40+ languages
+- WaveNet, Neural2, and Standard voices
+- SSML support
+- High-quality synthesis
+
+**Setup:**
+1. Create [Google Cloud Project](https://console.cloud.google.com/)
+2. Enable Text-to-Speech API
+3. Create service account with TTS permissions
+4. Download JSON key file
+5. Set path in `.env`
+
+**Pricing:** $4 per 1M characters (1M free/month)
+
+#### 💎 **Gemini Configuration**
+
+```env
+GEMINI_API_KEY=your-gemini-api-key-here
+```
+
+**Features:**
+- Preview TTS service
+- Unique voice options (Kore, Puck, Charon, Fenrir, Aoede)
+- Text optimization with Gemini Pro
+- Integration with Google AI ecosystem
+
+**Setup:**
+1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Generate API key
+3. Add to `.env` file
+
+**Status:** Preview (subject to changes)
+
+### Optional Configuration
+
+```env
+# Application settings
+FLASK_ENV=development
+FLASK_DEBUG=true
+PORT=5000
+
+# Database
+DATABASE_PATH=./history.db
+
+# Cache settings
+MAX_CACHE_SIZE=100
+
+# Storage
+OUTPUTS_DIR=outputs
+
+# Security
+SECRET_KEY=your-secret-key-here
+```
+
+## 🎯 Usage Guide
+
+### Basic Workflow
+
+1. **Enter Text**: Type or upload your content
+2. **Enhance (Optional)**: Use AI to optimize text for speech
+3. **Configure Voice**: Select service and voice options
+4. **Adjust Settings**: Fine-tune voice parameters
+5. **Generate**: Create high-quality speech
+6. **Review History**: Access previous generations
+
+### Text Enhancement Modes
+
+| Mode | Purpose | Best For |
+|------|---------|----------|
+| **Default** | Balanced enhancement | General use |
+| **Shorter** | Concise version (50-70% length) | Quick summaries |
+| **Longer** | Expanded version (130-150% length) | Detailed narration |
+| **Retry** | Alternative enhancement | Finding better phrasing |
+
+### Advanced Voice Settings
+
+#### OpenAI Settings
+- **Speech Speed**: 0.25x (very slow) to 4x (very fast)
+- **Model Selection**: tts-1 (fast) vs tts-1-hd (high quality)
+
+#### ElevenLabs Settings
+- **Stability**: 0-1 (consistent vs varied delivery)
+- **Similarity Boost**: 0-1 (voice matching strength)
+- **Style**: 0-1 (expressive vs neutral)
+- **Speaker Boost**: Enable for clarity improvement
+
+### File Management
+
+- **Auto-save**: All generated audio saved to `outputs/` directory
+- **Persistent History**: SQLite database tracks all generations
+- **Organized Storage**: Files named with timestamps and service info
+- **Easy Access**: Direct play/download from history sidebar
+
+## 🧪 Testing
+
+### Test Suite Overview
+
+Our comprehensive test suite ensures reliability and performance:
+
+```bash
+# Run all tests
+python -m unittest discover tests
+
+# Run specific test categories
+python tests/test_app.py           # Core functionality
+python tests/test_integration.py   # End-to-end workflows
+python tests/test_performance.py   # Performance benchmarks
+
+# Run with verbose output
+python -m unittest discover tests -v
+```
+
+### Test Categories
+
+#### **Unit Tests** (`test_app.py`)
+- ✅ TTS provider functionality
+- ✅ Text optimization algorithms
+- ✅ Database operations
+- ✅ API endpoint validation
+- ✅ Error handling
+- ✅ Configuration management
+
+#### **Integration Tests** (`test_integration.py`)
+- ✅ End-to-end workflows
+- ✅ Service integration
+- ✅ Data persistence
+- ✅ Concurrent operations
+- ✅ Error recovery
+
+#### **Performance Tests** (`test_performance.py`)
+- ✅ Response time benchmarks
+- ✅ Memory usage monitoring
+- ✅ Scalability testing
+- ✅ Cache effectiveness
+- ✅ Database performance
+
+### Continuous Integration
+
+```yaml
+# Example GitHub Actions workflow
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          sudo apt-get install ffmpeg
+      - name: Run tests
+        run: python -m unittest discover tests
+```
+
+## 🏗️ Architecture
+
+### System Overview
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Flask API     │    │   TTS Services  │
+│   (HTML/JS)     │◄──►│   (Python)      │◄──►│   (OpenAI, etc) │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Browser       │    │   SQLite DB     │    │   File System   │
+│   Storage       │    │   (History)     │    │   (Audio Files) │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+### Provider Pattern
+
+Each TTS service implements a consistent interface:
+
+```python
+class TTSProvider:
+    def __init__(self):
+        """Initialize with API credentials"""
+        
+    def list_voices(self) -> List[Dict]:
+        """Return available voices"""
+        
+    def generate_speech(self, text: str, title: str, options: Dict) -> Tuple[bytes, str]:
+        """Generate audio and return (content, filename)"""
+```
+
+### Key Components
+
+#### **Backend (Flask)**
+- **Provider Management**: Dynamic service loading and configuration
+- **API Endpoints**: RESTful design with comprehensive error handling
+- **Database Layer**: SQLite with connection pooling and transactions
+- **File Management**: Organized storage with secure serving
+- **Caching System**: In-memory LRU cache for performance
+
+#### **Frontend (Vanilla JS + Tailwind)**
+- **Responsive Design**: Mobile-first approach with dark theme
+- **Real-time Updates**: Dynamic service/voice loading
+- **State Management**: Local state with server synchronization
+- **User Experience**: Intuitive controls with immediate feedback
+
+#### **Data Layer**
+- **SQLite Database**: Lightweight, serverless, ACID-compliant
+- **File System**: Organized audio storage with metadata
+- **Caching**: Multi-level caching strategy
+- **Configuration**: Environment-based with validation
+
+### Database Schema
+
+```sql
+CREATE TABLE generation_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    service TEXT NOT NULL,
+    voice TEXT NOT NULL,
+    text_snippet TEXT,
+    filename TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    file_path TEXT
+);
+```
+
+## 🔧 API Reference
+
+### Endpoints Overview
+
+| Endpoint | Method | Purpose | Authentication |
+|----------|--------|---------|----------------|
+| `/` | GET | Serve frontend | None |
+| `/services` | GET | List available TTS services | None |
+| `/voices/<service>` | GET | Get voices for service | None |
+| `/generate` | POST | Generate speech | None |
+| `/generate-stream` | POST | Generate speech with streaming | None |
+| `/analyze-emotion` | POST | Analyze text emotion | None |
+| `/optimize` | POST | Enhance text | None |
+| `/history` | GET | Get generation history | None |
+| `/outputs/<filename>` | GET | Serve audio files | None |
+| `/api-config` | GET/POST | Manage API configuration | None |
+
+### Detailed API Documentation
+
+#### **Generate Speech**
+
+```http
+POST /generate
+Content-Type: application/json
+
+{
+  "service": "openai",
+  "title": "My Audio",
+  "text": "Hello, world!",
+  "voice_model_options": {
+    "api_params": {
+      "voice": "alloy",
+      "model": "tts-1"
+    },
+    "speed": 1.0
+  }
+}
+```
+
+**Response:**
+```http
+200 OK
+Content-Type: audio/mp3
+Content-Disposition: attachment; filename="My_Audio_openai_20231201123456.mp3"
+
+[Binary audio data]
+```
+
+#### **Optimize Text**
+
+```http
+POST /optimize
+Content-Type: application/json
+
+{
+  "text": "This is a test about AI",
+  "service": "openai",
+  "mode": "default"
+}
+```
+
+**Response:**
+```json
+{
+  "optimized_text": "Here's a test story about artificial intelligence and its fascinating applications."
+}
+```
+
+#### **Get Services**
+
+```http
+GET /services
+```
+
+**Response:**
+```json
+{
+  "openai": {
+    "label": "OpenAI",
+    "configured": true,
+    "voices_endpoint": "/voices/openai",
+    "voice_type": "static",
+    "unavailable_reason": null
+  },
+  "elevenlabs": {
+    "label": "ElevenLabs",
+    "configured": false,
+    "unavailable_reason": "API key not configured"
+  }
+}
+```
+
+#### **Streaming Speech Generation**
+
+```http
+POST /generate-stream
+Content-Type: application/json
+
+{
+  "service": "openai",
+  "title": "My Project",
+  "text": "Long text content for streaming generation...",
+  "voice_model_options": {
+    "api_params": {"voice": "alloy", "model": "tts-1"},
+    "speed": 1.0
+  }
+}
+```
+
+**Response**: Text stream with JSON objects
+```text
+{"type": "status", "message": "Processing 3 text chunks...", "progress": 0, "total_chunks": 3}
+{"type": "status", "message": "Generating audio for chunk 1/3...", "progress": 20}
+{"type": "chunk_complete", "chunk_index": 0, "message": "Chunk 1/3 completed"}
+{"type": "complete", "filename": "audio_file.mp3", "message": "Speech generated successfully!"}
+```
+
+#### **Emotion Analysis**
+
+```http
+POST /analyze-emotion
+Content-Type: application/json
+
+{
+  "text": "I'm so excited about this amazing opportunity!",
+  "service": "openai",
+  "voice_model_options": {
+    "api_params": {"voice": "alloy"},
+    "speed": 1.0
+  }
+}
+```
+
+**Response**:
+```json
+{
+  "emotion": "joy",
+  "confidence": 0.95,
+  "original_params": {
+    "api_params": {"voice": "alloy"},
+    "speed": 1.0
+  },
+  "suggested_params": {
+    "api_params": {"voice": "alloy"},
+    "speed": 1.1
+  },
+  "emotion_description": "Positive, upbeat, and energetic tone"
+}
+```
+
+## 🎨 Customization
+
+### Theming
+
+The application uses a ChatGPT-inspired dark theme built with Tailwind CSS:
+
+```css
+/* Custom color palette */
+:root {
+  --gpt-dark: #202123;
+  --gpt-dark-secondary: #343541;
+  --gpt-dark-tertiary: #40414F;
+  --gpt-accent: #10A37F;
+  --gpt-light-gray: #D1D5DB;
+}
+```
+
+### Adding TTS Providers
+
+1. **Create Provider Class**:
+```python
+class NewTTSProvider:
+    def __init__(self):
+        # Initialize with API credentials
+        pass
+    
+    def list_voices(self):
+        # Return voice list
+        return []
+    
+    def generate_speech(self, text, title, options):
+        # Generate audio
+        return audio_bytes, filename
+```
+
+2. **Register Provider**:
+```python
+TTS_PROVIDERS_CONFIG["new_service"] = {
+    "instance": new_provider_instance,
+    "label": "New Service",
+    "voice_type": "dynamic"
+}
+```
+
+3. **Add Frontend Support**:
+```javascript
+// Add service-specific controls
+case 'new_service':
+    showNewServiceControls();
+    break;
+```
+
+### Environment Customization
+
+```env
+# Custom branding
+APP_NAME=My Voice Generator
+APP_LOGO=/path/to/logo.png
+
+# Feature flags
+ENABLE_FILE_UPLOAD=true
+ENABLE_HISTORY=true
+ENABLE_OPTIMIZATION=true
+
+# Performance tuning
+MAX_TEXT_LENGTH=10000
+MAX_CACHE_SIZE=500
+CACHE_TTL=3600
+```
+
+## 📊 Performance
+
+### Benchmarks
+
+| Operation | Average Time | 95th Percentile |
+|-----------|-------------|-----------------|
+| Page Load | 150ms | 300ms |
+| Service List | 50ms | 100ms |
+| Voice List | 200ms | 500ms |
+| Text Optimization | 800ms | 2000ms |
+| Audio Generation | 2-5s | 10s |
+
+### Optimization Features
+
+#### **Caching Strategy**
+- **In-memory LRU cache** for TTS results
+- **Browser caching** for static assets
+- **Service response caching** for voice lists
+- **Database query optimization** with proper indexing
+
+#### **Performance Monitoring**
+```python
+# Built-in performance logging
+@app.before_request
+def log_request_info():
+    app.logger.info('Request: %s %s', request.method, request.url)
+
+@app.after_request
+def log_response_info(response):
+    app.logger.info('Response: %s', response.status_code)
+    return response
+```
+
+#### **Scalability Considerations**
+- **Stateless design** for horizontal scaling
+- **Database connection pooling** for concurrent requests
+- **Async processing** potential for background tasks
+- **CDN integration** ready for static assets
+
+### Resource Usage
+
+| Component | CPU Usage | Memory Usage | Storage |
+|-----------|-----------|--------------|---------|
+| Flask App | Low | 50-200MB | Minimal |
+| SQLite DB | Minimal | 10-50MB | Growing |
+| Audio Files | None | None | 1-10MB/file |
+| Cache | Low | 10-100MB | Temporary |
+
+## 🔒 Security
+
+### Security Features
+
+#### **API Security**
+- **Input validation** on all endpoints
+- **SQL injection prevention** with parameterized queries
+- **File upload restrictions** (type, size validation)
+- **Rate limiting** capability (configurable)
+
+#### **Data Protection**
+- **Environment variable isolation** for API keys
+- **Secure file serving** with path validation
+- **No credential logging** in application logs
+- **Temporary file cleanup** after processing
+
+#### **Best Practices**
+```python
+# Example security measures
+@app.before_request
+def security_headers():
+    # CSRF protection
+    if request.method == 'POST':
+        validate_csrf_token(request)
+    
+    # File upload validation
+    if 'file' in request.files:
+        validate_file_upload(request.files['file'])
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    return response
+```
+
+### Production Deployment
+
+#### **Environment Security**
+```bash
+# Production .env example
+FLASK_ENV=production
+FLASK_DEBUG=false
+SECRET_KEY=complex-random-string-here
+
+# Use secrets management
+OPENAI_API_KEY=${OPENAI_API_KEY}
+ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
+```
+
+#### **Server Configuration**
+- **HTTPS enforcement** with SSL certificates
+- **Reverse proxy** (nginx) for static file serving
+- **Process management** with gunicorn/uwsgi
+- **Monitoring** with application performance tools
+
+#### **Database Security**
+- **Regular backups** of SQLite database
+- **File permissions** properly configured
+- **Database encryption** at rest (if required)
+- **Access logging** for audit trails
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow our guidelines:
+
+### Development Setup
+
+```bash
+# Fork and clone repository
+git clone https://github.com/yourusername/aivoicegen.git
+cd aivoicegen
+
+# Create feature branch
+git checkout -b feature/amazing-feature
+
+# Set up development environment
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+
+# Run tests
+python -m unittest discover tests
+
+# Start development server
+python app.py
+```
+
+### Contribution Types
+
+- 🐛 **Bug Reports**: Use GitHub issues with detailed descriptions
+- ✨ **Feature Requests**: Propose new functionality with use cases
+- 📖 **Documentation**: Improve README, API docs, or code comments
+- 🧪 **Tests**: Add test coverage for existing or new functionality
+- 🎨 **UI/UX**: Enhance the user interface and experience
+- 🔧 **Performance**: Optimize code for better performance
+
+### Code Standards
+
+- **Python**: Follow PEP 8 style guide
+- **JavaScript**: Use ES6+ features consistently
+- **HTML/CSS**: Semantic markup with Tailwind classes
+- **Documentation**: Clear docstrings and comments
+- **Testing**: Maintain 80%+ test coverage
+
+### Pull Request Process
+
+1. **Create descriptive PR title** and detailed description
+2. **Reference related issues** with closing keywords
+3. **Ensure all tests pass** before requesting review
+4. **Add tests** for new functionality
+5. **Update documentation** as needed
+6. **Follow security guidelines** for sensitive changes
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### MIT License Summary
+
+- ✅ **Commercial use** allowed
+- ✅ **Modification** allowed
+- ✅ **Distribution** allowed
+- ✅ **Private use** allowed
+- ❌ **Liability** not provided
+- ❌ **Warranty** not provided
+
+---
+
+## 📚 Documentation
+
+Additional documentation is available in the [`docs/`](./docs/) directory:
+
+| Document | Description |
+|----------|-------------|
+| [`todolist.md`](./docs/todolist.md) | Development tasks organized by priority |
+| [`secrets.md`](./docs/secrets.md) | Environment variables and API setup guide |
+| [`PRD.md`](./docs/PRD.md) | Product Requirements Document with user stories |
+| [`design.md`](./docs/design.md) | System architecture and enhancement roadmap |
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the community**
+
+[⭐ Star this repo](https://github.com/michaeljabbour/aivoicegen) • [🍴 Fork it](https://github.com/michaeljabbour/aivoicegen/fork) • [🐛 Report Issues](https://github.com/michaeljabbour/aivoicegen/issues)
+
+</div>

@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include CLAUDE.md
+recursive-include aivoicegen/static *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+exclude outputs/*
+exclude history.db
+exclude .env*
+exclude .backup-complex-files/*

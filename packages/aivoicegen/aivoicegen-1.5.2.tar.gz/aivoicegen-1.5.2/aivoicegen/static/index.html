@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice Generator - Sleek</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script>
+        // Tailwind dark mode configuration
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'gpt-dark': '#202123',
+                        'gpt-dark-secondary': '#343541',
+                        'gpt-dark-tertiary': '#40414F',
+                        'gpt-light-gray': '#D1D5DB',
+                        'gpt-gray': '#8E8EA0',
+                        'gpt-accent': '#10A37F',
+                        'gpt-accent-hover': '#0E8A6A',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for webkit browsers (dark theme) */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2D3748;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4A5568;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+
+        .transition-all-fast {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        /* Custom focus rings for dark mode */
+        input:focus, textarea:focus, select:focus, button:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            border-color: #10A37F !important;
+            box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.5) !important;
+        }
+        .advanced-param-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #10A37F;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .advanced-param-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #10A37F;
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+        }
+
+        /* ChatGPT-like input area */
+        .chatgpt-input-container {
+            position: sticky;
+            bottom: 0;
+            background-color: #202123;
+            padding-top: 1rem; 
+            padding-bottom: 1.5rem; 
+            margin-left: -1.5rem; 
+            margin-right: -1.5rem; 
+            width: calc(100% + 3rem); 
+        }
+
+        .chatgpt-input-wrapper {
+            max-width: 48rem; 
+            margin: 0 auto;
+            padding: 0 1rem; 
+            position: relative;
+        }
+
+        #inputText.chatgpt-textarea {
+            background-color: #40414F; 
+            color: #D1D5DB; 
+            border: 1px solid #565869; 
+            border-radius: 0.75rem; 
+            padding: 0.75rem 1rem;
+            padding-right: 6rem;
+            min-height: 120px; 
+            max-height: 400px; 
+            line-height: 1.5;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 10px 40px rgba(0,0,0,0.2); 
+        }
+        #inputText.chatgpt-textarea::placeholder {
+            color: #8E8EA0; 
+        }
+
+        .chatgpt-action-btn {
+            background-color: #10A37F; 
+            color: white;
+            border-radius: 0.5rem;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chatgpt-action-btn:hover:not(:disabled) {
+            background-color: #0E8A6A; 
+        }
+        .chatgpt-action-btn:disabled {
+            background-color: #40414F; 
+            cursor: not-allowed;
+        }
+        #generateBtn.chatgpt-send-btn {
+            position: absolute;
+            right: 1.5rem; 
+            bottom: 0.6rem; 
+        }
+        #optimizeTextBtn {
+            position: absolute;
+            right: calc(1.5rem + 36px + 0.5rem);
+            bottom: 0.6rem;
+            background-color: #40414F;
+            border: 1px solid #565869;
+        }
+        #optimizeTextBtn:hover:not(:disabled) {
+            background-color: #565869;
+        }
+        body.drag-active #inputText.chatgpt-textarea { 
+            border-color: #10A37F !important;
+            background-color: #343541 !important;
+        }
+
+        /* Auto-resize textarea functionality */
+        .auto-resize {
+            resize: none;
+            overflow: hidden;
+        }
+        
+        /* Status indicator dots */
+        .status-dot {
+            transition: all 0.2s ease;
+        }
+        .status-dot:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body class="bg-gpt-dark text-gpt-light-gray font-sans">
+
+    <div id="notificationsContainer" class="fixed top-4 right-4 p-4 space-y-2 z-[100] w-full max-w-md"></div>
+
+    <div class="flex h-screen"> 
+        <aside class="w-72 bg-gpt-dark-secondary border-r border-gpt-dark-tertiary flex flex-col p-3 space-y-4">
+
+            <div class="flex-grow flex flex-col min-h-0 border-t border-gpt-dark-tertiary pt-3 mt-3">
+                <div class="flex items-center justify-between mb-2 px-1">
+                    <h3 class="text-xs font-semibold text-gpt-gray uppercase tracking-wider">History</h3>
+                    <button id="openDownloadsBtn" class="text-xs text-gpt-gray hover:text-gpt-accent transition-colors flex items-center space-x-1" title="Open Downloads Folder">
+                        <i class="fas fa-folder-open text-xs"></i>
+                        <span>Files</span>
+                    </button>
+                </div>
+                <div id="historyListContainer" class="flex-1 overflow-y-auto pr-1">
+                    <div class="p-2 text-center text-gpt-gray text-xs">
+                        <p>No generations yet.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Logo and Settings at bottom -->
+            <div class="border-t border-gpt-dark-tertiary pt-3 mt-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-microphone-alt text-lg text-gpt-accent"></i>
+                        <span class="text-sm font-medium text-gpt-light-gray">AI Voice Gen</span>
+                    </div>
+                    <button id="apiSettingsBtn" class="p-1.5 rounded-md hover:bg-gpt-dark-tertiary transition-colors" title="Settings">
+                        <i class="fas fa-cog text-sm text-gpt-gray hover:text-gpt-light-gray"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+            
+        <main class="flex-1 flex flex-col p-6 relative overflow-y-auto">
+            <div class="flex-grow space-y-4 mb-24">
+                <!-- Hidden audio player for programmatic control -->
+                <audio id="audioPlayer" style="display: none;"></audio>
+                
+                <div id="generationProgressSection" class="p-3 bg-gpt-dark-secondary rounded-lg hidden">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-spinner fa-spin text-gpt-accent"></i>
+                        <p id="progressStatusText" class="text-sm text-gpt-gray"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chatgpt-input-container">
+                <!-- Generated Text Display Area -->
+                <div id="generatedTextArea" class="mb-4 hidden">
+                    <div class="bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-medium text-gpt-light-gray">Enhanced Text</h3>
+                            <div class="flex items-center space-x-2">
+                                <button id="retryTextBtn" class="p-1.5 text-gpt-gray hover:text-gpt-accent transition-colors" title="Retry enhancement">
+                                    <i class="fas fa-redo text-xs"></i>
+                                </button>
+                                <button id="shorterTextBtn" class="p-1.5 text-gpt-gray hover:text-gpt-accent transition-colors" title="Make shorter">
+                                    <i class="fas fa-compress-alt text-xs"></i>
+                                </button>
+                                <button id="longerTextBtn" class="p-1.5 text-gpt-gray hover:text-gpt-accent transition-colors" title="Make longer">
+                                    <i class="fas fa-expand-alt text-xs"></i>
+                                </button>
+                                <button id="useGeneratedTextBtn" class="px-3 py-1 bg-gpt-accent hover:bg-gpt-accent-hover text-white text-xs rounded transition-colors">
+                                    Use This Text
+                                </button>
+                                <button id="closeGeneratedTextBtn" class="p-1 text-gpt-gray hover:text-gpt-light-gray">
+                                    <i class="fas fa-times text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="generatedTextContent" class="text-gpt-light-gray text-sm leading-relaxed p-3 bg-gpt-dark-tertiary rounded border-l-4 border-gpt-accent">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chatgpt-input-wrapper relative">
+                    <textarea id="inputText" rows="5" placeholder="Enter text to convert to speech. Use the ✨ button to expand and enhance your content for better audio experience. (Ctrl+Enter to generate)" class="chatgpt-textarea w-full resize-none overflow-y-auto auto-resize"></textarea>
+                    <button id="optimizeTextBtn" class="chatgpt-action-btn" title="Expand & Enhance Text with AI ✨">
+                        <i class="fas fa-magic"></i>
+                    </button>
+                    <button id="generateBtn" class="chatgpt-action-btn chatgpt-send-btn" title="Generate Speech (Ctrl+Enter)">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                    <input type="file" id="fileUpload" accept=".txt" class="hidden">
+                </div>
+                <div class="flex justify-between items-center mt-2 px-4 max-w-3xl mx-auto">
+                    <div class="flex items-center space-x-2">
+                        <p id="characterCount" class="text-xs text-gpt-gray">0 characters</p>
+                    </div>
+                    
+                    <!-- Model/Voice Selectors in center -->
+                    <div class="flex items-center space-x-2">
+                        <div class="relative">
+                            <button id="serviceDropdownBtn" class="flex items-center space-x-1 px-2 py-1 bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded hover:bg-gpt-dark-tertiary transition-colors text-xs">
+                                <i id="currentServiceIcon" class="fas fa-robot text-gpt-accent"></i>
+                                <span id="currentServiceLabel" class="text-gpt-light-gray">Model</span>
+                                <div id="currentServiceStatusDot" class="w-2 h-2 bg-gray-500 rounded-full status-dot" title="No service selected"></div>
+                                <i class="fas fa-chevron-down text-gpt-gray text-xs"></i>
+                            </button>
+                            <div id="serviceDropdown" class="absolute bottom-full left-0 mb-2 w-48 bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded-lg shadow-xl z-50 hidden">
+                                <div id="servicesLoading" class="text-center py-2 hidden">
+                                    <i class="fas fa-spinner fa-spin text-gpt-accent text-sm"></i>
+                                </div>
+                                <div id="serviceSelectionContainer" class="p-1">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="voiceDropdownContainer" class="relative hidden">
+                            <button id="voiceDropdownBtn" class="flex items-center space-x-1 px-2 py-1 bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded hover:bg-gpt-dark-tertiary transition-colors text-xs">
+                                <span id="currentVoiceLabel" class="text-gpt-light-gray">Voice</span>
+                                <i class="fas fa-chevron-down text-gpt-gray text-xs"></i>
+                            </button>
+                            <div id="voiceDropdown" class="absolute bottom-full left-0 mb-2 w-56 bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 hidden">
+                                <div class="p-2">
+                                    <input type="text" id="voiceSearchInput" placeholder="Search..." class="w-full p-1.5 text-xs bg-gpt-dark-tertiary border border-gpt-dark-tertiary rounded text-gpt-light-gray placeholder-gpt-gray focus:border-gpt-accent mb-1">
+                                    <div id="voicesLoading" class="text-center py-2 hidden">
+                                        <i class="fas fa-spinner fa-spin text-gpt-accent text-sm"></i>
+                                    </div>
+                                    <div id="voiceListContainer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="advancedSettingsContainer" class="relative hidden">
+                            <button id="advancedSettingsBtn" class="flex items-center space-x-1 px-2 py-1 bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded hover:bg-gpt-dark-tertiary transition-colors text-xs">
+                                <i class="fas fa-cog text-gpt-gray"></i>
+                                <span class="text-gpt-light-gray">Advanced</span>
+                                <i class="fas fa-chevron-down text-gpt-gray text-xs"></i>
+                            </button>
+                            <div id="advancedSettingsDropdown" class="absolute bottom-full left-0 mb-2 w-64 bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded-lg shadow-xl z-50 hidden">
+                                <div class="p-3 space-y-3">
+                                    <!-- OpenAI Controls -->
+                                    <div id="openaiControls" class="hidden space-y-3">
+                                        <div>
+                                            <label class="block text-xs font-medium text-gpt-light-gray mb-1">Model</label>
+                                            <select id="openaiModelSelect" class="w-full p-2 bg-gpt-dark-tertiary border border-gpt-dark-tertiary rounded text-gpt-light-gray text-xs">
+                                                <option value="tts-1">TTS-1 (Standard)</option>
+                                                <option value="tts-1-hd">TTS-1-HD (High Quality)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-xs font-medium text-gpt-light-gray mb-1">Speech Speed</label>
+                                            <div class="flex items-center space-x-2">
+                                                <span class="text-xs text-gpt-gray">0.25x</span>
+                                                <input type="range" id="speedSlider" min="0.25" max="4" step="0.25" value="1" class="flex-1 advanced-param-slider">
+                                                <span class="text-xs text-gpt-gray">4x</span>
+                                            </div>
+                                            <div class="text-xs text-gpt-gray mt-1">Current: <span id="speedValue">1.0x</span></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- ElevenLabs Controls -->
+                                    <div id="elevenlabsControls" class="hidden space-y-3">
+                                        <div>
+                                            <label class="block text-xs font-medium text-gpt-light-gray mb-1">Model</label>
+                                            <select id="elevenlabsModelSelect" class="w-full p-2 bg-gpt-dark-tertiary border border-gpt-dark-tertiary rounded text-gpt-light-gray text-xs">
+                                                <option value="eleven_multilingual_v2">Multilingual V2 (Default)</option>
+                                                <option value="eleven_multilingual_v1">Multilingual V1</option>
+                                                <option value="eleven_monolingual_v1">Monolingual V1</option>
+                                                <option value="eleven_turbo_v2">Turbo V2 (Fast)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-xs font-medium text-gpt-light-gray mb-1">Stability</label>
+                                            <div class="flex items-center space-x-2">
+                                                <span class="text-xs text-gpt-gray">0</span>
+                                                <input type="range" id="stabilitySlider" min="0" max="1" step="0.01" value="0.5" class="flex-1 advanced-param-slider">
+                                                <span class="text-xs text-gpt-gray">1</span>
+                                            </div>
+                                            <div class="text-xs text-gpt-gray mt-1">Current: <span id="stabilityValue">0.5</span></div>
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-xs font-medium text-gpt-light-gray mb-1">Similarity Boost</label>
+                                            <div class="flex items-center space-x-2">
+                                                <span class="text-xs text-gpt-gray">0</span>
+                                                <input type="range" id="similaritySlider" min="0" max="1" step="0.01" value="0.75" class="flex-1 advanced-param-slider">
+                                                <span class="text-xs text-gpt-gray">1</span>
+                                            </div>
+                                            <div class="text-xs text-gpt-gray mt-1">Current: <span id="similarityValue">0.75</span></div>
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-xs font-medium text-gpt-light-gray mb-1">Style</label>
+                                            <div class="flex items-center space-x-2">
+                                                <span class="text-xs text-gpt-gray">0</span>
+                                                <input type="range" id="styleSlider" min="0" max="1" step="0.01" value="0" class="flex-1 advanced-param-slider">
+                                                <span class="text-xs text-gpt-gray">1</span>
+                                            </div>
+                                            <div class="text-xs text-gpt-gray mt-1">Current: <span id="styleValue">0</span></div>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="speakerBoostCheckbox" checked class="mr-2">
+                                            <label for="speakerBoostCheckbox" class="text-xs text-gpt-light-gray">Use Speaker Boost</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- No advanced settings message -->
+                                    <div id="noAdvancedSettings" class="text-xs text-gpt-gray text-center py-2">
+                                        No advanced settings available for this service.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="emotionControlsContainer" class="relative hidden">
+                            <button id="emotionControlsBtn" class="flex items-center space-x-1 px-2 py-1 bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded hover:bg-gpt-dark-tertiary transition-colors text-xs">
+                                <i class="fas fa-heart text-gpt-gray"></i>
+                                <span class="text-gpt-light-gray">Emotion</span>
+                                <i class="fas fa-chevron-down text-gpt-gray text-xs"></i>
+                            </button>
+                            <div id="emotionControlsDropdown" class="absolute bottom-full left-0 mb-2 w-72 bg-gpt-dark-secondary border border-gpt-dark-tertiary rounded-lg shadow-xl z-50 hidden">
+                                <div class="p-3">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="text-xs font-medium text-gpt-light-gray">Emotion-Aware TTS</h3>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="emotionAwareToggle" class="mr-2" checked>
+                                            <label for="emotionAwareToggle" class="text-xs text-gpt-light-gray">Auto-detect</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Emotion Analysis Status -->
+                                    <div id="emotionAnalysisStatus" class="mb-3 p-2 bg-gpt-dark-tertiary rounded text-xs hidden">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gpt-light-gray">Detected:</span>
+                                            <span id="detectedEmotion" class="text-gpt-accent font-medium">neutral</span>
+                                        </div>
+                                        <div class="flex items-center justify-between mt-1">
+                                            <span class="text-gpt-light-gray">Confidence:</span>
+                                            <span id="emotionConfidence" class="text-gpt-gray">0%</span>
+                                        </div>
+                                        <div class="mt-1">
+                                            <span id="emotionDescription" class="text-gpt-gray text-xs">Standard delivery</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Manual Emotion Override -->
+                                    <div id="manualEmotionControls">
+                                        <label class="block text-xs font-medium text-gpt-light-gray mb-2">Manual Override</label>
+                                        <select id="manualEmotionSelect" class="w-full p-2 bg-gpt-dark-tertiary border border-gpt-dark-tertiary rounded text-gpt-light-gray text-xs">
+                                            <option value="">Auto-detect from text</option>
+                                            <option value="neutral">Neutral - Standard delivery</option>
+                                            <option value="joy">Joy - Upbeat and energetic</option>
+                                            <option value="sadness">Sadness - Slower, contemplative</option>
+                                            <option value="anger">Anger - Intense, forceful</option>
+                                            <option value="fear">Fear - Cautious, uncertain</option>
+                                            <option value="surprise">Surprise - Dynamic, attention-grabbing</option>
+                                            <option value="calm">Calm - Peaceful, measured pace</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Analyze Button -->
+                                    <button id="analyzeEmotionBtn" class="w-full mt-3 px-3 py-2 bg-gpt-accent hover:bg-gpt-accent-hover text-white text-xs rounded transition-colors">
+                                        Analyze Text Emotion
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <button id="uploadBtn" class="text-xs text-gpt-gray hover:text-gpt-light-gray" title="Upload .txt file">
+                        <i class="fas fa-paperclip mr-1"></i> Attach file
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="settingsModal" class="modal-container fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden transition-opacity duration-300">
+        <div class="modal-content bg-gpt-dark-secondary p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg transform transition-all duration-300 scale-95 opacity-0 overflow-y-auto border border-gpt-dark-tertiary">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold text-gpt-light-gray"><i class="fas fa-cog mr-2 text-gpt-accent"></i>API Configuration</h2>
+                <button id="closeSettingsModalBtn" class="p-1 rounded-full hover:bg-gpt-dark-tertiary">
+                    <i class="fas fa-times text-xl text-gpt-gray hover:text-gpt-light-gray"></i>
+                </button>
+            </div>
+            
+            <!-- First-time setup message -->
+            <div id="firstTimeSetupMessage" class="bg-blue-900/30 border border-blue-700/50 rounded-lg p-4 mb-6">
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-info-circle text-blue-400 mt-0.5"></i>
+                    <div>
+                        <h3 class="text-sm font-medium text-blue-300 mb-1">Welcome to AI Voice Generator!</h3>
+                        <p class="text-xs text-blue-200">To get started, add at least one API key below. You only need one service to begin generating speech.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-5">
+                <div>
+                    <label for="openaiApiKey" class="block text-sm font-medium text-gpt-gray mb-1">OpenAI API Key</label>
+                    <div class="relative">
+                        <input type="password" id="openaiApiKey" placeholder="sk-..." class="api-key-input w-full p-2 pr-10 bg-gpt-dark-tertiary border border-gpt-dark-tertiary rounded-md text-gpt-light-gray placeholder-gpt-gray focus:border-gpt-accent">
+                        <span id="openaiApiStatus" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"></span>
+                    </div>
+                    <p class="text-xs text-gpt-gray mt-1">Get from <a href="https://platform.openai.com/api-keys" target="_blank" class="text-gpt-accent hover:underline">OpenAI Platform</a>.</p>
+                </div>
+
+                <div>
+                    <label for="elevenlabsApiKey" class="block text-sm font-medium text-gpt-gray mb-1">ElevenLabs API Key</label>
+                     <div class="relative">
+                        <input type="password" id="elevenlabsApiKey" placeholder="Your ElevenLabs API Key" class="api-key-input w-full p-2 pr-10 bg-gpt-dark-tertiary border border-gpt-dark-tertiary rounded-md text-gpt-light-gray placeholder-gpt-gray focus:border-gpt-accent">
+                        <span id="elevenlabsApiStatus" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"></span>
+                    </div>
+                    <p class="text-xs text-gpt-gray mt-1">Get from <a href="https://elevenlabs.io/subscription" target="_blank" class="text-gpt-accent hover:underline">ElevenLabs Profile</a>.</p>
+                </div>
+                
+                <div>
+                    <label for="geminiApiKey" class="block text-sm font-medium text-gpt-gray mb-1">Gemini API Key (for TTS & LLM)</label>
+                    <div class="relative">
+                        <input type="password" id="geminiApiKey" placeholder="Your Gemini API Key" class="api-key-input w-full p-2 pr-10 bg-gpt-dark-tertiary border border-gpt-dark-tertiary rounded-md text-gpt-light-gray placeholder-gpt-gray focus:border-gpt-accent">
+                        <span id="geminiApiStatus" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"></span>
+                    </div>
+                    <p class="text-xs text-gpt-gray mt-1">Get from <a href="https://makersuite.google.com/app/apikey" target="_blank" class="text-gpt-accent hover:underline">Google AI Studio</a>. Used for Gemini TTS and Text Optimization.</p>
+                </div>
+            </div>
+            
+            <!-- Database Management Section -->
+            <div class="border-t border-gpt-dark-tertiary pt-5 mt-6">
+                <h3 class="text-sm font-medium text-gpt-gray mb-3">Database Management</h3>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gpt-gray">Clear all generation history</p>
+                        <p class="text-xs text-red-400">This action cannot be undone</p>
+                    </div>
+                    <button id="clearHistoryBtn" class="px-3 py-1.5 text-xs font-medium text-red-400 border border-red-400 hover:bg-red-400 hover:text-white rounded-md transition-colors">
+                        <i class="fas fa-trash mr-1"></i>Clear History
+                    </button>
+                </div>
+            </div>
+
+            <!-- Version Info -->
+            <div class="border-t border-gpt-dark-tertiary pt-3 mt-5">
+                <p class="text-xs text-gpt-gray text-center">AI Voice Generator v1.5.1</p>
+            </div>
+
+            <div class="mt-8 flex justify-end space-x-3">
+                <button id="cancelSettingsBtn" class="px-4 py-2 text-sm font-medium text-gpt-light-gray bg-gpt-dark-tertiary hover:bg-opacity-80 rounded-md">Cancel</button>
+                <button id="saveSettingsBtn" class="px-4 py-2 text-sm font-medium text-white bg-gpt-accent hover:bg-gpt-accent-hover rounded-md flex items-center">
+                    <i class="fas fa-save mr-2"></i>Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DOM Elements ---
+        const apiSettingsBtn = document.getElementById('apiSettingsBtn');
+        const settingsModal = document.getElementById('settingsModal');
+        const closeSettingsModalBtn = document.getElementById('closeSettingsModalBtn');
+        const cancelSettingsBtn = document.getElementById('cancelSettingsBtn');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+        const openaiApiKeyInput = document.getElementById('openaiApiKey');
+        const elevenlabsApiKeyInput = document.getElementById('elevenlabsApiKey');
+        const geminiApiKeyInput = document.getElementById('geminiApiKey');
+        
+        const openaiApiStatus = document.getElementById('openaiApiStatus');
+        const elevenlabsApiStatus = document.getElementById('elevenlabsApiStatus');
+        const geminiApiStatus = document.getElementById('geminiApiStatus');
+
+        // New dropdown elements
+        const serviceDropdownBtn = document.getElementById('serviceDropdownBtn');
+        const serviceDropdown = document.getElementById('serviceDropdown');
+        const currentServiceIcon = document.getElementById('currentServiceIcon');
+        const currentServiceLabel = document.getElementById('currentServiceLabel');
+        const currentServiceStatusDot = document.getElementById('currentServiceStatusDot');
+        const servicesLoadingDiv = document.getElementById('servicesLoading'); 
+        const serviceSelectionContainer = document.getElementById('serviceSelectionContainer'); 
+
+        const voiceDropdownContainer = document.getElementById('voiceDropdownContainer');
+        const voiceDropdownBtn = document.getElementById('voiceDropdownBtn');
+        const voiceDropdown = document.getElementById('voiceDropdown');
+        const currentVoiceLabel = document.getElementById('currentVoiceLabel');
+        const voiceSearchInput = document.getElementById('voiceSearchInput');
+        const voicesLoadingDiv = document.getElementById('voicesLoading'); 
+        const voiceListContainer = document.getElementById('voiceListContainer');
+
+        const advancedSettingsContainer = document.getElementById('advancedSettingsContainer');
+        const advancedSettingsBtn = document.getElementById('advancedSettingsBtn');
+        const advancedSettingsDropdown = document.getElementById('advancedSettingsDropdown');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+        const stabilitySlider = document.getElementById('stabilitySlider');
+        const stabilityValue = document.getElementById('stabilityValue');
+        const similaritySlider = document.getElementById('similaritySlider');
+        const similarityValue = document.getElementById('similarityValue');
+        const styleSlider = document.getElementById('styleSlider');
+        const styleValue = document.getElementById('styleValue');
+        const speakerBoostCheckbox = document.getElementById('speakerBoostCheckbox');
+
+        const inputTextarea = document.getElementById('inputText');
+        const characterCountP = document.getElementById('characterCount');
+        const fileUploadInput = document.getElementById('fileUpload');
+        const uploadBtn = document.getElementById('uploadBtn'); 
+
+        // Generated text display elements
+        const generatedTextArea = document.getElementById('generatedTextArea');
+        const generatedTextContent = document.getElementById('generatedTextContent');
+        const useGeneratedTextBtn = document.getElementById('useGeneratedTextBtn');
+        const closeGeneratedTextBtn = document.getElementById('closeGeneratedTextBtn');
+        const retryTextBtn = document.getElementById('retryTextBtn');
+        const shorterTextBtn = document.getElementById('shorterTextBtn');
+        const longerTextBtn = document.getElementById('longerTextBtn'); 
+
+        const generateBtn = document.getElementById('generateBtn'); 
+        const optimizeTextBtn = document.getElementById('optimizeTextBtn');
+        const generationProgressSection = document.getElementById('generationProgressSection');
+        const progressStatusText = document.getElementById('progressStatusText');
+        
+        const audioPlayer = document.getElementById('audioPlayer');
+        const notificationsContainer = document.getElementById('notificationsContainer');
+        const historyListContainer = document.getElementById('historyListContainer');
+        const openDownloadsBtn = document.getElementById('openDownloadsBtn');
+
+        // --- Global Variables ---
+        let currentServicesData = {};
+        let currentVoicesForSelectedService = [];
+        let currentSelectedServiceKey = null;
+        let audioBlobUrl = null; 
+        let generationHistory = [];
+        let currentOriginalText = ''; // Store original text for retry/shorter/longer
+
+        // SQLite backend storage - no IndexedDB needed
+        async function initDB() {
+            // No client-side database initialization needed
+            // Backend SQLite database is handled by server
+            return Promise.resolve();
+        }
+
+        async function saveToHistory(entry) {
+            // History is automatically saved by backend on audio generation
+            // This function is kept for compatibility but does nothing
+            return Promise.resolve();
+        }
+
+        async function getAllHistory() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/history`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch history from server');
+                }
+                const history = await response.json();
+                
+                // Convert backend history format to frontend format
+                return history.map(item => ({
+                    id: item.id,
+                    title: item.title,
+                    service: item.service,
+                    voice: item.voice,
+                    textSnippet: item.text_snippet,
+                    filename: item.filename,
+                    timestamp: item.timestamp,
+                    // Create blob URL from file path for playback
+                    blobUrl: null // Will be loaded on demand
+                }));
+            } catch (error) {
+                console.error('Error fetching history:', error);
+                throw error;
+            }
+        }
+
+        const API_BASE_URL = '';
+
+        // --- Utility Functions ---
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto'; 
+            textarea.style.height = Math.min(textarea.scrollHeight, 400) + 'px'; 
+        }
+
+        function generateProjectTitle(text) {
+            if (!text || text.trim() === '') {
+                return 'untitled audio';
+            }
+            
+            // Take first 4 words, remove punctuation, and make filename-safe
+            const words = text.trim().split(/\s+/);
+            const firstFourWords = words.slice(0, 4).join(' ');
+            
+            // Remove punctuation and special characters, keep spaces
+            return firstFourWords
+                .toLowerCase()
+                .replace(/[^\w\s]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .substring(0, 50) || 'untitled audio';
+        }
+
+        function showNotification(message, type = 'info', duration = 4000) {
+            const bgColor = type === 'success' ? 'bg-gpt-accent' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            const icon = type === 'success' ? 'fas fa-check-circle' : type === 'error' ? 'fas fa-times-circle' : 'fas fa-info-circle';
+
+            const notification = document.createElement('div');
+            notification.className = `p-3 rounded-lg shadow-xl text-white ${bgColor} flex items-start transition-all duration-300 transform translate-x-full mb-2`;
+            notification.innerHTML = `
+                <i class="${icon} mr-2 mt-1 text-md"></i>
+                <div class="flex-1 text-sm">${message}</div>
+                <button class="ml-3 text-lg leading-none">&times;</button>
+            `;
+            notificationsContainer.appendChild(notification);
+
+            requestAnimationFrame(() => {
+                notification.classList.remove('translate-x-full');
+                notification.classList.add('translate-x-0');
+            });
+            
+            const closeButton = notification.querySelector('button');
+            closeButton.onclick = () => {
+                notification.classList.add('opacity-0');
+                setTimeout(() => notification.remove(), 300);
+            };
+
+            if (duration) {
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                         notification.classList.add('opacity-0');
+                         setTimeout(() => notification.remove(), 300);
+                    }
+                }, duration);
+            }
+        }
+
+        // --- Event Listeners ---
+        inputTextarea.addEventListener('input', () => autoResizeTextarea(inputTextarea));
+
+        // Service and Voice Dropdown Event Listeners
+        serviceDropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            serviceDropdown.classList.toggle('hidden');
+            voiceDropdown.classList.add('hidden'); // Close voice dropdown
+        });
+
+        voiceDropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            voiceDropdown.classList.toggle('hidden');
+            serviceDropdown.classList.add('hidden'); // Close service dropdown
+            advancedSettingsDropdown.classList.add('hidden'); // Close advanced settings dropdown
+        });
+
+        advancedSettingsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            advancedSettingsDropdown.classList.toggle('hidden');
+            serviceDropdown.classList.add('hidden'); // Close service dropdown
+            voiceDropdown.classList.add('hidden'); // Close voice dropdown
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!serviceDropdownBtn.contains(e.target) && !serviceDropdown.contains(e.target)) {
+                serviceDropdown.classList.add('hidden');
+            }
+            if (!voiceDropdownBtn.contains(e.target) && !voiceDropdown.contains(e.target)) {
+                voiceDropdown.classList.add('hidden');
+            }
+            if (!advancedSettingsBtn.contains(e.target) && !advancedSettingsDropdown.contains(e.target)) {
+                advancedSettingsDropdown.classList.add('hidden');
+            }
+            if (!emotionControlsBtn.contains(e.target) && !emotionControlsDropdown.contains(e.target)) {
+                emotionControlsDropdown.classList.add('hidden');
+            }
+        });
+
+        // Advanced Settings Sliders Event Listeners
+        speedSlider.addEventListener('input', (e) => {
+            speedValue.textContent = `${e.target.value}x`;
+        });
+
+        stabilitySlider.addEventListener('input', (e) => {
+            stabilityValue.textContent = e.target.value;
+        });
+
+        similaritySlider.addEventListener('input', (e) => {
+            similarityValue.textContent = e.target.value;
+        });
+
+        styleSlider.addEventListener('input', (e) => {
+            styleValue.textContent = e.target.value;
+        });
+
+        // Settings Modal
+        apiSettingsBtn.addEventListener('click', () => {
+            settingsModal.classList.remove('hidden');
+            requestAnimationFrame(() => { 
+                settingsModal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
+                settingsModal.querySelector('.modal-content').classList.add('scale-100', 'opacity-100');
+            });
+            loadApiSettings();
+        });
+
+        function closeSettings() {
+            settingsModal.querySelector('.modal-content').classList.add('scale-95', 'opacity-0');
+            settingsModal.querySelector('.modal-content').classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => settingsModal.classList.add('hidden'), 300);
+        }
+        closeSettingsModalBtn.addEventListener('click', closeSettings);
+        cancelSettingsBtn.addEventListener('click', closeSettings);
+
+        // Clear History Button
+        clearHistoryBtn.addEventListener('click', async () => {
+            if (confirm('Are you sure you want to clear all generation history? This action cannot be undone.')) {
+                clearHistoryBtn.disabled = true;
+                clearHistoryBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Clearing...';
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}/history`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        const errData = await response.json();
+                        throw new Error(errData.error || 'Failed to clear history.');
+                    }
+                    
+                    showNotification('History cleared successfully!', 'success');
+                    await renderGenerationHistory(); // Refresh the history display
+                } catch (error) {
+                    showNotification(`Error clearing history: ${error.message}`, 'error');
+                } finally {
+                    clearHistoryBtn.disabled = false;
+                    clearHistoryBtn.innerHTML = '<i class="fas fa-trash mr-1"></i>Clear History';
+                }
+            }
+        });
+
+        // Service Selection Functions
+        function getServiceIconAndGradient(serviceKey) {
+            switch(serviceKey) {
+                case 'openai': return { icon: 'fa-robot', gradient: 'bg-gpt-accent' };
+                case 'elevenlabs': return { icon: 'fa-volume-up', gradient: 'bg-purple-500' };
+                case 'gemini': return { icon: 'fa-gem', gradient: 'bg-blue-500' };
+                default: return { icon: 'fa-cogs', gradient: 'bg-slate-500' };
+            }
+        }
+
+        function configureAdvancedSettings(serviceKey) {
+            // Hide all controls first
+            document.getElementById('openaiControls').classList.add('hidden');
+            document.getElementById('elevenlabsControls').classList.add('hidden');
+            document.getElementById('noAdvancedSettings').classList.add('hidden');
+            
+            switch(serviceKey) {
+                case 'openai':
+                    document.getElementById('openaiControls').classList.remove('hidden');
+                    break;
+                case 'elevenlabs':
+                    document.getElementById('elevenlabsControls').classList.remove('hidden');
+                    break;
+                default:
+                    document.getElementById('noAdvancedSettings').classList.remove('hidden');
+            }
+        }
+
+        function getAdvancedSettings() {
+            const settings = {};
+            
+            if (currentSelectedServiceKey === 'openai') {
+                const modelSelect = document.getElementById('openaiModelSelect');
+                settings.model = modelSelect.value;
+                settings.speed = parseFloat(speedSlider.value);
+            } else if (currentSelectedServiceKey === 'elevenlabs') {
+                const modelSelect = document.getElementById('elevenlabsModelSelect');
+                settings.model_id = modelSelect.value;
+                settings.stability = parseFloat(stabilitySlider.value);
+                settings.similarity_boost = parseFloat(similaritySlider.value);
+                settings.style = parseFloat(styleSlider.value);
+                settings.use_speaker_boost = speakerBoostCheckbox.checked;
+            }
+            
+            return settings;
+        }
+
+        function getVoiceModelOptions() {
+            const selectedVoiceItem = document.querySelector('.voice-item.selected-voice');
+            if (!selectedVoiceItem) {
+                return {};
+            }
+
+            let voiceApiParams = {};
+            try {
+                voiceApiParams = JSON.parse(selectedVoiceItem.dataset.voiceParams);
+            } catch (e) {
+                console.warn('Failed to parse voice params:', e);
+            }
+            
+            // Add advanced settings to voice options
+            const advancedSettings = getAdvancedSettings();
+            let voiceModelOptions = { 
+                api_params: voiceApiParams,
+                ...advancedSettings
+            };
+            
+            // Apply emotion-aware parameters if available
+            voiceModelOptions = applyEmotionToVoiceParams(voiceModelOptions);
+            
+            return voiceModelOptions;
+        }
+
+        function selectService(serviceKey) {
+            currentSelectedServiceKey = serviceKey;
+            const service = currentServicesData[serviceKey];
+            
+            // Update service dropdown button
+            const { icon } = getServiceIconAndGradient(serviceKey);
+            currentServiceIcon.className = `fas ${icon} text-gpt-accent`;
+            currentServiceLabel.textContent = service.label;
+            
+            // Update status dot
+            let statusColor = 'bg-red-500';
+            let statusTitle = 'Not configured';
+            
+            if (service.configured) {
+                statusColor = 'bg-green-500';
+                statusTitle = 'Service is live and configured';
+            } else if (service.unavailable_reason) {
+                statusColor = 'bg-amber-500';
+                statusTitle = `Issue: ${service.unavailable_reason}`;
+            }
+            
+            currentServiceStatusDot.className = `w-2 h-2 ${statusColor} rounded-full status-dot`;
+            currentServiceStatusDot.title = statusTitle;
+            
+            // Close service dropdown
+            serviceDropdown.classList.add('hidden');
+            
+            // Show voice dropdown and load voices
+            voiceDropdownContainer.classList.remove('hidden');
+            loadVoices(serviceKey);
+            
+            // Show advanced settings dropdown and configure for service
+            advancedSettingsContainer.classList.remove('hidden');
+            configureAdvancedSettings(serviceKey);
+            
+            // Show emotion controls
+            emotionControlsContainer.classList.remove('hidden');
+            
+            generateBtn.disabled = !service.configured;
+            if (optimizeTextBtn) {
+                // Enable optimize button for services with AI capabilities
+                if (serviceKey === 'gemini' || serviceKey === 'openai') {
+                    optimizeTextBtn.disabled = !service.configured;
+                    optimizeTextBtn.title = `Expand & Enhance Text with ${service.label} AI - Makes content more engaging and flowing for audio`;
+                } else {
+                    optimizeTextBtn.disabled = false; // Basic optimization available for all
+                    optimizeTextBtn.title = 'Enhance Text (Basic) - Expands abbreviations and improves flow for audio';
+                }
+            }
+        }
+
+
+
+        // File Upload Functions
+        uploadBtn.addEventListener('click', () => fileUploadInput.click());
+        fileUploadInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+        
+        // Drag and Drop
+        inputTextarea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            inputTextarea.classList.add('border-gpt-accent', 'bg-gpt-dark-tertiary');
+        });
+        inputTextarea.addEventListener('dragleave', (e) => {
+            inputTextarea.classList.remove('border-gpt-accent', 'bg-gpt-dark-tertiary');
+        });
+        inputTextarea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            inputTextarea.classList.remove('border-gpt-accent', 'bg-gpt-dark-tertiary');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (file) {
+                if (file.type !== "text/plain") {
+                    showNotification('Only .txt files are supported.', 'error'); 
+                    return;
+                }
+                if (file.size > 10 * 1024 * 1024) { 
+                    showNotification('File size exceeds 10MB.', 'error'); 
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    inputTextarea.value = e.target.result; 
+                    characterCountP.textContent = `${e.target.result.length} characters`;
+                    autoResizeTextarea(inputTextarea);
+                    showNotification(`File "${file.name}" loaded.`, 'success');
+                };
+                reader.onerror = () => showNotification('Error reading file.', 'error');
+                reader.readAsText(file);
+            }
+        }
+
+        // Character Count
+        inputTextarea.addEventListener('input', () => {
+            characterCountP.textContent = `${inputTextarea.value.length} characters`;
+            autoResizeTextarea(inputTextarea);
+        });
+
+        // Generate Speech Function
+        generateBtn.addEventListener('click', generateSpeech);
+        inputTextarea.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generateSpeech();
+            }
+        });
+
+        // Generated Text Area Event Listeners
+        useGeneratedTextBtn.addEventListener('click', () => {
+            const generatedText = generatedTextContent.textContent;
+            inputTextarea.value = generatedText;
+            autoResizeTextarea(inputTextarea);
+            inputTextarea.dispatchEvent(new Event('input')); // Update character count
+            generatedTextArea.classList.add('hidden');
+            showNotification('Generated text applied to input!', 'success');
+        });
+
+        closeGeneratedTextBtn.addEventListener('click', () => {
+            generatedTextArea.classList.add('hidden');
+        });
+
+        // Text enhancement control event listeners
+        retryTextBtn.addEventListener('click', retryOptimization);
+        shorterTextBtn.addEventListener('click', makeShorter);
+        longerTextBtn.addEventListener('click', makeLonger);
+
+        // Text Optimization Function
+        optimizeTextBtn.addEventListener('click', optimizeText);
+
+        // Downloads Folder Button
+        openDownloadsBtn.addEventListener('click', async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/open-downloads`);
+                if (response.ok) {
+                    showNotification('Opening downloads folder...', 'success');
+                } else {
+                    showNotification('Failed to open downloads folder', 'error');
+                }
+            } catch (error) {
+                console.error('Error opening downloads folder:', error);
+                showNotification('Error opening downloads folder', 'error');
+            }
+        });
+
+        async function optimizeText(mode = 'default') {
+            const text = inputTextarea.value.trim();
+            if (!text) {
+                showNotification('Please enter some text to optimize.', 'error');
+                return;
+            }
+
+            if (!currentSelectedServiceKey) {
+                showNotification('Please select a service first.', 'error');
+                return;
+            }
+
+            // Store original text for retry/shorter/longer operations
+            if (mode === 'default') {
+                currentOriginalText = text;
+            }
+
+            const originalText = optimizeTextBtn.innerHTML;
+            optimizeTextBtn.disabled = true;
+            optimizeTextBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
+
+            try {
+                // Use backend optimization endpoint
+                const response = await fetch(`${API_BASE_URL}/optimize`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: mode === 'default' ? text : (currentOriginalText || text),
+                        service: currentSelectedServiceKey,
+                        mode: mode
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: `HTTP error ${response.status}` }));
+                    throw new Error(errorData.error || 'Text optimization failed');
+                }
+
+                const data = await response.json();
+                const optimizedText = data.optimized_text;
+
+                // Display optimized text in the generated text area
+                generatedTextContent.textContent = optimizedText;
+                generatedTextArea.classList.remove('hidden');
+                
+                const modeLabel = mode === 'shorter' ? 'shortened' : mode === 'longer' ? 'expanded' : 'enhanced';
+                showNotification(`Text ${modeLabel} successfully! Review and use if desired.`, 'success');
+                
+            } catch (error) {
+                console.error('Text optimization error:', error);
+                showNotification(`Text optimization failed: ${error.message}`, 'error');
+            } finally {
+                optimizeTextBtn.disabled = false;
+                optimizeTextBtn.innerHTML = originalText;
+            }
+        }
+
+        async function retryOptimization() {
+            await optimizeText('default');
+        }
+
+        async function makeShorter() {
+            const text = inputTextarea.value.trim();
+            if (!text) {
+                showNotification('Please enter some text first.', 'error');
+                return;
+            }
+            // Store original text if not already stored
+            if (!currentOriginalText) {
+                currentOriginalText = text;
+            }
+            await optimizeText('shorter');
+        }
+
+        async function makeLonger() {
+            const text = inputTextarea.value.trim();
+            if (!text) {
+                showNotification('Please enter some text first.', 'error');
+                return;
+            }
+            // Store original text if not already stored
+            if (!currentOriginalText) {
+                currentOriginalText = text;
+            }
+            await optimizeText('longer');
+        }
+
+
+        async function generateSpeech() {
+            const selectedVoiceItem = document.querySelector('.voice-item.selected-voice');
+            if (!currentSelectedServiceKey || !selectedVoiceItem) {
+                showNotification('Please select a service and a voice.', 'error');
+                return;
+            }
+            const text = inputTextarea.value.trim();
+            const title = generateProjectTitle(text);
+            if (!text) {
+                showNotification('Please enter text to synthesize.', 'error');
+                return;
+            }
+
+            let voiceApiParams = JSON.parse(selectedVoiceItem.dataset.voiceParams);
+            
+            // Add advanced settings to voice options
+            const advancedSettings = getAdvancedSettings();
+            let voiceModelOptions = { 
+                api_params: voiceApiParams,
+                ...advancedSettings
+            };
+            
+            // Apply emotion-aware parameters if available
+            voiceModelOptions = applyEmotionToVoiceParams(voiceModelOptions);
+
+            generationProgressSection.classList.remove('hidden');
+            progressStatusText.textContent = `Requesting from ${currentServicesData[currentSelectedServiceKey].label}...`;
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
+            if (optimizeTextBtn) optimizeTextBtn.disabled = true;
+
+            try {
+                const requestPayload = {
+                    service: currentSelectedServiceKey,
+                    title: title,
+                    text: text,
+                    voice_model_options: voiceModelOptions
+                };
+                
+                // Use standard generation
+                const response = await fetch(`${API_BASE_URL}/generate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestPayload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: `HTTP error ${response.status}` }));
+                    throw new Error(errorData.error || `Failed to generate speech. Status: ${response.status}`);
+                }
+                
+                const audioBlob = await response.blob();
+                if (audioBlobUrl) URL.revokeObjectURL(audioBlobUrl);
+                audioBlobUrl = URL.createObjectURL(audioBlob);
+
+                showNotification('Speech generated successfully!', 'success');
+                progressStatusText.textContent = 'Done!';
+
+                // File is automatically saved on server side
+                console.log('Audio generated and saved to outputs folder');
+
+                // History is automatically saved by backend on generation
+                // Add small delay to ensure database write completes, then refresh history
+                setTimeout(async () => {
+                    await renderGenerationHistory();
+                }, 100);
+                
+                // Auto-play the latest generated audio
+                setTimeout(() => {
+                    const latestHistoryItem = historyListContainer.querySelector('.history-item');
+                    if (latestHistoryItem) {
+                        const playBtn = latestHistoryItem.querySelector('.play-history-btn');
+                        if (playBtn) {
+                            playBtn.click();
+                        }
+                    }
+                }, 600); // Delay to ensure history refresh completes
+
+            } catch (error) {
+                showNotification(`Speech generation error: ${error.message}`, 'error');
+            } finally {
+                generationProgressSection.classList.add('hidden');
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = `<i class="fas fa-paper-plane"></i>`;
+                if (optimizeTextBtn) {
+                    optimizeTextBtn.disabled = currentSelectedServiceKey !== 'gemini' || !currentServicesData.gemini?.configured;
+                }
+            }
+        }
+
+        // History Functions
+        async function addGenerationToHistory(entry) {
+            try {
+                await saveToHistory(entry);
+                await renderGenerationHistory();
+            } catch (error) {
+                console.error('Error saving to history:', error);
+                // Fallback to memory storage
+                generationHistory.unshift(entry);
+                if (generationHistory.length > 10) generationHistory.pop();
+                renderGenerationHistoryFromMemory();
+            }
+        }
+
+        async function renderGenerationHistory() {
+            try {
+                const history = await getAllHistory();
+                generationHistory = history; // Update memory cache
+                renderHistoryItems(history);
+            } catch (error) {
+                console.error('Error loading history:', error);
+                renderGenerationHistoryFromMemory();
+            }
+        }
+
+        function renderGenerationHistoryFromMemory() {
+            renderHistoryItems(generationHistory);
+        }
+
+        function renderHistoryItems(history) {
+            historyListContainer.innerHTML = '';
+            if (history.length === 0) {
+                historyListContainer.innerHTML = `<div class="p-2 text-center text-gpt-gray text-xs"><p>No generations yet.</p></div>`;
+                return;
+            }
+            history.forEach((entry, index) => {
+                const item = document.createElement('div');
+                const isLatest = index === 0;
+                const itemClass = isLatest ? 
+                    'history-item p-2 rounded-md hover:bg-gpt-dark-tertiary cursor-pointer group bg-gpt-dark-tertiary border-l-4 border-gpt-accent' : 
+                    'history-item p-2 rounded-md hover:bg-gpt-dark-tertiary cursor-pointer group';
+                item.className = itemClass;
+                
+                const titleClass = isLatest ? 'text-xs text-white font-bold truncate group-hover:text-white' : 'text-xs text-gpt-light-gray truncate group-hover:text-white';
+                
+                item.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div class="flex-1 min-w-0">
+                            <p class="${titleClass}" title="${entry.title}">${entry.title}</p>
+                            <p class="text-xs text-gpt-gray truncate">${entry.service} - ${entry.voice}</p>
+                        </div>
+                        <div class="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="play-history-btn p-1 text-gpt-gray hover:text-gpt-accent" title="Play" data-filename="${entry.filename}">
+                                <i class="fas fa-play text-xs"></i>
+                            </button>
+                            <button class="download-history-btn p-1 text-gpt-gray hover:text-gpt-light-gray" title="Download" data-filename="${entry.filename}">
+                                <i class="fas fa-download text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                historyListContainer.appendChild(item);
+            });
+
+            // Add event listeners for play buttons
+            historyListContainer.querySelectorAll('.play-history-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const filename = e.currentTarget.dataset.filename;
+                    if (filename) {
+                        try {
+                            // Load audio file from outputs directory
+                            const response = await fetch(`/outputs/${filename}`);
+                            if (response.ok) {
+                                const audioBlob = await response.blob();
+                                const url = URL.createObjectURL(audioBlob);
+                                audioPlayer.src = url;
+                                audioPlayer.play().catch(e => console.warn("Playback failed", e));
+                            } else {
+                                showNotification('Audio file not found', 'error');
+                            }
+                        } catch (error) {
+                            console.error('Error loading audio:', error);
+                            showNotification('Error loading audio file', 'error');
+                        }
+                    }
+                });
+            });
+
+            // Add event listeners for download buttons
+            historyListContainer.querySelectorAll('.download-history-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const filename = e.currentTarget.dataset.filename;
+                    if (filename) {
+                        try {
+                            // Download file from outputs directory
+                            const response = await fetch(`/outputs/${filename}`);
+                            if (response.ok) {
+                                const audioBlob = await response.blob();
+                                const url = URL.createObjectURL(audioBlob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                            } else {
+                                showNotification('Audio file not found', 'error');
+                            }
+                        } catch (error) {
+                            console.error('Error downloading audio:', error);
+                            showNotification('Error downloading audio file', 'error');
+                        }
+                    }
+                });
+            });
+        }
+
+        // API Settings Functions
+        async function loadApiSettings() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api-config`);
+                if (!response.ok) throw new Error('Failed to fetch API config status.');
+                const configStatus = await response.json();
+
+                const updateInputStatus = (inputEl, statusEl, configured, keyName) => {
+                    inputEl.value = ''; 
+                    if (configured) {
+                        inputEl.placeholder = `•••••••• (Configured: ${keyName})`;
+                        inputEl.classList.add('configured');
+                        statusEl.innerHTML = `<i class="fas fa-check-circle text-green-400" title="Configured"></i>`;
+                    } else {
+                        inputEl.placeholder = keyName.includes("GEMINI") ? "Your Gemini API Key" : (keyName.includes("OPENAI") ? "sk-..." : "Your API Key");
+                        inputEl.classList.remove('configured');
+                        statusEl.innerHTML = `<i class="fas fa-times-circle text-red-400" title="Not Configured"></i>`;
+                    }
+                };
+
+                updateInputStatus(openaiApiKeyInput, openaiApiStatus, configStatus.openai.configured, 'OPENAI_API_KEY');
+                updateInputStatus(elevenlabsApiKeyInput, elevenlabsApiStatus, configStatus.elevenlabs.configured, 'ELEVENLABS_API_KEY');
+                updateInputStatus(geminiApiKeyInput, geminiApiStatus, configStatus.gemini.configured, 'GEMINI_API_KEY');
+                
+            } catch (error) {
+                showNotification(`Error loading API settings: ${error.message}`, 'error');
+            }
+        }
+
+        saveSettingsBtn.addEventListener('click', async () => {
+            const settingsToSave = {};
+            const openaiKey = openaiApiKeyInput.value.trim();
+            const elevenlabsKey = elevenlabsApiKeyInput.value.trim();
+            const geminiKey = geminiApiKeyInput.value.trim();
+
+            // Only add non-empty keys
+            if (openaiKey) settingsToSave.OPENAI_API_KEY = openaiKey;
+            if (elevenlabsKey) settingsToSave.ELEVENLABS_API_KEY = elevenlabsKey;
+            if (geminiKey) settingsToSave.GEMINI_API_KEY = geminiKey;
+            
+            console.log('Settings to save:', settingsToSave);
+            
+            saveSettingsBtn.disabled = true;
+            saveSettingsBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Saving...`;
+
+            try {
+                const requestBody = JSON.stringify(settingsToSave);
+                console.log('Request body:', requestBody);
+                
+                const response = await fetch(`${API_BASE_URL}/api-config`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: requestBody
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (!response.ok) {
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const errData = await response.json();
+                        throw new Error(errData.error || `HTTP ${response.status}: Failed to save API settings.`);
+                    } else {
+                        const textError = await response.text();
+                        throw new Error(`HTTP ${response.status}: ${textError || 'Failed to save API settings.'}`);
+                    }
+                }
+                
+                const result = await response.json();
+                console.log('Save result:', result);
+                showNotification(result.message || 'API settings saved! Reloading services...', 'success');
+                closeSettings();
+                await loadServicesAndVoices(); 
+            } catch (error) {
+                console.error('Settings save error:', error);
+                showNotification(`Error saving API settings: ${error.message}`, 'error');
+            } finally {
+                saveSettingsBtn.disabled = false;
+                saveSettingsBtn.innerHTML = `<i class="fas fa-save mr-2"></i>Save Settings`;
+            }
+        });
+
+        // Services Loading Functions
+        async function loadServicesAndVoices() {
+            servicesLoadingDiv.classList.remove('hidden');
+            serviceSelectionContainer.innerHTML = ''; 
+            voiceDropdownContainer.classList.add('hidden');
+            generateBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/services`);
+                if (!response.ok) throw new Error('Failed to fetch services.');
+                currentServicesData = await response.json();
+                
+                const serviceOrder = ['openai', 'elevenlabs', 'gemini']; 
+                let firstAvailableServiceKey = null;
+
+                const sortedServiceKeys = serviceOrder.filter(key => currentServicesData[key] && key !== 'google_cloud')
+                    .concat(Object.keys(currentServicesData).filter(key => !serviceOrder.includes(key) && key !== 'google_cloud'));
+
+                sortedServiceKeys.forEach(key => {
+                    const service = currentServicesData[key];
+                    const serviceItem = document.createElement('button');
+                    serviceItem.className = `service-item w-full flex items-center space-x-2 px-2 py-1.5 text-xs rounded hover:bg-gpt-dark-tertiary focus:outline-none transition-all-fast ${service.configured ? 'text-gpt-light-gray' : 'text-gpt-gray opacity-70 cursor-not-allowed'}`;
+                    serviceItem.dataset.serviceKey = key;
+                    
+                    const { icon } = getServiceIconAndGradient(key); 
+                    
+                    // Determine status dot color based on service configuration
+                    let statusColor = 'bg-red-500'; // Default: not configured
+                    let statusTitle = 'Not configured';
+                    
+                    if (service.configured) {
+                        statusColor = 'bg-green-500'; // Configured and working
+                        statusTitle = 'Service is live and configured';
+                    } else if (service.unavailable_reason) {
+                        statusColor = 'bg-amber-500'; // Configured but having issues
+                        statusTitle = `Issue: ${service.unavailable_reason}`;
+                    }
+                    
+                    serviceItem.innerHTML = `
+                        <i class="fas ${icon} w-3 text-center ${service.configured ? 'text-gpt-accent' : 'text-gpt-gray'}"></i>
+                        <span class="flex-1 text-left">${service.label}</span>
+                        <div class="w-2 h-2 ${statusColor} rounded-full status-dot" title="${statusTitle}"></div>
+                    `;
+                    if (service.configured) {
+                        if (!firstAvailableServiceKey) firstAvailableServiceKey = key;
+                        serviceItem.addEventListener('click', () => selectService(key));
+                    } else {
+                        serviceItem.disabled = true;
+                    }
+                    serviceSelectionContainer.appendChild(serviceItem);
+                });
+
+                if (firstAvailableServiceKey) {
+                    selectService(firstAvailableServiceKey);
+                    
+                    // Hide welcome message if services are configured
+                    const welcomeMessage = document.getElementById('firstTimeSetupMessage');
+                    if (welcomeMessage) {
+                        welcomeMessage.classList.add('hidden');
+                    }
+                } else {
+                    currentServiceLabel.textContent = 'No Services Available';
+                    generateBtn.disabled = true;
+                    voiceDropdownContainer.classList.add('hidden');
+                    
+                    // Show welcome message if no services are configured
+                    const welcomeMessage = document.getElementById('firstTimeSetupMessage');
+                    if (welcomeMessage) {
+                        welcomeMessage.classList.remove('hidden');
+                    }
+                    
+                    // Auto-open settings dialog if no services are configured
+                    console.log('No configured services found, opening settings dialog...');
+                    showNotification('No API keys configured. Opening settings to get started!', 'info');
+                    setTimeout(() => {
+                        settingsModal.classList.remove('hidden');
+                        setTimeout(() => {
+                            settingsModal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
+                            settingsModal.querySelector('.modal-content').classList.add('scale-100', 'opacity-100');
+                        }, 50);
+                    }, 1500); // Small delay to let the notification show first
+                }
+
+            } catch (error) {
+                showNotification(`Error loading services: ${error.message}`, 'error');
+                currentServiceLabel.textContent = 'Failed to load services';
+            } finally {
+                servicesLoadingDiv.classList.add('hidden');
+            }
+        }
+
+        // Voice Loading Functions
+        async function loadVoices(serviceKey) {
+            const service = currentServicesData[serviceKey];
+            if (!service || !service.configured) {
+                voiceDropdownContainer.classList.add('hidden');
+                return;
+            }
+            voicesLoadingDiv.classList.remove('hidden');
+            voiceListContainer.innerHTML = '';
+            currentVoicesForSelectedService = [];
+            try {
+                const response = await fetch(`${API_BASE_URL}${service.voices_endpoint}`);
+                if (!response.ok) throw new Error(`Failed to fetch voices for ${service.label}.`);
+                const voices = await response.json();
+                currentVoicesForSelectedService = voices;
+                renderVoiceList(voices);
+            } catch (error) {
+                showNotification(`Error loading voices for ${service.label}: ${error.message}`, 'error');
+                voiceListContainer.innerHTML = '<div class="p-2 text-center text-red-400 text-xs">Error loading voices.</div>';
+            } finally {
+                voicesLoadingDiv.classList.add('hidden');
+            }
+        }
+        
+        function renderVoiceList(voicesToRender) {
+            voiceListContainer.innerHTML = '';
+            if (voicesToRender && voicesToRender.length > 0) {
+                voicesToRender.forEach(voice => {
+                    const voiceItem = document.createElement('div');
+                    voiceItem.className = 'voice-item p-1.5 text-xs rounded hover:bg-gpt-dark-tertiary cursor-pointer transition-all-fast group';
+                    voiceItem.dataset.voiceParams = JSON.stringify(voice.api_params || {});
+                    let displayName = voice.name || voice.voice_id;
+                    voiceItem.innerHTML = `<p class="text-gpt-light-gray group-hover:text-white">${displayName}</p>`;
+                    if (voice.category) voiceItem.innerHTML += `<p class="text-xs text-gpt-gray">${voice.category}</p>`;
+                    else if (voice.description && currentSelectedServiceKey === 'gemini') voiceItem.innerHTML += `<p class="text-xs text-gpt-gray">${voice.description}</p>`;
+
+                    voiceItem.addEventListener('click', () => {
+                        document.querySelectorAll('.voice-item').forEach(item => item.classList.remove('selected-voice', 'bg-gpt-accent', 'text-white', 'border-gpt-accent'));
+                        voiceItem.classList.add('selected-voice', 'bg-gpt-accent', 'text-white', 'border-gpt-accent');
+                        
+                        // Update voice dropdown button text
+                        currentVoiceLabel.textContent = displayName;
+                        voiceDropdown.classList.add('hidden');
+                    });
+                    voiceListContainer.appendChild(voiceItem);
+                });
+                if (voiceListContainer.firstChild) { 
+                    voiceListContainer.firstChild.click();
+                }
+            } else {
+                voiceListContainer.innerHTML = '<div class="p-2 text-center text-gpt-gray text-xs">No voices available.</div>';
+            }
+        }
+
+        voiceSearchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredVoices = currentVoicesForSelectedService.filter(voice => 
+                (voice.name && voice.name.toLowerCase().includes(searchTerm)) || 
+                (voice.voice_id && voice.voice_id.toLowerCase().includes(searchTerm)) ||
+                (voice.description && voice.description.toLowerCase().includes(searchTerm))
+            );
+            renderVoiceList(filteredVoices);
+        });
+
+        // Download functionality removed - files are auto-saved server-side
+
+        // Emotion Detection Variables and Functions
+        let currentEmotionData = null;
+        let isEmotionAutoDetectEnabled = true; // Always on by default
+        
+        // Streaming functionality removed
+
+        const emotionControlsBtn = document.getElementById('emotionControlsBtn');
+        const emotionControlsDropdown = document.getElementById('emotionControlsDropdown');
+        const emotionControlsContainer = document.getElementById('emotionControlsContainer');
+        const emotionAwareToggle = document.getElementById('emotionAwareToggle');
+        const emotionAnalysisStatus = document.getElementById('emotionAnalysisStatus');
+        const detectedEmotion = document.getElementById('detectedEmotion');
+        const emotionConfidence = document.getElementById('emotionConfidence');
+        const emotionDescription = document.getElementById('emotionDescription');
+        const manualEmotionSelect = document.getElementById('manualEmotionSelect');
+        const analyzeEmotionBtn = document.getElementById('analyzeEmotionBtn');
+        
+        // Streaming Controls (removed)
+
+        // Emotion Controls Event Listeners
+        emotionControlsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            emotionControlsDropdown.classList.toggle('hidden');
+            serviceDropdown.classList.add('hidden');
+            voiceDropdown.classList.add('hidden');
+            advancedSettingsDropdown.classList.add('hidden');
+        });
+
+        emotionAwareToggle.addEventListener('change', (e) => {
+            isEmotionAutoDetectEnabled = e.target.checked;
+            if (isEmotionAutoDetectEnabled && inputTextarea.value.trim()) {
+                analyzeTextEmotion();
+            } else if (!isEmotionAutoDetectEnabled) {
+                emotionAnalysisStatus.classList.add('hidden');
+                currentEmotionData = null;
+                // Reset emotion icon to neutral
+                updateEmotionIcon('neutral');
+            }
+        });
+
+        analyzeEmotionBtn.addEventListener('click', () => {
+            if (!inputTextarea.value.trim()) {
+                showNotification('Please enter some text to analyze', 'error');
+                return;
+            }
+            analyzeTextEmotion();
+        });
+
+        manualEmotionSelect.addEventListener('change', (e) => {
+            const selectedEmotion = e.target.value;
+            if (selectedEmotion) {
+                // Manual override - create emotion data
+                currentEmotionData = {
+                    emotion: selectedEmotion,
+                    confidence: 1.0,
+                    emotion_description: getEmotionDescription(selectedEmotion)
+                };
+                updateEmotionDisplay(currentEmotionData);
+                emotionAnalysisStatus.classList.remove('hidden');
+            } else {
+                // Auto-detect mode
+                if (isEmotionAutoDetectEnabled && inputTextarea.value.trim()) {
+                    analyzeTextEmotion();
+                } else {
+                    emotionAnalysisStatus.classList.add('hidden');
+                    currentEmotionData = null;
+                }
+            }
+        });
+
+        async function analyzeTextEmotion() {
+            const text = inputTextarea.value.trim();
+            if (!text || !currentSelectedServiceKey) {
+                return;
+            }
+
+            try {
+                analyzeEmotionBtn.disabled = true;
+                analyzeEmotionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+
+                const response = await fetch('/analyze-emotion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        service: currentSelectedServiceKey,
+                        voice_model_options: getVoiceModelOptions()
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to analyze emotion');
+                }
+
+                currentEmotionData = await response.json();
+                updateEmotionDisplay(currentEmotionData);
+                emotionAnalysisStatus.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Emotion analysis error:', error);
+                showNotification(`Emotion analysis failed: ${error.message}`, 'error');
+            } finally {
+                analyzeEmotionBtn.disabled = false;
+                analyzeEmotionBtn.innerHTML = 'Analyze Text Emotion';
+            }
+        }
+
+        function updateEmotionDisplay(emotionData) {
+            detectedEmotion.textContent = emotionData.emotion;
+            emotionConfidence.textContent = Math.round(emotionData.confidence * 100) + '%';
+            emotionDescription.textContent = emotionData.emotion_description;
+            
+            // Update emotion button with detected emotion color
+            updateEmotionIcon(emotionData.emotion);
+        }
+
+        function updateEmotionIcon(emotion) {
+            const emotionIcon = emotionControlsBtn.querySelector('i');
+            emotionIcon.className = getEmotionIconClass(emotion);
+        }
+
+        function getEmotionIconClass(emotion) {
+            const emotionIcons = {
+                'joy': 'fas fa-smile text-yellow-400',
+                'sadness': 'fas fa-sad-tear text-blue-400',
+                'anger': 'fas fa-angry text-red-400',
+                'fear': 'fas fa-frown text-purple-400',
+                'surprise': 'fas fa-surprise text-orange-400',
+                'calm': 'fas fa-zen text-green-400',
+                'neutral': 'fas fa-heart text-gpt-gray'
+            };
+            return emotionIcons[emotion] || 'fas fa-heart text-gpt-gray';
+        }
+
+        function getEmotionDescription(emotion) {
+            const descriptions = {
+                'joy': 'Positive, upbeat, and energetic tone',
+                'sadness': 'Slower, more contemplative delivery',
+                'anger': 'Intense, forceful expression',
+                'fear': 'Cautious, uncertain tone',
+                'surprise': 'Dynamic, attention-grabbing delivery',
+                'calm': 'Peaceful, measured speaking pace',
+                'neutral': 'Standard, balanced delivery'
+            };
+            return descriptions[emotion] || 'Standard delivery';
+        }
+
+        function applyEmotionToVoiceParams(voiceParams) {
+            if (!currentEmotionData || !currentEmotionData.suggested_params) {
+                return voiceParams;
+            }
+            
+            // Merge emotion-adjusted parameters
+            return { ...voiceParams, ...currentEmotionData.suggested_params };
+        }
+
+        // Streaming Controls Event Listeners (removed)
+
+
+
+
+
+        // generateSpeechStreaming function removed
+                
+        inputTextarea.addEventListener('input', () => {
+            if (isEmotionAutoDetectEnabled) {
+                clearTimeout(emotionAnalysisTimeout);
+                emotionAnalysisTimeout = setTimeout(() => {
+                    if (inputTextarea.value.trim().length > 10) {
+                        analyzeTextEmotion();
+                    }
+                }, 1000); // Debounce for 1 second
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await initDB(); // No-op for SQLite backend
+                loadServicesAndVoices();
+                await renderGenerationHistory();
+                autoResizeTextarea(inputTextarea);
+                // Set initial emotion icon to neutral
+                updateEmotionIcon('neutral');
+            } catch (error) {
+                console.error('Initialization error:', error);
+                loadServicesAndVoices();
+                renderGenerationHistoryFromMemory();
+                autoResizeTextarea(inputTextarea);
+                // Set initial emotion icon to neutral
+                updateEmotionIcon('neutral');
+            }
+        });
+
+    </script>
+</body>
+</html>
