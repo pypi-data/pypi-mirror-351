@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include pyproject.toml
+recursive-include src/unreal_mcp *.py
+recursive-include examples *.py
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude *.log
+global-exclude *.lock
