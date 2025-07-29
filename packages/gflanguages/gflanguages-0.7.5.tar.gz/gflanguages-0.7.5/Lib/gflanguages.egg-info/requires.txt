@@ -1,0 +1,10 @@
+protobuf<4,>=3.7.0
+
+[:python_version < "3.10"]
+importlib_resources
+
+[dev]
+uharfbuzz
+youseedee
+pytest
+regex
