@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Xarsed"
+version = "0.0.0"
+dependencies = [
+  "pandas>=2.2.3",
+  "plotly>=6.0.1",
+  "netCDF4>=1.7.2",
+]
+requires-python = ">=3.13"
+authors = [
+  {name = "Xarsed", email = "xarsed@tuta.io"},
+]
+maintainers = [
+  {name = "Xarsed", email = "xarsed@tuta.io"}
+]
+description = "Computational modules of the Xarsed project, functions to describe the conditions of nature"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+keywords = ["nature", "energy", "production", "consumption", "radiation", "photovoltaics", "zenith", "azimuth", "electricity", "battery"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: Manufacturing",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Education",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Atmospheric Science",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Topic :: Scientific/Engineering :: Visualization",
+  "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://xarsed.pythonanywhere.com"
+
+
+[tool.setuptools.package-data]
+"xarsed.common.data" = ["*.nc"]

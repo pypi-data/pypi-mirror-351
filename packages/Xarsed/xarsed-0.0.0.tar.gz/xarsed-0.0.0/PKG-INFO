@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: Xarsed
+Version: 0.0.0
+Summary: Computational modules of the Xarsed project, functions to describe the conditions of nature
+Author-email: Xarsed <xarsed@tuta.io>
+Maintainer-email: Xarsed <xarsed@tuta.io>
+License-Expression: MIT
+Project-URL: Homepage, https://xarsed.pythonanywhere.com
+Keywords: nature,energy,production,consumption,radiation,photovoltaics,zenith,azimuth,electricity,battery
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: Manufacturing
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Education
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Atmospheric Science
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Topic :: Utilities
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: plotly>=6.0.1
+Requires-Dist: netCDF4>=1.7.2
+Dynamic: license-file
+
+The Xarsed package is the beating heart of the Xarsed web app. This package contains all of the Xarsed computational modules. This has two benefits: it makes it easier to develop the web app and package in a centralized and separate manner, and it makes the capabilities of Xarsed available to everyone. Currently, you can perform various functions, including calculations of solar zenith and azimuth angles, calculations of photovoltaic module power, calculations of solar radiation on the surface of tilted and tracker panels, and ... with the help of the Xarsed package.
