@@ -1,0 +1,5 @@
+include COPYING
+include README.rst
+exclude .gitignore
+recursive-include test *.xml *.py *.bmp *.ps
+#recursive-include doc *.html *.1
