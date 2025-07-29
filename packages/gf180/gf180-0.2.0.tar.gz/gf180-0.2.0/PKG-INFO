@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: gf180
+Version: 0.2.0
+Summary: GlobalFoundries 180nm MCU
+Keywords: python
+Author-email: gdsfactory <contact@gdsfactory.com>
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+License-File: LICENSE
+Requires-Dist: gdsfactory~=9.2.0
+Requires-Dist: gf180mcu
+Requires-Dist: pre-commit ; extra == "dev"
+Requires-Dist: pytest ; extra == "dev"
+Requires-Dist: pytest-cov ; extra == "dev"
+Requires-Dist: pytest_regressions ; extra == "dev"
+Requires-Dist: pytest-github-actions-annotate-failures ; extra == "dev"
+Requires-Dist: autodoc_pydantic ; extra == "docs"
+Requires-Dist: jupytext ; extra == "docs"
+Requires-Dist: jupyter-book>=0.15.1,<1.1 ; extra == "docs"
+Requires-Dist: pytest ; extra == "tests"
+Requires-Dist: pytest-cov ; extra == "tests"
+Provides-Extra: dev
+Provides-Extra: docs
+Provides-Extra: tests
+
+# gf180 0.2.0 (Legacy/Deprecated)
+
+GlobalFoundries 180nm MCU based on [Google open source PDK](https://github.com/google/globalfoundries-pdk-libs-gf180mcu_fd_pr)
+
+**IMPORTANT: This package is now a legacy alias for the `gf180mcu` package. Please use `gf180mcu` directly in new code.**
+
+This package now simply redirects all functionality to the `gf180mcu` package. It is kept for backwards compatibility only and will be removed in a future version.
+

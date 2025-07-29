@@ -1,0 +1,106 @@
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit_core >=3.2,<4"]
+
+[project]
+authors = [{name = "gdsfactory", email = "contact@gdsfactory.com"}]
+classifiers = [
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  "gdsfactory~=9.2.0",
+  "gf180mcu"
+]
+description = "GlobalFoundries 180nm MCU"
+keywords = ["python"]
+license = {file = "LICENSE"}
+name = "gf180"
+readme = "README.md"
+requires-python = ">=3.11"
+version = "0.2.0"
+
+[project.optional-dependencies]
+dev = [
+  "pre-commit",
+  "pytest",
+  "pytest-cov",
+  "pytest_regressions",
+  "pytest-github-actions-annotate-failures"
+]
+docs = ["autodoc_pydantic", "jupytext", "jupyter-book>=0.15.1,<1.1"]
+tests = ["pytest", "pytest-cov"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+
+[tool.pylsp-mypy]
+enabled = true
+live_mode = true
+strict = true
+
+[tool.pytest.ini_options]
+# addopts = --tb=no
+addopts = '--tb=short'
+norecursedirs = ["extra/*.py", 'gf180/cells/klayout/*.py']
+python_files = ["gf180/*.py", "notebooks/*.ipynb", "tests/*.py"]
+testpaths = ["tests"]
+
+[tool.ruff]
+fix = true
+ignore = [
+  "E501",  # line too long, handled by black
+  "B008",  # do not perform function calls in argument defaults
+  "C901",  # too complex
+  "B905",  # `zip()` without an explicit `strict=` parameter
+  "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
+  'B006'
+]
+select = [
+  "B",  # flake8-bugbear
+  "C",  # flake8-comprehensions
+  # "D",  # pydocstyle
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "I",  # isort
+  "T10",  # flake8-debugger
+  "UP",  # pyupgrade
+  "W",  # pycodestyle warnings
+  "PERF",  # performance improvements
+  "RUF"  # ruff
+]
+
+[tool.setuptools.package-data]
+mypkg = ["*.csv", "*.yaml"]
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.tbump]
+
+[[tool.tbump.file]]
+src = "README.md"
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
+
+[tool.tbump.git]
+message_template = "Bump to {new_version}"
+tag_template = "v{new_version}"
+
+[tool.tbump.version]
+current = "0.2.0"
+regex = '''
+  (?P<major>\d+)
+  \.
+  (?P<minor>\d+)
+  \.
+  (?P<patch>\d+)
+  '''
+
+[tool.uv.sources]
+gf180mcu = {path = "../gf180mcu"}
