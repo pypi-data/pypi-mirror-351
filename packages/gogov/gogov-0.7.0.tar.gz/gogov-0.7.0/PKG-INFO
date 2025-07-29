@@ -1,0 +1,82 @@
+Metadata-Version: 2.4
+Name: gogov
+Version: 0.7.0
+Summary: Unofficial API Client for GoGov CRM
+Home-page: https://github.com/officeofperformancemanagement/gogov
+Download-URL: https://github.com/officeofperformancemanagement/gogov/tarball/download
+Author: Daniel J. Dufour
+Author-email: daniel.j.dufour@gmail.com
+Keywords: crm,data,gogov,python
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: flatmate
+Requires-Dist: requests
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# gogov
+Unofficial API Client for GoGov CRM
+
+## install
+```sh
+pip install gogov
+```
+
+## basic CLI usage
+```sh
+gogov export-requests --email="jdoe@fakecity.gov" --password="2c56477e97ab8b2d180a6513" --site="fakecityXYZ" --city-id="123" $PWD/requests.csv
+```
+
+## basic Python usage
+```python
+from gogov import Client
+
+# client automatically logs in when initialized
+client = Client(
+    username = "jdoe",
+    password = "2c56477e97ab8b2d180a6513",
+    site = "fakecityXYZ",
+    city_id = "123"
+)
+
+## download csv of all requests to a file
+client.export_requests("requests.csv")
+
+## Submit a 311 request
+location = {
+    "shortAddress": "123 Any Street, Anytown, TN, 12345",
+    "coordinates": {
+        "longitude": -12.345678
+        "latitude": 87.654321
+    }
+}
+
+# Use "fields" for any additional necessary fields
+client.submit_request(
+    topic_id="12345"
+    location=location,
+    description="Test"
+    contact_id=1234567
+    assigned_to_id=7654321
+    fields = [{"id": "field1", "value": "value1"}, {"id": "field2", "value": "value2}]
+)
+
+## log out
+client.logout()
+```
+
+## advanced usage
+coming soon
