@@ -1,0 +1,81 @@
+__pycache__/
+__pycache__
+deprecated/
+inference.log
+.venv/
+response_cache.db.bak
+response_cache.db.dat
+response_cache.db.dir
+cache_db_path.db.bak
+cache_db_path.db.dat
+cache_db_path.db.dir
+*.tar
+venv/
+venv
+*.wav
+*.sql
+# .env
+.vscode/
+.pytest_cache/
+sent_audio.wav
+crud/static/avatars/
+
+# Ignore Node modules
+frontend/node_modules/
+sdk/node_client/node_modules/
+
+# Ignore build directory
+frontend/build/
+
+# Ignore environment files
+# frontend/.env
+# frontend/.env.local
+#frontend/.env.development.local
+#frontend/.env.test.local
+# frontend/.env.production.local
+
+# Ignore log files
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Ignore system files
+frontend/.DS_Store
+frontend/Thumbs.db
+
+# Ignore IDE/editor-specific files
+frontend/.vscode/
+frontend/.idea/
+frontend/*.suo
+frontend/*.ntvs*
+frontend/*.njsproj
+frontend/*.sln
+frontend/*.sw?
+
+# Optional - If using Docker
+frontend/docker-compose.override.yml
+
+# Optional - If using testing or coverage
+frontend/coverage/
+
+crud/static/
+
+*.tgz
+*.lock
+
+scripts/*.log
+scripts/*.txt
+
+# Node Client SDK specific
+sdk/node_client/dist/
+sdk/node_client/coverage/
+sdk/node_client/.DS_Store
+sdk/node_client/*.log
+sdk/node_client/.vscode/
+sdk/node_client/.idea/
+sdk/node_client/*.suo
+sdk/node_client/*.ntvs*
+sdk/node_client/*.njsproj
+sdk/node_client/*.sln
+sdk/node_client/*.sw?
+sdk/python/dist/
