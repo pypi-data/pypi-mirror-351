@@ -1,0 +1,237 @@
+import json
+import signal
+import sys
+from collections.abc import Sequence
+from pathlib import Path
+from typing import Any, cast
+
+import torch
+import wandb
+from safetensors.torch import save_file
+from simple_parsing import ArgumentParser
+from transformer_lens.hook_points import HookedRootModule
+
+from sae_lens import logger
+from sae_lens.config import HfDataset, LanguageModelSAERunnerConfig
+from sae_lens.constants import RUNNER_CFG_FILENAME, SPARSITY_FILENAME
+from sae_lens.load_model import load_model
+from sae_lens.saes.sae import T_TRAINING_SAE_CONFIG, TrainingSAE, TrainingSAEConfig
+from sae_lens.training.activations_store import ActivationsStore
+from sae_lens.training.geometric_median import compute_geometric_median
+from sae_lens.training.sae_trainer import SAETrainer
+
+
+class InterruptedException(Exception):
+    pass
+
+
+def interrupt_callback(sig_num: Any, stack_frame: Any):  # noqa: ARG001
+    raise InterruptedException()
+
+
+class SAETrainingRunner:
+    """
+    Class to run the training of a Sparse Autoencoder (SAE) on a TransformerLens model.
+    """
+
+    cfg: LanguageModelSAERunnerConfig[Any]
+    model: HookedRootModule
+    sae: TrainingSAE[Any]
+    activations_store: ActivationsStore
+
+    def __init__(
+        self,
+        cfg: LanguageModelSAERunnerConfig[T_TRAINING_SAE_CONFIG],
+        override_dataset: HfDataset | None = None,
+        override_model: HookedRootModule | None = None,
+        override_sae: TrainingSAE[Any] | None = None,
+    ):
+        if override_dataset is not None:
+            logger.warning(
+                f"You just passed in a dataset which will override the one specified in your configuration: {cfg.dataset_path}. As a consequence this run will not be reproducible via configuration alone."
+            )
+        if override_model is not None:
+            logger.warning(
+                f"You just passed in a model which will override the one specified in your configuration: {cfg.model_name}. As a consequence this run will not be reproducible via configuration alone."
+            )
+
+        self.cfg = cfg
+
+        if override_model is None:
+            self.model = load_model(
+                self.cfg.model_class_name,
+                self.cfg.model_name,
+                device=self.cfg.device,
+                model_from_pretrained_kwargs=self.cfg.model_from_pretrained_kwargs,
+            )
+        else:
+            self.model = override_model
+
+        self.activations_store = ActivationsStore.from_config(
+            self.model,
+            self.cfg,
+            override_dataset=override_dataset,
+        )
+
+        if override_sae is None:
+            if self.cfg.from_pretrained_path is not None:
+                self.sae = TrainingSAE.load_from_disk(
+                    self.cfg.from_pretrained_path, self.cfg.device
+                )
+            else:
+                self.sae = TrainingSAE.from_dict(
+                    TrainingSAEConfig.from_dict(
+                        self.cfg.get_training_sae_cfg_dict(),
+                    ).to_dict()
+                )
+                self._init_sae_group_b_decs()
+        else:
+            self.sae = override_sae
+
+    def run(self):
+        """
+        Run the training of the SAE.
+        """
+
+        if self.cfg.logger.log_to_wandb:
+            wandb.init(
+                project=self.cfg.logger.wandb_project,
+                entity=self.cfg.logger.wandb_entity,
+                config=cast(Any, self.cfg),
+                name=self.cfg.logger.run_name,
+                id=self.cfg.logger.wandb_id,
+            )
+
+        trainer = SAETrainer(
+            model=self.model,
+            sae=self.sae,
+            activation_store=self.activations_store,
+            save_checkpoint_fn=self.save_checkpoint,
+            cfg=self.cfg,
+        )
+
+        self._compile_if_needed()
+        sae = self.run_trainer_with_interruption_handling(trainer)
+
+        if self.cfg.logger.log_to_wandb:
+            wandb.finish()
+
+        return sae
+
+    def _compile_if_needed(self):
+        # Compile model and SAE
+        #  torch.compile can provide significant speedups (10-20% in testing)
+        # using max-autotune gives the best speedups but:
+        # (a) increases VRAM usage,
+        # (b) can't be used on both SAE and LM (some issue with cudagraphs), and
+        # (c) takes some time to compile
+        # optimal settings seem to be:
+        # use max-autotune on SAE and max-autotune-no-cudagraphs on LM
+        # (also pylance seems to really hate this)
+        if self.cfg.compile_llm:
+            self.model = torch.compile(
+                self.model,
+                mode=self.cfg.llm_compilation_mode,
+            )  # type: ignore
+
+        if self.cfg.compile_sae:
+            backend = "aot_eager" if self.cfg.device == "mps" else "inductor"
+
+            self.sae.training_forward_pass = torch.compile(  # type: ignore
+                self.sae.training_forward_pass,
+                mode=self.cfg.sae_compilation_mode,
+                backend=backend,
+            )  # type: ignore
+
+    def run_trainer_with_interruption_handling(
+        self, trainer: SAETrainer[TrainingSAE[TrainingSAEConfig], TrainingSAEConfig]
+    ):
+        try:
+            # signal handlers (if preempted)
+            signal.signal(signal.SIGINT, interrupt_callback)
+            signal.signal(signal.SIGTERM, interrupt_callback)
+
+            # train SAE
+            sae = trainer.fit()
+
+        except (KeyboardInterrupt, InterruptedException):
+            logger.warning("interrupted, saving progress")
+            checkpoint_name = str(trainer.n_training_tokens)
+            self.save_checkpoint(trainer, checkpoint_name=checkpoint_name)
+            logger.info("done saving")
+            raise
+
+        return sae
+
+    # TODO: move this into the SAE trainer or Training SAE class
+    def _init_sae_group_b_decs(
+        self,
+    ) -> None:
+        """
+        extract all activations at a certain layer and use for sae b_dec initialization
+        """
+
+        if self.cfg.sae.b_dec_init_method == "geometric_median":
+            self.activations_store.set_norm_scaling_factor_if_needed()
+            layer_acts = self.activations_store.storage_buffer.detach()[:, 0, :]
+            # get geometric median of the activations if we're using those.
+            median = compute_geometric_median(
+                layer_acts,
+                maxiter=100,
+            ).median
+            self.sae.initialize_b_dec_with_precalculated(median)
+        elif self.cfg.sae.b_dec_init_method == "mean":
+            self.activations_store.set_norm_scaling_factor_if_needed()
+            layer_acts = self.activations_store.storage_buffer.detach().cpu()[:, 0, :]
+            self.sae.initialize_b_dec_with_mean(layer_acts)  # type: ignore
+
+    @staticmethod
+    def save_checkpoint(
+        trainer: SAETrainer[TrainingSAE[Any], Any],
+        checkpoint_name: str,
+        wandb_aliases: list[str] | None = None,
+    ) -> None:
+        base_path = Path(trainer.cfg.checkpoint_path) / checkpoint_name
+        base_path.mkdir(exist_ok=True, parents=True)
+
+        trainer.activations_store.save(
+            str(base_path / "activations_store_state.safetensors")
+        )
+
+        weights_path, cfg_path = trainer.sae.save_model(str(base_path))
+
+        sparsity_path = base_path / SPARSITY_FILENAME
+        save_file({"sparsity": trainer.log_feature_sparsity}, sparsity_path)
+
+        runner_config = trainer.cfg.to_dict()
+        with open(base_path / RUNNER_CFG_FILENAME, "w") as f:
+            json.dump(runner_config, f)
+
+        if trainer.cfg.logger.log_to_wandb:
+            trainer.cfg.logger.log(
+                trainer,
+                weights_path,
+                cfg_path,
+                sparsity_path=sparsity_path,
+                wandb_aliases=wandb_aliases,
+            )
+
+
+def _parse_cfg_args(
+    args: Sequence[str],
+) -> LanguageModelSAERunnerConfig[TrainingSAEConfig]:
+    if len(args) == 0:
+        args = ["--help"]
+    parser = ArgumentParser(exit_on_error=False)
+    parser.add_arguments(LanguageModelSAERunnerConfig, dest="cfg")
+    return parser.parse_args(args).cfg
+
+
+# moved into its own function to make it easier to test
+def _run_cli(args: Sequence[str]):
+    cfg = _parse_cfg_args(args)
+    SAETrainingRunner(cfg=cfg).run()
+
+
+if __name__ == "__main__":
+    _run_cli(args=sys.argv[1:])
