@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: mgplot
+Version: 0.1.0
+Summary: mgplot is a frontend for matplotlib
+Project-URL: Homepage, https://github.com/bpalmer4/mgplot
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: typing
+Requires-Dist: numpy
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: pathlib
+Requires-Dist: tabulate
+Requires-Dist: black
+Requires-Dist: mypy
+Requires-Dist: ruff
+Requires-Dist: pylint
+Requires-Dist: pdoc
+Requires-Dist: twine
+Requires-Dist: pandas-stubs
+Requires-Dist: types-tabulate
+Provides-Extra: build
+Requires-Dist: setuptools; extra == "build"
+Requires-Dist: cython; extra == "build"
+Dynamic: license-file
+
+mgplot
+======
+
+Description
+-----------
+mgplot is an open-source python frontend for the matplotlib 
+package to:
+1. produce time-series charts that can be a little difficult or 
+   tricky to produce directly, 
+2. finalise (or publish) charts with titles, xlabels, ylabels,
+   etc., all while 
+3. minimising code duplication, and maintaining a common plot
+   style or look-and-feel.
+
+Import
+------
+```
+import mgplot as mg
+```
+
+For more information
+--------------------
+- See the dicumentation folder
+
+---
