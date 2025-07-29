@@ -1,0 +1,13 @@
+six
+requests
+urllib3
+gunicorn
+uvicorn
+pyyaml
+pyopenssl
+SQLAlchemy
+tornado
+FastAPI
+
+[:python_version > "3.7"]
+importlib-metadata
