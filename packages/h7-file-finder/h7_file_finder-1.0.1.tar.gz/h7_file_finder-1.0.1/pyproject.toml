@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "h7-file-finder"
+version = "1.0.1"
+description = "Core utility classes for file and path finding in Python projects"
+readme = "README.md"
+authors = [
+    {name = "Roger Mori", email = "roger.mori@example.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.7"
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/rogermori/h7-file-finder"
+"Bug Tracker" = "https://github.com/rogermori/h7-file-finder/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
