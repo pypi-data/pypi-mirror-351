@@ -1,0 +1,5 @@
+llm==0.26
+sqlite-utils>=3.38
+
+[test]
+pytest>=8.3.5
