@@ -1,0 +1,7 @@
+tomato>=2.1rc3
+
+[:platform_system == "Windows"]
+mcculw>=1.0.0
+
+[testing]
+pytest
