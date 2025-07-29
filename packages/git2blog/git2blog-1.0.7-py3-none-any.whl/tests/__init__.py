@@ -1,0 +1,1 @@
+# Testy dla git2blog
