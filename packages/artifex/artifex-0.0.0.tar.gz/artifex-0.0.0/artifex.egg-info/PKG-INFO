@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: artifex
+Version: 0.0.0
+Summary: Train small AI models with a 1-liner, without data.
+Author: Saurabh Pradhan
+Author-email: Riccardo Lucato <riccardo@tanaos.com>
+License: MIT
+Project-URL: homepage, https://github.com/tanaos/artifex
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: pydantic>=2.11.2
+Requires-Dist: pydantic_settings>=2.9.1
+
+# Artifex
