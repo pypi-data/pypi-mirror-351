@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: llama-tool-parser-native
+Version: 0.0.3
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Rust
+Classifier: License :: OSI Approved :: MIT License
+Requires-Dist: vllm>=0.8.5
+Summary: Native tool parser for llamas pythonic format
+Author-email: Will Eaton <<me@wseaton.com>>
+License: MIT
+Requires-Python: >=3.9, <=3.12
