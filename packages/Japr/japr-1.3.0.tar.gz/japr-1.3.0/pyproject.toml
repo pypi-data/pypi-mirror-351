@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "Japr"
+version = "1.3.0"
+description = "A cross-language tool for rating the overall quality of open source, commercial and personal projects"
+authors = ["Jamie Read <hey@jread.dev>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "japr", from = "src"}]
+
+[tool.poetry.scripts]
+japr = "japr.japr:cli"
+generate_docs = "generate_ruleset_docs:generate"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+gitpython = "^3.1.43"
+toml = "^0.10.2"
+pyyaml = "^6.0.1"
+jinja2 = "^3.1.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+pytest = "^8.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
