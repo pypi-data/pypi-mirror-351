@@ -1,0 +1,19 @@
+# Changelog
+
+## [1.0.1] - 2025-05-27
+### Changed
+- Refactored the `File` class to eliminate the need for explicit `.Open()` and `.Close()` methods.
+- All file operations (e.g., `Read`, `Write`, `Append`, `ReadAsJson`, `WriteAsJson`, `ReadAsCsv`, `WriteAsCsv`, `Hash`, `Backup`) now handle their own file opening and closing using context managers.
+- Removed the `self.Content` file handle, preventing file handle leaks and Windows "PermissionError: file is being used by another process" issues.
+- `Create()` now **does not** leave the file open; it only creates an empty file and returns immediately.
+- `Delete()` automatically ensures any lingering file handle is released.
+- Context manager usage (`with File(...) as f:`) is now **read-only** and no longer the primary workflow for file editing.
+
+### Fixed
+- Resolved Windows file locking errors (`WinError 32`) during test cleanup and directory removal.
+- Fixed behavior for file deletion and recreation (`Delete`, `Recreate`) by ensuring proper file handle closure.
+- Improved `IsEmpty()` to be fully safe across different OS.
+
+### Updated
+- Updated test suite to reflect the new file lifecycle, removing any explicit `.Open()` or `.Close()` calls.
+- Updated `README.md` to reflect the new usage patterns and clearer API.

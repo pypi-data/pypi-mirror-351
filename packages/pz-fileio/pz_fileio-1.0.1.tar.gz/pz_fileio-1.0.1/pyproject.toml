@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pz-fileio"
+version = "1.0.1"
+authors = [
+  { name="Alexandre Sauvé", email="alexandre.sauve.dev@gmail.com" },
+]
+description = "Lightweight, object-oriented utility library for convenient file management in Python."
+readme = "README.md"
+requires-python = ">=3.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/poziel/fileio"
+Issues = "https://github.com/poziel/fileio"
