@@ -1,0 +1,13 @@
+# Include source files in SDist
+include CMakeLists.txt
+graft src
+graft include
+
+# Include test suites in SDist
+graft tests
+global-exclude .coverage .coverage.* coverage.xml coverage-*.xml coverage.*.xml
+global-exclude .junit .junit.* junit.xml junit-*.xml junit.*.xml
+
+# Prune compiled files
+prune */__pycache__
+global-exclude *~ *.py[cod] *.so *.a *.dylib *.pxd *.dll *.lib *.o *.obj
