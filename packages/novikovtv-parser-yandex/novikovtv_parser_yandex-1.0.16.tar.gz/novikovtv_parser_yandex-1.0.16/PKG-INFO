@@ -1,0 +1,72 @@
+Metadata-Version: 2.4
+Name: novikovtv-parser-yandex
+Version: 1.0.16
+Summary: This is the yandex search engine parser
+Project-URL: Homepage, https://github.com/asianetsievskaya/parser-yandex
+Author-email: domster704 <domster704@mail.ru>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.11
+Requires-Dist: aiohttp==3.10.11
+Requires-Dist: asynciolimiter==1.2.0
+Requires-Dist: beautifulsoup4==4.13.3
+Requires-Dist: pydantic~=2.9.2
+Description-Content-Type: text/markdown
+
+from novikovtv_parser_yandex.parsers.models.site_data import SiteParserData
+
+# Парсер поисковой выдачи Яндекса
+
+## Пример
+
+```py
+
+
+from enum import Enum
+
+from pydantic import BaseModel
+
+from novikovtv_parser_yandex.parsers.models.site_data import SiteParserData
+from novikovtv_parser_yandex.parsers.yandex_text_search_api import YandexSearchTextApiV1, ParserType
+
+
+class ParserRouteType(str, Enum):
+    YANDEX: str = "yandex"
+    FNS: str = "fns"
+    VK: str = "vk"
+    TENCHAT: str = "tenchat"
+
+
+class ParserAPIType(int, Enum):
+    """Перечисление типов парсера API."""
+    Deferred = 0  # Отложенный парсинг
+    Day = 1  # Дневной парсинг
+    Night = 2  # Ночной парсинг
+
+
+class ParserRequest(BaseModel):
+    """Модель запроса на парсинг."""
+    tg_user_id: int
+    query: str
+    type: ParserAPIType
+
+
+async def yandex(parser_request: ParserRequest, search_id: int):
+    """Выполняет парсинг Яндекса по запросу пользователя."""
+    yandex_api = await YandexSearchTextApiV1.create(
+        oauth_token="",
+        folder_id="",
+        api_key_v1="")
+
+    p_type: ParserType = ParserType.Day
+    if parser_request.type == ParserAPIType.Day.value:
+        p_type = ParserType.Day
+    elif parser_request.type == ParserAPIType.Night.value:
+        p_type = ParserType.Night
+
+    site_parse_data_list: list[SiteParserData]
+    _, site_parse_data_list = await yandex_api.search(parser_request.query, p_type, search_id)
+```
