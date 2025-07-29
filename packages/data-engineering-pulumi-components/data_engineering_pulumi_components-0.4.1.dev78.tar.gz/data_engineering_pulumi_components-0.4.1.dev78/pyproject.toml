@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "data-engineering-pulumi-components"
+version = "v0.4.1.dev78"
+
+description = "Reusable components for use in Pulumi Python projects"
+authors = ["MoJ Data Engineering Team <data-engineering@digital.justice.gov.uk>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+boto3 = "^1.26.42"
+pulumi-aws = "^5.25.0"
+pulumi-auth0 = "^2.14.0"
+protobuf = "^4.21.5"
+pulumi = "3.40.0"
+setuptools = "80.8.0"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^3.8.4"
+black = "^24.3.0"
+pytest = "^7.2.0"
+pytest-watch = "^4.2.0"
+pyparsing = "^3.0.9"
+moto = "3.1.13"
+coverage = {extras = ["toml"], version = "^6.5.0"}
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*"]
+[tool.coverage.report]
+fail_under = 50
