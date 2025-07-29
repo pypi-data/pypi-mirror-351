@@ -1,0 +1,85 @@
+Metadata-Version: 2.4
+Name: ldaputil
+Version: 40.0.0
+Summary: A simple test package that prints hello world during installation
+Author-email: Your Name <your.email@example.com>
+License: MIT License
+        
+        Copyright (c) 2024 ldaputil
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE. 
+Project-URL: Homepage, https://github.com/yourusername/ldaputil
+Project-URL: Repository, https://github.com/yourusername/ldaputil
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# ldaputil
+
+A simple test Python package that prints "Hello World" during installation.
+
+## Description
+
+This is a minimal test package created to demonstrate Python packaging. The package doesn't provide any real functionality - it's designed to print a greeting message when installed and imported.
+
+## Installation
+
+```bash
+pip install ldaputil
+```
+
+## Usage
+
+```python
+import ldaputil
+
+# The package will print "Hello World" message when imported
+
+# You can also use the hello_world function
+ldaputil.hello_world()
+
+# Or use the greet function from main module
+from ldaputil.main import greet
+greet("Python Developer")
+```
+
+## Features
+
+- Prints greeting message during installation/import
+- Simple hello_world() function
+- Greet function with customizable name
+- Minimal dependencies
+
+## Development
+
+This package was created as a learning exercise for Python packaging.
+
+## License
+
+MIT License 
