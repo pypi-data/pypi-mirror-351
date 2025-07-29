@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: fieldreporter
+Version: 0.0.5
+Summary: Alerting and reporting issues on remote systems
+Author-email: Daniel Jones <dan-code@erase.net>
+License-Expression: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: fieldreporter
+Requires-Dist: apscheduler
+Requires-Dist: pyyaml
+
+# Field Reporter
+
+Alerting and reporting of issues on remote computers in the field.

@@ -1,0 +1,20 @@
+[project]
+name = "fieldreporter"
+version = "0.0.5"
+authors = [{ name="Daniel Jones", email="dan-code@erase.net" }]
+description = "Alerting and reporting issues on remote systems"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+dependencies = [
+    "fieldreporter",
+    "apscheduler",
+    "pyyaml"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["fieldreporter*"]
