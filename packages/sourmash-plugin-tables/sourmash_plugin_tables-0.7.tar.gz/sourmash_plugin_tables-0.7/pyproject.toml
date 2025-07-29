@@ -1,0 +1,23 @@
+# CTB: use 'git grep -i xyz' to search for XYZ and replace with plugin name!
+
+[project]
+name = "sourmash_plugin_tables"
+description = "sourmash plugin to do tables."
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.7"
+
+dependencies = ["sourmash>=4.8.11,<5", "polars", "sourmash_utils"]
+
+[metadata]
+license = { text = "BSD 3-Clause License" }
+
+# CTB note: you only need to include information about the entry points
+# that your plugin defines; remove the rest. Multiple entry points of
+# any particular type are perfectly fine too!
+
+[project.entry-points."sourmash.cli_script"]
+prefetch_tables = "sourmash_plugin_tables:Command_Prefetch_Tables"
+gather_tables = "sourmash_plugin_tables:Command_Gather_Tables"
+hash_tables = "sourmash_plugin_tables:Command_Hash_Tables"
+compare_rows = "sourmash_plugin_tables:Command_Compare_Rows"
