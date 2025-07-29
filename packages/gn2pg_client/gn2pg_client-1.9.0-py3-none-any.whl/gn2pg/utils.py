@@ -1,0 +1,74 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Some utils"""
+
+from typing import Any
+
+
+class XferStatus:
+    """List of transfer status"""
+
+    init = "init"
+    import_data = "importing data"
+    delete = "delete"
+    success = "success"
+    failed = "failed"
+
+
+class BColors:
+    """Colors used for cli"""
+
+    def __init__(self):
+        self.colors = {
+            "header": "[95m",
+            "okblue": "[94m",
+            "okcyan": "[96m",
+            "okgreen": "[92m",
+            "warning": "[93m",
+            "fail": "[91m",
+            "endc": "[0m",
+            "bold": "[1m",
+            "underline": "[4m",
+        }
+
+    def color(self, color: str):
+        """bash shell color code"""
+        color_code = self.colors[color] if color in self.colors else color
+        return f"\033{color_code}"
+
+
+transtable = str.maketrans(
+    "àâäéèêëîïôöùûüŷÿç~- ",
+    "aaaeeeeiioouuuyyc___",
+    "&'([{|}])`^\\/+-=*°$£%§.?!;:<>",
+)
+
+
+def simplify(source: str) -> str:
+    """Codify source name
+
+    Args:
+        source (str): Original source name
+
+    Returns:
+        str: Codified source name
+    """
+    clean_result = " ".join(source.split())
+    newsource = clean_result.lower().translate(transtable)
+    return newsource
+
+
+def coalesce_in_dict(source: dict, key: str, default: Any) -> Any:
+    """Coalesce function applyed on dict values
+
+    Args:
+        source (dict): Source
+        key(str): key
+        default (any): Default value
+
+    Returns:
+        any: Any value
+    """
+    if key in source:
+        return source[key]
+    return default
