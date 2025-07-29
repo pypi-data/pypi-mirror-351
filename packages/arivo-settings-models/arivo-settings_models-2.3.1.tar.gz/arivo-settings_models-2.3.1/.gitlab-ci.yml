@@ -1,0 +1,66 @@
+cache:
+  paths:
+    - ./node_modules
+
+stages:
+  - test
+  - build
+  - deploy
+
+before_script:
+  - mkdir -p .pip
+  - pip install -U pip
+  - pip --cache-dir=.pip --quiet install -U tox twine wheel pbr
+
+test:
+  stage: test
+  tags:
+    - office
+    - shell
+  script:
+    - pip install -U tox
+    - python -m tox
+  coverage: '/^TOTAL\s+\d+\s+\d+\s+(\d+\%)$/'
+  artifacts:
+    paths:
+      - htmlcov
+      - schemas.json
+
+#pages:
+#  image: node:10-alpine
+#  stage: build
+#  before_script:
+#    - npm install swagger-ui-dist
+#  dependencies:
+#    - test
+#  script:
+#    - mkdir public
+#    - cp -rp node_modules/swagger-ui-dist/* public
+#    - cp -rp schemas.json public/
+#    - sed -i "s#https://petstore\.swagger\.io/v2/swagger\.json#schemas.json#g" public/index.html
+#  artifacts:
+#    paths:
+#      - public
+#  only:
+#    - master
+
+
+pypi:
+  dependencies: [ ]
+  stage: deploy
+  tags:
+    - docker
+  only:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_REF_NAME =~ /^v(\d+)(\.[\d\w]+)+?$/
+  variables:
+    TWINE_USERNAME: $PYPI_USERNAME
+    TWINE_PASSWORD: $PYPI_PASSWORD
+    PBR_VERSION: $CI_COMMIT_REF_NAME
+  script:
+    - '[[ -z $TWINE_USERNAME ]] && (echo "\$PYPI_USERNAME is not set" ; exit 1)'
+    - '[[ -z $TWINE_PASSWORD ]] && (echo "\$PYPI_PASSWORD is not set" ; exit 1)'
+    - python setup.py -q sdist bdist_wheel
+    - twine upload dist/*
