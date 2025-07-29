@@ -1,0 +1,30 @@
+Metadata-Version: 2.3
+Name: recsa
+Version: 0.15.0
+Summary: Reaction Explorer for Coordination Self-Assembly
+License: MIT
+Author: neji-craftsman
+Author-email: 142223934+neji-craftsman@users.noreply.github.com
+Requires-Python: >=3.12,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: cachetools (>=5.5.0,<6.0.0)
+Requires-Dist: click (>=8.1.8,<9.0.0)
+Requires-Dist: matplotlib (>=3.8.4,<4.0.0)
+Requires-Dist: mypy (>=1.11.1,<2.0.0)
+Requires-Dist: networkx (>=3.3,<4.0)
+Requires-Dist: opencv-python (>=4.10.0.84,<5.0.0.0)
+Requires-Dist: pandas (>=2.2.2,<3.0.0)
+Requires-Dist: pandas-stubs (>=2.2.2.240909,<3.0.0.0)
+Requires-Dist: pydantic (>=2.9.2,<3.0.0)
+Requires-Dist: pyyaml (>=6.0.2,<7.0.0)
+Requires-Dist: scipy (>=1.14.0,<2.0.0)
+Requires-Dist: types-cachetools (>=5.5.0.20240820,<6.0.0.0)
+Requires-Dist: types-pyyaml (>=6.0.12.20240917,<7.0.0.0)
+Description-Content-Type: text/markdown
+
+# recsa
+Reaction Explorer for Coordination Self-Assembly
+
