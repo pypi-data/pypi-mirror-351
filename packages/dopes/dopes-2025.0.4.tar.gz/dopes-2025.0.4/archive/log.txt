@@ -1,0 +1,350 @@
+09/08/24
+DesCar version 2.12.2
+Entry by: Lahaye Loïc
+
+Additions:
+- dash and cross plot style
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+-eps plot export was removed in DesCar 2.10.2  => should be added as a global modifier that is being saved between sessions. Should add a "settings" command that show all the global configurations like filePath and soon the eps toggle.
+-Plot enhancement => grid should not be by default
+-Plot => add the possibility to add an inset
+
+
+Minor bug correction:
+-
+
+Major bug correction:
+-
+
+
+
+
+10/07/24
+DesCar version 2.12.1
+Entry by: Lahaye Loïc
+
+Additions:
+- dataCycle: automatic name correction attempt
+- Plot configuration saving. DesCar will save the plot style, title and axis name between sessions
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+-eps plot export was removed in DesCar 2.10.2  => should be added as a global modifier that is being saved between sessions. Should add a "settings" command that show all the global configurations like filePath and soon the eps toggle.
+-Plot enhancement => grid should not be by default
+-Plot => add the possibility to add an inset
+
+
+Minor bug correction:
+- polyCycle renamed dataCycle
+- No more global program crash when dataCycle does not find the file
+- Comsol cleaning routine now outputs file with same name as source. No more _cleaned
+
+Major bug correction:
+-
+
+
+24/04/24
+DesCar version 2.11.4
+Entry by: Lahaye Loïc
+
+Additions:
+-The diffrential stoney routine now export a txt report of the experiment. The fitting is also exported as png for transparency reasons.
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+-eps plot export was removed in DesCar 2.10.2  => should be added as a global modifier that is being saved between sessions. Should add a "settings" command that show all the global configurations like filePath and soon the eps toggle.
+-Plot enhancement => grid should not be by default
+-Plot => add the possibility to add an inset
+
+
+Minor bug correction:
+-
+
+Major bug correction:
+-
+
+
+19/03/24
+DesCar version 2.11.3
+Entry by: Lahaye Loïc
+
+Additions:
+- Global modifiers for the extension swap routine. The extension to be removed and the next one can be saved in an object for the all descar session. One can then only type extension without being asked for the extension to swap.
+	-setExtOld(), setExtNew(), clearExt(), setExtension()
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+-eps plot export was removed in DesCar 2.10.2  => should be added as a global modifier that is being saved between sessions. Should add a "settings" command that show all the global configurations like filePath and soon the eps toggle.
+-Plot enhancement => grid should not be by default
+-Plot => add the possibility to add an inset
+
+
+Minor bug correction:
+-
+
+Major bug correction:
+-
+
+
+
+
+
+
+
+29/02/24
+DesCar version 2.11.2
+Entry by: Lahaye Loïc
+
+Additions:
+- Added the possibility to remmove any polynomial baseline in the leveling routine. The routine will export the fitted removed baseline in a separated folder for verification purposes. Added better description of the fitting ranges.
+- Modification of the the file architecture in preparation for collaboration
+- Addition of PotPot folder
+- Addition of collaboration rules files
+- Addition of use and acknowledgement
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+-eps plot export was removed in DesCar 2.10.2  => should be added as a global modifier that is being saved between sessions. Should add a "settings" command that show all the global configurations like filePath and soon the eps toggle.
+-Plot enhancement => grid should not be by default
+-Plot => add the possibility to add an inset
+
+
+Minor bug correction:
+-
+
+Major bug correction:
+-
+
+
+
+
+
+05/01/24
+DesCar version 2.11.1
+Entry by: Lahaye Loïc
+
+Additions:
+-Added commands definitions
+-Added sqrt3 approximation
+
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+-eps plot export was removed in DesCar 2.10.2  => should be added as a global modifier that is being saved between sessions. Should add a "settings" command that show all the global configurations like filePath and soon the eps toggle.
+-Plot enhancement => grid should not be by default
+-Plot => add the possibility to add an inset
+
+
+Minor bug correction:
+-
+
+Major bug correction:
+-
+
+
+
+
+
+
+
+
+21/12/2023
+DesCar version 2.11.0
+Entry by: Lahaye Loïc
+
+Additions:
+-Plot style enhancement by default
+-normalise => normalisation routine
+
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+-eps plot export was removed in DesCar 2.10.2  => should be added as a global modifier that is being saved between sessions. Should add a "settings" command that show all the global configurations like filePath and soon the eps toggle.
+-Plot enhancement => grid should not be by default
+-Plot => add the possibility to add an inset
+
+
+Minor bug correction:
+-
+
+Major bug correction:
+-
+
+
+
+
+
+
+18/12/2023
+DesCar version 2.10.1
+Entry by: Lahaye Loïc
+
+Additions:
+-
+
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+
+Minor bug correction:
+-
+
+Major bug correction:
+-polyCycle did an erronous correction on the x axis. The routine should not perform an x axis correction but only a y axis correction. Bug has been corrected. 
+
+
+15/12/2023
+DesCar version 2.10.0
+Entry by: Lahaye Loïc
+
+Additions:
+-trimFN: allows to rename files on the fly by removing a sequence of character from file names (.txt)
+-resistanceP: gets the resistance value out of an IV curve. For multiple file with the xAxes data in the file name. xAxes data must be the only number in the file name.
+
+
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+
+Minor bug correction:
+-
+
+Major bug correction:
+-
+
+
+
+
+
+12/12/2023
+DesCar version 2.9.0
+Entry by: Lahaye Loïc
+
+Additions:
+-Addition of a level class to set the begining and ending 1D fit range.
+	-setLevel
+	-levelR
+	-levelL
+	-levelClear
+
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+
+Minor bug correction:
+-Clarrification of denomination in the final export of detected silicon raman peaks (loretzian fit in ramanSiliconPressure()). We export L0 for the one lorentzian and T0 (P[0]) + L0 (P[3]) in the two peak fit
+
+
+Major bug correction:
+-
+
+
+
+
+
+08/12/2023
+DesCar version 2.8.1
+Entry by: Lahaye Loïc
+
+Additions:
+-
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+
+Minor bug correction:
+-Ugly print to prompt in legacy parsePolytec command corrected
+
+Major bug correction:
+-
+
+
+
+07/12/2023
+DesCar version 2.8.0
+Entry by: Lahaye Loïc
+
+Additions:
+-Generic file cleaning: Allows to clean and export under the form of a two column xy .txt file any input file. 
+	-User provides #of rows to skip,column header name and combination of columns to export
+	-Input file can contain any given number of columns
+	-gfc: runs the generic file cleaning routine 
+	-gfcSkip: sets the number of rows to skip for all gfc run
+	-gfcColName: sets the name of the column header for all gfc run
+	-gfcExport: sets the combination of export for all gfc run
+	-gfcClear: clears all global gfc settings
+	-setGFC: sets all gfc settings
+	
+	-The gfc routine was proven to be compatible with polytec measurements, IC-Cap export, comsol export.
+
+In progress:
+-gfc routine will be used to update all previously created file cleaning routines. Machine object modifier will old settings (skip, colName and colExport) for the gfc routine. Futur DesCar updtate will hence deactivate the legacy dektak/comsol/raman/polytec file cleaning and parsing routines.
+
+Minor bug correction:
+-
+
+Major bug correction:
+-
+
+
+
+
+
+01/12/2023
+DesCar Version 2.7.0
+Entry by: Lahaye Loïc
+
+Additions:
+-Stoney: Implementation of the differential stoney equation for thermal stress measurements from the elipso + dektak (thickness of thin films + wafer curvature)
+
+
+In progress:
+-
+
+Minor bug correction:
+-polytecDeflection: Correction of a path name. Update 2.6.1 updated path name in the polytec routines but not in the DesCar automation routine polytecDeflection hence breaking it. Now fixed and tested
+
+Major bug correction:
+-
+
+
+29/11/2023
+DesCar Version 2.6.1
+Entry by: Lahaye Loïc
+
+Additions:
+-Global plot modifier. Allows to set plot parameters once and not once per plot execution. Plot routine will automatically detect the presence of a general plot setting. Will use it if there and will ask for it if not
+	-plotX: sets the x legend for all plots. 
+	-plotY: sets the y legend for all plots.
+	-plotTitle: sets the title for all plots.
+	-plotStyle: sets the global fancy,line,point,linepoint  for all plots
+	-setPlot: DesCar automation to set all parameters.
+	-plotClear: clears all global plot parameters
+	-re-running any command will overide previous entry. Global settings not saved between sessions
+-Dektak cleaning file routine	
+	-dektakClean: takes raw .txt dektak measurement and outputs clean xy txt file compatible
+-extension modifier:
+	-extension: allows to change a given extension to another one of all file in folder
+
+In progress:
+-thermal stress estimation based on the differential version of stoney's equation. Almost done. Trouble in the final stress value computation 
+
+Minor bug correction:
+-parsePolytec:
+	-Goal of the routine
+		-Takes raw polytec line or map file, parses them and cleans them. The outputs are separated in 2 folders (line and map) containing clean xy or xyz data
+	-Bug description
+		-The polytec line file replace saturation of the measurement or abscence of data by a blank line in the measurement. The previous version of the code (2.5.1 and before) replaced those blanks by 0.0. This resulted in error in final plot with ghost points at zero.
+	-Bug status
+		-Complete fix was implemented and tested on real data. The blank lines are now deleted as they should be.
+
+Major bug correction (update required):
+-parsePolytec:
+	-Goal of the routine
+		-Takes raw polytec line or map file, parses them and cleans them. The outputs are separated in 2 folders (line and map) containing clean xy or xyz data
+	-Bug description
+		-The routine systematically deleted 120 data point in each file
+	-Bug status
+		-Complete fix was implemented and tested on real data. The code detecting wheter a line is data/text/blank had to be rewritten. Was done using the module from the dektak cleaning code.
