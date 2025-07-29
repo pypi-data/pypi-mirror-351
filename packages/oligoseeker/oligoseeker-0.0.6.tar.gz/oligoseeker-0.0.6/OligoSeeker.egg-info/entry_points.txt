@@ -1,0 +1,5 @@
+[console_scripts]
+oligoseeker = OligoSeeker.cli:main
+
+[nbdev]
+OligoSeeker = OligoSeeker._modidx:d
