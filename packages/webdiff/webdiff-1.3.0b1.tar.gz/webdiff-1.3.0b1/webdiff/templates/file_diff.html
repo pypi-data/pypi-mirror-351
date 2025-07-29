@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Diff</title>
+
+  <script src="/static/js/highlight.min.js"></script>
+  <link rel="stylesheet" href="/theme.css">
+
+  <link rel="stylesheet" href="/static/codediff.js/codediff.css">
+
+  <link href='/static/css/inconsolata.css' rel='stylesheet'>
+
+  <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+<div class="container">
+  <div id="application"></div>
+</div>
+</body>
+
+<script>
+var {pairs, idx, has_magick, git_config} = {{data}};
+var initialIdx = idx;
+var HAS_IMAGE_MAGICK = has_magick;
+var GIT_CONFIG = git_config;
+</script>
+
+<script src="/static/js/file_diff.js"></script>
+
+</html>
