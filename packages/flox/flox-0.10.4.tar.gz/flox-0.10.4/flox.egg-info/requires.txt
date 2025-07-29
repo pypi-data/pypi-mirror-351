@@ -1,0 +1,16 @@
+pandas>=1.5
+packaging>=21.3
+numpy>=1.22
+numpy_groupies>=0.9.19
+toolz
+scipy>=1.9
+
+[all]
+cachey
+dask
+numba
+numbagg
+xarray
+
+[test]
+netCDF4
