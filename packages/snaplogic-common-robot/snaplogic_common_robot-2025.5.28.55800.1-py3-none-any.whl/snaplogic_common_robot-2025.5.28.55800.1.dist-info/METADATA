@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: snaplogic-common-robot
+Version: 2025.5.28.55800.1
+Summary: Important keywords configured with robotframework to use Snaplogic Apis
+Author-email: Your Name <your.email@snaplogic.com>
+License: fill in
+Project-URL: homepage, https://github.com/SnapLogic/snaplogic-common-robot#readme
+Project-URL: repository, https://github.com/SnapLogic/snaplogic-common-robot
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: robotframework
+Requires-Dist: robotframework-requests
+Requires-Dist: robotframework-docker
+Requires-Dist: robotframework-databaselibrary
+Requires-Dist: robotframework-jsonlibrary
+Requires-Dist: robotframework-robocop
+Requires-Dist: robotframework-tidy[generate_config]
+Requires-Dist: robotframework-dependencylibrary
+Requires-Dist: envyaml
+Requires-Dist: deepdiff
+Requires-Dist: pyyaml
+Requires-Dist: jinja2
+Requires-Dist: tabulate
+Requires-Dist: pymongo
+Requires-Dist: awscli
+Requires-Dist: build
+Requires-Dist: python-dotenv
+Requires-Dist: boto3
+Requires-Dist: cookiecutter
+Requires-Dist: twine
