@@ -1,0 +1,37 @@
+func (r *{{resource_name}}Resource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	{% if list_operation %}
+	var data *{{resource_name}}ResourceModel
+	
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	{% for var in list_vars %}
+    {{ var }}
+    {% endfor %}
+
+	request := {{resource_name | lower }}.{{list_operation}}Request{
+		{% for param in list_parameters -%}
+		{{param | capitalize }}: {{param}},
+		{% endfor %}
+	}
+	res, err := r.client.{{list_method_name}}(ctx, request)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+
+	// Save updated data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	{% else %}
+	// List function is not implemented or supported
+	{% endif %}
+}
