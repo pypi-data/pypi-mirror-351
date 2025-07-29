@@ -1,0 +1,7 @@
+#define SAMTOOLS_CC "gcc"
+#define SAMTOOLS_CPPFLAGS "-I/project/pysam -I/project/htslib -I/project/samtools -I/project/samtools/lz4 -I/project/bcftools -I/project -DBUILDING_WHEEL"
+#define SAMTOOLS_CFLAGS "-fno-strict-overflow -Wsign-compare -DNDEBUG -g -O3 -Wall -fPIC -Wno-unused -Wno-strict-prototypes -Wno-sign-compare -Wno-error=declaration-after-statement"
+#define SAMTOOLS_LDFLAGS " -L/project/pysam -L/project -Lbuild/lib.linux-x86_64-cpython-312/pysam -Lbuild/lib.linux-x86_64-cpython-312/pysam -Wl,-rpath,$ORIGIN"
+#define SAMTOOLS_LIBS "-lz -llzma -lbz2 -lz -lcurl -lcrypto -lchtslib.cpython-312-x86_64-linux-musl"
+#define SAMTOOLS_HTSDIR "(unused)"
+#define SAMTOOLS_CURSES_LIB "(unused)"
