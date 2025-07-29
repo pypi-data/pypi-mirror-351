@@ -1,0 +1,64 @@
+a {
+	text-decoration: none !important;
+}
+
+p, span {
+	color: rgba(0,0,0,.9);
+}
+.listing-entry:hover {
+	opacity: 0.75;
+}
+
+.thumbnail-select:hover {
+	/* TODO: This color does not work, would be cool if it did.*/
+	color: #28a745;
+	opacity: 0.75;
+	cursor: pointer;
+}
+
+.color-elem-1 {
+	color: #d81c32;
+}
+.color-elem-2 {
+	color: #b5a372;
+}
+
+.text-dark {
+	color: #eee !important;
+}
+.site-title {
+	display: inline-block;
+	margin-top: 3%;
+}
+
+#toggle-day-night-icon:hover {
+	cursor: pointer;
+}
+
+.btn {
+	color: #d81c32 !important;
+}
+.btn-outline-success {
+	border-color: #d81c32 !important;
+	color: #d81c32 !important;
+}
+.btn-outline-success:hover {
+	background-color: #d81c32 !important;
+	color: #fff !important;
+}
+
+/*
+ * TODO: See Feature #379. Make this DRY.
+ * */
+.hidden-form-fields {
+	display: none;
+}
+/*
+ * TODO: See Feature #379. Make this DRY.
+ * */
+.language-flag {
+	margin: 4px;
+}
+.language-flag:hover {
+	cursor: pointer;
+}
