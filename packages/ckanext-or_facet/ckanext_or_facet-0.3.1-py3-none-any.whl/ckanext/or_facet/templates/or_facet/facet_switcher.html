@@ -1,0 +1,9 @@
+{% if h.ckan_version().split(".")[1]|int >= 9 %}
+    {% set get_params = request.args %}
+{% else %}
+    {% set get_params = request.params %}
+{% endif %}
+
+{% set enabled = h.or_facet_or_enabled(name, get_params) %}
+{% set href = h.remove_url_param(h.or_facet_switcher_prefix()~name, replace='off' if enabled else 'on', extras=extras, alternative_url=alternative_url) %}
+<a href="{{ href }}">{{ any_label or 'OR' if enabled else all_label or 'AND' }}</a>
