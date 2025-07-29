@@ -1,0 +1,4 @@
+[console_scripts]
+om-logo = openmairie.devtools.omlogo:main
+om-svnexternals = openmairie.devtools.omsvnexternals:main
+om-tests = openmairie.devtools.omtests:main
