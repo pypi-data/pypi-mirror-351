@@ -1,0 +1,7 @@
+#define SAMTOOLS_CC "clang"
+#define SAMTOOLS_CPPFLAGS "-I/private/var/folders/12/pnkkx8t10xn52w5f_q_vn4040000gn/T/cirrus-ci-build/pysam -I/private/var/folders/12/pnkkx8t10xn52w5f_q_vn4040000gn/T/cirrus-ci-build/htslib -I/private/var/folders/12/pnkkx8t10xn52w5f_q_vn4040000gn/T/cirrus-ci-build/samtools -I/private/var/folders/12/pnkkx8t10xn52w5f_q_vn4040000gn/T/cirrus-ci-build/samtools/lz4 -I/private/var/folders/12/pnkkx8t10xn52w5f_q_vn4040000gn/T/cirrus-ci-build/bcftools -I/private/var/folders/12/pnkkx8t10xn52w5f_q_vn4040000gn/T/cirrus-ci-build -DBUILDING_WHEEL"
+#define SAMTOOLS_CFLAGS "-Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall   -g -arch arm64  -Wno-unused -Wno-strict-prototypes -Wno-sign-compare -Wno-error=declaration-after-statement"
+#define SAMTOOLS_LDFLAGS "  -g -arch arm64 -L/private/var/folders/12/pnkkx8t10xn52w5f_q_vn4040000gn/T/cirrus-ci-build/pysam -L/private/var/folders/12/pnkkx8t10xn52w5f_q_vn4040000gn/T/cirrus-ci-build -Lbuild/lib.macosx-11.0-arm64-cpython-310/pysam -Lbuild/lib.macosx-11.0-arm64-cpython-310/pysam -dynamiclib -rpath @loader_path -Wl,-headerpad_max_install_names -Wl,-install_name,@rpath/libcsamtools.cpython-310-darwin.so -Wl,-x"
+#define SAMTOOLS_LIBS "-lz -llzma -lbz2 -lz -lcurl -lchtslib.cpython-310-darwin"
+#define SAMTOOLS_HTSDIR "(unused)"
+#define SAMTOOLS_CURSES_LIB "(unused)"
