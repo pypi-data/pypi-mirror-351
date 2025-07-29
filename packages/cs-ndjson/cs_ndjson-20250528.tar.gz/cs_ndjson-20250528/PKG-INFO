@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: cs-ndjson
+Version: 20250528
+Summary: utilities for working with newline delimited JSON (NDJSON) files
+Keywords: python2,python3
+Author-email: Cameron Simpson <cs@cskk.id.au>
+Description-Content-Type: text/markdown
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Requires-Dist: cs.deco>=20250513
+Requires-Dist: cs.fileutils>=20211208
+Requires-Dist: cs.logutils>=20250323
+Requires-Dist: cs.mappings>=20250528
+Requires-Dist: cs.obj>=20250306
+Requires-Dist: cs.pfx>=20250308
+Project-URL: MonoRepo Commits, https://bitbucket.org/cameron_simpson/css/commits/branch/main
+Project-URL: Monorepo Git Mirror, https://github.com/cameron-simpson/css
+Project-URL: Monorepo Hg/Mercurial Mirror, https://hg.sr.ht/~cameron-simpson/css
+Project-URL: Source, https://github.com/cameron-simpson/css/blob/main/lib/python/cs/ndjson.py
+
+Utilities for working with newline delimited JSON (NDJSON) files, aka JSON Lines.
+
+*Latest release 20250528*:
+New dump_ndjson and dumps_ndjson for transcribing obj as NDJSON (includes the trailing newline).
+
+Short summary:
+* `append_ndjson`: Append an iterable of objects to a file as newline delimited JSON.
+* `dump_ndjson`: Write `obj` as a single line of JSON, including the trailing newline.
+* `dumps_ndjson`: Return `obj` as a single line of JSON, including the trailing newline.
+* `scan_ndjson`: Read a newline delimited JSON file, yield instances of `dictclass` (default `dict`, otherwise a class which can be instantiated by `dictclass(a_dict)`).
+* `UUIDNDJSONMapping`: A subclass of `IndexedSetMixin` which maintains records from a newline delimited JSON file.
+* `write_ndjson`: Transcribe an iterable of objects to a file as newline delimited JSON.
+
+Module contents:
+- <a name="append_ndjson"></a>`append_ndjson(f, objs)`: Append an iterable of objects to a file as newline delimited JSON.
+- <a name="dump_ndjson"></a>`dump_ndjson(obj, f)`: Write `obj` as a single line of JSON, including the trailing newline.
+- <a name="dumps_ndjson"></a>`dumps_ndjson(obj)`: Return `obj` as a single line of JSON, including the trailing newline.
+- <a name="scan_ndjson"></a>`scan_ndjson(f, dictclass=<class 'dict'>, error_list=None)`: Read a newline delimited JSON file, yield instances of `dictclass`
+  (default `dict`, otherwise a class which can be instantiated
+  by `dictclass(a_dict)`).
+
+  `error_list` is an optional list to accrue `(lineno,exception)` tuples
+  for errors encountered during the scan.
+- <a name="UUIDNDJSONMapping"></a>`Class `UUIDNDJSONMapping(cs.obj.SingletonMixin, cs.mappings.IndexedSetMixin)``: A subclass of `IndexedSetMixin` which maintains records
+  from a newline delimited JSON file.
+
+*`UUIDNDJSONMapping.__init__(self, filename, dictclass=<class 'cs.mappings.UUIDedDict'>, create=False)`*:
+Initialise the mapping.
+
+Parameters:
+* `filename`: the file containing the newline delimited JSON data;
+  this need not yet exist
+* `dictclass`: a optional `dict` subclass to hold each record,
+  default `UUIDedDict`
+* `create`: if true, ensure the file exists
+  by transiently opening it for append if it is missing;
+  default `False`
+
+*`UUIDNDJSONMapping.add_backend(self, record)`*:
+Append `record` to the backing file.
+
+*`UUIDNDJSONMapping.rewrite_backend(self)`*:
+Rewrite the backing file.
+
+Because the record updates are normally written in append mode,
+a rewrite will be required every so often.
+
+*`UUIDNDJSONMapping.scan(self)`*:
+Scan the backing file, yield records.
+- <a name="write_ndjson"></a>`write_ndjson(f, objs)`: Transcribe an iterable of objects to a file as newline delimited JSON.
+
+# Release Log
+
+
+
+*Release 20250528*:
+New dump_ndjson and dumps_ndjson for transcribing obj as NDJSON (includes the trailing newline).
+
+*Release 20211208*:
+Initial PyPI release.
