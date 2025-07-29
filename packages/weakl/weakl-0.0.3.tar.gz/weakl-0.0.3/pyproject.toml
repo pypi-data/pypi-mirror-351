@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+
+build-backend = "hatchling.build"
+
+
+[project]
+name = "weakl"
+version = "0.0.3"
+authors = [
+  { name="Nathan Doumèche", email="nathan.doumeche@gmail.com" },
+
+]
+description = "A package implementing kernel methods with weak physics for time series"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = ["torch >= 2.4.1", 
+"pandas >= 2.2.2", 
+"matplotlib >= 3.9.0", 
+"numpy >= 2.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/NathanDoumeche/weakl"
+Issues = "https://github.com/NathanDoumeche/weakl/issues"
