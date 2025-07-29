@@ -1,0 +1,13 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+sortbybytes/__init__.py
+sortbybytes/formatter.py
+sortbybytes/sorter.py
+sortbybytes.egg-info/PKG-INFO
+sortbybytes.egg-info/SOURCES.txt
+sortbybytes.egg-info/dependency_links.txt
+sortbybytes.egg-info/top_level.txt
+tests/test_formatter.py
+tests/test_sorter.py
