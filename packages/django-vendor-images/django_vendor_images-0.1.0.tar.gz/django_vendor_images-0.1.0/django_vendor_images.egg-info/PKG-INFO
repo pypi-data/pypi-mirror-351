@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: django-vendor-images
+Version: 0.1.0
+Summary: Django reusable image model for vendor/shop images
+Home-page: https://github.com/mehran-jafari/django-vendor-images
+Author: Mehran Jafari
+Author-email: Mehran Jafari <eng.mehranjafarii@gmail.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: django>=3.2
+Requires-Dist: Pillow>=9.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+
+# django-vendor-images
+
+A reusable Django app for handling vendor/shop images.
+
+## Features
+
+- Upload and manage vendor images (logos, banners, etc.)
+- Automatically organize images by vendor and date
+- Easy integration with Django projects
+- Supports image resizing and optimization using Pillow
+
+## Installation
+
+```bash
+pip install django-vendor-images
+
+Add "vendor_images" to your INSTALLED_APPS in settings.py.
+INSTALLED_APPS = [
+    ...
+    'vendor_images',
+]
+
+Run migrations:
+python manage.py migrate vendor_images
+
+
+Use the models and utilities to handle vendor images in your project.

@@ -1,0 +1,15 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+setup.py
+django_vendor_images.egg-info/PKG-INFO
+django_vendor_images.egg-info/SOURCES.txt
+django_vendor_images.egg-info/dependency_links.txt
+django_vendor_images.egg-info/requires.txt
+django_vendor_images.egg-info/top_level.txt
+vendor_images/__init__.py
+vendor_images/models.py
+vendor_images/utils.py
+vendor_images/tests/__init__.py
+vendor_images/tests/test_models.py

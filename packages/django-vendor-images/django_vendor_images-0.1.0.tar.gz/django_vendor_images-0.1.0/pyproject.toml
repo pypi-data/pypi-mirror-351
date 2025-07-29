@@ -1,0 +1,12 @@
+[project]
+name = "django-vendor-images"
+version = "0.1.0"
+description = "Django reusable image model for vendor/shop images"
+authors = [{ name="Mehran Jafari", email="eng.mehranjafarii@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["django>=3.2", "Pillow>=9.0"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
