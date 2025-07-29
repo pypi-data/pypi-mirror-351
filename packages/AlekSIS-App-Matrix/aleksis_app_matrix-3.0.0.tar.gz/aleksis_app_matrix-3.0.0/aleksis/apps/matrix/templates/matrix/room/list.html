@@ -1,0 +1,66 @@
+{# -*- engine:django -*- #}
+
+{% extends "core/base.html" %}
+
+{% load i18n material_form static %}
+{% load render_table from django_tables2 %}
+
+{% block browser_title %}{% blocktrans %}Groups and Matrix Rooms{% endblocktrans %}{% endblock %}
+{% block page_title %}{% blocktrans %}Groups and Matrix Rooms{% endblocktrans %}{% endblock %}
+
+{% block content %}
+<!--  <a class="btn green waves-effect waves-light" href="{% url 'create_group' %}">-->
+<!--    <i class="material-icons left">add</i>-->
+<!--    {% trans "Create group" %}-->
+<!--  </a>-->
+
+<div class="card">
+  <div class="card-content">
+    <div class="card-title">
+      <i class="material-icons left small iconify" data-icon="mdi:filter-multiple-outline"></i>
+      {% trans "Filter groups" %}
+    </div>
+    <form method="get">
+      {% form form=filter.form %}{% endform %}
+      {% include "core/partials/save_button.html" with caption=_("Filter") icon="mdi:filter-outline" %}
+      <button type="reset" class="btn red waves-effect waves-light">
+        <i class="material-icons left iconify" data-icon="mdi:filter-remove-outline"></i>
+        {% trans "Clear" %}
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-content">
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col s12 {% if action_form %}m4 l4 xl6{% endif %}">
+          <div class="card-title">
+            <i class="material-icons left small iconify" data-icon="mdi:account-group-outline"></i>
+            {% trans "Selected groups" %}
+          </div>
+        </div>
+        {% if action_form %}
+        <div class="col s12 m8 l8 xl6">
+          <div class="col s12 m8">
+            {% form form=action_form %}{% endform %}
+          </div>
+          <div class="col s12 m4">
+            <button type="submit" class="btn waves-effect waves-primary">
+              {% trans "Execute" %}
+              <i class="material-icons right iconify" data-icon="mdi:send-outline"></i>
+            </button>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% render_table table %}
+
+    </form>
+  </div>
+</div>
+<script src="{% static "js/multi_select.js" %}"></script>
+{% endblock %}

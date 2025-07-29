@@ -1,0 +1,185 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-25 11:24+0200\n"
+"PO-Revision-Date: 2024-08-28 19:59+0000\n"
+"Last-Translator: Serhii Horichenko <m@sgg.im>\n"
+"Language-Team: Ukrainian <https://translate.edugit.org/projects/aleksis/aleksis-app-matrix/uk/>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"X-Generator: Weblate 5.0.2\n"
+
+#: aleksis/apps/matrix/forms.py:12
+msgid "Provision in Matrix"
+msgstr "Пропозиція в Matrix"
+
+#: aleksis/apps/matrix/menus.py:6 aleksis/apps/matrix/preferences.py:8
+msgid "Matrix"
+msgstr "Matrix"
+
+#: aleksis/apps/matrix/menus.py:18
+msgid "Groups and Rooms"
+msgstr "Групи та кімнати"
+
+#: aleksis/apps/matrix/model_extensions.py:43
+msgid "Can view matrix room of a group"
+msgstr "Може бачити Matrix-кімнату групи"
+
+#: aleksis/apps/matrix/models.py:19
+msgid "Matrix ID"
+msgstr "Matrix ID"
+
+#: aleksis/apps/matrix/models.py:23
+msgid "Person"
+msgstr "Особа"
+
+#: aleksis/apps/matrix/models.py:52
+msgid "Matrix profile"
+msgstr "Профіль Matrix"
+
+#: aleksis/apps/matrix/models.py:53
+msgid "Matrix profiles"
+msgstr "Профілі Matrix"
+
+#: aleksis/apps/matrix/models.py:59
+msgid "Room ID"
+msgstr "Ідентифікатор кімнати"
+
+#: aleksis/apps/matrix/models.py:60
+msgid "Alias"
+msgstr "Псевдо"
+
+#: aleksis/apps/matrix/models.py:64
+msgid "Group"
+msgstr "Група"
+
+#: aleksis/apps/matrix/models.py:266
+msgid "Matrix room"
+msgstr "Matrix-кімната"
+
+#: aleksis/apps/matrix/models.py:267
+msgid "Matrix rooms"
+msgstr "Matrix-кімнати"
+
+#: aleksis/apps/matrix/models.py:273
+msgid "Child rooms/spaces"
+msgstr "Дитячі кімнати/приміщення"
+
+#: aleksis/apps/matrix/models.py:355
+msgid "Matrix space"
+msgstr "Matrix-простір"
+
+#: aleksis/apps/matrix/models.py:356
+msgid "Matrix spaces"
+msgstr "Matrix-простори"
+
+#: aleksis/apps/matrix/preferences.py:15
+msgid "URL of Matrix homeserver"
+msgstr "URL домашнього сервера Matrix"
+
+#: aleksis/apps/matrix/preferences.py:18
+msgid "URL of the Matrix homeserver on which groups and spaces should be created (e. g. https://matrix.org)"
+msgstr ""
+"URL домашнього сервера Matrix, на якому будуть створюватися групи та "
+"простори (напр. https://matrix.org)"
+
+#: aleksis/apps/matrix/preferences.py:27
+msgid "Name of Matrix homeserver used for auto-generating Matrix IDs"
+msgstr ""
+"Назва домашнього сервера Matrix для автоматичної генерації "
+"Matrix-ідентифікаторів"
+
+#: aleksis/apps/matrix/preferences.py:28
+msgid "Leave empty to not create Matrix IDs automatically"
+msgstr ""
+"Залишіть порожнім, щоби Matrix-ідентифікатори не створювалися автоматично"
+
+#: aleksis/apps/matrix/preferences.py:36
+msgid "Access token to access homeserver"
+msgstr "Токен доступу для з'єднання з домашнім сервером"
+
+#: aleksis/apps/matrix/preferences.py:39
+msgid "This has to be the access token of a suitable bot user. It is used for all actions."
+msgstr ""
+"Потрібно мати токен доступу відповідного користувача-бота. Це стосується "
+"усіх дій."
+
+#: aleksis/apps/matrix/preferences.py:47
+msgid "Disambiguate room aliases"
+msgstr "Уникайте неоднозначних псевдонімів кімнат"
+
+#: aleksis/apps/matrix/preferences.py:49
+msgid "Suffix room aliases with ascending numbers to avoid name clashes"
+msgstr ""
+"Псевдоними кімнат із зростаючими числами наприкінці для уникнення співпадінь"
+
+#: aleksis/apps/matrix/preferences.py:56
+msgid "Use Matrix spaces"
+msgstr "Використовуйте Matrix-простори"
+
+#: aleksis/apps/matrix/preferences.py:58
+msgid "This activates the creation and management of Matrix spaces."
+msgstr "Це активує створення просторів Matrix та керівництво ними."
+
+#: aleksis/apps/matrix/preferences.py:65
+msgid "Reduce existing power levels"
+msgstr "Зменшити існуючі рівні потужності"
+
+#: aleksis/apps/matrix/preferences.py:67
+msgid "Reduce power levels of existing members to the level suggested by AlekSIS."
+msgstr ""
+"Зменшити рівень потужності існуючих учасників до рекомендованого AlekSIS."
+
+#: aleksis/apps/matrix/preferences.py:74
+msgid "Power level for owners"
+msgstr "Рівень потужності для власників"
+
+#: aleksis/apps/matrix/preferences.py:77
+msgid "This power level will be set for all owners of a group."
+msgstr "Цей рівень потужності буде встановлений для всіх власників групи."
+
+#: aleksis/apps/matrix/preferences.py:84
+msgid "Power level for members"
+msgstr "Рівень потужності для учасників"
+
+#: aleksis/apps/matrix/preferences.py:87
+msgid "This power level will be set for all members of a group."
+msgstr "Цей рівень потужності буде встановлений для всіх учасників групи."
+
+#: aleksis/apps/matrix/templates/matrix/room/list.html:8
+#: aleksis/apps/matrix/templates/matrix/room/list.html:9
+msgid "Groups and Matrix Rooms"
+msgstr "Групи та Matrix-кімнати"
+
+#: aleksis/apps/matrix/templates/matrix/room/list.html:14
+msgid "Create group"
+msgstr "Створити групу"
+
+#: aleksis/apps/matrix/templates/matrix/room/list.html:21
+msgid "Filter groups"
+msgstr "Фільтрувати групи"
+
+#: aleksis/apps/matrix/templates/matrix/room/list.html:25
+msgid "Filter"
+msgstr "Фільтри"
+
+#: aleksis/apps/matrix/templates/matrix/room/list.html:28
+msgid "Clear"
+msgstr "Очистити"
+
+#: aleksis/apps/matrix/templates/matrix/room/list.html:43
+msgid "Selected groups"
+msgstr "Вибрані групи"
+
+#: aleksis/apps/matrix/templates/matrix/room/list.html:53
+msgid "Execute"
+msgstr "Виконати"
