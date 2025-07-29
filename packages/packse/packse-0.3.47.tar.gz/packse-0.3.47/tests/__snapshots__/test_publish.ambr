@@ -1,0 +1,216 @@
+# serializer version: 1
+# name: test_publish_example_dry_run
+  dict({
+    'exit_code': 0,
+    'stderr': '''
+      Publishing 1 target to https://test.pypi.org/legacy/...
+      Publishing 'example-3006292c'...
+      Published 'example_3006292c-0.0.0.tar.gz'
+      Published 'example_a_3006292c-1.0.0-py3-none-any.whl'
+      Published 'example_a_3006292c-1.0.0.tar.gz'
+      Published 'example_b_3006292c-1.0.0-py3-none-any.whl'
+      Published 'example_b_3006292c-1.0.0.tar.gz'
+      Published 'example_b_3006292c-2.0.0-py3-none-any.whl'
+      Published 'example_b_3006292c-2.0.0.tar.gz'
+      Published 'example_b_3006292c-3.0.0-py3-none-any.whl'
+      Published 'example_b_3006292c-3.0.0.tar.gz'
+      Published 1 targets (9 new files) in [TIME]
+  
+    ''',
+    'stdout': '''
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_3006292c-0.0.0.tar.gz
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_a_3006292c-1.0.0-py3-none-any.whl
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_a_3006292c-1.0.0.tar.gz
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_b_3006292c-1.0.0-py3-none-any.whl
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_b_3006292c-1.0.0.tar.gz
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_b_3006292c-2.0.0-py3-none-any.whl
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_b_3006292c-2.0.0.tar.gz
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_b_3006292c-3.0.0-py3-none-any.whl
+      Would execute: uv publish --publish-url https://test.pypi.org/legacy/ [DISTDIR]/example_b_3006292c-3.0.0.tar.gz
+      example-3006292c
+  
+    ''',
+  })
+# ---
+# name: test_publish_example_no_credentials
+  dict({
+    'exit_code': 1,
+    'stderr': '''
+      No credentials found for publish!
+      Provide an API token via `PACKSE_PUBLISH_PASSWORD` or disable authentication with `--anonymous`.
+  
+    ''',
+    'stdout': '',
+  })
+# ---
+# name: test_publish_example_no_username_defaults_to_token
+  dict({
+    'exit_code': 0,
+    'stderr': '''
+      Publishing 1 target to https://test.pypi.org/legacy/...
+      Publishing 'example-3006292c'...
+      Published example_3006292c-0.0.0.tar.gz in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_3006292c-0.0.0.tar.gz'
+      Published example_a_3006292c-1.0.0-py3-none-any.whl in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_a_3006292c-1.0.0-py3-none-any.whl'
+      Published example_a_3006292c-1.0.0.tar.gz in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_a_3006292c-1.0.0.tar.gz'
+      Published example_b_3006292c-1.0.0-py3-none-any.whl in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_b_3006292c-1.0.0-py3-none-any.whl'
+      Published example_b_3006292c-1.0.0.tar.gz in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_b_3006292c-1.0.0.tar.gz'
+      Published example_b_3006292c-2.0.0-py3-none-any.whl in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_b_3006292c-2.0.0-py3-none-any.whl'
+      Published example_b_3006292c-2.0.0.tar.gz in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_b_3006292c-2.0.0.tar.gz'
+      Published example_b_3006292c-3.0.0-py3-none-any.whl in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_b_3006292c-3.0.0-py3-none-any.whl'
+      Published example_b_3006292c-3.0.0.tar.gz in [TIME]:
+      
+          <mock uv logs>
+      
+      Published 'example_b_3006292c-3.0.0.tar.gz'
+      Published 1 targets (9 new files) in [TIME]
+  
+    ''',
+    'stdout': '''
+      example-3006292c
+  
+    ''',
+  })
+# ---
+# name: test_publish_example_uv_fails_with_already_exists
+  dict({
+    'exit_code': 1,
+    'stderr': '''
+      Publishing 1 target to https://test.pypi.org/legacy/...
+      Publishing 'example-3006292c'...
+      Publish for 'example_3006292c-0.0.0.tar.gz' already exists.
+      Failed to publish 1/1 targets.
+  
+    ''',
+    'stdout': '',
+  })
+# ---
+# name: test_publish_example_uv_fails_with_rate_limit
+  dict({
+    'exit_code': 1,
+    'stderr': '''
+      Publishing 1 target to https://test.pypi.org/legacy/...
+      Publishing 'example-3006292c'...
+      Publish of 'example_3006292c-0.0.0.tar.gz' failed due to rate limits.
+      Failed to publish 1/1 targets.
+  
+    ''',
+    'stdout': '',
+  })
+# ---
+# name: test_publish_example_uv_fails_with_unknown_error
+  dict({
+    'exit_code': 1,
+    'stderr': '''
+      Publishing 1 target to https://test.pypi.org/legacy/...
+      Publishing 'example-3006292c'...
+      Publishing example_3006292c-0.0.0.tar.gz with uv failed:
+          <uv error message>
+      .
+      Failed to publish 1/1 targets.
+  
+    ''',
+    'stdout': '',
+  })
+# ---
+# name: test_publish_example_uv_succeeds
+  dict({
+    'exit_code': 0,
+    'stderr': '''
+      Publishing 1 target to https://test.pypi.org/legacy/...
+      Publishing 'example-3006292c'...
+      Published example_3006292c-0.0.0.tar.gz in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_3006292c-0.0.0.tar.gz'
+      Published example_a_3006292c-1.0.0-py3-none-any.whl in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_a_3006292c-1.0.0-py3-none-any.whl'
+      Published example_a_3006292c-1.0.0.tar.gz in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_a_3006292c-1.0.0.tar.gz'
+      Published example_b_3006292c-1.0.0-py3-none-any.whl in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_b_3006292c-1.0.0-py3-none-any.whl'
+      Published example_b_3006292c-1.0.0.tar.gz in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_b_3006292c-1.0.0.tar.gz'
+      Published example_b_3006292c-2.0.0-py3-none-any.whl in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_b_3006292c-2.0.0-py3-none-any.whl'
+      Published example_b_3006292c-2.0.0.tar.gz in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_b_3006292c-2.0.0.tar.gz'
+      Published example_b_3006292c-3.0.0-py3-none-any.whl in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_b_3006292c-3.0.0-py3-none-any.whl'
+      Published example_b_3006292c-3.0.0.tar.gz in [TIME]:
+      
+          <uv happy message>
+      
+      Published 'example_b_3006292c-3.0.0.tar.gz'
+      Published 1 targets (9 new files) in [TIME]
+  
+    ''',
+    'stdout': '''
+      example-3006292c
+  
+    ''',
+  })
+# ---
+# name: test_publish_example_uv_succeeds_parallel
+  dict({
+    'exit_code': 0,
+    'stderr': '<not included>',
+    'stdout': '''
+      example-3006292c
+  
+    ''',
+  })
+# ---

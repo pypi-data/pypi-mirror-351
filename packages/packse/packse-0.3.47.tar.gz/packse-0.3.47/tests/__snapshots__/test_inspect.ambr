@@ -1,0 +1,607 @@
+# serializer version: 1
+# name: test_inspect_invalid_target
+  dict({
+    'exit_code': 1,
+    'stderr': '''
+      File at '[PWD]/test.json' is not a valid scenario: Input data was truncated.
+  
+    ''',
+    'stdout': '',
+  })
+# ---
+# name: test_inspect_invalid_target_skip_invalid
+  dict({
+    'exit_code': 0,
+    'stderr': '',
+    'stdout': '''
+      Skipping file: File at '[PWD]/test.json' is not a valid scenario: Input data was truncated
+      {
+        "scenarios": [
+          {
+            "name": "example",
+            "packages": [
+              {
+                "name": "example-a-3006292c",
+                "versions": [
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [
+                      "example-b-3006292c>1.0.0"
+                    ],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "1.0.0"
+                  }
+                ]
+              },
+              {
+                "name": "example-b-3006292c",
+                "versions": [
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "1.0.0"
+                  },
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "2.0.0"
+                  },
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [
+                      "example-c-3006292c"
+                    ],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "3.0.0"
+                  }
+                ]
+              }
+            ],
+            "root": {
+              "requires_python": ">=3.8",
+              "requires": [
+                {
+                  "requirement": "example-a-3006292c",
+                  "name": "example-a-3006292c",
+                  "module_name": "example_a_3006292c"
+                }
+              ]
+            },
+            "expected": {
+              "satisfiable": true,
+              "packages": [
+                {
+                  "name": "example-a-3006292c",
+                  "version": "1.0.0",
+                  "module_name": "example_a_3006292c"
+                },
+                {
+                  "name": "example-b-3006292c",
+                  "version": "2.0.0",
+                  "module_name": "example_b_3006292c"
+                }
+              ],
+              "explanation": "The latest valid version of `b` should be installed. `b==3.0.0` is not valid because it requires `c` which does not exist."
+            },
+            "environment": {
+              "python": "3.12",
+              "additional_python": []
+            },
+            "resolver_options": {
+              "python": null,
+              "prereleases": false,
+              "no_build": [],
+              "no_binary": [],
+              "universal": false,
+              "python_platform": null
+            },
+            "template": "package",
+            "description": "This is an example scenario, in which the user depends on a single package `a` which requires `b`.",
+            "_textwrap": true,
+            "source": "[PROJECT_ROOT]/scenarios/examples/example.json",
+            "version": "3006292c",
+            "tree": [
+              "\u251c\u2500\u2500 environment",
+              "\u2502   \u2514\u2500\u2500 python3.12",
+              "\u251c\u2500\u2500 root",
+              "\u2502   \u2514\u2500\u2500 requires a",
+              "\u2502       \u2514\u2500\u2500 satisfied by a-1.0.0",
+              "\u251c\u2500\u2500 a",
+              "\u2502   \u2514\u2500\u2500 a-1.0.0",
+              "\u2502       \u251c\u2500\u2500 requires b>1.0.0",
+              "\u2502       \u2502   \u251c\u2500\u2500 satisfied by b-2.0.0",
+              "\u2502       \u2502   \u2514\u2500\u2500 satisfied by b-3.0.0",
+              "\u2502       \u2514\u2500\u2500 requires python>=3.8",
+              "\u2514\u2500\u2500 b",
+              "    \u251c\u2500\u2500 b-1.0.0",
+              "    \u2502   \u2514\u2500\u2500 requires python>=3.8",
+              "    \u251c\u2500\u2500 b-2.0.0",
+              "    \u2502   \u2514\u2500\u2500 requires python>=3.8",
+              "    \u2514\u2500\u2500 b-3.0.0",
+              "        \u251c\u2500\u2500 requires c",
+              "            \u2514\u2500\u2500 unsatisfied: no versions for package",
+              "        \u2514\u2500\u2500 requires python>=3.8"
+            ],
+            "module_name": "example"
+          }
+        ]
+      }
+  
+    ''',
+  })
+# ---
+# name: test_inspect_json
+  dict({
+    'exit_code': 0,
+    'stderr': '',
+    'stdout': '''
+      {
+        "scenarios": [
+          {
+            "name": "example",
+            "packages": [
+              {
+                "name": "example-a-3006292c",
+                "versions": [
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [
+                      "example-b-3006292c>1.0.0"
+                    ],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "1.0.0"
+                  }
+                ]
+              },
+              {
+                "name": "example-b-3006292c",
+                "versions": [
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "1.0.0"
+                  },
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "2.0.0"
+                  },
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [
+                      "example-c-3006292c"
+                    ],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "3.0.0"
+                  }
+                ]
+              }
+            ],
+            "root": {
+              "requires_python": ">=3.8",
+              "requires": [
+                {
+                  "requirement": "example-a-3006292c",
+                  "name": "example-a-3006292c",
+                  "module_name": "example_a_3006292c"
+                }
+              ]
+            },
+            "expected": {
+              "satisfiable": true,
+              "packages": [
+                {
+                  "name": "example-a-3006292c",
+                  "version": "1.0.0",
+                  "module_name": "example_a_3006292c"
+                },
+                {
+                  "name": "example-b-3006292c",
+                  "version": "2.0.0",
+                  "module_name": "example_b_3006292c"
+                }
+              ],
+              "explanation": "The latest valid version of `b` should be installed. `b==3.0.0` is not valid because it requires `c` which does not exist."
+            },
+            "environment": {
+              "python": "3.12",
+              "additional_python": []
+            },
+            "resolver_options": {
+              "python": null,
+              "prereleases": false,
+              "no_build": [],
+              "no_binary": [],
+              "universal": false,
+              "python_platform": null
+            },
+            "template": "package",
+            "description": "This is an example scenario, in which the user depends on a single package `a` which requires `b`.",
+            "_textwrap": true,
+            "source": "[PWD]/scenarios/examples/example.json",
+            "version": "3006292c",
+            "tree": [
+              "\u251c\u2500\u2500 environment",
+              "\u2502   \u2514\u2500\u2500 python3.12",
+              "\u251c\u2500\u2500 root",
+              "\u2502   \u2514\u2500\u2500 requires a",
+              "\u2502       \u2514\u2500\u2500 satisfied by a-1.0.0",
+              "\u251c\u2500\u2500 a",
+              "\u2502   \u2514\u2500\u2500 a-1.0.0",
+              "\u2502       \u251c\u2500\u2500 requires b>1.0.0",
+              "\u2502       \u2502   \u251c\u2500\u2500 satisfied by b-2.0.0",
+              "\u2502       \u2502   \u2514\u2500\u2500 satisfied by b-3.0.0",
+              "\u2502       \u2514\u2500\u2500 requires python>=3.8",
+              "\u2514\u2500\u2500 b",
+              "    \u251c\u2500\u2500 b-1.0.0",
+              "    \u2502   \u2514\u2500\u2500 requires python>=3.8",
+              "    \u251c\u2500\u2500 b-2.0.0",
+              "    \u2502   \u2514\u2500\u2500 requires python>=3.8",
+              "    \u2514\u2500\u2500 b-3.0.0",
+              "        \u251c\u2500\u2500 requires c",
+              "            \u2514\u2500\u2500 unsatisfied: no versions for package",
+              "        \u2514\u2500\u2500 requires python>=3.8"
+            ],
+            "module_name": "example"
+          }
+        ]
+      }
+  
+    ''',
+  })
+# ---
+# name: test_inspect_no_target_finds_all_valid_scenarios
+  dict({
+    'exit_code': 0,
+    'stderr': '<not included>',
+    'stdout': '<not included>',
+  })
+# ---
+# name: test_inspect_one_target_does_not_exist
+  dict({
+    'exit_code': 1,
+    'stderr': '''
+      File 'foo' not found.
+  
+    ''',
+    'stdout': '',
+  })
+# ---
+# name: test_inspect_target_does_not_exist
+  dict({
+    'exit_code': 1,
+    'stderr': '''
+      File 'foo' not found.
+  
+    ''',
+    'stdout': '',
+  })
+# ---
+# name: test_inspect_toml
+  dict({
+    'exit_code': 0,
+    'stderr': '',
+    'stdout': '''
+      {
+        "scenarios": [
+          {
+            "name": "example-toml",
+            "packages": [
+              {
+                "name": "example-toml-a-64e6f3c2",
+                "versions": [
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [
+                      "example-toml-b-64e6f3c2>1.0.0"
+                    ],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "1.0.0"
+                  }
+                ]
+              },
+              {
+                "name": "example-toml-b-64e6f3c2",
+                "versions": [
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "1.0.0"
+                  },
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "2.0.0"
+                  },
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [
+                      "example-toml-c-64e6f3c2"
+                    ],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "3.0.0"
+                  }
+                ]
+              }
+            ],
+            "root": {
+              "requires_python": ">=3.8",
+              "requires": [
+                {
+                  "requirement": "example-toml-a-64e6f3c2",
+                  "name": "example-toml-a-64e6f3c2",
+                  "module_name": "example_toml_a_64e6f3c2"
+                }
+              ]
+            },
+            "expected": {
+              "satisfiable": true,
+              "packages": [
+                {
+                  "name": "example-toml-a-64e6f3c2",
+                  "version": "1.0.0",
+                  "module_name": "example_toml_a_64e6f3c2"
+                },
+                {
+                  "name": "example-toml-b-64e6f3c2",
+                  "version": "2.0.0",
+                  "module_name": "example_toml_b_64e6f3c2"
+                }
+              ],
+              "explanation": "The latest valid version of `b` should be installed. `b==3.0.0` is not valid because it requires `c` which does not exist."
+            },
+            "environment": {
+              "python": "3.12",
+              "additional_python": []
+            },
+            "resolver_options": {
+              "python": null,
+              "prereleases": false,
+              "no_build": [],
+              "no_binary": [],
+              "universal": false,
+              "python_platform": null
+            },
+            "template": "package",
+            "description": "This is an example scenario written in TOML, in which the user depends on a single package `a` which requires `b`.",
+            "_textwrap": false,
+            "source": "[PWD]/scenarios/examples/example.toml",
+            "version": "64e6f3c2",
+            "tree": [
+              "\u251c\u2500\u2500 environment",
+              "\u2502   \u2514\u2500\u2500 python3.12",
+              "\u251c\u2500\u2500 root",
+              "\u2502   \u2514\u2500\u2500 requires a",
+              "\u2502       \u2514\u2500\u2500 satisfied by a-1.0.0",
+              "\u251c\u2500\u2500 a",
+              "\u2502   \u2514\u2500\u2500 a-1.0.0",
+              "\u2502       \u251c\u2500\u2500 requires b>1.0.0",
+              "\u2502       \u2502   \u251c\u2500\u2500 satisfied by b-2.0.0",
+              "\u2502       \u2502   \u2514\u2500\u2500 satisfied by b-3.0.0",
+              "\u2502       \u2514\u2500\u2500 requires python>=3.8",
+              "\u2514\u2500\u2500 b",
+              "    \u251c\u2500\u2500 b-1.0.0",
+              "    \u2502   \u2514\u2500\u2500 requires python>=3.8",
+              "    \u251c\u2500\u2500 b-2.0.0",
+              "    \u2502   \u2514\u2500\u2500 requires python>=3.8",
+              "    \u2514\u2500\u2500 b-3.0.0",
+              "        \u251c\u2500\u2500 requires c",
+              "            \u2514\u2500\u2500 unsatisfied: no versions for package",
+              "        \u2514\u2500\u2500 requires python>=3.8"
+            ],
+            "module_name": "example_toml"
+          }
+        ]
+      }
+  
+    ''',
+  })
+# ---
+# name: test_inspect_yaml
+  dict({
+    'exit_code': 0,
+    'stderr': '',
+    'stdout': '''
+      {
+        "scenarios": [
+          {
+            "name": "example-yaml",
+            "packages": [
+              {
+                "name": "example-yaml-a-db3b5da9",
+                "versions": [
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [
+                      "example-yaml-b-db3b5da9>1.0.0"
+                    ],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "1.0.0"
+                  }
+                ]
+              },
+              {
+                "name": "example-yaml-b-db3b5da9",
+                "versions": [
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "1.0.0"
+                  },
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "2.0.0"
+                  },
+                  {
+                    "requires_python": ">=3.8",
+                    "requires": [
+                      "example-yaml-c-db3b5da9"
+                    ],
+                    "extras": [],
+                    "sdist": true,
+                    "wheel": true,
+                    "yanked": false,
+                    "wheel_tags": [],
+                    "description": "",
+                    "version": "3.0.0"
+                  }
+                ]
+              }
+            ],
+            "root": {
+              "requires_python": ">=3.8",
+              "requires": [
+                {
+                  "requirement": "example-yaml-a-db3b5da9",
+                  "name": "example-yaml-a-db3b5da9",
+                  "module_name": "example_yaml_a_db3b5da9"
+                }
+              ]
+            },
+            "expected": {
+              "satisfiable": true,
+              "packages": [
+                {
+                  "name": "example-yaml-a-db3b5da9",
+                  "version": "1.0.0",
+                  "module_name": "example_yaml_a_db3b5da9"
+                },
+                {
+                  "name": "example-yaml-b-db3b5da9",
+                  "version": "2.0.0",
+                  "module_name": "example_yaml_b_db3b5da9"
+                }
+              ],
+              "explanation": "The latest valid version of `b` should be installed. `b==3.0.0` is not valid because it requires `c` which does not exist."
+            },
+            "environment": {
+              "python": "3.12",
+              "additional_python": []
+            },
+            "resolver_options": {
+              "python": null,
+              "prereleases": false,
+              "no_build": [],
+              "no_binary": [],
+              "universal": false,
+              "python_platform": null
+            },
+            "template": "package",
+            "description": "This is an example scenario written in YAML, in which the user depends on a single package `a` which requires `b`.",
+            "_textwrap": false,
+            "source": "[PWD]/scenarios/examples/example.yaml",
+            "version": "db3b5da9",
+            "tree": [
+              "\u251c\u2500\u2500 environment",
+              "\u2502   \u2514\u2500\u2500 python3.12",
+              "\u251c\u2500\u2500 root",
+              "\u2502   \u2514\u2500\u2500 requires a",
+              "\u2502       \u2514\u2500\u2500 satisfied by a-1.0.0",
+              "\u251c\u2500\u2500 a",
+              "\u2502   \u2514\u2500\u2500 a-1.0.0",
+              "\u2502       \u251c\u2500\u2500 requires b>1.0.0",
+              "\u2502       \u2502   \u251c\u2500\u2500 satisfied by b-2.0.0",
+              "\u2502       \u2502   \u2514\u2500\u2500 satisfied by b-3.0.0",
+              "\u2502       \u2514\u2500\u2500 requires python>=3.8",
+              "\u2514\u2500\u2500 b",
+              "    \u251c\u2500\u2500 b-1.0.0",
+              "    \u2502   \u2514\u2500\u2500 requires python>=3.8",
+              "    \u251c\u2500\u2500 b-2.0.0",
+              "    \u2502   \u2514\u2500\u2500 requires python>=3.8",
+              "    \u2514\u2500\u2500 b-3.0.0",
+              "        \u251c\u2500\u2500 requires c",
+              "            \u2514\u2500\u2500 unsatisfied: no versions for package",
+              "        \u2514\u2500\u2500 requires python>=3.8"
+            ],
+            "module_name": "example_yaml"
+          }
+        ]
+      }
+  
+    ''',
+  })
+# ---
