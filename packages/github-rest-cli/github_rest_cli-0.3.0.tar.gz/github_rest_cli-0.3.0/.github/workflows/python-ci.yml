@@ -1,0 +1,51 @@
+name: Python CI
+run-name: Python build and test
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - closed
+
+jobs:
+  lint:
+    name: Ruff lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Ruff lint
+        uses: chartboost/ruff-action@v1
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: uv sync
+        run: uv sync --locked
+
+      - name: Debug CLI
+        run: |
+          source .venv/bin/activate
+          github-rest-cli -h
+        env:
+          GITHUB_API_URL: https://api.github.com
+          GITHUB_USER: rest-api-user
+          GITHUB_AUTH_TOKEN: f@k3-t0k3n
