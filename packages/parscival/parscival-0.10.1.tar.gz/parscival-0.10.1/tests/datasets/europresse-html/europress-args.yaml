@@ -1,0 +1,7 @@
+initializing:
+  args:
+    time_granularity:
+      input_date_format: mixed
+      output_time_format: dateint
+      granularity: years
+      enabled: true

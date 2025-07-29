@@ -1,0 +1,35 @@
+local u = require 'elg.ustring'
+
+-- get all the lemmas of a lexical entry
+-- Examples:
+-- * mammalian cells,mammalian cell.N
+--   returns: 'mammalian cell'
+-- * foo,bar.N
+--   foo,saz.N
+--   returns: 'bar·saz'
+function lemmas(dic,entry,mask,lemma_sep)
+  --print(dic,entry,mask,codes_sep,lemma_sep)
+
+  -- return early if no entry is given
+  if entry == nil then return false end
+
+  -- use a default lemma separator if no one is provided
+  lemma_sep = lemma_sep or '·'
+
+  -- lookup for the requested entries
+  local entries = uMorphoDic.lookup(dic, entry, mask)
+
+  if entries then
+    -- get the first lemma
+    local lemmas_list = entries[1]:lemma()
+
+    -- loop over extra lemmas
+    for index = 2, #entries do
+      lemmas_list = lemmas_list .. lemma_sep .. entries[index]:lemma()
+    end
+    -- return the final result
+    return lemmas_list
+  end
+
+  return false
+end
