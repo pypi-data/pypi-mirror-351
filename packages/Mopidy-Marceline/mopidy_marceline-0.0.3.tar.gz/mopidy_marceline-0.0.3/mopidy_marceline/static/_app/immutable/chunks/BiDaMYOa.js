@@ -1,0 +1,3 @@
+import{b as s,s as i,a as o}from"./Ddg5X7gK.js";import{p,a as l,g as m,d as n,b as c,t as g}from"./mF3OkLKa.js";import{S as x}from"./CxtWjmlo.js";import{g as d}from"./UAtXrf73.js";import{T as b}from"./C5SOYuky.js";import{H as T}from"./D6NBEvvd.js";function E(f,a){p(a,!0);const u=d();let k=n(()=>u.getImage(a.track.uri));T(f,{get image(){return m(k)},title:e=>{c();var t=s();g(()=>i(t,a.track.name)),o(e,t)},subtitle:e=>{c();var t=s();g(r=>i(t,`${r??""}
+        ${x}
+        ${a.track.album.name??""}`),[()=>a.track.artists.map(r=>r.name).join(", ")]),o(e,t)},actions:e=>{const t=n(()=>[a.track]);b(e,{get tracks(){return m(t)}})}}),l()}export{E as T};
