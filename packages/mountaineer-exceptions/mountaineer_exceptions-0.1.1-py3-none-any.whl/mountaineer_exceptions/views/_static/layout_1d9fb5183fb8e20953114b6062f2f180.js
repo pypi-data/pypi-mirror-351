@@ -1,0 +1,2 @@
+import{import_client as e,import_jsx_runtime as t,layout_default as n,live_reload_default as r}from"./client-BAxOOlQe.js";const i=()=>(r({SSR_RENDERING:!1,NODE_ENV:`production`,LIVE_RELOAD_PORT:0}),(0,t.jsx)(n,{})),a=document.getElementById(`root`);(0,e.hydrateRoot)(a,(0,t.jsx)(i,{}));
+//# sourceMappingURL=entrypoint1.js.map
