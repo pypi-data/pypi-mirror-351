@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: dcatoolkit
+Version: 0.2.3
+Summary: Collection of useful modules and representations for managing DCA output data.
+Author-email: Raheel Syed Ahmed <raheelsyedahmed@gmail.com>
+Maintainer-email: Raheel Syed Ahmed <raheelsyedahmed@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 Raheel Syed Ahmed
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Keywords: dca,toolkit,DI,coevolution
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: biotite>=1.0.1
+Requires-Dist: matplotlib>=3.8.0
+Requires-Dist: numpy>=1.26.0
+Requires-Dist: pandas>=2.1.0
+Requires-Dist: scikit-learn>=1.3
+Requires-Dist: scipy>=1.11.0
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: pdoc; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Provides-Extra: lint
+Requires-Dist: ruffle; extra == "lint"
+Dynamic: license-file
+
+# dcatoolkit
+ Collection of useful modules and representations for managing DCA output data.
+
+## Major Sections
+### Representations
+  * Use Pairs to load lists, tuples, sets, and ndarrays with the correct orientation of elements. This will allow you to yield integer pairs that can be mirrored (where y becomes x and vice versa) and to subset various pairs.
+  * Use DirectInformationData to create 3-column structured ndarrays that can be sorted by "DI", mapped to a protein with a ResidueAlignment, and used to generate output for other programs (including UCSF Chimera)
+  * Use ResidueAlignment to generate a reference map. Indices of one sequence of characters can be linked to their corresponding indices of the other sequence of characters. The dictionaries produced, domain-to-protein and protein-to-domain, allow for forward mapping and backmapping.
+  * Use StructureInformation to find contacts in a protein structure and find atomic information related to specific pairs of interest.
+### Analytics
+  * Use MSATools to load in Multiple Sequence Alignment (MSA) data and provide functionality including generating frequency statistics on "gappiness" in the MSA and filtering and cleaning MSAs.
+
+
+## Diagram of Hidden Markov Machine & Direct Coupling Analysis Pipeline
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4768e08f-d513-4dbf-abc5-c80c1b3d42aa"/>
+</p>
