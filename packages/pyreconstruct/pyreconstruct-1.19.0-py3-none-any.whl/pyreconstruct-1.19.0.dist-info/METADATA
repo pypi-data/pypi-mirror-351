@@ -1,0 +1,94 @@
+Metadata-Version: 2.4
+Name: pyreconstruct
+Version: 1.19.0
+Summary: RECONSTRUCT in Python
+Home-page: https://github.com/SynapseWeb/PyReconstruct
+Author: Julian Falco & Michael Chirillo
+Author-email: m.chirillo@utexas.edu
+License: GNU GLPv3
+Description-Content-Type: text/markdown
+Requires-Dist: vtk==9.3.1
+Requires-Dist: PySide6==6.5.2
+Requires-Dist: opencv-python==4.8.1.78
+Requires-Dist: numcodecs==0.15.0
+Requires-Dist: numpy==1.24.1
+Requires-Dist: scikit-image==0.23.2
+Requires-Dist: trimesh==3.18.1
+Requires-Dist: vedo==2023.4.7
+Requires-Dist: zarr==2.18.2
+Requires-Dist: lxml==5.2.2
+Requires-Dist: gitpython==3.1.43
+Requires-Dist: qdarkstyle==3.2.3
+Requires-Dist: cloud-volume==11.0.0
+Requires-Dist: tifffile==2024.9.20
+Requires-Dist: scipy==1.14.1
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+<a id="pyreconstruct"></a>
+
+# PyReconstruct
+
+PyReconstruct is an actively maintained, extensible version of RECONSTRUCT written in Python in the lab of Kristen Harris at the University of Texas at Austin. This project is currently under heavy development, but we are happy to make the application publicly available now.
+
+Please send us a message should you have questions:
+
+-   Michael Chirillo: m.chirillo@utexas.edu
+-   Julian Falco: julian.falco@utexas.edu
+
+<a id="documentation"></a>
+
+# Documentation
+
+An installation guide, quickstart, and manuals can be found at our lab's [wiki site](https://wikis.utexas.edu/display/khlab/PyReconstruct+user+guide) hosted at UT Austin and at the [PyReconstruct repo wiki](https://github.com/SynapseWeb/PyReconstruct/wiki). A quick launch guide follows below.
+
+<a id="submitting-bug-reports-and-feature-requests"></a>
+
+# Then it would say lanch party, Kevin.
+
+In a virtual environment running Python 3.11, install bleeding-edge PyReconstruct:
+
+```
+pip install git+https://github.com/synapseweb/pyreconstruct
+```
+
+or stable PyReconstruct:
+
+```
+pip install pyreconstruct
+```
+
+then launch PyReconstruct from the command line:
+
+```
+PyReconstruct
+```
+
+To install a dev version of PyReconstruct, see [here](https://github.com/SynapseWeb/PyReconstruct/wiki/Developers).
+
+# Bug reports / Feature requests
+
+If you notice a problem, would like to suggest a feature, or have ideas on improving our documentation, please [submit an issue](https://github.com/SynapseWeb/PyReconstruct/issues/). We appreciate the help!
+
+# Citation
+
+If you use PyReconstruct in published work, please cite this repo:
+
+```
+@software{Falco2025,
+author = {Falco, Julian and Chirillo, Michael},
+title = {PyReconstruct},
+version = {1.19.0},
+month = {May},
+year = {2025}
+url = {https://github.com/synapseweb/pyreconstruct},
+}
+```
