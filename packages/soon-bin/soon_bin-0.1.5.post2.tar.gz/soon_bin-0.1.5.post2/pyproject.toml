@@ -1,0 +1,24 @@
+[build-system]
+requires = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "soon-bin"
+requires-python = ">=3.10"
+description = "Predict your next shell command based on history — like shell autocomplete, but MORE stupid"
+authors = [
+    { name = "HsiangNianian", email = "i@jyunko.cn" }
+]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+dependencies = [
+    "rich>=14.0.0",
+]
+
+[tool.maturin]
+bindings = "bin"
+module-name = "soon"
