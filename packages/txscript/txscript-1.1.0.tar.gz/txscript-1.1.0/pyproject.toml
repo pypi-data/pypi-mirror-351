@@ -1,0 +1,21 @@
+[project]
+name = "txscript"
+version = "1.1.0"
+authors = [
+  { name="Petr Baudis", email="petr.baudis@rossum.ai" },
+]
+description = "Transaction scripts for manipulating business transactions and documents in Rossum platform"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Documentation = "https://elis.rossum.ai/api/docs/#rossum-transaction-scripts"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

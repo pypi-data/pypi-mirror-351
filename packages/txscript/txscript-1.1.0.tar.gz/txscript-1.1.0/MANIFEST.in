@@ -1,0 +1,3 @@
+include benchmark.py
+include tests/*.py tests/data
+exclude tests/test_formula_handler.py
