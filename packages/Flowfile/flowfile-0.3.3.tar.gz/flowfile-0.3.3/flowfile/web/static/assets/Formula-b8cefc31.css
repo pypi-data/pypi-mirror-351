@@ -1,0 +1,17 @@
+.x-flip[data-v-710d5b5e] {
+  transform: scaleX(-1);
+}
+.va-navbar__item[data-v-710d5b5e] {
+  cursor: pointer;
+  margin-bottom: 20px; /* Added margin for spacing */
+}
+.data-type-select[data-v-710d5b5e] {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.selector-container[data-v-710d5b5e] {
+  display: flex; /* Make children align horizontally */
+  align-items: center; /* Center items vertically */
+  gap: 10px; /* Add space between items */
+  margin-bottom: 12px; /* Added padding between selector and editor */
+}
