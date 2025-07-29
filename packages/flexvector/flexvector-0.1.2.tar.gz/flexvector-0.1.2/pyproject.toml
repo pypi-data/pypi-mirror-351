@@ -1,0 +1,73 @@
+[tool.poetry]
+name = "flexvector"
+version = "0.1.2"
+description = "A simple and intuitive vector database abstraction layer"
+readme = "README.md"
+authors = ["Ndamulelo Nemakhavhani <info@rihonegroup.com>"]
+packages = [{ include = "flexvector", from = "./src" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+keywords = ["vector database", "embeddings", "similarity search", "rag", "ai"]
+homepage = "https://github.com/ndamulelonemakh/flexvector"
+repository = "https://github.com/ndamulelonemakh/flexvector.git"
+include = ["cli.py"]
+
+[tool.poetry.dependencies]
+python = ">=3.11, <3.13"
+openai = "^1.58.1"
+qdrant-client = "^1.12.2"
+weaviate-client = "^4.10.2"
+sqlalchemy = "^2.0.36"
+requests = "^2.32.3"
+psycopg-binary = "^3.2.3"
+pgvector = "^0.3.6"
+langchain-openai = "^0.2.14"
+llama-index = "^0.12.9"
+chromadb = "^0.5.23"
+pydantic-settings = "^2.7.0"
+psycopg2-binary = "^2.9.10"
+llama-index-vector-stores-postgres = "^0.4.1"
+llama-index-vector-stores-qdrant = "^0.4.2"
+tavily-python = "^0.5.0"
+llama-index-tools-tavily-research = "^0.3.0"
+llama-index-readers-web = "^0.3.3"
+trafilatura = "^2.0.0"
+anthropic = "^0.49.0"
+loguru = "^0.7.3"
+langchain-chroma = "^0.2.3"
+langchain-community = "^0.3.21"
+langchain-docling = "^0.2.0"
+langchain = "^0.3.23"
+langchain-qdrant = "^0.2.0"
+fastembed = "^0.6.1"
+langchain-weaviate = "^0.0.4"
+langchain-postgres = "^0.0.14"
+pyyaml = "^6.0.2"
+toml = "^0.10.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+black = "^25.1.0"
+isort = "^6.0.1"
+flake8 = "^7.2.0"
+mypy = "^1.15.0"
+twine = "^6.1.0"
+build = "^1.2.2.post1"
+mcp-server-time = "^0.6.2"
+mcp-server-fetch = "^2025.4.7"
+tox = "^4.25.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+flexvector = "cli:main"
