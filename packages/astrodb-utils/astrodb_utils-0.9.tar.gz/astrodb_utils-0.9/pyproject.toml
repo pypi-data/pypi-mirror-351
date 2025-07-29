@@ -1,0 +1,96 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "astrodb_utils"
+
+authors = [
+    {name = "Arjun Savel", email = "asavel@umd.edu"},
+    {name= "Kelle Cruz"},
+    {name= "David Rodriguez"}
+]
+description = "astrodb_utils: scripts for interacting with the astrodb database"
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ["databases", "astronomy"]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "numpy<2.0",
+    "astroquery>=0.4.9",
+    "astropy>7.0",
+    "astrodbkit>=2.3",
+    "lsst-felis",
+    "pandas",
+    "tqdm",
+    "ads",
+    "dateparser",
+    "specutils>=1.20.1",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "ruff>0.3.7",
+    "pre-commit",
+    "pytest-dependency",
+    ]
+docs = [
+    "sphinx",
+    "sphinx-autobuild",
+    "sphinx_pyproject",
+    "nbsphinx",
+    "pydata-sphinx-theme",
+    "pandoc",
+    "sphinx_mdinclude",
+    "doc8"
+    ]
+all = ["astrodb_utils[test, docs]"]
+
+[project.urls]
+Homepage = "https://github.com/astrodbtoolkit/astrodb_utils"
+Issues = "https://github.com/astrodbtoolkit/astrodb_utils/issues"
+Documentation = "https://astrodb-utils.readthedocs.io/en/latest/"
+
+[tool.setuptools_scm]
+root = '.'
+write_to = "astrodb_utils/version.py"
+
+[tool.pytest.ini_options]
+norecursedirs = "astrodb-template-db"
+addopts = "-ra" # show extra summary info
+log_cli = false # override on the command line with: pytest -o log_cli=1
+log_cli_level= "INFO"  # pytest -o log_cli=1 --log-cli-level=DEBUG
+log_cli_format = "%(name)-15s: %(levelname)s %(message)s"  
+filterwarnings = [
+    "ignore:.*Parsing dates*:DeprecationWarning",  # ignore deprecation warnings from dateparser
+    "ignore::astroquery.exceptions.NoResultsWarning" # ignore astroquery warnings
+]
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+# See https://docs.astral.sh/ruff/rules/
+select = ["E4", "E7", "E9", "F", "I", "PL", "C901", "RUF010"]
+#select = ["ALL"]
+ignore = ["PLR"]  # pylint refactor
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff]
+line-length = 120
+exclude = [
+    "astrodb-template-db",  # ignore the astrodb-template-db submodule
+]
+
+[tool.ruff.lint.mccabe]
+# Flag errors (`C901`) whenever the complexity level exceeds this number.
+# Default is 10
+max-complexity = 20
