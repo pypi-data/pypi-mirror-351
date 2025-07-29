@@ -1,0 +1,14 @@
+package shared
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+{{ extra_types | join("\n") }}
+
+type {{ name }} struct {
+{{ fields | join("\n") }}
+}
+
+{{ getters | join("\n") }}
