@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cdn_rule_engine_sdk"
+version = "0.0.3"
+authors = [
+  { name="CDN SDK" },
+]
+description = "The CDN Rule Engine SDK for Python"
+readme = "README.md"
+requires-python = ">=3.5"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/byteplus-sdk/cdn-rule-engine-sdk-python"
