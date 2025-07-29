@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="{{ language }}">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 80%;
+            max-width: 1500px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        th:hover {
+            background-color: #45a049;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        #status-bar {
+            position: sticky;
+            bottom: 0;
+            width: 80%;
+            max-width: 1500px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        #selected-size {
+            padding-right: 10px;
+            font-weight: normal;
+            font-size: 16px;
+            white-space: nowrap;
+            margin-left: auto;
+            margin: 0;
+        }
+
+        #button-container {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            margin-left: 10px;
+        }
+
+        #button-container button {
+            flex: 1;
+        }
+
+        /* 通用按钮样式 */
+        .button-style {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px 5px;
+            border-radius: 4px;
+            border: none;
+            margin: 5px;
+            min-width: 60px;
+        }
+
+        .button-style:hover {
+            background-color: #45a049;
+        }
+
+        #delete-button {
+            background-color: #ff4d4d;
+        }
+
+        #delete-button:hover {
+            background-color: #e60000;
+        }
+
+        /* 搜索框容器样式 */
+        #search-container {
+            /* 使搜索框容器扩展以填充剩余空间 */
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+            justify-content: space-between;
+        }
+
+        /* 搜索框样式 */
+        #search-input-box {
+            background-color: #f9f9f9;
+            color: #333;
+            font-size: 16px;
+            padding: 5px;
+            border: 1px solid #4CAF50;
+            border-radius: 4px;
+            margin-right: 10px;
+            flex-grow: 1;
+            min-width: 0;
+            height: 24px;
+        }
+
+        /* 添加搜索框点击后的样式 */
+        #search-input-box:focus {
+            outline: none;
+            border: 1px solid #45a049;
+            /* 点击后的边框颜色与按钮悬停时的颜色一致 */
+            box-shadow: 0 0 5px #45a049;
+            /* 添加轻微的阴影效果 */
+        }
+
+        /* 过滤框容器 */
+        #search-filter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        /* 过滤框 */
+        #search-filter-box {
+            padding: 2px 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            height: 20px;
+            margin-left: 5px;
+            width: 60%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="select-all"></th>
+                    <th id="name-header">
+                        <div id="search-filter">
+                            {{ name }} ⤴️
+                            <input type="text" id="search-filter-box" placeholder="{{ search_placeholder }}">
+                        </div>
+                    </th>
+                    <th>{{ size }}</th>
+                    <th>{{ modified }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    {% if item.optional %}
+                    <td><input type="checkbox" name="select" value="{{ item.name }}" data-size="{{ item.size }}" {% if
+                            item.selected %}checked{% endif %}></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <td><a href="{{ item.href }}" target="{{ item.target }}">{{ item.name }}</a></td>
+                    <td class="file-size">{{ item.size }}</td>
+                    <td>{{ item.modified }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="status-bar">
+        <div id="button-container" style="margin-right: auto;"> <!-- 按钮容器，靠左排列 -->
+            <button id="homepage-button" class="button-style">{{ homepage_button }}</button>
+            <button id="refresh-button" class="button-style">{{ refresh_button }}</button>
+            {% if submit_mode == "save" %}
+            <button id="save-button" class="button-style">{{ save_button }}</button>
+            {% elif submit_mode == "delete" %}
+            <button id="delete-button" class="button-style">{{ delete_button }}</button>
+            {% endif %}
+        </div>
+        <div id="search-container">
+            <input type="text" id="search-input-box" placeholder="{{ search_placeholder }}">
+            <button id="search-button" class="button-style">{{ search_button }}</button>
+        </div>
+        <div id="selected-size">{{ selected_size }}: 0 / 0</div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll("input[name='select']");
+            const selectedSizeElement = document.getElementById("selected-size");
+            const selectAllCheckbox = document.getElementById("select-all");
+            const fileSizeElements = document.querySelectorAll(".file-size");
+            const nameHeader = document.getElementById("name-header");
+
+            let totalSize = 0;
+            let selectedSize = 0;
+
+            // 格式化文件大小为人类友好的单位
+            function formatFileSize(bytes) {
+                if (bytes === 0) return "0 B";
+                const k = 1024;
+                const sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+            }
+
+            // 更新所有文件大小显示
+            fileSizeElements.forEach(element => {
+                const row = element.closest("tr"); // 获取当前行
+                const checkbox = row.querySelector("input[name='select']"); // 查找复选框
+                const sizeInBytes = parseInt(element.textContent, 10);
+                element.textContent = formatFileSize(sizeInBytes);
+                if (checkbox) { // 如果当前行有复选框
+                    totalSize += sizeInBytes; // 累加总大小
+                }
+            });
+
+            // 初始化 selectedSize，遍历所有复选框，检查其 checked 状态
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const size = parseInt(checkbox.getAttribute("data-size"), 10);
+                    selectedSize += size;
+                }
+            });
+
+            // 初始化 total_size 显示
+            selectedSizeElement.textContent = `{{ selected_size }}: ${formatFileSize(selectedSize)} / ${formatFileSize(totalSize)}`;
+
+            // 全选按钮事件监听器
+            selectAllCheckbox.addEventListener("change", function () {
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked !== this.checked) {
+                        checkbox.checked = this.checked;
+                        const size = parseInt(checkbox.getAttribute("data-size"), 10);
+                        if (this.checked) {
+                            selectedSize += size;
+                        } else {
+                            selectedSize -= size;
+                        }
+                    }
+                });
+                selectedSizeElement.textContent = `{{ selected_size }}: ${formatFileSize(selectedSize)} / ${formatFileSize(totalSize)}`;
+            });
+
+            // 单个复选框事件监听器
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", function () {
+                    const size = parseInt(this.getAttribute("data-size"), 10);
+                    if (this.checked) {
+                        selectedSize += size;
+                    } else {
+                        selectedSize -= size;
+                    }
+                    selectedSizeElement.textContent = `{{ selected_size }}: ${formatFileSize(selectedSize)} / ${formatFileSize(totalSize)}`;
+
+                    // 检查是否所有复选框都被选中，更新全选按钮状态
+                    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                    selectAllCheckbox.checked = allChecked;
+                });
+            });
+
+            // 将返回上一级事件绑定到 #name-header 的父容器
+            nameHeader.addEventListener("click", function (event) {
+                // 确保点击事件不是由搜索框触发的
+                if (!event.target.closest("#search-filter-box")) {
+                    window.location.href = "/{{ parent }}";
+                }
+            });
+
+            // 添加过滤功能到第二列表头
+            const searchFilterBox = document.getElementById("search-filter-box");
+            const tableRows = document.querySelectorAll("tbody tr");
+
+            searchFilterBox.addEventListener("input", function () {
+                const searchTerm = this.value.toLowerCase();
+                tableRows.forEach(row => {
+                    const itemName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+                    if (itemName.includes(searchTerm)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+
+            // （保存/删除）共用的按钮点击事件处理函数
+            function handleSaveButtonClick(submitType) {
+                const selectedItems = Array.from(checkboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+
+                // if (selectedItems.length === 0) {
+                //     alert("{{ please_select }}");
+                //     return;
+                // }
+
+                // 创建 FormData 对象
+                const formData = new FormData();
+                formData.append("selected_items", JSON.stringify(selectedItems));
+                formData.append("submit_type", submitType);
+
+                // 发送 POST 请求到当前页面
+                fetch(window.location.pathname, {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                        } else {
+                            alert("{{ submit_failure }}");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("{{ submit_error }}");
+                    });
+            }
+
+            // 添加 homepage 按钮的点击事件监听器
+            const homepageButton = document.getElementById("homepage-button");
+            if (homepageButton) {
+                homepageButton.addEventListener("click", function () {
+                    window.location.href = "{{ homepage }}"; // 跳转至 homepage 链接
+                });
+            }
+
+            // 添加刷新按钮的点击事件监听器
+            const refreshButton = document.getElementById("refresh-button");
+            if (refreshButton) {
+                refreshButton.addEventListener("click", function () {
+                    window.location.reload();
+                });
+            }
+
+            // 添加 Save 按钮的点击事件监听器
+            const saveButton = document.getElementById("save-button");
+            if (saveButton) {
+                saveButton.addEventListener("click", function () {
+                    handleSaveButtonClick("save");
+                });
+            }
+
+            // 添加 Delete 按钮的点击事件监听器
+            const deleteButton = document.getElementById("delete-button");
+            if (deleteButton) {
+                deleteButton.addEventListener("click", function () {
+                    handleSaveButtonClick("delete");
+                });
+            }
+
+            // 添加搜索栏按钮的点击事件监听器
+            const searchButton = document.getElementById("search-button");
+            const searchInputBox = document.getElementById("search-input-box");
+
+            searchButton.addEventListener("click", function () {
+                const searchContent = searchInputBox.value.trim();
+                if (searchContent === "") {
+                    alert("{{ please_input_search }}");
+                    return;
+                }
+
+                window.open(`/search/{{ homepage.strip('/') }}/?keywords=${encodeURIComponent(searchContent)}`, '_blank');
+            });
+
+        });
+    </script>
+</body>
+
+</html>
