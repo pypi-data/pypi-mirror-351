@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pz-collective"
+version = "0.0.1"
+authors = [
+  { name="Alexandre Sauvé", email="alexandre.sauve.dev@gmail.com" },
+]
+description = "Versatile Python package that brings powerful, C#-like collection and query capabilities to your projects."
+readme = "README.md"
+requires-python = ">=3.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/poziel/collective"
+Issues = "https://github.com/poziel/collective"
