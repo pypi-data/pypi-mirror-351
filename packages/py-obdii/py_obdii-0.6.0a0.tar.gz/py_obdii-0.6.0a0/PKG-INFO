@@ -1,0 +1,229 @@
+Metadata-Version: 2.4
+Name: py-obdii
+Version: 0.6.0a0
+Summary: A Python library for interacting with OBDII.
+Author: PaulMarisOUMary
+License: MIT License
+        
+        Copyright (c) 2025-present PaulMarisOUMary
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Home, https://github.com/PaulMarisOUMary/OBDII
+Project-URL: Repository, https://github.com/PaulMarisOUMary/OBDII
+Project-URL: Documentation, https://py-obdii.readthedocs.io
+Project-URL: Issues, https://github.com/PaulMarisOUMary/OBDII/issues
+Keywords: obd,obdii,obd2,py-obdii,py-obd2,python obd,ELM327,automotive,torque,car,vehicle,diagnostics,car diagnostics,engine data,car data,vehicle data,can bus
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Documentation
+Classifier: Topic :: Documentation :: Sphinx
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: pyserial<4,>=3.5
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: pytest-mock; extra == "test"
+Provides-Extra: dev
+Requires-Dist: ELM327-emulator; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinxawesome-theme; extra == "docs"
+Requires-Dist: sphinx-design; extra == "docs"
+Dynamic: license-file
+
+OBDII
+=====
+
+.. image:: https://img.shields.io/pypi/v/py-obdii?label=pypi&logo=pypi&logoColor=white&link=https%3A%2F%2Fpypi.org%2Fproject%2Fpy-obdii
+    :target: https://pypi.org/project/py-obdii
+    :alt: PyPI version
+.. image:: https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2FPaulMarisOUMary%2FOBDII%2Fmain%2Fpyproject.toml&logo=python&logoColor=white&label=python
+    :target: https://pypi.org/project/py-obdii
+    :alt: Python Version from PEP 621 TOML
+.. image:: https://img.shields.io/github/actions/workflow/status/PaulMarisOUMary/OBDII/ci-pytest.yml?branch=main&label=pytest&logoColor=white&logo=pytest
+    :target: https://github.com/PaulMarisOUMary/OBDII/actions/workflows/ci-pytest.yml
+    :alt: PyTest CI status
+
+A modern, easy to use, Python ≥3.8 library for interacting with OBDII devices.
+
+Installing
+----------
+
+Python 3.8 or higher is required.
+
+A `Virtual Environment <https://docs.python.org/3/library/venv.html>`_ is recommended to install the library.
+
+#. Linux/macOS
+
+    .. code-block:: console
+
+        python3 -m venv .venv
+        source .venv/bin/activate
+
+#. Windows
+
+    .. code-block:: console
+
+        py -3 -m venv .venv
+        .venv\Scripts\activate
+
+Install from PyPI
+^^^^^^^^^^^^^^^^^
+
+.. code-block:: console
+
+    pip install py-obdii
+
+Install the development version
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. From Github
+
+    .. code-block:: console
+
+        pip install git+https://github.com/PaulMarisOUMary/OBDII@main[dev,test]
+
+#.  From local source
+
+    .. code-block:: console
+
+        git clone https://github.com/PaulMarisOUMary/OBDII
+        cd OBDII
+        pip install .[dev,test]
+
+#. From test.pypi.org
+
+    .. code-block:: console
+
+        pip install -i https://test.pypi.org/simple/ py-obdii
+
+Usage Example
+-------------
+
+.. important::
+
+    This library is still in the design phase and may change in the future.
+
+.. code-block:: python
+
+    from obdii import at_commands, commands, Connection
+
+    conn = Connection("COM5")
+
+    version = conn.query(at_commands.VERSION_ID)
+    print(f"Version: {version.value}")
+
+    response = conn.query(commands.VEHICLE_SPEED)
+    print(f"Vehicle Speed: {response.value} {response.units}")
+
+    conn.close()
+
+You can find more detailed examples and usage scenarios in the `examples folder <https://github.com/PaulMarisOUMary/OBDII/tree/main/examples>`_ of this repository.
+
+Using the Library Without a Physical Device
+-------------------------------------------
+
+To streamline the development process, you can use the `ELM327-Emulator <https://pypi.org/project/ELM327-emulator>`_ library. This allows you to simulate an OBDII connection without needing a physical device.
+
+Setting Up the ELM327-Emulator
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. **Install the library with "dev" extra options**:
+
+    .. code-block:: console
+
+        pip install py-obdii[dev]
+
+#. **Start the ELM327-Emulator**:
+
+    .. code-block:: console
+
+        python -m elm -p "REPLACE_WITH_PORT" -s car --baudrate 38400
+
+    .. note::
+
+        Replace ``REPLACE_WITH_PORT`` with the serial port of your choice
+
+Use Virtual Ports on Windows
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For Windows users, you can use `com0com <https://com0com.sourceforge.net>`_ to create virtual serial ports and connect the ELM327-Emulator to your Python code.
+
+#. **Install com0com** and create two virtual serial ports, (e.g. ``COM5`` and ``COM6``).
+
+#. In the **ELM327-Emulator**, set the port to ``COM6``.
+
+#. In your **Python code**, set the connection port to ``COM5``.
+
+Contributing & Development
+--------------------------
+
+The development of this library follows the `ELM327 PDF </docs/ELM327.PDF>`_ provided by Elm Electronics, with the goal of implementing most features and commands as outlined, starting from page 6 of the document.
+
+This library aims to deliver robust error handling, comprehensive logging, complete type hinting support, and follow best practices to create a reliable tool.
+
+Please, feel free to contribute and share your feedback !
+
+Testing the Library with Pytest
+-------------------------------
+
+This library uses `pytest <https://docs.pytest.org/>`_ for testing. To run the tests, you need to install the library with the ``[test]`` extra option.
+
+#. **Install the library with "test" extra options**:
+
+    .. code-block:: console
+
+        pip install py-obdii[test]
+
+#. **Run tests**:
+
+    .. code-block:: console
+
+        pytest
+
+Support & Contact
+-----------------
+
+For questions or support, open an issue or start a discussion on GitHub.
+Your feedback and questions are greatly appreciated and will help improve this project !
+
+- `Open an Issue <https://github.com/PaulMarisOUMary/OBDII/issues>`_
+- `Join the Discussion <https://github.com/PaulMarisOUMary/OBDII/discussions>`_
+
+-------
+
+Thank you for using or contributing to this project.
+Follow our updates by leaving a star to this repository !

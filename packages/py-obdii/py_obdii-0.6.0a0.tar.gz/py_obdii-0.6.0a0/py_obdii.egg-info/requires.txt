@@ -1,0 +1,14 @@
+pyserial<4,>=3.5
+
+[dev]
+ELM327-emulator
+
+[docs]
+sphinx
+sphinxawesome-theme
+sphinx-design
+
+[test]
+pytest
+pytest-cov
+pytest-mock
