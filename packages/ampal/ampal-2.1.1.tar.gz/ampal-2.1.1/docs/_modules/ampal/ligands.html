@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ampal.ligands &#8212; AMPAL 1.4.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for ampal.ligands</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;AMPAL objects that represent ligands.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">ampal.base_ampal</span> <span class="kn">import</span> <span class="n">Polymer</span><span class="p">,</span> <span class="n">Monomer</span>
+
+
+<div class="viewcode-block" id="LigandGroup"><a class="viewcode-back" href="../../ampal.html#ampal.ligands.LigandGroup">[docs]</a><span class="k">class</span> <span class="nc">LigandGroup</span><span class="p">(</span><span class="n">Polymer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A container for `Ligand` `Monomers`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    monomers : Monomer or [Monomer], optional</span>
+<span class="sd">        Monomer or list containing Monomer objects to form the Polymer().</span>
+<span class="sd">    polymer_id : str, optional</span>
+<span class="sd">        An ID that the user can use to identify the `Polymer`. This is</span>
+<span class="sd">        used when generating a pdb file using `Polymer().pdb`.</span>
+<span class="sd">    parent : ampal.Assembly, optional</span>
+<span class="sd">        Reference to `Assembly` containing the `Polymer`.</span>
+<span class="sd">    sl : int, optional</span>
+<span class="sd">        The default smoothing level used when calculating the</span>
+<span class="sd">        backbone primitive.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">monomers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">polymer_id</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sl</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">monomers</span><span class="o">=</span><span class="n">monomers</span><span class="p">,</span>
+            <span class="n">polymer_id</span><span class="o">=</span><span class="n">polymer_id</span><span class="p">,</span>
+            <span class="n">molecule_type</span><span class="o">=</span><span class="s2">&quot;ligands&quot;</span><span class="p">,</span>
+            <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span>
+            <span class="n">sl</span><span class="o">=</span><span class="n">sl</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Ligands chain containing </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_monomers</span><span class="p">),</span> <span class="s2">&quot;Ligand&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_monomers</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;Ligands&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Ligand"><a class="viewcode-back" href="../../ampal.html#ampal.ligands.Ligand">[docs]</a><span class="k">class</span> <span class="nc">Ligand</span><span class="p">(</span><span class="n">Monomer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`Monomer` that represents a `Ligand`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    All `Monomers` that do not have dedicated classes are</span>
+<span class="sd">    represented using the `Ligand` class.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mol_code : str</span>
+<span class="sd">        PDB molecule code that represents the monomer.</span>
+<span class="sd">    atoms : OrderedDict, optional</span>
+<span class="sd">        OrderedDict containing Atoms for the Monomer. OrderedDict</span>
+<span class="sd">        is used to maintain the order items were added to the</span>
+<span class="sd">        dictionary.</span>
+<span class="sd">    monomer_id : str, optional</span>
+<span class="sd">        String used to identify the residue.</span>
+<span class="sd">    insertion_code : str, optional</span>
+<span class="sd">        Insertion code of monomer, used if reading from pdb.</span>
+<span class="sd">    is_hetero : bool, optional</span>
+<span class="sd">        True if is a hetero atom in pdb. Helps with PDB formatting.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    atoms : OrderedDict</span>
+<span class="sd">        OrderedDict containing Atoms for the Monomer. OrderedDict</span>
+<span class="sd">        is used to maintain the order items were added to the</span>
+<span class="sd">        dictionary.</span>
+<span class="sd">    mol_code : str</span>
+<span class="sd">        PDB molecule code that represents the `Ligand`.</span>
+<span class="sd">    insertion_code : str</span>
+<span class="sd">        Insertion code of `Ligand`, used if reading from pdb.</span>
+<span class="sd">    is_hetero : bool</span>
+<span class="sd">        True if is a hetero atom in pdb. Helps with PDB formatting.</span>
+<span class="sd">    self.states : dict</span>
+<span class="sd">        Contains an `OrderedDicts` containing atom information for each</span>
+<span class="sd">        state available for the `Ligand`.</span>
+<span class="sd">    id : str</span>
+<span class="sd">        String used to identify the residue.</span>
+<span class="sd">    parent : Polymer or None</span>
+<span class="sd">        A reference to the `LigandGroup` containing this `Ligand`.</span>
+<span class="sd">    tags : dict</span>
+<span class="sd">        A dictionary containing information about this AMPAL object.</span>
+<span class="sd">        The tags dictionary is used by AMPAL to cache information</span>
+<span class="sd">        about this object, but is also intended to be used by users</span>
+<span class="sd">        to store any relevant information they have.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mol_code</span><span class="p">,</span>
+        <span class="n">atoms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">monomer_id</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="n">insertion_code</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="n">is_hetero</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Ligand</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">monomer_id</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mol_code</span> <span class="o">=</span> <span class="n">mol_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">insertion_code</span> <span class="o">=</span> <span class="n">insertion_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_hetero</span> <span class="o">=</span> <span class="n">is_hetero</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Ligand containing </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">. Ligand code: </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">),</span> <span class="s2">&quot;Atom&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;Atoms&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mol_code</span>
+        <span class="p">)</span></div>
+
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Christopher W. Wood, Kieran L. Hudson&quot;</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">AMPAL</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../AMPAL_Introduction_and_Selections.html">Introduction to AMPAL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Advanced_Selections_and_Analysis.html">Advanced Selections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Woolfson Group, UoB.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

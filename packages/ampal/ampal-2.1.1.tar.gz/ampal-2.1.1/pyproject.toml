@@ -1,0 +1,37 @@
+[project]
+name = "ampal"
+dynamic = ["version"]
+description="A framework for representing biomolecular structure."
+readme = "README.md"
+license = {text = "MIT License"}
+maintainers = [
+    { name = "ChrisWellsWood", email = "cwwoodesq@gmail.com" }
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "cython",
+    "networkx",
+    "numpy",
+]
+
+[project.urls]
+Homepage = "https://github.com/isambard-uob/ampal"
+
+[build-system]
+requires = ["setuptools>=61", "setuptools-scm", "cython"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "hypothesis",
+    "ipython>=7.34.0",
+    "pytest",
+]
+
+[tool.setuptools_scm]
