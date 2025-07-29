@@ -1,0 +1,63 @@
+from typing import Literal, TypeAlias
+
+Number: TypeAlias = float | int
+GameType: TypeAlias = Literal['IO', 'TOP', 'TOS']
+BaseCommandType: TypeAlias = Literal['bind', 'unbind', 'query']
+TETRIOCommandType: TypeAlias = BaseCommandType | Literal['rank', 'config', 'list', 'record']
+AllCommandType: TypeAlias = BaseCommandType | TETRIOCommandType
+Me: TypeAlias = Literal[
+    '我',
+    '自己',
+    '我等',
+    '卑人',
+    '愚',
+    '老身',
+    '爷',
+    '老娘',
+    '本姑娘',
+    '本大爷',
+    '鄙人',
+    '寡人',
+    '小生',
+    '贫僧',
+    '本人',
+    '孤',
+    '吾',
+    '俺',
+    '咱',
+    '私',
+    'me',
+    '洒家',
+    '在下',
+    '偶',
+    '人家',
+    '本小姐',
+    '老夫',
+    '老子',
+    '朕',
+    '本尊',
+    '僕',
+    '拙者',
+    '妾',
+    '儂',
+    '自分',
+    '吾輩',
+    '我輩',
+    '某',
+    '己等',
+    '俺等',
+    '此方',
+    '哥',
+    '姐',
+    '劳资',
+    '本宝宝',
+    '余',
+    '本喵',
+    'watashi',
+    'i',
+    'myself',
+    'self',
+    'oneself',
+]
+
+Lang: TypeAlias = Literal['zh-CN', 'en-US']
