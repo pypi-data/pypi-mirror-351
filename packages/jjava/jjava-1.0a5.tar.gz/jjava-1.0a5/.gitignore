@@ -1,0 +1,14 @@
+.idea/
+target/
+.classpath
+.project
+.settings
+*.iml
+dependency-reduced-pom.xml
+
+# pip
+build/
+dist/
+.egg/
+*.egg-info/
+kernelspec/**/*.jar
