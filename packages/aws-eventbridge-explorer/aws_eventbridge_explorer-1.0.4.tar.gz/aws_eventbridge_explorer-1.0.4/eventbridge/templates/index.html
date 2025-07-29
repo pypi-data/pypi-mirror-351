@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS EventBridge Explorer</title>
+    <!-- Use specific version of Cytoscape known to be stable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.19.1/cytoscape.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.3.2/cytoscape-dagre.min.js"></script>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap">
+    <!-- Add Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/custom.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        aws: {
+                            orange: '#ff9900',
+                            darkblue: '#232f3e',
+                            lightblue: '#88c0d0',
+                            darkgray: '#1e1e1e',
+                            lightgray: '#d8dee9'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col h-screen">
+    <div id="header" class="bg-aws-darkblue text-white p-4 flex justify-between items-center">
+        <div class="flex flex-col">
+            <div id="title" class="text-lg font-bold">AWS EventBridge Explorer</div>
+            <div class="text-sm text-aws-orange italic">Where Events Meet Clarity</div>
+        </div>
+        <div id="selections-info" class="text-right">
+            <div id="event-bus-name" class="text-aws-orange">No event bus selected</div>
+            <div id="rules-info" class="text-gray-300 text-sm mt-1">No rules selected</div>
+        </div>
+    </div>
+    
+    <div id="controls" class="bg-gray-200 dark:bg-gray-800 p-3 flex justify-between items-center">
+        <div id="selection-controls" class="flex gap-3 items-center">
+            <select id="event-bus-select" class="p-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 min-w-[200px]">
+                <option value="">Select Event Bus</option>
+            </select>
+            <button id="refresh-buses-btn" class="bg-aws-orange hover:bg-amber-600 text-white py-2 px-3 rounded font-medium">Refresh Buses</button>
+        </div>
+        <div id="view-controls" class="flex gap-3 items-center">
+            <button id="show-rules-btn" class="bg-aws-orange hover:bg-amber-600 text-white py-2 px-3 rounded font-medium">
+                <i class="fas fa-list-ul mr-1"></i> Show Rules
+            </button>
+            <button id="fit-btn" class="bg-aws-orange hover:bg-amber-600 text-white py-2 px-3 rounded font-medium">Fit View</button>
+        </div>
+    </div>
+    
+    <div id="main" class="flex-grow flex overflow-hidden">
+        <div id="sidebar" class="w-1/4 bg-white dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 flex flex-col">
+            <div id="details-container" class="p-4 overflow-y-auto flex-grow">
+                <h2 class="text-lg font-bold mb-2">Details</h2>
+                <div id="details-content" class="text-sm">
+                    <div class="text-gray-500 dark:text-gray-400">Select a node to view details</div>
+                </div>
+            </div>
+        </div>
+        <div id="cy-container" class="flex-grow relative">
+            <div id="cy" class="absolute inset-0"></div>
+        </div>
+    </div>
+    
+    <div id="log-viewer-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] flex flex-col">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h2 class="text-lg font-bold">Log Viewer: <span id="log-target-name">Stream</span></h2>
+                <button id="log-modal-close" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 flex flex-col flex-grow overflow-hidden">
+                <!-- Search input with matches counter and navigation -->
+                <div class="mb-4 flex-shrink-0 flex items-center gap-2">
+                    <div class="flex-grow relative">
+                        <input 
+                            type="text" 
+                            id="log-search-input" 
+                            placeholder="Search logs..." 
+                            class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                        >
+                    </div>
+                    
+                    <!-- Match navigation controls -->
+                    <div id="search-nav-controls" class="flex items-center ml-2 hidden">
+                        <span id="search-match-count" class="text-sm mr-2">0 matches</span>
+                        <button id="prev-match-btn" class="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Previous match">
+                            <i class="fas fa-chevron-up text-aws-orange"></i>
+                        </button>
+                        <button id="next-match-btn" class="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700" title="Next match">
+                            <i class="fas fa-chevron-down text-aws-orange"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Single log content container -->
+                <div id="log-content-container" class="overflow-y-auto h-full max-h-[calc(90vh-120px)]"></div>
+            </div>
+            <!-- Modal footer with close button -->
+            <div class="p-3 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+                <button id="log-modal-close-btn" class="px-4 py-2 bg-aws-orange text-white rounded hover:bg-amber-600">Close</button>
+            </div>
+        </div>
+    </div>
+    <div id="tooltip" class="absolute bg-black/80 text-white p-2 rounded text-sm max-w-[300px] z-10 hidden"></div>
+    <div id="loading" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-5 rounded-lg shadow-lg hidden z-10">Loading graph data...</div>
+    <div id="error" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-100 dark:bg-red-900/70 p-5 rounded-lg shadow-lg hidden z-10 max-w-[80%] text-center">
+        <h3 class="font-bold">Error Loading Graph</h3>
+        <p id="error-message" class="my-2"></p>
+        <button id="dismiss-error" class="bg-aws-orange hover:bg-amber-600 text-white py-1 px-3 rounded font-medium">Dismiss</button>
+    </div>
+
+    <script src="/static/log-viewer.js"></script>
+    <script src="/static/main.js"></script>
+</body>
+</html>
