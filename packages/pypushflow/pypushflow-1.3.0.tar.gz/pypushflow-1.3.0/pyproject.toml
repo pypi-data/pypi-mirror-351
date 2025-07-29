@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=46.4"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pypushflow"
+version = "1.3.0"
+authors = [{name = "ESRF", email = "dau-pydev@esrf.fr"}]
+description = "A task scheduler for cyclic and acyclic graphs"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {file = "LICENSE.md"}
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.8"
+dependencies = [
+]
+
+[project.urls]
+Homepage = "https://gitlab.esrf.fr/workflow/pypushflow/"
+Documentation = "https://pypushflow.readthedocs.io/"
+Repository = "https://gitlab.esrf.fr/workflow/pypushflow/"
+Issues = "https://gitlab.esrf.fr/workflow/pypushflow/issues"
+Changelog = "https://gitlab.esrf.fr/workflow/pypushflow/-/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+mx = [
+    "pymongo >=3",
+]
+test = [
+    "pytest >=7",
+    "pytest-subtests >=0.4",
+    "psutil >=5.8",
+    "mongita >=1",
+    "mongomock",
+    "numpy",
+]
+dev = [
+    "pypushflow[test]",
+    "black >=25",
+    "flake8 >=4",
+]
+doc = [
+    "pypushflow[test]",
+    "sphinx >=4.5",
+    "sphinx-autodoc-typehints >=1.16",
+    "pydata-sphinx-theme",
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.coverage.run]
+omit = ['*/tests/*']
