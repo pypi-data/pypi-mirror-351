@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: VividText
+Version: 0.3.0
+Summary: A vivid typewriter-style text utility using rich.
+Author-email: JKG <jkg66512@gmail.com>
+License: MIT
+Keywords: rich,text,typewriter,console,terminal
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: rich>=13.0
+Dynamic: license-file
+
+# Vivid-Text
+
+## My own module!!!
+
+Install it with:pip install VividText

@@ -1,0 +1,16 @@
+[project]
+name = "VividText"
+version = "0.3.0"
+description = "A vivid typewriter-style text utility using rich."
+authors = [{ name = "JKG", email = "jkg66512@gmail.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+keywords = ["rich", "text", "typewriter", "console", "terminal"]
+dependencies = [
+    "rich>=13.0"
+]
+requires-python = ">=3.7"
+
+[build-system]
+requires = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.build_meta"
