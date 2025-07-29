@@ -1,0 +1,113 @@
+Metadata-Version: 2.4
+Name: auralislib
+Version: 1.0.0
+Summary: Intelligent Python Library for Voice Cloning, Audio Synthesis, and Image Generation
+Author-email: Rugved Joshi <rugvedsamruddhi@gmail.com>
+License: MIT License
+        
+        Copyright (c) [2025] [Rugved.S.Joshi]
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/joshirugved11/auralis
+Project-URL: Repository, https://github.com/joshirugved11/auralis
+Project-URL: Bug Tracker, https://github.com/joshirugved11/auralis/issues
+Keywords: voice cloning,audio synthesis,tts,gan,image generation,python library
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.23
+Requires-Dist: soundfile>=0.12
+Requires-Dist: scipy>=1.10
+Requires-Dist: requests>=2.31
+Requires-Dist: Pillow>=9.4
+Requires-Dist: pyttsx3>=2.90
+Requires-Dist: tqdm>=4.66
+Requires-Dist: python-dotenv>=1.0
+Requires-Dist: click>=8.1
+Requires-Dist: torch>=2.0
+Requires-Dist: torchaudio>=2.0
+Requires-Dist: opencv-python>=4.8
+Requires-Dist: transformers>=4.30
+Requires-Dist: diffusers>=0.20
+Requires-Dist: librosa>=0.10
+Requires-Dist: pydub>=0.25
+Requires-Dist: scikit-learn>=1.2
+Requires-Dist: matplotlib>=3.7
+Dynamic: license-file
+
+# 🎙️ Auralis
+
+> Intelligent Python Library for Voice Cloning, Audio Synthesis, and Image Generation
+
+# Auralis
+
+![PyPI](https://img.shields.io/pypi/v/auralis?label=PyPI&color=blue)
+![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
+![Downloads](https://img.shields.io/pypi/dm/auralis.svg)
+![License](https://img.shields.io/github/license/joshirugved11/auralis)
+![Contributors](https://img.shields.io/github/contributors/joshirugved11/auralis)
+![Last Commit](https://img.shields.io/github/last-commit/joshirugved11/auralis)
+![Issues](https://img.shields.io/github/issues/joshirugved11/auralis)
+![Pull Requests](https://img.shields.io/github/issues-pr/joshirugved11/auralis)
+![Stars](https://img.shields.io/github/stars/joshirugved11/auralis?style=social)
+
+---
+
+## 🚀 What is Auralis?
+
+**Auralis** is a Python library designed to make working with voice, audio, and image data creative and intelligent. It enables:
+- Voice cloning & synthesis  
+- Text-to-speech (TTS)  
+- Speech-to-text (STT)  
+- Image fetching & transformation  
+- Multimodal features (text → image → audio) (upcoming features)
+---
+
+## 🛠️ Features
+
+- ✅ Generate synthetic speech from text and text from speech
+- ✅ Clone voices from audio samples (upcoming features)
+- ✅ Fetch and process images using the Unsplash API (upcoming features)
+- ✅ Basic image editing (resize, crop, filters) (upcoming features)
+- ✅ Plan for future AI-powered voice & image fusion (upcoming features)
+---
+
+## 📦 Installation
+
+<pre lang="markdown"> pip install Auralis </pre>
+---
+
+## Usage
+1. Text-to-speech
+<pre lang="markdown"> 
+  from Auralis.text_to_speech.synth import synthesize
+  synthesize("Hello world!", "output.wav")
+</pre>
+
+2. Speech-to-text
+<pre lang="markdown"> 
+  from Auralis.speech_to_text.inference import transcribe
+  text = transcribe("samples/audio.wav")
+  print(text)
+</pre>
+---
+
+
+
