@@ -1,0 +1,19 @@
+build-runtime: true
+id: com.github.dcbaker.flatpaker.RPGM.Platform
+runtime-version: "24.08"
+runtime: org.freedesktop.Platform
+sdk: org.freedesktop.Sdk
+inherit-extensions:
+ - "org.freedesktop.Platform.GL"
+modules:
+ - name: "nwjs"
+   buildsystem: "simple"
+   sources:
+    - type: "archive"
+      url: "https://dl.nwjs.io/v0.100.0/nwjs-v0.100.0-linux-x64.tar.gz"
+      sha256: "f8f0f8e7ce53c91c6ad28dad107aba1c9c70108b36c058ef9042f4e6b94c7a0b"
+      only_arches:
+       - x86_64
+   build-commands:
+    - "mkdir /usr/lib/nwjs"
+    - "mv * /usr/lib/nwjs/"
