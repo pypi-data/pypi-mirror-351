@@ -1,0 +1,124 @@
+Metadata-Version: 2.4
+Name: celium-cli
+Version: 0.2.0
+Summary: A custom CLI tool for Celium. Celium CLI provides tools for interacting with the Celium ecosystem from the command line.
+Author-email: Celium <support@celium.ai>
+License-Expression: MIT
+Project-URL: homepage, https://github.com/Datura-ai/celium-cli
+Project-URL: repository, https://github.com/Datura-ai/celium-cli
+Project-URL: issues, https://github.com/Datura-ai/celium-cli/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: typer<0.16,>=0.12
+Requires-Dist: rich<15.0,>=13.7
+Requires-Dist: pycryptodome<4.0.0,>=3.0.0
+Requires-Dist: PyYAML~=6.0.1
+Requires-Dist: aiohttp~=3.10.2
+Requires-Dist: backoff~=2.2.1
+Requires-Dist: GitPython>=3.0.0
+Requires-Dist: async-substrate-interface>=1.1.0
+Requires-Dist: scalecodec==1.2.11
+Requires-Dist: plotly>=6.0.0
+Requires-Dist: plotille>=5.0.0
+Requires-Dist: fuzzywuzzy~=0.18.0
+Requires-Dist: python-Levenshtein
+Requires-Dist: netaddr~=1.3.0
+Requires-Dist: Jinja2
+Requires-Dist: pywry>=0.6.2
+Requires-Dist: async-property==0.2.2
+Requires-Dist: bittensor-cli>=8.4.3
+Requires-Dist: paramiko==3.5.0
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: wheel; extra == "dev"
+Dynamic: license-file
+
+<div align="center">
+
+# Celium CLI 
+[![Discord Chat](https://img.shields.io/discord/308323056592486420.svg)](https://discord.com/channels/799672011265015819/1291754566957928469)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+
+---
+
+</div>
+
+- [Overview](#overview)
+- [Install](#install)
+  - [Install from PyPI](#install-from-pypi)
+  - [Install from source](#install-from-source)
+- [Usage](#usage)
+- [Support](#support)
+
+---
+
+## Overview
+
+Celium CLI is a command-line tool for interacting with the Celium ecosystem. It provides a set of commands to help developers and users manage, monitor, and interact with Celium services and infrastructure directly from their terminal.
+
+Key features:
+- Easy installation and setup
+- Rich CLI interface with helpful output
+- Integration with Celium services
+
+## Install
+
+You can install `celium-cli` on your local machine directly from source, or from PyPI. 
+
+### Install from PyPI
+
+Run 
+```
+pip install -U celium-cli
+```
+
+### Install from source
+
+1. Create and activate a virtual environment. 
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+2. Clone the Celium CLI repo. 
+
+```bash
+git clone https://github.com/Datura-ai/celium-cli.git
+cd celium-cli
+```
+
+3. Install
+
+```bash
+pip3 install .
+```
+
+## Usage
+
+After installation, you can use the CLI by running:
+
+```
+celium-cli --help
+```
+
+This will display all available commands and options. For example, to see the version:
+
+```
+celium-cli --version
+```
+
+## Support
+
+- [GitHub Issues](https://github.com/Datura-ai/celium-cli/issues) — for bug reports and feature requests
+- [Discord](https://discord.com/channels/799672011265015819/1291754566957928469) — for community support and discussion
