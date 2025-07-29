@@ -1,0 +1,3 @@
+[console_scripts]
+hex = hex_api.cli:app
+hex-api = hex_api.cli:app
