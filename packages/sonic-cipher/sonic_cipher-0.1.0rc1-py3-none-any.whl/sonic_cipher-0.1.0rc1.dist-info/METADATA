@@ -1,0 +1,168 @@
+Metadata-Version: 2.4
+Name: sonic-cipher
+Version: 0.1.0rc1
+Summary: Spoof-Aware Speaker Verification System
+Author-email: Hansini Karunarathne <hansini.20@cse.mrt.ac.lk>, Wathmi Thennakoon <wathmi.20@cse.mrt.ac.lk>, Sulakshi Gunarathne <sulakshi.20@cse.mrt.ac.lk>
+Maintainer-email: Hansini Karunarathne <hansini.20@cse.mrt.ac.lk>, Wathmi Thennakoon <wathmi.20@cse.mrt.ac.lk>, Sulakshi Gunarathne <sulakshi.20@cse.mrt.ac.lk>
+License: MIT
+Project-URL: Repository, https://github.com/SonicCypher/Speaker-Verification-Application.git
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aioice==0.10.1
+Requires-Dist: aiortc==1.13.0
+Requires-Dist: altair==5.5.0
+Requires-Dist: attrs==25.3.0
+Requires-Dist: av==14.4.0
+Requires-Dist: blinker==1.9.0
+Requires-Dist: cachetools==5.5.2
+Requires-Dist: certifi==2025.4.26
+Requires-Dist: cffi==1.17.1
+Requires-Dist: charset-normalizer==3.4.2
+Requires-Dist: click==8.2.1
+Requires-Dist: cryptography==45.0.3
+Requires-Dist: dnspython==2.7.0
+Requires-Dist: filelock==3.18.0
+Requires-Dist: fsspec==2025.5.1
+Requires-Dist: gitdb==4.0.12
+Requires-Dist: GitPython==3.1.44
+Requires-Dist: google-crc32c==1.7.1
+Requires-Dist: hf-xet==1.1.2
+Requires-Dist: huggingface-hub==0.32.0
+Requires-Dist: HyperPyYAML==1.2.2
+Requires-Dist: idna==3.10
+Requires-Dist: ifaddr==0.2.0
+Requires-Dist: Jinja2==3.1.6
+Requires-Dist: joblib==1.5.1
+Requires-Dist: jsonschema==4.24.0
+Requires-Dist: jsonschema-specifications==2025.4.1
+Requires-Dist: MarkupSafe==3.0.2
+Requires-Dist: mpmath==1.3.0
+Requires-Dist: narwhals==1.41.0
+Requires-Dist: networkx==3.4.2
+Requires-Dist: numpy==2.2.6
+Requires-Dist: nvidia-cublas-cu12==12.6.4.1
+Requires-Dist: nvidia-cuda-cupti-cu12==12.6.80
+Requires-Dist: nvidia-cuda-nvrtc-cu12==12.6.77
+Requires-Dist: nvidia-cuda-runtime-cu12==12.6.77
+Requires-Dist: nvidia-cudnn-cu12==9.5.1.17
+Requires-Dist: nvidia-cufft-cu12==11.3.0.4
+Requires-Dist: nvidia-cufile-cu12==1.11.1.6
+Requires-Dist: nvidia-curand-cu12==10.3.7.77
+Requires-Dist: nvidia-cusolver-cu12==11.7.1.2
+Requires-Dist: nvidia-cusparse-cu12==12.5.4.2
+Requires-Dist: nvidia-cusparselt-cu12==0.6.3
+Requires-Dist: nvidia-nccl-cu12==2.26.2
+Requires-Dist: nvidia-nvjitlink-cu12==12.6.85
+Requires-Dist: nvidia-nvtx-cu12==12.6.77
+Requires-Dist: packaging==24.2
+Requires-Dist: pandas==2.2.3
+Requires-Dist: pillow==11.2.1
+Requires-Dist: protobuf==6.31.0
+Requires-Dist: psycopg2-binary==2.9.10
+Requires-Dist: pyarrow==20.0.0
+Requires-Dist: pycparser==2.22
+Requires-Dist: pydeck==0.9.1
+Requires-Dist: pyee==13.0.0
+Requires-Dist: pylibsrtp==0.12.0
+Requires-Dist: pyOpenSSL==25.1.0
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: python-dotenv==1.1.0
+Requires-Dist: pytz==2025.2
+Requires-Dist: PyYAML==6.0.2
+Requires-Dist: referencing==0.36.2
+Requires-Dist: requests==2.32.3
+Requires-Dist: rpds-py==0.25.1
+Requires-Dist: ruamel.yaml==0.18.11
+Requires-Dist: ruamel.yaml.clib==0.2.12
+Requires-Dist: safetensors==0.5.3
+Requires-Dist: scikit-learn==1.6.1
+Requires-Dist: scipy==1.15.3
+Requires-Dist: sentencepiece==0.2.0
+Requires-Dist: six==1.17.0
+Requires-Dist: smmap==5.0.2
+Requires-Dist: soundfile==0.13.1
+Requires-Dist: sox==1.5.0
+Requires-Dist: speechbrain==1.0.3
+Requires-Dist: streamlit==1.45.1
+Requires-Dist: streamlit-webrtc==0.62.4
+Requires-Dist: sympy==1.14.0
+Requires-Dist: tenacity==9.1.2
+Requires-Dist: threadpoolctl==3.6.0
+Requires-Dist: timm==1.0.15
+Requires-Dist: toml==0.10.2
+Requires-Dist: torch==2.7.0
+Requires-Dist: torchaudio==2.7.0
+Requires-Dist: torchvision==0.22.0
+Requires-Dist: tornado==6.5.1
+Requires-Dist: tqdm==4.67.1
+Requires-Dist: triton==3.3.0
+Requires-Dist: typing_extensions==4.13.2
+Requires-Dist: tzdata==2025.2
+Requires-Dist: urllib3==2.4.0
+Requires-Dist: watchdog==6.0.0
+Dynamic: license-file
+
+# Sonic-Cipher: Spoof-Aware Speaker Verification System
+
+**Sonic-Cipher** is a Python package for robust speaker verification with integrated spoof detection. It combines automatic speaker verification (ASV) with countermeasure (CM) models to identify and reject spoofed audio inputs. Perfect for secure authentication systems using voice biometrics.
+
+# Installation and Configuration
+
+1. Install the package
+
+- From Pypi
+
+``` bash
+pip install sonic-cipher
+```
+
+- Build from Scratch
+  
+``` bash
+git clone https://github.com/SonicCypher/Speaker-Verification-Application.git
+cd Speaker-Verification-Application
+pip install build
+python -m build
+pip install -e .
+```
+
+2. Create a virtual environment and install the dependencies
+
+``` bash
+pip install -r requirements.txt
+```
+
+4. Export the below envrionment variables
+
+``` bash
+DB_NAME=<your_database>
+DB_USER=<your_username>
+DB_PASSWORD=<your_password>
+DB_HOST=<your_database_host>
+DB_PORT=<your_database_port>
+```
+
+> Note: Currently `sonic-cipher` supports only Postgres databases
+
+# Usage Example
+
+## 📝 Register a Speaker
+
+``` python
+from sonic_cipher import register_user
+
+register_user(username, path1, path2, path3)
+```
+
+- In the registration process, `register_user` accepts paths of 3 audio clips of the user
+
+## 🔍 Verify a Speaker
+
+``` python
+from sonic_cipher import predict_verification
+
+is_verified, confidence_score = register_user(username, path_of_test_audio, device="cpu", threshold=0.1994701042959457)
+```
+- Required parameters: username, path of the test audio
+
