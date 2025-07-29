@@ -1,0 +1,5 @@
+[ngautonml.make_catalog]
+algorithms = ngautonml_forecasting:algorithms_make_catalog
+config_components = ngautonml_forecasting:config_components_make_catalog
+splitters = ngautonml_forecasting:splitters_make_catalog
+templates = ngautonml_forecasting:templates_make_catalog

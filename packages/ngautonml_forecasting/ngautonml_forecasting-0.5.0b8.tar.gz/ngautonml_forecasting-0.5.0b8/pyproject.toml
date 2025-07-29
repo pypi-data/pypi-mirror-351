@@ -1,0 +1,33 @@
+[project]
+name = "ngautonml_forecasting"
+  version = "0.5.0b08"
+description = "a plugin that installs forecasting tools for ngAutonML"
+authors = [
+    {name = "L.H. Piggy Yarroll", email = "piggy@cmu.edu"},
+    {name = "Merritt Kowaleski", email = "merrittk@cmu.edu"},
+    {name = "Andrew Williams", email = "awillia2@andrew.cmu.edu"},
+    {name = "Jieshi Chen", email = "jieshic@andrew.cmu.edu"},
+]
+readme = "README.md"
+keywords = ["machine learning", "forecasting"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed"
+]
+
+[project.entry-points."ngautonml.make_catalog"]
+templates = "ngautonml_forecasting:templates_make_catalog"
+algorithms = "ngautonml_forecasting:algorithms_make_catalog"
+splitters = "ngautonml_forecasting:splitters_make_catalog"
+config_components = "ngautonml_forecasting:config_components_make_catalog"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+ngautonml_forecasting = ["py.typed"]
