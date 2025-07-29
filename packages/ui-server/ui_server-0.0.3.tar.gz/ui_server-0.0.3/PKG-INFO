@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: ui-server
+Version: 0.0.3
+Summary: UI Server for RL Environments
+Author-email: Jonas Eschmann <jonas.eschmann@gmail.com>
+License: MIT
+Requires-Dist: aiohttp
+Requires-Dist: websockets
+Description-Content-Type: text/markdown
+
+# UIServer
