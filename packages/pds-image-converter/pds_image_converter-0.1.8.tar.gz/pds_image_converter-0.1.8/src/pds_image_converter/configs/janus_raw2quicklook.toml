@@ -1,0 +1,27 @@
+skip_if_exists = false
+
+[reader]
+type_name = "PDS4ToolsReader"
+
+[[filters]]
+enabled = true
+type_name = "ReplaceNotValues"
+
+[[filters]]
+enabled = true
+type_name = "JanusFPNCorrection"
+
+[[filters]]
+enabled = true
+percentile = 99.9
+type_name = "HistogramStretch"
+
+[[filters]]
+enabled = true
+type_name = "PDS4OrientForView"
+
+[[writers]]
+overwrite = true
+jpeg_quality = 97
+jpeg_optimize = true
+type_name = "JPGWriter"

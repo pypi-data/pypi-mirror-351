@@ -1,0 +1,152 @@
+[project]
+name = "pds-image-converter"
+version = "0.1.8"
+description = ""
+authors = [{ name = "Luca Penasa", email = "luca.penasa@inaf.it" }]
+requires-python = ">=3.10,<4.0"
+readme = "README.md"
+license = "MIT"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "janusreader>=0.10.0",
+    "astropy>=5.0.0",
+    "attrs>=21.0.0",
+    "loguru>=0.7.0",
+    "click>=8.1.7,<9",
+    "pillow>=10.3.0,<11",
+    "cattrs>=23",
+    "pdr>=1.2.3,<2",
+    "numpy>=2.2.6",
+]
+
+[project.urls]
+Homepage = "https://JANUS-JUICE.github.io/pds-image-converter"
+Repository = "https://github.com/JANUS-JUICE/pds-image-converter"
+Documentation = "https://JANUS-JUICE.github.io/pds-image-converter"
+
+[project.scripts]
+pds-image-converter = "pds_image_converter.cli:main"
+
+[dependency-groups]
+dev = [
+    "mkdocstrings[python]>=0.23",
+    "mkdocs-material",
+    "mypy",
+    "pre-commit",
+    "pymdown-extensions",
+    "pytest",
+    "pytest-github-actions-annotate-failures",
+    "pytest-cov",
+    "pytest-sugar>=1.0.0,<2",
+    "python-kacl",
+    "ruff>=0.2.0",
+    "ipykernel>=6.29.5,<7",
+    "nbmake>=1.4.6",
+    "bump-my-version>=0.27.0,<0.28",
+    "rust-just>=1.36.0,<2",
+    "pip-audit>=2.9.0",
+    "deptry>=0.23.0",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/pds_image_converter"]
+
+[tool.hatch.build.targets.wheel]
+include = ["src/pds_image_converter"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/pds_image_converter" = "pds_image_converter"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py310" # The lowest supported version
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 20
+
+[tool.ruff.lint]
+# By default, enable all the lint rules.
+# Add to the ignore list below if you don't want some rules.
+# If you need some ignores for certain modules, see tool.ruff.lint.per-file-ignores below.
+# For individual ignore cases, prefer inline `# noqa`s within the code.
+select = ["ALL"]
+ignore = [
+    "ANN",    # Type hints related, let mypy handle these.
+    "ERA001", # allow commented-out code
+    # "D",   # Docstrings related, way too strict to our taste
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "S101", # "Use of `assert` detected"
+    "ARG",  # "Unused function argument". Fixtures are often unused.
+    "S105", # "Possible hardcoded password".
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pep8-naming]
+classmethod-decorators = [
+    "classmethod",
+    "pydantic.validator",
+    "pydantic.root_validator",
+]
+
+[tool.pytest.ini_options]
+addopts = """\
+    --cov pds_image_converter \
+    --cov tests \
+    --cov-report term-missing \
+    --no-cov-on-fail \
+    --nbmake \
+"""
+
+[tool.coverage.report]
+fail_under = 70 # relaxed coverage
+exclude_lines = ['if TYPE_CHECKING:', 'pragma: no cover']
+
+[tool.mypy]
+# This is the global mypy configuration.
+# Avoid changing this!
+strict = true                   # See all the enabled flags `mypy --help | grep -A 10 'Strict mode'`
+disallow_any_unimported = false
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = "pdr.pds4_tools.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "piexif.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "JanusReader.*"
+ignore_missing_imports = true
+
+
+plugins = "./mypy_attrs_plugin.py"
+
+[tool.bumpversion]
+current_version = "0.1.8"  # Replace with your current version
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
