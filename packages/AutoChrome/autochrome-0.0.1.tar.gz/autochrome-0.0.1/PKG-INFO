@@ -1,0 +1,167 @@
+Metadata-Version: 2.3
+Name: AutoChrome
+Version: 0.0.1
+Summary: 基于 DrissionPage 封装的自用API，用于网页自动化。
+Author: Xiaoqiang
+Author-email: xiaoqiangclub@hotmail.com
+Requires-Python: >=3.8
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: drissionpage (>=4.1.0.18,<5.0.0.0)
+Requires-Dist: pypiwin32 (>=223,<224) ; sys_platform == "win32"
+Description-Content-Type: text/markdown
+
+# AutoChrome
+
+> AutoChrome 是基于 [DrissionPage](https://drissionpage.cn/) 封装的浏览器自动化操作模块，支持多标签页、元素操作、网络监听、cookie 管理、日志输出等常用自动化场景，适用于数据采集、自动化测试等任务。
+
+## 安装依赖
+
+1. 安装 AutoChrome：
+   ```bash
+   pip install -U AutoChrome
+   ```
+2. Windows 系统如需窗口隐藏功能，需安装 pypiwin32：
+   ```bash
+   pip install -i https://mirrors.aliyun.com/pypi/simple/ pypiwin32
+   ```
+3. 其它依赖请参考 `pyproject.toml` 或根据报错提示安装。
+
+---
+
+## 快速开始
+
+### 1. 导入模块
+
+```python
+from AutoChrome import AutoChrome
+```
+
+### 2. 初始化 AutoChrome
+
+```python
+ac = AutoChrome(
+    start_url="https://www.example.com",  # 启动时打开的页面
+    headless=False,                       # 是否无头模式
+    auto_close=True,                      # 实例销毁时自动关闭浏览器
+    console_log_level="INFO",             # 控制台日志等级
+    log_file="autochrome.log",            # 日志文件路径
+)
+```
+
+### 3. 常用功能示例
+
+#### 获取和设置 Cookies
+
+```python
+# 获取 cookies
+cookies = ac.get_cookies()
+# 设置 cookies
+ac.set_cookies(cookies)
+```
+
+#### 元素定位与操作
+
+```python
+# 定位单个元素并点击
+ele = ac.ele_for_action('xpath://button[text()="提交"]')
+ac.click_ele(ele)
+
+# 通过 Xpath 定位并点击
+ac.click_xpath('//a[text()="下一页"]')
+```
+
+#### 翻页与数据采集
+
+```python
+def parse_page(tab, page_index):
+    # 自定义页面解析逻辑
+    print(f"正在解析第{page_index}页")
+    return tab.html
+
+results = ac.next_page(
+    page_callback=parse_page,
+    max_pages=5,  # 最多翻5页
+)
+```
+
+#### 监听网络请求
+
+```python
+packets = ac.listen_network(
+    targets="api/data",   # 监听包含该关键词的请求
+    timeout=10,
+    count=2,
+    methods="GET",
+)
+```
+
+---
+
+## 参数说明
+
+### AutoChrome 初始化参数
+
+- `start_url`：启动时打开的页面 URL
+- `headless`：是否无头模式（True/False）
+- `auto_close`：对象销毁时自动关闭浏览器
+- `console_log_level`：控制台日志等级（DEBUG/INFO/WARNING/ERROR/CRITICAL）
+- `log_file`：日志文件路径，None 表示不保存
+- `log_file_level`：日志文件保存等级
+- `log_debug_format`：日志格式是否为调试模式
+- 其它参数详见源码注释
+
+### 常用方法
+
+- `get_cookies(tab=None, all_info=False, return_type="list")`：获取 cookies
+- `set_cookies(cookies, tab=None, refresh=True, verify_str=None)`：设置 cookies
+- `ele_for_action(selector, tab=None, index=1, timeout=None)`：定位单个元素
+- `click_ele(sel_or_ele, ...)`：点击元素，支持多种验证与重试
+- `next_page(page_callback, ...)`：自动翻页并处理每页数据
+- `listen_network(targets, ...)`：监听网络请求
+
+---
+
+## 日志与调试
+
+- 日志支持控制台和文件输出，内容带 emoji 图标，便于快速定位信息、警告和错误。
+- 日志等级和格式可通过初始化参数灵活配置。
+
+---
+
+## 注意事项
+
+- **仅支持 Chromium 内核浏览器**，如 Chrome、Edge。
+- **窗口隐藏功能仅支持 Windows 且需安装 pypiwin32**。
+- 建议使用虚拟环境管理依赖。
+- 部分高级功能需参考 [DrissionPage 官方文档](https://drissionpage.cn/)。
+
+---
+
+## 常见问题
+
+- **浏览器无法启动/找不到驱动**：请确保已正确安装 Chrome/Edge，并配置好环境变量或手动指定驱动路径。
+- **元素定位失败**：请检查定位表达式是否正确，或适当增加超时时间。
+- **网络监听无结果**：确认目标接口是否被正确捕获，可尝试调整 `targets`、`methods`、`res_type` 参数。
+
+---
+
+## 联系与支持
+
+- 作者：Xiaoqiang
+- 微信公众号：XiaoqiangClub
+- 反馈与建议请通过邮件联系
+
+---
+
+## ☕ 请我喝咖啡 ☕
+
+> 更多内容请关注微信公众号：XiaoqiangClub
+
+![支持我](https://gitee.com/xiaoqiangclub/xiaoqiangapps/raw/master/images/xiaoqiangclub_ad.png)
+
