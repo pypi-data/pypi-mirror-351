@@ -1,0 +1,275 @@
+Metadata-Version: 2.4
+Name: hposuite
+Version: 0.1.2
+Summary: A lightweight framework for benchmarking HPO algorithms
+Author-email: Soham Basu <soham.basu07@gmail.com>, Eddie Bergman <eddiebergmanhs@gmail.com>, Neeratyoy Malik <neeratyoy@gmail.com>
+License: BSD 3-Clause License
+        
+        Copyright (c) 2024 AutoML-Freiburg-Hannover
+        
+        Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+        
+        1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+        
+        2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+        
+        3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Project-URL: source, https://github.com/automl/hposuite/
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: hpoglue>=0.2.5
+Requires-Dist: pandas<3,>=2
+Requires-Dist: matplotlib<4,>=3
+Requires-Dist: tqdm
+Requires-Dist: more_itertools
+Requires-Dist: pyyaml
+Requires-Dist: pyarrow
+Requires-Dist: ConfigSpace>=1.0
+Provides-Extra: dev
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Provides-Extra: notebook
+Requires-Dist: ipykernel; extra == "notebook"
+Provides-Extra: all
+Requires-Dist: ipykernel; extra == "all"
+Requires-Dist: smac; extra == "all"
+Requires-Dist: optuna; extra == "all"
+Requires-Dist: dehb; extra == "all"
+Requires-Dist: scikit-optimize; extra == "all"
+Requires-Dist: nevergrad; extra == "all"
+Requires-Dist: hebo; extra == "all"
+Requires-Dist: neural-pipeline-search>=0.13.0; extra == "all"
+Requires-Dist: pymoo; extra == "all"
+Requires-Dist: mf-prior-bench[pd1]>=1.10.0; extra == "all"
+Requires-Dist: ioh>=0.3.14; extra == "all"
+Provides-Extra: optimizers
+Requires-Dist: smac; extra == "optimizers"
+Requires-Dist: optuna; extra == "optimizers"
+Requires-Dist: dehb; extra == "optimizers"
+Requires-Dist: scikit-optimize; extra == "optimizers"
+Requires-Dist: nevergrad; extra == "optimizers"
+Requires-Dist: hebo; extra == "optimizers"
+Requires-Dist: neural-pipeline-search>=0.13.0; extra == "optimizers"
+Provides-Extra: benchmarks
+Requires-Dist: pymoo; extra == "benchmarks"
+Requires-Dist: mf-prior-bench[pd1]>=1.10.0; extra == "benchmarks"
+Requires-Dist: ioh>=0.3.14; extra == "benchmarks"
+Provides-Extra: smac
+Requires-Dist: smac; extra == "smac"
+Provides-Extra: optuna
+Requires-Dist: optuna; extra == "optuna"
+Provides-Extra: dehb
+Requires-Dist: dehb; extra == "dehb"
+Provides-Extra: skopt
+Requires-Dist: scikit-optimize; extra == "skopt"
+Provides-Extra: nevergrad
+Requires-Dist: nevergrad; extra == "nevergrad"
+Provides-Extra: hebo
+Requires-Dist: hebo; extra == "hebo"
+Provides-Extra: neps
+Requires-Dist: neural-pipeline-search>=0.13.0; extra == "neps"
+Provides-Extra: pymoo
+Requires-Dist: pymoo; extra == "pymoo"
+Provides-Extra: mfpbench
+Requires-Dist: mf-prior-bench[pd1]>=1.10.0; extra == "mfpbench"
+Provides-Extra: bbob
+Requires-Dist: ioh>=0.3.14; extra == "bbob"
+Dynamic: license-file
+
+[![image](https://img.shields.io/pypi/v/hposuite.svg)](https://pypi.python.org/pypi/hposuite)
+[![image](https://img.shields.io/pypi/l/hposuite)](https://pypi.python.org/pypi/hposuite)
+[![image](https://img.shields.io/pypi/pyversions/hposuite.svg)](https://pypi.python.org/pypi/hposuite)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![GitHub](https://img.shields.io/badge/GitHub-hpoglue-rgb(50,50,200)?logo=github&logoColor=white)](https://github.com/automl/hpoglue)
+
+# hposuite
+A lightweight framework for benchmarking HPO algorithms, providing wrappers for HPO benchmarks and optimizers. Provides a simple API for large-scale HPO experimentation.
+
+## Minimal Example to run hposuite
+
+```python
+from hposuite import create_study
+
+study = create_study(
+    name="hposuite_demo",
+    output_dir="./hposuite-output",
+    optimizers=[...],   # Eg: "RandomSearch"
+    benchmarks=[...],   # Eg: "ackley"
+    num_seeds=5,
+    budget=100,         # Number of iterations
+)
+
+study.optimize()
+```
+
+> [!TIP]
+> * See below for an example of [Running multiple Optimizers on multiple Benchmarks](#Simple-example-to-run-multiple-Optimizers-on-multiple-benchmarks)
+> * Check this example [notebook](https://github.com/automl/hposuite/blob/main/examples/hposuite_demo.ipynb) for more demo examples
+> * This [notebook](https://github.com/automl/hposuite/blob/main/examples/opt_bench_usage_examples.ipynb) contains usage examples for Optimizer and Benchmark combinations
+> * This [notebook](https://github.com/automl/hposuite/blob/main/examples/study_usage_examples.ipynb) demonstrates some of the features of hposuite's Study
+> * This [notebook](https://github.com/automl/hposuite/blob/main/examples/plots_and_comparisons.ipynb) shows how to plot results for comparison
+> * Check out [hpoglue](https://github.com/automl/hpoglue) for core HPO API for interfacing an Optimizer and Benchmark
+
+## Installation
+
+### Create a Virtual Environment using Venv
+```bash
+python -m venv hposuite_env
+source hposuite_env/bin/activate
+```
+### Installing from PyPI
+
+```bash
+pip install hposuite
+```
+
+> [!TIP]
+> * `pip install hposuite["notebook"]` - For usage in a notebook
+> * `pip install hposuite["all"]` - To install hposuite with all available optimizers and benchmarks
+> * `pip install hposuite["optimizers"]` - To install hposuite with all available optimizers only
+> * `pip install hposuite["benchmarks"]` - To install hposuite with all available benchmarks only
+
+
+> [!NOTE]
+> * We **recommend** doing `pip install hposuite["all"]` to install all available benchmarks and optimizers, along with `ipykernel` for running the notebook examples
+
+### Installation from source
+
+```bash
+git clone https://github.com/automl/hposuite.git
+cd hposuite
+
+pip install -e . # -e for editable install
+```
+
+
+### Simple example to run multiple Optimizers on multiple benchmarks
+
+```python
+from hposuite.benchmarks import BENCHMARKS
+from hposuite.optimizers import OPTIMIZERS
+
+from hposuite import create_study
+
+study = create_study(
+    name="smachb_dehb_mfh3good_pd1",
+    output_dir="./hposuite-output",
+    optimizers=[
+        OPTIMIZERS["SMAC_Hyperband"],
+        OPTIMIZERS["DEHB_Optimizer"]
+    ],
+    benchmarks=[
+        BENCHMARKS["mfh3_good"],
+        BENCHMARKS["pd1-imagenet-resnet-512"]
+    ],
+    num_seeds=5,
+    budget=100,
+)
+
+study.optimize()
+
+```
+
+### Command-Line usage
+
+```bash
+python -m hposuite \
+    --optimizer RandomSearch Scikit_Optimize \
+    --benchmark ackley \
+    --num_seeds 3 \
+    --budget 50 \
+    --study_name test_study
+```
+
+### View all available Optimizers and Benchmarks
+
+
+```python 
+from hposuite.optimizers import OPTIMIZERS
+from hposuite.benchmarks import BENCHMARKS
+print(OPTIMIZERS.keys())
+print(BENCHMARKS.keys())
+```
+
+
+
+### Results
+
+hposuite saves the `Study` by default to `../hposuite-output/` (relative to the current working directory).
+Results are saved in the `Run` subdirectories within the main `Study` directory as `.parquet` files. \
+The `Study` directory and the individual `Run` directory paths are logged when running `Study.optimize()`
+
+To view the result dataframe, use the following code snippet:
+```python
+import pandas as pd
+df = pd.read_parquet("<full path to the result .parquet file>")
+print(df)
+print(df.columns)
+```
+
+### Plotting
+
+```bash
+python -m hposuite.plotting.incumbent_trace \
+    --study_dir <study directory name> \
+    --output_dir <abspath of dir where study dir is stored> \
+    --save_dir <path relative to study_dir to store the plots> \ # optional
+    --plot_file_name <file_name for saving the plot> \ # optional
+```
+
+`--save_dir` is set by default to `study_dir/plots`
+`--output_dir` by default is `../hposuite-output`
+
+
+
+### Overview of available Optimizers
+
+For a more detailed overview, check [here](https://github.com/automl/hposuite/blob/main/hposuite/optimizers/README.md)
+
+| Optimizer Package                                                     | Blackbox | Multi-Fidelity (MF) | Multi-Objective (MO) | Expert Priors |
+|-----------------------------------------------------------------------|----------|---------------------|----------------------|---------------|
+| RandomSearch                                                          | ✓        |                     | ✓                    |               |
+| RandomSearch with priors                                              | ✓        |                     | ✓                    | ✓             |
+| [NePS][https://github.com/automl/neps]                                | ✓        | ✓                   | ✓                    | ✓             |
+| [SMAC](https://github.com/automl/SMAC3)                               | ✓        | ✓                   | ✓                    | ✓             |
+| [DEHB](https://github.com/automl/DEHB)                                |          | ✓                   |                      |               |
+| [HEBO](https://github.com/huawei-noah/HEBO)                           | ✓        |                     |                      |               |
+| [Nevergrad](https://github.com/facebookresearch/nevergrad)            | ✓        |                     | ✓                    |               |
+| [Optuna](https://github.com/optuna/optuna)                            | ✓        |                     | ✓                    |               |
+| [Scikit-Optimize](https://github.com/scikit-optimize/scikit-optimize) | ✓        |                     |                      |               |
+
+
+
+
+
+
+### Overview of available Benchmarks
+
+For a more detailed overview, check [here](https://github.com/automl/hposuite/blob/main/hposuite/benchmarks/README.md)
+
+| Benchmark Package                            | Type       | Multi-Fidelity | Multi-Objective |
+|----------------------------------------------|------------|----------------|-----------------|
+| Ackley                                       | Synthetic  |    |    |
+| Branin                                       | Synthetic  |    |    |
+| [mf-prior-bench](https://github.com/automl/mf-prior-bench)          | Synthetic, Surrogate  | ✓  |  ✓  |
+| MF-Hartmann Tabular                          | Tabular    | ✓  |    | 
+| [LCBench-Tabular](https://github.com/automl/LCBench)              | Tabular    | ✓  | ✓  |
+| [Pymoo](https://pymoo.org/)                  | Synthetic  |    |    | 
+| [IOH](https://iohprofiler.github.io/) ([BBOB](https://numbbo.github.io/coco/testsuites/bbob))                | Synthetic  |    |    |
+| BBOB Tabular                                 | Tabular    |    |    |
+
