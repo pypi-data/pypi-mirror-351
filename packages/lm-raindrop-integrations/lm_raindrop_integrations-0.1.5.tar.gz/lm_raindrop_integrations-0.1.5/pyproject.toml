@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lm-raindrop-integrations"
+version = "0.1.5"
+authors = [
+    { name="LiquidMetal", email="customer@liquidmetal.ai" },
+]
+description = "Python SDK for integrating LiquidMetal's Raindrop API with popular frameworks and tools"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies", "optional-dependencies"]
+
+[project.urls]
+"Homepage" = "https://github.com/liquidmetal-ai/lm-raindrop-integrations"
+"Bug Tracker" = "https://github.com/liquidmetal-ai/lm-raindrop-integrations/issues"
+
+[tool.setuptools]
+packages = ["lm_raindrop_integrations"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = "requirements.txt" }
+optional-dependencies = { langchain = { file = "requirements-optional.txt" } } 
