@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: file-ops-agent
+Version: 0.1.1
+Summary: Command-line file operations agent
+Home-page: https://github.com/yourusername/file_ops_agent
+Author: Your Name
+Author-email: your.email@example.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# File Operations Agent
+
+A command-line tool for performing file operations.
+
+## Installation
+```bash
+pip install file_ops_agent
+```
+
+## Usage
+```bash
+# Single command execution
+agent create test.txt with content "Hello World!"
+
+# Interactive mode
+agent
+> move file.txt to documents/file.txt
+```
+
+## Available Commands
+- `create <path> with content <text>`
+- `move <source> to <destination>`
+- `read <path>`
+- `delete <path>`
+- `copy <source> to <destination>`
+- `update <path> with content <text>`
+- `help` - Show commands
+- `exit` - Quit interactive mode
