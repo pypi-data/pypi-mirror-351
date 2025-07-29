@@ -1,0 +1,124 @@
+Metadata-Version: 2.4
+Name: ignition-api-stubs
+Version: 8.1.48.post1
+Summary: Ignition Scripting API Stubs
+Author-email: César Román <cesar@coatl.dev>
+License: MIT License
+        
+        Copyright (c) 2022 César Román
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Funding, https://github.com/sponsors/cesarcoatl
+Project-URL: Homepage, https://ignition-devs.github.io/ignition-api-8.1-stubs/
+Project-URL: Source, https://github.com/ignition-devs/ignition-api-8.1-stubs
+Project-URL: Tracker, https://github.com/ignition-devs/ignition-api-8.1-stubs/issues
+Keywords: hmi,ignition,inductive automation,scada
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Manufacturing
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Typing :: Stubs Only
+Classifier: Typing :: Typed
+Requires-Python: <3.13,>=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mypy[python2]==0.971
+Requires-Dist: types-enum34
+Dynamic: license-file
+
+# ignition-api-stubs
+
+<!--- Badges --->
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ignition-api-stubs)](https://pypi.org/project/ignition-api-stubs/)
+[![Downloads](https://pepy.tech/badge/ignition-api-stubs)](https://pepy.tech/project/ignition-api-stubs)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ignition-devs/ignition-api-8.1-stubs/main.svg)](https://results.pre-commit.ci/latest/github/ignition-devs/ignition-api-8.1-stubs/main)
+[![Join us on GitHub discussions](https://img.shields.io/badge/github-discussions-informational)](https://github.com/orgs/ignition-devs/discussions)
+
+This package contains a collection of [stubs] for [`ignition-api-8.1`]. These
+files were generated using `mypy`'s [`stubgen`].
+
+## Installation and usage
+
+To use ignition-api-stubs, you may install it with `pip`. It requires Python
+3.7+ through 3.12.
+
+> [!WARNING]
+> Python 3.13 will not be supported.
+
+```sh
+python3 -m pip install ignition-api-stubs
+```
+
+To run `mypy` against your code, execute the following command passing the
+source directory (typically `src`) or a single file:
+
+```sh
+mypy --py2 src
+```
+
+Or
+
+```sh
+mypy --py2 code.py
+```
+
+## Contributing
+
+See [contributing guidelines].
+
+## Discussions
+
+Feel free to post your questions and/or ideas at [Discussions].
+
+## Contributors
+
+Thanks to everyone who has contributed to this project.
+
+Up-to-date list of contributors can be found [here].
+
+## License
+
+See the [LICENSE].
+
+## Code of conduct
+
+See [code of conduct].
+
+<!-- Links -->
+[code of conduct]: https://github.com/ignition-devs/.github/blob/main/CODE_OF_CONDUCT.md
+[contributing guidelines]: https://github.com/ignition-devs/ignition-api-8.1/blob/main/CONTRIBUTING.md
+[Discussions]: https://github.com/ignition-devs/discussions/discussions
+[here]: https://github.com/ignition-devs/ignition-api-8.1-stubs/graphs/contributors
+[`ignition-api-8.1`]: https://github.com/ignition-devs/ignition-api-8.1
+[LICENSE]: ./LICENSE
+[`stubgen`]: https://mypy.readthedocs.io/en/stable/stubgen.html
+[stubs]: https://www.python.org/dev/peps/pep-484/
