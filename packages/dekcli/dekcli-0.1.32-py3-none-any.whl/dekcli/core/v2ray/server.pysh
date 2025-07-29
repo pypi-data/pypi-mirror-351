@@ -1,0 +1,25 @@
+workdir >>sh.eval __arg0 =fpp
+port >>sh.eval __arg1 =10900
+
+entries ::
+git@github.com:free18/v2ray.git:v.txt
+git@github.com:Pawdroid/Free-servers:sub
+#git@github.com:mfuu/v2ray.git:v2ray
+#git@github.com:ermaozi/get_subscribe.git:subscribe/v2ray.txt
+end
+
+for index, item in *>enumerate>>path.rl "" =entries comment--# skip_empty--=True
+    repo, file = item.rsplit(":", 1)
+    p = repo.split(":", 1)[-1]
+    rp: {workdir}/{p}
+    if *>not_>path.exists {rp}
+        >path.md {rp}
+        git clone --depth 1 {repo} {rp}
+    else
+        git -C {rp} pull
+    end
+    >>path.wf {workdir}/.indexes/{p}/index c--{rp}/{file}
+    @@ sync=False
+        {python} -m http.server {port+index} -d {workdir}/.indexes/{p} -b 0.0.0.0
+    end
+end
