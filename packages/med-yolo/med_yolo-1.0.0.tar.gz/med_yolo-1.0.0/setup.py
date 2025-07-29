@@ -1,0 +1,58 @@
+from setuptools import setup, find_packages
+
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
+setup(
+    name="med-yolo",
+    version="1.0.0",
+    author="Sumit Pandey",
+    author_email="supa@di.ku.dk",
+    description="Medical Image segmentation with YOLO",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/sumit-ai-ml/MED-YOLO",
+    packages=find_packages(),
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Healthcare Industry",
+        "Intended Audience :: Science/Research",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.11",
+        "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    ],
+    python_requires=">=3.11",
+    install_requires=[
+        "streamlit>=1.24.0",
+        "torch>=2.0.0",
+        "torchvision>=0.15.0",
+        "ultralytics>=8.0.0",
+        "opencv-python>=4.7.0",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "scikit-learn>=1.2.0",
+        "tifffile>=2023.0.0",
+        "pillow>=9.5.0",
+        "matplotlib>=3.7.0",
+        "seaborn>=0.12.0",
+        "nibabel>=5.1.0",
+        "SimpleITK>=2.2.0",
+        "pydicom>=2.4.0",
+        "monai>=1.2.0",
+        "albumentations>=1.3.0",
+        "PyYAML>=6.0.0",
+        "requests>=2.31.0",
+    ],
+    entry_points={
+        "console_scripts": [
+            "med-yolo=m_yolo.ZERO_YOLO_app:main",
+        ],
+    },
+    include_package_data=True,
+    package_data={
+        "m_yolo": [
+            "data.yaml",
+            "label_names.xlsx",
+        ],
+    },
+)
