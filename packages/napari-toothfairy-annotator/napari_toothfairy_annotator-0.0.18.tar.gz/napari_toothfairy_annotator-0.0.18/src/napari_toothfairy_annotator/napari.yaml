@@ -1,0 +1,34 @@
+name: napari-toothfairy-annotator
+display_name: ToothFairy Annotator
+# use 'hidden' to remove plugin from napari hub search results
+visibility: hidden
+# see https://napari.org/stable/plugins/manifest.html for valid categories
+categories: ["Annotation", "Segmentation", "Acquisition"]
+contributions:
+  commands:
+    - id: napari-toothfairy-annotator.get_reader
+      python_name: napari_toothfairy_annotator._reader:napari_get_reader
+      title: Open data with ToothFairy Annotator
+    - id: napari-toothfairy-annotator.write_multiple
+      python_name: napari_toothfairy_annotator._writer:write_multiple
+      title: Save multi-layer data with ToothFairy Annotator
+    - id: napari-toothfairy-annotator.write_single_image
+      python_name: napari_toothfairy_annotator._writer:write_single_image
+      title: Save image data with ToothFairy Annotator
+    - id: napari-toothfairy-annotator.annotator
+      python_name: napari_toothfairy_annotator._widget:FolderBrowser
+      title: Annotator
+  readers:
+    - command: napari-toothfairy-annotator.get_reader
+      accepts_directories: true
+      filename_patterns: ['*']
+  writers:
+    - command: napari-toothfairy-annotator.write_multiple
+      layer_types: ['image*','labels*']
+      filename_extensions: []
+    - command: napari-toothfairy-annotator.write_single_image
+      layer_types: ['image']
+      filename_extensions: ['.npy']
+  widgets:
+    - command: napari-toothfairy-annotator.annotator
+      display_name: Annotator
