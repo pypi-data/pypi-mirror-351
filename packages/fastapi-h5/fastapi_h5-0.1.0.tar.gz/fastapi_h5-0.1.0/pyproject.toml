@@ -1,0 +1,63 @@
+[project]
+name = "fastapi_h5"
+authors = [
+  { name="Felix Engelmann", email="felix-github@nlogn.org" },
+]
+description = "FastAPI routes to expose objects via hdf5-rest"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+dynamic = ["version"]
+
+dependencies = [
+    "fastapi",
+    "numpy"
+]
+
+
+[project.optional-dependencies]
+tests = [
+    "uvicorn",
+    "pytest",
+    "pytest-asyncio",
+    "aiohttp",
+    "h5pyd",
+    "readerwriterlock",
+]
+
+[project.urls]
+Homepage = "https://github.com/felix-engelmann/fastapi-h5"
+Issues = "https://github.com/felix-engelmann/fastapi-h5/issues"
+
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+
+# for strict mypy: (this is the tricky one :-))
+disallow_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[[tool.mypy.overrides]]
+module = ["h5pyd.*"]
+ignore_missing_imports = true

@@ -1,0 +1,15 @@
+.gitignore
+.pre-commit-config.yaml
+LICENSE
+pyproject.toml
+.github/workflows/python-package.yml
+example/app.py
+src/fastapi_h5/__init__.py
+src/fastapi_h5/h5routes.py
+src/fastapi_h5/h5types.py
+src/fastapi_h5.egg-info/PKG-INFO
+src/fastapi_h5.egg-info/SOURCES.txt
+src/fastapi_h5.egg-info/dependency_links.txt
+src/fastapi_h5.egg-info/requires.txt
+src/fastapi_h5.egg-info/top_level.txt
+tests/test_h5dict.py
