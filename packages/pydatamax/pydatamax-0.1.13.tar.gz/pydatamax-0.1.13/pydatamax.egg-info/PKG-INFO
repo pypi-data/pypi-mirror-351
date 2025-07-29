@@ -1,0 +1,280 @@
+Metadata-Version: 2.4
+Name: pydatamax
+Version: 0.1.13
+Summary: A library for parsing and converting various file formats.
+Home-page: https://github.com/Hi-Dolphin/datamax
+Author: ccy
+Author-email: cy.kron@foxmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: oss2<3.0.0,>=2.19.1
+Requires-Dist: aliyun-python-sdk-core<3.0.0,>=2.16.0
+Requires-Dist: aliyun-python-sdk-kms<3.0.0,>=2.16.5
+Requires-Dist: crcmod<2.0.0,>=1.7
+Requires-Dist: langdetect<2.0.0,>=1.0.9
+Requires-Dist: loguru<1.0.0,>=0.7.3
+Requires-Dist: python-docx<2.0.0,>=1.1.2
+Requires-Dist: python-dotenv<2.0.0,>=1.1.0
+Requires-Dist: pymupdf<2.0.0,>=1.26.0
+Requires-Dist: pypdf<6.0.0,>=5.5.0
+Requires-Dist: openpyxl<4.0.0,>=3.1.5
+Requires-Dist: pandas<3.0.0,>=2.2.3
+Requires-Dist: numpy<3.0.0,>=2.2.6
+Requires-Dist: requests<3.0.0,>=2.32.3
+Requires-Dist: tqdm<5.0.0,>=4.67.1
+Requires-Dist: pydantic<3.0.0,>=2.11.5
+Requires-Dist: pydantic-settings<3.0.0,>=2.9.1
+Requires-Dist: python-magic<1.0.0,>=0.4.27
+Requires-Dist: PyYAML<7.0.0,>=6.0.2
+Requires-Dist: Pillow<12.0.0,>=11.2.1
+Requires-Dist: packaging<25.0,>=24.2
+Requires-Dist: beautifulsoup4<5.0.0,>=4.13.4
+Requires-Dist: minio<8.0.0,>=7.2.15
+Requires-Dist: openai<2.0.0,>=1.82.0
+Requires-Dist: jionlp<2.0.0,>=1.5.23
+Requires-Dist: chardet<6.0.0,>=5.2.0
+Requires-Dist: python-pptx<2.0.0,>=1.0.2
+Requires-Dist: tiktoken<1.0.0,>=0.9.0
+Requires-Dist: markitdown<1.0.0,>=0.1.1
+Requires-Dist: xlrd<3.0.0,>=2.0.1
+Requires-Dist: tabulate<1.0.0,>=0.9.0
+Requires-Dist: unstructured<1.0.0,>=0.17.2
+Requires-Dist: markdown<4.0.0,>=3.8
+Requires-Dist: langchain<1.0.0,>=0.3.0
+Requires-Dist: langchain-community<1.0.0,>=0.3.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# DataMax
+
+## Overview
+DataMax is designed as a comprehensive solution for processing diverse file formats, performing data cleaning, and facilitating data annotation.
+
+## Key Features
+
+### File Processing Capabilities
+Currently supports reading, conversion, and extraction from:
+- PDF, HTML  
+- DOCX/DOC, PPT/PPTX  
+- EPUB  
+- Images
+- XLS/XLSX spreadsheets  
+- Plain text (TXT)  
+
+### Data Cleaning Pipeline
+Three-tiered cleaning process:
+1. Anomaly detection and handling  
+2. Privacy protection processing  
+3. Text filtering and normalization  
+
+### AI-Powered Data Annotation
+Implements an LLM+Prompt to:
+- Continuously generate pre-labeled datasets  
+- Provide optimized training data for model fine-tuning  
+
+
+## Installation Guide (Key Dependencies)
+Dependencies include libreoffice, datamax, and MinerU.
+
+### 1. Installing libreoffice Dependency
+**Note:** Without datamax, .doc files will not be supported.
+
+#### Linux (Debian/Ubuntu)
+```bash
+sudo apt-get update
+sudo apt-get install libreoffice
+```
+### Windows
+```text
+Install LibreOffice from: [Download LibreOffice](https://www.libreoffice.org/download/download-libreoffice/?spm=5176.28103460.0.0.5b295d275bpHzh)  
+Add to environment variable: `$env:PATH += ";C:\Program Files\LibreOffice\program"`
+```
+### Checking LibreOffice Installation
+```bash
+soffice --version
+```
+
+## 2. Installing MinerU Dependency
+Note: Without MinerU, advanced OCR parsing for PDFs will not be supported.
+### Create a Virtual Environment and Install Basic Dependencies
+```bash
+conda create -n mineru python=3.10
+conda activate mineru
+pip install -U "magic-pdf[full]" --extra-index-url https://wheels.myhloli.com -i https://mirrors.aliyun.com/pypi/simple
+```
+### Installing Model Weight Files
+https://github.com/opendatalab/MinerU/blob/master/docs/how_to_download_models_zh_cn.md
+```bash
+pip install modelscope
+wget https://gcore.jsdelivr.net/gh/opendatalab/MinerU@master/scripts/download_models.py -O download_models.py
+python download_models.py
+```
+
+### Modify the Configuration File magic-pdf.json (Located in the User Directory, Template Preview Below)
+```json
+{
+    "models-dir": "path\\to\\folder\\PDF-Extract-Kit-1___0\\models",
+    "layoutreader-model-dir": "path\\to\\folder\\layoutreader",
+    "device-mode": "cpu",
+    ...
+}
+```
+
+##  3. Installing Basic Dependencies for datamax
+1. Clone the repository to your local machine:
+   ```bash
+   git clone <repository-url>
+   ```
+2. Install dependencies into conda:
+   ```bash
+   cd datamax
+   pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+   ```
+
+
+## Features
+- **Multi-format Support**: Capable of handling various text file types such as PDF, HTML, DOCX, and TXT.
+- **Content Extraction**: Provides powerful content extraction capabilities to accurately retrieve information from complex document structures.
+- **Data Conversion**: Supports converting processed data into markdown format for further analysis.
+- **Batch Processing**: Can handle multiple files at once, improving work efficiency.
+- **Customizable Configuration**: Users can adjust processing parameters according to their needs to meet different business requirements.
+- **Cross-platform Compatibility**: This SDK can run on multiple operating systems, including Windows, MacOS, and Linux.
+
+
+## Technology Stack
+
+- **Programming Language**: Python >= 3.10  
+- **Dependency Libraries**:  
+  - PyMuPDF: For PDF file parsing.  
+  - BeautifulSoup: For HTML file parsing.  
+  - python-docx: For DOCX file parsing.  
+  - pandas: For data processing and conversion.  
+  - paddleocr: For parsing scanned PDFs, tables, and images.  
+- **Development Environment**: Visual Studio Code or PyCharm  
+- **Version Control**: Git  
+
+## Usage Instructions
+### Installing the SDK
+- **Installation Commands**:
+  ```bash
+  ## Local Installation
+  python setup.py sdist bdist_wheel
+  pip install dist/datamax-0.1.3-py3-none-any.whl
+  
+  ## Pip Installation
+  pip install pydatamax
+  ```
+  
+
+- **Importing the Code**:
+    ```python
+    # File Parsing
+    from datamax import DataMax
+    
+    ## Handling a Single File in Two Ways
+    # 1. Using a List of Length 1
+    data = DataMax(file_path=[r"docx_files_example/船视宝概述.doc"])
+    data = data.get_data()
+    
+    # 2. Using a String
+    data = DataMax(file_path=r"docx_files_example/船视宝概述.doc")
+    data = data.get_data()
+    
+    ## Handling Multiple Files
+    # 1. Using a List of Length n
+    data = DataMax(file_path=[r"docx_files_example/船视宝概述1.doc", r"docx_files_example/船视宝概述2.doc"])
+    data = data.get_data()
+    
+    # 2. Passing a Folder Path as a String
+    data = DataMax(file_path=r"docx_files_example/")
+    data = data.get_data()
+    
+    # Data Cleaning
+    """
+    Cleaning rules can be found in datamax/utils/data_cleaner.py
+    abnormal: Abnormal cleaning
+    private: Privacy processing
+    filter: Text filtering
+    """
+    # Direct Use: Clean the text parameter directly and return a string
+    dm = DataMax()
+    data = dm.clean_data(method_list=["abnormal", "private"], text="<div></div>你好 18717777777 \n\n\n\n")
+    
+    # Process Use: Use after get_data() to return the complete data structure
+    dm = DataMax(file_path=r"C:\Users\cykro\Desktop\数据库开发手册.pdf", use_ocr=True)
+    data2 = dm.get_data()
+    cleaned_data = dm.clean_data(method_list=["abnormal", "filter", "private"])
+    
+    # Large Model Pre-annotation Supporting any model that can be called via OpenAI SDK
+    data = DataMax(file_path=r"path\to\xxx.docx")
+    parsed_data = data.get_data()
+    # If no custom messages are passed, the default messages in the SDK will be used
+    messages = [
+        {'role': 'system', 'content': 'You are a helpful assistant.'},
+        {'role': 'user', 'content': 'Who are you?'}
+    ]
+    qa_datas = data.get_pre_label(
+        api_key="sk-xxx",
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        model_name="qwen-max",
+        chunk_size=500,
+        chunk_overlap=100,
+        question_number=5,
+        max_workers=5,
+        # message=[]
+    )
+    print(f'Annotated result:{qa_datas}')
+    ```
+
+
+## Examples
+    ```python
+    ## docx | doc | epub | html | txt | ppt | pptx | xls | xlsx
+    from datamax import DataMax
+    data = DataMax(file_path=r"docx_files_example/船视宝概述.doc", to_markdown=True)
+    """
+    Parameters: 
+    file_path: Relative file path / Absolute file path
+    to_markdown: Whether to convert to markdown (default value False, directly returns text) This parameter only supports word files (doc | docx)
+    """
+    
+    ## jpg | jpeg | png | ...(image types)
+    data = DataMax(file_path=r"image.jpg", use_mineru=True)
+    """
+    Parameters:
+    file_path: Relative file path / Absolute file path
+    use_mineru: Whether to use MinerU enhancement
+    """
+    
+    ## pdf
+    from datamax import DataMax
+    data = DataMax(file_path=r"docx_files_example/船视宝概述.pdf", use_mineru=True)
+    """
+    Parameters: 
+    file_path: Relative file path / Absolute file path
+    use_mineru: Whether to use MinerU enhancement
+    """
+    ```
+
+## Contribution Guide
+We welcome any form of contribution, whether it is reporting bugs, suggesting new features, or submitting code improvements. Please read our Contributor's Guide to learn how to get started.
+## License
+This project is licensed under the MIT License. For more details, see the LICENSE file.
+
+## Contact Information
+If you encounter any issues during use, or have any suggestions or feedback, please contact us through the following means:
+- Email: cy.kron@foxmail.com | zhibaohe@hotmail.com
+- Project Homepage: GitHub Project Link
+
