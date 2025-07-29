@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tetrad_plus"
+version = "0.1.0.3"
+authors = [
+  { name = "Kelvin O. Lim", email = "lim.kelvino@gmail.com" },
+]
+description = "A package of tools for working with the tetrad java program for causal discovery from CMU"
+readme = "README.md"
+requires-python = ">=3.9" # Changed to a more common stable version, adjust as needed
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [ # Corrected location for dependencies
+    "JPype1", # It's commonly "JPype1" with a capital J for the package name
+    "pandas",
+    "python-dotenv",
+    "PyYAML",
+    "seaborn",
+    "semopy",
+    "graphviz",
+    "tqdm", # Corrected typo from tdqm to tqdm
+    "ipykernel",
+    "dgraph_flex",
+    "ipywidgets",
+    "scikit-learn" # Based on your code, StandardScaler from sklearn.preprocessing is used.
+]
+
+[project.urls]
+"Homepage" = "https://github.com/kelvinlim/tetrad_plus"
+"Bug Tracker" = "https://github.com/kelvinlim/tetrad_plus/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tetrad_plus*"]
+
+[tool.setuptools.package-data]
+"tetrad_plus" = ["jars/*.jar"] # Specify the path relative to the package root
+
+# [tool.setuptools]
+# include_package_data = true # This line is fine commented out if package-data is explicit
