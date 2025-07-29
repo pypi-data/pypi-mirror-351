@@ -1,0 +1,202 @@
+0.17.0
+ - integration with DCOR version bump for CKAN 2.11.3
+ - BREAKING: remove symlinking resources to user depot functionality
+ - BREAKING: remove `paths` submodule
+ - BREAKING: remove `orgs` submodule
+ - fix: use temporary directory `ckanext.dcor_depot.tmp_dir`
+ - fix: correctly implement optional resource deletion after S3 upload
+ - ref: migrate s3 public tagging of resources to dcor_schemas
+ - ref: add deprecated `get_resource_path` from dcor_shared
+ - tests: remove unused `DISABLE_AFTER_DATASET_CREATE_FOR_CONCURRENT_JOB_TESTS`
+0.16.1
+ - ci: update GitHub Actions workflow to use Docker for testing
+0.16.0
+ - ref: partially migrate to dcor_schemas.RQJob
+ - ref: deprecate resource symlinking
+0.15.4
+ - fix: make public resources public on S3 only after dataset is "active"
+0.15.3
+ - fix: properly indicate whether migrate_resource_to_s3_job actually did it
+0.15.2
+ - setup: fix ckanext namespace
+0.15.1
+ - build: fix CI pipeline
+0.15.0
+ - setup: migrate to pyproject.toml
+0.14.1
+ - fix: not all files were migrated in dcor_migrate_resources_to_object_store
+   without the --verify-existence flag
+ - enh: functionalize --delete-after-migration flag for
+   dcor_migrate_resources_to_object_store
+ - ref: remove backup from S3 to block storage code
+   (we now have backup of S3 data)
+0.14.0
+ - BREANKING: remove `depotize` and `internal` submodules and functionalities
+ - feat: introduce job for backing up data from S3 to local block storage
+ - ref: migrate to dcor_shared 0.8.0
+ - ref: use f-strings
+ - ref: upload figshare depot data directly to S3
+ - ref: move methods from `depot` submodule to `util`
+ - ref: append `_job` to background job method names
+0.13.8
+ - maintenance release
+0.13.7
+ - enh: add --verify-checksum flag to dcor-migrate-resources-to-object_store
+ - setup: bump dcor_shared to 0.5.5
+ - setup: bump dclab to 0.56.2
+0.13.6
+ - enh: upload previews to S3 with dcor-migrate-resources-to-object_store
+0.13.5
+ - enh: pass --verify-existence to dcor-migrate-resources-to-object_store
+ - setup: bump dcor_shared to 0.5.3
+0.13.4
+ - enh: support invalid datasets when uploading to S3
+0.13.3
+ - fix: skip resources that are missing on DCOR when migrating to S3
+ - enh: automated resource upload to S3 via background job
+ - ref: migrate S3 functionality to dcor_shared
+0.13.2
+ - fix: compute SHA256 sum for resources that have none when migrating to S3
+ - fix: use correct bucket name when setting public tags on objects
+0.13.1
+ - enh: support generating S3 presigned URLs
+ - enh: improved error message on checksum mismatch for uploading to S3
+0.13.0
+ - feat: introduce dcor-migrate-resources-to-object-store for new
+   S3-based resource storage
+ - feat: add dcor-list-s3-objects-for-dataset for debugging
+ - enh: when a dataset is made public and it already contains resources
+   in the circle's S3 bucket, then make that object public as well
+0.12.1
+ - fix: make bg jobs work with dcor_schemas 0.18.2
+ - ref: cleanup jobs
+0.12.0
+ - ref: migrate to CKAN 2.10
+ - fix: convert used deprecated dclab.rtdc_dataset.write module
+0.11.0
+ - feat: add CLI command `append-resource` for adding resources to datasets
+0.10.3
+ - ref: use more stable paths from dcor_shared
+ - setup: bump dcor_shared from 0.2.0 to 0.3.0
+0.10.2
+ - maintenance release
+0.10.1
+ - fix: CLI run_jobs_dcor_depot not correctly implemented
+0.10.0
+ - feat: add CLI run_jobs_dcor_depot
+0.9.12
+ - fix: add redis connection
+0.9.11
+ - fix: prevent enqueueing of same background job twice
+0.9.10
+ - tests: run background jobs in correct order
+0.9.9
+ - fix: avoid race conditions during symlinking
+0.9.8
+ - fix: support calling symlink_user_dataset twice
+0.9.7
+ - fix: upgrade_internal CLI did not work if non-.rtdc files
+   (e.g. unimportant images) were missing
+0.9.6
+ - ref: change background job ID to "{package_id}_{position}_symlink"
+0.9.5
+ - fix: correct ignore/accept list
+0.9.4
+ - enh: update depotize ignore/accept list
+0.9.3
+ - fix: initial dataset state should be "draft" and not "active"
+   for figshare and internal import
+0.9.2
+ - setup: increment dclab version from 0.33.1 to 0.33.2
+0.9.1
+ - update readme
+ - fix: upgrade-internal could not deal with white spaces
+0.9.0
+ - feat: implement `upgrade-internal` CKAN CLI command to add new
+   versions of internal resources
+ - fix: depotized files are now in case-insensitive alphabetical
+   order
+0.8.19
+ - setup: bump dclab to 0.33.1
+0.8.18
+ - tests: migrate to vagrant
+0.8.17
+ - fix: regression in 0.8.16 - depotize did not work due to typo
+0.8.16
+ - fix: remove .md5 sum files during cleanup in depotize-archive
+ - ref: do not activate datasets if they already exists (internal
+   import), because this just creates overhead
+0.8.15
+ - fix: activate datasets after figshare/internal import
+0.8.14
+ - fix: some alerts might not have been caught in depotize, which
+   is only a minor issue
+0.8.13
+ - enh: sys.exit(1) on KeyboardInterrupt in convert (depotize)
+0.8.12
+ - enh: show progress [%] also if verbose=1
+0.8.11
+ - enh: allow to manually acknowledge unknown files by creating
+   the file "unsorted_acknowledged.txt" in depotize
+ - enh: check the MD5 sum of archives during depotize if a .md5
+   file is present
+0.8.10
+ - enh: skip extraction during depotize if 'data' directory exists
+ - enh: allow an ancillary file to be shared by multiple measurements
+   in depotize
+0.8.9
+ - fix: scanning for .tdms files did not work correctly (ancillary
+   files ended up in unknown file list)
+ - enh: update expected message list for checks during depotize
+0.8.8
+ - setup: bump dclab to 0.32.2 (avoid OOM in depotize for
+   large datasets with trace features)
+ - docs: fix wrong/misleading docstring
+0.8.7
+ - build: use install_requires instead of requirements.txt
+0.8.6
+ - ci: migrate to GH Actions
+0.8.5
+ - debug: show current data file when converting during depotize
+0.8.4
+ - fix: depotize arguments not passed during directory iteration
+0.8.3
+ - enh: add --skip-failed option for depotize
+ - enh: minor improvements of depotize script
+0.8.2
+ - enh: minor improvements of depotize script
+0.8.1
+ - enh: when aborting depotize, do not abort recursive depotize
+ - enh: update file ignore patterns for depotize
+0.8.0
+ - feat: implement "depotize_archive" for populating the internal depot
+   with tarred RT-DC data (This step is required for importing
+   internal data with internal-import)
+ - fix: download large files with small memory footprint
+0.7.11
+ - cleanup
+0.7.10
+ - enh: internal-import now supports --start-date and --end-date (#6)
+0.7.9
+ - fix: avoid bad datasets on internal-import and print less to stdout
+0.7.8
+ - fix: minor parsing issues
+0.7.7
+ - enh: increase error verbosity when importing from internal depot
+0.7.6
+ - maintenance release
+0.7.5
+ - fix: set www-data permissions when importing from depot
+0.7.4
+ - enh: finish importer for archived data (#1)
+0.7.3
+ - enh: add a ``job_id`` for the "symlink" background job
+ - enh: add ckan command "list-all-resources" which prints
+   a list of all resource ids
+ - ref: include resource id in file names in user depot
+0.7.2
+ - maintenance release
+0.7.1
+ - use unique configuration keys in ckan.ini
+0.7.0
+ - initial open-sourced version
