@@ -1,0 +1,71 @@
+# SmartDriveDuo Python Library
+
+A Python library for controlling the Cytron SmartDriveDuo 30A motor controller.
+
+## Installation
+
+1. Install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+Here's a basic example of how to use the library:
+
+```python
+from smartdriveduo import SmartDriveDuo
+
+# Initialize the motor controller
+# You can specify a different port and baudrate if needed
+motor = SmartDriveDuo(port="/dev/ttyUSB0", baudrate=115200)
+
+try:
+    # Control both motors together
+    motor.set_motors(speed=50)  # Set both motors to 50% speed forward
+    time.sleep(2)
+    
+    # Control individual motors
+    motor.set_left(speed=30)  # Set left motor to 30% speed forward
+    motor.set_right(speed=40, direction=True)  # Set right motor to 40% speed reverse
+    time.sleep(2)
+    
+    # Control both motors separately
+    motor.set_motors_mixed(
+        left_speed=40,
+        right_speed=50,
+        left_direction=False,
+        right_direction=True
+    )
+    time.sleep(2)
+    
+    # Stop the motors
+    motor.stop()
+    
+finally:
+    # Always close the connection when done
+    motor.close()
+```
+
+## Features
+
+- Control both motors simultaneously or individually
+- Set motor speed (0-63)
+- Control motor direction (forward/reverse)
+- Automatic speed range validation
+- Clean connection handling
+
+## Methods
+
+- `set_motors(speed, direction=False)`: Control both motors together
+- `set_motors_separate(left_speed, right_speed, left_direction=False, right_direction=False)`: Control both motors with separate speeds and directions
+- `set_left(speed, direction=False)`: Control the left motor
+- `set_right(speed, direction=False)`: Control the right motor
+- `stop()`: Stop both motors
+- `close()`: Close the serial connection
+
+## Notes
+
+- Speed values are automatically clamped to the valid range (0-63)
+- Direction is False for forward, True for reverse
+- Always call `close()` when you're done to properly clean up the connection 
