@@ -1,0 +1,15 @@
+
+[:platform_system != "Emscripten"]
+cffi>=1.17.1
+
+[:platform_system == "Emscripten"]
+cffi>1.14.0
+
+[dev]
+pyglet
+pygame
+sphinx
+aafigure
+wheel
+matplotlib
+numpy
