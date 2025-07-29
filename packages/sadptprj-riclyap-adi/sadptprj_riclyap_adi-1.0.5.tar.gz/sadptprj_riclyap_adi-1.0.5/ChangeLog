@@ -1,0 +1,117 @@
+CHANGES
+=======
+
+1.0.5
+-----
+
+* more output to better track parallel comps
+* if else fix
+* the schur sadpoint utils
+* added pyproject toml
+* no more krypy
+
+1.0.4
+-----
+
+* redo the setup py -- now with pbr
+* version for pip1.0.3
+* now everythings fine with the truncation projectors
+* function to compute riccati residuals
+* import matplotlib only if needed
+* now lapack dgesjv for computing singular vectors
+* now using \`lapack.dgejsv\` to compute svds
+* line for markdown rendering in pip
+* hard remove dependency of \`dolfin\_navier\_scipy\`
+* lil improvements
+* added pypi badge
+* version 1.0.0 for pip
+* gitig
+* typos
+* rmvd deprecated functions -- unit tests pass
+* going pip
+* going pip
+* some documentation
+* units test pass
+* wrong path in conf.py
+* trying to fix rtd
+* added README
+* setup.py and rtd
+* some more difficult -- but unit test pass
+* unit test w py3 -- pass
+* pymess unittest pass
+* restruc of the module
+* some 2to3
+* mrgd -- lets see
+* another matvec exception catch
+* rough large-scale implementation
+* added decoupling approach for sadpt problem
+* now returning sv\`s by default
+* some py3
+* some more pymess
+* fix in sparse/dense
+* added pymess for solving cont ric  equation -- unit test pass
+* unittest works for the transpose w stabilization
+* unittest works for the transpose w/o stabilization
+* unittest works for the transpose w/o stabilization
+
+v1.1
+----
+
+* sparse non sparse multiplication in pru
+* sparse non sparse multiplication in pru
+* sparse no sparse exception catch
+* added \_\_all\_\_ to lau
+* bug in app\_smw\_inv
+* doc work for local sphinx
+* upd docs
+* upd docs
+* now the residual is None unless it is computed
+* only resnorms for stats - otherwise too memory consuming
+* added handling for convergence statistics in krylov branch of solve\_smw
+* added dense branch in inv sqrt mass
+* put some things right
+* added krypy to sadpnt\_smw - unittest pass
+* now app\_smw\_inv can resort to krypy - unittest pass
+* smw and krypy work - unit test pass - need to pass parameters
+* new branch in lau.app\_smw\_inv for krylov case
+* renaming of a function
+* caching of alu in smw - sparse u in smw - (old) unittest pass
+* renamed lau.matvec\_densesparse to lau.mm\_dnssps -- troubles ahead
+* dense sparse improved in lau.app\_smw
+* log message improved
+* added feedback from previous newton steps - renamed routines in linalgutils
+* now we print the shifts, if verbose
+* now the shifts can be provided with the nwtn adi dict
+* revd diss
+* unit test pass
+* lqgbt paper
+* bug
+* btu for mpi\`s old scipy
+* switched definition of "contro" and "obs" riccatis to fit MusG and BenH14
+* btu - plotting and saving as jsons --- snu - relatvive criteria
+* btu: step response and plotting -- pru: check whether to compute residual made relative
+* added sparsedense vetmac to lau --- output extract in btu
+* docu++
+* mocking and mving the reqs file
+* mocks for build on rtd
+* docu
+* docu
+* added pip reqs for rtd
+* documentation
+* unittest for solve with massmat with sparse rhs and sparse output --- pass
+* now sparse structure reflected, bug in compress Z
+* mpi
+* unittest pass
+* homework
+* error in check freq resp
+* complexification
+* going to branch for complex support
+* more renames more consistent
+* renamed variables for consistency - unit test passed
+* adding freq resp comp
+* added a module for MOR (with balanced truncation) related routines
+* sparse nonsparse cases of rhs
+* docs
+* init py for import
+* minor beautifications
+* the py files and unittests

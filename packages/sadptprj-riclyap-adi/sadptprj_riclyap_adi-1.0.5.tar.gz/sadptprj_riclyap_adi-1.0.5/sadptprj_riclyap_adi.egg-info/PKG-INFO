@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: sadptprj_riclyap_adi
+Version: 1.0.5
+Summary: numerical linear algebra routines for solving projected ("index-2") equations
+Home-page: https://github.com/highlando/multidim_galerkin_pod
+Author: Jan Heiland
+Author-email: jnhlnd@gmail.com
+Maintainer: Jan Heiland
+Maintainer-email: jnhlnd@gmail.com
+License: MIT
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: krypy
+
+Saddlepoint Projection Riccati Lyapunov ADI
+---
+
+[![PyPI version](https://badge.fury.io/py/sadptprj-riclyap-adi.png)](https://badge.fury.io/py/sadptprj-riclyap-adi)
+
+A Python module to solve linear equations related to saddlepoint matrices as
+they arise, e.g., in the Finite Element discretization of incompressible flows.
+
