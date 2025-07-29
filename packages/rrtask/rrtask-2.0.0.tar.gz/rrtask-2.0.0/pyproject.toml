@@ -1,0 +1,32 @@
+[project]
+name = "rrtask"
+version = "2.0.0"
+description = "Round Robin Task"
+author = { name = "François Schmidts", email = "francois@schmidts.fr" }
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "celery",
+    "redis",
+    "pyrabbit",
+    "blinker",
+]
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+isort = "*"
+ipdb = "*"
+pylint = "*"
+pycodestyle = "*"
+pytest = "*"
+mypy = "*"
+types-redis = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+target-version = ["py313"]
