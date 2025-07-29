@@ -1,0 +1,9 @@
+# Changelog
+
+All notable changes to this project will be documented here.
+
+## [1.0.0] - Initial release
+
+- First version of Collective, including:  
+  - `Collection` class with basic list-like operations (`Add`, `Remove`, `Insert`, `Sort`, `Reverse`, `Filter`, `Map`, `Reduce`, etc.).  
+  - `Queryable` class for LINQ-like fluent data manipulation.
