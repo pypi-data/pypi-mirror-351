@@ -1,0 +1,19 @@
+[project]
+name = "starch"
+version = "0.0.0dev1"
+description = "A configurable formatter for decorative comment generation."
+readme = "README.md"
+authors = [
+    { name = "K. LeBryce", email = "k.lebryce@pm.me" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "click>=8.2.1",
+]
+
+[project.scripts]
+starch = "starch:formatter.main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
