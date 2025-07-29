@@ -1,0 +1,68 @@
+Metadata-Version: 2.3
+Name: libmogra
+Version: 0.3.4
+Summary: "A Python Toolbox for Indian (Classical) Music"
+License: MIT
+Keywords: music,indian classical music,raga,raag,taal,swar,indian music,classical music,hindustani classical music
+Author: Neeraja Abhyankar
+Author-email: neeraja.abhyankar@gmail.com
+Requires-Python: >=3.11,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: argparse (>=1.4.0,<2.0.0)
+Requires-Dist: dill (>=0.3.9,<0.4.0)
+Requires-Dist: ipykernel (>=6.29.5,<7.0.0)
+Requires-Dist: kaleido (==1.0.0rc11)
+Requires-Dist: pandas (>=2.2.3,<3.0.0)
+Requires-Dist: pillow (>=11.0.0,<12.0.0)
+Requires-Dist: plotly (>=5.24.1,<6.0.0)
+Requires-Dist: pytest (>=8.3.4,<9.0.0)
+Requires-Dist: rapidfuzz (>=3.11.0,<4.0.0)
+Requires-Dist: rich (>=13.9.4,<14.0.0)
+Project-URL: Homepage, https://github.com/neerajaabhyankar/libmogra
+Project-URL: Repository, https://github.com/neerajaabhyankar/libmogra
+Description-Content-Type: text/markdown
+
+# libmogra
+
+A Python Toolbox for Indian (Classical) Music
+
+## The Why
+
+For playing around (understanding, modifying, etc.) with music & audio specifically in the Indian context. Music theory standardization as well as tool development has been done extensively for western music, but other music cultures lag behind. This library will start with small features, but the dream is to have a Photoshop for Indian music.
+
+## The What
+
+This is intended to be a higher-level layer on top of the widely used [librosa](https://github.com/librosa/librosa).
+If you must have an acronym, here it is: a LIBrary for the Manipulation, Organization, Generation, and Raag-aware Analysis of music. If that's too much, think of [mogra](https://en.wikipedia.org/wiki/Jasminum_sambac) the flower `:)`
+
+# mogra CLI
+
+```
+pip install libmogra
+```
+will also install the `mogra` command-line interface.
+
+
+To find info about a raag
+```
+mogra info bairagi
+```
+To visualize its tonnetz diagram (if available)
+```
+mogra info bairagi --tonnetz=window
+```
+To look at just the Tonnetz diagram by itself
+```
+mogra info all --tonnetz=window
+```
+
+To search for a raag given its notes among SrRgGmMPdDnN (note: follow the convention m = shuddha and M = teevra)
+```
+mogra search SrmPn
+```
+
