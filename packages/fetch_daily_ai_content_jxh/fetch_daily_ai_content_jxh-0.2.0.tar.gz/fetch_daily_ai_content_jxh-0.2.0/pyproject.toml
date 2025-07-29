@@ -1,0 +1,21 @@
+[project]
+name = "fetch_daily_ai_content_jxh"
+version = "0.2.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "bs4>=0.0.2",
+    "dashscope>=1.23.3",
+    "dotenv>=0.9.9",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.9.1",
+    "pydantic>=2.11.5",
+]
+
+[project.scripts]
+fetch_daily_ai_content_jxh = "fetch_daily_ai_content_jxh:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
