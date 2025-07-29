@@ -1,0 +1,4 @@
+[flake8]
+max-line-length = 120
+ignore = E123,E124,E126,E226,E241,E501,E722,E721,E741,E305,E275,W503,W504,W605,F401,F824,F632,F541
+exclude = venv/*,*/migrations/*,swirl_pb3.py
