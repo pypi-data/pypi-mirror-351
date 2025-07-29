@@ -1,0 +1,8 @@
+# type: ignore
+
+from {{project_name}} import main
+
+def test_main(capsys) -> None:
+    main()
+    captured = capsys.readouterr()
+    assert "Hello from {{project_name}}!\n" == captured.out

@@ -1,0 +1,107 @@
+name: {{project_name}} Deployment
+
+run-name: Code Pushed - {{ '${{ github.actor }}' }} is deploying changes
+on: [push]
+jobs:
+  Basic-Unit-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a {{ '${{ github.event_name }}' }} event."
+      - run: echo "🐧 This job is now running on a {{ '${{ runner.os }}' }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is {{ '${{ github.ref }}' }} and your repository is {{ '${{ github.repository }}' }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install UV
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.6.17"
+
+      - name: Check UV
+        run: uv --version
+      - name: Install Just
+        uses: extractions/setup-just@v3
+      - run: just --version
+      - name: Set up Python
+        run: uv python install
+      - name: Check Python
+        run: uv python --version
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+      - name: Run All tests
+        run: just fulltest
+      - name: Lint the project
+        run: just lint
+      - name: Typecheck the project
+        run: just type
+
+  Build-Package:
+    name: Build distribution 📦
+    needs:
+    - Basic-Unit-Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+    - name: Install UV
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "0.6.17"
+    - name: Check UV
+      run: uv --version
+    - name: Set up Python
+      run: uv python install
+    - name: Check Python
+      run: uv python --version
+    - name: Build Package
+      run: uv build
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+
+  Publish-to-PyPI:
+    name: Publish Python 🐍 distribution 📦 to PyPI
+    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+    needs:
+    - Build-Package
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/{{project_name}}
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+
+  Publish-to-TestPyPI:
+    name: Publish Python 🐍 distribution 📦 to TestPyPI
+    needs:
+    - Build-Package
+    runs-on: ubuntu-latest
+
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/{{project_name}}
+
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish distribution 📦 to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/

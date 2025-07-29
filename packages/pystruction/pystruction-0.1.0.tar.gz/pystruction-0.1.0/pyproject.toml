@@ -1,0 +1,27 @@
+[project]
+name = "pystruction"
+version = "0.1.0"
+description = "Python Project Starter Template Command Line Tool"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jinja2>=3.1.6",
+    "typer>=0.15.4",
+]
+
+[project.scripts]
+pystruction = "pystruction:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ipython>=9.2.0",
+    "pre-commit>=4.2.0",
+]
+test = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+]
