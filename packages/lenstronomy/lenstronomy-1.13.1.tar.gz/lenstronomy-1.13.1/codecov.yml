@@ -1,0 +1,12 @@
+codecov: 
+  token: 69d31c95-1c33-44f1-883e-0886d62a01d4
+comment:                  # this is a top-level key
+  layout: " diff, flags, files"
+  behavior: default
+  require_changes: false  # if true: only post the comment if coverage changes
+  require_base: false        # [true :: must have a base report to post]
+  require_head: true       # [true :: must have a head report to post]
+ignore:
+  - "setup.py"
+  - "test/*"
+  - "test/**/*.py"

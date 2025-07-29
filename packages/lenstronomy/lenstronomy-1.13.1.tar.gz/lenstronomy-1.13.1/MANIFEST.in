@@ -1,0 +1,12 @@
+include AUTHORS.rst
+include CONTRIBUTING.rst
+include HISTORY.rst
+include LICENSE
+include MAILINGLIST.rst
+include README.rst
+include requirements.txt
+include PUBLISHED.rst
+include Makefile
+include docs/*
+include test/*
+include lenstronomy/Conf/conf_default.yaml
