@@ -1,0 +1,4 @@
+fastapi>=0.68.0
+pyjwt[crypto]>=2.1.0
+httpx>=0.24.0
+cryptography>=3.4.0
