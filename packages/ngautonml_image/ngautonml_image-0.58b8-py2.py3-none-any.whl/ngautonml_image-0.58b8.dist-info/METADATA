@@ -1,0 +1,99 @@
+Metadata-Version: 2.3
+Name: ngautonml_image
+Version: 0.58b8
+Summary: a plugin that installs image processing tools for ngAutonML
+Keywords: machine learning,image processing
+Author: L.H. Piggy Yarroll
+Author-email: piggy@acm.org
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Typing :: Typed
+Description-Content-Type: text/markdown
+
+# ngAutonML
+
+Image-specific docs coming soon to a repo near you!
+
+## ngAutonML
+
+The **ngAutonML** project is an Automated Machine Learning solution intended to make it much easier to find good solutions to common machine learning problems, or to aid in prototyping a more complex solution. It aims to be simple to use for the bulk of machine learning problems, but maintains a high level of customizability for those situations that require more specific setups by more experiences machine learning professionals.
+
+This project is the result of research performed as part of the [D3M](https://datadrivendiscovery.org) project run by DARPA. It is a reimplementation of many concepts used in that project, and is currently under heavy development.
+
+## Installation
+
+The preferred method for installing the plugin is pip:
+```
+pip install ngautonml_image
+```
+
+### Installation via git clone (for developers)
+You can clone the repository on GitLab:
+```
+git clone git@gitlab.com:autonlab/ngautonml.git
+```
+
+It is recommended to create a virtual environment to run ngautonml.  To do so with conda, run:
+```
+conda create -n env-name python=3.10
+conda activate env-name
+```
+
+ngAutonML is designed to run on Python 3.9 and above.
+
+A ```requirements.txt``` file is provided to install necessary libraries. Use:
+
+```
+pip install -r plugins/ngautonml_image/ngautonml_image/requirements.txt
+pip install -r plugins/ngautonml_image/ngautonml_image/requirements-dev.txt
+```
+
+## Usage
+
+To use the current ngAutonML, you need a Problem Definition(explained later) to activate with:
+
+```
+python picard.py wrangle -d <path to problem definition>
+```
+
+## Problem Definitions
+
+The problem definition file is a JSON file that describes the dataset being used, and how it should be handled, in a simplified level that requires only minimal knowledge of machine learning. Examples can be found in the ```examples/problem_definition``` directory under the project, but in brief the important aspects are the following fields:
+
+- metrics: This field defines the scoring metric(s) that the Auto ML will use to determine fitness. At this time there is little documentation on what all the metrics require for parameters.
+- dataset: This field is required, with the two major subfields being the ```train_path``` pointing to the training dataset(in csv format) and the ```target``` field defining which column will be predicted. For those datasets that have a test to run, the ```test_path``` is also provided here
+- problem_type: This uses the subfields of ```data_type``` to tell the type of dataset, and the ```task``` to determine how the dataset will be handled, such as a classification or forecasting problem. The full documentation will have a set of possible tasks and how to identify which problem your data falls into.
+
+## Support
+
+Currently all issues should be generated via the GitLab Issue Tracker.
+
+## Roadmap
+
+In Development:
+- Support for external models such as Docker Containers or LLM services
+- Code generation for insertion into your own projects or for low-level customization
+- API support
+
+## Contributing
+
+If forking and wanting to contribute, please ensure PEP8 Compliance. The current project uses flake8, mypy, and pylint for code compliance, with the exception of setting the maximum line length to 100 characters.
+
+## Authors and acknowledgment
+
+The CMU AutonML Development Team:
+
+Piggy Yarroll (programmer/architect) \
+Andrew Williams (programmer) \
+Merritt Kowaleski (programmer) \
+Mujing Wang (programmer) \
+Carter Weaver (programmer) \
+Jeishi Chen (data scientist) \
+Nick Gisolfi (researcher) \
+Dan Howarth (programmer)
+
+## License
+
+This project is currently licensed under the Apache 2.0 license.
+

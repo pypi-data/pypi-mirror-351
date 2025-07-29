@@ -1,0 +1,97 @@
+'''Splitter that does random sampling.'''
+
+# Copyright (c) 2023 Carnegie Mellon University
+# This code is subject to the license terms contained in the LICENSE file.
+
+from tensorflow.python.data.ops.dataset_ops import BatchDataset  # pylint: disable=no-name-in-module
+
+from ngautonml.wrangler.dataset import Dataset, DatasetKeys
+from ngautonml.wrangler.constants import Defaults
+from ngautonml.splitters.impl.splitter import Splitter, SplitterCatalog, SplitDataset, Fold
+
+
+def get_dataset_partitions_tf(
+    ds: BatchDataset,
+    ds_size: int,
+    seed=12,
+    train_split=0.8,
+    val_split=0.1,
+    test_split=0.1,
+    shuffle=True,
+    shuffle_size=10000):
+    assert (train_split + test_split + val_split) == 1
+
+    if shuffle:
+        # Specify seed to always have the same split distribution between runs
+        ds = ds.shuffle(shuffle_size, seed=seed)
+
+    train_size = int(train_split * ds_size)
+    val_size = int(val_split * ds_size)
+
+    train_ds = ds.take(train_size)
+    val_ds = ds.skip(train_size).take(val_size)
+    test_ds = ds.skip(train_size).skip(val_size)
+
+    return train_ds, val_ds, test_ds
+
+
+class SingleFoldTFSplitter(Splitter):
+    '''Splitter that randomly splits a TensorFlow BatchDataset into one fold.
+
+    It produces a single internal-train set and internal-validation set,
+    according to the fraction "train_frac".
+    '''
+    _name = 'single_fold'
+    _hyperparams = {
+        'train_frac': Defaults.SPLIT_FRACTION,
+        'seed': 12,
+        'shuffle' : True,
+        'shuffle_size': 10000
+    }
+
+    def split(self, dataset: Dataset, **overrides) -> SplitDataset:
+        '''Split dataset into train and validation sets.'''
+        train = dataset.output()
+        validate = dataset.output()
+        ground_truth = dataset.output()
+
+        hyperparams = self.hyperparams(**overrides)
+        train_frac = hyperparams['train_frac']
+        shuffle_size = hyperparams['shuffle_size']
+        seed = hyperparams['seed']
+        shuffle = hyperparams['shuffle']
+
+        ds: BatchDataset = dataset[DatasetKeys.COVARIATES.value]
+
+        if shuffle:
+            # Specify seed to always have the same split distribution between runs
+            ds = ds.shuffle(shuffle_size, seed=seed)
+
+        ds_size = len(ds)
+        train_size = int(train_frac * ds_size)
+        val_size = int((1 - train_frac) * ds_size)
+
+        train_ds: BatchDataset = ds.take(train_size)
+        val_ds: BatchDataset = ds.skip(train_size).take(val_size)
+        labels = np.concatenate([y for x, y in val_ds], axis=0)
+        label_names = val_ds.class_names
+
+        if dataset.metadata.target is not None:
+            assert dataset.metadata.target.name is not None
+            ground_truth_df = validate_df[[str(dataset.metadata.target.name)]]
+            ground_truth.ground_truth = ground_truth_df
+
+            validate_df_no_target = validate_df.drop(dataset.metadata.target.name, axis=1)
+        else:
+            validate_df_no_target = validate_df
+
+        train.dataframe = train_df
+        validate.dataframe = validate_df_no_target
+
+        return SplitDataset(ground_truth=ground_truth,
+                            folds=[Fold(train=train, validate=validate)])
+
+
+def register(catalog: SplitterCatalog, *args, **kwargs):
+    '''Register all the objects in this file.'''
+    catalog.register(SingleFoldTFSplitter(*args, **kwargs))
