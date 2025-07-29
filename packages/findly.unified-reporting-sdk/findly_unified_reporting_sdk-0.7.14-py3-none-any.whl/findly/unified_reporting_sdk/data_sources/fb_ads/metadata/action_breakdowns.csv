@@ -1,0 +1,11 @@
+name,description
+action_canvas_component_name,Name of a component within a Canvas ad.
+action_carousel_card_id,The ID of the specific carousel card that people engaged with when they saw your ad.
+action_carousel_card_name,The specific carousel card that people engaged with when they saw your ad. The cards are identified by their headlines.
+action_destination,"The destination where people go after clicking on your ad. This could be your Facebook Page, an external URL for your conversion pixel or an app configured with the software development kit (SDK)."
+action_device,"The device on which the conversion event you're tracking occurred. For example, \""Desktop\"" if someone converted on a desktop computer."
+action_reaction,"The number of reactions on your ads or boosted posts. The reactions button on an ad allows people to share different reactions on its content: Like, Love, Haha, Wow, Sad or Angry."
+action_target_id,"The ID of destination where people go after clicking on your ad. This could be your Facebook Page, an external URL for your conversion pixel or an app configured with the software development kit (SDK)."
+action_type,"The kind of actions taken on your ad, page, app or event after your ad was served to someone, even if they didn't click on it. Action types include page likes, app installs, conversions, event responses, and more."
+action_video_sound,The sound status (on/off) when someone plays your video ad.
+action_video_type,Video metrics breakdown.
