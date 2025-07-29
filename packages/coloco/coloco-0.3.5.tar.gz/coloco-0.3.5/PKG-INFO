@@ -1,0 +1,91 @@
+Metadata-Version: 2.1
+Name: coloco
+Version: 0.3.5
+Summary: A kit for creating FastAPI + Svelte applications
+Author-Email: Channel Cat <channelcat@gmail.com>
+License: MIT
+Requires-Python: >=3.11
+Requires-Dist: aerich[toml]>=0.8.1
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: PyJWT>=2.10.1
+Requires-Dist: tortoise-orm[asyncpg]>=0.24.0
+Requires-Dist: type-less>=0.1.8
+Requires-Dist: typer>=0.15.2
+Requires-Dist: uvicorn>=0.31.0
+Description-Content-Type: text/markdown
+
+# Coloco
+
+A kit for creating full-stack apps with co-located code, built on FastAPI and Svelte. Bundle your front-end and back-end code and easily tie them together with codegen.
+
+Example:
+
+`hello/api.py`
+
+```python
+from coloco import api
+
+@api
+def test(name: str):
+    return f"Hello {name}!"
+
+```
+
+`hello/index.svelte`
+
+```svelte
+<script lang="ts">
+  import { test } from "./api";
+</script>
+
+{#await test({ name: "Coloco" })}
+	Loading...
+{:then result}
+	The server says {result}
+{/await}
+```
+
+Serves the page `myapp.com/hello`, which calls `myapp.com/hello/test?name=Coloco` and prints the message `Hello Coloco!`
+
+# Getting Started
+
+- `pip install coloco`
+- `coloco createapp myapp`
+- From `myapp` - `coloco dev`
+
+# Running in Production
+
+- `coloco build`
+- Artifacts will be saved to `dist`
+- From dist, run `coloco serve`
+
+# Opinions
+
+This framework is opinionated and combines the following excellent tools:
+
+- FastAPI
+- Svelte
+- openapi-ts (codegen)
+- svelte5-router (file-based routing)
+- tortoise-orm (optional)
+
+# Plans
+
+- Deploy tools
+- Migrations for ORM - `aerich` (Improvements needed, watching `tortoise-pathway`)
+- CRUD
+- Caching
+- Package/share modules with git
+- 
+
+# Dreams
+
+- Move `node_modules` into `+node`
+- Somehow clean up litter from `uv`
+
+# TODO
+
+- Swap to `cyclopts` for CLI
+- Swap to `copier` for template creation
+- `Textual` CLI app / installer / dev tools?
+- Common dev `admin` module
