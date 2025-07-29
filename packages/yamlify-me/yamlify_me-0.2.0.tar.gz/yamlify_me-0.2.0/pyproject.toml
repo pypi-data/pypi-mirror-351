@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yamlify-me"
+version = "0.2.0"
+description = "Yamlify Me is a document generation tool and python library, which combines yaml and Jinja2."
+readme = "README.md"
+authors = [{ name = "Jens Klimke", email = "jens.klimke@rwth-aachen.de" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Text Processing :: Markup",
+]
+dependencies = ["PyYAML>=6.0", "Markdown>=3.0", "Jinja2>=3.0"]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+# docs = ["mkdocs", "mkdocs-material"]
+
+[project.urls]
+"Homepage" = "https://github.com/JensKlimke/yamlify"
+"Issues" = "https://github.com/JensKlimke/yamlify/issues"
+
+[project.scripts]
+yamlify = "yamlify:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+packages = ["yamlify"]
