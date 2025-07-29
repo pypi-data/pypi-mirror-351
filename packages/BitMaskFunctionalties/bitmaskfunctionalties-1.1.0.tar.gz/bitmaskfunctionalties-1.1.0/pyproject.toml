@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/BitMask"]
+
+[project]
+name = "BitMaskFunctionalties"
+version = "1.1.0"
+dependencies = []
+requires-python = ">= 3.8"
+authors = [
+    {name = "Adam Thieringer", email = "adamt0408@gmail.com"}
+]
+description = "A package for creating and manipulating BitMasks"
+readme = "README.md"
+keywords = ["BitMask", "bit", "data", "binary"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable"
+]
+license = "MIT"
+license-files = ["LICENSE.txt"]
+
+[project.urls]
+Repository = "https://github.com/AThieringer/BitMask"
+Download = "https://github.com/AThieringer/BitMask/releases"
+Changelog = "https://github.com/AThieringer/BitMask/actions"

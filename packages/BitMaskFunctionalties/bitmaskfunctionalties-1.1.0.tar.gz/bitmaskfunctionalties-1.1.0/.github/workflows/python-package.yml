@@ -1,0 +1,84 @@
+name: Publish Python Package
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  setup_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install project dependencies
+        run: pip install -e .'[dev,test]'
+
+      - name: Install pytest
+        run: pip install pytest # Ensure pytest is installed
+
+      - name: Run tests
+        run: pytest tests/
+
+  # Job 2: Build the package (after tests pass for all matrix versions)
+  build_package:
+    runs-on: ubuntu-latest
+    needs: setup_and_test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up most recent Python version for build
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install build
+        run: pip install build
+
+      - name: Build a binary wheel and a source tarball
+        run: python3 -m build
+
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  # Job 3: Publish the package to PyPI
+  publish_package:
+    runs-on: ubuntu-latest
+    needs: build_package
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: pypi
+      url: https://pypi.org/p/BitMaskFunctionalities
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # These secrets must be configured in your GitHub repository settings
+          # Settings -> Secrets and variables -> Actions
+          username: ${{ secrets.PYPI_USERNAME }}
+          password: ${{ secrets.PYPI_TOKEN }}

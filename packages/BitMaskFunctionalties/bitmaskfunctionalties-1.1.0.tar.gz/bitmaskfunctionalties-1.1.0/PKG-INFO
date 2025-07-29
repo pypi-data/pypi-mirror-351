@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: BitMaskFunctionalties
+Version: 1.1.0
+Summary: A package for creating and manipulating BitMasks
+Project-URL: Repository, https://github.com/AThieringer/BitMask
+Project-URL: Download, https://github.com/AThieringer/BitMask/releases
+Project-URL: Changelog, https://github.com/AThieringer/BitMask/actions
+Author-email: Adam Thieringer <adamt0408@gmail.com>
+License-Expression: MIT
+License-File: LICENSE.txt
+Keywords: BitMask,binary,bit,data
+Classifier: Development Status :: 5 - Production/Stable
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+A BitMask Python module
+
+This module provides a `BitMask` class for efficient manipulation and representation of binary data as a fixed-length
+sequence of bits.
+
+It allows initializing a bitmask with a specified length and an optional starting value, provides methods for common
+bitwise operations such as setting, resetting, and flipping individual or all bits.
+Includes other useful functionalities for various properties of the bitmask.
+
+The BitMask class is useful for bit manipulation, flag management, or compact binary representations of data.
