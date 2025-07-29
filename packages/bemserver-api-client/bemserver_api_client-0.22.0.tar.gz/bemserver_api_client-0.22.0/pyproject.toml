@@ -1,0 +1,75 @@
+[project]
+name = "bemserver-api-client"
+version = "0.22.0"
+description = "BEMServer API client"
+readme = "README.rst"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Jérôme Lafréchoux", email = "jlafrechoux@nobatek.inef4.com" },
+  { name = "David Frédérique", email = "dfrederique@nobatek.inef4.com" },
+]
+maintainers = [
+  { name = "Jérôme Lafréchoux", email = "jlafrechoux@nobatek.inef4.com" },
+  { name = "David Frédérique", email = "dfrederique@nobatek.inef4.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.9"
+dependencies = [
+  "requests>=2.32.3,<3.0.0",
+]
+
+[project.urls]
+Issues = "https://github.com/bemserver/bemserver-api-client/issues"
+Source = "https://github.com/bemserver/bemserver-api-client"
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.sdist]
+include = [
+  "tests/",
+  "CHANGELOG.rst",
+  "tox.ini",
+]
+
+[tool.ruff]
+src = ["src"]
+fix = true
+show-fixes = true
+output-format = "full"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+  "B",  # flake8-bugbear
+  "E",  # pycodestyle error
+  "F",  # pyflakes
+  "I",  # isort
+  "UP", # pyupgrade
+  "W",  # pycodestyle warning
+]
+
+[tool.ruff.lint.isort]
+section-order = ["future", "standard-library", "testing", "third-party", "core", "api", "first-party", "local-folder"]
+
+[tool.ruff.lint.isort.sections]
+testing = ["pytest"]
+core = ["bemserver_core"]
+api = ["bemserver_api"]
+
+[tool.pytest.ini_options]
+norecursedirs = ".git .tox docs env venv"
+addopts = "-v --tb=short"
