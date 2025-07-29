@@ -1,0 +1,13 @@
+torch>=2.1.0
+numpy<2.0,>=1.18.5
+
+[dev]
+tox>=3.23.0
+robotframework>=4.0.0
+pytest>=6.2.4
+pytest-cov
+coverage
+black==24.1.0
+mypy
+ipython
+plotly
