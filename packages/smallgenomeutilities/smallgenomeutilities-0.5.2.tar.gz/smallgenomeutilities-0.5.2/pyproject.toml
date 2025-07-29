@@ -1,0 +1,91 @@
+[project]
+name = "smallgenomeutilities"
+dynamic = ["version"]
+authors = [
+    {name = "David Seifert", email = "david.seifert@bsse.ethz.ch"},
+    {name = "Susana Posada Cespedes", email = "susana.posada@bsse.ethz.ch"},
+    {name = "Ivan Topolsky", email = "ivan.topolsky@sib.swiss"},
+    {name = "Lara Fuhrmann", email = "lara.fuhrmann@bsse.ethz.ch"},
+    {name = "Matteo Carrara", email = "carrara@nexus.ethz.ch"},
+    {name = "Michal Okoniewski", email = "michal.okoniewski@gmail.com" },
+    {name = "Gordon J. Köhn", email = "gordon.koehn@dbsse.ethz.ch"},
+]
+maintainers = [
+    {name = "Ivan Topolsky", email = "ivan.topolsky@sib.swiss"},
+    {name = "Gordon J. Köhn", email = "gordon.koehn@dbsse.ethz.ch"},
+    {name = "Matteo Carrara", email = "carrara@nexus.ethz.ch"},
+]
+description = "A collection of scripts that are useful for dealing with viral RNA NGS data."
+readme = "README.rst"
+requires-python = ">=3.7"
+keywords = ["NGS", "SAM", "BAM", "CRAM", "HIV-1", "SARS-CoV-2", "alignment"]
+license = "GPL-2.0-or-later"
+license-files = [ "LICENSE" ]
+classifiers=[
+    "Development Status :: 3 - Alpha",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+# NOTE keep in sync with tests/conda_testsgmu_env.yaml
+dependencies = [
+    "biopython ==1.85",
+    "bcbio-gff",
+    "pysam >=0.23",
+    "pysamstats",
+    "pandas",
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "matplotlib",
+    "progress",
+    "pyyaml",
+    "more-itertools",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+
+[project.urls]
+Repository = "https://github.com/cbg-ethz/smallgenomeutilities"
+
+[tool.setuptools]
+packages = ["smallgenomeutilities"]
+#include_package_data = True
+script-files = [
+    "scripts/aln2basecnt",
+    "scripts/compute_mds",
+    "scripts/convert_qr",
+    "scripts/convert_reference",
+    "scripts/coverage",
+    "scripts/coverage_stats",
+    "scripts/coverage_depth_qc",
+    "scripts/extract_consensus",
+    "scripts/extract_coverage_intervals",
+    "scripts/extract_sam",
+    "scripts/extract_seq",
+    "scripts/frameshift_deletions_checks",
+    "scripts/gather_coverage",
+    "scripts/mapper",
+    "scripts/min_coverage",
+    "scripts/minority_freq",
+    "scripts/pair_sequences",
+    "scripts/paired_end_read_merger",
+    "scripts/predict_num_reads",
+    "scripts/prepare_primers",
+    "scripts/remove_gaps_msa",
+]
+
+[tool.setuptools_scm]
+write_to = "smallgenomeutilities/_version.py"
+fallback_version = "0.0.0"
+
+[build-system]
+requires = ["setuptools>=63", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
