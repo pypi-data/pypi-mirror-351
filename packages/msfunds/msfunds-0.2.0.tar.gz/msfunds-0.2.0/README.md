@@ -1,0 +1,40 @@
+<h1>msfunds</h1> 
+
+- Interacts with the Morningstar API to retrieve fund-related data.
+- Includes a screener to filter and identify funds based on specific criteria.
+
+<h2>Requirements & Installation :</h2>
+
+- Requirements: `ua_generator`, `httpx`, `pandas`, `beautifulsoup4`, `nest_asyncio`, `importlib_resources`.  
+- Install using: `pip install msfunds` (https://pypi.org/project/msfunds/)
+ 
+
+
+<h2>Example:</h2>
+
+```python
+import msfunds
+
+# Retrieve funds available in France, corresponding to the keyword "Technology" and display their one year return
+funds_fra = msfunds.ScreenerFunction().screener(Country="France", Keyword="Technology", Fields=["GBRReturnM12"])
+funds_fra = funds_fra.sort_values(by="GBRReturnM12")
+funds_fra = funds_fra.head(5)
+print(funds_fra)
+
+# Selection of a fund based on one year return:
+fund_id = funds_fra.iloc[0]['SecId']
+
+# Fetching a specific fund data: 
+fund_data = msfunds.Fund(fund_id)
+
+# Display the fund ESG-related data: 
+fund_esg = fund_data.ESG
+
+# Display the fund Portfolio-related data: 
+fund_portfolio = fund_data.Portfolio
+
+# Display top holdings of the fund: 
+fund_holdings = pd.DataFrame(fund_portfolio['HoldingData']['equityHoldingPage'])
+
+```
+
