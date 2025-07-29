@@ -1,0 +1,44 @@
+func (r *{{resource_name}}Resource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	{% if create_operation %}
+	var data *{{resource_name}}ResourceModel
+
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	{% for var in create_vars %}
+	{{ var }}
+	{% endfor %}
+	
+	req := *data.ToShared{{create_requestBody}}Request()
+	request := {{resource_name | lower }}.{{create_operation}}Request{
+		{% for param in create_parameters -%}
+		{{param | capitalize }}: {{param}},
+		{% endfor %}
+		{{create_requestBody}}: req,
+	}
+	res, err := r.client.{{create_method_name}}(ctx, request)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	{% for property in create_res_properties -%}
+	data.{{ property[0] }} = res.Get{{property[0] | capitalize }}()
+	{% endfor %}
+	data.{{resource_name}} = res.Get{{resource_name | capitalize }}.GetId()
+
+	// Save updated data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	{% else %}
+	// Create function is not implemented or supported
+	{% endif %}
+}
+

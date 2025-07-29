@@ -1,0 +1,89 @@
+package provider
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/UPDATE_PATH_TO_MODELS/models"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/path"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"{{sdk_client_path}}"
+	"{{resource_path}}"
+	"regexp"
+)
+
+// Ensure provider defined types fully satisfy framework interfaces.
+var _ resource.Resource = &{{resource_name}}Resource{}
+var _ resource.ResourceWithImportState = &{{resource_name}}Resource{}
+
+func New{{resource_name}}Resource() resource.Resource {
+	return &{{resource_name}}Resource{}
+}
+
+// {{resource_name}}Resource defines the resource implementation.
+type {{resource_name}}Resource struct {
+	client *Client.{{resource_name}}
+}
+
+// {{resource_name}}ResourceModel describes the resource data model.
+type {{resource_name}}ResourceModel struct {
+    {% for var in struct_vars -%}
+	{{var}}
+    {% endfor %}
+}
+
+func (r *{{resource_name}}Resource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_{{resource_name}}"
+}
+
+func (r *{{resource_name}}Resource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		MarkdownDescription: "{{resource_name}} Resource",
+		Attributes: map[string]schema.Attribute{
+			{% for var in schema_method -%}
+			{{var}},
+			{% endfor %}
+		},
+	}
+}
+
+func (r *{{resource_name}}Resource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	// Prevent panic if the provider has not been configured.
+	if req.ProviderData == nil {
+		return
+	}
+
+	client, ok := req.ProviderData.(*Client.{{resource_name}})
+
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Resource Configure Type",
+			fmt.Sprintf("Expected *Client.{{resource_name}}, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	r.client = client
+}
+
+{% include "create_method.j2" %}
+
+{% include "read_method.j2" %}
+
+{% include "update_method.j2" %}
+
+{% include "delete_method.j2" %}
+
+func (r *IndexResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+{% include "requestBody.j2" %}
+
