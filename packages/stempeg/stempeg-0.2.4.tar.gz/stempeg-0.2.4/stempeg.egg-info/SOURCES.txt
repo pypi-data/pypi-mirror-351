@@ -1,0 +1,21 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.py
+stempeg/__init__.py
+stempeg/cli.py
+stempeg/cmds.py
+stempeg/read.py
+stempeg/write.py
+stempeg.egg-info/PKG-INFO
+stempeg.egg-info/SOURCES.txt
+stempeg.egg-info/dependency_links.txt
+stempeg.egg-info/entry_points.txt
+stempeg.egg-info/requires.txt
+stempeg.egg-info/top_level.txt
+stempeg.egg-info/zip-safe
+stempeg/data/The Easton Ellises - Falcon 69.stem.mp4
+stempeg/data/default_metadata.json
+tests/test_random.py
+tests/test_read.py
+tests/test_write.py
