@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: zafer
+Version: 0.1.0
+Summary: It is a demo package to learn more about package system
+Home-page: https://github.com/yourusername/mypackage
+Author: Hasnain Ansari
+Author-email: rockstar25031997@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Dynamic: license-file
+
+# mypackage
+
+A short description of what your package does.
+
+## Installation
+
+```bash
+pip install mypackage
