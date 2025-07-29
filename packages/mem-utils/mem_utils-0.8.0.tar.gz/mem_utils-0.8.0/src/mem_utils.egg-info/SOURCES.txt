@@ -1,0 +1,13 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+src/mem_utils/__init__.py
+src/mem_utils.egg-info/PKG-INFO
+src/mem_utils.egg-info/SOURCES.txt
+src/mem_utils.egg-info/dependency_links.txt
+src/mem_utils.egg-info/requires.txt
+src/mem_utils.egg-info/top_level.txt
+src/mem_utils/string/__init__.py
+src/mem_utils/string/formatage.py
+tests/test_manage.py

@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mem_utils"
+version = "0.8.0"
+description = "Outil CLI de gestion complète du cycle de vie d’un projet Python"
+readme = "README.md"
+authors = [{ name = "Guillaume Lefebvre", email = "guillaume@ldmail.fr" }]
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "typer[all]",
+    "rich",
+    "python-dotenv",
+    "pytest",
+    "build",
+    "twine"
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+include-package-data = true
