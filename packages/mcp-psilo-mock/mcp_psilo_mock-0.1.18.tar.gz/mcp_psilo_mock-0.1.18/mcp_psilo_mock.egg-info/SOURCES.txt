@@ -1,0 +1,14 @@
+MANIFEST.in
+README.md
+pyproject.toml
+requirements.txt
+setup.py
+mcp_psilo_mock/__init__.py
+mcp_psilo_mock/__main__.py
+mcp_psilo_mock/fake_psilo_data.csv
+mcp_psilo_mock/server_stdio.py
+mcp_psilo_mock.egg-info/PKG-INFO
+mcp_psilo_mock.egg-info/SOURCES.txt
+mcp_psilo_mock.egg-info/dependency_links.txt
+mcp_psilo_mock.egg-info/requires.txt
+mcp_psilo_mock.egg-info/top_level.txt
