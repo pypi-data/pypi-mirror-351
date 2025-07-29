@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simpsom-dask"
+version = "1.0.3"
+authors = [
+  { name="Hugo Banderier", email="hugo.banderier@unibe.ch" },
+]
+description = "A mix of jcfaracco/xpysom-dask and fcomitani/simpsom, with heavy modifications"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy",
+  "matplotlib",
+  "colormaps",
+  "scikit_learn",
+  "scipy",
+  "tqdm",
+  "dask>=2025.5.0",
+  "jupyter>=1.1.1",
+  "autoreload>=0.1.2",
+  "ipython>=9.2.0",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.optional-dependencies]
+daskml = ["dask", "dask_ml"]
+gpu = ["cupy", "cudf"]
+
+[project.urls]
+Homepage = "https://github.com/hbanderier/simpsom-dask"
+Issues = "https://github.com/hbanderier/simpsom-dask/issues"
