@@ -1,0 +1,252 @@
+/* common */
+html, body {
+    height: 100%;
+}
+
+.material-icons {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+/* main container */
+.main {
+    min-height: calc(100% - 56px);
+    display: flex;
+}
+
+/* aside */
+.nav-aside {
+    width: 100%;
+    max-width: 250px;
+    min-height: 100%;
+    background: #f2f2f2;
+    margin-right: 20px;
+}
+
+.nav-aside ul {
+    padding: 0;
+    font-size: 0;
+    list-style: none;
+}
+
+.nav-aside__link {
+    color: #7c7c7c;
+    font-size: 15px;
+    padding: 10px 30px;
+    display: inline-block;
+    width: 100%;
+    transition: background-color ease-in .1s;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.nav-aside__link:hover {
+    background: #d6d6d6;
+    color: #7c7c7c;
+    text-decoration: none;
+}
+
+.nav-aside__link_active {
+    background: #d6d6d6;
+}
+
+.nav-aside__group-title {
+    padding: 20px 30px;
+    font-size: 16px;
+    margin: 0;
+    width: 100%;
+    color: #939393;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* content */
+.content {
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    padding-right: 24px;
+    font-size: 14px;
+    flex-direction: column;
+}
+
+.content__empty-title {
+    margin: auto;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #eee;
+}
+
+.wrapper {
+    display: block;
+    width: 100%;
+}
+
+/* paggination */
+
+.paggination {
+    display: flex;
+    justify-content: space-between;
+}
+
+.paggination__count {
+    padding: .5rem .75rem;
+    color: #7c7c7c;
+}
+
+/* action bar  */
+.btn-action.btn-action {
+    padding: 8px 16px;
+}
+
+/* lsit */
+
+.index-checkbox {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.sort_active {
+    transform: rotate(180deg);
+}
+
+.form-group {
+    position: relative;
+    z-index: 10;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-control {
+    font-size: 14px !important;
+}
+
+.form-group {
+    z-index: auto;
+}
+
+/* tags */
+
+.bootstrap-tagsinput .tag {
+    margin-right: 2px;
+    color: white;
+}
+
+.label-info {
+    background-color: #464646;
+    border-radius: 2px;
+    padding: 2px 7px;
+}
+
+.bootstrap-tagsinput {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    display: inline-block;
+    padding: 4px 6px;
+    color: #555;
+    vertical-align: middle;
+    border-radius: 4px;
+    max-width: 100%;
+    line-height: 22px;
+    cursor: text;
+}
+
+.bootstrap-tagsinput input {
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0 6px;
+    margin: 0;
+    width: auto;
+    max-width: inherit;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"] {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+    content: "x";
+    padding: 0px 2px;
+}
+
+/* end tags */
+
+/* image */
+.image-widget__image {
+    padding-bottom: 10px;
+    width: auto;
+    display: block;
+}
+/* end image */
+
+.hidden {
+    display: none;
+}
+
+.filter-nav {
+    background: #f2f2f2;
+}
+
+.list-nav {
+    padding-bottom: 10px
+}
+
+.filter-nav-title {
+    padding-top: 10px;
+    font-size: 16px;
+    margin: 0;
+    width: 100%;
+    color: #939393;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.filter-title {
+    padding-top: 10px;
+    font-size: 15px;
+    color: #939393;
+    white-space: nowrap;
+}
+
+.filter-active {
+    font-weight: bold;
+}
+
+.select2-container--default .select2-selection--single {
+    height: calc(1.5em + .75rem + 2px);
+    border: 1px solid #ced4da;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: calc(1.5em + .75rem);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 5px;
+}
+
+.btn-action--list-wrapper {
+    display: flex;
+}
+
+.btn-action--list-wrapper .btn {
+    display: block;
+    margin: auto;
+}
