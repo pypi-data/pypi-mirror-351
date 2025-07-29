@@ -1,0 +1,89 @@
+[tool.poetry]
+name = "pan-scm-cli"
+version = "0.3.0"
+description = "CICD and Network Engineer-friendly CLI tool for Palo Alto Networks Strata Cloud Manager"
+authors = ["Calvin Remsburg <dev@cdot.io>"]
+readme = "README.md"
+packages = [{ include = "scm_cli", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.14"
+typer = "^0.15.4"
+pyyaml = "^6.0.2"
+pydantic = "^2.11.5"
+pan-scm-sdk = "0.3.39"
+dynaconf = "^3.2.11"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+ruff = "^0.11.11"
+flake8 = "^7.2.0"
+checkov = "^3.2.432"
+yamllint = "^1.37.1"
+pre-commit = "^4.2.0"
+mkdocs = "^1.6.1"
+mkdocs-material = "^9.6.14"
+mkdocstrings = "^0.29.1"
+mkdocs-minify-plugin = "^0.8.0"
+mkdocs-git-revision-date-localized-plugin = "^1.4.5"
+mkdocs-include-markdown-plugin = "^7.1.5"
+mkdocs-material-extensions = "^1.3.1"
+mkdocs-redirects = "^1.2.2"
+mkdocs-mermaid2-plugin = "^1.2.1"
+pytest-check-links = "^0.10.1"
+linkchecker = "^10.5.0"
+mkdocstrings-python = "^1.16.11"
+isort = "^5.13.2"
+mypy = "^1.10.0"
+types-PyYAML = "^6.0.12.20240311"
+
+[tool.poetry.scripts]
+scm = "scm_cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 192
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "C4", "SIM", "UP", "W", "N", "D"]
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/*" = ["D", "E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+pythonpath = ["."]
+markers = [
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*", "**/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
+
+[tool.isort]
+# Make isort compatible with ruff/black
+profile = "black"
+line_length = 192
+# Let ruff handle import sorting
+skip_gitignore = true
