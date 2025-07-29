@@ -1,0 +1,19 @@
+# Core dependencies
+sqlalchemy>=2.0.0
+pandas>=1.3.0
+python-dotenv>=0.19.0
+
+# LLM providers
+openai>=1.0.0
+cohere>=4.0.0
+anthropic>=0.25.0
+
+# Database drivers (optional, user can install as needed)
+psycopg2-binary>=2.9.0  # PostgreSQL
+mysql-connector-python>=8.0.0  # MySQL
+pymongo>=4.0.0  # MongoDB
+
+# Development
+pytest>=7.0.0
+black>=22.0.0
+flake8>=4.0.0
