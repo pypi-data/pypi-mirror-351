@@ -1,0 +1,111 @@
+Metadata-Version: 2.4
+Name: tabulk
+Version: 0.0.0
+Summary: Extract, transform and load tabular data efficiently, using CSV files and/or database connections (including bulk load and merge to databases).
+Author-email: Sébastien Hocquet <seb@ipamo.net>
+Project-URL: Homepage, https://gitlab.com/ipamo/tabulk
+Project-URL: Bug Tracker, https://gitlab.com/ipamo/tabulk/issues
+Keywords: extract,transform,load,etl,tabular,tables,csv,db,database,bulk,merge,insert,upsert,sqlite,postgresql,pg,mysql,maria,mariadb,sqlserver,mssql
+Classifier: Development Status :: 1 - Planning
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Provides-Extra: tz
+Requires-Dist: tzlocal; sys_platform == "win32" and extra == "tz"
+Requires-Dist: tzdata; sys_platform == "win32" and extra == "tz"
+Provides-Extra: postgresql
+Requires-Dist: psycopg; extra == "postgresql"
+Requires-Dist: sqlparse; extra == "postgresql"
+Requires-Dist: tzlocal; sys_platform == "win32" and extra == "postgresql"
+Requires-Dist: tzdata; sys_platform == "win32" and extra == "postgresql"
+Provides-Extra: pg
+Requires-Dist: psycopg; extra == "pg"
+Requires-Dist: sqlparse; extra == "pg"
+Requires-Dist: tzlocal; sys_platform == "win32" and extra == "pg"
+Requires-Dist: tzdata; sys_platform == "win32" and extra == "pg"
+Provides-Extra: mysql
+Requires-Dist: mysqlclient; extra == "mysql"
+Requires-Dist: sqlparse; extra == "mysql"
+Requires-Dist: tzlocal; sys_platform == "win32" and extra == "mysql"
+Requires-Dist: tzdata; sys_platform == "win32" and extra == "mysql"
+Provides-Extra: maria
+Requires-Dist: mysqlclient; extra == "maria"
+Requires-Dist: sqlparse; extra == "maria"
+Requires-Dist: tzlocal; sys_platform == "win32" and extra == "maria"
+Requires-Dist: tzdata; sys_platform == "win32" and extra == "maria"
+Provides-Extra: mariadb
+Requires-Dist: mysqlclient; extra == "mariadb"
+Requires-Dist: sqlparse; extra == "mariadb"
+Requires-Dist: tzlocal; sys_platform == "win32" and extra == "mariadb"
+Requires-Dist: tzdata; sys_platform == "win32" and extra == "mariadb"
+Provides-Extra: sqlserver
+Requires-Dist: pyodbc; extra == "sqlserver"
+Requires-Dist: sqlparams; extra == "sqlserver"
+Requires-Dist: sqlparse; extra == "sqlserver"
+Requires-Dist: tzlocal; sys_platform == "win32" and extra == "sqlserver"
+Requires-Dist: tzdata; sys_platform == "win32" and extra == "sqlserver"
+Provides-Extra: mssql
+Requires-Dist: pyodbc; extra == "mssql"
+Requires-Dist: sqlparams; extra == "mssql"
+Requires-Dist: sqlparse; extra == "mssql"
+Requires-Dist: tzlocal; sys_platform == "win32" and extra == "mssql"
+Requires-Dist: tzdata; sys_platform == "win32" and extra == "mssql"
+Dynamic: license-file
+
+Tabulk
+======
+
+Extract, transform and load tabular data efficiently, using CSV files and/or database connections (including bulk load and merge to databases).
+
+**WORK IN PROGRESS** (TODO)
+
+
+## Installation
+
+Requires Python >= 3.9.
+
+Published [on PyPI](https://pypi.org/project/tabulk/).
+
+Install without any dependency:
+
+```sh
+pip install tabulk
+```
+
+It is also possible to install with an _extra_ specifier to add optional dependencies, depending on the database engine(s) you plan to use. Example for PostgreSQL:
+
+```sh
+pip install tabulk[postgresql]
+```
+
+Avalable _extra_ specifiers:
+
+- `tabulk[postgresql]` (synonym: `tabulk[pg]`) for PostgreSQL: installs `psycopg` with sql parsing and timezone utilities
+- `tabulk[mysql]` (synonyms: `tabulk[maria]`, `tabulk[mariadb]`) for MySQL or MariaDB: installs `mysqlclient` with sql parsing and timezone utilities
+- `tabulk[sqlserver]` (synonym: `tabulk[mssql]`) for Microsoft SQL Server: installs `pyodbc` with sql parsing and timezone utilities
+- `tabulk[tz]`: installs timezone utilities (on Windows only: they are never needed with Python 3.9 on Linux)
+
+
+## Usage
+
+Examples: TODO.
+
+See full documentation, including API reference: TODO.
+
+
+## Contributing
+
+Pull requests are welcome.
+
+See [contributing guidelines](https://gitlab.com/ipamo/tabulk/-/raw/main/CONTRIBUTING.md).
+
+
+## Legal
+
+This project is licensed under the terms of the [MIT license](https://gitlab.com/ipamo/tabulk/-/raw/main/LICENSE.txt).
+
+Logo designed by [Freepik](https://www.freepik.com/icon/database-table_11784434) (free with required attribution).
