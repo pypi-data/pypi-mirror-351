@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: dockmate
+Version: 1.0.0a1
+Summary: Dockmate is a lightweight command-line tool to build, tag, and deploy Docker Swarm services to remote hosts with ease.
+Project-URL: Documentation, https://github.com/lykhvar/dockmate#readme
+Project-URL: Issues, https://github.com/lykhvar/dockmate/issues
+Project-URL: Source, https://github.com/lykhvar/dockmate
+Author-email: Artem Lykhvar <me@a10r.com>
+License-Expression: MIT
+Keywords: automation,cli,command-line,tooling,utility
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.8
