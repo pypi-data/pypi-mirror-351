@@ -1,0 +1,3 @@
+[console_scripts]
+pbt = pbt.cli.main:app
+prompt-build-tool = pbt.cli.main:app

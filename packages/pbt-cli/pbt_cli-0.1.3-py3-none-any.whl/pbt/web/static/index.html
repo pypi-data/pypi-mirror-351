@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBT Studio - Prompt Build Tool</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <!-- Floating Particles Background -->
+    <div class="particles" id="particles"></div>
+    
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1><i class="fas fa-cube"></i> PBT Studio</h1>
+                <span class="tagline">Compare LLMs Side by Side</span>
+                <a href="/table" class="btn btn-outline" style="margin-left: 1.5rem;" title="Try the new table layout">
+                    <i class="fas fa-table"></i> Table View
+                </a>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-secondary" onclick="showHistory()">
+                    <i class="fas fa-history"></i> History
+                </button>
+                <button class="btn btn-secondary" onclick="showSavedPrompts()">
+                    <i class="fas fa-bookmark"></i> Saved
+                </button>
+                <button class="btn btn-outline theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                    <i class="fas fa-moon"></i> <span id="theme-text">Dark</span>
+                </button>
+                <button class="btn btn-primary" onclick="showSettings()">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-container">
+            <!-- Left Panel - Prompt Input -->
+            <div class="left-panel">
+                <div class="panel-header">
+                    <h2>Prompt Configuration</h2>
+                    <button class="btn btn-sm btn-outline" onclick="loadExample()">
+                        <i class="fas fa-lightbulb"></i> Load Example
+                    </button>
+                </div>
+
+                <!-- Prompt Input -->
+                <div class="form-group">
+                    <label for="prompt-input">Prompt Template</label>
+                    <textarea id="prompt-input" class="prompt-textarea" placeholder="Enter your prompt here...
+
+You can use variables like {{variable_name}}
+
+Example:
+Summarize the following text in {{num_sentences}} sentences:
+
+{{text}}"></textarea>
+                </div>
+
+                <!-- Variables -->
+                <div class="form-group">
+                    <label>Variables <button class="btn btn-xs" onclick="addVariable()">+ Add</button></label>
+                    <div id="variables-container">
+                        <!-- Variables will be added here dynamically -->
+                    </div>
+                </div>
+
+                <!-- Expected Output (Optional) -->
+                <div class="form-group">
+                    <label for="expected-output">
+                        Expected Output (Optional)
+                        <span class="tooltip" data-tooltip="Provide expected output to score model responses">
+                            <i class="fas fa-question-circle"></i>
+                        </span>
+                    </label>
+                    <textarea id="expected-output" class="expected-textarea" placeholder="Enter expected output for scoring..."></textarea>
+                </div>
+
+                <!-- Model Selection -->
+                <div class="form-group">
+                    <label>Select Models to Compare</label>
+                    <div class="model-selector">
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="claude" checked>
+                            <span>Claude</span>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="gpt-4" checked>
+                            <span>GPT-4</span>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="gpt-3.5-turbo" checked>
+                            <span>GPT-3.5 Turbo</span>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="mistral">
+                            <span>Mistral</span>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="claude-3">
+                            <span>Claude 3</span>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" value="gpt-4-turbo">
+                            <span>GPT-4 Turbo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Advanced Settings -->
+                <details class="advanced-settings">
+                    <summary>Advanced Settings</summary>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label for="temperature">Temperature</label>
+                            <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7">
+                            <span id="temperature-value">0.7</span>
+                        </div>
+                        <div class="setting-item">
+                            <label for="max-tokens">Max Tokens</label>
+                            <input type="number" id="max-tokens" value="1000" min="1" max="4000">
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-large" onclick="compareModels()">
+                        <i class="fas fa-play"></i> Compare Models
+                    </button>
+                    <button class="btn btn-secondary" onclick="savePrompt()">
+                        <i class="fas fa-save"></i> Save Prompt
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel - Results -->
+            <div class="right-panel">
+                <div class="panel-header">
+                    <h2>Comparison Results</h2>
+                    <div class="result-actions" id="result-actions" style="display: none;">
+                        <button class="btn btn-sm btn-outline" onclick="exportResults('json')">
+                            <i class="fas fa-download"></i> JSON
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="exportResults('markdown')">
+                            <i class="fas fa-file-alt"></i> Markdown
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="shareResults()">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading-state" class="loading-state" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Comparing models...</p>
+                    <div id="loading-progress"></div>
+                </div>
+
+                <!-- Results Container -->
+                <div id="results-container" class="results-container">
+                    <!-- Welcome State -->
+                    <div class="welcome-state">
+                        <i class="fas fa-robot fa-4x"></i>
+                        <h3>Welcome to PBT Studio</h3>
+                        <p>Enter a prompt and select models to compare their responses side by side.</p>
+                        <p>You can also provide an expected output to automatically score the responses.</p>
+                    </div>
+                </div>
+
+                <!-- Metrics Summary -->
+                <div id="metrics-summary" class="metrics-summary" style="display: none;">
+                    <h3>Performance Metrics</h3>
+                    <div class="metrics-grid">
+                        <!-- Metrics will be added here -->
+                    </div>
+                </div>
+
+                <!-- Recommendations -->
+                <div id="recommendations" class="recommendations" style="display: none;">
+                    <h3>Recommendations</h3>
+                    <div class="recommendation-cards">
+                        <!-- Recommendations will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Save Prompt Modal -->
+    <div id="save-prompt-modal" class="modal">
+        <div class="modal-content">
+            <h3>Save Prompt</h3>
+            <input type="text" id="prompt-name" placeholder="Prompt name..." class="form-input">
+            <textarea id="prompt-description" placeholder="Description..." class="form-textarea"></textarea>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="confirmSavePrompt()">Save</button>
+                <button class="btn btn-secondary" onclick="closeModal('save-prompt-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content modal-large">
+            <h3>Comparison History</h3>
+            <div id="history-list" class="history-list">
+                <!-- History items will be added here -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('history-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>
