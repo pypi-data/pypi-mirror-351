@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: pycarl
+Version: 2.4.0
+Summary: pycarl - Python Bindings for CArL
+Home-page: https://github.com/moves-rwth/pycarl/
+Author: S. Junges
+Author-email: sebastian.junges@cs.rwth-aachen.de
+Maintainer: M. Volk
+Maintainer-email: matthias.volk@cs.rwth-aachen.de
+Project-URL: Documentation, https://moves-rwth.github.io/pycarl/
+Project-URL: Source, https://github.com/moves-rwth/pycarl/
+Project-URL: Bug reports, https://github.com/moves-rwth/pycarl/issues
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Provides-Extra: doc
+Requires-Dist: Sphinx; extra == "doc"
+Requires-Dist: sphinx-bootstrap-theme; extra == "doc"
+Provides-Extra: dev
+Requires-Dist: tox; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-python
+Dynamic: summary
+
+> [!WARNING]
+> ## Pycarl is now part of [stormpy](https://moves-rwth.github.io/stormpy/) and this repository is no longer maintained. Please use the [Github repository of stormpy](https://github.com/moves-rwth/stormpy) instead.
+
+
+Pycarl - Python Bindings for CArL
+=================================
+
+[![Build Status](https://github.com/moves-rwth/pycarl/workflows/Build%20Test/badge.svg)](https://github.com/moves-rwth/pycarl/actions)
+[![GitHub release](https://img.shields.io/github/release/moves-rwth/pycarl.svg)](https://github.com/moves-rwth/pycarl/releases/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7763164.svg)](https://doi.org/10.5281/zenodo.7763164)
+
+Python bindings for [CArL](https://github.com/moves-rwth/carl-storm), created using [PyBind11](http://pybind11.readthedocs.io/en/stable/intro.html).
+
+For more information, please check the [documentation](https://moves-rwth.github.io/pycarl/).
+
+### Authors:
+
+Main developers:
+- Sebastian Junges
+- Matthias Volk
+
+The development of pycarl received significant contributions from:
+- Harold Bruintjes
