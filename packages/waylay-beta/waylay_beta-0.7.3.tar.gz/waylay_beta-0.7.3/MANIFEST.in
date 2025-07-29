@@ -1,0 +1,11 @@
+include versioneer.py
+include waylay/_version.py
+prune doc/**
+prune bin/**
+prune build/**
+prune cov_report/**
+prune examples/**
+prune util/**
+prune test/**
+include doc/dist.README.md
+include doc/byoml_runtimes.json

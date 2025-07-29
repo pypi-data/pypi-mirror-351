@@ -1,0 +1,96 @@
+{
+  "runtimes": [
+    {
+      "framework": "pytorch",
+      "version": "1.8",
+      "python_version": "3.7",
+      "provided": [
+        "torch==1.8",
+        "scipy==1.6",
+        "torchvision==0.9",
+        "pillow==8.3"
+      ]
+    },
+    {
+      "framework": "pytorch",
+      "version": "1.5",
+      "python_version": "3.7",
+      "provided": [
+        "torch==1.5.1",
+        "scipy==1.6",
+        "torchvision==0.6",
+        "pillow==8.3"
+      ]
+    },
+    {
+      "framework": "pytorch",
+      "version": "1.4",
+      "python_version": "3.7",
+      "provided": [
+        "torch==1.4.0",
+        "scipy==1.6",
+        "torchvision==0.5",
+        "pillow==6.2"
+      ]
+    },
+    {
+      "framework": "sklearn",
+      "version": "0.24",
+      "python_version": "3.7",
+      "provided": [
+        "scikit-learn==0.24",
+        "dill==0.3.4"
+      ]
+    },
+    {
+      "framework": "sklearn",
+      "version": "0.22",
+      "python_version": "3.7",
+      "provided": [
+        "scikit-learn==0.22",
+        "dill==0.3.4"
+      ]
+    },
+    {
+      "framework": "xgboost",
+      "version": "1.3",
+      "python_version": "3.7",
+      "provided": [
+        "xgboost==1.3",
+        "scikit-learn==0.24"
+      ]
+    },
+    {
+      "framework": "xgboost",
+      "version": "1.0",
+      "python_version": "3.7",
+      "provided": [
+        "xgboost==1.0",
+        "scikit-learn==0.24"
+      ]
+    },
+    {
+      "framework": "tensorflow",
+      "version": "2.4",
+      "provided": [
+        "tensorflow==2.4"
+      ]
+    },
+    {
+      "framework": "tensorflow",
+      "version": "2.1",
+      "provided": [
+        "tensorflow==2.1",
+        "protobuf==3.20.*"
+      ]
+    },
+    {
+      "framework": "custom",
+      "version": "1.0",
+      "python_version": "3.7",
+      "provided": [
+        "dill==0.3.4"
+      ]
+    }
+  ]
+}

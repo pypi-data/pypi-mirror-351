@@ -1,0 +1,5 @@
+[console_scripts]
+waylaycli = waylay.cli.waylaycli:main
+
+[waylay_services]
+beta = waylay.service:SERVICES

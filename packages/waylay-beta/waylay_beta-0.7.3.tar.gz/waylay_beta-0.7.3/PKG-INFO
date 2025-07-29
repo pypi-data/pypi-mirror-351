@@ -1,0 +1,180 @@
+Metadata-Version: 2.4
+Name: waylay-beta
+Version: 0.7.3
+Summary: beta release of the Waylay Python SDK
+Home-page: https://docs.waylay.io/#/api/sdk/python
+Author: Waylay
+Author-email: info@waylay.io
+License: ISC
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: httpx
+Requires-Dist: simple-rest-client
+Requires-Dist: appdirs
+Requires-Dist: pyjwt
+Requires-Dist: numpy<2
+Requires-Dist: pandas<2
+Requires-Dist: isodate
+Requires-Dist: joblib
+Requires-Dist: tqdm
+Requires-Dist: tenacity
+Requires-Dist: tabulate
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: pytest-mock; extra == "dev"
+Requires-Dist: mock; extra == "dev"
+Requires-Dist: pylint; extra == "dev"
+Requires-Dist: pycodestyle; extra == "dev"
+Requires-Dist: pydocstyle; extra == "dev"
+Requires-Dist: autopep8; extra == "dev"
+Requires-Dist: mypy<0.990; extra == "dev"
+Requires-Dist: typing-inspect; extra == "dev"
+Requires-Dist: types-pytz; extra == "dev"
+Requires-Dist: types-setuptools; extra == "dev"
+Requires-Dist: types-tabulate; extra == "dev"
+Requires-Dist: pdoc; extra == "dev"
+Provides-Extra: dev-3-11
+Requires-Dist: build; extra == "dev-3-11"
+Provides-Extra: dev-3-10
+Requires-Dist: importlib_metadata; python_version < "3.10"
+Provides-Extra: byoml-pytorch-1-8
+Requires-Dist: torch==1.8; extra == "byoml-pytorch-1-8"
+Requires-Dist: scipy==1.6; extra == "byoml-pytorch-1-8"
+Requires-Dist: torchvision==0.9; extra == "byoml-pytorch-1-8"
+Requires-Dist: pillow==8.3; extra == "byoml-pytorch-1-8"
+Provides-Extra: byoml-pytorch
+Requires-Dist: torch==1.8; extra == "byoml-pytorch"
+Requires-Dist: scipy==1.6; extra == "byoml-pytorch"
+Requires-Dist: torchvision==0.9; extra == "byoml-pytorch"
+Requires-Dist: pillow==8.3; extra == "byoml-pytorch"
+Provides-Extra: byoml-pytorch-1-5
+Requires-Dist: torch==1.5.1; extra == "byoml-pytorch-1-5"
+Requires-Dist: scipy==1.6; extra == "byoml-pytorch-1-5"
+Requires-Dist: torchvision==0.6; extra == "byoml-pytorch-1-5"
+Requires-Dist: pillow==8.3; extra == "byoml-pytorch-1-5"
+Provides-Extra: byoml-pytorch-1-4
+Requires-Dist: torch==1.4.0; extra == "byoml-pytorch-1-4"
+Requires-Dist: scipy==1.6; extra == "byoml-pytorch-1-4"
+Requires-Dist: torchvision==0.5; extra == "byoml-pytorch-1-4"
+Requires-Dist: pillow==6.2; extra == "byoml-pytorch-1-4"
+Provides-Extra: byoml-sklearn-0-24
+Requires-Dist: scikit-learn==0.24; extra == "byoml-sklearn-0-24"
+Requires-Dist: dill==0.3.4; extra == "byoml-sklearn-0-24"
+Provides-Extra: byoml-sklearn
+Requires-Dist: scikit-learn==0.24; extra == "byoml-sklearn"
+Requires-Dist: dill==0.3.4; extra == "byoml-sklearn"
+Provides-Extra: byoml-sklearn-0-22
+Requires-Dist: scikit-learn==0.22; extra == "byoml-sklearn-0-22"
+Requires-Dist: dill==0.3.4; extra == "byoml-sklearn-0-22"
+Provides-Extra: byoml-xgboost-1-3
+Requires-Dist: xgboost==1.3; extra == "byoml-xgboost-1-3"
+Requires-Dist: scikit-learn==0.24; extra == "byoml-xgboost-1-3"
+Provides-Extra: byoml-xgboost
+Requires-Dist: xgboost==1.3; extra == "byoml-xgboost"
+Requires-Dist: scikit-learn==0.24; extra == "byoml-xgboost"
+Provides-Extra: byoml-xgboost-1-0
+Requires-Dist: xgboost==1.0; extra == "byoml-xgboost-1-0"
+Requires-Dist: scikit-learn==0.24; extra == "byoml-xgboost-1-0"
+Provides-Extra: byoml-tensorflow-2-4
+Requires-Dist: tensorflow==2.4; extra == "byoml-tensorflow-2-4"
+Provides-Extra: byoml-tensorflow
+Requires-Dist: tensorflow==2.4; extra == "byoml-tensorflow"
+Provides-Extra: byoml-tensorflow-2-1
+Requires-Dist: tensorflow==2.1; extra == "byoml-tensorflow-2-1"
+Requires-Dist: protobuf==3.20.*; extra == "byoml-tensorflow-2-1"
+Provides-Extra: byoml-custom-1-0
+Requires-Dist: dill==0.3.4; extra == "byoml-custom-1-0"
+Provides-Extra: byoml-custom
+Requires-Dist: dill==0.3.4; extra == "byoml-custom"
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+# waylay-beta
+
+> ⚠️ This package is **DEPRECATED**.
+> Please migrate to [waylay-sdk](https://pypi.org/project/waylay-sdk)
+
+This Python SDK helps you to connect with the REST APIs of the Waylay Platform.
+
+It provides a selection of services and utilities, focused on supporting our data science users:
+* importing and querying _timeseries_ data.
+* uploading your own _machine learning models_ for usage in the _Waylay Rule Engine_
+* provisioning waylay _resources_ and _resource types_.
+
+The SDK is optimised for interactive usage in [Jupyter Notebooks](https://jupyter.org/).
+
+## Prerequisites
+This package requires a python runtime `3.9` or higher (validated up to `3.11`). 
+For datascience purposes you typically want to prepare an anaconda environment:
+```bash
+conda create --name my_waylay_env python=3.11
+conda activate my_waylay_env
+conda install jupyter
+pip install waylay-beta
+jupyter notebook 
+```
+
+## Installation
+
+```bash
+pip install waylay-beta
+```
+
+### BYOML dependencies
+
+If you want to prepare BYOML models ([Enterprise](http://docs.waylay.io/#/features/byoml/)), _extra_ dependency configurations are available, that will check or install framework-specific dependencies.
+
+Either for a specific runtime:
+> byoml-sklearn-0.24, byoml-xgboost-1.3, byoml-pytorch-1.8, byoml-tensorflow-2.4, byoml-pytorch-1.4, byoml-tensorflow-2.1, byoml-custom-1.0, byoml-sklearn-0.22, byoml-xgboost-1.0, byoml-pytorch-1.5
+
+or for the default runtime of one of the supported frameworks:
+> byoml-xgboost, byoml-sklearn, byoml-tensorflow, byoml-custom, byoml-pytorch
+
+E.g. to install with sklearn dependencies for byoml:
+```bash
+pip install waylay-beta['byoml-sklearn-0.24']
+```
+or
+```bash
+pip install waylay-beta['byoml-sklearn']
+```
+
+In some cases (e.g. older framework versions) it might be needed to use the same python version
+when serializing models. Check the supported python version with calls such as:
+```python
+> waylay_client.byoml.runtimes.get('byoml-pytorch-1.8')
+{'framework': 'pytorch', 'framework_version': '1.8', 'name': 'byoml-pytorch-1.8', 'python_version': '3.7'}
+```
+
+## Quickstart
+
+* Login to the waylay console, and get hold of an _API key, API secret_ pair \[*>Settings>Authentication keys*\] 
+  > `[Enterprise]` [https://console.waylay.io](https://console.waylay.io/administration/settings/keys)
+
+* Create an SDK client
+  ```python
+  from waylay import WaylayConfig, WaylayClient
+  waylay_client = WaylayClient.from_profile()
+  ```
+  On first usage, this will prompt for a gateway endpoint,
+  > `[Enterprise]` api.waylay.io (default)
+
+  and your _API key/API secret_ credentials. 
+
+For more details see 
+> `[Enterprise]` [https://docs.waylay.io](https://docs.waylay.io/#/api/sdk/python)
+
+## Usage Examples
+See [demo notebooks](https://github.com/waylayio/demo-general/tree/master/python-sdk) for the usage examples supported in the current release.
