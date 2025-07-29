@@ -1,0 +1,25 @@
+include README.md
+include LICENSE
+include requirements.txt
+include .env.example
+
+recursive-include src *.py
+
+include gradio_app.py
+include cli.py
+
+prune chroma_db
+prune subtitles  
+prune models
+prune cache
+
+exclude .env
+exclude .env.*
+
+exclude *.pyc
+recursive-exclude . __pycache__
+recursive-exclude . *.py[co]
+
+prune build
+prune dist
+prune *.egg-info

@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "youtube-search-tool-using-subtitles"
+version = "0.1.0"
+description = "Search and query YouTube videos using AI embeddings"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Vesle Anne", email = "anisimonova15@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.8"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+Homepage = "https://github.com/VesleAnne/Youtube_video_search_tool"
+Repository = "https://github.com/VesleAnne/Youtube_video_search_tool"
+Issues = "https://github.com/VesleAnne/Youtube_video_search_tool/issues"
+
+
+[project.scripts]
+yt-search = "src.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md"]

@@ -1,0 +1,13 @@
+MANIFEST.in
+README.md
+gradio_app.py
+pyproject.toml
+requirements.txt
+src/__init__.py
+src/cli.py
+src/create_database.py
+src/get_subs.py
+src/id_extractor.py
+src/parser.py
+src/query.py
+src/selenium_parser.py
