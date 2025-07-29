@@ -1,0 +1,6 @@
+include *.md
+include *.txt
+include LICENSE
+include qmk
+include release
+recursive-include qmk_cli *.py
