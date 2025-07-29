@@ -1,0 +1,38 @@
+[build-system]
+requires = ["flit_core >=3.11,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "TreeCrypt"
+version = "1.1.0"
+description = "A node-tree based encryption algorithm."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+keywords = ["encryption", "node-trees", "cryptography", "cybersecurity"]
+authors = [
+  { name = "MUmarShahbaz", email = "m.umarshahbaz.2007@gmail.com" }
+]
+maintainers = [
+  { name = "MUmarShahbaz", email = "m.umarshahbaz.2007@gmail.com" }
+]
+classifiers = [
+  "Development Status :: 6 - Mature",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Topic :: Security :: Cryptography",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://m-umar.me/projects/TreeCrypt"
+Source = "https://github.com/MUmarShahbaz/TreeCrypt"
+Tracker = "https://github.com/MUmarShahbaz/TreeCrypt/issues"
+
+[tool.flit.module]
+name = "treecrypt"
+
+[tool.flit.sdist]
+exclude = ["example.py", ".gitignore"]
