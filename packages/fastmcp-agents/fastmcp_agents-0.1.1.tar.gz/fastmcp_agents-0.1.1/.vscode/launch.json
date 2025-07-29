@@ -1,0 +1,138 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python Debugger: Module",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "fastmcp_agents.cli",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "args": [
+                "--mcp-transport",
+                "sse",
+                "--model",
+                "vertex_ai/gemini-2.5-flash-preview-05-20"
+            ]
+        },
+        // Debug Tests config
+        {
+            "name": "Python: Debug Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "purpose": [
+                "debug-test"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Augmented Git",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "fastmcp_agents.cli",
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "cwd": "${workspaceFolder}/agent-working-dir",
+            "args": [
+                "bundled",
+                "server",
+                "mcp_git",
+                "--mcp-transport",
+                "sse",
+            ]
+        },
+        {
+            "name": "Augmented Git (Cyanheads)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "fastmcp_agents.cli",
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "cwd": "${workspaceFolder}/agent-working-dir",
+            "args": [
+                "bundled",
+                "server",
+                "cyanheads_git-mcp-server",
+                "--mcp-transport",
+                "sse",
+            ]
+        },
+        {
+            "name": "Augmented GitHub",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "fastmcp_agents.cli",
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "cwd": "${workspaceFolder}/agent-working-dir",
+            "args": [
+                "bundled",
+                "server",
+                "github_mcp-server",
+                "--mcp-transport",
+                "sse",
+            ]
+        },
+        {
+            "name": "Augmented Filesystem",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "fastmcp_agents.cli",
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "cwd": "${workspaceFolder}/agent-working-dir",
+            "args": [
+                "bundled",
+                "server",
+                "strawgate_filesystem-operations",
+                "--mcp-transport",
+                "sse",
+            ]
+        },
+        {
+            "name": "Augmented Tree Sitter",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "fastmcp_agents.cli",
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "cwd": "${workspaceFolder}/agent-working-dir",
+            "args": [
+                "bundled",
+                "server",
+                "wrale_mcp-server-tree-sitter",
+                "--mcp-transport",
+                "sse",
+            ]
+        },
+        {
+            "name": "Augmented Triage Issue",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "fastmcp_agents.cli",
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "cwd": "${workspaceFolder}/agent-working-dir",
+            "args": [
+                "bundled",
+                "flow",
+                "triage-issue",
+                "--mcp-transport",
+                "sse",
+            ]
+        },
+    ]
+}
