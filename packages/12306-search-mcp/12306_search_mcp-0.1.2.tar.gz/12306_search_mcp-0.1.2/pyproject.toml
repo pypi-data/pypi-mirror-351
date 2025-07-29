@@ -1,0 +1,21 @@
+[project]
+name = "12306-search-mcp"
+version = "0.1.2"
+description = "12306-mcp-server,用于查询12306车票信息"
+readme = "README.md"
+authors = [
+    { name = "xiongda", email = "jsynwy@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "aiohttp>=3.12.2",
+    "mcp[cli]>=1.9.1",
+    "requests>=2.32.3",
+]
+
+[project.scripts]
+12306-search-mcp = "12306_search_mcp:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
