@@ -1,0 +1,10 @@
+[console_scripts]
+create = cherpy.cli:create_object_cli
+csm = cherpy.cli:csm
+delete_objects = cherpy.cli:delete_objects_cli
+run-onestep = cherpy.cli:run_onestep_cli
+search = cherpy.cli:search_object_cli
+update = cherpy.cli:update_object_cli
+
+[gui_scripts]
+
