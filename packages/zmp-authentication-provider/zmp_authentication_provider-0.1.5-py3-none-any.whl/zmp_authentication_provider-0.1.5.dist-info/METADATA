@@ -1,0 +1,26 @@
+Metadata-Version: 2.3
+Name: zmp-authentication-provider
+Version: 0.1.5
+Summary: This is a library project for the authentication using the basic auth and oidc
+Author: Kilsoo Kang
+Author-email: kilsoo75@gmail.com
+Requires-Python: >=3.12,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: cryptography (>=45.0.3,<46.0.0)
+Requires-Dist: fastapi (>=0.115.11,<0.116.0)
+Requires-Dist: motor (>=3.7.0,<4.0.0)
+Requires-Dist: pydantic (>=2.10.6)
+Requires-Dist: pydantic-settings (>=2.9.1,<3.0.0)
+Requires-Dist: pyjwt (>=2.10.1,<3.0.0)
+Requires-Dist: pymongo (>=4.12.0,<5.0.0)
+Requires-Dist: python-dotenv (>=1.0.1,<2.0.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Project-URL: Bug Tracker, https://github.com/cloudz-mp/zmp-authentication-provider/issues
+Project-URL: Documentation, https://github.com/cloudz-mp/zmp-authentication-provider
+Project-URL: Homepage, https://github.com/cloudz-mp
+Project-URL: Repository, https://github.com/cloudz-mp/zmp-authentication-provider
+Description-Content-Type: text/markdown
+
+
