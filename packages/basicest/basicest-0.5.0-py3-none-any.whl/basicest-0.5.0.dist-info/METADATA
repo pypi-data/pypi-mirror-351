@@ -1,0 +1,29 @@
+Metadata-Version: 2.3
+Name: basicest
+Version: 0.5.0
+Summary: Minimal SSG
+License: GPL-3.0-or-later
+Author: Jamie Bliss
+Author-email: jamie@ivyleav.es
+Requires-Python: >=3.12,<4
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: serve
+Requires-Dist: colorama (>=0.4.6) ; extra == "serve"
+Requires-Dist: jinjax (>=0.56)
+Requires-Dist: starlette (>=0.35) ; extra == "serve"
+Requires-Dist: uvicorn (>=0.25) ; extra == "serve"
+Requires-Dist: watchfiles (>=0.20) ; extra == "serve"
+Requires-Dist: websockets (>=11) ; extra == "serve"
+Project-URL: Homepage, https://basicest.ivyleav.es/
+Project-URL: Repository, https://github.com/AstraLuma/basicest
+Description-Content-Type: text/markdown
+
+# Basicest
+
+Basicest is basic static site generator. It's mostly a component processor over
+a collection of files.
+
+See the `site` directory for an example.
