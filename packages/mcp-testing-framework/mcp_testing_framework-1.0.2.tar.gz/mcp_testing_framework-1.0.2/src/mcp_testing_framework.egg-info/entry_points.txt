@@ -1,0 +1,5 @@
+[console_scripts]
+llm = mcp_client_cli.cli:main
+mcp-client = mcp_client_cli.cli:main
+mcp-test = mcp_client_cli.cli:main
+mcp-testing = mcp_client_cli.cli:main
