@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="imio.schedule">
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IStartDate"
+        factory=".due_date.ContainerCreationDate"
+        name="schedule.start_date.creation_date"
+    />
+
+</configure>

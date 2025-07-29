@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>4</version>
+  <dependencies>
+    <dependency>profile-collective.task:default</dependency>
+    <dependency>profile-collective.z3cform.datagridfield:default</dependency>
+    <dependency>profile-plone.app.dexterity:default</dependency>
+    <dependency>profile-imio.dashboard:default</dependency>
+  </dependencies>
+</metadata>

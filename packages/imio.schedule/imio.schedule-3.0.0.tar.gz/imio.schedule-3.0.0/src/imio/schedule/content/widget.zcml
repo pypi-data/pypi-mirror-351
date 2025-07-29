@@ -1,0 +1,21 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  i18n_domain="imio.schedule">
+
+  <adapter
+    factory=".subform_context_choice.subform_context_select_field_widget"
+    for=".subform_context_choice.ISubFormContextChoice
+         z3c.form.interfaces.IFormLayer"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         z3c.form.interfaces.IFormLayer
+         zope.interface.Interface
+         .subform_context_choice.ISubFormContextChoice
+         z3c.form.interfaces.IWidget"
+    provides="z3c.form.interfaces.ITerms"
+    factory=".subform_context_choice.subform_context_choice_terms"
+    />
+
+</configure>

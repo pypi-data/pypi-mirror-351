@@ -1,0 +1,13 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  i18n_domain="imio.schedule">
+
+  <browser:page
+    for="imio.schedule.content.task_config.ITaskConfig"
+    name="view"
+    class=".view.CustomView"
+    permission="zope2.View"
+    />
+
+</configure>

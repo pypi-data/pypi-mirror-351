@@ -1,0 +1,25 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="imio.schedule">
+
+  <include package=".tests" />
+
+  <include file="configure.zcml" />
+
+  <genericsetup:registerProfile
+      name="testing"
+      title="imio.schedule tests"
+      directory="profiles/testing"
+      description="Steps to ease tests of imio.schedule"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="imio.schedule-example_install"
+      title="imio.schedule testing install import step"
+      description="Create example task and task config objects for unit test purpose"
+      handler=".tests.setup.schedule_example_install">
+  </genericsetup:importStep>
+
+</configure>

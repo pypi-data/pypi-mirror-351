@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="imio.schedule">
+
+  <utility
+    factory=".vocabularies.WorkingDaysVocabularyFactory"
+    name="imio.schedule.working_days"
+    provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+  <utility
+    factory=".vocabularies.AdditionalDelayTypeVocabularyFactory"
+    name="imio.schedule.additional_delay_type"
+    provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+</configure>

@@ -1,0 +1,10 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="imio.schedule">
+
+  <adapter name="task_config_UID" factory=".indexes.task_config_UID" />
+  <adapter name="schedule_config_UID" factory=".indexes.schedule_config_UID" />
+  <adapter name="is_solvable_task" factory=".indexes.is_solvable_task" />
+
+</configure>

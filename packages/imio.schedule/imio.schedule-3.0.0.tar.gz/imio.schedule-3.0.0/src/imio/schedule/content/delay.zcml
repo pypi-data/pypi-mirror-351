@@ -1,0 +1,21 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  i18n_domain="imio.schedule">
+
+  <adapter
+    for="zope.interface.Interface
+         imio.schedule.content.task.IAutomatedTask"
+    provides="imio.schedule.interfaces.ICalculationDelay"
+    factory=".delay.CalculationDefaultDelay"
+    name="schedule.calculation_default_delay"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         imio.schedule.content.task.IAutomatedTask"
+    provides="imio.schedule.interfaces.IFreezeDuration"
+    factory=".delay.DefaultFreezeDuration"
+    name="schedule.freeze_duration"
+    />
+
+</configure>

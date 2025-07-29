@@ -1,0 +1,105 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  i18n_domain="imio.schedule">
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.CreationConditionAdapter"
+    name="imio.schedule.content.task_config.ICreationConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.StartConditionAdapter"
+    name="imio.schedule.content.task_config.IStartConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.EndConditionAdapter"
+    name="imio.schedule.content.task_config.IEndConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.MacroCreationConditionAdapter"
+    name="imio.schedule.content.task_config.IMacroCreationConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.MacroStartConditionAdapter"
+    name="imio.schedule.content.task_config.IMacroStartConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.MacroEndConditionAdapter"
+    name="imio.schedule.content.task_config.IMacroEndConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.RecurrenceConditionAdapter"
+    name="imio.schedule.content.task_config.IRecurrenceConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.MacroRecurrenceConditionAdapter"
+    name="imio.schedule.content.task_config.IMacroRecurrenceConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.FreezeConditionAdapter"
+    name="imio.schedule.content.task_config.IFreezeConditionSchema"
+    />
+
+  <adapter
+    for="zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface
+         zope.interface.Interface"
+    provides="z3c.form.interfaces.IObjectFactory"
+    factory=".object_factories.ThawConditionAdapter"
+    name="imio.schedule.content.task_config.IThawConditionSchema"
+    />
+
+</configure>

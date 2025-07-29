@@ -1,0 +1,57 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="imio.schedule">
+
+  <i18n:registerTranslations directory="locales" />
+
+  <include package="collective.task" />
+  <include package="collective.z3cform.datagridfield"/>
+  <include package="imio.dashboard"/>
+  <include package="plone.app.dexterity" />
+
+  <include package=".browser" />
+  <include package=".collectionwidget" />
+  <include package=".content" />
+  <include package=".dashboard" />
+  <include package=".events" />
+  <include package=".workflow" />
+  <include package=".migration" />
+
+  <include file="indexes.zcml" />
+  <include file="vocabularies.zcml" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="imio.schedule"
+      directory="profiles/default"
+      description="Installs the imio.schedule add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="imio.schedule-postInstall"
+      title="imio.schedule post_install import step"
+      description="Post install import step from imio.schedule"
+      handler=".setuphandlers.post_install">
+
+  </genericsetup:importStep>
+
+  <adapter factory=".converter.creation_condition_converter" />
+  <adapter factory=".converter.start_condition_converter" />
+  <adapter factory=".converter.end_condition_converter" />
+  <adapter factory=".converter.freeze_condition_converter" />
+  <adapter factory=".converter.thaw_condition_converter" />
+  <adapter factory=".converter.recurrence_condition_converter" />
+  <adapter factory=".converter.macro_creation_condition_converter" />
+  <adapter factory=".converter.macro_start_condition_converter" />
+  <adapter factory=".converter.macro_end_condition_converter" />
+  <adapter factory=".converter.macro_freeze_condition_converter" />
+  <adapter factory=".converter.macro_thaw_condition_converter" />
+  <adapter factory=".converter.macro_recurrence_condition_converter" />
+
+  <adapter factory=".deserializer.ObjectDeserializer" />
+
+</configure>

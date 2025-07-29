@@ -1,0 +1,35 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    i18n_domain="imio.schedule">
+
+  <gs:upgradeStep
+    title="Upgrade urban to 1.8"
+    description="urban upgrade step"
+    source="1.7"
+    destination="1.8"
+    handler=".migrate_to_18.migrate_to_18"
+    profile="imio.schedule:default" />
+
+  <gs:upgradeStep
+    title="Fix marker interface on schedule collections"
+    source="1.8"
+    destination="2"
+    handler=".upgrades.upgrade_2_fix_schedule_collection"
+    profile="imio.schedule:default" />
+
+  <gs:upgradeStep
+    title="Set showNumberOfItems value"
+    source="2"
+    destination="3"
+    handler=".upgrades.upgrade_3_set_showNumberOfItems"
+    profile="imio.schedule:default" />
+
+  <gs:upgradeStep
+    title="Add due date reminders"
+    source="3"
+    destination="4"
+    handler=".upgrades.upgrade_4_add_due_date_reminders"
+    profile="imio.schedule:default" />
+
+</configure>

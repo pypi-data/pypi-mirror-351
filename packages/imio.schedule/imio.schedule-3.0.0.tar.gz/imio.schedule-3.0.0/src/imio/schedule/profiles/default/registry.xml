@@ -1,0 +1,36 @@
+<!-- Operation Definitions -->
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone">
+
+    <records interface="plone.app.querystring.interfaces.IQueryField"
+             prefix="plone.app.querystring.field.due_date">
+        <value key="title" i18n:translate="">Due date</value>
+        <value key="description" i18n:translate="">The item due date</value>
+        <value key="enabled">True</value>
+        <value key="sortable">True</value>
+        <value key="operations">
+            <element>plone.app.querystring.operation.date.lessThan</element>
+            <element>plone.app.querystring.operation.date.largerThan</element>
+            <element>plone.app.querystring.operation.date.between</element>
+            <element>plone.app.querystring.operation.date.lessThanRelativeDate</element>
+            <element>plone.app.querystring.operation.date.largerThanRelativeDate</element>
+            <element>plone.app.querystring.operation.date.today</element>
+            <element>plone.app.querystring.operation.date.beforeToday</element>
+            <element>plone.app.querystring.operation.date.afterToday</element>
+        </value>
+        <value key="group" i18n:translate="">Dates</value>
+    </records>
+    <records interface="imio.schedule.interfaces.ISettings" purge="False">
+        <value key="working_days">
+            <element>monday</element>
+            <element>tuesday</element>
+            <element>wednesday</element>
+            <element>thursday</element>
+            <element>friday</element>
+        </value>
+    </records>
+    <records interface="imio.schedule.interfaces.IDueDateSettings" purge="False">
+        <value key="color_orange_x_days_before_due_date">10</value>
+        <value key="color_red_x_days_before_due_date">5</value>
+    </records>
+</registry>

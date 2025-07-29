@@ -1,0 +1,87 @@
+
+td.td_cell_due_date,
+td.td_cell_CreationDate {
+    text-align: center;
+}
+
+td.td_cell_status {
+    text-align: left;
+}
+
+td.td_cell_assigned_user {
+    text-align: center;
+}
+
+span.schedule_created {
+    background-color: #ff9000;
+}
+
+span.schedule_to_do {
+    background-color: yellow;
+}
+
+span.schedule_closed {
+    background-color: #75AD0A;
+}
+
+span.schedule_frozen {
+    background-color: #6AD7FC;
+}
+
+span.simple_task {
+    background-color: grey;
+}
+
+table.task_status_table {
+    width: 100%;
+}
+
+table.subtask_status_table {
+    width: 100%;
+}
+
+p.warning {
+    color: red;
+}
+
+td.red_close_due_date {
+    text-decoration: underline;
+    text-decoration-color: red;
+    text-decoration-thickness: 3px;
+}
+
+td.orange_close_due_date {
+    text-decoration: underline;
+    text-decoration-color: orange;
+    text-decoration-thickness: 3px;
+}
+
+.term-level-1 {
+    padding-left: 1em
+}
+
+.term-level-2 {
+    padding-left: 2em
+}
+
+.term-level-3 {
+    padding-left: 3em
+}
+
+.term-level-4 {
+    padding-left: 4em
+}
+
+.term-level-5 {
+    padding-left: 5em
+}
+
+.portaltype-taskconfig #content #content-core .enableFormTabbing,
+.portaltype-macrotaskconfig #content #content-core .enableFormTabbing {
+    border: 0!important;
+    margin-top: 0;
+}
+
+.th_header_simple_status {
+    max-width: 1em;
+}

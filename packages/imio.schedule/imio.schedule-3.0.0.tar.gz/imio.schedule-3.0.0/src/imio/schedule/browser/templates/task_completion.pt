@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="imio.schedule">
+
+<head>
+</head>
+
+<body>
+<metal:main fill-slot="main">
+<metal:main_macro define-macro="main">
+    <metal:body define-macro="body_macro">
+
+    <h1 tal:content='python: view.task.get_container().Title()'></h1>
+    <h2 tal:content='python: view.task.Title()'></h2>
+    <table class="listing task_status_table"
+           tal:define="state_status view/get_state_status;
+                   state_done python: state_status and state_status[0] in state_status[1] or None;
+                   state_todo python: state_status and state_status[0] not in state_status[1] or None;
+                   all_conditions_status view/get_conditions_status;
+                   conditions_todo python: all_conditions_status[1];
+                   conditions_done python: all_conditions_status[0];
+                   all_subtasks_status view/get_subtasks_status;
+                   subtasks_created python: all_subtasks_status[0];
+                   subtasks_todo python: all_subtasks_status[1];
+                   subtasks_done python: all_subtasks_status[2]">
+        <tal:display define="task_conditions conditions_todo;
+                             status python: False;
+                             subtasks python: subtasks_created + subtasks_todo"
+                    condition="python: task_conditions or state_todo or subtasks">
+            <th i18n:translate="" colspan="2">To do</th>
+            <tr tal:condition="task_conditions">
+                <td>
+                    <div metal:use-macro="here/@@taskmacros/conditions_status_macro" />
+                </td>
+            </tr>
+            <tr tal:condition="state_todo">
+                <td>
+                    <div metal:use-macro="here/@@taskmacros/state_status_macro" />
+                </td>
+            </tr>
+            <tr tal:condition="subtasks">
+                <td>
+                    <div metal:use-macro="here/@@taskmacros/subtasks_todo_status_macro" />
+                </td>
+            </tr>
+        </tal:display>
+        <tal:display define="task_conditions conditions_done;
+                             status python: True;
+                             subtasks subtasks_done"
+             condition="python: task_conditions or state_done or subtasks">
+            <th i18n:translate="" colspan="2">Done</th>
+            <tr tal:condition="task_conditions">
+                <td>
+                    <div metal:use-macro="here/@@taskmacros/conditions_status_macro" />
+                </td>
+            </tr>
+            <tr tal:condition="state_done">
+                <td>
+                    <div metal:use-macro="here/@@taskmacros/state_status_macro" />
+                </td>
+            </tr>
+            <tr tal:condition="subtasks">
+                <td>
+                    <div metal:use-macro="here/@@taskmacros/subtasks_status_macro" />
+                </td>
+            </tr>
+        </tal:display>
+    </table>
+
+</metal:body>
+</metal:main_macro>
+</metal:main>
+</body>
+</html>

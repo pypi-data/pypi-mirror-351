@@ -1,0 +1,68 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="imio.schedule">
+
+  <!-- Publish static files -->
+  <browser:resourceDirectory
+      name="imio.schedule"
+      directory="static"
+      />
+
+  <browser:page
+     for="*"
+     name="taskmacros"
+     template="templates/taskmacros.pt"
+     permission="zope2.View"
+  />
+
+  <browser:page
+     for="imio.schedule.content.task.IAutomatedTask"
+     name="start_status"
+     class=".task_completion.TaskStartStatusView"
+     template="templates/task_completion.pt"
+     permission="zope2.View"
+  />
+
+  <browser:page
+     for="imio.schedule.content.task.IAutomatedTask"
+     name="end_status"
+     class=".task_completion.TaskEndStatusView"
+     template="templates/task_completion.pt"
+     permission="zope2.View"
+  />
+
+  <browser:page
+     for="imio.schedule.content.task.IAutomatedTask"
+     name="simple_start_status"
+     class=".task_completion.TaskStartSimpleStatusView"
+     template="templates/task_completion.pt"
+     permission="zope2.View"
+  />
+
+  <browser:page
+     for="imio.schedule.content.task.IAutomatedTask"
+     name="simple_end_status"
+     class=".task_completion.TaskEndSimpleStatusView"
+     template="templates/task_completion.pt"
+     permission="zope2.View"
+  />
+
+  <browser:page
+     for="imio.schedule.content.task.IAutomatedTask"
+     name="change_owner"
+     class=".task_owner.TaskChangeOwnerView"
+     template="templates/task_change_owner.pt"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for="imio.schedule.content.task.IAutomatedTask"
+     name="close_task"
+     class=".close_task.CloseTaskView"
+     template="templates/close_task.pt"
+     permission="zope2.View"
+     />
+
+</configure>

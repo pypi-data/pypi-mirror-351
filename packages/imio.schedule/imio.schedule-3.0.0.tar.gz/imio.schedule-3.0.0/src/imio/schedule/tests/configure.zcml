@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="imio.schedule">
+
+    <include file="conditions.zcml" />
+    <include file="due_date.zcml" />
+    <include file="logic.zcml" />
+
+    <utility
+      provides="imio.schedule.interfaces.ICalendarExtraHolidays"
+      factory=".holidays.CalendarExtraHolidays"
+      name="imio.schedule.test_extra_holidays"
+      />
+
+</configure>

@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="imio.schedule">
+
+ <utility
+      name="imio.schedule.wfadaptations.freeze_task"
+      provides="collective.wfadaptations.interfaces.IWorkflowAdaptation"
+      factory=".freeze_task.FreezeTaskWorkflowAdaptation"
+      />
+
+</configure>

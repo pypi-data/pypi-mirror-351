@@ -1,0 +1,115 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="imio.schedule">
+
+
+  <subscriber for="Products.CMFCore.interfaces.ISiteRoot
+                   zope.traversing.interfaces.IBeforeTraverseEvent"
+              handler=".zope_registration.register_at_instance_startup"/>
+
+  <subscriber for="imio.schedule.content.schedule_config.IScheduleConfig
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".zope_registration.update_task_configs_subscriptions"/>
+
+  <subscriber for="imio.schedule.content.schedule_config.IScheduleConfig
+                   zope.lifecycleevent.IObjectAddedEvent"
+              handler=".zope_registration.register_schedule_collection_criterion"/>
+
+  <subscriber for="imio.schedule.content.schedule_config.IScheduleConfig
+                   zope.lifecycleevent.IObjectRemovedEvent"
+              handler=".zope_registration.unregister_schedule_collection_criterion"/>
+
+  <subscriber for="imio.schedule.content.schedule_config.IScheduleConfig
+                   zope.lifecycleevent.IObjectAddedEvent"
+              handler=".dashboard_collection.create"/>
+
+  <subscriber for="imio.schedule.content.schedule_config.IScheduleConfig
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".dashboard_collection.create"/>
+
+  <subscriber for="zope.interface.Interface
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".update_tasks.UpdateRecurrenceHandler" />
+
+  <subscriber for="zope.interface.Interface
+                   Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+              handler=".update_tasks.UpdateRecurrenceHandler" />
+
+  <subscriber for="imio.schedule.content.task_config.ITaskConfig
+                   zope.lifecycleevent.IObjectAddedEvent"
+              handler=".zope_registration.subscribe_task_configs_for_content_type"/>
+
+  <subscriber for="imio.schedule.content.task_config.ITaskConfig
+                   zope.lifecycleevent.IObjectRemovedEvent"
+              handler=".zope_registration.unsubscribe_task_configs_for_content_type"/>
+
+  <subscriber for="imio.schedule.content.task_config.ITaskConfig
+                   zope.lifecycleevent.IObjectAddedEvent"
+              handler=".zope_registration.register_task_collection_criterion"/>
+
+  <subscriber for="imio.schedule.content.task_config.ITaskConfig
+                   zope.lifecycleevent.IObjectRemovedEvent"
+              handler=".zope_registration.unregister_task_collection_criterion"/>
+
+  <subscriber for="imio.schedule.content.task_config.ITaskConfig
+                   zope.lifecycleevent.IObjectAddedEvent"
+              handler=".dashboard_collection.create"/>
+
+  <subscriber for="imio.schedule.content.task_config.ITaskConfig
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".dashboard_collection.update_title"/>
+
+  <subscriber for="imio.schedule.content.task_config.ITaskConfig
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".task_config.update_marker_interfaces"/>
+
+  <subscriber for="zope.interface.Interface
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".create_task.create_new_tasks"/>
+
+  <subscriber for="zope.interface.Interface
+                   Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+              handler=".create_task.create_new_tasks" />
+
+  <subscriber for="zope.interface.Interface
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".update_tasks.start_tasks"/>
+
+  <subscriber for="zope.interface.Interface
+                   Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+              handler=".update_tasks.start_tasks" />
+
+  <subscriber for="zope.interface.Interface
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".update_tasks.end_tasks"/>
+
+  <subscriber for="zope.interface.Interface
+                   Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+              handler=".update_tasks.end_tasks" />
+
+  <subscriber for="zope.interface.Interface
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".update_tasks.freeze_tasks"/>
+
+  <subscriber for="zope.interface.Interface
+                   Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+              handler=".update_tasks.freeze_tasks" />
+
+  <subscriber for="zope.interface.Interface
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".update_tasks.thaw_tasks"/>
+
+  <subscriber for="zope.interface.Interface
+                   Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+              handler=".update_tasks.thaw_tasks" />
+
+  <subscriber for="zope.interface.Interface
+                   zope.lifecycleevent.IObjectModifiedEvent"
+              handler=".update_tasks.update_due_date"/>
+
+  <subscriber for="zope.interface.Interface
+                   Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+              handler=".update_tasks.update_due_date" />
+
+</configure>

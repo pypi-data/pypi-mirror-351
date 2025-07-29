@@ -1,0 +1,40 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="imio.schedule">
+
+    <include file="vocabulary.zcml" />
+
+    <!-- Assigned user adapter returning current logged user -->
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IDefaultTaskUser"
+        factory=".logic.AssignCurrentUser"
+        name="schedule.assign_current_user"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IStartDate"
+        factory=".logic.StartDate"
+        name="schedule.start_date.infinite"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IStartDate"
+        factory=".logic.TaskStartingDate"
+        name="schedule.start_date.task_starting_date"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task.IAutomatedMacroTask"
+        provides="imio.schedule.interfaces.IMacroTaskStartDate"
+        factory=".logic.SubtaskHighestDueDate"
+        name="schedule.start_date.subtask_highest_due_date"
+    />
+
+</configure>

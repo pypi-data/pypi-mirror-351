@@ -1,0 +1,104 @@
+<div metal:define-macro="conditions_status_macro" i18n:domain="imio.schedule">
+    <div tal:repeat="task_condition task_conditions">
+        <span tal:attributes="class python: status and 'schedule_closed' or 'schedule_to_do'">
+        &nbsp&nbsp&nbsp
+        </span>
+        &nbsp
+        <span i18n:translate="" tal:content="structure task_condition" />
+    </div>
+</div>
+
+<div metal:define-macro="state_status_macro" i18n:domain="imio.schedule">
+    <tal:vars define="closed python: state_status[0] in state_status[1]">
+        <span tal:attributes="class python: closed and 'schedule_closed' or 'schedule_to_do'">
+        &nbsp&nbsp&nbsp
+        </span>
+        &nbsp
+        <span>
+            <tal:not_closed condition="not: closed">
+                <span i18n:translate="" tal:replace="python: 'Should pass from actual state '" />
+                '<b i18n:domain="plone" i18n:translate="" tal:content="python: state_status[0]" />'
+                <span i18n:domain="imio.schedule" i18n:translate="" tal:replace="python: ' to one of the following states'" />:
+            </tal:not_closed>
+            <tal:closed condition="closed">
+                <span i18n:domain="imio.schedule" i18n:translate="" tal:replace="python: ' is one of the following states'" />:
+            </tal:closed>
+            <tal:states repeat="state python: state_status[1]">
+                '<b i18n:domain="plone"  i18n:translate="" tal:content="python: state" />'
+                 <tal:sep condition="not: repeat/state/end">,</tal:sep>
+            </tal:states>.
+        </span>
+    </tal:vars>
+</div>
+
+<div metal:define-macro="subtasks_todo_status_macro" i18n:domain="imio.schedule">
+    <div i18n:translate="Subtasks">Subtasks:</div>
+    <table>
+        <tr>
+            <th i18n:translate=""></th>
+            <th i18n:domain="plone" i18n:translate="" tal:content="python: view.subtask_todo_title_label">Title</th>
+            <th i18n:domain="plone" i18n:translate="" tal:content="python: view.subtask_status_label">Title</th>
+            <th i18n:translate="" tal:content="python: view.assigned_user_label">Assigned to</th>
+            <th i18n:translate="" tal:content="python: view.due_date_label">Due date</th>
+        </tr>
+        <tr tal:repeat="subtask subtasks">
+            <td>
+                <span tal:attributes="class python: 'schedule_%s' % view.get_state(subtask)">
+                    &nbsp&nbsp&nbsp
+                </span>
+            </td>
+            <td>
+                <span tal:content="python: subtask.Title()" />
+            </td>
+            <td tal:define="all_subtask_conditions python:subtask.restrictedTraverse('simple_end_status').get_conditions_status()">
+                <tal:conditions_todo define="task_conditions python: all_subtask_conditions[1];">
+                    <div metal:use-macro="here/@@taskmacros/conditions_status_macro" />
+                </tal:conditions_todo>
+            </td>
+            <td>
+                <span tal:content="python: view.display_user_name(subtask.assigned_user)" />
+            </td>
+            <td tal:define="due_date python: view.display_date(subtask.due_date)">
+                <span tal:content="due_date" />
+             </td>
+        </tr>
+    </table>
+</div>
+
+<div metal:define-macro="subtasks_status_macro" i18n:domain="imio.schedule">
+    <div i18n:translate="Subtasks">Subtasks:</div>
+    <table>
+        <tr>
+            <th i18n:translate=""></th>
+            <th i18n:domain="plone" i18n:translate="" tal:content="python: view.subtask_title_label">Title</th>
+            <th i18n:domain="plone" i18n:translate="" tal:content="python: view.subtask_status_label">Title</th>
+            <th i18n:translate="" tal:content="python: view.assigned_user_label">Assigned to</th>
+            <th i18n:translate="" tal:content="python: view.due_date_label">Due date</th>
+            <th i18n:translate="" tal:content="python: view.end_date_label">End date</th>
+        </tr>
+        <tr tal:repeat="subtask subtasks">
+            <td>
+                <span tal:attributes="class python: 'schedule_%s' % view.get_state(subtask)">
+                    &nbsp&nbsp&nbsp
+                </span>
+            </td>
+            <td>
+                <span tal:content="python: subtask.Title()" />
+            </td>
+            <td tal:define="all_subtask_conditions python:subtask.restrictedTraverse('simple_end_status').get_conditions_status()">
+                <tal:conditions_todo define="task_conditions python: all_subtask_conditions[0];">
+                    <div metal:use-macro="here/@@taskmacros/conditions_status_macro" />
+                </tal:conditions_todo>
+            </td>
+            <td>
+                <span tal:content="python: view.display_user_name(subtask.assigned_user)" />
+            </td>
+            <td tal:define="due_date python: view.display_date(subtask.due_date)">
+                <span tal:content="due_date" />
+             </td>
+            <td tal:define="end_date python: view.display_date(subtask.end_date)">
+                <span tal:content="end_date" />
+            </td>
+        </tr>
+    </table>
+</div>

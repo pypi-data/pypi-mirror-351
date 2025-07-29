@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+
+  <index name="schedule_config_UID" meta_type="FieldIndex">
+    <indexed_attr value="schedule_config_UID"/>
+  </index>
+  <column value="schedule_config_UID"/>
+
+  <index name="task_config_UID" meta_type="FieldIndex">
+    <indexed_attr value="task_config_UID"/>
+  </index>
+  <column value="task_config_UID"/>
+
+  <index name="is_solvable_task" meta_type="FieldIndex">
+    <indexed_attr value="is_solvable_task"/>
+  </index>
+  <column value="is_solvable_task"/>
+
+</object>

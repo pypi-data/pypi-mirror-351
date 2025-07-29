@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:faceted="http://namespaces.zope.org/faceted"
+    i18n_domain="imio.schedule">
+
+  <browser:page
+      for="imio.schedule.interfaces.IScheduleCollection"
+      name="render_collection_widget_term"
+      class=".views.RenderScheduleTermView"
+      template="templates/term.pt"
+      permission="zope2.View"
+      />
+
+  <!-- Vocabulary of base searches for schedule faceted view -->
+  <utility
+      component=".vocabulary.ScheduleCollectionVocabularyFactory"
+      name="imio.schedule.collections"
+      />
+
+</configure>

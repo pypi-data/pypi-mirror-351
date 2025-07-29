@@ -1,0 +1,61 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="imio.schedule">
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task_config.IMacroTaskConfig"
+        provides="imio.schedule.interfaces.IMacroTaskCreationCondition"
+        factory=".condition.CreateIfSubtaskCanBeCreated"
+        name="schedule.create_if_subtask_can_be_created"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task_config.IMacroTaskConfig"
+        provides="imio.schedule.interfaces.IMacroTaskCreationCondition"
+        factory=".condition.CreateIfAllSubtasksCanBeCreated"
+        name="schedule.create_if_all_subtasks_can_be_created"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task.AutomatedMacroTask"
+        provides="imio.schedule.interfaces.IMacroTaskStartCondition"
+        factory=".condition.StartIfAnySubtaskStarted"
+        name="schedule.start_if_subtask_started"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task.AutomatedMacroTask"
+        provides="imio.schedule.interfaces.IMacroTaskStartCondition"
+        factory=".condition.StartIfAllSubtasksStarted"
+        name="schedule.start_if_all_subtasks_started"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task_config.ITaskConfig"
+        provides="imio.schedule.interfaces.IRecurrenceCondition"
+        factory=".condition.NoRecurencyCondition"
+        name="schedule.no_recurrency_condition"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IEndCondition"
+        factory=".condition.TaskDueDateReachedCondition"
+        name="schedule.end_when_due_date_reached"
+    />
+
+    <adapter
+        for="zope.interface.Interface
+             imio.schedule.content.task.IAutomatedMacroTask"
+        provides="imio.schedule.interfaces.IEndCondition"
+        factory=".condition.MacroTaskDueDateReachedCondition"
+        name="schedule.macro_end_when_due_date_reached"
+    />
+
+</configure>

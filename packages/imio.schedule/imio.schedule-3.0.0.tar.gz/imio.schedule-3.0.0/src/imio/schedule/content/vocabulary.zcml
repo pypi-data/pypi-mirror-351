@@ -1,0 +1,159 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="collective.documentgenerator">
+
+    <!-- TaskConfig 'scheduled_contenttype' field Vocabulary -->
+    <utility
+        factory=".vocabulary.ScheduledContentTypeVocabularyFactory"
+        name="schedule.scheduled_contenttype"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- Default vocabulary adapter for 'scheduled_contenttype' field -->
+    <adapter
+      for="plone.dexterity.interfaces.IDexterityFTI"
+      factory=".vocabulary.ScheduledContentTypeVocabulary"
+      provides="imio.schedule.interfaces.IScheduledContentTypeVocabulary"
+      name="ScheduleConfig"
+    />
+
+    <!-- TaskConfig 'default_assigned_group' field Vocabulary -->
+    <utility
+        factory=".vocabulary.AssignedGroupVocabularyFactory"
+        name="schedule.assigned_group"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'default_assigned_user' field Vocabulary -->
+    <utility
+        factory=".vocabulary.AssignedUserVocabularyFactory"
+        name="schedule.assigned_user"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'container_state' field Vocabulary -->
+    <utility
+        factory=".vocabulary.ContainerStateVocabularyFactory"
+        name="schedule.container_state"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'marker_interfaces' field Vocabulary -->
+    <utility
+        factory=".vocabulary.TaskMarkerInterfacesVocabulary"
+        name="schedule.task_marker_interfaces"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <utility
+        factory=".vocabulary.BooleanVocabulary"
+        name="schedule.boolen_vocabulary"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'creation_conditions' field Vocabulary -->
+    <utility
+        factory=".vocabulary.CreationConditionVocabularyFactory"
+        name="schedule.creation_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'start_conditions' field Vocabulary -->
+    <utility
+        factory=".vocabulary.StartConditionVocabularyFactory"
+        name="schedule.start_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'end_conditions' field Vocabulary -->
+    <utility
+        factory=".vocabulary.EndConditionVocabularyFactory"
+        name="schedule.end_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'freeze_conditions' field Vocabulary -->
+    <utility
+        factory=".vocabulary.FreezeConditionVocabularyFactory"
+        name="schedule.freeze_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'thaw_conditions' field Vocabulary -->
+    <utility
+        factory=".vocabulary.ThawConditionVocabularyFactory"
+        name="schedule.thaw_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'due_date' field Vocabulary -->
+    <utility
+        factory=".vocabulary.StartDateVocabularyFactory"
+        name="schedule.start_date"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'recurrence_condition' field Vocabulary -->
+    <utility
+        factory=".vocabulary.RecurrenceConditionVocabularyFactory"
+        name="schedule.recurrence_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'creation_conditions' field Vocabulary for MacroTaskConfig -->
+    <utility
+        factory=".vocabulary.MacroTaskCreationConditionVocabularyFactory"
+        name="schedule.macrotask_creation_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'start_conditions' field Vocabulary for MacroTaskConfig -->
+    <utility
+        factory=".vocabulary.MacroTaskStartConditionVocabularyFactory"
+        name="schedule.macrotask_start_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'end_conditions' field Vocabulary for MacroTaskConfig -->
+    <utility
+        factory=".vocabulary.MacroTaskEndConditionVocabularyFactory"
+        name="schedule.macrotask_end_conditions"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig 'due_date' field Vocabulary for MacroTaskConfig -->
+    <utility
+        factory=".vocabulary.MacroTaskStartDateVocabularyFactory"
+        name="schedule.macrotask_start_date"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- TaskConfig logical operator vocabulary -->
+    <utility
+        factory=".vocabulary.LogicalOperatorVocabularyFactory"
+        name="schedule.logical_operator"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        />
+
+    <!-- TaskConfig calculation delay vocabulary -->
+    <utility
+        factory=".vocabulary.CalculationDelayVocabularyFactory"
+        name="schedule.calculation_delay"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        />
+
+    <!-- Task owner vocabulary -->
+    <utility
+        component=".vocabulary.TaskOwnerVocabulary"
+        name="schedule.task_owner"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        />
+
+    <!-- Rounding week days vocabulary -->
+    <utility
+        factory=".vocabulary.WeekDaysRoundingVocabulary"
+        name="schedule.vocabulary.week_days_rounding"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        />
+
+</configure>

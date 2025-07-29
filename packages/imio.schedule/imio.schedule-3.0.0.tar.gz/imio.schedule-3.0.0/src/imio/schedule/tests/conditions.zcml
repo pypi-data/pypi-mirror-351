@@ -1,0 +1,85 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="imio.schedule">
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task_config.ITaskConfig"
+        provides="imio.schedule.interfaces.ICreationCondition"
+        factory=".condition.TestCreationCondition"
+        name="schedule.test_creation_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task_config.ITaskConfig"
+        provides="imio.schedule.interfaces.ICreationCondition"
+        factory=".condition.TestNegativeCreationCondition"
+        name="schedule.negative_creation_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IStartCondition"
+        factory=".condition.TestStartCondition"
+        name="schedule.test_start_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IStartCondition"
+        factory=".condition.TestNegativeStartCondition"
+        name="schedule.negative_start_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IEndCondition"
+        factory=".condition.TestEndCondition"
+        name="schedule.test_end_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IEndCondition"
+        factory=".condition.TestNegativeEndCondition"
+        name="schedule.negative_end_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IFreezeCondition"
+        factory=".condition.TestFreezeCondition"
+        name="schedule.test_freeze_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IFreezeCondition"
+        factory=".condition.TestNegativeFreezeCondition"
+        name="schedule.negative_freeze_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IThawCondition"
+        factory=".condition.TestThawCondition"
+        name="schedule.test_thaw_condition"
+    />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.IATFolder
+             imio.schedule.content.task.IAutomatedTask"
+        provides="imio.schedule.interfaces.IThawCondition"
+        factory=".condition.TestNegativeThawCondition"
+        name="schedule.negative_thaw_condition"
+    />
+
+</configure>

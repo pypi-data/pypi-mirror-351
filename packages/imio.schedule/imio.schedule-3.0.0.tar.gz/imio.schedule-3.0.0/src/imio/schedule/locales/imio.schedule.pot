@@ -1,0 +1,542 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2024-04-08 09:18+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: imio.schedule\n"
+
+msgid " is one of the following states"
+msgstr ""
+
+msgid " to one of the following states"
+msgstr ""
+
+#: ../vocabularies.py:32
+msgid "Absolute"
+msgstr ""
+
+#: ../content/task_config.py:422
+msgid "Activate recurrency"
+msgstr ""
+
+#: ../content/task_config.py:322
+msgid "Additional delay"
+msgstr ""
+
+#: ../content/task_config.py:329
+msgid "Additional delay is a tal expression?"
+msgstr ""
+
+#: ../content/task_config.py:346
+msgid "Additional delay type"
+msgstr ""
+
+#: ../events/dashboard_collection.py:20
+msgid "All"
+msgstr ""
+
+#: ../content/task_config.py:196
+msgid "Assigned group"
+msgstr ""
+
+msgid "Assigned to"
+msgstr ""
+
+#: ../content/task_config.py:203
+msgid "Assigned user"
+msgstr ""
+
+#: ../profiles/default/types/AutomatedMacroTask.xml
+msgid "AutomatedMacroTask"
+msgstr ""
+
+#: ../profiles/default/types/AutomatedTask.xml
+msgid "AutomatedTask"
+msgstr ""
+
+#: ../content/task_config.py:287
+msgid "Calculation delay"
+msgstr ""
+
+#: ../content/task_config.py:312
+msgid "Calculation delay method"
+msgstr ""
+
+#: ../browser/templates/task_change_owner.pt:15
+msgid "Change the task owner"
+msgstr ""
+
+#: ../browser/templates/close_task.pt:15
+msgid "Close task"
+msgstr ""
+
+#: ../interfaces.py:237
+msgid "Color due date in orange if it comes close to X days"
+msgstr ""
+
+#: ../interfaces.py:245
+msgid "Color due date in red if it comes close to X days"
+msgstr ""
+
+#: ../content/task_config.py:58
+msgid "Condition"
+msgstr ""
+
+#: ../content/task_config.py:233
+msgid "Conditions"
+msgstr ""
+
+#: ../browser/close_task.py:22
+#: ../browser/task_owner.py:28
+msgid "Confirm"
+msgstr ""
+
+#: ../content/task_config.py:218
+msgid "Creation"
+msgstr ""
+
+#: ../content/task_config.py:230
+msgid "Creation conditions"
+msgstr ""
+
+#: ../content/task_config.py:211
+msgid "Custom marker interfaces for this task."
+msgstr ""
+
+#: ../interfaces.py:226
+msgid "Day"
+msgstr ""
+
+#: ../content/task_config.py:330
+msgid "Define if the additional delay should be interpreted as a tal expression"
+msgstr ""
+
+#: ../content/task_config.py:347
+msgid "Define the calculation method for the additional delay"
+msgstr ""
+
+msgid "Doable alone"
+msgstr ""
+
+#: ../browser/templates/task_completion.pt:53
+msgid "Done"
+msgstr ""
+
+#: ../dashboard/columns.py:218
+msgid "Due date"
+msgstr ""
+
+#: ../content/schedule_config.py:23
+#: ../content/task_config.py:190
+msgid "Enabled"
+msgstr ""
+
+#: ../content/task_config.py:276
+msgid "End conditions"
+msgstr ""
+
+#: ../content/task_config.py:264
+msgid "Ending"
+msgstr ""
+
+#: ../content/task_config.py:361
+msgid "Freeze"
+msgstr ""
+
+#: ../content/task_config.py:376
+msgid "Freeze conditions"
+msgstr ""
+
+#: ../vocabularies.py:22
+msgid "Friday"
+msgstr ""
+
+#: ../content/task_config.py:182
+msgid "General informations"
+msgstr ""
+
+#: ../configure.zcml:32
+msgid "Installs the imio.schedule add-on."
+msgstr ""
+
+#: ../interfaces.py:238
+msgid "Leave empty to disable"
+msgstr ""
+
+#: ../interfaces.py:224
+msgid "List of working days"
+msgstr ""
+
+#: ../profiles/default/types/MacroTaskConfig.xml
+msgid "MacroTask configuration."
+msgstr ""
+
+#: ../profiles/default/types/MacroTaskConfig.xml
+msgid "MacroTaskConfig"
+msgstr ""
+
+#: ../content/task_config.py:210
+msgid "Marker interfaces"
+msgstr ""
+
+#: ../vocabularies.py:18
+msgid "Monday"
+msgstr ""
+
+#: ../browser/task_owner.py:18
+msgid "New owner"
+msgstr ""
+
+#: ../content/vocabulary.py:468
+msgid "Next Friday"
+msgstr ""
+
+#: ../content/vocabulary.py:464
+msgid "Next Monday"
+msgstr ""
+
+#: ../content/vocabulary.py:469
+msgid "Next Saturday"
+msgstr ""
+
+#: ../content/vocabulary.py:470
+msgid "Next Sunday"
+msgstr ""
+
+#: ../content/vocabulary.py:467
+msgid "Next Thursday"
+msgstr ""
+
+#: ../content/vocabulary.py:465
+msgid "Next Tuesday"
+msgstr ""
+
+#: ../content/vocabulary.py:466
+msgid "Next Wednesday"
+msgstr ""
+
+#: ../content/vocabulary.py:463
+msgid "None"
+msgstr ""
+
+#: ../content/task_config.py:64
+msgid "Operator"
+msgstr ""
+
+#: ../interfaces.py:246
+msgid "Overrides orange color, leave empty to disable"
+msgstr ""
+
+#: ../browser/task_owner.py:39
+msgid "Owner changed"
+msgstr ""
+
+#: ../content/vocabulary.py:475
+msgid "Previous Friday"
+msgstr ""
+
+#: ../content/vocabulary.py:471
+msgid "Previous Monday"
+msgstr ""
+
+#: ../content/vocabulary.py:476
+msgid "Previous Saturday"
+msgstr ""
+
+#: ../content/vocabulary.py:477
+msgid "Previous Sunday"
+msgstr ""
+
+#: ../content/vocabulary.py:474
+msgid "Previous Thursday"
+msgstr ""
+
+#: ../content/vocabulary.py:472
+msgid "Previous Tuesday"
+msgstr ""
+
+#: ../content/vocabulary.py:473
+msgid "Previous Wednesday"
+msgstr ""
+
+#: ../content/task_config.py:413
+msgid "Recurrence"
+msgstr ""
+
+#: ../content/task_config.py:435
+msgid "Recurrence condition"
+msgstr ""
+
+#: ../content/task_config.py:353
+msgid "Round to week day"
+msgstr ""
+
+#: ../vocabularies.py:23
+msgid "Saturday"
+msgstr ""
+
+#: ../profiles/default/types/AutomatedMacroTask.xml
+msgid "Schedulable Macrotask"
+msgstr ""
+
+#: ../profiles/default/types/AutomatedTask.xml
+msgid "Schedulable Task"
+msgstr ""
+
+#: ../profiles/default/types/ScheduleConfig.xml
+msgid "Schedule configuration."
+msgstr ""
+
+#: ../profiles/default/types/ScheduleConfig.xml
+msgid "ScheduleConfig"
+msgstr ""
+
+#: ../content/schedule_config.py:29
+msgid "Scheduled content type"
+msgstr ""
+
+#: ../content/task_config.py:231
+msgid "Select creation conditions of the task"
+msgstr ""
+
+#: ../content/task_config.py:197
+msgid "Select default group assigned to this task."
+msgstr ""
+
+#: ../content/task_config.py:204
+msgid "Select default user assigned to this task."
+msgstr ""
+
+#: ../content/task_config.py:277
+msgid "Select end conditions of the task."
+msgstr ""
+
+#: ../content/task_config.py:377
+msgid "Select freeze conditions of the task."
+msgstr ""
+
+#: ../content/task_config.py:436
+msgid "Select recurrence conditions of the task."
+msgstr ""
+
+#: ../content/task_config.py:254
+msgid "Select start conditions of the task"
+msgstr ""
+
+#: ../content/task_config.py:403
+msgid "Select thaw conditions of the task."
+msgstr ""
+
+#: ../content/schedule_config.py:30
+msgid "Select the content type to apply schedule."
+msgstr ""
+
+#: ../content/task_config.py:301
+msgid "Select the start date used to compute the due date."
+msgstr ""
+
+#: ../content/task_config.py:224
+msgid "Select the state of the container where the task is automatically created."
+msgstr ""
+
+#: ../content/task_config.py:247
+msgid "Select the state of the container where the task is automatically started."
+msgstr ""
+
+#: ../content/task_config.py:429
+msgid "Select the state of the container where the task should be recurred"
+msgstr ""
+
+#: ../content/task_config.py:270
+msgid "Select the states of the container where the task is automatically closed."
+msgstr ""
+
+msgid "Should pass from actual state "
+msgstr ""
+
+#: ../content/task_config.py:241
+msgid "Start"
+msgstr ""
+
+#: ../content/task_config.py:253
+msgid "Start conditions"
+msgstr ""
+
+#: ../content/task_config.py:300
+msgid "Start date"
+msgstr ""
+
+msgid "Started tasks"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+#: ../testing.zcml:16
+msgid "Steps to ease tests of imio.schedule"
+msgstr ""
+
+#: ../dashboard/columns.py:217
+msgid "Subtask"
+msgstr ""
+
+#. Default: "Subtasks:"
+#: ../browser/templates/taskmacros.pt:35
+msgid "Subtasks"
+msgstr ""
+
+msgid "Subtasks dependencies"
+msgstr ""
+
+#: ../vocabularies.py:24
+msgid "Sunday"
+msgstr ""
+
+#: ../browser/close_task.py:32
+msgid "Task Closed"
+msgstr ""
+
+#: ../profiles/default/types/TaskConfig.xml
+msgid "Task configuration."
+msgstr ""
+
+#: ../content/task_config.py:223
+msgid "Task container creation state"
+msgstr ""
+
+#: ../content/task_config.py:269
+msgid "Task container end states"
+msgstr ""
+
+#: ../content/task_config.py:369
+msgid "Task container freeze states"
+msgstr ""
+
+#: ../content/task_config.py:428
+msgid "Task container recurrence states"
+msgstr ""
+
+#: ../content/task_config.py:246
+msgid "Task container start states"
+msgstr ""
+
+#: ../content/task_config.py:395
+msgid "Task container thaw states"
+msgstr ""
+
+#: ../profiles/default/types/TaskConfig.xml
+msgid "TaskConfig"
+msgstr ""
+
+#: ../content/task_config.py:387
+msgid "Thaw"
+msgstr ""
+
+#: ../content/task_config.py:402
+msgid "Thaw conditions"
+msgstr ""
+
+#: ../content/task_config.py:343
+msgid "The additional delay is not a valid integer"
+msgstr ""
+
+#: ../interfaces.py:258
+msgid "The orange value should be higher than the red one, as it is used as a first warning."
+msgstr ""
+
+#: ../content/task_config.py:323
+msgid "This delay is added to the due date of the task."
+msgstr ""
+
+#: ../vocabularies.py:21
+msgid "Thursday"
+msgstr ""
+
+#: ../browser/templates/task_completion.pt:32
+msgid "To do"
+msgstr ""
+
+#: ../vocabularies.py:19
+msgid "Tuesday"
+msgstr ""
+
+#: ../content/task_config.py:307
+msgid "Warning delay"
+msgstr ""
+
+#: ../vocabularies.py:20
+msgid "Wednesday"
+msgstr ""
+
+#: ../vocabularies.py:33
+msgid "Working days"
+msgstr ""
+
+#: ../content/vocabulary.py:452
+msgid "and"
+msgstr ""
+
+#: ../dashboard/vocabulary.py:27
+msgid "collective.task"
+msgstr ""
+
+#: ../content/task_config.py:70
+msgid "display_status"
+msgstr ""
+
+#: ../configure.zcml:32
+msgid "imio.schedule"
+msgstr ""
+
+#: ../testing.zcml:16
+msgid "imio.schedule tests"
+msgstr ""
+
+#: ../content/vocabulary.py:453
+msgid "or"
+msgstr ""
+
+msgid "schedule.assign_current_user"
+msgstr ""
+
+msgid "schedule.create_if_all_subtasks_can_be_created"
+msgstr ""
+
+msgid "schedule.create_if_subtask_can_be_created"
+msgstr ""
+
+msgid "schedule.end_when_due_date_reached"
+msgstr ""
+
+msgid "schedule.start_date.creation_date"
+msgstr ""
+
+msgid "schedule.start_date.subtask_highest_due_date"
+msgstr ""
+
+msgid "schedule.start_if_all_subtasks_started"
+msgstr ""
+
+msgid "schedule.start_if_subtask_started"
+msgstr ""
+
+msgid "schedule.test_creation_condition"
+msgstr ""
+
+msgid "schedule.test_end_condition"
+msgstr ""
+
+msgid "schedule.test_start_condition"
+msgstr ""
