@@ -1,0 +1,11 @@
+-r requirements.txt
+pandas
+graphviz
+scikit-learn
+matplotlib
+jax
+jaxtyping
+equinox
+mlflow
+optax
+pyjpt>=0.1.32
