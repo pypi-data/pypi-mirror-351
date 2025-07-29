@@ -1,0 +1,34 @@
+[project]
+name = "devtrack"
+version = "0.1.3"
+description = "Developer task tracking and smart AI commit CLI tool"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "requests",
+    "python-dotenv",
+    "openai"
+]
+license = { text = "MIT" }
+authors = [
+  { name = "Raymond Degbe", email = "mrdegbe14@gmail.com" }
+]
+keywords = ["git", "commit", "cli", "developer", "productivity", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mrdegbe/devtrack"
+
+[project.scripts]
+devtrack = "devtrack.cli:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
