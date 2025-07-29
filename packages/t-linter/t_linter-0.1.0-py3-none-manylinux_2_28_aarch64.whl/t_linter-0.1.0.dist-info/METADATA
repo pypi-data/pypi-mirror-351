@@ -1,0 +1,74 @@
+Metadata-Version: 2.4
+Name: t-linter
+Version: 0.1.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: Text Editors :: Integrated Development Environments (IDE)
+License-File: LICENSE
+Summary: Intelligent syntax highlighting and validation for Python template strings (PEP 750)
+Keywords: linter,template-strings,pep750,syntax-highlighting,python
+Author: Koudai Aono <koxudaxi@gmail.com>
+Author-email: Koudai Aono <koxudaxi@gmail.com>
+License: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Homepage, https://github.com/koxudaxi/t-linter
+Project-URL: Repository, https://github.com/koxudaxi/t-linter
+Project-URL: Issues, https://github.com/koxudaxi/t-linter/issues
+
+# t-linter 🐍✨
+
+Intelligent syntax highlighting and validation for Python template strings (PEP 750).
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+## Features
+
+- 🎨 **Smart Syntax Highlighting** - Detects embedded languages in `t"..."` strings
+- 🔍 **Type-based Detection** - Understands `Annotated[Template, "html"]` annotations
+- 🚀 **Fast** - Built with Rust and Tree-sitter for optimal performance
+- 🔧 **Extensible** - Support for HTML, SQL, JavaScript, CSS, and more
+
+## Installation
+
+Install using pip:
+
+```bash
+pip install t-linter
+```
+
+## Usage
+
+Run the language server:
+
+```bash
+t-linter lsp
+```
+
+Check files:
+
+```bash
+t-linter check file.py
+```
+
+## Development
+
+For development, you can also build from source:
+
+```bash
+git clone https://github.com/koxudaxi/t-linter
+cd t-linter
+cargo install --path crates/t-linter
+```
+
+
