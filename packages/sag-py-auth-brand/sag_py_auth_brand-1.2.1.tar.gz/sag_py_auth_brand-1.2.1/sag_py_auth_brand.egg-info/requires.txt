@@ -1,0 +1,6 @@
+contextvars>=2.4
+fastapi[standard]>=0.115.12
+sag-py-auth>=1.2.1
+
+[dev]
+pytest
