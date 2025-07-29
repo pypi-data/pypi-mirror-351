@@ -1,0 +1,17 @@
+[default]
+    default.locale = "en_us"
+
+    [default.extend-words]
+        amoungst = "amoungst"
+        ba       = "ba"
+        fo       = "fo"
+        nd       = "nd"
+        theyre   = "theyre"
+        throug   = "throug"
+        wheres   = "wheres"
+        whos     = "whos"
+        youre    = "youre"
+
+# Add words to the dictionary from the common misspellings list
+[files]
+    extend-exclude = ["*_cache", ".venv", "src/neatfile/utils/strings.py"]
