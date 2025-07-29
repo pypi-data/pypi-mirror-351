@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maoppy"
+keywords = ["PSF", "AO", "adaptive optics"]
+version = "1.6.1"
+authors = [{name="Romain Fetick", email="romain.fetick@lam.fr" }]
+description = "Modelization of the Adaptive Optics Psf in PYthon"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.0"
+dependencies = ["numpy","scipy","astropy"]
+urls = {repository = "https://gitlab.lam.fr/lam-grd-public/maoppy"}
+
+[tool.setuptools]
+packages = ['maoppy']
+
+[tool.setuptools.package-data]
+maoppy = ['data/*']
