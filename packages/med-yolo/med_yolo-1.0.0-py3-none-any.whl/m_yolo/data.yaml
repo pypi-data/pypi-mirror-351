@@ -1,0 +1,16 @@
+# MED-YOLO dataset configuration
+path: .  # dataset root dir
+train: train/images  # train images (relative to 'path')
+val: val/images  # val images (relative to 'path')
+
+# Classes
+names:
+  0: background
+  1: organ
+  2: tumor
+  3: vessel
+  4: bone
+  5: other
+
+# Dataset statistics
+nc: 6  # number of classes 
