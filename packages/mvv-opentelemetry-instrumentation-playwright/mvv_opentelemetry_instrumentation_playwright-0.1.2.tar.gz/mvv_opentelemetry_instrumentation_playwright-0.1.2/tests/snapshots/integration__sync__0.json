@@ -1,0 +1,34 @@
+[
+  {
+    "name": "playwright.sync_api._generated.BrowserType:launch",
+    "attributes": {
+      "headless": true
+    }
+  },
+  {
+    "name": "playwright.sync_api._generated.Browser:__enter__",
+    "children": [
+      {
+        "name": "playwright.sync_api._generated.Browser:new_page",
+        "attributes": {
+          "is_mobile": false,
+          "user_agent": "test"
+        }
+      },
+      {
+        "name": "playwright.sync_api._generated.Page:__enter__",
+        "children": [
+          {
+            "name": "playwright.sync_api._generated.Page:title"
+          }
+        ]
+      },
+      {
+        "name": "playwright.sync_api._generated.Page:close"
+      }
+    ]
+  },
+  {
+    "name": "playwright.sync_api._generated.Browser:close"
+  }
+]
