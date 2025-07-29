@@ -1,0 +1,15 @@
+Metadata-Version: 2.2
+Name: gptmodel
+Version: 1.0.4
+Home-page: https://github.com/sapiens-technology/gptmodel
+Author: SAPIENS TECHNOLOGY
+License: Proprietary Software
+License-File: LICENSE.txt
+Requires-Dist: tqdm==4.67.1
+Requires-Dist: numpy==1.25.2
+Requires-Dist: torch==2.4.1
+Requires-Dist: tiktoken==0.4.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
