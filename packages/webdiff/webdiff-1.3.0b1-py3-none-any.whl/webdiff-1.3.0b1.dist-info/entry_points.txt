@@ -1,0 +1,5 @@
+[console_scripts]
+git-webdiff=webdiff.gitwebdiff:run
+git-webshow=webdiff.gitwebshow:run
+webdiff=webdiff.app:run
+
