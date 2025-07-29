@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: crunchstat-summary
+Version: 3.1.2
+Summary: Arvados crunchstat-summary reads crunch log files and summarizes resource usage
+Home-page: https://arvados.org
+Download-URL: https://github.com/arvados/arvados.git
+Author: Arvados
+Author-email: info@arvados.org
+License: GNU Affero General Public License, version 3.0
+Requires-Python: ~=3.8
+Requires-Dist: arvados-python-client (==3.1.2)
+
