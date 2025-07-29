@@ -1,0 +1,68 @@
+Metadata-Version: 2.4
+Name: mongodb-atlas-haystack
+Version: 3.2.2
+Summary: An integration of MongoDB Atlas with Haystack
+Project-URL: Source, https://github.com/deepset-ai/haystack-core-integrations
+Project-URL: Documentation, https://github.com/deepset-ai/haystack-core-integrations/blob/main/integrations/mongodb_atlas/README.md
+Project-URL: Issues, https://github.com/deepset-ai/haystack-core-integrations/issues
+Author-email: deepset GmbH <info@deepset.ai>
+License-Expression: Apache-2.0
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Requires-Dist: haystack-ai>=2.11.0
+Requires-Dist: pymongo[srv]>=4.13.0
+Description-Content-Type: text/markdown
+
+# mongodb-atlas-haystack
+
+[![PyPI - Version](https://img.shields.io/pypi/v/mongodb-atlas-haystack.svg)](https://pypi.org/project/mongodb-atlas-haystack)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mongodb-atlas-haystack.svg)](https://pypi.org/project/mongodb-atlas-haystack)
+
+-----
+
+**Table of Contents**
+
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Installation
+
+```console
+pip install mongodb-atlas-haystack
+```
+
+## Contributing
+
+`hatch` is the best way to interact with this project, to install it:
+```sh
+pip install hatch
+```
+
+To run the linters `ruff` and `mypy`:
+```
+hatch run lint:all
+```
+
+To run all the tests:
+```
+hatch run test
+```
+
+Note: you need your own MongoDB Atlas account to run the tests: you can make one here: 
+https://www.mongodb.com/cloud/atlas/register. Once you have it, export the connection string
+to the env var `MONGO_CONNECTION_STRING`. If you forget to do so, all the tests will be skipped.
+
+## License
+
+`mongodb-atlas-haystack` is distributed under the terms of the [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) license.
