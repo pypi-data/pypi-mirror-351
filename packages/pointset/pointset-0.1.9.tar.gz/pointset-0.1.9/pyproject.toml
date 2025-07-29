@@ -1,0 +1,10 @@
+[project]
+name = "pointset"
+version = "0.1.9"
+description = "Simple EPSG transformations using PyProj"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.24.4",
+    "pyproj>=3.5.0",
+]
