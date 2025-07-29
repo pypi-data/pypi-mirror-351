@@ -1,0 +1,23 @@
+func (r *{{resource_name}}ResourceModel) ToShared{{create_requestBody}}Request() *models.{{ create_requestBody }} {
+	{% for reqvar in create_requestmethod -%}
+	{{ reqvar }}
+	{% endfor %}
+	out := models.{{ create_requestBody }}{
+		{% for property in create_req_properties -%}
+        {{ property | capitalize }}: {{ property }},
+        {% endfor %}
+	}
+	return &out
+}
+
+func (r *{{resource_name}}ResourceModel) ToShared{{update_requestBody}}Request() *models.{{ update_requestBody }} {
+	{% for reqvar in update_requestmethod -%}
+	{{ reqvar }}
+	{% endfor %}
+	out := models.{{ update_requestBody }}{
+		{% for property in update_req_properties -%}
+        {{ property | capitalize }}: {{ property }},
+        {% endfor %}
+	}
+	return &out
+}
