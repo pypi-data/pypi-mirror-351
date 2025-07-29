@@ -1,0 +1,242 @@
+Metadata-Version: 2.4
+Name: ntscli-client
+Version: 2.1.25
+Summary: The Netflix Test Studio Command Line Interface (NTS-CLI) offers an alternative method for testing your Netflix application.
+Home-page: https://docs.nrd.netflix.com/docs/nrdp/cert/ntscli/
+Author: TSC
+Author-email: pax-internal@netflix.com
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: click
+Requires-Dist: click-completion
+Requires-Dist: click-log
+Requires-Dist: colorama
+Requires-Dist: dataclasses; python_version < "3.8"
+Requires-Dist: furl
+Requires-Dist: ntscli-cloud-lib>=1.1.0
+Requires-Dist: requests
+Requires-Dist: uri
+Requires-Dist: xdg
+Provides-Extra: dev
+Requires-Dist: behave; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pyinstaller; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: semver; extra == "dev"
+Requires-Dist: tox; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# ntscli-client - The Netflix Test Studio Command Line Interface (NTS-CLI) offers an alternative method for testing your Netflix application.
+
+# Requirements
+
+* python 3.8 or later with matching pip
+* NTS-CLI compatible SSL configuration
+
+# Architecture
+
+The ntscli-client is combined with the ntscli-cloud-lib to build the nts command line tool.
+The nts-cli-cloud lib is built separately from the ntscli-client and then updated by bumping the version
+in the ntscli_client setup.py file.
+
+# Building
+## ntscli-cloud-lib
+
+If you need to add a parameter to one of the automator messages, you will need to modify the cloud lib.
+
+To add the new parameter, you modify the file automator.proto. You add a comment and a line like this:
+    	// Boolean. Use this to request a test plan that only has the list of calibration tests.
+    	google.protobuf.BoolValue calibration = 2;
+
+To build, use:
+tox -e proto
+
+That will cause the automator.py file to be updated with the new proto.
+
+Finally, you can install it in your local environment. Just cd to the lib directory and do a 
+pip install . --user
+
+That copies it to your local environment, which you can check with:
+pip freeze | grep ntscli_cloud_lib
+
+After that, the nts client will just pick up the library automatically.
+
+Once you are happy with the change, merge to master and then go here:
+
+https://nts.builds.test.netflix.net/job/PYPI-NTSSER-ntscli-cloud-lib
+
+Click the Release Next Version button to create a new release version.
+
+To pick up the release in the client, bump the requirement version in ntscli_client setup.py:
+	'ntscli-cloud-lib==0.1.37'
+and then you can test and release that similarly.
+
+This keeps people from picking up stray updates that might break you.
+
+## ntscli-client
+Make changes in a feature branch. The PRs will be built here:
+
+https://nts.builds.test.netflix.net/job/NTSSER-ntscli-client/
+
+Any commit you push will go into Jenkins and build and the spinnaker will run tests but nothing goes public.
+You make a fork branch (feature-thing-rc1) if spinnaker passes and notices that there is an "rc" in the branch name,
+it will go ahead and push it to release. You can bypass this and do it manually (if the script fails, for instance) by:
+
+* merge to master
+* python setup.py version --bump patch --commit --push
+
+This modifies a local __version__.py file to match the correct version. This is important, as it tells the --version commands what to print.
+Then it does the correct git tag/commit/push.
+
+This is provided by a library called setupmeta, which is written by Netflix employee Zoran S., who is on #python;
+and is built in to newt.
+
+If step 2 fails, force it by modifying the __version__.py file by hand, and tagging with a matching number:
+* git tag v2.1.10002 (the v is important)
+* git push / git push --tag as usual
+
+Once you run the setup command, a new build will run here:
+
+https://nts.builds.test.netflix.net/job/NTSSER-ntscli-client-master/
+
+This build is responsible for releasing the client by pushing it to pypi. You can see all the versions of the client available on pypi by going here:
+
+https://pypi.org/search/?q=ntscli-client
+
+## Pypi
+Pypi is currently used to host the client and make it available to partners for download and install. The account credentials for pypi can be found here:
+
+https://secretbook.prod.security.netflix.net/group/103793/access
+
+Access is granted to the pax team.
+
+# Install
+
+## Installing on the OS python:
+
+Ubuntu only: You might need to install pip3 on Ubuntu if you haven't already:
+
+`sudo apt install -y python3-pip`
+
+Then this only requires python 3.8 or later, which is already installed on Ubuntu 18.04 and later, and macOS Catalina.
+
+`pip3 install -U ntscli-client`
+
+Ubuntu only: Ubuntu doesn't set up the user PATH to include the local user's python binary path. 
+You might have to do something like this if you can't find `nts` after install:
+
+```
+echo "export PATH=\"$(python3 -m site --user-base)/bin:$PATH\"" >> ~/.bashrc
+source ~/.bashrc
+```
+
+# Install your security certificate
+
+You still need a [security certificate, as documented here](https://docs.nrd.netflix.com/docs/nrdp/cert/ntscli/requesting-a-certificate/). 
+Once it's a decrypted zip file, you can now install it pretty easily with this tool:
+
+`nts ssl install ~/Downloads/cloud.zip`
+
+Manually moving it to ~/.config/netflix/cloud/(files) still works as well.
+
+# Update Often
+
+Use the same pip3 command, but especially for the first little while there will probably be frequent updates.
+
+We suggest updating frequently anyway. For instance, for docker images or CI systems, you can install/update every time the image is 
+created or run. If a released update to the RAE requires matching client or client library updates, you would not require any additional 
+work to take the update.
+
+## Versioning
+
+We will be following standard python semantic versioning, so if you really want to pin versions, you can follow standard python practices:
+
+```shell script
+pip3 install ntscli-client<=3.0.0  # don't accidentally pick up a new major version, which could include breaking changes
+pip3 install ntscli-client==0.1.4  # a specific older version
+pip3 install ntscli-client>=0.1.5  # anything after a specific version
+```
+
+# Enjoy
+
+`nts --help`
+
+```shell script
+export RAE=r3000334
+export ESN=$(nts get-devices | jq -r 'map(.esn)[0]')  # actually just the first ESN I find
+# or for powershell:
+$env:RAE = 'r3000334'
+$env:ESN = 'NFANDROID2-PRV-SHIELDANDROIDTV-NVIDISHIELD=ANDROID=TV-15895-BB9C5AF4E97B69BC1A51654A94304D3AD88169C2BA2F1338192C20E940AE669E'
+
+nts get-plan  # prints to stdout
+
+# get a plan dynamically
+nts run --names AUDIO-001-TC1,ACT-004-TC11
+# get a plan and run it immediately
+nts get-plan | nts run --names AUDIO-001-TC1,ACT-004-TC11
+# save the plan via shell redirection
+nts get-plan > full_plan.json
+
+# save the plan with an arg instead
+nts get-plan --save-to full_plan.json
+
+# Choosing what to run
+
+## Just at run:
+nts run --names AUDIO-001-TC1,ACT-004-TC11  # gets the test plan first, then filters
+nts run --testplan full_plan.json --names AUDIO-001-TC1,ACT-004-TC11  # saves you the 1-2 minutes getting the test plan if you already have one
+
+## using files
+nts get-plan --save-to full_plan.json
+cat full_plan.json | jq -r '{target: .target, testplan: {branch: .testplan.branch, sdkVersion: .testplan.sdkVersion, testcases: [.testplan.testcases[] | select(.category | startswith("Config"))] }}' > filtered_plan.json
+cat filtered_plan.json | nts run 
+
+## built-in filtering command
+nts get-plan --save-to full_plan.json
+nts filter --help
+nts filter --names AUDIO-001-TC1 < full_plan.json > filtered_plan.json
+nts filter --names AUDIO-001-TC1 --testplan full_plan.json --save-to filtered_plan.json
+nts filter --names-re "AUDIO.*TC3" full_plan.json --save-to filtered_plan.json
+nts get-plan | nts filter --eyepatch --tags batch | nts run
+
+## DIY Filtering using external tools, if you -really- want to
+CURRENT_EPOCH=$(date +%s) 
+nts get-plan | jq -r '{target: .target, testplan: {branch: .testplan.branch, sdkVersion: .testplan.sdkVersion, testcases: [.testplan.testcases[] | select(.category | startswith("Config"))] }}' | nts run 2>${CURRENT_EPOCH}.stderr.txt > ${CURRENT_EPOCH}.json 
+```
+
+#### Features
+
+* JSON goes to stdout, logging goes to stderr: `nts get-devices > device_list.json`
+* Typical shell exit codes for commands, mean you can use shell checks such as: `nts get-devices || echo FAIL`
+* Multi-OS, multi-shell compatible
+* Tab completion available (see `nts completion show --help`)
+* Available via PYPI, using standard versioning
+
+
+## Alternative Installs
+
+#### Pre-release installs:
+
+`pip3 install -U ntscli-client --pre`
+
+If Netflix posts a pre-release that might include a bug fix specifically for you, you might be asked to try this.
+
+#### Install for any user of the OS (generally discouraged):
+
+`sudo pip3 install -U ntscli-client`
+
+If you are managing a server that might have lots of users that need the same install, this might be a good solution if you don't prefer
+using an alternate abstraction such as a virtual environment, conda environment, etc.
+
+### Installing in an isolation environment
+
+Python is well known for isolation environments like virtualenv, conda, pyenv, etc. These all work, and you should have no trouble using these if you prefer.
