@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: Cycles-utils
+Version: 2.0.0
+Summary: Python scripts to build Cycles input files and post-process Cycles output files
+Home-page: https://github.com/PSUmodeling/Cycles-utils
+Author: Yuning Shi
+Author-email: shiyuning@gmail.com
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas>=1.2.4
+Requires-Dist: geopandas>=0.9.0
+Requires-Dist: numpy>=1.19.5
+Provides-Extra: soilgrids
+Requires-Dist: rioxarray>=0.5.0; extra == "soilgrids"
+Requires-Dist: owslib>=0.24.1; extra == "soilgrids"
+Requires-Dist: rasterio>=1.2.3; extra == "soilgrids"
+Requires-Dist: shapely>=1.7.1; extra == "soilgrids"
+Provides-Extra: gssurgo
+Requires-Dist: shapely>=1.7.1; extra == "gssurgo"
+Provides-Extra: plot
+Requires-Dist: cartopy>=0.18.0; extra == "plot"
+Requires-Dist: matplotlib>=3.4.2; extra == "plot"
+Provides-Extra: weather
+Requires-Dist: netCDF4>=1.5.7; extra == "weather"
+Requires-Dist: tqdm>=4.60.0; extra == "weather"
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Cycles-utils
+Library for building [Cycles](https://github.com/PSUmodeling/Cycles) input files and post-processing Cycles output files.
+
+## Installation
+
+To install:
+
+```shell
+pip install Cycles-utils
+```
