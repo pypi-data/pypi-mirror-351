@@ -1,0 +1,48 @@
+Metadata-Version: 2.2
+Name: starri
+Version: 1.3
+Summary: A terminal-based menu system using blessed and compatible with ANSI styling.
+Home-page: https://github.com/lioen-dev/starri
+Author: Rowan Barker
+Author-email: barker.rowan@sugarsalem.com
+Description-Content-Type: text/markdown
+Requires-Dist: blessed>=1.20.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: summary
+
+# Starri
+
+Starri is a simple Python library for creating terminal-based menus. It supports navigation with the arrow keys and submenus for a dynamic user experience.
+
+## Installation
+
+You can install Starri with pip:
+
+```pip install starri```
+
+## Usage
+
+Hereâ€™s how to use Starri:
+
+```python
+from starri import *
+
+def main():
+    starri(
+        title = "Title",
+        choices = [
+            {"label": "Option 1", "onselect": lambda: print("Option 1 selected")},
+            {"type": "spacer"},
+            {"label": "Option 2", "onselect": lambda: print("Option 2 selected")},
+            {"label": "Exit", "onselect": exit}
+        ]
+    )
+    
+if __name__ == "__main__":
+    main()
+```
