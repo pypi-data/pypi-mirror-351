@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: ccpca
+Version: 0.2.4
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: multiprocess
+Dynamic: license-file
+Dynamic: requires-dist
