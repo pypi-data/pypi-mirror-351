@@ -1,0 +1,16 @@
+Metadata-Version: 2.3
+Name: pytest-reporter-plus
+Version: 0.1.0
+Summary: Lightweight enhanced HTML reporter for Pytest
+License: MIT
+Author: Emjey
+Requires-Python: >=3.9
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: keyring (>=25.6.0,<26.0.0)
+Requires-Dist: yagmail (>=0.15.293,<0.16.0)
