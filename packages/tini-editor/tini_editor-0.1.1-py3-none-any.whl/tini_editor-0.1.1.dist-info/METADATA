@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: tini-editor
+Version: 0.1.1
+Summary: A tiny terminal text editor built with Textual
+Home-page: https://codeberg.org/WolfQuery/tini-editor
+Author: WolfQuery
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+License-File: LICENSE
+Requires-Dist: textual
+Dynamic: author
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
