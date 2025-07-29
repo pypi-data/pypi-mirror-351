@@ -1,0 +1,153 @@
+# CDN Rule Engine Python SDK
+
+## Installation
+require python version >= 3.5
+
+```
+    pip3 install --user byteplus-cdn-rule-engine-sdk
+```
+
+Upgrade sdk version from old one
+```
+    pip3 install --upgrade byteplus-cdn-rule-engine-sdk
+```
+
+## Examples
+
+### 示例1
+设置规则，任意条件下，设置缓存时间为0秒。
+```python
+from cdn_rule_engine_sdk.rule_engine.Const import Const
+from cdn_rule_engine_sdk.rule_engine.Rule import Rule, Condition, Action
+
+
+def get_rule_example_1():
+    rule = Rule()
+    condition = Condition({
+        "IsGroup": False,
+        "Connective": Const.ConnectiveAnd,
+        "Condition": {
+            "Object": Const.ConditionAlways,
+        }
+    })
+    action = Action({
+        "Action": Const.ActionCacheTime,
+        "Groups": [{
+            "Dimension": Const.ActionCacheTime,
+            "GroupParameters": [{
+                "Parameters": [
+                    {
+                        "Name":"ttl",
+                        "Values": ["0"]
+                    },
+                    {
+                        "Name":"ttl_unit",
+                        "Values": ["sec"]
+                    },
+                    {
+                        "Name":"cache_policy",
+                        "Values": [Const.CacheDefault]
+                    },
+                    {
+                        "Name":"force_cache",
+                        "Values": ["true"]
+                    }
+                ]
+            }]
+        }]
+    })
+    rule.if_block.condition = condition
+    rule.if_block.actions.append(action)
+    return {
+        "Switch": True,
+        "Rules": [
+            {
+                "Name": "test",
+                "Rule": rule.encode_to_string()
+            }
+        ]
+    }
+```
+
+### 示例2
+设置规则，当客户端请求协议为http时，添加客户端响应头X-Rsp-1=123
+```python
+from cdn_rule_engine_sdk.rule_engine.Const import Const
+from cdn_rule_engine_sdk.rule_engine.Rule import Rule, Condition, Action
+
+def get_rule_example_2():
+    rule = Rule()
+    condition = Condition({
+        "IsGroup": False,
+        "Connective": Const.ConnectiveAnd,
+        "Condition": {
+            "Object": Const.ConditionHTTPProtocol,
+            "Operator": Const.OperatorEqual,
+            "Value": [Const.HTTP]
+        }
+    })
+    action = Action({
+        "Action": Const.ActionResponseHeader,
+        "Groups": [{
+            "Dimension": Const.ActionResponseHeader,
+            "GroupParameters": [{
+                "Parameters": [
+                    {
+                        "Name": "action",
+                        "Values": [Const.Set]
+                    },
+                    {
+                        "Name": "header_name",
+                        "Values": ["X-Rsp-1"]
+                    },
+                    {
+                        "Name": "header_value",
+                        "Values": ["123"]
+                    }
+                ]
+            }]
+        }]
+    })
+    rule.if_block.condition = condition
+    rule.if_block.actions.append(action)
+    return {
+        "Switch": True,
+        "Rules": [
+            {
+                "Name": "test",
+                "Rule": rule.encode_to_string()
+            }
+        ]
+    }
+```
+
+### 示例3
+查询当前配置（假设是示例2），并将头部值修改为111；同时添加一个动作：开启视频拖拽。
+```python
+from cdn_rule_engine_sdk.rule_engine.Const import Const
+from cdn_rule_engine_sdk.rule_engine.Rule import Rule, Condition, Action
+
+def get_rule_example_3():
+    re_config = get_rule_example_2()
+    rule = Rule()
+    rule.decode_from_string(re_config['Rules'][0]['Rule'])
+    for act in rule.if_block.actions:
+        if act.action == Const.ActionResponseHeader:
+            act.groups[0].group_parameters[0].set("header_value", ["111"])
+    rule.if_block.actions.append(Action({
+        "Action": Const.ActionVideoDrag,
+        "Groups": [{
+            "Dimension": Const.ActionVideoDrag,
+            "GroupParameters": [{
+                "Parameters": [
+                    {
+                        "Name": "switch",
+                        "Values": [Const.SwitchTrue]
+                    }
+                ]
+            }]
+        }]
+    }))
+    re_config['Rules'][0]['Rule'] = rule.encode_to_string()
+    return re_config
+```
