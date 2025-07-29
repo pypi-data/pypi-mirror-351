@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: get-chrome-paths
+Version: 0.1.0
+Summary: A cross-platform Python utility to find Chromium-based browser executable paths on Windows, macOS, and Linux.
+Author-email: Jifeng Wu <jifengwu2k@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/jifengwu2k/get-chrome-paths
+Project-URL: Bug Tracker, https://github.com/jifengwu2k/get-chrome-paths/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# Get Chrome Paths
+
+A cross-platform Python utility to find Chromium-based browser executable paths on Windows, macOS, and Linux.
+
+## Features
+
+- Detects installed Chrome, Chromium, and Microsoft Edge browsers
+- Supports Windows (common registry path lookup), macOS (common application paths), and Linux (common installation paths)
+
+## Installation
+
+```bash
+pip install get-chrome-paths
+```
+
+## Usage
+
+```python
+from get_chrome_paths import get_chrome_paths
+
+# Get all available Chrome/Chromium-based browser paths
+paths = get_chrome_paths()
+print(paths)
+
+# Example output on Windows:
+# ['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe']
+```
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements.
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for more information.
