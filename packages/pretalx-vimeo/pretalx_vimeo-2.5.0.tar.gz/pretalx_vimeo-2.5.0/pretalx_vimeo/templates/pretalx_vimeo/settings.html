@@ -1,0 +1,17 @@
+{% extends "orga/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+    <h2>{% trans "Set up Vimeo embeds" %}</h2>
+    {% if form %}
+        {% include "orga/includes/base_form.html" %}
+    {% else %}
+        <div class="alert alert-info">
+            {% blocktrans trimmed %}
+                You will be able to add vimeo URLs to your sessions once you've created a schedule.
+            {% endblocktrans %}
+        </div>
+    {% endif %}
+
+{% endblock %}
