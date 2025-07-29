@@ -1,0 +1,23 @@
+[project]
+name = "aes-gcm-txt-enc-lib"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Komal Singh",email = "komalsin9h@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pycryptodome (>=3.23.0,<4.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "aes_gcm_txt_enc_lib", from = "src"}]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
