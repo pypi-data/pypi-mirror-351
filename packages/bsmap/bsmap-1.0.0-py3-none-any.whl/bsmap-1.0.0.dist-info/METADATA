@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: bsmap
+Version: 1.0.0
+Summary: Beat Saber Mapping Framework
+Home-page: https://github.com/CodeSoftGit/bsmap
+Author: CodeSoftGit
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Games/Entertainment
+Requires-Python: >=3.8
+Requires-Dist: pydantic>=2.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+A comprehensive framework for creating, editing, and validating Beat Saber maps.
