@@ -1,0 +1,84 @@
+Metadata-Version: 2.4
+Name: firebird-uuid
+Version: 1.0.0
+Summary: Official tools for working with OID namespace managed by the Firebird Project.
+Project-URL: Home, https://github.com/FirebirdSQL/firebird-uuid
+Project-URL: Documentation, https://firebird-uuid.rtfd.io
+Project-URL: Issues, https://github.com/FirebirdSQL/firebird-uuid/issues
+Project-URL: Funding, https://github.com/sponsors/pcisar
+Project-URL: Source, https://github.com/FirebirdSQL/firebird-uuid/python
+Author-email: Pavel Cisar <pcisar@users.sourceforge.net>
+License: MIT License
+        
+        Copyright (c) 2022-present The Firebird Project <www.firebirdsql.org>
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of 
+        this software and associated documentation files (the "Software"), to deal in 
+        the Software without restriction, including without limitation the rights to 
+        use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of 
+        the Software, and to permit persons to whom the Software is furnished to do so, 
+        subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all 
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+        INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+        PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+        BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+        TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
+        OR OTHER DEALINGS IN THE SOFTWARE.
+License-File: LICENSE
+Keywords: Firebird,UUID
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: <4,>=3.11
+Requires-Dist: firebird-base~=2.0
+Requires-Dist: pyyaml~=6.0
+Requires-Dist: requests~=2.31
+Requires-Dist: tomli-w>=1.2
+Description-Content-Type: text/markdown
+
+# firebird-uuid
+
+[![PyPI - Version](https://img.shields.io/pypi/v/firebird-uuid.svg)](https://pypi.org/project/firebird-uuid)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/firebird-uuid.svg)](https://pypi.org/project/firebird-uuid)
+[![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/firebird-uuid)](https://pypi.org/project/firebird-uuid)
+[![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/firebird-uuid)](https://libraries.io/pypi/firebird-uuid)
+
+This package provides official tools for working with the OID namespace managed by the Firebird Project.
+
+-----
+
+**Table of Contents**
+
+- [Installation](#installation)
+- [License](#license)
+- [Documentation](#documentation)
+
+## Installation
+
+```console
+pip install firebird-uuid
+```
+
+## License
+
+`firebird-uuid` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+
+## Documentation
+
+The documentation for this package is available at [https://firebird-uuid.readthedocs.io](https://firebird-uuid.readthedocs.io)
