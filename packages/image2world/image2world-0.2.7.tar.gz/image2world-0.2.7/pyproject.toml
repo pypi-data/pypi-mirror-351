@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "image2world"
+version = "0.2.7"
+authors = [
+    { name="João Francisco de Souza Santos Lemos", email="jfsslemos@gmail.com"},
+    { name="Eduardo Augusto Duarte Evangelista", email="eduardo.evangelista2002@gmail.com" },
+]
+maintainers = [
+    { name="João Francisco de Souza Santos Lemos", email="jfsslemos@gmail.com"},
+    { name="Eduardo Augusto Duarte Evangelista", email="eduardo.evangelista2002@gmail.com" },
+]
+description = "A package to compute tridimensional bounding boxes from bidimensional bounding boxes and depth data"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "typing",
+    "numpy",
+    "shapely",
+    "cv_bridge",
+]
+[project.urls]
+Homepage = "https://github.com/Jfsslemos/Image2WorldLib"
+Issues = "https://github.com/Jfsslemos/Image2WorldLib/issues"

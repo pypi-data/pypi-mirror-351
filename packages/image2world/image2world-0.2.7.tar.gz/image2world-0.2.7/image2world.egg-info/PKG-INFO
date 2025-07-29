@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: image2world
+Version: 0.2.7
+Summary: A package to compute tridimensional bounding boxes from bidimensional bounding boxes and depth data
+Home-page: https://github.com/Jfsslemos/Image2WorldLib
+Author: name="João Francisco de Souza Santos Lemos
+Author-email: João Francisco de Souza Santos Lemos <jfsslemos@gmail.com>, Eduardo Augusto Duarte Evangelista <eduardo.evangelista2002@gmail.com>
+Maintainer-email: João Francisco de Souza Santos Lemos <jfsslemos@gmail.com>, Eduardo Augusto Duarte Evangelista <eduardo.evangelista2002@gmail.com>
+Project-URL: Homepage, https://github.com/Jfsslemos/Image2WorldLib
+Project-URL: Issues, https://github.com/Jfsslemos/Image2WorldLib/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: typing
+Requires-Dist: numpy
+Requires-Dist: shapely
+Requires-Dist: cv_bridge
