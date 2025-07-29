@@ -1,0 +1,25 @@
+[project]
+name = "learn-kube"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Reetu Raj Harsh",email = "reeturaj.harsh@neuralweb.tech"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "fastapi (>=0.115.12,<0.116.0)",
+    "uvicorn (>=0.34.2,<0.35.0)",
+    "google-genai (>=1.16.1,<2.0.0)",
+    "instructor (>=1.8.2,<2.0.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "jsonref (>=1.1.0,<2.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "learn_kube", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
