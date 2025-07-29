@@ -1,0 +1,70 @@
+Metadata-Version: 2.4
+Name: jjava
+Version: 1.0a5
+Summary: A Jupyter kernel for Java notebooks
+Author-email: Andrus Adamchik <andrus@objectstyle.com>
+License: The MIT License (MIT)
+        
+        Copyright (c) 2018 Spencer Park
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Documentation, https://dflib.org/jjava/docs/1.x/
+Project-URL: Repository, https://github.com/dflib/jjava
+Project-URL: Download, https://github.com/dflib/jjava/releases
+Project-URL: Issues, https://github.com/dflib/jjava/issues
+Project-URL: Changelog, https://github.com/dflib/jjava/blob/main/RELEASE-NOTES.md
+Keywords: windows,macos,linux,jupyter,java,jupyter-kernels,pip
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Java
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Microsoft :: Windows
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# JJava
+
+DFLib JJava is a Java kernel for [Jupyter](http://jupyter.org/) maintained by the [DFLib.org](https://dflib.org) community. 
+The kernel executes code via the JShell tool. Some of the additional commands are supported via a syntax similar to IPython magics. 
+
+_JJava is an evolution of the earlier [IJava kernel](https://github.com/SpencerPark/IJava), that is no longer maintained by its authors._
+
+## Requirements
+
+1.  Java 11 or newer
+2.  Python and a Jupyter-like environment to use the kernel in.
+
+## Installation
+
+_More detailed instructions are available in the [documentation](https://dflib.org/jjava/docs/1.x/#_installation)._
+
+1.  Download the latest release from the [releases tab](https://github.com/dflib/jjava/releases).
+2.  Unzip it into a temporary location.
+3.  Run the `jupyter kernelspec install path/to/downloaded/folder --user --name=java`
+
+## Project Links
+
+* [Website](https://dflib.org/)
+* [Documentation](https://dflib.org/jjava/docs/1.x/)
+* [Discussions and Support Forum](https://github.com/dflib/jjava/discussions)
+* [Bug reports and feature requests](https://github.com/dflib/jjava/issues)
+
