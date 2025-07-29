@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: nix-utils
+Version: 1.3.8
+Summary: nix-utils
+Home-page: https://github.com/neodyme-labs/nix-utilities
+Download-URL: https://github.com/neodyme-labs/nix-utilities
+Author: Daniel K
+Author-email: dkilimnik@neodymetechnologies.com
+License: GNU
+Project-URL: Documentation, https://github.com/neodyme-labs/nix-utilities
+Platform: Linux
+Description-Content-Type: text/plain
+License-File: LICENSE
+Requires-Dist: pycryptodomex
+Requires-Dist: pip
+Requires-Dist: cloud-ds-api
+Requires-Dist: img-splicer
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: platform
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: summary
+
+
+This Python package offers a collection of utilities for managing and interacting 
+with Unix-based operating systems using only standard libraries. It includes 
+functions for retrieving system information, inspecting user environments, 
+performing file and directory operations, and managing process-level tasks. 
+The library also provides helpers for working with pip installation, parsing system 
+configuration files, and handling common administrative actions programmatically. 
+Designed for automation, scripting, and lightweight system tooling, it serves
+ as a versatile toolkit for system administrators, developers, and power users 
+ working in Unix-like environments.
