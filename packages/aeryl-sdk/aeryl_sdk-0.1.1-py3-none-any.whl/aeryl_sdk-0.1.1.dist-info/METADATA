@@ -1,0 +1,118 @@
+Metadata-Version: 2.4
+Name: aeryl_sdk
+Version: 0.1.1
+Summary: Aeryl SDK for chaos testing and error detection
+Home-page: https://github.com/aeryl-ai/aeryl_sdk
+Author: Aeryl AI
+Author-email: Aeryl AI <info@aeryl.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/aeryl-ai/aeryl_sdk
+Project-URL: Repository, https://github.com/aeryl-ai/aeryl_sdk.git
+Project-URL: Documentation, https://github.com/aeryl-ai/aeryl_sdk#readme
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: polars>=0.20.0
+Requires-Dist: scikit-learn>=1.3.0
+Requires-Dist: torch>=2.0.0
+Requires-Dist: tqdm>=4.65.0
+Requires-Dist: sentence-transformers>=2.2.0
+Requires-Dist: xgboost>=1.7.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Aeryl SDK
+
+A Python SDK for Chaos Classification and Analysis.
+
+## Installation
+
+```bash
+pip install aeryl-sdk
+```
+
+## Quick Start
+
+```python
+from aeryl_sdk import AerylModel
+
+# Create and train the model
+model = AerylModel()
+model.train('your_data.csv')
+
+# Make predictions
+predictions = model.predict('new_data.csv')
+```
+
+## Development
+
+### Project Structure
+
+```
+aeryl_sdk/
+├── src/
+│   └── aeryl_sdk/
+│       ├── __init__.py
+│       ├── aeryl_model.py
+│       ├── chaos_classifier.py
+│       ├── core.py
+│       ├── dataset.py
+│       └── metrics.py
+├── tests/
+├── setup.py
+├── pyproject.toml
+└── README.md
+```
+
+### Setup Development Environment
+
+1. Clone the repository:
+```bash
+git clone https://github.com/aeryl-ai/aeryl_sdk.git
+cd aeryl_sdk
+```
+
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install development dependencies:
+```bash
+pip install -e .
+```
+
+## Dependencies
+
+- numpy>=1.26.0
+- polars>=0.20.0
+- scikit-learn>=1.4.0
+- torch>=2.2.0
+- tqdm>=4.66.0
+- sentence-transformers>=2.5.0
+- xgboost>=2.0.0
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## Contact
+
+For any questions or concerns, please contact us at info@aeryl.ai. 
