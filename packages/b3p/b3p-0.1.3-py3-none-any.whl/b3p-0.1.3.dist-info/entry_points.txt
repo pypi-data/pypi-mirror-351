@@ -1,0 +1,4 @@
+[console_scripts]
+b3p=b3p.__main__:main
+ccblade_install=scripts.ccblade_install:build_ccblade_dependency
+
