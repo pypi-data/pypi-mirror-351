@@ -1,0 +1,122 @@
+{
+    "directed": true,
+    "multigraph": false,
+    "graph": {},
+    "node_index": {
+        "sc.pp.neighbors": 0,
+        "sc.tl.umap": 1,
+        "sc.tl.leiden": 2,
+        "sc.pl.umap": 3,
+        "root": 4
+    },
+    "nodes": [
+        {
+            "api": "sc.pp.neighbors",
+            "products": [
+                "data.obsm['X_pca']",
+                "data.varm['PCs']",
+                "data.uns['pca']",
+                "data.obsp['distances']",
+                "data.obsp['connectivities']"
+            ],
+            "id": "sc.pp.neighbors"
+        },
+        {
+            "api": "sc.tl.umap",
+            "products": [
+                "data.obsm['X_umap']",
+                "data.uns['umap']"
+            ],
+            "id": "sc.tl.umap"
+        },
+        {
+            "api": "sc.tl.leiden",
+            "products": [
+                "data.obs['leiden']",
+                "data.uns['leiden']"
+            ],
+            "id": "sc.tl.leiden"
+        },
+        {
+            "api": "sc.pl.umap",
+            "products": [],
+            "id": "sc.pl.umap"
+        },
+        {   
+            "api": "root",
+            "products": [
+                "data.X"
+            ],
+            "id": "root"
+        }
+    ],
+    "edges": [
+        {
+            "dependencies": [
+                "data.X"
+            ],
+            "source": "root",
+            "target": "sc.pp.neighbors",
+            "args": {
+                "adata": "data"
+            },
+            "arg_types": {
+                "adata": "object"
+            }
+        },
+        {
+            "dependencies": [
+                "data.uns['neighbors']",
+                "data.obsp['connectivities']"
+            ],
+            "source": "sc.pp.neighbors",
+            "target": "sc.tl.leiden",
+            "args": {
+                "adata": "data"
+            },
+            "arg_types": {
+                "adata": "object"
+            }
+        },
+        {
+            "dependencies": [
+                "data.uns['neighbors']",
+                "data.obsp['connectivities']"
+            ],
+            "source": "sc.pp.neighbors",
+            "target": "sc.tl.umap",
+            "args": {
+                "adata": "data"
+            },
+            "arg_types": {
+                "adata": "object"
+            }
+        },
+        {
+            "dependencies": [
+                "data.obsm['X_umap']"
+            ],
+            "source": "sc.tl.umap",
+            "target": "sc.pl.umap",
+            "args": {
+                "adata": "data"
+            },
+            "arg_types": {
+                "adata": "object"
+            }
+        },
+        {
+            "dependencies": [
+                "data.obs['leiden']"
+            ],
+            "source": "sc.tl.leiden",
+            "target": "sc.pl.umap",
+            "args": {
+                "color": "leiden"
+            },
+            "arg_types": {
+                "color": "str"
+            }
+        }
+    ]
+}
