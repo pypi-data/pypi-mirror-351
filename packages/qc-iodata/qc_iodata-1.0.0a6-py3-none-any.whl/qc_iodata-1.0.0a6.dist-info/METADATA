@@ -1,0 +1,266 @@
+Metadata-Version: 2.4
+Name: qc-iodata
+Version: 1.0.0a6
+Summary: Python Input and Output Library for Quantum Chemistry
+Author-email: HORTON-ChemTools Dev Team <horton.chemtools@gmail.com>
+License:                    GNU LESSER GENERAL PUBLIC LICENSE
+                               Version 3, 29 June 2007
+        
+         Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+         Everyone is permitted to copy and distribute verbatim copies
+         of this license document, but changing it is not allowed.
+        
+        
+          This version of the GNU Lesser General Public License incorporates
+        the terms and conditions of version 3 of the GNU General Public
+        License, supplemented by the additional permissions listed below.
+        
+          0. Additional Definitions.
+        
+          As used herein, "this License" refers to version 3 of the GNU Lesser
+        General Public License, and the "GNU GPL" refers to version 3 of the GNU
+        General Public License.
+        
+          "The Library" refers to a covered work governed by this License,
+        other than an Application or a Combined Work as defined below.
+        
+          An "Application" is any work that makes use of an interface provided
+        by the Library, but which is not otherwise based on the Library.
+        Defining a subclass of a class defined by the Library is deemed a mode
+        of using an interface provided by the Library.
+        
+          A "Combined Work" is a work produced by combining or linking an
+        Application with the Library.  The particular version of the Library
+        with which the Combined Work was made is also called the "Linked
+        Version".
+        
+          The "Minimal Corresponding Source" for a Combined Work means the
+        Corresponding Source for the Combined Work, excluding any source code
+        for portions of the Combined Work that, considered in isolation, are
+        based on the Application, and not on the Linked Version.
+        
+          The "Corresponding Application Code" for a Combined Work means the
+        object code and/or source code for the Application, including any data
+        and utility programs needed for reproducing the Combined Work from the
+        Application, but excluding the System Libraries of the Combined Work.
+        
+          1. Exception to Section 3 of the GNU GPL.
+        
+          You may convey a covered work under sections 3 and 4 of this License
+        without being bound by section 3 of the GNU GPL.
+        
+          2. Conveying Modified Versions.
+        
+          If you modify a copy of the Library, and, in your modifications, a
+        facility refers to a function or data to be supplied by an Application
+        that uses the facility (other than as an argument passed when the
+        facility is invoked), then you may convey a copy of the modified
+        version:
+        
+           a) under this License, provided that you make a good faith effort to
+           ensure that, in the event an Application does not supply the
+           function or data, the facility still operates, and performs
+           whatever part of its purpose remains meaningful, or
+        
+           b) under the GNU GPL, with none of the additional permissions of
+           this License applicable to that copy.
+        
+          3. Object Code Incorporating Material from Library Header Files.
+        
+          The object code form of an Application may incorporate material from
+        a header file that is part of the Library.  You may convey such object
+        code under terms of your choice, provided that, if the incorporated
+        material is not limited to numerical parameters, data structure
+        layouts and accessors, or small macros, inline functions and templates
+        (ten or fewer lines in length), you do both of the following:
+        
+           a) Give prominent notice with each copy of the object code that the
+           Library is used in it and that the Library and its use are
+           covered by this License.
+        
+           b) Accompany the object code with a copy of the GNU GPL and this license
+           document.
+        
+          4. Combined Works.
+        
+          You may convey a Combined Work under terms of your choice that,
+        taken together, effectively do not restrict modification of the
+        portions of the Library contained in the Combined Work and reverse
+        engineering for debugging such modifications, if you also do each of
+        the following:
+        
+           a) Give prominent notice with each copy of the Combined Work that
+           the Library is used in it and that the Library and its use are
+           covered by this License.
+        
+           b) Accompany the Combined Work with a copy of the GNU GPL and this license
+           document.
+        
+           c) For a Combined Work that displays copyright notices during
+           execution, include the copyright notice for the Library among
+           these notices, as well as a reference directing the user to the
+           copies of the GNU GPL and this license document.
+        
+           d) Do one of the following:
+        
+               0) Convey the Minimal Corresponding Source under the terms of this
+               License, and the Corresponding Application Code in a form
+               suitable for, and under terms that permit, the user to
+               recombine or relink the Application with a modified version of
+               the Linked Version to produce a modified Combined Work, in the
+               manner specified by section 6 of the GNU GPL for conveying
+               Corresponding Source.
+        
+               1) Use a suitable shared library mechanism for linking with the
+               Library.  A suitable mechanism is one that (a) uses at run time
+               a copy of the Library already present on the user's computer
+               system, and (b) will operate properly with a modified version
+               of the Library that is interface-compatible with the Linked
+               Version.
+        
+           e) Provide Installation Information, but only if you would otherwise
+           be required to provide such information under section 6 of the
+           GNU GPL, and only to the extent that such information is
+           necessary to install and execute a modified version of the
+           Combined Work produced by recombining or relinking the
+           Application with a modified version of the Linked Version. (If
+           you use option 4d0, the Installation Information must accompany
+           the Minimal Corresponding Source and Corresponding Application
+           Code. If you use option 4d1, you must provide the Installation
+           Information in the manner specified by section 6 of the GNU GPL
+           for conveying Corresponding Source.)
+        
+          5. Combined Libraries.
+        
+          You may place library facilities that are a work based on the
+        Library side by side in a single library together with other library
+        facilities that are not Applications and are not covered by this
+        License, and convey such a combined library under terms of your
+        choice, if you do both of the following:
+        
+           a) Accompany the combined library with a copy of the same work based
+           on the Library, uncombined with any other library facilities,
+           conveyed under the terms of this License.
+        
+           b) Give prominent notice with the combined library that part of it
+           is a work based on the Library, and explaining where to find the
+           accompanying uncombined form of the same work.
+        
+          6. Revised Versions of the GNU Lesser General Public License.
+        
+          The Free Software Foundation may publish revised and/or new versions
+        of the GNU Lesser General Public License from time to time. Such new
+        versions will be similar in spirit to the present version, but may
+        differ in detail to address new problems or concerns.
+        
+          Each version is given a distinguishing version number. If the
+        Library as you received it specifies that a certain numbered version
+        of the GNU Lesser General Public License "or any later version"
+        applies to it, you have the option of following the terms and
+        conditions either of that published version or of any later version
+        published by the Free Software Foundation. If the Library as you
+        received it does not specify a version number of the GNU Lesser
+        General Public License, you may choose any version of the GNU Lesser
+        General Public License ever published by the Free Software Foundation.
+        
+          If the Library as you received it specifies that a proxy can decide
+        whether future versions of the GNU Lesser General Public License shall
+        apply, that proxy's public statement of acceptance of any version is
+        permanent authorization for you to choose that version for the
+        Library.
+        
+Project-URL: Documentation, https://iodata.readthedocs.io/en/latest/
+Project-URL: Issues, https://github.com/theochem/iodata/issues/
+Project-URL: Source, https://github.com/theochem/iodata/
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: File Formats
+Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: Topic :: Scientific/Engineering :: Chemistry
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: numpy>=1.26.4
+Requires-Dist: scipy>=1.13.1
+Requires-Dist: attrs>=21.3.0
+Provides-Extra: dev
+Requires-Dist: furo; extra == "dev"
+Requires-Dist: intersphinx-registry; extra == "dev"
+Requires-Dist: packaging; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: pytest-timeout; extra == "dev"
+Requires-Dist: pytest-xdist; extra == "dev"
+Requires-Dist: setuptools_scm; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: sphinx_autodoc_typehints; extra == "dev"
+Requires-Dist: sphinx-copybutton; extra == "dev"
+Requires-Dist: sympy; extra == "dev"
+Dynamic: license-file
+
+# IOData
+
+[![pytest](https://github.com/theochem/iodata/actions/workflows/pytest.yaml/badge.svg)](https://github.com/theochem/iodata/actions/workflows/pytest.yaml)
+[![release](https://github.com/theochem/iodata/actions/workflows/release.yaml/badge.svg)](https://github.com/theochem/iodata/actions/workflows/release.yaml)
+[![sphinx](https://github.com/theochem/iodata/actions/workflows/sphinx.yaml/badge.svg)](https://github.com/theochem/iodata/actions/workflows/sphinx.yaml)
+[![CodeFactor](https://www.codefactor.io/repository/github/theochem/iodata/badge)](https://www.codefactor.io/repository/github/theochem/iodata)
+[![codecov](https://codecov.io/gh/theochem/iodata/graph/badge.svg?token=QPUfAWj7vf)](https://codecov.io/gh/theochem/iodata)
+[![DeepSource](https://app.deepsource.com/gh/theochem/iodata.svg/?label=code+coverage&show_trend=true&token=oojwgNPm16rkx3ce1xficg46)](https://app.deepsource.com/gh/theochem/iodata/)
+[![DeepSource](https://app.deepsource.com/gh/theochem/iodata.svg/?label=active+issues&show_trend=true&token=oojwgNPm16rkx3ce1xficg46)](https://app.deepsource.com/gh/theochem/iodata/)
+[![PyPI](https://img.shields.io/pypi/v/qc-iodata.svg)](https://pypi.python.org/pypi/qc-iodata/)
+![Version](https://img.shields.io/pypi/pyversions/qc-iodata.svg)
+![License](https://img.shields.io/github/license/theochem/iodata)
+
+## About
+
+IOData is a HORTON 3 module for input/output of quantum chemistry file
+formats. Documentation is here: <https://iodata.readthedocs.io/> or
+<https://iodata.qcdevs.org/>
+
+## Citation
+
+Please use the following citation in any publication using IOData
+library:
+
+> **\"IOData: A python library for reading, writing, and converting
+> computational chemistry file formats and generating input files.\"**,
+> T. Verstraelen, W. Adams, L. Pujal, A. Tehrani, B. D. Kelly,
+> L. Macaya, F. Meng, M. Richer, R. Hernandez‐Esparza, X. D. Yang, M. Chan,
+> T. D. Kim, M. Cools‐Ceuppens, V. Chuiko, E. Vohringer‐Martinez,
+> P. W. Ayers, F. Heidar‐Zadeh,
+> [J Comput. Chem. 2021, 42(6), 458--464](https://doi.org/10.1002/jcc.26468).
+
+## Installation
+
+In anticipation of the 1.0 release of IOData, install the latest
+pre-release as follows:
+
+```bash
+python -m pip install qc-iodata
+```
+
+Note that there may still be a few API changes between the pre-release
+1.0.0a4 and the upcoming stable release 1.0.0.
+
+See <https://iodata.readthedocs.io/en/latest/install.html> for full details.
+
+## Contributing
+
+We welcome contributions of all kinds, such as new features,
+improvements, bug fixes, and documentation clarifications. Please read
+our [Contributor Guide](https://iodata.qcdevs.org/contributing.html) and
+[Code of Conduct](https://github.com/theochem/.github/blob/main/CODE_OF_CONDUCT.md)
+for more details.
