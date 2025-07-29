@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "phenosentry"
+version = "0.1.0"
+description = ""
+authors = ["iimpulse <Michael.Gargano@jax.org>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+click = "^8.2.1"
+phenopackets = "^2.0.2.post4"
+certifi = "^2025.4.26"
+pandas = "^2.2.3"
+stairval = "^0.2.0"
+hpo-toolkit = "^0.5.5"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+phenosentry = "phenosentry.cli:main"
