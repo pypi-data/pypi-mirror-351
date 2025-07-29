@@ -1,0 +1,58 @@
+# HDF5Vault
+
+HDF5Vault compresses multiple small tiff files of similar size into an [HDF5](https://www.hdfgroup.org/solutions/hdf5/)-based container. HDF5Vault is designed for fast archive generation on parallel file systems ([GPFS](https://en.wikipedia.org/wiki/GPFS), [Lustre](https://en.wikipedia.org/wiki/Lustre_(file_system), [VAST Data](https://en.wikipedia.org/wiki/VAST_Data))). It compresses multiple input files in parallel and simultaneously writes the data to multiple archive files. 
+
+Inside each archive, the contents of each compressed file are stored as an HDF5 dataset of type bytes. The dataset group and subgroup reflect the directory structure and the dataset name corresponds to the original file name with an extension reflecting the compression (e.g., `.blosc2`). HDF5Vault is based on Python and uses [Blosc2](https://www.blosc.org/python-blosc2/) for fast and efficient compression.
+
+## Use cases
+
+HDF5Vault is intended for handling the large number (10$^5$ to 10$^6$) of small (few MBs) files created by acquisition systems (e.g., the [Vokogawa CellVoyager](https://www.yokogawa.com/ch/solutions/products-and-services/life-science/high-content-analysis/) microscope). The tool may be suitable for other use cases if these conditions are met:
+
+1. Most files are at least a few MBs in size.
+2. The size of each file is much smaller than the available memory.
+
+Although condition 1 was not tested, HDF5Vault would likely perform poorly when compressing multiple small files.
+Condition 2 allows HDF5Vault to load and compress `n` files into memory without chunking, where `n` is the number of parallel MPI processes.
+
+HDF5 archives can be easily unpackaged again, but are intended to be used directly during further processing. At the Friedrich Miescher Institute (FMI), OME-Zarr files are created directly from the HDF5 archive ([workflow repository](https://github.com/fmi-faim/faim-ipa/tree/hdf5-to-zarr)).
+
+## Installation
+
+HDF5Vault requires a minimal Python setup that depends on `h5py`, `blosc2` and `mpi4py`, and is provided as a PyPI package.
+These can easily be installed using a Python virtual environment or Pixi.
+
+### Using Python Venv
+If virtual environments for python are available, these commands install HDF5Vault:
+
+    python3 -m venv hdf5vault
+    source hdf5vault/bin/activate
+    pip install hdf5vault
+
+### Using Pixi
+If [Pixi](https://pixi.sh) is installed, the required Python binary can be installed using Pixi and HDF5Vault using PIP:
+
+    pixi init hdf5vault
+    cd hdf5vault
+    pixi add python=3.12 pip
+    pixi add h5py mpi4py python-blosc2 pandas humanize
+    pixi run pip install hdf5vault
+
+HDF5Vault a Python virtual environment or [Pixi](https://pixi.sh)
+
+1. Using [Micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html)
+2. Building HDF5-MPI from source and use Python virtual environments
+
+For method 2, we provide a definition file to build an image file for the Apptainer container platform. This is the preferred method. Micromamba instructions can be found [here](micromamba).
+
+
+## Usage
+
+
+## Notes
+$^1$ HDF5 Vault was redesigned to work efficiently on a VAST storage system. A previous version used the MPI driver for HDF5 to write the compressed content of multiple files to a single archive in parallel. We found that parallel writing to a single file did not produce any benefits on Vast. The current version writes multiple archives and overlaps the writing of compressed file contents with the compression operation.
+
+
+## Changelog
+
+See [Changelod.md](changelog.md)
+
