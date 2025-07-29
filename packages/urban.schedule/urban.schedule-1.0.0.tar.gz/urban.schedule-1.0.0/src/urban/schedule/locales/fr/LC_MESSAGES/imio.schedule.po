@@ -1,0 +1,71 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2025-05-24 15:11+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ../conditions/configure.zcml:80
+msgid "urban.schedule.condition.deposit_number_match"
+msgstr "Le nombre de dépôt correspond"
+
+#: ../conditions/configure.zcml:62
+msgid "urban.schedule.condition.deposit_past_20days"
+msgstr "La date de dépôt dépasse 20 jours"
+
+#: ../conditions/configure.zcml:71
+msgid "urban.schedule.condition.deposit_under_20days"
+msgstr "La date de dépôt ne dépasse pas 20 jours"
+
+#: ../conditions/configure.zcml:35
+msgid "urban.schedule.condition.has_amended_plans"
+msgstr "Intention de dépôt de plans modifiés déposée"
+
+#: ../conditions/configure.zcml:17
+msgid "urban.schedule.condition.is_codt_2024_creation"
+msgstr "Est un dossier CODT 2024"
+
+#: ../conditions/configure.zcml:44
+msgid "urban.schedule.condition.is_college_done"
+msgstr "Le Collège communal est terminé"
+
+#: ../conditions/configure.zcml:53
+msgid "urban.schedule.condition.is_council_done"
+msgstr "Le Conseil communal est terminé"
+
+#: ../conditions/configure.zcml:26
+msgid "urban.schedule.condition.is_not_codt_2024_creation"
+msgstr "N'est pas un dossier CODT 2024"
+
+#: ../conditions/configure.zcml:138
+msgid "urban.schedule.condition.is_suspended_ending"
+msgstr "Le délai de suspension est terminé"
+
+#: ../conditions/configure.zcml:91
+msgid "urban.schedule.start_date.acknowledgment_limit_date"
+msgstr "Date limite d'accusé de réception"
+
+#: ../conditions/configure.zcml:100
+msgid "urban.schedule.start_date.amended_plans_limit_date"
+msgstr "Intention de plans modifiés: date ultime OU date réception + 180j"
+
+#: ../conditions/configure.zcml:118
+msgid "urban.schedule.start_date.college_decided"
+msgstr "Date de décision du Collège communal"
+
+#: ../conditions/configure.zcml:127
+msgid "urban.schedule.start_date.council_decided"
+msgstr "Date de decision du Conseil communal"
+
+#: ../conditions/configure.zcml:109
+msgid "urban.schedule.start_date.opinion_fd_limit_fd"
+msgstr "Date limite d'avis du FD"
