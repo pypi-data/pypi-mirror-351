@@ -1,0 +1,3 @@
+[console_scripts]
+obfuslite = obfuslite.cli:main
+obfuslite-gui = obfuslite.gui:main
