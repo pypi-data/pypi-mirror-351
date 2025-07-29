@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "suricat-beams"
+version = "0.1.1"
+description = "MeerKAT primary beam model handling utilities"
+authors = ["Oleg Smirnov <osmirnov@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "suricat", from = "suricat-beams"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+stimela = "^2.0"
+xarray-fits = "*"
+astro-tigger-lsm = "*"
+matplotlib = "*"
+click = "*"
+astropy = "*"
+numpy = "*"
+scipy = "*"
+wget = "*"
+
+[tool.poetry.scripts]
+suricat = "suricat.main:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+## add section for dev component which installs builder and Dockerfiles
