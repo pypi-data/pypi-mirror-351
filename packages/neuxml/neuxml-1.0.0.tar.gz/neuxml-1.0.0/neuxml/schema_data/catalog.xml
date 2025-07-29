@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<c:catalog xmlns:c="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <c:uri name="http://www.loc.gov/standards/mods/mods.xsd" uri="mods.xsd"/>
+    <c:uri name="http://www.loc.gov/standards/mods/v3/mods-3-4.xsd" uri="mods-3-4.xsd"/>
+    <c:uri name="http://www.loc.gov/standards/xlink/xlink.xsd" uri="xlink.xsd"/>
+    <c:uri name="http://www.loc.gov/standards/premis/premis.xsd" uri="premis.xsd"/>
+    <c:uri name="http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd" uri="premis-v2-1.xsd"/>
+    <c:uri name="http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd" uri="tei_all.xsd"/>
+    <c:uri name="https://raw.githubusercontent.com/StateArchivesOfNorthCarolina/tomes-eaxs/master/versions/1/eaxs_schema_v1.xsd" uri="eaxs_schema_v1.xsd"/>
+    <c:uri name="http://www.openarchives.org/OAI/2.0/oai_dc.xsd" uri="oai_dc.xsd"/>
+    <c:uri name="http://www.loc.gov/ead/ead.xsd" uri="ead.xsd"/>
+    <c:uri name="http://www.loc.gov/mods/xml.xsd" uri="xml.xsd"/>
+    <c:uri name="http://www.w3.org/2001/xml.xsd" uri="xml.xsd"/>
+    <c:uri name="http://www.w3.org/2001/03/xml.xsd" uri="xml.xsd"/>
+    <c:uri name="http://www.dublincore.org/schemas/xmls/simpledc20021212.xsd" uri="simpledc20021212.xsd"/>
+</c:catalog>

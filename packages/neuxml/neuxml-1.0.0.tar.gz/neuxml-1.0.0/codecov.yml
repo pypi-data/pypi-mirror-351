@@ -1,0 +1,10 @@
+# Copyright 2025 Center for Digital Humanities, Princeton University
+# SPDX-License-Identifier: Apache-2.0
+
+coverage:
+  status:
+    project:
+      default:
+        # temporarily set project coverage to 86% while we improve; goal is 95%
+        target: 86%
+        threshold: 1%

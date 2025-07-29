@@ -1,0 +1,15 @@
+build
+dist
+*.egg-info
+*.pyc
+test-results
+neuxml/xpath/lextab.py
+neuxml/xpath/parsetab.py
+.tox
+.eggs
+.coverage
+.cache
+coverage.xml
+nosetests.xml
+venv*
+.DS_Store
