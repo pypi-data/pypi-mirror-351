@@ -1,0 +1,149 @@
+Metadata-Version: 2.1
+Name: ibm_sso
+Version: 0.3.1
+Summary: IBM SSO Self-Service Provisioner
+Home-page: https://github.com/xiaobitipao/ibm-sso
+Author: xiaobitipao
+Author-email: xiaobitipao@gmail.com
+License: BSD-3-Clause
+Keywords: sso,fastapi,oidc
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: fastapi>=0.112.0
+Requires-Dist: authlib>=1.3.0
+Requires-Dist: requests>=2.32.2
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: uvicorn>=0.30.0
+
+- [ibm-sso](#ibm-sso)
+  - [Getting Started](#getting-started)
+  - [Usage](#usage)
+  - [Examples](#examples)
+  - [Deploy project(memo for developer)](#deploy-projectmemo-for-developer)
+
+# ibm-sso
+
+When using `SSO Self-Service Provisioner` for single sign-on, `ibm-sso` can make your work easier.
+
+> Currently only supports fastapi applications.
+
+## Getting Started
+
+```bash
+pip install ibm-sso
+```
+
+## Usage
+
+1. Add `ibm-sso` to `requirements.txt`
+
+    ```bash
+    ibm-sso==0.3.1
+    ```
+
+    > For versions lower than `0.3.0`, the `token` is returned directly after successful authentication.
+    > 
+    > Starting from version `0.3.0`, you need to create your own `nonce` on the client side and then pass that `nonce` along with the `redirect_uri` to the server side. `code` and `state` are returned after successful authentication. You need to use the `code`, `state`, `nonce` and `redirect_uri` to obtain token information.
+
+2. Set environment variables
+
+    Refer to the [.env.template](./examples/.env.template) in the examples directory.
+
+3. Import `ibm-sso` in startup file
+
+    Refer to the [main.py](./examples/src/main.py) in the examples directory.
+
+4. Protect your API
+
+    If your API requires authentication to access, you can refer to [example.py](./examples/src/api/v1/example.py)
+
+## Examples
+
+There is a full example in the `examples` directory that can be run directly. You can start from the example to learn how to use `ibm-sso`.
+
+## Deploy project(memo for developer)
+
+1. Deploy project
+
+    ```bash
+    # https://test.pypi.org/
+    expect interactive_deploy_test.expect
+
+    # https://pypi.org/
+    # expect interactive_deploy.expect
+    ```
+
+2. Use `test.pypi.org`
+
+    ```bash
+    pip install -i https://test.pypi.org/simple/ ibm-sso
+    ```
+
+3. How to mark a version as yanked
+
+    ```bash
+    twine yank <package_name> --version <version> --reason "Reason this release was yanked: Yanked due to <reason>"
+    ```
+
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this
+project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.0.1] - 2023-11-28
+
+-   First commit
+
+## [0.0.2] - 2023-12-06
+
+-   Add avatar to UserInfoVO
+
+## [0.0.3] - 2023-12-06
+
+**Added**
+
+-   Add avatar to UserInfoVO when the user authenticates.
+
+## [0.0.4] - 2024-02-21
+
+**Fixed**
+
+-   Fixed mismatching_state and invalid_grant error.
+
+## [0.0.5] - 2024-07-22
+
+**Fixed**
+
+-   Fixed pydantic.errors.PydanticUserError: Cannot create a Pydantic dataclass from UserInfoVO as it is already a Pydantic model.
+
+## [0.3.0] - 2024-10-24
+
+**Updated**
+
+-   Replace token with code and state
+
+-   Add `/token` and `/introspect` api.
+
+-   Modify the environment from `W3ID_ENDPOINT_DISCOVERY` to `W3ID_SERVER_METADATA_URL`
+
+-   Use AsyncOAuth2Client to replace OAuth2Session.
+
+## [0.3.1] - 2025-05-28
+
+**Added**
+
+-   Add `get_current_user_for_middleware` for FastAPI middleware.
