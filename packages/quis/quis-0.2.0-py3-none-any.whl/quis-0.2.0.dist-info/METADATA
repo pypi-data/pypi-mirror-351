@@ -1,0 +1,32 @@
+Metadata-Version: 2.1
+Name: quis
+Version: 0.2.0
+Summary: A Quantum Instruction Set
+License: Apache-2.0
+Keywords: quantum,instructions,computation
+Author: Quantum Inspire
+Author-email: support@quantum-inspire.com
+Requires-Python: >=3.9,<4.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+
+# QuIS
+
+Quantum Instruction Set (QuIS): Serves as a single source of truth for the standard quantum instruction set that is consumed by various quantum algorithm tooling components within the Quantum Inspire platform, e.g., [libQASM](https://github.com/QuTech-Delft/libqasm), [OpenSquirrel](https://github.com/QuTech-Delft/OpenSquirrel), and [QX Simulator](https://github.com/QuTech-Delft/qx-simulator#readme).
+
+## Authors
+
+Quantum Inspire ([support@quantum-inspire.com](mailto:support@quantum-inspire.com))
+
+QuTech: TNO & TU Delft
+
+## License
+
+QuIS is licensed under the Apache License, Version 2.0. See [LICENSE](https://github.com/QuTech-Delft/QuIS/blob/develop/LICENSE) for the full license text.
+
