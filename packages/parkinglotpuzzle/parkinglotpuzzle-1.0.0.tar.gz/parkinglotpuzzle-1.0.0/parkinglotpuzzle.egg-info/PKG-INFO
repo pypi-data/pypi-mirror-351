@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: parkinglotpuzzle
+Version: 1.0.0
+Summary: Library for Rush Hour game
+Author-email: Evaldas Visockas <developersediary@gmail.com>
+License: GPL-3.0-or-later
+Project-URL: Repository, https://github.com/EvalVis/ParkingLot
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest>=8.3.4; extra == "dev"
+Requires-Dist: pytest-cov>=6.1.1; extra == "dev"
+Dynamic: license-file
+
+# ParkingLotPuzzle
+
+[![codecov](https://codecov.io/gh/EvalVis/ParkingLot/branch/main/graph/badge.svg)](https://codecov.io/gh/EvalVis/ParkingLot)
+
+The original game this lib simulates is called RushHour created by Nob Yoshigahara.
+
+# Game configuration database
+
+The `rush_sample.txt` contains a modified sample from database of game configurations created by Michael Fogleman https://www.michaelfogleman.com/rush/.
+Modified means o is replaced with . and x with #.
