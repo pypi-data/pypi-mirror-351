@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: baseconfig
+Version: 1.1.0
+Summary: The configuration package which handles multiple sources, fallback from one source to another, and internal validation of the values.
+Home-page: http://go.pelicandd.com/n/baseconfig
+Author: Arseni Mourzenko
+Author-email: arseni.mourzenko@pelicandd.com
+License: MIT
+Keywords: flask
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: summary
+
+baseconfig is the configuration package which handles multiple sources, fallback from one source to another, and internal validation of the values.
+
+The `detailed documentation of this package <http://source.pelicandd.com/codebase/baseconfig/#README.markdown>`_ is available on the source website.
+
+Contributing
+------------
+
+The `source code <http://source.pelicandd.com/codebase/baseconfig/>`_ is also available. The package is distributed under `MIT License <https://opensource.org/licenses/MIT>`_.
+
+If you want to have SVN access to the official repository in order to contribute to the project, contact me at `arseni.mourzenko@pelicandd.com <mailto:arseni.mourzenko@pelicandd.com>`_. If you find it more convinient to clone the source to GitHub, you can do that too.
