@@ -1,0 +1,26 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "colav-bridge devcontainer",
+	"build": {
+		"dockerfile": "../dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-toolsai.jupyter",
+				"ms-azuretools.vscode-docker",
+				"ms-python.pylint"
+			]
+		},
+		"settings": {
+			"terminal.integrated.shell.linux": "/bin/bash",
+			"python.languageServer": "Pylance",
+			"python.analysis.typeCheckingMode": "basic",
+			"python.formatting.provider": "black",
+			"python.formatting.autoFormatOnSave": true
+		},
+		"remoteUser": "vscode"
+	}
+}

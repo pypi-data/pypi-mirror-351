@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "colav-bridge"
+dynamic = ["version"]
+description = 'A pkg for converting ROS2 [colav-interfaces](https://github.com/Artemis-QUB-COLAV/colav-interfaces) to [colav-protobuf](https://github.com/Artemis-QUB-COLAV/colav-protobuf) and vice versa'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["colav", "protobuf", "ros2", "interfaces", "bridge"]
+authors = [
+  { name = "Ryan McKee", email = "r.mckee@qub.ac.uk" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "colav-protobuf-utils==0.2.0",
+  "hatch",
+]
+
+[project.urls]
+Documentation = "https://github.com/Artemis-QUB-COLAV/colav-bridge#readme"
+Issues = "https://github.com/Artemis-QUB-COLAV/colav-bridge/issues"
+Source = "https://github.com/Artemis-QUB-COLAV/colav-bridge"
+
+[tool.hatch.version]
+path = "src/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/colav_bridge tests}"
+
+[tool.hatch.envs.test]
+dependencies = ["pytest", "lark", "pyyaml"]
+
+
+[tool.coverage.run]
+source_pkgs = ["colav_bridge", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/__about__.py",
+]
+
+[tool.coverage.paths]
+colav_protobuf_utils = ["src/colav_bridge", "*/colav-bridge/src/colav_bridge"]
+tests = ["tests", "*/colav-bridge/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

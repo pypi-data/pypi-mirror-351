@@ -1,0 +1,59 @@
+FROM ros:humble-ros-core-jammy
+
+LABEL project='colav_bringup'
+LABEL maintainer='Ryan McKee <r.mckee@qub.ac.uk>'
+LABEL version='0.0.1'
+LABEL description='ROS Humble (ubuntu jammy) - dockerfile for colav-bridge development.'
+
+# install bootstrap tools
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    build-essential \
+    git \
+    python3-colcon-common-extensions \
+    python3-colcon-mixin \
+    python3-rosdep \
+    python3-vcstool \
+    && rm -rf /var/lib/apt/lists/*
+
+# set ROS_DISTRO environment variable
+ENV ROS_DISTRO humble
+
+# bootstrap rosdep
+RUN rosdep init && \
+    rosdep update --rosdistro $ROS_DISTRO
+
+# setup colcon mixin and metadata
+RUN colcon mixin add default \
+    https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml && \
+    colcon mixin update && \
+    colcon metadata add default \
+    https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml && \
+    colcon metadata update
+
+# install ros2 packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-humble-ros-base=0.10.0-1* \
+    ros-humble-ament-cmake \
+    pip \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt  
+
+RUN /bin/bash -c "mkdir -p /home/ros2_ws/src"
+    
+# Create colcon pkg and move colav_gateway to src
+RUN /bin/bash -c "cd /home/ros2_ws/src && \
+    git clone https://github.com/Artemis-QUB-COLAV/colav-interfaces.git || { echo 'git clone failed'; exit 1; }"
+
+# Build ros pkgs in ros2_ws
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && \
+    cd /home/ros2_ws && \
+    colcon build && \
+    source ./install/setup.bash"
+
+# Source ros2_ws and ros2 install/setup.bash
+RUN /bin/bash -c "echo 'source /opt/ros/humble/setup.bash' >> /root/.bashrc && echo 'source /home/ros2_ws/install/setup.bash' >> /root/.bashrc"
+RUN /bin/bash -c "source /root/.bashrc"
+
+CMD [ "/bin/bash" ]
