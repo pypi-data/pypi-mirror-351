@@ -1,0 +1,35 @@
+# Configuration file for Synapse.
+
+server_name: "matrix.aleksis.example.org"
+pid_file: %tmp_path%/homeserver.pid
+
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: true
+    bind_addresses: ["::1", "127.0.0.1"]
+
+    resources:
+      - names: [client, federation]
+        compress: false
+
+database:
+  name: sqlite3
+  args:
+    database: %tmp_path%/homeserver.db
+
+log_config: "%tmp_path%/matrix.aleksis.example.org.log.config"
+media_store_path: "%tmp_path%/media_store"
+
+enable_registration: true
+report_stats: false
+
+macaroon_secret_key: "10r.n+HxQVfl~lOU^dJMF9A_*mWgKq3JUO2KVmDJHap:n:R9um"
+form_secret: "eYJgrzzEXHsgblxAi3pBmPsNrXrga.OVTKkmb&u64A11V_8axr"
+signing_key_path: "%path%/synapse/matrix.aleksis.example.org.signing.key"
+
+trusted_key_servers:
+  - server_name: "matrix.org"
+
+enable_registration_without_verification: true
