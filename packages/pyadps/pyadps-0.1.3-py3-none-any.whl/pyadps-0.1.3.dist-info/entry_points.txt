@@ -1,0 +1,5 @@
+[console_scripts]
+run-auto=pyadps.utils.autoprocess:main
+run-pyadps=pyadps.__main__:main
+run-script=pyadps.utils.script:main
+
