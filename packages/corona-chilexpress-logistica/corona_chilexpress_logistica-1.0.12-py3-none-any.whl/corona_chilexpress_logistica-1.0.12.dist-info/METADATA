@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: corona-chilexpress-logistica
+Version: 1.0.12
+Summary: Django Chilexpress integration
+Home-page: https://gitlab.com/corona-projects/python-libraries/django-chilexpress/
+Author: Corona Development Team
+Author-email: rolguin@corona.cl
+License: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Django>=3
+Requires-Dist: requests>=2.25.1
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# lib-example
