@@ -1,0 +1,6 @@
+[console_scripts]
+cai = cai.cli:main
+cai-asciinema = tools.asciinema:main
+cai-gif = tools.gif:main
+cai-logs = tools.logs:main
+cai-replay = tools.replay:main
