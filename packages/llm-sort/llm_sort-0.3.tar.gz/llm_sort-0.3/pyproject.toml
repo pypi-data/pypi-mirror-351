@@ -1,0 +1,26 @@
+[project]
+name = "llm-sort"
+version = "0.3"
+description = "LLM plugin for semantic sorting"
+readme = "README.md"
+authors = [{name = "Evangelos Lamprou"}]
+license = {text = "Apache-2.0"}
+classifiers = [
+    "License :: OSI Approved :: Apache Software License"
+]
+dependencies = [
+    "llm>=0.16",
+    "click (>=8.0,!=8.2.1)"
+]
+
+[project.urls]
+Homepage = "https://github.com/vagos/llm-sort"
+Changelog = "https://github.com/vagos/llm-sort/releases"
+Issues = "https://github.com/vagos/llm-sort/issues"
+CI = "https://github.com/vagos/llm-sort/actions"
+
+[project.entry-points.llm]
+sort = "llm_sort"
+
+[project.optional-dependencies]
+test = ["pytest"]
