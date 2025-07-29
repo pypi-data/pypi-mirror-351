@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: langchain-pangea
+Version: 0.0.0
+Summary: LangChain integrations for Pangea
+Author-Email: Pangea <support@pangea.cloud>
+License-Expression: MIT
+Project-URL: Source Code, https://github.com/pangeacyber/langchain-pangea
+Project-URL: Release Notes, https://github.com/pangeacyber/langchain-pangea/releases
+Project-URL: repository, https://github.com/pangeacyber/langchain-pangea
+Requires-Python: >=3.11
+Requires-Dist: langchain-core>=0.3.61
+Requires-Dist: pangea-sdk>=6.1.1
+Requires-Dist: pydantic>=2.11.5
+Requires-Dist: typing-extensions>=4.13.2
+Description-Content-Type: text/markdown
+
+# langchain-pangea
+
+LangChain integrations for Pangea.
