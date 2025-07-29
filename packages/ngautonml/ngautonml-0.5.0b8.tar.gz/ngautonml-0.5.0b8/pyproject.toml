@@ -1,0 +1,80 @@
+[tool.poetry]
+name = "ngautonml"
+version = "0.5.0b08"
+description = "Automated Machine Learning Pipeline Generation"
+authors = [
+    "L.H. Piggy Yarroll <piggy@acm.org>",
+    "Merritt Kowaleski <merrittk@cmu.edu>",
+    "Andrew Williams <awillia2@andrew.cmu.edu>",
+    "Jieshi Chen <jieshic@andrew.cmu.edu>",
+    "Dan Howarth <howarth@cmu.edu>",
+    "Nick Gisolfi <ngisolfi@andrew.cmu.edu>",
+]
+license = "Apache-2.0"
+readme = "README.md"
+include = [
+    "picard.py",
+    "*.ipynb",
+    "ngautonml/py.typed",
+]
+exclude = [
+    "plugins",
+    "lightning_logs",
+    "output",
+]
+repository = "https://gitlab.com/autonlab/ngautonml"
+# homepage = "https://autonlab.org/ngautonml"
+documentation = "https://autonlab.gitlab.io/ngautonml"
+keywords = ["machine learning"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed"
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aenum = "3.*"
+autograd = "1.*"
+build = "1.*"
+cvxpy = "1.*"
+flask = "3.*"
+frozendict = "2.*"
+kafka-python = "2.0.4"
+mlflow = "2.*"
+networkx = "3.*"
+numpy = "1.*"
+pandas = "2.*"
+pytest = "7.*"
+scikit-learn = "^1.2.2"
+tensorflow = "2.*"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "7.*"
+jupyter = "1.*"
+mypy = "1.*"
+pandas-stubs = "2.*"
+poetry = "1.*"
+pylint = "3.*"
+pytest-xdist = {version = "3.*", extras=["psutil"]}
+sphinx = "2.*"
+types-frozendict = "2.*"
+types-requests = "2.*"
+types-tensorflow = "2.*"
+virtualenv = "20.*"
+
+
+[tool.poetry.urls]
+"Bug Tracker" = "http://gitlab.com/autonlab/ngautonml/issues"
+"Design" = "https://docs.google.com/document/d/1SaR-2WRy5kwHX-1BSh2yYHjif09a7xYcMxw4PStlpE8"
+
+[tool.poetry.scripts]
+picard = 'picard:main'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
