@@ -1,0 +1,3 @@
+[dashai.plugins]
+ImageDataLoader = dashai_test_classification_package.image_dataloader:ImageDataLoader
+MLPClassifierModel = dashai_test_classification_package.mlp_image_classifier:MLPImageClassifier
