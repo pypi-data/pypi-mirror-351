@@ -1,0 +1,241 @@
+# Termitty 🐜
+
+A powerful, Selenium-inspired Python framework for terminal and SSH automation.
+
+[![Python Version](https://img.shields.io/pypi/pyversions/termitty.svg)](https://pypi.org/project/termitty/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## What is Termitty?
+
+Termitty brings the elegance and simplicity of Selenium WebDriver to the world of terminal automation. Just as Selenium revolutionized web browser automation, Termitty transforms how developers interact with command-line interfaces programmatically.
+
+## 🆚 Quick Comparison
+
+| Feature | Termitty | Fabric | Paramiko | Pexpect | Ansible |
+|---------|----------|---------|-----------|---------|---------|
+| **Selenium-like API** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Terminal Emulation** | ✅ Full | ❌ | ❌ | ⚠️ Basic | ❌ |
+| **Session Recording** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **AI-Ready** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Interactive Shell** | ✅ | ⚠️ | ⚠️ | ✅ | ❌ |
+
+→ See [detailed comparison](docs/comparison.md) for more information
+
+## ✨ Key Features
+
+### 🎯 **Intuitive Selenium-like API**
+```python
+# Familiar patterns for developers who've used Selenium
+session = TermittySession()
+session.connect('server.com', username='user', key_file='~/.ssh/id_rsa')
+session.wait_until(OutputContains('Ready'))
+```
+
+### 🖥️ **Advanced Terminal Emulation**
+- Full ANSI escape code support
+- Virtual terminal with screen buffer management
+- Real-time terminal state tracking
+- Menu and UI element detection
+
+### ⏱️ **Smart Waiting & Pattern Matching**
+```python
+# Wait for specific conditions
+session.wait_until(OutputContains('Task completed'), timeout=30)
+session.wait_until(PromptReady('$ '))
+session.wait_until(OutputMatches(r'Status: \d+%'))
+```
+
+### 🔄 **Interactive Shell Sessions**
+```python
+# Handle interactive applications with ease
+with session.interactive_shell() as shell:
+    shell.send_line('vim config.txt')
+    shell.wait_for_text('INSERT')
+    shell.send_keys('Hello World')
+    shell.send_key(Keys.ESCAPE)
+    shell.send_line(':wq')
+```
+
+### 📹 **Session Recording & Playback**
+```python
+# Record your terminal sessions
+session.start_recording('demo.json')
+# ... perform actions ...
+recording = session.stop_recording()
+
+# Playback later
+from termitty.recording import SessionPlayer
+player = SessionPlayer('demo.json')
+player.play(speed=2.0)
+```
+
+### ⚡ **Parallel Execution**
+```python
+# Execute commands across multiple servers
+hosts = ['server1.com', 'server2.com', 'server3.com']
+pool = ConnectionPool(hosts, username='user', key_file='~/.ssh/id_rsa')
+
+results = pool.execute_on_all('apt update && apt upgrade -y', 
+                              strategy='rolling',
+                              batch_size=2)
+```
+
+### 🎨 **Terminal UI Navigation**
+```python
+# Navigate terminal UIs programmatically
+menu_items = session.terminal.find_menu_items()
+session.terminal.click_menu_item('Settings')
+```
+
+## 📦 Installation
+
+```bash
+# Core package (automation, recording, terminal emulation)
+pip install termitty
+
+# With UI support (includes beautiful terminal player)
+pip install termitty[ui]
+```
+
+**Installation Options:**
+- **`termitty`** - Core functionality only (lightweight)
+- **`termitty[ui]`** - Includes rich terminal player with professional UI
+
+## 🎬 NEW in v0.1.1: World-Class Recording Player
+
+Experience terminal recordings like never before:
+
+```python
+# Record a session
+from termitty import TermittySession
+
+with TermittySession() as session:
+    session.connect('server.com', username='user', password='pass')
+    session.start_recording('demo.json')
+    session.execute('echo "Hello World!"')
+    session.execute('date')
+    session.stop_recording()
+```
+
+```bash
+# Install with UI support and play back with the beautiful player
+pip install termitty[ui]
+python docs/terminal_player_ui.py demo.json --speed 1.0
+```
+
+**Player Features:**
+- 🎨 Professional multi-panel interface  
+- 📊 Real-time auto-scrolling terminal
+- ⚡ Variable speeds (0.25× to 4×)
+- 🌈 Smart syntax highlighting
+- 🏷️ Marker navigation
+- ⌨️ Animated typing effects
+
+## 🚀 Quick Start
+
+### Basic Command Execution
+```python
+from termitty import TermittySession
+
+# Connect to a server
+session = TermittySession()
+session.connect('example.com', username='user', password='pass')
+
+# Execute commands
+result = session.execute('ls -la')
+print(result.output)
+
+# Use context managers for directory changes
+with session.cd('/var/log'):
+    logs = session.execute('tail -n 20 syslog')
+    print(logs.output)
+```
+
+### Interactive Application Handling
+```python
+# Handle password prompts
+session.execute('sudo apt update')
+session.wait_until(OutputContains('[sudo] password'))
+session.send_line('password', secure=True)
+
+# Navigate interactive installers
+session.execute('./install.sh')
+session.wait_until(OutputContains('Do you accept? [y/N]'))
+session.send_line('y')
+```
+
+### Terminal Emulation
+```python
+# Access the virtual terminal through session state
+terminal = session.state.terminal
+
+# Get screen content
+screen_text = terminal.get_screen_text()
+print(screen_text)
+
+# Find text on screen
+if terminal.find_text('Error'):
+    print("Error found at:", terminal.cursor_position)
+
+# Take snapshots
+snapshot = terminal.snapshot()
+```
+
+## 📚 Documentation
+
+For comprehensive documentation, visit our [docs folder](docs/) or check out these guides:
+
+- [Getting Started Guide](docs/getting_started.md)
+- [API Reference](docs/api_reference.md)
+- [Examples](examples/)
+- [Architecture](docs/architecture.md)
+- [AI Integration Guide](docs/ai_integration.md)
+- [Comparison with Alternatives](docs/comparison.md)
+- [Publishing Guide](docs/publishing_guide.md)
+
+## 🏗️ Architecture
+
+Termitty is built with a modular architecture:
+
+- **Session Layer**: High-level API for SSH connections and command execution
+- **Terminal Emulator**: Full VT100/ANSI terminal emulation
+- **Interactive Shell**: Real-time interaction with persistent shell sessions
+- **Recording System**: Capture and replay terminal sessions
+- **Parallel Executor**: Efficient multi-host command execution
+
+See our [Architecture Documentation](docs/architecture.md) for detailed information.
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+Termitty is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## 🛣️ Roadmap
+
+- [ ] Async/await support for all operations
+- [ ] File transfer capabilities (SCP/SFTP)
+- [ ] Built-in task templates for common operations
+- [ ] Terminal session sharing and collaboration
+- [ ] Web-based session viewer
+- [ ] Plugin system for custom extensions
+
+## 💡 Use Cases
+
+- **DevOps Automation**: Automate server provisioning and configuration
+- **Testing**: Create robust tests for CLI applications
+- **Monitoring**: Build intelligent monitoring scripts that react to terminal output
+- **Documentation**: Record terminal sessions for tutorials and documentation
+- **Deployment**: Orchestrate complex multi-server deployments
+- **AI Agents**: Enable LLMs and coding assistants to control terminals → [Learn more](docs/ai_integration.md)
+
+## 🙏 Acknowledgments
+
+This project is inspired by the elegance of Selenium WebDriver and the need for better terminal automation tools in the DevOps/SRE space.
+
+---
+
+**Ready to automate your terminal workflows?** Check out our [examples](examples/) to get started!
