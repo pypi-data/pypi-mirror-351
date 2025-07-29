@@ -1,0 +1,4 @@
+[console_scripts]
+articles-to-anki = articles_to_anki.cli:main
+articles-to-anki-fix-nltk = articles_to_anki.fix_nltk:fix_nltk_issues
+articles-to-anki-setup = articles_to_anki.setup_app:main
