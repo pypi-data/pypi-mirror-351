@@ -1,0 +1,41 @@
+name: PythonPackage
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    name: Build and Deploy to PyPi
+    runs-on: ubuntu-latest
+    if: github.repository == 'SatelliteQE/broker'
+    strategy:
+      matrix:
+        # build/push in lowest support python version
+        python-version: [ "3.10" ]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up uv
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    - name: Setup and Build
+      env:
+        UV_SYSTEM_PYTHON: 1
+      run: |
+        uv pip install --system "broker[setup] @ ."
+        python -m build
+        python -m twine check dist/*
+
+    - name: Build and publish
+      uses: pypa/gh-action-pypi-publish@v1.12.4
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_TOKEN }}
+        skip_existing: true
