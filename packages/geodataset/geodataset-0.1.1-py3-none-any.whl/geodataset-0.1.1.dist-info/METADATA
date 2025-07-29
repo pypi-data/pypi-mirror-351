@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: geodataset
+Version: 0.1.1
+Summary: Extension of netDCF4.Dataset for geospatial data
+Home-page: https://github.com/nansencenter/geodataset
+Author: Timothy Williams
+Author-email: Anton Korosov <Anton.Korosov@nersc.no>
+License: GPLv3
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Atmospheric Science
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: cartopy
+Requires-Dist: netCDF4
+Requires-Dist: netcdftime
+Requires-Dist: numpy
+Requires-Dist: pyproj
+Requires-Dist: pyresample
+Requires-Dist: xarray
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# geodataset
+
+Extension of netCDF4.Dataset for geospatial data.
+
+# Installation
+
+Install requirements with conda:
+
+`conda env create -f environment.yml`
+
+Activate the environment:
+
+`conda activate geodataset`
+
+Install geodataset using pip:
+
+`pip install geodataset`
+
+# Usage
+
+Open netCDF file for input and access geo- metadata
+
+```python
+from geodataset.tools import open_netcdf
+
+n = open_netcdf('netcdf_file.nc')
+
+print(n.projection)
+
+print(n.get_bbox())
+
+print(n.get_lonlat_arrays())
+```
