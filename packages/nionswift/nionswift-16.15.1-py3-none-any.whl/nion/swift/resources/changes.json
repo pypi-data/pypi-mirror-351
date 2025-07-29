@@ -1,0 +1,432 @@
+[
+  {
+    "version": "16.15.1",
+    "notes": [
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1463"
+        ],
+        "summary": "Add ability to rename data group by hitting return or double clicking on list item."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1483"
+        ],
+        "summary": "Fix issue with plus and minus key adjusting line profile widths."
+      }
+    ]
+  },
+  {
+    "version": "16.15.0",
+    "notes": [
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/304"
+        ],
+        "summary": "Change computations to run asynchronously (threaded)."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/915",
+          "https://github.com/nion-software/nionswift/issues/620"
+        ],
+        "summary": "Improve metadata in computed data items to include computation and source (acquisition) metadata."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1391"
+        ],
+        "summary": "Changed default stroke/fill options to non-filled for all layers when initially making composite line plots."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/217"
+        ],
+        "summary": "Composite line plots layers use component data item names unless label explicitly set in line plot inspector."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1337"
+        ],
+        "summary": "Add titles in browser view."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1370"
+        ],
+        "summary": "Improve context menu on line plots to be able to reveal line plot 'component' display items."
+      },
+      {
+        "summary": "Improve performance of data and display panel list and grid browsers."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1140",
+          "https://github.com/nion-software/nionswift/issues/1143"
+        ],
+        "summary": "Fix issues with ring Fourier filter."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1428"
+        ],
+        "summary": "Fix another case where computations would be recomputed unnecessarily."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1384"
+        ],
+        "summary": "Improve internal handling of data item storage when size increases beyond 16MB."
+      },
+      {
+        "summary": "Fix issues with line plot drawing at first and last pixel."
+      },
+      {
+        "summary": "Fix issues with open dialogs preventing application closing."
+      },
+      {
+        "summary": "Fix issues with window returning to same location when application last exited."
+      },
+      {
+        "summary": "Fix issue where play-sequence would enter endless loop if adjusted while playing."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1343"
+        ],
+        "summary": "Fix issues with source/dependent thumbnails not showing consistently in display panels."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1353",
+          "https://github.com/nion-software/nionswift/issues/1354"
+        ],
+        "summary": "Fix issues with drag and drop files on display panel and data panel to import."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1370"
+        ],
+        "summary": "Fix issue with 'reveal' context menu item not working consistently."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1363"
+        ],
+        "summary": "Fix issue with metadata panel not showing data. Also add note when target data item has no metadata."
+      }
+    ]
+  },
+  {
+    "version": "16.14.0",
+    "notes": [
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1331"
+        ],
+        "summary": "Change graphic highlighting when not focused to grey/dim."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1324"
+        ],
+        "summary": "Improve focus tracking so that inspector is active for either focused data panel item or focused display panel item."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1028", "https://github.com/nion-software/nionswift/issues/1280"
+        ],
+        "summary": "Improve display panel header to truncate string when not enough room. Add mouse over highlighting."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1238"
+        ],
+        "summary": "Add a line profile computation automatically when copying and pasting a line profile from one image to another."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/961"
+        ],
+        "summary": "Add option when dragging lines to keep center fixed using alt/option key."
+      },
+      {
+        "issues": [
+          "https://github.com/nion-software/nionswift/issues/1304"
+        ],
+        "summary": "Fix issue where raster display tries to access deleted data."
+      }
+    ]
+  },
+  {
+    "version": "16.13.0",
+    "notes": [
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1257", "https://github.com/nion-software/nionswift/issues/1247"],
+        "summary": "Improve speed of data panel drawing and filtering."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift-io/issues/23"],
+        "summary": "Add support for exporting to HDF5-based 'nhdf' file format."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1125"],
+        "summary": "Change Export SVG dialog to remember units."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1246"],
+        "summary": "Fix crashes when switching workspaces."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1245"],
+        "summary": "Fix issue with graphic interval on picks not updating slice interval correctly."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1241"],
+        "summary": "Fix issue with undo after adding graphics."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1133"],
+        "summary": "Fix issue with graphic coordinates on 2d collection of 2d data."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/617"],
+        "summary": "Fix issue with info panel not displaying sequence of 2d collection of 2d data pixels correctly."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1296"],
+        "summary": "Fix keyboard focus issue in Session panel."
+      },
+      {
+        "summary": "Use filename when title is empty or missing on import (was only when missing)."
+      },
+      {
+        "summary": "Add storage space to size info in data panel. Additionally, add file type in display item tool tips."
+      }
+    ]
+  },
+  {
+    "version": "16.12.0",
+    "notes": [
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/21"],
+        "summary": "Add zoom tool in toolbar. Also add zoom shortcut 'z'."
+      },
+      {
+        "summary": "Display performance improvements and other drawing improvements."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/44"],
+        "summary": "Display snapshot now includes display range, color table, etc."
+      },
+      {
+        "summary": "Export and copy to SVG uses sans-serif fonts now."
+      },
+      {
+        "summary": "Allow export to SVG to specify size in pixels, inches, or centimeters."
+      },
+      {
+        "summary": "Keep sizing of surrounding display panels when removing one."
+      },
+      {
+        "summary": "Retain state of inspector section twist downs when switching contexts or restarting."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1212"],
+        "summary": "Fix issues with display layers and graphics becoming disconnected in inspector after insert/delete/move."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1189"],
+        "summary": "Fix issue with custom data group not retaining data items added to it."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1158"],
+        "summary": "Fix issue when clicking on graphic center in inspector."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/749"],
+        "summary": "Add export result dialog to show final export status after exporting."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/932"],
+        "summary": "Export single data items with same naming options as exporting multiple items."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/591"],
+        "summary": "Sanitize file names during export to eliminate illegal characters,"
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/245"],
+        "summary": "Exporting to CSV only allows 1D or 2D data."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/707"],
+        "summary": "Improve handling of color table files and allow packages to register custom color tables."
+      },
+      {
+        "summary": "Fix issue of swapped color channels when exporting to PNG, JPEG, GIF, and BMP."
+      },
+      {
+        "summary": "Allow user to assign/unassign rectangle used for cropping computation data source inputs using icon overlay."
+      },
+      {
+        "summary": "Runs with Python 3.13 and Numpy 2.x. Drop Python 3.9 and 3.10 support."
+      }
+    ]
+  },
+  {
+    "version": "16.11.0",
+    "notes": [
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/32"],
+        "summary": "Computed data items titles update automatically when changing source title."
+      },
+      {
+        "summary": "Improve drawing performance and fix minor inconsistencies."
+      },
+      {
+        "summary": "Improve startup performance by fixing issue that invalidated thumbnails on exit."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/586"],
+        "summary": "Fix issue where exporting could overwrite files with same metadata."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/230", "https://github.com/nion-software/nionswift/issues/1019"],
+        "summary": "Add mechanism to include additional display calibrations (e.g., e/eV/s)."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/253"],
+        "summary": "Improve handling of number precision for inspector calibrations and display limits."
+      },
+      {
+        "summary": "Ask user for SVG size before exporting (assumes 96 DPI)."
+      },
+      {
+        "summary": "Improve ordering of fields in session dialogs to have most frequently used fields at top."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1045"],
+        "summary": "Fix issue when displaying line plot of integer-valued 1D data item using log scale."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/592"],
+        "summary": "Importing valid data always succeeds by assign new identifiers, instead of silently skipping possible duplicates."
+      },
+      {
+        "summary": "Sort recent workspaces in menu by creation date (if available). Older workspaces copy modified date to creation date."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/300"],
+        "summary": "Add support for independent dimensional and intensity calibrations."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/919"],
+        "summary": "Add menu items for flip horizontal/vertical and rotate right/left."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1002"],
+        "summary": "Fix issue when removing workspace to select next most recent workspace."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1001"],
+        "summary": "Fix issue when splitting display panels with multiple panels selected."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/922", "https://github.com/nion-software/nionswift/issues/327"],
+        "summary": "Make filtering work on modified date text and session metadata text when filtering data items in data panel."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/1003"],
+        "summary": "Fix issue with data panel spontaneously switching display after processing when using data panel text filter."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/998"],
+        "summary": "Fix issues with line plot when dimensional calibrations are invalid. Fall back to pixel calibration."
+      }
+    ]
+  },
+  {
+    "version": "16.10.0",
+    "release_date": "2024-01-03",
+    "notes": [
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/995"],
+        "summary": "Fix crash when screen properties change. Also respond better to DPI changes."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/992"],
+        "summary": "Add scroll bar to activity panel to prevent it growing beyond its available height."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/5"],
+        "summary": "Hovering over items in grid browser shows info about the item."
+      },
+      {
+        "summary": "Hovering over title bar shows info about the displayed item."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/989"],
+        "summary": "Add a Radial Power Spectrum menu item to Fourier processing sub-menu."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/988"],
+        "summary": "Add a radial profile menu item to Fourier processing sub-menu."
+      },
+      {
+        "summary": "Expand About Box to include release notes and recent changes."
+      },
+      {
+        "summary": "Performance improvements to avoid metadata copying."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/700"],
+        "summary": "Commands work after deleting multiple display items."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/980"],
+        "summary": "Fall back to uncalibrated coordinates for angle/length if units don't match on datum dimensions."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/979"],
+        "summary": "Data panel dragging works on first click now."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/981"],
+        "authors": [
+          {
+            "github": "luc-j-bourhis",
+            "name": "Luc J. Bourhis"
+          }
+        ],
+        "summary": "Add the option to display the phase of a complex array."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/985"],
+        "summary": "Mapped/unmapped processing (when available) now works in unmapped case."
+      },
+      {
+        "issues": ["https://github.com/nion-software/nionswift/issues/759", "https://github.com/nion-software/nionswift/issues/987"],
+        "summary": "Fix several cases where index sliders were incorrect."
+      }
+    ]
+  },
+  {
+    "version": "16.9.1",
+    "release_date": "2023-10-23",
+    "notes": [
+      {
+        "summary": "Minor performance improvement when loading projects."
+      },
+      {
+        "summary": "Minor fixes for Python 3.12 and mypy typing compatibility."
+      },
+      {
+        "summary": "Add mechanism for packages to run startup code for Console windows."
+      },
+      {
+        "summary": "Improve shutdown of Console to garbage collect local variables declared in console."
+      }
+    ]
+  }
+]
