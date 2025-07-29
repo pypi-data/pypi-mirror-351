@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openrewrite-remote"
+description = "Remoting functionality for the OpenRewrite library."
+version = "0.25.0" # Updated dynamically during release
+authors = [{ name = "Moderne Inc.", email = "support@moderne.io" }]
+license = { text = "Moderne, Inc. Commercial License" }
+dependencies = [
+    "cbor2==5.6.5",
+    "openrewrite",
+    "pip>=24.3.1",
+    "pypi-simple>=1.6.1",
+    "toml>=0.10.2",
+]
+requires-python = ">=3.9, <4"
+
+[tool.setuptools.packages.find]
+include = ["rewrite_remote", "rewrite_remote.*"]
+exclude = []
+
+[dependency-groups]
+dev = [
+    "pytest==8.3.4",
+    "pytest-asyncio==0.25.0",
+    "mypy==1.14.0",
+    "poethepoet==0.31.1",
+    "pylint==3.3.2",
+    "ruff>=0.8.4",
+    "types-toml>=0.10.8.20240310",
+    "setuptools>=75.7.0",
+]
+
+[project.scripts]
+start_python_remoting = "rewrite_remote.server:main"
+
+[tool.poe.tasks]
+check-types = "mypy ./rewrite_remote"
+format = "ruff format ./rewrite_remote ./tests"
+test = "pytest"
+lint-pylint = "pylint ./rewrite_remote/**/*.py ./tests/**/*.py"
+lint-ruff = "ruff check ./rewrite_remote ./tests"
+lint-ruff-fix = "ruff check --fix ./rewrite_remote ./tests"
