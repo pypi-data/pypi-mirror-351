@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: syndicate-py
+Version: 0.19.3
+Summary: Syndicated Actor model and Syndicate network protocol for Python 3
+Author-email: Tony Garnock-Jones <tonyg@leastfixedpoint.com>
+License: GPL-3.0-or-later
+Project-URL: Homepage, https://git.syndicate-lang.org/syndicate-lang/syndicate-py
+Project-URL: Issues, https://git.syndicate-lang.org/syndicate-lang/syndicate-py/issues
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Requires-Python: <4,>=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: preserves>=0.996.3
+Provides-Extra: dev
+Requires-Dist: build; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+
+# syndicate-py
+
+This is a Python implementation of Syndicated Actors and the Syndicate network protocol.
+
+    pip install syndicate-py
+
+or
+
+    git clone https://git.syndicate-lang.org/syndicate-lang/syndicate-py
+    cd syndicate-py
+    python -m venv .venv
+    . .venv/bin/activate
+    pip install -e '.[dev]'
+
+See also
+[syndicate-py-packaging](https://git.syndicate-lang.org/syndicate-lang/syndicate-py-packaging)
+for Debian packaging scripts.
+
+## Running
+
+Start a Syndicate broker (such as
+[this one](https://git.syndicate-lang.org/syndicate-lang/syndicate-rs)) in one window.
+
+Find the line of broker output giving the root capability:
+
+    ... rootcap=<ref {oid: "syndicate" sig: #x"69ca300c1dbfa08fba692102dd82311a"}> ...
+
+Then, run [chat.py](chat.py) several times in several separate windows:
+
+    python chat.py \
+        --address '<tcp "localhost" 8001>' \
+        --cap '<ref {oid: "syndicate" sig: #x"69ca300c1dbfa08fba692102dd82311a"}>'
