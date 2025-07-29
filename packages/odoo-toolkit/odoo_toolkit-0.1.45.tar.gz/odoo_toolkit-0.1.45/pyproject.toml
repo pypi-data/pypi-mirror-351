@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "odoo-toolkit"
+version = "0.1.45"
+description = "This toolkit contains a few useful tools for Odoo development."
+authors = ["Dylan Kiss <dyki@odoo.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+otk = "odoo_toolkit.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = "0.15.4"
+polib = "^1.2.0"
+python-on-whales = "^0.76.1"
+gitpython = "^3.1.44"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+preview = false
+select = ["ALL"]
+ignore = [
+    "A004",     # builtin-import-shadowing
+    "D100",     # undocumented-public-module
+    "D104",     # undocumented-public-package
+    "D301",     # escape-sequence-in-docstring
+    "E501",     # line-too-long
+    "FBT001",   # boolean-type-hint-positional-argument
+    "FBT002",   # boolean-default-value-positional-argument
+    "PLR0913",  # too-many-arguments
+    "S602",     # subprocess-popen-with-shell-equals-true
+    "S603",     # subprocess-without-shell-equals-true
+    "S607",     # start-process-with-partial-path
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
