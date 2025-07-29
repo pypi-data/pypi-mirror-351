@@ -1,0 +1,88 @@
+Metadata-Version: 2.3
+Name: vault-sync
+Version: 0.3.3
+Summary: Synchronization for Hashicorp vault key-value stores
+License: MIT
+Author: Vincent van Beek
+Author-email: softwaredevelopment@solvinity.com
+Requires-Python: >=3.9,<3.13
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: click (>=8.1.8,<9.0.0)
+Requires-Dist: hvac (>=2.3.0,<3.0.0)
+Requires-Dist: loguru (>=0.7.3,<0.8.0)
+Requires-Dist: pydantic (<2.0)
+Requires-Dist: schedule (>=1.2.2,<2.0.0)
+Description-Content-Type: text/markdown
+
+# vault-sync #
+[![Build Status](https://gitlab.com/solvinity/vault-sync/badges/main/pipeline.svg)](https://gitlab.com/solvinity/vault-sync/pipelines) [![Coverage Status](https://coveralls.io/repos/gitlab/solvinity/vault-sync/badge.svg?branch=HEAD)](https://coveralls.io/gitlab/solvinity/vault-sync?branch=HEAD)
+
+## What is vault-sync? ##
+
+`vault-sync` is a command-line tool for synchronizing secrets from one Hashicorp Vault instance or another.
+
+This can useful either for backup reasons or for ensuring that changes in one environment are correctly brought over to the other.
+
+vault_sync has support for the following authentication methods:
+* token
+* approle
+* kubernetes (experimental)
+
+## Using vault-sync and config file ##
+
+Vault-sync is a command-line tool that by default uses a small JSON document file to connect to the vault instances.
+
+Any file can be used by the tool by using the `--config=<path to file>` flag. Do note however that [`pydantic`](https://pydantic-docs.helpmanual.io/) is used to strictly
+enforce the layout of the JSON document.
+
+#### Example configs:
+
+One time sync with token: 
+
+```json
+{
+    "source": {
+        "auth_method": "token",
+        "url": "https://test1.com",
+        "token": "aabbccddeeff",
+        "kv_store": "store1"
+    },
+    "destination": {
+        "auth_method": "token",
+        "url": "https://test2.com",
+        "token": "0011223344",
+        "kv_store": "store2"
+    }
+}
+```
+
+Sync every 5 minutes (with kubernetes and approle auth_methods):
+
+```json
+{
+    "source": {
+        "auth_method": "kubernetes",
+        "url": "https://test1.com",
+        "token_path": "/run/secrets/kubernetes.io/serviceaccount/token",
+        "secret_id": "vrl-vault-sync",
+        "kv_store": "store1"
+    },
+    "destination": {
+        "auth_method": "approle",
+        "url": "https://test2.com",
+        "role_id": "8d900c30-e078-4981-a1be-01c2a0770f2b",
+        "secret_id": "d1c5468e-15ee-427f-b69d-b77d214b2bfd",
+        "kv_store": "store2"
+    },
+    "schedule": {
+      "every": 300
+    }
+}
+```
+
+(*) approle is the default auth_method, so its fine to remove "auth_method": "approle" from your configuration.
