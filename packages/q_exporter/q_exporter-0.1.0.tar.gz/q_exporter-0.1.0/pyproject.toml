@@ -1,0 +1,25 @@
+[project]
+name = "q_exporter"
+version = "0.1.0"
+description = "Q+/KDB Exporter"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+authors = [
+    { name="John Benedict Yan", email="johnbenedictyan+q_exporter@gmail.com"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project.urls]
+Homepage = "https://github.com/johnbenedictyan/q_exporter"
+Issues = "https://github.com/johnbenedictyan/q_exporter/issues"
