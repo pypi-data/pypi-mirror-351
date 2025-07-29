@@ -1,0 +1,9 @@
+{
+	"target_file_extension": "sql",
+	"inherit_from" : ["general_sql_specs.json"],
+
+	"line_subst" : [
+		{"from": "\$\{hiveconf:(\w+)\}", "to" : "${$1}"},
+		{"from" : "\bcache\s+table\b", "to" : "create or replace temporary view"}
+	]
+}

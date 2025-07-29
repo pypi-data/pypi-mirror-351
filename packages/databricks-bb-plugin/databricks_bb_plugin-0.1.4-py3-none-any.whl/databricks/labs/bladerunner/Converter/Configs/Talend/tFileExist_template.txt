@@ -1,0 +1,6 @@
+file_path = '%FILE_NAME%'
+%ORIG_NAME%_EXISTS = True
+# Check if the file exists
+if not os.path.exists(file_path):
+	dbutils.notebook.exit(file_path + " does not exist")
+	%ORIG_NAME%_EXISTS = False

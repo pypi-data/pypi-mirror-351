@@ -1,0 +1,16 @@
+# Set environment variables or retrieve them
+%NAME%_account_name = os.environ['AZURE_ACCOUNT_NAME']
+%NAME%_account_key = os.environ['AZURE_ACCOUNT_KEY']
+%NAME%_container_name = os.environ['AZURE_CONTAINER_NAME']
+
+# Configure Spark
+sparkConf = SparkConf()
+sparkConf.set("spark.hadoop.fs.azure", "org.apache.hadoop.fs.azure.NativeAzureFileSystem")
+sparkConf.set("spark.hadoop.fs.azure.account.key." + %NAME%_account_name + ".blob.core.windows.net", %NAME%_account_key)
+
+sc = SparkContext(conf=sparkConf)
+
+# Path in ADLS Gen2
+adls_path = "abfss://" + %NAME%_container_name + "@" + %NAME%_account_name + ".dfs.core.windows.net/"
+
+# Now you can use the `adls_path` variable with Spark's DataFrame API to read/write data

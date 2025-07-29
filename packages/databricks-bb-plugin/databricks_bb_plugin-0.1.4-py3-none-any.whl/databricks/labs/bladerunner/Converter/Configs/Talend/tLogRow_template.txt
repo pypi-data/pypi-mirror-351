@@ -1,0 +1,5 @@
+%NODE_NAME% = %SRC_NODE_NAME%
+%NODE_NAME%_rows = %SRC_NODE_NAME%.collect()
+
+for row in %NODE_NAME%_rows:
+    print(row)

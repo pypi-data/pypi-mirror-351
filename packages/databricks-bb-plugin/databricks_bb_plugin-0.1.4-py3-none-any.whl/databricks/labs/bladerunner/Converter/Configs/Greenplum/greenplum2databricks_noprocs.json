@@ -1,0 +1,165 @@
+{
+	"code_generation_language": "SQL", // can be SQL or PYTHON
+	"target_file_extension": "sql", // make sure this is in sync with code_generation_language setting.
+	"inherit_from":["general_sql_specs.json"],
+	// If set to "1", do not convert text table formats to "DELTA" in "CREATE TABLE"
+	//"retain_text_table_formats": "0",
+
+	// Values for finding "STORED AS ...", e.g ."STORED AS TEXTFILE"
+	//"text_table_named_file_formats": [
+	//	"textfile",
+	//	"jsonfile",
+	//	"json"
+	//],
+
+
+	//"suppress_lines_starting_with": ["#"],
+	"suppress_lines_containing": ["\buse\b","VACUUM","CONSTRAINT","ANALYZE"],
+	"line_suppression_behavior": "ELIMINATE", //choices: COMMENT or ELIMINATE
+
+
+	"code_fragment_breakers": {
+		"line_end": [";"]
+	},
+	
+	"line_subst": [
+		{"from" : "^BEGIN\;", "to" : ""},
+		{"from" : "^END\;", "to" : ""},
+		{"from" : "\"(\w+)\s+(\w+)\"", "to" : "$1_$2 /*removing double quotes around column name that was split in 2*/"},
+		{"from" : "\bANALYZE\s+\w+\.\w+.*?\;*", "to" : ""},
+		{"from" : "\bANALYZE\b.*?\;*", "to" : ""},
+		{"from" : "\bVACUUM\b.*?;", "to" : ""},
+		{"from" : "\bcharacter\s+varying\b.*?;", "to" : "STRING"},
+	    {"from" : "set\s+optimizer.*?;", "to" : ""},
+		{"from" : "\bDEFAULT\b.*\,", "to" : ",","statement_categories": ["TABLE_DDL"]},
+		{"from" : "\bDEFAULT\b.*$", "to" : "","statement_categories": ["TABLE_DDL"]},
+		{"from" : "\bVARCHAR\b(?!\()", "to" : "STRING"},
+		{"from" : "\bTEXT\b", "to" : "STRING","statement_categories": ["TABLE_DDL"]},
+		{"from" : "\:\:TEXT\b", "to" : "::STRING"},
+		{"from" : "\:\:CHAR\b", "to" : "::STRING"},
+		{"from" : "\"(\w+)\"", "to" : "$1","statement_categories": ["TABLE_DDL"]},
+		{"from" : "\bint8\b", "to" : "BIGINT"},
+		{"from" : "\bint4\b", "to" : "INT"},
+		{"from" : "\bfloat8\b", "to" : "FLOAT"},
+		{"from" : "\bint2\b ", "to" : "SMALLINT"},
+		{"from" : "\btimestamptz\b", "to" : "TIMESTAMP"},
+		{"from" : "\btimestampntz\b", "to" : "TIMESTAMP"},
+		{"from" : "\btimestamp\(.*?\)", "to" : "TIMESTAMP"},
+		{"from" : "\bbpchar\b", "to" : "CHAR"},
+		{"from" : "\bytea1\b", "to" : "BINARY"},
+		{"from" : "DISTRIBUTED\s+BY", "to" : "DISTRIBUTED_BY"},
+	    {"from" : "from _v_dual", "to" : ""},
+		{"from" : "\:\:text", "to" : "::string"},
+		{"from" : "\:\:varchar", "to" : "::string"},
+		{"from" : "TRUNCATE\b\s+(?!\bTABLE\b)", "to" : "TRUNCATE1 TABLE "},
+		{"from" : "TRUNCATE1", "to" : "TRUNCATE"},
+		{"from": "set\s+(\w+)\s*=\s*('.*')\s*;", "to" : "CREATE WIDGET TEXT $1 DEFAULT $2;"}, //assignment with quotes. leave as is
+		{"from": "set\s+(\w+)\s*=\s*(.*)\s*;", "to" : "CREATE WIDGET TEXT $1 DEFAULT '$2';"}, //assignment without quotes. add the quotes to the value
+		// table attributes
+		{"from": "TBLPROPERTIES\(.*?\)", "to" : ""},
+		{"from": "row\s+format\s+delimited\s+fields\s+terminated\s+by\s+\'.*?\'", "to": ""},
+		{"from": "CLUSTERED\s+BY\s*\((.*?)\)", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		{"from": "SORTED\s+BY\s*\((.*?)\)", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		{"from": "INTO\s+[0-9]+\s+BUCKETS", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		//{"from": "TRUNCATE TABLE", "to" : "DELETE FROM"},
+		{"from": "ALTER\s+TABLE\s+(.*)?(DROP\s+IF\s+EXISTS\s+PARTITION)\s*\((.*)\);", "to" : "DELETE FROM $1 WHERE $3;"},//CCT Changes
+		{"from": "ALTER\s+TABLE\s+(.*)?(DROP\s+PARTITION)\s*\((.*)\);", "to" : "DELETE FROM $1 WHERE $3;"},//CCT Changes
+		//variable references
+		{"from": "LOCATION\s+\'\/", "to" : "LOCATION '"},
+		{"from": "STORED\s+AS\s+PARQUET", "to" : "USING DELTA"},
+		{"from": "CREATE\s+TEMP\s+TABLE", "to" : "CREATE OR REPLACE TABLE"},
+		{"from": "(\,\s*\'\d+\s+month\')(?!\:)", "to" : "$1::INTERVAL"},
+		{"from": "FROM\s+GENERATE_SERIES(\s*\(.*?\))(\s*\w+)", "to" : "FROM (SELECT  EXPLODE(SEQUENCE$1)$2)"},
+		{"from" : "\"LEFT\"", "to" : "LEFT"},
+		{"from" : "TO_CHAR\s*\(\s*(\w+)\s*\,\s*\'Mon\'\s*\)", "to" : "DATE_FORMAT($1,'MMM')"},
+		{"from" : "TO_CHAR\s*\(\s*\((\w+\s*\(*\s*\)*)\s*\:\:timestamp\s+AT\s+time\s+zone\s+(\'.*?\')\s*\)\:*\:*\w+\s*\,\s*\'IWIYYY\'\s*\)", "to" : "EXTRACT(WEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))||EXTRACT(YEAROFWEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))"},
+		{"from" : "TO_CHAR\s*\(\s*\((\w+\s*\(*\s*\)*)\s*\:\:timestamp\s+AT\s+time\s+zone\s+(\'.*?\')\s*\)\:*\:*\w+\s*\,\s*\'IW\-IYYY\'\s*\)", "to" : "EXTRACT(WEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))||'-'||EXTRACT(YEAROFWEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))"},
+		{"from" : "TO_CHAR\s*\(\s*\((\w+\s*\(*\s*\)*)\s*\:\:timestamp\s+AT\s+time\s+zone\s+(\'.*?\')\s*\)\:*\:*\w+\s*\,\s*\'IYYYIW\'\s*\)", "to" : "EXTRACT(YEAROFWEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))||EXTRACT(WEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))"},
+		{"from" : "TO_CHAR\((\w*\.*\w*\.*\w+)\s*\,\'YYYYMMWW\'\)", "to" : "FORMAT_DATE($1,'yyyyMM')||EXTRACT(YEAROFWEEK from $1)"},
+		{"from" : "TO_CHAR\((\w*\.*\w*\.*\w+)\s*\,\'IW\'\)", "to" : "EXTRACT(YEAROFWEEK from $1)"},
+		{"from" : "TO_CHAR(\(\w*\.*\w*\.*\w+\s*\,\'00000000\'\))", "to" : "TO_CHAR_TEMP($1)"},
+		{"from" : "TO_CHAR(\(\w*\.*\w*\.*\w+\s*\,\'9999999\'\))", "to" : "TO_CHAR_TEMP($1)"},
+		{"from" : "'yyyy\/mm\/dd hh24\:mi\:ss\'(?!\/done\/)", "to" : "'yyyy/MM/dd HH:mm:ss'/done/"},
+		{"from" : "'yyyy\/mm\/dd hh12\:mi\:ss\'(?!\/done\/)", "to" : "'yyyy/MM/dd hh:mm:ss'/done/"},
+		{"from" : "'mm\/dd\/yyyy hh12\:mi\:ss\'(?!\/done\/)", "to" : "'MM/dd/yyyy hh:mm:ss'/done/"},
+		{"from" : "'mm\/dd\/yyyy hh24\:mi\:ss\'(?!\/done\/)", "to" : "'MM/dd/yyyy HH:mm:ss'/done/"},
+		{"from" : "TO_DATE\s*\((.*?)\'DD-MON-YYYY\'\s*\)", "to" : "FORMAT_DATE($1,'dd-MMM-yyyy')"},
+		{"from" : "YYYY\-MM\-DD(?!\/done\/)", "to" : "yyyy-MM-dd/done/"},
+		{"from" : "MM/DD/YYYY(?!\/done\/)", "to" : "MM/dd/yyyy/done/"},
+		{"from" : "YYYY\-MM(?!\/done\/)", "to" : "yyyy-MM/done/"},
+		{"from" : "YYYYMMDD(?!\/done\/)", "to" : "yyyyMMdd/done/"},
+		{"from" : "DDMMYYYY(?!\/done\/)", "to" : "ddMMyyyy/done/"},
+		{"from" : "DD\-MON\-YYYY(?!\/done\/)", "to" : "dd-MMM-yyyy/done/"},
+		{"from" : "YYYYMM(?!\/done\/)", "to" : "yyyyMM/done/"},
+		{"from" : "MMYYYY(?!\/done\/)", "to" : "MMyyyy/done/"},
+		{"from" : "YYYY\/MM\/DD(?!\/done\/)", "to" : "yyyy/MM/dd/done/"},
+
+		{"from" : "\'TMMONTH\'(?!\/done\/)", "to" : "'MMMM'/done/"},
+		{"from" : "\'HH12MISS\'(?!\/done\/)", "to" : "hhmmss'/done/"},
+		{"from" : "\'Mon\-YY\'(?!\/done\/)", "to" : "'MMM-yy'/done/"},
+		{"from" : "\'Mon\-YYYY\'(?!\/done\/)", "to" : "'MMM-yyyy'/done/"},
+		{"from" : "\'DAY'(?!\/done\/)", "to" : "'EEEE'/done/"},
+		{"from" : "\'DD'(?!\/done\/)", "to" : "'dd'/done/"},
+		{"from" : "TO_CHAR(\(.*?'EEEE'\s*\))", "to" : "UPPER(date_format$1)"},
+		{"from" : "YYYY(?!\/done\/)", "to" : "yyyy/done/"},
+		{"from" : "\/done\/", "to" : ""},
+		{"from" : "to_char\((.*?)\,\s*\'IW\'\)", "to" : "weekofyear($1)"},
+		{"from" : "(\w+\s*\(*\s*\)*)\s*\:\:timestamp\s+AT\s+time\s+zone\s+(\'.*?\')", "to" : "from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2)"},
+		{"from" : "\!\~\~", "to" : "NOT LIKE"},
+		{"from" : "\~\~", "to" : "LIKE"}
+		],
+	
+	"block_subst": [
+	
+		{"from": "\s+;$", "to" : ";"}, //trim the ending
+		{"from": "(SET\s+.*);", "to" : " "},//CCT CHANGES
+		{"from" : "\,\s+CONSTRAINT.*?\)", "to" : "\n","statement_categories": ["TABLE_DDL"]},
+
+		{"from": "ALTER\s+TABLE\s+(.*)?(DROP\s+PARTITION)\s*\((.*)\);", "to" : "DELETE FROM $1 WHERE $3;"},//CCT Changes
+		{"from": "\bload\s+data\s+(local\s+)?inpath\s", "extension_call": "::databricks_load_data_into_table_sql"},
+		///////////
+		//
+		{"from": "(\bcreate\s.*?table\s.*?(\(((?:(?>[^()]+)|(?2))*)\))).*?\s+stored\s+as\s+(textfile|json).*;",
+			"to": "$1\n__CREATE_TABLE_AS_TEXT_ATTRIBS__"},
+		//
+		{"from" : "__CREATE_TABLE_AS_TEXT_ATTRIBS__", "extension_call" : "::databricks_create_table_as_text_format"},
+		//////////////
+		{"from": "\binsert\s+overwrite\s+table\s.*", "to": "__INSERT_OVERWRITE_TABLE_PLACEHOLDER__"},
+		{"from": "__INSERT_OVERWRITE_TABLE_PLACEHOLDER__", "extension_call": "::databricks_insert_overwrite_table"},
+		{"from": "CREATE TABLE(.*?)\;", "to" : "CREATE OR REPLACE TABLE $1 USING DELTA;"}, 
+		{"from" : "(\w+)(\s+\-\-\s*sql_script\s*\-*)", "to" : "$1;$2"},
+		{"from" : "\;", "to" : "~^#%`\n\n\n-- COMMAND ----------"},
+		{"from" : "\~\^\#\%\`", "to" : ";"}
+	],
+"function_subst" : [
+		{"from": "CONSTRAINT_CHECK", "to": "__BLANK__"},
+		{"from": "FOREIGN_KEY", "to": "__BLANK__"},
+		{"from": "REFERENCES", "to": "__BLANK__"},
+		{"from": "COMPRESS", "to": "__BLANK__"},
+		{"from": "COMPRESS_SUPPRESS", "to": "__BLANK__"},
+		{"from": "PARTITION_BY_CASE_N", "to": "__BLANK__"},
+		{"from": "PARTITION_BY_RANGE_N", "to": "__BLANK__"},
+		{"from": "DISTRIBUTED_BY", "to": "__BLANK__"},
+		{"from": "REGEXP_MATCHES",  "to" : "REGEXP_EXTRACT"},
+		{"from": "DATETIME", "to" : "TO_TIMESTAMP"},
+		{"from": "INDEX", "to": "CHARINDEX"},
+		{"from": "STRPOS",  "to" : "POSITION"},
+		{"from": "TRUNC", "to": "date_trunc", "arg_placement": { "1":"2||'DD'", "2":"1" } },
+		{"from": "SYSDATE",  "to" : "current_date()"},
+		{"from": "ISNULL",  "to" : "NVL"},
+		{"from": "TO_NUMBER", "to" : "INT"},
+		{"from": "TO_CHAR", "to" : "date_format"},
+		{"from": "SPLIT_PART", "to" : "SPLIT"},
+		{"from": "STRING_TO_ARRAY", "to" : "SPLIT"},
+		{"from": "ARRAY_TO_STRING", "to" : "ARRAY_JOIN"},
+		{"from": "STRING_AGG", "output_template" : "array_join(collect_set($1),$2)"},
+		{"from": "REGEXP_SPLIT_TO_TABLE", "output_template" : "EXPLODE(SPLIT($1,$2)"},
+		{"from": "GENERATE_SERIES", "output_template" : "EXPLODE(SEQUENCE($1,$2,$3))"},
+		{"from": "TO_CHAR_TEMP", "to" : "TO_CHAR"}
+	],
+
+	"tag_capture" : {
+		
+	}
+
+}

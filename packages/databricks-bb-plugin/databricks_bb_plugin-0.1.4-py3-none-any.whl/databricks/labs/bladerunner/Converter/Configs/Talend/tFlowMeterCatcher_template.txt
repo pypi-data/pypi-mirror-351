@@ -1,0 +1,7 @@
+%NAME%_NB_LINE = FlowMeterDF.count()
+%NAME%_PERIOD = 1  # let's assume 1 second for simplicity
+%NAME%_THROUGHPUT = %NAME%_NB_LINE / %NAME%_PERIOD
+
+%NAME% = FlowMeterDF.withColumn("NB_LINE", lit(%NAME%_NB_LINE)) \
+                   .withColumn("PERIOD", lit(%NAME%_PERIOD)) \
+                   .withColumn("THROUGHPUT", lit(%NAME%_THROUGHPUT))

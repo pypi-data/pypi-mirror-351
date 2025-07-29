@@ -1,0 +1,245 @@
+//writer configuration for ssis to pyspark glue.
+//uses the hook file ssis2custom_hooks
+{
+	"inherit_from" : ["ssis2dws.json"],
+	"CUSTOM_CONVERTER_MODULES" : ["ssis2pyspark_hooks"], // contains hooks for generating spark code
+	"target_file_extension" : "py",
+
+	"init_routine" : "init_writer", // gets called for every job, passes all the necessary vars and the normalized view of the package
+
+	"file_header" : "from curses import meta~
+from logging import exception~
+import sys~
+import re~
+import pandas as pd~
+from datetime import datetime, timedelta~
+from pyspark.context import SparkContext~
+from pyspark.sql.functions import *~
+",
+
+	"file_footer" : "\texcept Exception as ex:~
+\t\tprint(\"Error in data transformation\",ex)~
+\t\tSTATUS = \"F\"~
+\t\tTOTAL_ROWS = 0~
+\t\tIMPORTED_ROWS = 0~
+\t\tREJECTED_ROWS = 0~
+\t\tMESSAGE =\"Loading Failed\"~
+~
+\t\tfailure_module(BATCH_LOG_ID,UNIT_EXECUTION_ID,IMPORT_NAME,START_TIME,END_TIME,TOTAL_ROWS,IMPORTED_ROWS,REJECTED_ROWS,STATUS,MESSAGE,PACKAGEVERSION,DATA_DATE,IMPORT_TARGET,PowerDesignerVersion)~
+~
+if __name__ == \"__main__\":~
+\tmain()",
+
+    "keep_node_names_as_is" : 1, // tell the reader not to alter invalid identifier characters, like space, ampersands etc
+
+	"empty_converted_sql_file_text" : "SQL File is Empty !!!",
+	"pre_node_traversal_routine" : "dump_component_info",
+	"create_files_for_variables_and_parameters" : "dump_variables_and_parameters",
+	"create_package_subfolder" : "1",
+	"use_filename_for_output" : "1",
+	"pre_node_line" : "# Processing node %NODE_NAME%, type %NODE_TYPE%", //# COLUMNS %COLUMN_LIST%
+	"pre_finalization_handler" : "::finalize_content",
+	//this is the list of vars converter will be looking for when it encounters NZSQL Run Block package.  Add more if needed
+	"sql_statement_variable_list" : ["NZBlock_Process","Temp_Sql_Var"],
+
+	"code_fragment_breakers": {
+		//"line_start": ["\.[a-zA-Z]"],
+		"line_end": [";"]
+	},
+	
+	"code_indent" : "\t",
+	
+	"restricted_vars" : {
+		"NZBlock_Process" : 1,
+		"NZBlock_Create_Intake" : 1
+	},
+
+	//"insert_to_select_word" : "IDP_AUDIT_ID",
+	"sql_converter_config_file":"ssis2sparksql.json",
+	"etl_converter_config_file":"sql2python.json",
+	//"procedure_config_file" : "netezza2sparksql_demo.json",
+
+	"need_package_variable_and_component_mapping" : true,
+	"package_variable_and_component_mapping" :
+	{
+		"WorkGroup_Example" : {
+			"Package\Over all Container\Process_1\Loop Thru NZSQL Process Data Table_1\NZSQL Run - Process One NZBlock_1":
+			["Package\Over all Container\Process_1\Parse all parameters of all NZSQL blocks_1"]
+		}
+	},
+
+	"commands" : {
+		"BEGIN_TRY" : "\ndef main():\n\ttry:\n\t\t",
+		"CREATE_TABLE_TEMPLATE" : "columns = StructType([%COLUMNS%])\n%SRC_TABLE% = spark.createDataFrame(schema=columns)\n%SRC_TABLE%.createOrReplaceTempView('%SRC_TABLE%')\n",
+		"CREATE_TABLE_AS_SELECT_TEMPLATE" : "sql_statement = \"\"\"%CREATE_TABLE_SELECT%\"\"\"\n%SRC_TABLE% = spark.sql(sql_statement)\n",
+		"CREATE_TABLE_AS_SELECT_TEMPLATE_FORMAT" : "sql_statement = \"\"\"%CREATE_TABLE_SELECT%\"\"\".format(%COLUMNS%)\n%SRC_TABLE% = spark.sql(sql_statement)\n",
+		"INSERT_INTO" : "%TGT_TABLE%  = %TGT_TABLE%.unionAll(%INSERTED_TABLE_NAME%)\n",
+		"CREATE_TEMP_VIEW" : "%SRC_TABLE%.createOrReplaceTempView('%SRC_TABLE%')\n",
+		//"END_TRY" : "Success_execution_log(UNIT_ID,\"\"\"%SQL%\"\"\",Current_time)\n",
+		//"CATCH" : "except Exception as ex:\n\tprint('Error in data transformation',ex)\n\tFailure_excution_Log(UNIT_ID,\"\"\"%SQL%\"\"\",ERROR,Current_time)\n\traise ex\n",
+		//"ERROR_IF_LAST_STATEMENT" : "If(%SRC_TABLE%.count()>0)\n\tprint('Records present in Error message table',ex)\n\tSTATUS = 'F'\n\tTOTAL_ROWS = 0\n\tIMPORTED_ROWS = 0\n\tREJECTED_ROWS = %SRC_TABLE%.count()\n\tMESSAGE =\"Loading Failed\"\n\tfailure_module(BATCH_LOG_ID,UNIT_EXECUTION_ID,IMPORT_NAME,START_TIME,END_TIME,TOTAL_ROWS,IMPORTED_ROWS,REJECTED_ROWS,STATUS,MESSAGE,PACKAGEVERSION,DATA_DATE,IMPORT_TARGET,PowerDesignerVersion)\n\traise ex\n\nSTART_TIME = datetime.datetime.now().strftime(\"%Y%m%d %H:%M:%S\")\n",
+		"SET_VAR_VALUE" : "%NAME% = f'%VALUE%'\n",
+		"COLUMN" : "StructField('%COLUMN_NAME%',StringType(),True)\n",
+		"READ_EXCEL_COMMAND" : "%NODE_NAME% = pd.read_excel(\"%PATH%\",sheet_name=\"%SHEET%\")\n%NODE_NAME% = spark.createDataFrame(%NODE_NAME%)\n%NODE_NAME%.createOrReplaceTempView('%NODE_NAME%')",
+		"REDSHIFT_COMMAND" : "source_jdbc_conf = glueContext.extract_jdbc_conf(glue_connection_name)~
+~
+from py4j.java_gateway import java_import~
+java_import(sc._gateway.jvm,\"java.sql.Connection\")~
+java_import(sc._gateway.jvm,\"java.sql.DatabaseMetaData\")~
+java_import(sc._gateway.jvm,\"java.sql.DriverManager\")~
+java_import(sc._gateway.jvm,\"java.sql.SQLException\")~
+print(\"source_jdbc_conf value is \",source_jdbc_conf)~
+conn = sc._gateway.jvm.DriverManager.getConnection(source_jdbc_conf.get('fullUrl'), source_jdbc_conf.get('user'), source_jdbc_conf.get('password'))~
+~
+print(conn.getMetaData().getDatabaseProductName())~
+print(\"calling stored procedure\")~
+# call stored procedure, in this case I call sp_start_job~
+cstmt = conn.prepareStatement(\"call %PROCEDURE_NAME%()\")~
+print(\"cstmt value is \",cstmt)~
+#cstmt.setString(\"job_name\", \"testjob\");~
+~
+results = cstmt.execute();~
+print(\"cstmt procedure executed\")~
+conn.close()",
+		"WRAP" : "sql_statement = f\"\"\"%SQL%\"\"\"\nspark.sql(sql_statement)\n",
+		"SET_WRAP" : "sql_statement = f\"\"\"%SQL%\"\"\"\n%VARIABLE% = spark.sql(sql_statement)",
+		"CREATE_TEMP_VIEW" : "%DF%.createOrReplaceTempView('%DF%')"
+	},
+	
+	"custom_commands" : {
+		"SPLIT_TO_COLUMNS_SELECT_WITH_WHERE" : "sql_statement = \"\"\"SELECT * from %TABLE% %WHERE%\"\"\"\n%TABLE% = spark.sql(sql_statement)\n\n",
+		"SPLIT_TO_COLUMNS_with_column" : ". \\nwithColumn('%COLUMN%',split(%TABLE%['%TOOLKIT_COLUMN%'], '[%DELIMITER%]').getItem(%INDEX%))",
+		"SPLIT_TO_COLUMNS_NEXT_VALUE_FOR" : "%TABLE%=SEQGEN(%TABLE%, '%NEXT_ID%')\n%TABLE%.createOrReplaceTempView('%TABLE%')\n",
+		"SPLIT_TO_COLUMNS_select_with_format" : "sql_statement = \"\"\"%SELECT% * from %TABLE%\"\"\".format(IDP_AUDIT_ID=AUDIT_ID, IDP_DATA_DATE=idp_data_date_var)\n%TABLE% = spark.sql(sql_statement)\n%TABLE%.createOrReplaceTempView('%TABLE%')\n\n",
+		"SPLIT_TO_COLUMNS_final_select" : "sql_statement = \"\"\"%SELECT% %TOOLKIT_COLUMNS% from %TABLE%\"\"\"\n%TABLE% = spark.sql(sql_statement)\n%TABLE%.createOrReplaceTempView('%TABLE%')\n\n"
+	},
+	"custom_cast" : {
+		"Numeric" :	{ "Value" : "cast(%EXPRESSION% as Decimal%PRECISION%)", "Precision" : 1},
+		"Varchar" :	{ "Value" : "cast(%EXPRESSION% as Varchar)", "Precision" : 0},
+		"Date" :	{ "Value" : "to_date(%EXPRESSION%,'yyyyMMdd')", "Precision" : 0}
+	},
+	
+	"multi_level_var_subst" : 1,
+	"error_if_keywords" : "ERROR_MESSAGE",
+	
+	"trappers" : [
+		{"USER_TYPE" : "^PACKAGE$", "__handler__" : "start_script"}, //main package
+		//{"USER_TYPE" : "EXECUTE_SQL_TASK", "LOCAL_NAME" : "Query\s+Work\s*Unit", "__handler__" : "query_work_unit"},
+		{"USER_TYPE" : "EXCEL_SOURCE", "__handler__" : "excelsource_block"},
+		{"USER_TYPE" : "SOURCE", "__handler__" : "source_block"},
+		{"USER_TYPE" : "TARGET", "__handler__" : "target_block"},
+		{"USER_TYPE" : "AGGREGATOR", "__handler__" : "aggregator_block"},
+		{"USER_TYPE" : "REPLICATE", "__handler__" : "replicate_block"},
+		{"USER_TYPE" : "EXPRESSION", "__handler__" : "expression_block"},
+		{"USER_TYPE" : "LOOKUP", "__handler__" : "lookup_block"},
+		{"USER_TYPE" : "UNION", "__handler__" : "union_block"},
+		{"USER_TYPE" : "CONDITIONALSPLIT", "__handler__" : "conditionalsplit_block"},
+		{"USER_TYPE" : "MANAGEDCOMPONENTHOST", "__handler__" : "dummy_block"},		
+		
+		
+		{"USER_TYPE" : "EXECUTE_SQL_TASK", "__handler__" : "query_work_unit"},
+		{"USER_TYPE" : "EXECUTE_SQL", "__handler__" : "query_work_unit"},
+		{"USER_TYPE" : "EXECUTE_PACKAGE", "LOCAL_NAME" : "(NZSQL\s*Run|NZBlock)", "__handler__" : "exec_sql_block"},
+		{"USER_TYPE" : "STOCK_FOREACHLOOP", "LOCAL_NAME" : "Loop.*NZSQL.*Process", "__handler__" : "loop_start"},
+		{"USER_TYPE" : "SCRIPT_TASK", "LOCAL_NAME" : "parse.*param", "__handler__" : "parse_sql_params_in_script"} //captures the list of params to be iterated over
+	],
+	
+	"stmt_categorization_patterns":
+	[
+		{"category": "PYTHON_VARIABLE_ASSIGNMENT", "patterns" : ["^[\s\n]*\@\w+\s*="]},
+		{"category": "PYTHON_VARIABLE_REASSIGNMENT", "patterns" : ["^[\s\n]*\@\w+\s*="]},
+		{"category": "PYTHON_VARIABLE_DECLARATION", "patterns" : [
+			"^[\s\n]*DECLARE\s+\@\w+\s+(\bDATETIME\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bINT\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b|\bRECORD\b)",
+			"^[\s\n]*\@\w+\s+(\bDATETIME\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bINT\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b)"
+		]},
+		{"category": "SELECT_INTO", "patterns" : ["^\s*SELECT\s+.*?\bINTO\b"]},
+		{"category": "UPDATE_TO_MERGE", "patterns" : ["^\s*UPDATE\b.*?\bFROM\b"]}
+	],
+
+	"fragment_handling" :
+	{
+		"SELECT_INTO" : "select_into_fragment",
+		"PYTHON_VARIABLE_DECLARATION": "python_variable_assignment",
+		"PYTHON_VARIABLE_ASSIGNMENT": "python_variable_assignment",
+		"PYTHON_VARIABLE_REASSIGNMENT": "python_variable_assignment",
+		"UPDATE_TO_MERGE": "update_to_merge_fragment"
+	},
+	
+	"save_debug_info" : {
+		"create_sql_debug_files" : false,
+		//for bulk conversions better use this
+		//"converted_sql_file_pattern" : "%PACKAGE_NAME%_%PID%_%TIMESTAMP%_conv.sql",
+		//"original_sql_file_pattern" : "%PACKAGE_NAME%_%PID%_%TIMESTAMP%_orig.sql",
+		//for single file debugging can use this to get steady file names
+		"converted_sql_file_pattern" : "%PACKAGE_NAME%_conv.sql",
+		"original_sql_file_pattern" : "%PACKAGE_NAME%_orig.sql"
+	},
+
+	"line_subst" : [
+		{"from": "\bCOMMIT\b", "to": ""},
+		{"from": "\bBEGIN\b", "to": ""},
+		{"from": "\bWORK\b", "to": ""}
+	],
+	
+	"table_name_trappers" : ["\bINSERT\s+INTO\s+(.*?)\s+",
+						"\bCREATE\s+TABLE\s+(.*?)\s+",
+						"(?<!\'\s)\bFROM\s+(?![\(])(.*?)\s+",
+						"\bJOIN\s+(?![\(])(.*?)\s+"],
+	
+	"datatype_mapping" : {
+        "i4" : "INT",
+        "i2" : "INT",
+        "decimal" : "NUMBER",
+        "text" : "string",
+        "nText" : "string",
+        "dbTimeStamp" : "TIMESTAMP",
+        "guid" : "string",
+        "str" : "string",
+        "wstr" : "string"
+    },
+    
+    "datatype_default_length" : {
+        "i4" : "4",
+        "i2" : "4",
+        "decimal" : "18",
+        "text" : "4000",
+        "nText" : "4000",
+        "dbTimeStamp" : "29",
+        "guid" : "40",
+        "str" : "255",
+        "wstr" : "255"
+    },    
+
+    "datatype_default_scale" : {
+        "decimal" : "6",
+        "dbTimeStamp" : "9"
+    },
+	
+	"table_name_cleaner" :["\(.*",
+						   "\).*"],
+	
+	"generate_procedure_after_update" : false,
+	"generate_procedure_after_delete" : false,
+	"generate_only_sql_convert" : false,
+	"file_name" : "PROC_%PROCEDURE_NAME%",
+	"sql_comment" : "--",
+	"create_procedure_template":"CREATE PROCEDURE %PROCEDURE_NAME%~
+AS~
+BEGIN~
+%BODY%~
+END",
+	//"block_subst" : [
+	//	{"from" : "dummy line", "to" : "some dummy line"}
+	//],
+	//
+	"function_subst" : [
+		//{"from": "TOOLKIT.SQLEXT.EBCDIC2LATIN9", "to": "__ELIMINATE_CALL__"},
+		//{"from": "TOOLKIT.SQLEXT.PACKEDDECIMAL2STR", "to": "__ELIMINATE_CALL__"},
+		//{"from": "TOOLKIT.SQLEXT.REGEXP_EXTRACT", "to": "regexp_extract"},
+		//{"from": "TOOLKIT.SQLEXT.STRRIGHT", "num_args" : "2", "output_template" : "substring($1,-$2,$2)"},
+		//{"from": "TOOLKIT.SQLEXT.STRLEFT", "num_args" : "2", "output_template" : "substring($1,0,$2)"}
+
+		//,{"from" : "FUNCTION_IN", "output_template" : "$1 IN ( $ARGS_AFTER_1ST_ARG )"}
+	]
+	
+}

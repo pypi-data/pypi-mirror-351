@@ -1,0 +1,6 @@
+# Loop through %SRC_NODE_NAME% to create a separate DataFrame for each row
+for %NAME%_row in %SRC_NODE_NAME%.collect():
+  # Create a single-row DataFrame for this row
+  %NAME% = spark.createDataFrame([%NAME%_row])
+
+  # for below nodes please manually tab/indent them to be encompassed in the for loop as needed

@@ -1,0 +1,74 @@
+{
+	"inherit_from" : ["general_sql_specs.json"],
+
+	"target_sql" : "SQLSPARK",
+
+	"target_file_extension" : "sql",
+	"from_after_delete" : "1",
+	"code_fragment_breakers": {
+		"line_end": [";"]
+	},
+
+	//"suppress_lines_starting_with": [ "\bCOMMIT\b", "\bset\s+(echo|timing)\b", "\bsta\s", "\bexit\b", "\bSET\b" ],
+	//"suppress_lines_containing": ["Causes error if removed, so this must not match anything"],
+	//"line_suppression_behavior":"ELIMINATE", //choices: COMMENT or ELIMINATE
+
+	"line_subst_BAK" : [
+		{"from" : "\$\$(\w+\b)", "to" : "{{var('$1')}}"},
+		{"from" : "\bstring\b", "to" : "varchar"},
+		{"from" : "\bdatetime\b", "to" : "timestamp"},
+		{"from" : "\btimestamp\(0\)", "to" : "timestamp"},
+		{"from" : "SELECT\s+(\w+)\.NEXTVAL\s+FROM\s+DUAL", "to" : "SELECT 1 as %FIRST_COLUMN% /* $1 sequence*/"},
+		{"from" : "#(\w+)#", "to" : "{$1}"},
+		{"from" : "yyyymmdd", "to" : "yyyyMMdd", "case_sensitive_match" : 1},
+		{"from": "\bEXEC\s+dbms_stats.gather_table_stats\(.*?tabname=>'(.*?)'.*", "to": "query_stats = spark.sql(\"\"\"ANALYZE TABLE $1 COMPUTE STATISTICS FOR ALL COLUMNS\"\"\")"},	
+
+		//TABLE DDLs.  We do not need to specify NULL on nullable fields.  Has to be omiited.  Only NOT NULL speci is allows.
+		
+		{"from" : "NOT\s+NULL", "to" : "NOT_NULL", "statement_categories" : ["TABLE_DDL"]}, //change NOT NULL to NOT_NULL
+		{"from" : "\bNULL\b", "to" : "", "statement_categories" : ["TABLE_DDL"]}, // get rid of NULL words
+		{"from" : "NOT_NULL", "to" : "NOT NULL", "statement_categories" : ["TABLE_DDL"]}, //change back from NOT_NULL to NOT NULL
+		{"from" : "CREATE TABLE ", "to" : "CREATE OR REPLACE TABLE TEMP.", "statement_categories" : ["TABLE_DDL"]}
+
+	],
+	
+	"line_subst" : [
+		{"from" : "\bNUMBER\b", "to" : "float"},
+		{"from" : "\bvarchar[0-9]*\s*\(.*?\)", "to" : "string"}
+
+	],
+
+	"block_subst_BAK" : [ // disabling this section for now
+		//{"from" : "\r\r\n", "to" : "\n"}, attampt to emove blank lines in sql. didn't work
+		{"from" : "(^CREATE\b.*)", "to" : "$1\nUSING DELTA", "first_match" : 1}
+	],
+	//"operator_to_function_subst" : { //converting operators to functions
+	//	"||" : "CONCAT"
+	//},
+
+	"function_subst" : [
+		{"from": "TRUNC", "to": "date_trunc", "arg_placement": { "1":"2||'DD'", "2":"1" } },
+		{"from": "SYSDATE",  "to" : "current_date()"},
+		{"from": "ISNULL",  "to" : "NVL"},
+		{"from": "TO_NUMBER", "to" : "INT"},
+		{"from": "TO_CHAR", "to" : "date_format"},
+		{"from": "SQLTOOLKIT.dbaall.RAWTOHEX", "to" : "HEX"},
+		{"from": "SQLTOOLKIT.dbaall.HASH", "to" : "SHA2"},
+		{"from" : "CONCAT", "output_template" : "CONCAT_WS('',$1,$ARGS_AFTER_1ST_ARG_EXCLUDING_LAST_ARG, $LAST_ARG )", "each_arg_routine" : "::convert_concat"} //escape_regex_arg mimic
+
+	]
+}
+
+// this is a loadable code
+/*LOADABLE_CODE
+use strict;
+
+# check if the arg is a string and add backslash in front of the chars *()[]
+sub main::convert_concat
+{
+	my $arg = shift;
+	$arg =~ s/\bCONCAT\b\((.*?)\)/CONCAT_WS('',$1)/gis;
+	return $arg;
+}
+
+LOADABLE_CODE*/

@@ -1,0 +1,3 @@
+# Create an empty DataFrame with a schema
+data = %SRC_NODE_NAME%.first()['%FIELD%'].split('%FIELDSEPARATOR%')
+%NAME% = spark.createDataFrame(data, schema="%COLUMNS_HEADER%")

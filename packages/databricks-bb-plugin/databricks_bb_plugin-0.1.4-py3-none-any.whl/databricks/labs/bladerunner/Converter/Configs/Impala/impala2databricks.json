@@ -1,0 +1,170 @@
+{
+	"inherit_from":["general_sql_specs.json"],
+	"target_capabilities" : {"loops":"0"},
+	"from_after_delete" : "1",
+	"target_file_extension" : "sql",
+
+	//"prescan_and_collect_info_hook" : "::prescan_code_bteq", //capture env variables, mload commands.  This instruction fires off before "initialize_hooks_call"
+	//"initialize_hooks_call" : "::init_hooks", //initialize context, pass all relevant info
+	//"extract_embedded_sql" : ["sh","ksh","ssh"], //listing extensions of files from which to extract embedded sql.  Use "embedded_sql_tags" key to list strings depicting the start of sql
+	//examples:
+	//"embedded_sql_tags" : ["$RUN_SQL", "$RUN_INLINE_SQL", "$RUN_DDL", "bteq"],
+	//"embedded_sql_file_ref" : ["$RUN_SQL -f"] //references a sql file
+	
+	//"target_sql_filename_prefix": "sn_",
+	//"target_sql_file_header": "--/********* File converted at %CONVERTER_TIMESTAMP% *********/\n!set timing=true\n!set variable_substitution=true",
+	//"target_sql_file_header": "!set variable_substitution=true",
+	
+	"convert_group_by_enumerations": "1",
+
+	//"preprocess_subst" : [ // get rid of elements that are not needed, before normal file processing starts, multi line matching
+	//	{"from" : "\.BEGIN\s+IMPORT\s+MLOAD.*\.END\s+MLOAD;", "to" : "__MLOAD_PLACEHOLDER__;"} // implement a hook to convert this using $MLOAD->{MLOAD_INFO} structure.
+	//],
+	
+	"code_fragment_breakers": {
+		//"line_start": ["\.[a-zA-Z]"], //BTEQ's dot commands
+		"line_end": ["\;"]
+	},
+
+	"statement_end" : ";",
+
+	//apply substitutions when lines that begin with these tokens
+	"line_begin_with_subst" : [
+	],
+	
+	"line_subst" : [
+	
+		//{"from" : "IS\s+TRUE", "to" : "= TRUE"},
+		{"from" : "date_add\((.*?)\,\s*interval\s*(\d+\s*weeks)\)", "to" : "$1 + interval '$2' "},
+		{"from" : "date_sub\((.*?)\,\s*interval\s*(\d+\s*weeks)\)", "to" : "$1 - interval '$2' "},
+		{"from" : "(\w+\(*\)*)\s*\-\s*INTERVAL\s+(\d+)\s+MONTHS", "to" : "ADD_MONTHS($1 ,- $2) "},
+		{"from" : "(\w+\(*\)*)\s*\+\s*INTERVAL\s+(\d+)\s+MONTHS", "to" : "ADD_MONTHS($1 , $2) "},
+		{"from" : "as\s*\'(\w+)\'", "to" : " $1"}
+		//{"from" : "mmss", "to" : "miss"},
+		//{"from" : "(INSERT OVERWRITE)", "to" : "$1 INTO","first_match" : "1"}
+	],
+	//"suppress_lines_starting_with": [".IF ERRORCODE\s*>\s*0\s+THEN .\s*EXIT ERRORCODE", "\.RUN FILE LOGON", "\.SET ERRORLEVEL"],
+	//"suppress_lines_containing": [".quit"],
+	//"line_suppression_behavior":"ELIMINATE" //choices: COMMENT or ELIMINATE
+	
+	"block_subst" : [
+	    {"from" : "ROW\s+FORMAT\s+DELIMITED\s+FIELDS\s+TERMINATED\s+BY\s*\'.*?\'", "to" : "", "statement_categories": ["TABLE_DDL"]},
+	    {"from" : "ROW\s+FORMAT\s+\w+", "to" : "", "statement_categories": ["TABLE_DDL"]},
+	    {"from" : "WITH\s+SERDEPROPERTIES", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		{"from" : "CACHED\s+IN\s*\'\w+\'", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		//{"from" : "PARTITION BY(.*?\,)", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		//{"from" : "RANGE(.*?)VALUES\)", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		{"from" : "STORED\s+AS\s*(\w+)", "to" : "USING $1", "statement_categories": ["TABLE_DDL"]},
+		//{"from" : "SORT\s+BY\s(.*?\))", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		//{"from" : "TBLPROPERTIES\s(.*?\))", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		//{"from" : "LIKE\s+PARQUET\s*\w+", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		//{"from" : "LOCATION\s+\'.*?\'", "to" : "", "statement_categories": ["TABLE_DDL"]},
+	
+		{"from" :  "GO", "to" : ""},
+		{"from" :  "\)\s+;", "to" : ");"},
+		{"from" : "^\s*\.SET\s+(\w+)\s+TO\s*(.*)\;", "to" : "SET $1 = $2;"},
+		{"from" : "\.\.", "to" : "."},
+		{"from" : "LOCKING ROW FOR ACCESS\s*", "to" : ""},
+		{"from" : "__EXPRESSION__\s(FORMAT '(9+)')", "to" : "LPAD(__EXPRESSION__,__LENGTH__,'0')"},
+		{"from" : "\)\s*WITH NO DATA", "to" : " WHERE 1=2)"},
+		{"from" : "TITLE\s*'.*?'", "to" : "", "statement_categories": ["TABLE_DDL"]},
+		//{"from": "^\s*UPDATE(.*?)FROM(.*;)", "parse_method":"convert_update_to_merge", "statement_categories": ["WRITE_DML"]},
+		{"from" : "\)__GAMMA_NL__\s*WITH NO DATA", "to" : " WHERE 1=2)"}, //use __GAMMA_NL__ for newline pattern
+		//{"from" : "CREATE INDEX \((.*?)\).*;", "to": "", "statement_categories": ["CREATE_INDEX"] },
+		{"from" : "VALIDTIME .*\(SELECT.*\)(.*?)(SELECT?)", "to" : "SELECT"},		
+		{"from" : "__EXPRESSION__\s\(FORMAT\s*'9\(18\)'\)", "to" : "LPAD(__EXPRESSION__,18,'0')"},
+		{"from" : "__EXPRESSION__\s\(FORMAT\s*'999999'\)", "to" : "LPAD(__EXPRESSION__,6,'0')"},
+		{"from" : "__EXPRESSION__\s\(FORMAT\s*'9\(2\)'\s*\)", "to" : "LPAD(__EXPRESSION__,2,'0')"},
+		{"from" : "PRIM_IDX\s+\S+\s*\(.+?\)", "to": "", "statement_categories": ["TABLE_DDL"]}, //get rid of named primary index
+
+		{"from": "\bREPEAT\s+(.*?)\s+UNTIL\s+(.*?)\s+END\s+REPEAT", "to" : "WHILE $2\nDO $1\nEND WHILE"},
+		{"from": "(CREATE TABLE IF NOT EXISTS \w+\.\w+)(\s+)\(", "to" : "$1("},
+		{"from" : "dummy line", "to" : "some dummy line"}
+	],
+	
+	"function_subst" : [
+		{"from": "BITAND",     "to" : "BIT_AND"},
+		{"from": "BITOR",     "to" : "BIT_OR"},
+		{"from": "BTRIM",     "output_template" : "LTRIM(RTRIM($1))"},
+		{"from": "DAYS_ADD",     "output_template" : "DATEADD"},
+		{"from": "DAYS_SUB",     "output_template" : "DATE_SUB"},
+		{"from": "FMOD",     "output_template" : "MOD"},
+		{"from": "GROUP_CONCAT",     "to" : "STRING_AGG"},
+		{"from" : "FROM_TIMESTAMP", "arg_pattern" : {"2":"yyyy-MM-dd"}, "output_template" :  "DATE_FORMAT($1,'yyyy-mm-dd')"},
+		{"from" : "FROM_TIMESTAMP", "arg_pattern" : {"2":"MMMddyyyy"}, "output_template" :  "DATE_FORMAT($1,'MMMmmdd')"},
+		{"from" : "FROM_TIMESTAMP", "arg_pattern" : {"2":"yyyyMMdd"}, "output_template" :  "DATE_FORMAT($1,'yyyymmdd')"},
+		{"from" : "FROM_TIMESTAMP", "arg_pattern" : {"2":"yyyy-MMM-dd"}, "output_template" :  "DATE_FORMAT($1,'yyyyMMMdd')"},
+		{"from" : "FROM_TIMESTAMP", "arg_pattern" : {"2":"MMM\s+dd\s+yyyy\s+HH\:mm\:ss\.SSS"}, "output_template" :  "DATE_FORMAT($1,'MMM dd yyyy hh:mm:ss.SSS')"},
+		{"from" : "FROM_TIMESTAMP", "arg_pattern" : {"2":"yyyy\-mm\-dd\s+hh\:mm\:ss\.ssss"}, "output_template" :  "DATE_FORMAT($1,'yyyy-mm-dd yyyy hh:mm:ss.SSSS')"},
+		{"from" : "FROM_TIMESTAMP", "arg_pattern" : {"2":"MMM/dd/yyyy"}, "output_template" :  "DATE_FORMAT($1,'MMM/dd/yyyy')"},
+		{"from" : "FROM_TIMESTAMP", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATE_FORMAT($1,'yyyy/mm/dd')"},
+		{"from" : "HOURS_ADD", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(hour,$2,$1)"},
+		{"from" : "HOURS_SUB", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(hour,-$2,$1)"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" :  {"2":"MMMddyyyy"}, "output_template" :  "DATE_FORMAT($1,'MMMddyyyy')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" : {"2":"yyyy-MM-dd"}, "output_template" :  "DATE_FORMAT($1,'yyyy-mm-dd')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" : {"2":"yyyyMMdd"}, "output_template" :  "DATE_FORMAT($1,'yyyymmdd')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATE_FORMAT(TO_TIMESTAMP($1),'yyyy/mm/dd')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" : {"2":"MMM/dd/yyyy"}, "output_template" :  "DATE_FORMAT(TO_TIMESTAMP($1),'MMM/dd/yyyy')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" : {"2":"yyyy-MMM-dd"}, "output_template" :  "DATE_FORMAT(TO_TIMESTAMP($1),'yyyy-mm-dd')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" :  {"2":"MMM\s+dd\s+yyyy\s+HH\:mm\:ss\.SSS"}, "output_template" :  "DATE_FORMAT(TO_TIMESTAMP($1),'MMM dd yyyy hh:mm:ss.SSS')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" :  {"2":"yyyy\-mm\-dd\s+hh\:mm\:ss\.ssss"}, "output_template" :  "DATE_FORMAT(TO_TIMESTAMP($1),'yyyy-mm-dd yyyy hh:mm:ss.SSS')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" :  {"2":"MMM/dd/yyyy"}, "output_template" :  "DATE_FORMAT(TO_TIMESTAMP($1),'MMM/dd/yyyy')"},
+		//{"from" : "FROM_UNIXTIME", "arg_pattern" :  {"2":"yyyy/mm/dd"}, "output_template" :  "DATE_FORMAT(TO_TIMESTAMP($1),'yyyy/mm/dd')"},
+		{"from": "IF",     "output_template" :  "CASE WHEN $1 then $2 else $3 end"},
+		{"from" : "INT_MONTHS_BETWEEN", "to" :  "MONTHS_BETWEEN"},
+		{"from" : "ISFALSE", "output_template":  "case when $1 not is true then true else false end"},
+		{"from" : "ISNOTFALSE", "to":  "case when $1  is true then true else false end"},
+		{"from" : "ISTRUE", "to":  "case when $1  is true then true else false end"},
+		{"from" : "LCASE", "to" :  "LOWER"},
+		{"from" : "MILLISECOND_SUB", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(millisecond,-$2,$1)"},
+		{"from" : "MILLISECOND_ADD", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(millisecond,-$2,$1)"},
+		{"from" : "MINUTE_SUB", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(MINUTE,-$2,$1)"},
+		{"from" : "MINUTE_ADD", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(MINUTE,-$2,$1)"},
+		{"from" : "MONTHNAME", "output_template":  "DATE_FOMAT($1,'MMM')"},
+		{"from" : "MONTHS_ADD", "to" :  "ADD_MONTHS"},
+		{"from" : "MONTHS_SUB", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(MONTH,-$2,$1)"},
+		{"from" : "NANOSECONDS_SUB", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(NANOSECOND,-$2,$1)"},
+		{"from" : "NANOSECONDS_ADD", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(NANOSECOND,-$2,$1)"},
+		{"from" : "NONNULLVALUE", "output_template" :  "NOT ISNULL($1)"},
+		{"from" : "QUOTIENT", "output_template" :  "ROUND($1/$2,0)"},
+		{"from" : "SECONDS_ADD", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(SECONDS,$2,$1)"},
+		{"from" : "SECONDS_SUB", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(SECONDS,-$2,$1)"},
+		{"from": "STRLEFT",     "to" : "LEFT"},
+		{"from": "STRRIGHT",     "to" : "RIGHT"},
+		{"from" : "UPPER", "to" :  "UCASE"},
+		{"from" : "WEKKS_ADD", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(WEEK,$2,$1)"},
+		{"from" : "WEKKS_SUB", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(WEEK,-$2,$1)"},
+		{"from" : "YEARS_ADD", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(YEAR,$2,$1)"},
+		{"from" : "YEARS_SUB", "arg_pattern" : {"2":"yyyy/mm/dd"}, "output_template" :  "DATEADD(YEAR,-$2,$1)"},
+		{"from": "ZEROIFNULL",     "output_template" : "IFNULL($1,0)"}
+	
+
+		
+		],
+		
+	
+	"tag_capture" :
+		{	//format: descriptive_key : array of regex patterns
+			"COMPRESS" : ["COMPRESS"], //COMPRESS([\s|,(]|$)
+			"TEMPORAL" : ["VALIDTIME"],
+			"SYSLIB" : ["SYSLIB\."],
+			"PERIOD_FUNCTIONS" : ["PERIOD(\s*)\("],
+			"BINARY_DATATYPES" : ["BYTEINT", "VARBYTE"],
+			"NATIVE_CASTING" : ["\(VARCHAR\((\d+)\)\)", "\INT\)", "\(CHAR\((\d+)\)\)"],
+			"FORMAT_SPEC": ["FORMAT "],
+			"FLOAT DEFAULT TIME" : ["FLOAT(\s+?)DEFAULT(\s+?)TIME"],
+			"STRING_TRIMMING" : ["LEADING", "TRAILING"],
+			"UNIQUE_PRIMARY_INDEX" : ["UNIQUE\s+PRIMARY\s+INDEX"],
+			"UNIQUE_INDEX" : ["UNIQUE\s+INDEX"],
+			"CROSS JOIN" : ["CROSS(\s+)JOIN"],
+			"RECURSIVE" : ["RECURSIVE"],
+			"LOADER CALL" : ["FAST_LOAD"],
+			"DBC OBJECTS" : ["DBC\."]
+
+		},
+	//enable column parsing for: manipulate on 1 column at a time, it is safer; for in-place aliases, swap column order; format functionality handling
+	"column_level_parsing" : ["VIEW_DDL", "TABLE_DDL_AS_SELECT", "TABLE_DDL"],
+	"adjust_format_tokens" : "1",
+	"adjust_native_casting" : "1" //yet to be implemented
+	//"embedded_sql_var_prefix" : "&"
+}

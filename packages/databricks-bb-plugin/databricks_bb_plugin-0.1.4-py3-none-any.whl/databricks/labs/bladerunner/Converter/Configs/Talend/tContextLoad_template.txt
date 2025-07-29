@@ -1,0 +1,6 @@
+%NAME%_context_ld = %SRC_NODE_NAME%
+#%NAME%_context_ld = sc.map(lambda %NAME%_line: %NAME%_line.split('==='))
+%NAME%_param_dict = dict(%NAME%_context_ld.collect())
+
+for %NAME%_key in %NAME%_param_dict.keys():
+    %NAME%_key = %NAME%_param_dict[%NAME%_key]

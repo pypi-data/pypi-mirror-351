@@ -1,0 +1,256 @@
+//!!!!!!!!!DO NOT MODIFY THIS FILE!!!!!!!!!
+//base Ab Initio reader json config file.
+//lists attributes to be picked up.
+//have this file inherited in converter config files
+{
+	"keep_variable_patterns" : [
+		"^(?-i)[A-Z_]+$" // this needs to be case-sensitive
+	],
+
+	"skip_variable_patterns" : [
+		"^(?-i)AB_NICE$", // this needs to be case-sensitive
+		"^[!_]"
+	],
+
+	"inline_linked_subgraphs" : false, // should be set to false as the default
+
+//	/*
+//	// This is currently purely informational, just a structured brain-dump.
+//	// Each captured attr that matches one of these types must have it explicitly set in "param_type".
+//	"param_type_patterns" : {
+//		"code_block" : [ // always interpretted as code; inlined sequences seem to be lambda functions
+//			"^Layout$",
+//			"^_propagat(?:e_through|ion)$",
+//			"^operation[0-9]*$",
+//			"^output_index(?:es)?$",
+//			"^select_expr$",
+//			"^transform[0-9]*$",
+//			"^type[0-9]+$",
+//			"^variable[0-9]+$"
+//		],
+//		"file_path" : [ // file path expected; arbitrary code must be inlined
+//			"^DBConfigFile$",
+//			"^config_file$"
+//		],
+//		"record_def" : [ // auto-read if file path, parsed as record def otherwise; arbitrary code must be inlined
+//			"^RecordFormat$",
+//			"^\w+[0-9]*_metadata$"
+//		],
+//		"sql_stmt" : [ // sql (comments allowed) expected; arbitrary code must be inlined
+//			"^insertSqlFile$",
+//			"^primarySql[0-9]*$",
+//			"^secondarySql[0-9]*$",
+//			"^select_sql$",
+//			"^table_spec$",
+//			"^updateSqlFile$"
+//		]
+//	},
+//	*/
+
+	"node_translation" : {
+		// notes: attribute INCLUDE_OVERRIDE tells the writer to include all columns automatically
+		"Datasets/Input_File" : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE", "ALT_COMPONENT_NAME" : "FileInput", "SYSTEM_TYPE" : "FLATFILE"}
+		, "Datasets/Output_File" : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET", "ALT_COMPONENT_NAME" : "FileOutput", "SYSTEM_TYPE" : "FLATFILE"}
+		, "Datasets/Input_Table" : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE", "ALT_COMPONENT_NAME" : "TableInput"}
+		, "Datasets/Output_Table" : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET", "ALT_COMPONENT_NAME" : "TableOutput"}
+		, "Sort/Sort" : {"USER_TYPE" : "SORTER", "ALT_COMPONENT_NAME" : "LocalSort"}
+		, "Sort/Sort_within_Groups" : {"USER_TYPE" : "SORTER", "ALT_COMPONENT_NAME" : "SortGroups"}
+		, "Transform/Dedup_Sorted" : {"USER_TYPE" : "DEDUP", "ALT_COMPONENT_NAME" : "Dedup", "SORT_BY_KEY_COLS" : true}
+		, "Transform/Scan" : {"USER_TYPE" : "SCAN", "ALT_COMPONENT_NAME" : "Scan", "CODE_BLOCK_FLAG" : "1"}
+		, "Transform/Filter_by_Expression" : {"USER_TYPE" : "FILTER", "ALT_COMPONENT_NAME" : "SelectTransform"}
+		, "Transform/Join" : {"USER_TYPE" : "JOINER", "ALT_COMPONENT_NAME" : "MergeJoin"}
+		, "Database/Join_with_DB" : {"USER_TYPE" : "DB_LOOKUP", "ALT_COMPONENT_NAME" : "DBLookup", "CODE_BLOCK_FLAG" : "1"}
+		, "Transform/Reformat" : {"USER_TYPE" : "CODE_BLOCK", "ALT_COMPONENT_NAME" : "ReformatTransform", "CODE_BLOCK_FLAG" : "1"}
+		, "Transform/Rollup" : {"USER_TYPE" : "ROLLUP", "ALT_COMPONENT_NAME" : "Rollup", "CODE_BLOCK_FLAG" : "1"}
+		, "Partitioning/Gather" : {"USER_TYPE" : "UNION", "ALT_COMPONENT_NAME" : "Gather"}
+		, "Miscellaneous/Replicate" : {"USER_TYPE" : "REPLICATE", "ALT_COMPONENT_NAME" : "Broadcast"}
+		, "Database/Update_Table" : {"USER_TYPE" : "DB_UPDATE", "ALT_COMPONENT_NAME" : "DBUpdate"}
+		, "Database/Multi_Update_Table" : {"USER_TYPE" : "DB_UPDATE", "ALT_COMPONENT_NAME" : "DBMultiUpdate"}
+		, "Transform/Fuse" : {"USER_TYPE" : "FUSE", "ALT_COMPONENT_NAME" : "FuseTransform"}
+		, "Transform/Normalize" : {"USER_TYPE" : "NORMALIZER", "ALT_COMPONENT_NAME" : "Normalize"}
+		, "Partitioning/Merge" : {"USER_TYPE" : "MERGE", "ALT_COMPONENT_NAME" : "LocalMerge"}
+		, "Miscellaneous/Trash" : {"USER_TYPE" : "DUMMY", "ALT_COMPONENT_NAME" : "Broadcast"}
+		, "Datasets/Lookup_Template" : {"USER_TYPE" : "CACHED_LOOKUP", "ALT_COMPONENT_NAME" : "LookupTemplate"}
+		, "Database/Begin_Transaction" : {"USER_TYPE" : "DUMMY", "ALT_COMPONENT_NAME" : "BeginTransaction"}
+		, "Miscellaneous/Handle_Errors" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "HandleErrors"}
+		, "Miscellaneous/Handle_Logs" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "HandleLogs"}
+		, "Miscellaneous/Leading_Records" : {"USER_TYPE" : "HEAD", "ALT_COMPONENT_NAME" : "LeadingRecords"}
+
+		, "Datasets/File_Utilities/Delete_Files" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "DeleteMultipleFiles", "SYSTEM_TYPE" : "FLATFILE"}
+		, "Datasets/Hadoop/Internal/Read_HDFS_Files" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "", "SYSTEM_TYPE" : "HDFS"}
+		, "Datasets/Hadoop/Internal/Remove_Old_HDFS_Files" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "", "SYSTEM_TYPE" : "HDFS"}
+		, "Datasets/Hadoop/Read_HDFS" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "", "SYSTEM_TYPE" : "HDFS"}
+		, "Datasets/Hadoop/Read_Hive_Table" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "", "SYSTEM_TYPE" : "HIVE"}
+		, "Datasets/Hadoop/Write_HDFS" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "", "SYSTEM_TYPE" : "HDFS"}
+		, "Datasets/Lookup_File" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : ""}
+		, "Datasets/Lookup_Utilities/Write_Multiple_Block_Compressed_Lookups" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "WriteBCLookups"}
+		, "Datasets/Read_Multiple_Files" : {"USER_TYPE" : "READ_MULTIPLE_FILES", "ALT_COMPONENT_NAME" : "ReadFiles", "SYSTEM_TYPE" : "FLATFILE", "CODE_BLOCK_FLAG" : "1"}
+		, "Datasets/Write_Multiple_Files" : {"USER_TYPE" : "WRITE_MULTIPLE_FILES", "ALT_COMPONENT_NAME" : "WriteFiles", "SYSTEM_TYPE" : "FLATFILE", "CODE_BLOCK_FLAG" : "1"}
+		, "Miscellaneous/Advanced/Procedural_Transform" : {"USER_TYPE" : "TRANSFORMATION", "ALT_COMPONENT_NAME" : "ProcTrans"}
+		, "Miscellaneous/Run_Program" : {"USER_TYPE" : "SYSTEM_CALL", "ALT_COMPONENT_NAME" : "Filter"}
+		, "Partitioning/Partition_by_Expression" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "FunctionPartition"}
+		, "Partitioning/Partition_by_Key" : {"USER_TYPE" : "REPARTITION", "ALT_COMPONENT_NAME" : "HashPartition"}
+		, "Partitioning/Partition_by_Round-robin" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "RoundRobinPartition"}
+		, "Transform/Scan_with_Rollup" : {"USER_TYPE" : "", "ALT_COMPONENT_NAME" : "Scan"}
+		, "Validate/Create_Data" : {"USER_TYPE" : "ROW_GENERATOR", "ALT_COMPONENT_NAME" : "CreateData"}
+//		, "__DEFAULT__" : {"IGNORE" : 1} // commented out for now to keep all nodes for lineage; uncomment to analyze just desired nodes
+	},
+
+	"attr_capture" : {
+		"ALL_COMPONENTS" : {
+			"DISABLE_CONDITION" : {"key_string" : "condition", "offset" : "1"},
+			"DISABLE_ACTION" : {"key_string" : "condition_interpretation", "offset" : "1"},
+			"DISABLE_REPLACE_INPUT" : {"key_string" : "conditionInputPort", "offset" : "1"},
+			"DISABLE_REPLACE_OUTPUT" : {"key_string" : "conditionOutputPort", "offset" : "1"}
+		},
+		"Datasets/Input_File" : {
+			"LAYOUT_SPEC" : {"key_string" : "read_metadata", "offset" : "1", "param_type" : "record_def"},
+			"FILE_PATH" : {"key_string" : "Layout", "offset" : "1", "param_type" : "code_block"}
+		},
+		"Datasets/Output_File" : {
+			"LAYOUT_SPEC" : {"key_string" : "write_metadata", "offset" : "1", "param_type" : "record_def"},
+			"FILE_PATH" : {"key_string" : "Layout", "offset" : "1", "param_type" : "code_block"},
+			"DATASET_REF" : {"key_string" : "Layout", "offset" : "1", "param_type" : "code_block"}
+		},
+		"Datasets/Input_Table" : {
+			"CONFIG_FILE" : {"key_string" : "config_file", "offset" : "1", "param_type" : "file_path"},
+			"LAYOUT_SPEC" : {"key_string" : "read_metadata", "offset" : "1", "param_type" : "record_def"},
+			"SYSTEM_TYPE" : {"key_string" : "dbms", "offset" : "1"},
+			"TABLE_NAME" : {"key_string" : "table_spec", "offset" : "1", "param_type" : "sql_stmt"},
+			"TABLE_NAME_IS" : {"key_string" : "table_spec_kind", "offset" : "1"}
+		}
+		, "Datasets/Output_Table" : {
+			"CONFIG_FILE" : {"key_string" : "config_file", "offset" : "1", "param_type" : "file_path"},
+			"LAYOUT_SPEC" : {"key_string" : "write_metadata", "offset" : "1", "param_type" : "record_def"},
+			"SYSTEM_TYPE" : {"key_string" : "dbms", "offset" : "1"},
+			"TABLE_NAME" : {"key_string" : "table_spec", "offset" : "1", "param_type" : "sql_stmt"},
+			"TABLE_NAME_IS" : {"key_string" : "table_spec_kind", "offset" : "1"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Sort/Sort" : {
+			"SORT_BY" : {"key_string" : "key", "offset" : "1", "result" : "array", "delimiter" : ";", "unwrap_capture" : "^\s*\{(.+)\}\s*$"}
+		}
+		, "Sort/Sort_within_Groups" : {
+			"GROUP_KEY" : {"key_string" : "major_key", "offset" : "1", "result" : "array", "delimiter" : ";", "unwrap_capture" : "^\s*\{(.+)\}\s*$"}
+			, "SORT_BY" : {"key_string" : "minor_key", "offset" : "1", "result" : "array", "delimiter" : ";", "unwrap_capture" : "^\s*\{(.+)\}\s*$"}
+		}
+		, "Transform/Dedup_Sorted" : {
+			"DEDUP_KEYS" : {"key_string" : "key", "offset" : "1", "result" : "array", "delimiter" : ";", "unwrap_capture" : "^\s*\{(.+)\}\s*$"}
+			, "KEEP_WHICH" : {"key_string" : "keep", "offset" : "1"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Transform/Scan" : {
+			"GROUP_KEY" : {"key_string" : "key", "offset" : "1", "result" : "array", "delimiter" : ";", "unwrap_capture" : "^\s*\{(.+)\}\s*$"}
+			, "TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Transform/Filter_by_Expression" : {
+			"FILTER_CONDITIONS" : {"key_string" : "select_expr", "offset" : "1", "param_type" : "code_block"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Transform/Join" : {
+			"GROUP_KEY" : {"key_string" : "key", "offset" : "1", "result" : "array", "delimiter" : ";", "unwrap_capture" : "^\s*\{(.+)\}\s*$"},
+			"TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"},
+			"LAYOUT_SPEC" : {"key_string" : "out_metadata", "offset" : "1", "param_type" : "record_def"}
+			, "JOIN_TYPE" : {"key_string" : "join_type", "offset" : "1"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Database/Join_with_DB" : {
+			"COLUMN_SPEC" : {"key_string" : "eme_dataset_mapping", "offset" : "1"}
+			//, "SELECT_SQL" : {"key_string" : "select_sql", "offset" : "1", "param_type" : "sql_stmt"}
+			, "TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+			, "CONFIG_FILE" : {"key_string" : "DBConfigFile", "offset" : "1", "param_type" : "file_path"}
+		}
+		, "Transform/Reformat" : {
+			"TRANSFORM" : {"key_regex" : "^transform([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"},
+			"LAYOUT_SPEC" : {"key_regex" : "^out([0-9]+)_metadata$", "indexed" : true, "offset" : "1", "param_type" : "record_def"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Transform/Rollup" : {
+			"GROUP_KEY" : {"key_string" : "key", "offset" : "1", "result" : "array", "delimiter" : ";", "unwrap_capture" : "^\s*\{(.+)\}\s*$"},
+			"TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"},
+			"LAYOUT_SPEC" : {"key_string" : "out_metadata", "offset" : "1", "param_type" : "record_def"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Database/Update_Table" : {
+			"COLUMN_SPEC" : {"key_string" : "eme_dataset_mapping", "offset" : "1"}
+			, "SYSTEM_TYPE" : {"key_string" : "dbms", "offset" : "1"}
+			, "PRIMARY_SQL" : {"key_string" : "updateSqlFile", "offset" : "1", "param_type" : "sql_stmt"}
+			, "SECONDARY_SQL" : {"key_string" : "insertSqlFile", "offset" : "1", "param_type" : "sql_stmt"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+			, "CONFIG_FILE" : {"key_string" : "DBConfigFile", "offset" : "1", "param_type" : "file_path"}
+		}
+		, "Database/Multi_Update_Table" : {
+			"COLUMN_SPEC" : {"key_string" : "eme_dataset_mapping", "offset" : "1"}
+			, "PRIMARY_SQL" : {"key_regex" : "^primarySql([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "sql_stmt"}
+			, "SECONDARY_SQL" : {"key_regex" : "^secondarySql([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "sql_stmt"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+			, "CONFIG_FILE" : {"key_string" : "DBConfigFile", "offset" : "1", "param_type" : "file_path"}
+		}
+		, "Transform/Fuse" : {
+			"TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Transform/Normalize" : {
+			"TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"},
+			"LAYOUT_SPEC" : {"key_string" : "out_metadata", "offset" : "1", "param_type" : "record_def"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Partitioning/Merge" : {
+			"GROUP_KEY" : {"key_string" : "key", "offset" : "1", "result" : "array", "delimiter" : ";", "unwrap_capture" : "^\s*\{(.+)\}\s*$"}
+		}
+		, "Datasets/Write_Multiple_Files" : {
+			"TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Miscellaneous/Advanced/Procedural_Transform" : {
+			"TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Miscellaneous/Run_Program" : {
+			"COMMAND" : {"key_string" : "commandline", "offset" : "1"}
+		}
+		, "Partitioning/Partition_by_Expression" : {
+			"PARTITION_EXPRESSION" : {"key_string" : "function", "offset" : "1", "param_type" : "code_block"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Partitioning/Partition_by_Key" : {
+			"PARTITION_KEY" : {"key_string" : "key", "offset" : "1"}
+		}
+		, "Transform/Scan_with_Rollup" : {
+			"ROLLUP" : {"key_string" : "rollup_metadata", "offset" : "1", "param_type" : "record_def"}
+			, "TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"}
+			, "LAYOUT_SPEC" : {"key_string" : "out_metadata", "offset" : "1", "param_type" : "record_def"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Validate/Create_Data" : {
+			"TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"}
+			, "OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+			, "LAYOUT_SPEC" : {"key_string" : "out_metadata", "offset" : "1", "param_type" : "record_def"}
+			, "RESULT_COUNT" : {"key_string" : "num_records", "offset" : "1"}
+		}
+		, "Database/Begin_Transaction" : {
+			"OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Datasets/File_Utilities/Delete_Files" : {
+			"OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Datasets/Lookup_Utilities/Write_Multiple_Block_Compressed_Lookups" : {
+			"OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Datasets/Read_Multiple_Files" : {
+			"TRANSFORM" : {"key_string" : "transform", "offset" : "1", "param_type" : "code_block"}
+			,"OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Miscellaneous/Handle_Errors" : {
+			"OPERATIONS" : {"key_regex" : "^operation([0-9]+)$", "indexed" : true, "offset" : "1", "param_type" : "code_block"}
+		}
+		, "Miscellaneous/Leading_Records" : {
+			"NRECS" : {"key_string" : "num_records", "offset" : "1"}
+		}
+		, "Datasets/Lookup_Template" : {
+			"LAYOUT_SPEC" : {"key_string" : "RecordFormat", "offset" : "1", "param_type" : "record_def"}
+		}
+	}
+}

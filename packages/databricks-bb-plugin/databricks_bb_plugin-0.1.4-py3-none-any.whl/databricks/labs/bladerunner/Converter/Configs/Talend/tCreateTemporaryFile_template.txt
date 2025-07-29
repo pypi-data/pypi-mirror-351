@@ -1,0 +1,11 @@
+# Create an empty DataFrame with a schema
+empty_df = spark.createDataFrame([], schema="column1 STRING, column2 INT")
+
+# Define the temporary file path in DBFS
+temp_file_path = %PATH%+'/'+%FILENAME%.csv
+
+# Write the empty DataFrame to the file
+empty_df.write.csv(temp_file_path)
+
+# List files to confirm creation
+dbutils.fs.ls(%PATH%)

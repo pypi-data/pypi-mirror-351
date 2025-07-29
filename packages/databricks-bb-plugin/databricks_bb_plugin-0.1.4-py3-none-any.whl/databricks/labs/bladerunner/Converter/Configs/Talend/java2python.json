@@ -1,0 +1,103 @@
+{
+	//apply substitutions when lines that begin with these tokens
+	"line_begin_with_subst" : [
+		//{"from" : "globalMap.put\(.*\)", "to" : ""}
+	],
+	
+	"line_subst" : [
+		//Print statements
+		{"from" : "^System.out.print(?:ln)?\((.*)\);$", "to": "audit.info(spark, stage, $1)"},
+
+		//Datatype casting
+		{"from" : "new\s+StringBuffer\s*\(\)", "to": "''"},
+		{"from" : "^(\s*)StringBuffer\s+", "to": "$1"},
+		{"from" : "\((?:String(?:Buffer)?|Integer|int|Boolean)\)", "to": ""},
+		{"from" : "\w*List<\w+>", "to": "List"},
+
+		//Variable declarations
+		{"from" : "^(?:java\.[\w.]+|Boolean|String|int|\w*List)\s+\w+;", "to": ""},
+
+		//Variable assignments
+		{"from" : "^(?:java\.[\w.]+|Boolean|String|int|\w*List)\s+(\w+)\s*=\s*", "to": "$1 = "},
+
+		//Boolean Logic Operators
+		{"from" : "!\s*", "to": " not "},
+		{"from" : "\s*\|\|\s*", "to": " or "},
+		{"from" : "\s*\&\&\s*", "to": " and "},
+		{"from" : "\s*\bnot\s*\=\s*", "to": " is not "},
+		{"from" : "\bcontext\.", "to": ""},
+
+		{"from" : "\bedms_common\.logSectionStart\b", "to": "print"},
+		{"from" : "\bCCYY\-MM\-DD\s+hh\:mm\:ss\b","to":"yyyy-MM-dd HH:mm:ss"},
+		//Date datatype
+		{"from" : "new\s+SimpleDateFormat\(((?:\"|\').*?(?:\"|\'))\)\.format\(\s*new\s+Date\(\)\s*\)", "to": "datetime.now().strftime($1)"},
+
+		//Correct formats, should have the case_sensitive_match option once fixed
+		{"from" : "(\.strftime\((?:\"|\').*?)\byyyy\b(.*?(?:\"|\'))\)", "to": "$1%Y$2)", "case_sensitive_match": "1"},
+		{"from" : "(\.strftime\((?:\"|\').*?)\bMM\b(.*?(?:\"|\'))\)", "to": "$1%m$2)", "case_sensitive_match": "1"},
+		{"from" : "(\.strftime\((?:\"|\').*?)\bdd\b(.*?(?:\"|\'))\)", "to": "$1%d$2)", "case_sensitive_match": "1"},
+		{"from" : "(\.strftime\((?:\"|\').*?)\bHH\b(.*?(?:\"|\'))\)", "to": "$1%H$2)", "case_sensitive_match": "1"},
+		{"from" : "(\.strftime\((?:\"|\').*?)\bmm\b(.*?(?:\"|\'))\)", "to": "$1%M$2)", "case_sensitive_match": "1"},
+		{"from" : "(\.strftime\((?:\"|\').*?)\bss\b(.*?(?:\"|\'))\)", "to": "$1%S$2)", "case_sensitive_match": "1"},
+
+		// {"from" : "new\s+Date\(today.getTime\(\)\s*\-\s*\(1000\s*\*\s*60\s*\*\s*60\s*\*\s*24\)\)", "to": "datetime.now() - timedelta(1)"},
+		
+		//Misc
+		{"from" : "(\S+)\s*if\s*\(", "to": "$1\nif("},
+//		removed os.environ conversion
+//		{"from" : "context\.(\w+)", "to": "os.environ['$1']"},
+//		{"from" : "(?:\'\s*)?globalMap\.get\(\"(.*?)\"\)(?:\s*\')?", "to": "os.environ['$1']"},
+//		{"from" : "globalMap\.put\([\'\"]?(.*?)[\'\"]?,(.*)\)", "to": "os.environ['$1'] = $2"},
+		{"from" : "context\.(\w+)", "to": "$1"},
+		{"from" : "(?:\'\s*)?globalMap\.get\(\"(.*?)\"\)(?:\s*\')?", "to": "__GLOBAL_MAP__$1__GLOBAL_MAP__"},
+		{"from" : "globalMap\.put\([\'\"]?(.*?)[\'\"]?,(.*)\)", "to": "__GLOBAL_MAP__$1__GLOBAL_MAP__ = $2"},
+		{"from" : "(__GLOBAL_MAP__.*?\w+)\s+(\w+.*?__GLOBAL_MAP__)", "to": "$1_$2"},
+		{"from" : "(__GLOBAL_MAP__.*?\w+)\-(\w+.*?__GLOBAL_MAP__)", "to": "$1_$2"},
+		{"from" : "__GLOBAL_MAP__", "to": ""},
+		{"from" : "System.exit\((.*)\);", "to": "exit('$1')"},
+		{"from" : "(\w+)\s+(\w+)", "to": "$1 as $2", "statement_categories": ["CATCH_BLOCK"], "first_match": "1"},
+//		removed os.environ conversion
+//		{"from" : "([^'])\b((?:job|project)Name)\b((?:[^']|$))", "to": "$1os.environ['$2']$3"},
+		{"from" : "([^'])\b((?:job|project)Name)\b((?:[^']|$))", "to": "$1$2$3","first_match" : 1},
+		{"from" : "\bfalse\b", "to": "False", "case_sensitive_match": "1"},
+		{"from" : "\btrue\b", "to": "True", "case_sensitive_match": "1"},
+
+		{"from" : "[ ]*[\(]*(os\.environ\[\'startStep_INT\'\])[\)]*\s*<=\s*(\w+)\s+and\s+[\(]*(os\.environ\[\'stopStep_INT\'\])[\)]*\s*>=\s*\w+[ ]*", "to": "$1 <= $2 <= $3"}
+		
+		// Class instantiation
+		, {"from" : "\bnew\s+([\w.]+)\s*\(", "to" : "__NEW_$1__("}
+		
+		// Object method calls
+		, {"from" : "(\w+)\.(removeAll)\(", "to" : "$2($1, "}
+
+
+		, {"from" : "System\.\w+\s*\([\w\.]+\([\w\.]+\((\w+)\s*\,\s*True\s*\)\s*\,\s*True\s*\)\s*\)", "to" : "sys.stdout = open($1, 'a')"}
+	],
+
+	"block_subst" : [
+		//{"from" : "output\.(\w+)\s*=\s*(.*);", "extension_call": "CodeGeneration::PySpark::generate_JAVA_NODE"},
+		//{"from" : "output_row\.(\w+)\s*=\s*(.*);", "extension_call": "CodeGeneration::PySpark::generate_JAVA_NODE"}
+	],
+	
+	"function_subst" : [
+		{"from" : "String.join", "output_template" : "$1.join($2)"}
+		,{"from" : "audit.info", "to" : "__BLANK__"}
+		,{"from" : "TalendDate.getCurrentDate", "output_template" : "datetime.now()"}
+		, {"from" : "replaceAll", "to" : "replace"}
+		, {"from" : "Collections.singleton", "output_template" : "$1"}
+		, {"from" : "Arrays.asList", "output_template" : "x for x in $1"}
+		, {"from" : "removeAll", "output_template" : "$1 = [x for x in $1 if x == $2]"}
+		, {"from" : "__NEW_List__", "output_template" : "[%ALL_ARGS%]"}
+		, {"from" : "String.valueOf", "to" : "str"}
+		, {"from" : "Integer.parseInt", "to" : "int"}
+		, {"from" : "TalendDate.isDate", "output_template" : "True if $1 else False"}
+		, {"from" : "TalendDate.getDate", "output_template" : "date_format(current_timestamp(),$1)"}
+		, {"from" : "TalendDate.parseDate", "to" : "to_timestamp"}
+		, {"from" : "TalendDate.addDate", "to" : "date_add"}
+		, {"from" : "TalendDate.formatDate", "to" : "date_format"}
+		, {"from" : "StringHandling.EREPLACE", "to" : "regexp_replace"}
+		, {"from" : "__NEW_java.io.File__", "to" : "open"}
+	],
+
+	"invalid_line_start" : ["+","-"]
+}

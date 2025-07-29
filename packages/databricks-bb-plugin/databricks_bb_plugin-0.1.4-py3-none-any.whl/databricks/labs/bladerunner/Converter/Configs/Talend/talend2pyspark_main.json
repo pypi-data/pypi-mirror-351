@@ -1,0 +1,231 @@
+//this is a sample file for Talend to PySpark conversion
+{
+	"inherit_from" : ["talend2dws.json"], //reader configs
+	"java_converter_config_file" : "java2python.json",
+	"node_translation" : {
+		"tMSSqlInput" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "MSSQL", "SRC_TGT_FLAG" : "SOURCE"},
+		"tMSSqlRow" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "MSSQL"}
+	},
+	
+	"script_extension" : "py",
+	"pre_node_line" : "# Processing node %NODE_NAME%, ID %NODE_ID%, original type %ORIG_TYPE%, conversion type %NODE_TYPE%\n# COLUMN COUNT: %COLUMN_COUNT%\n# %ADDITIONAL_COMMENT%", //# COLUMNS %COLUMN_LIST%
+	"commands" : {
+		"WRAP" : "spark.sql(f\"\"\"%SQL%\"\"\")",
+		"READER_FILE_DELIMITED": "spark.read.format('delta').table('<catalog_name>.<source_schema_name>.<source_table_name>')",
+		"READER_RELATIONAL": "spark.sql(f\"\"\"%SQL%\"\"\")",
+		"READER_PARQUET": "spark.read.mode('delta').path(%PATH%, config.get(\"process.name\"))",
+		"READER_SALEFORCE": "spark.read.salesforce(%CONNECT_STRING%, \"\"\"%TABLE_NAME%\"\"\", properties={'user': %LOGIN%, 'password': %PASSWORD%, 'driver': %DRIVER%})",
+		"READER_DELTA_FILE": "spark.read.format('delta').table('<catalog_name>.<source_schema_name>.<source_table_name>')",
+		"WRITER_FILE_DELIMITED": "%DF%.write.format(\"delta\").mode(\"overwrite\").saveAsTable(\"<catalog_name>.<target_schema_name>.<target_table_name>\")",
+		"WRITER_S3_FILE": "dbutils.fs.cp(\"s3a:\/\/{}/{}\".format(%BUCKET%, %PATH%), %BUCKET_KEY%)",
+		"WRITER_RELATIONAL": "%DF%.write.mode('append').jdbc(%CONNECT_STRING%, \"\"\"%TABLE_NAME%\"\"\", properties={'user': %LOGIN%, 'password': %PASSWORD%, 'driver': %DRIVER%})",
+		"WRITER_SALEFORCE": "SomeArray.Append(%DF%)",
+		"WRITER_DELTA_FILE": "%DF%.write.format(\"delta\").mode(\"overwrite\").saveAsTable(\"<catalog_name>.<target_schema_name>.<target_table_name>\")",
+		"WRITER_PARQUET": "%DF%.write.format('parquet').save(%PATH%)"
+	},
+	"system_type_class" : {
+		"MySQL" : "RELATIONAL",
+		"MSSQL" : "RELATIONAL",
+		"HIVE" : "RELATIONAL",
+		"REDSHIFT" : "RELATIONAL",
+		"S3_FILE" : "S3_FILE",
+		"Salesforce" : "SALEFORCE",
+		"TOOLKIT" : "RELATIONAL",
+		"SNOWFLAKE" : "RELATIONAL",
+		"HDFS" : "DELTA_FILE",
+		"FLATFILE" : "DELTA_FILE",
+		"PARQUET" : "PARQUET",
+		"DEFAULT" : "FILE_DELIMITED"
+	},
+	"command_run_statement" : "%sh\n%COMMAND%\n%python",
+	//"df_naming_template" : "%NODE_ID%", //when not specified, the converter will use NODE_NAME
+	//"df_naming_template" : "%JOB_NAME%_%NODE_NAME%", //when not specified, the converter will use NODE_NAME
+
+	"multiline_stmt_break" : " \ ",
+	//"default_join_type" : "left_outer",
+
+	"use_schema_definitions_for_joiner" : "1",
+	"inline_content_as_csv" : "1", //tFixedFlowInput inline content type, replace input with a csv read
+	"skip_rowid_generation" : "1", // omits generation of sys_row_id
+	"convert_tabs_to_spaces" : "1",
+	"include_conditional_linking" : "1",
+	//"ignore_pre_post_components" : "1",
+	"show_nodes_with_no_links" : "1",
+	"set_all_output_links" : "1", //If link names are being used this option will set all of a nodes output links equal to each other
+	"component_skip_set_all_output_links" : { //Component types to be excluded from setting all output links
+		"tJava" : "1",
+		"tHDFSDelete" : "1",
+		"tMap" : "1"
+	},
+
+	//"script_call_params" : ["config","spark","audit","exception"],
+
+	"joblet_types" : { //Types of joblets
+		"Joblets" : "1",
+		"Spark Joblets" : "1"
+	},
+
+	"header": "#Code converted on %CONVERTER_TIMESTAMP%\nimport os\nimport shutil\nfrom functools import reduce\nimport utilsIO\nfrom datetime import datetime\nfrom Joblets import Joblets\nfrom pyspark.sql import *\nfrom pyspark.sql.functions import *\nfrom pyspark import SparkContext\nfrom pyspark.sql.session import SparkSession\nsc = SparkContext('local')\nspark = SparkSession(sc)",
+	"footer": "quit()",
+
+	"default_indent" : {
+		"header" : "",
+		"body" : "        ",
+		"footer" : ""
+	},
+	
+	"body_wrap" : {
+		"before" : "\ntry:\n\n",
+		"after" : "\n\nexcept OSError:\n\tprint('Error Occurred')\n"
+	},
+
+	"exclude_regex_match_from_lit_wrap" : [
+		"date_format\s*\(\s*to_date\s*\(\s*StringHandling",
+		"when\s*\([\w\.]+\s*==\s*\""
+	],
+
+	"exclude_function_args_from_lit_wrapping" : [
+		// these want strings, not Columns
+		"join"
+		, "replace"
+	],
+	"skip_java_warning" : true,
+	"ignore_component_list" : [
+		"tHDFSConfiguration", "tCatch", "tLogCatcher","tRedshiftRollback","tRedshiftCommit","tSetProxy",
+		"tRedshiftClose","tMysqlCommit","tS3Connection",	"tChronometerStop","tSystem","tStatCatcher","tLogRow",
+		"tPostgresqlConnection","tSalesforceConnection", "tOracleClose","tMysqlConnection","tRedshiftCon","tRedshiftConnection","tPostgresqlRollback","TRIGGER_INPUT","TRIGGER_OUTPUT",
+		"tS3Close","tSAPHanaClose","tMSSqlConnection","tMSSqlClose","tPostgresqlClose","tPostgresqlCommit","tContextDump","tSAPHanaConnection","tSleep"
+	],
+	"case_sensitive_conditionals" : true,
+
+	// expression syntax handling using BB's standard parser
+	
+	"line_subst" : [
+		{"from" : "TalendDate\.formatDate\s*\(\s*\"([\w-]+)\"\s*,\s*TalendDate\.parseDate\s*\(\s*\"([\w+]+)\"\s*,\s*([\w\. \(,]+\))\s*\)\s*\)", "to" : "date_format(to_date($3,\"$2\"),\"$1\")"},
+		{"from" : "([\w+\.]+)\.equals\s*\(\s*\"(\w*)\"\s*\)\s*\?\s*null\:TalendDate\.formatDate\s*\(\s\"([\w\- \:\.]+)\"\s*,\s*TalendDate\.parseDate\s*\(\s*\"([\w\- \:\.]+)\"\s*,\s*(StringHandling\.LEFT\s\(\s*[\w\. \+\"\,]+\))\s*\)\s*\)", "to" : " when($1 == \"$2\" , None).otherwise(date_format(to_timestamp($5,\"$4\"),\"$3\"))\n"},
+		{"from" : "when\(([\w+.]+)\s*==\s*None\s, ([^:]+)\:\s*([^,]+)\s*,\s*([^:]+)\:([^\)]+)\s*\)", "to" : "when($1.isNull(), $2).otherwise(when($3, $4).otherwise($5))"},
+		{"from" : "([\w\.\_]+)\.toString\(\)", "to" : "($1.cast(StringType()))"},
+		{"from" : "\.otherwise\(\"N\"\)", "to" : ".otherwise(lit(\"N\"))"},
+		{"from" : "\((\w+\.\w+)\.replaceAll\(lit\(\"\\\"\)\s+lit\(\", \"\)\s+lit\(\"\\\"\)\s+\"\)\)", "to" : "regexp_replace($1, \"\"\",\"\"\")"},
+		{"from" : "(^|[^'\"])null([^'\"]|$)", "to" : "$1None$2"},
+		{"from" : "\bnull\b", "to" : "None"},
+		{"from" : "\s*==\s*None", "to" : ".isNull()"},
+		{"from" : "(\bif\b.*?)\.isNull\(\)", "to" : "$1 == None"},
+		{"from" : "\s*!=\s*None", "to" : ".isNotNull()"},
+		{"from" : "\.equals\(\"\"\)", "to" : "== ''"},
+		{"from" : "\s*\.substring\(", "to" : ".substr("},
+		{"from" : "\.isEmpty\(\)", "to" : "== ''"},
+		{"from" : "\(\s*NOLOCK\s*\)", "to" : ""},
+
+		{"from" : "\s*\.toString\(\)", "to" : ".cast('string')"},
+		{"from" : "\s*\.longValue\(\)", "to" : ".cast('long')"},
+
+		{"from" : "\s+\.length\(\)", "to" : ".length()"},
+		{"from" : "(\s+)(\w+\.\w+(?:\.cast\('string'\))?)\.length\(\)", "to" : "$1length($2)"},
+
+		{"from" : "StringHandling\.RIGHT\((.*?)\s*,\s*(?:(\d+)|lit\((\d*)\))\)", "to" : "substr($1, -$2$3, $2$3)"},
+		{"from" : "StringHandling\.LEFT\((.*?)\s*,\s*(?:(\d+)|lit\((\d*)\))\)", "to" : "substr($1, 1, $2$3)"},
+		{"from" : "StringHandling\.BTRIM\((.*?)\)", "to" : "rtrim($1)"},
+		{"from" : "StringHandling\.RTRIM\((.*?)\)", "to" : "rtrim($1)"},
+		{"from" : "StringHandling\.FTRIM\((.*?)\)", "to" : "ltrim($1)"},
+		{"from" : "StringHandling\.LTRIM\((.*?)\)", "to" : "ltrim($1)"},
+		{"from" : "StringHandling\.TRIM\s*\((.*?)\)", "to" : "trim($1)"},
+		{"from" : "StringHandling\.UPCASE\((.*?)\)", "to" : "upper($1)"},
+		{"from" : "StringHandling\.DOWNCASE\((.*?)\)", "to" : "lower($1)"},
+		{"from" : "String\.valueOf\((\w+\.\w+)\)", "to" : "$1"},
+		{"from" : "TalendDate.getCurrentDate\(\)", "to" : "current_date()"},
+		{"from" : "Mod\(\s*(.*?)\s*,\s*(?:(\d+)|lit\((\d+)\))\)", "to" : "$1 % $2$3"},
+		{"from" : "=\s+=", "to" : "=="},
+		{"from" : "\+([\w'\"])", "to" : "+ $1"},
+		{"from" : "\"\s*\+\s*(\w+)\s*\+\s*\"", "to" : "{$1}"},
+
+		{"from" : "(\w+\.\w+)\.replaceAll\((?:lit\()?(.*?)\)?\s*,\s*(?:lit\()?(.*?)\)?\)", "to": "regexp_replace($1, $2, $3)"},
+
+		{"from" : "TalendDate\.formatDate\((?:lit\((.*?)\)||(.*?))\s*,\s*(.*)\)", "to" : "date_format($3, $1$2)"},
+		{"from" : "TalendDate\.addDate\((.*?)\s*,\s*(.*?)\s*,\s*(?:lit\(\"MM\"\)||\"MM\")\s*\)", "to" : "add_months($1, $2)"},
+
+		//Add days to date
+		{"from" : "TalendDate\.addDate\(\s*(.*?)\s*,\s*lit\(\"[\w-]+\"\)\s*,\s*(?:lit\()?(\d+)\)?\s*,\s*(?:lit\(\"DD\"\)||\"DD\")\s*\)", "to" : "date_add($1, $2)"},
+		{"from" : "TalendDate\.addDate\((\w+)\s*,\s*(\d+)\s*,\s*\"dd\"\)", "to" : "date_add($1, $2$3)"},
+		//Sub days from date
+		{"from" : "TalendDate.addDate\(\s*(.*?)\s*,\s*lit\(\"[\w-]+\"\)\s*,\s*([-])\s*(?:lit\()?(\d+)\)?\s*,\s*(?:lit\(\"DD\"\)||\"DD\")\s*\)", "to" : "date_add($1, $2$3)"},
+		{"from" : "TalendDate\.addDate\((\w+)\s*,\s*(-)\s*(\d+)\s*,\s*\"dd\"\)", "to" : "date_add($1, $2$3)"},
+
+		{"from" : "TalendDate\.getDate\(", "to" : "date_format(current_timestamp(),"}, // formats are supposedly cross-compatible
+
+		{"from" : "TalendString.talendTrim\(\s*(.*?)\s*,\s*(?:'(.*?)'|\"(.*?)\")\s*,\s*1\s*\)", "to" : "re.sub(r\"^$2$3\",'',$1)"},
+		{"from" : "TalendString.talendTrim\(\s*(.*?)\s*,\s*lit\((?:'(.*?)'|\"(.*?)\")\)\s*,\s*lit\(1\)\s*\)", "to" : "re.sub(r\"^$2$3\",'',$1)"},
+		{"from" : "TalendString.talendTrim\(\s*(.*?)\s*,\s*(?:'(.*?)'|\"(.*?)\")\s*,\s*0\s*\)", "to" : "re.sub(r\"^$2$3\",'', re.sub(r\"$2$3$\", '', $1))"},
+		{"from" : "TalendString.talendTrim\(\s*(.*?)\s*,\s*lit\((?:'(.*?)'|\"(.*?)\")\)\s*,\s*lit\(0\)\s*\)", "to" : "re.sub(r\"^$2$3\",'', re.sub(r\"$2$3$\", '', $1))"},
+		{"from" : "TalendString.talendTrim\(\s*(.*?)\s*,\s*(?:'(.*?)'|\"(.*?)\")\s*,\s*-1\s*\)", "to" : "re.sub(r\"$2$3$\",'',$1)"},
+		{"from" : "TalendString.talendTrim\(\s*(.*?)\s*,\s*lit\((?:'(.*?)'|\"(.*?)\")\)\s*,\s*lit\(-1\)\s*\)", "to" : "re.sub(r\"$2$3$\",'',$1)"},
+
+		{"from" : "\.compareTo\((.*?)\)\s*([<>=!]+)\s*\d+" , "to" : " $2 $1"},
+		{"from" : "\(current_date\(\)\)(\.alias\('.*?_ts'\))", "to": "(current_timestamp())$1"},
+
+//		removed os.environ conversion
+//		{"from": "\bcontext\.(\w+)\b", "to": "os.environ['$1']"},
+		{"from": "\bcontext\.(\w+)\b", "to": "$1"},
+//		{"from": "os\.environ\s*\[\s*lit\('(.*?)'\)\s*\]", "to": "os.environ['$1']"},
+		{"from": "os\.environ\s*\[\s*lit\('(.*?)'\)\s*\]", "to": "$1"},
+
+		{"from" : "DqStringHandling.makeSafe\((\w+\.\w+)\)", "to" : "when($1.isNull(), '').otherwise($1)"},
+		{"from" : "(\B)\.equals\s*\(", "to" : "$1__FUNCTION_SUB__.equals("}
+	],
+	
+	"block_subst" : [
+	],
+
+	"function_subst" : [
+		{"from" : "substr", "to" : "substring"},
+		{"from" : "StringHandling.TRIM", "to" : "trim"},
+		{"from" : "String.valueOf", "output_template" : "$1"},
+		{"from" : "__FUNCTION_SUB__.equals", "output_template" : " == $1"},
+		{"from" : ".equals", "output_template" : " == $1"},
+		{"from" : ".isEmpty", "output_template" : " == ''"},
+		//{"from" : "newBigDecimal", "output_template" : "$1"},
+		{"from" : "routines.DateConversion.julianToGregorian", "output_template" : "datetime.datetime.strptime($1, '%y%j').date().strftime('%Y-%m-%d')"},
+		{"from" : "float", "output_template" : "$1"},
+		{"from" : "newBigDecimal", "output_template" : "$1.cast('decimal(%COLUMN_LENGTH%, %COLUMN_SCALE%)')"},
+		{"from" : "BigDecimal.valueOf", "output_template" : "$1.cast('decimal(%COLUMN_LENGTH%, %COLUMN_SCALE%)')"}
+
+	],
+
+	//////////////// JOBLET ////////////////
+	"joblet_class_name" : "Joblets",
+	"joblet_code_indent" : "    ", //joblet general code indent - 4 spaces
+	"joblet_template_file" : "C:\Work\Projects\DWS\BBPerl\backend-perl-shared\Config\Writer\Spark\python_joblet_template.py", //Overrides joblet_input_declaration
+	//"joblet_header_template" : "C:\Work\Projects\DWS\BBPerl\backend-perl-shared\Config\Writer\Spark\python_joblet_header_template.py",
+	"joblet_input_declaration" : "def %JOBLET_NAME%(self, spark, %INPUT_OUTPUT_TABLES%):", //specifying python function declaration
+	"seperate_joblets" : "1",
+
+	"cast_statement" : "%SOURCE_NODE_NAME%.%SOURCE_COLUMN%.cast('%EXPR%').alias('%TARGET_COLUMN%')",
+
+	"disable_length_conversion_for_types" : ["date", "string", "double", "int", "bigint"], //only decimal is enabled
+
+	"direct_datatype_conversion" : {  //this is %EXPR% in cast_statement
+		"ID_STRING_TO_ID_INTEGER": "int",
+		"ID_STRING_TO_ID_BOOLEAN": "boolean",
+		"ID_INTEGER_TO_ID_STRING" : "string",
+		"ID_LONG_TO_ID_INTEGER" : "int",
+		"ID_INTEGER_TO_ID_LONG" : "bigint",
+		"ID_STRING_TO_ID_LONG" : "bigint",
+		"ID_STRING_TO_ID_DATE" : "date",
+		"ID_DATE_TO_ID_STRING" : "string",
+		"ID_DATE_TO_ID_DECIMAL" : "decimal",
+		"ID_BIGDECIMAL_TO_ID_INTEGER" : "int",
+		"ID_STRING_TO_ID_BIGDECIMAL" : "decimal",
+		"ID_LONG_TO_ID_STRING" : "string",
+		"ID_INTEGER_TO_ID_BIGDECIMAL" : "decimal",
+		//below are same type conversions
+		"ID_INTEGER_TO_ID_INTEGER" : "int",
+		"ID_LONG_TO_ID_LONG" : "bigint",
+		"ID_DATE_TO_ID_DATE" : "date",
+		"ID_STRING_TO_ID_STRING" : "string",
+		"ID_DECIMAL_TO_ID_DECIMAL" : "decimal",
+		"ID_BIGDECIMAL_TO_ID_BIGDECIMAL" : "decimal",
+		"ID_DOUBLE_TO_ID_DOUBLE" : "double",
+		"ID_CHAR_TO_ID_CHAR" : "double",
+		"ID_BOOLEAN_TO_ID_BOOLEAN" : "boolean"
+	}
+}

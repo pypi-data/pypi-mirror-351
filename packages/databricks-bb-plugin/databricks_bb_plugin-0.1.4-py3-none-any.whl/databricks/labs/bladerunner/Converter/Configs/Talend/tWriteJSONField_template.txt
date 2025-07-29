@@ -1,0 +1,4 @@
+# Convert DataFrame to JSON strings
+json_rdd = %SRC_NODE_NAME%.toJSON()
+
+%NAME% = spark.sql(f"select {json_rdd} as %COLUMNS%")

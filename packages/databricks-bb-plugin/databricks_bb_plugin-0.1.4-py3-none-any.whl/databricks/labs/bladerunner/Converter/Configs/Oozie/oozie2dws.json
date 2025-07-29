@@ -1,0 +1,8 @@
+//oozie reader config
+{
+	"conform_node_attr_specs" : { // conformm node attributes
+		"ndap.custom.hive.action.query" : "SQL",
+		"ssh.command" : "SHELL_COMMAND"
+	},
+	"analyzer_misc_attributes" : ["SQL", "SHELL_COMMAND"]
+}

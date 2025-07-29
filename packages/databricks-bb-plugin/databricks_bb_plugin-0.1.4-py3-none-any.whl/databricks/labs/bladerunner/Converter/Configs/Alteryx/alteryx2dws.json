@@ -1,0 +1,195 @@
+//!!!!!!!!!DO NOT MODIFY THIS FILE!!!!!!!!!
+//base alteryx reader json config file.
+//lists attributes to be picked up.
+//have this file inherited in converter config files
+{
+	"node_translation" : {
+		// notes: attribute INCLUDE_OVERRIDE tells the writer to include all columns automatically
+		"AlteryxDbFileInput" : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE", "ALT_COMPONENT_NAME" : "FileInput"},
+		"AlteryxDbFileOutput" : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET", "ALT_COMPONENT_NAME" : "FileOutput"},
+		"AlteryxDynamicRename" : {"USER_TYPE" : "FIELD_RENAME", "ALT_COMPONENT_NAME" : "DynRename"},
+		"AlteryxSelect" : {"USER_TYPE" : "FIELD_FILTER", "ALT_COMPONENT_NAME" : "Select", "FORCE_GENERATE_SQL" : 1},
+		"AlteryxFormula" : {"USER_TYPE" : "TRANSFORMATION", "PROPAGATE_FIELDS_FLAG" : 1, "INCLUDE_OVERRIDE" : 1, "ALT_COMPONENT_NAME" : "Formula" }, // Alteryx does not need to explicitly specify all columns in Formula, will propagate fields from prior component
+		"AlteryxFilter" : {"USER_TYPE" : "FILTER", "ALT_COMPONENT_NAME" : "Filter", "FORCE_GENERATE_SQL" : 1},
+		"AlteryxGuiToolkit.TextBox.TextBox" : {"USER_TYPE" : "ANNOTATION", "ALT_COMPONENT_NAME" : "TextBox"},
+		"AlteryxGuiToolkit.ToolContainer.ToolContainer" : {"USER_TYPE" : "CONTAINER", "ALT_COMPONENT_NAME" : "Container"},
+		"AlteryxJoin" : {"USER_TYPE" : "JOINER", "ALT_COMPONENT_NAME" : "Joiner", "PROPAGATE_FIELDS_FLAG" : 1, "FORCE_GENERATE_SQL" : 1},
+		"AlteryxDateTime" : {"USER_TYPE" : "TRANSFORMATION", "ALT_COMPONENT_NAME" : "DateTime", "PROPAGATE_FIELDS_FLAG" : 1, "INCLUDE_OVERRIDE" : 1},
+		"Macro:DateTimeNow.yxmc" : {"USER_TYPE" : "DATETIME_STRING", "ALT_COMPONENT_NAME" : "DateTimeNow"},
+		"AlteryxSummarize" : {"USER_TYPE" : "AGGREGATOR", "ALT_COMPONENT_NAME" : "Aggregator" },
+		"AlteryxUnion" : {"USER_TYPE" : "UNION", "ALT_COMPONENT_NAME" : "Union"},
+		"AlteryxTranspose" : {"USER_TYPE" : "SIMPLE_UNPIVOT", "ALT_COMPONENT_NAME" : "Transpose", "TRANSPOSED_COLUMN_NAME" : "Name", "TRANSPOSED_COLUMN_VALUE" : "Value"},
+		"AlteryxBrowseV2" : {"USER_TYPE" : "REWRITE_TABLE", "ALT_COMPONENT_NAME" : "Browse"},
+		"AlteryxUnique" : {"USER_TYPE" : "UNIQUE_ROW", "ALT_COMPONENT_NAME" : "Unique"},
+		"AlteryxBlockUntilDone" : {"USER_TYPE" : "SQL", "SQL" : "SELECT * FROM %PRIOR_NODE%", "ALT_COMPONENT_NAME" : "BlockUntilDone", "SKIP_ANALYZER" : 1},
+		"Macro:PublishToTableauServer_v2.0.0\Supporting_Macros\PublishToTableauServer.yxmc" : {"USER_TYPE" : "REWRITE_TABLE", "ALT_COMPONENT_NAME" : "PublishTableau"},
+		"PublishToTableauServer_v2.0.0\Supporting_Macros\PublishToTableauServer.yxmc" : {"USER_TYPE" : "REWRITE_TABLE", "ALT_COMPONENT_NAME" : "PublishTableau"},
+		"Macro:PublishToTableauServer\Publish to Tableau Server.yxmc" : {"USER_TYPE" : "REWRITE_TABLE", "ALT_COMPONENT_NAME" : "PublishTableau"},
+		"AlteryxTextInput" : {"USER_TYPE" : "STATIC_TABLE", "ALT_COMPONENT_NAME" : "TextInput" }, // static values in tabular format
+		"AlteryxSort" : {"USER_TYPE" : "SORTER", "ALT_COMPONENT_NAME" : "Sort", "ALL_COLUMNS" : 1 },
+		"AlteryxRecordID" : {"USER_TYPE" : "UNIQUE_ID_GENERATOR", "ALT_COMPONENT_NAME" : "RecordID"},
+		"Macro:Cleanse.yxmc" : {"USER_TYPE" : "CLEANSE", "ALT_COMPONENT_NAME" : "Cleanse", "PROPAGATE_FIELDS_FLAG" : 1},
+		"AlteryxAppendFields" :  {"USER_TYPE" : "CARTESIAN_PRODUCT", "ALT_COMPONENT_NAME" : "AppendFields", "PROPAGATE_FIELDS_FLAG" : 1, "FORCE_GENERATE_SQL" : 1, "CARTESIAN_PRODUCT" : 1, "JOIN_TYPE" : "INNER" },
+		"AlteryxCrossTab" :   {"USER_TYPE" : "CROSSTAB", "ALT_COMPONENT_NAME" : "CrossTab", "FORCE_GENERATE_SQL" : 1}
+	},
+
+	"FILE_FORMAT" : {
+		"23" : "ODBC",
+		"17" : "ORACLE",
+		"19" : "ALTERYX_DB",
+		"25" : "EXCEL",
+		"56" : "EXCEL_WITH_MACRO"
+	},
+
+	"component_type_naming_adjustments" : [  // RESERVED FOR FUTURE. this is needed only during conversions from Alteryx.  Alteryx allows to have unnamed components
+		
+	],
+
+	"attr_capture" : { //technical, do not change!
+		"AlteryxDbFileInput" : {
+			"File->content" : "SQL",
+			"RecordInfo" : "OUTPUT_FIELDS"
+		},
+		"AlteryxDbFileOutput" : {
+			"File->content" : "TABLE_NAME"
+		},
+		"AlteryxSelect" : {
+			"SelectFields" : "SELECTED_FIELDS"
+		},
+		"AlteryxDynamicRename" : {
+			"Fields" : "ALL_FIELDS",
+			"RecordInfo" : "OUTPUT_FIELDS",
+			"RenameMode" : "RENAME_MODE",
+			"post_process_attribute" : {"RENAME_MODE" : "join_array"},
+			"attribute_value_mapping" : {"RENAME_MODE" : {"^FirstRow$" : "FIRST_ROW"} } //conforming specs, regex based
+		},
+		"AlteryxFormula" : {
+			"FormulaFields" : "CALCULATED_FIELDS"
+		},
+		"AlteryxFilter" : {
+			"Expression" : "ORIG_OUTPUT_FILTER",
+			"Simple" : "SIMPLE_FILTER_MODEL",
+			"Mode" : "FILTER_MODE",
+			"post_process_attribute" : {"FILTER_MODE" : "join_array", "ORIG_OUTPUT_FILTER" : "join_array"}
+		},
+		"AlteryxGuiToolkit.TextBox.TextBox" : {
+			"Text" : "ANNOTATIONTEXT",
+			"post_process_attribute" : {"ANNOTATIONTEXT" : "join_array"}
+		},
+		"AlteryxGuiToolkit.ToolContainer.ToolContainer" : {
+			"Caption" : "ANNOTATIONTEXT",
+			"post_process_attribute" : {"ANNOTATIONTEXT" : "join_array"}
+		},
+		"AlteryxJoin" : {
+			"SelectFields" : "JOINER_SELECTED_FIELDS",
+			"joinByRecordPos" : "JOIN_BY_RECORD_POSITION",
+			"JoinInfo" : "JOIN_INFO",
+			"post_process_attribute" : {"JOIN_BY_RECORD_POSITION" : "string2boolean"}
+		},
+		"AlteryxDateTime" : {
+			"InputFieldName" : "DATETIME_INPUT_FIELD",
+			"OutputFieldName" : "DATETIME_OUTPUT_FIELD",
+			"Format" : "DATETIME_FORMAT",
+			"post_process_attribute" : {"DATETIME_INPUT_FIELD" : "join_array", "DATETIME_OUTPUT_FIELD" : "join_array", "DATETIME_FORMAT" : "join_array"}
+		},
+		"Macro:DateTimeNow.yxmc" : {
+			"OutputFormat" : "DATETIME_OUTPUT_FORMAT"
+		},
+		"AlteryxSummarize" : {
+			"SummarizeField" : "AGGREGATE_SPECS"
+		},
+		"AlteryxUnique" : {
+			"Field" : "UNIQUE_FIELDS"
+		},
+		"AlteryxTextInput" : {
+			"NumRows" : "NUMBER_OF_ROWS",
+			"Fields" : "OUTPUT_FIELDS",
+			"r" : "STATIC_DATA", // 'r' means rows
+			"post_process_attribute" : {"NUMBER_OF_ROWS" : "join_array"}
+		},
+		"AlteryxSort" : {
+			"Field" : "SORTED_FIELDS"
+		},
+		"AlteryxRecordID" : {
+			"FieldName" : "ROW_ID_COLUMN_NAME",
+			"StartValue" : "START_VALUE",
+			"Position" : "ROW_ID_COLUMN_POSITION",
+			"post_process_attribute" : {"START_VALUE" : "join_array", "ROW_ID_COLUMN_NAME" : "join_array", "ROW_ID_COLUMN_POSITION" : "join_array"}
+		},
+		"Macro:Cleanse.yxmc" : { // help: https://help.alteryx.com/20223/designer/data-cleansing-tool
+			"List Box (11)"  : "AFFECTED_FIELDS",
+			"Check Box (84)" : "STRING_FIELD_REPLACE_NULL_WITH_BLANK",
+			"Check Box (117)": "NUMERIC_FIELD_REPLACE_NULL_WITH_ZERO",
+			"Check Box (15)" : "REMOVE_LEADING_TRAILING_SPACES",
+			"Check Box (109)" : "REMOVE_TAB_CRLN_DUPSPACE", // removes tabs, newline, carriage return, duplicate whitespace
+			"Check Box (122)" : "REMOVE_ALL_SPACES",
+			"Check Box (53)" : "REMOVE_LETTERS",
+			"Check Box (58)" : "REMOVE_NUMBERS",
+			"Check Box (70)" : "REMOVE_PUBCTUATION",
+			"Check Box (77)" : "MODIFY_CASE",
+			"Drop Down (81)" : "CASE_MODIFICATION_SPEC",
+			"post_process_attribute" : {
+				"STRING_FIELD_REPLACE_NULL_WITH_BLANK" : "string2boolean",
+				"NUMERIC_FIELD_REPLACE_NULL_WITH_ZERO" : "string2boolean",
+			    "REMOVE_ALL_SPACES" : "string2boolean",
+			    "REMOVE_LEADING_TRAILING_SPACES" : "string2boolean",
+			    "REMOVE_LETTERS" : "string2boolean",
+			    "REMOVE_NUMBERS" : "string2boolean",
+			    "REMOVE_PUBCTUATION" : "string2boolean",
+			    "MODIFY_CASE" : "string2boolean",
+			    "REMOVE_TAB_CRLN_DUPSPACE" : "string2boolean"
+			}
+		},
+		"AlteryxAppendFields" : {
+			"SelectFields" : "JOINER_SELECTED_FIELDS",
+			"joinByRecordPos" : "JOIN_BY_RECORD_POSITION",
+			"JoinInfo" : "JOIN_INFO",
+			"post_process_attribute" : {"JOIN_BY_RECORD_POSITION" : "string2boolean"}
+		},
+		"AlteryxTranspose" : {
+			"KeyFields" : "TRANSPOSE_KEY_FIELDS",
+			"DataFields" : "TRANSPOSED_FIELDS"
+		},
+		"AlteryxCrossTab" : {
+			"GroupFields" : "CROSSTAB_GROUP_FIELDS",
+			"HeaderField" : "CROSSTAB_LABEL_FIELD",
+			"DataField" : "CROSSTAB_DATA_FIELD",
+			"RecordInfo" : "CROSSTAB_OUTPUT_FIELDS",
+			"Method" : "CROSSTAB_METHOD"
+		},
+		"PublishToTableauServer_v2.0.0\Supporting_Macros\PublishToTableauServer.yxmc" : {"datasourceName" : "DATASET_NAME"},
+		"Macro:PublishToTableauServer\Publish to Tableau Server.yxmc" : {"datasourceName" : "DATASET_NAME"}
+	},
+
+	// Supplemental instructions
+	"supplemental_instructions" : {
+		"AlteryxFilter:comparison_operations" : {
+			"Contains" : "%EXPRESSION% LIKE %OPERAND%",
+			"NotContains" : "NOT %EXPRESSION% LIKE %OPERAND%",
+			"=" : "%EXPRESSION% = %OPERAND%",
+			"!=" : "%EXPRESSION% != %OPERAND%",
+			">" : "%EXPRESSION% > %OPERAND%",
+			">=" : "%EXPRESSION% >= %OPERAND%",
+			"<=" : "%EXPRESSION% <= %OPERAND%",
+			"<" : "%EXPRESSION% < %OPERAND%",
+			"IsNotNull" : "%EXPRESSION% IS NOT NULL",
+			"IsNull" : "%EXPRESSION% IS NULL",
+			"IsNotEmpty" : "NVL(%EXPRESSION%,'') != ''"
+		}
+	},
+
+	"datatype_mapping" : {
+		"Int64" : "INTEGER",
+		"V_WString" : "STRING",
+		"WString" : "STRING",
+		"V_String" : "STRING",
+		"Bool" : "BOOLEAN",
+		"FixedDecimal" : "DECIMAL",
+		"DateTime" : "DATETIME",
+		"Date" : "DATE",
+		"Double" : "DOUBLE",
+		"String" : "STRING",
+		"Int16" : "INTEGER",
+		"Int32" : "INTEGER"
+	}
+}

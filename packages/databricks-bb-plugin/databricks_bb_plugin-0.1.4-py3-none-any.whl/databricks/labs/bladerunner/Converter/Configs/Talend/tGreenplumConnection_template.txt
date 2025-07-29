@@ -1,0 +1,1 @@
+%NAME% = spark.read.jdbc(f"jdbc:postgresql://{%HOST%}:{%PORT%}/{%DB_NAME%}", "table", {"user": f"{%USER%}", "password": "%PASS%"})

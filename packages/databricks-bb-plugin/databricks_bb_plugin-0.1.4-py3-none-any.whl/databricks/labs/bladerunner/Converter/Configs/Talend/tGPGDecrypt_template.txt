@@ -1,0 +1,17 @@
+import gnupg
+
+# Initialize GPG with the path to the GPG home directory (where keys are stored)
+gpg = gnupg.GPG(gnupghome='%KEY_PATH%')  # Adjust path for your environment
+
+# Open the encrypted file
+with open(%INPUT_FILE%, 'rb') as encrypted_file:
+    decrypted_data = gpg.decrypt_file(encrypted_file, passphrase='your_passphrase')
+
+# Check if decryption was successful
+if decrypted_data.ok:
+    print("Decryption successful!")
+    # Write the decrypted data to a file
+    with open('%OUTPUT_FILE%', 'w') as output_file:
+        output_file.write(str(decrypted_data))
+else:
+    print(f"Decryption failed: {decrypted_data.status}")

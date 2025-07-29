@@ -1,0 +1,13 @@
+column_names = ['Body', 'ERROR_CODE']
+spark = SparkSession.builder.appName("Simplified Dynamic Schema").getOrCreate()
+
+url_%NAME% = '%URL__NO_QUOTES__%'
+
+# Perform the GET request
+response = requests.get(url_%NAME%)
+if response.status_code == 200:
+    data = response.json()
+    row_data = Row(**{col: str(data.get(col, None)) for col in column_names})
+    %NAME% = spark.createDataFrame([row_data])
+else:
+    print(f"Failed to fetch data from URL: {url_%NAME%} with status code: {response.status_code}")

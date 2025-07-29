@@ -1,0 +1,4 @@
+proxy = "http://%PROXY_HOST%:%PROXY_PORT%"
+
+# Spark configuration for JDBC connection with a proxy
+spark.conf.set("spark.datasource.jdbc.proxy", proxy)

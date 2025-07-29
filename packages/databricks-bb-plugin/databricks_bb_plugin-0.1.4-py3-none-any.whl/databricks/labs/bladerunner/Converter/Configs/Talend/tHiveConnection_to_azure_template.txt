@@ -1,0 +1,11 @@
+# Azure SQL Database JDBC connection properties
+%NAME%_azure_url = f"jdbc:sqlserver://{%HOST%}:{%PORT%};databaseName={%DB_NAME%};"
+
+%NAME%_azure_properties = {
+    "user": f"{%USER_NAME%}",
+    "password": f"%PASSWORD%",
+    "driver": "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+}
+
+# Read from Azure SQL Database
+%NAME% = spark.read.jdbc(%NAME%_azure_url, "table", properties=%NAME%_azure_properties)

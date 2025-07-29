@@ -1,0 +1,182 @@
+{
+    "NODE_TYPE_LEVEL" : {
+        "_DEFAULT": "Unknown",
+        "Microsoft.AnalysisServicesExecuteDDLTask": "Orchestration",
+        "Microsoft.AnalysisServicesProcessingTask": "Orchestration",
+        "Microsoft.BulkInsertTask": "Orchestration",
+        "Microsoft.DataFlowTask": "Orchestration",
+        "Microsoft.DataProfilingTask": "Orchestration",
+        "Microsoft.ExpressionTask": "Orchestration",
+        "Microsoft.FTPTask": "Orchestration",
+        "Microsoft.MessageQueueTask": "Orchestration",
+        "Microsoft.SendMailTask": "Orchestration",
+        "Microsoft.WebServiceTask": "Orchestration",
+        "Microsoft.WMIDataReaderTask": "Orchestration",
+        "Microsoft.XMLTask": "Orchestration",
+        "Microsoft.Aggregate": "Transformation",
+        "Aggregate": "Transformation",
+        "Microsoft.Audit": "Transformation",
+        "Microsoft.CharacterMap": "Transformation",
+        "Microsoft.ConditionalSplit": "Transformation",
+        "Conditional Split": "Transformation",
+        "Microsoft.CopyColumn": "Transformation",
+        "Microsoft.DataConversion": "Transformation",
+        "Microsoft.DerivedColumn": "Transformation",
+        "Derived Column": "Transformation",
+        "Microsoft.ExportColumn": "Transformation",
+        "Microsoft.ImportColumn": "Transformation",
+        "Microsoft.Lookup": "Transformation",
+        "Lookup": "Transformation",
+        "Microsoft.Merge": "Transformation",
+        "Microsoft.MergeJoin": "Transformation",
+        "Merge Join": "Transformation",
+        "Microsoft.Multicast": "Transformation",
+        "Multicast": "Transformation",
+        "Microsoft.OLEDBCommand": "Transformation",
+        "OLE DB Command": "Transformation",
+        "Microsoft.PercentageSampling": "Transformation",
+        "Microsoft.ScriptComponent": "Transformation",
+        "Microsoft.Sort": "Transformation",
+        "Sort": "Transformation",
+        "Microsoft.UnionAll": "Transformation",
+        "Union All": "Transformation",
+        "Microsoft.Cache": "Transformation",
+        "Microsoft.DataConvert": "Transformation",
+        "Microsoft.FlatFileSource": "Transformation",
+        "Microsoft.OLEDBDestination": "Transformation",
+        "OLE DB Destination": "Transformation",
+        "Destination OLE DB": "Transformation",
+        "Microsoft.OLEDBSource": "Transformation",
+        "OLE DB Source": "Transformation",        
+        "Source OLE DB": "Transformation",        
+        "Microsoft.ManagedComponentHost": "Orchestration",
+        "STOCK:FOREACHLOOP": "Orchestration",
+        "STOCK:SEQUENCE": "Orchestration",
+        "Microsoft.ExecutePackageTask": "Orchestration",
+        "Microsoft.ExecuteSQLTask": "Orchestration",
+        "Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask": "Orchestration",
+        "Microsoft.FileSystemTask": "Orchestration",
+        "Microsoft.ScriptTask": "Orchestration",
+        "Microsoft.SqlServer.Dts.Tasks.ScriptTask.ScriptTask": "Orchestration",
+        "Microsoft.RowCount": "Transformation",
+        "Row Count": "Transformation",        
+        "Microsoft.Pipeline": "Transformation",
+        "SSIS.Pipeline.2": "Transformation",
+        "Microsoft.FlatFileDestination" : "Transformation",
+        "Microsoft.SqlServer.Dts.Pipeline.ScriptComponentHost": "Transformation"
+    },
+
+    "node_translation" : {
+        "Microsoft.Aggregate"  : {"USER_TYPE" : "AGGREGATOR" },
+        "Aggregate"  : {"USER_TYPE" : "AGGREGATOR" },
+        "Microsoft.ConditionalSplit"  : {"USER_TYPE" : "CONDITIONALSPLIT" },
+        "Conditional Split"  : {"USER_TYPE" : "CONDITIONALSPLIT" },
+        "Microsoft.DataConvert"  : {"USER_TYPE" : "EXPRESSION" },
+        "Microsoft.DerivedColumn"  : {"USER_TYPE" : "EXPRESSION" },
+        "Derived Column"  : {"USER_TYPE" : "EXPRESSION" },        
+        "Microsoft.ExecutePackageTask"  : {"USER_TYPE" : "EXECUTE_PACKAGE" },
+        "Microsoft.ExecuteSQLTask"  : {"USER_TYPE" : "EXECUTE_SQL" },
+        "Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask"  : {"USER_TYPE" : "EXECUTE_SQL" },        
+        "Microsoft.FlatFileSource"  : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE", "SYSTEM_TYPE" : "FLATFILE"},
+        "Microsoft.Lookup"  : {"USER_TYPE" : "LOOKUP"},
+        "Lookup"  : {"USER_TYPE" : "LOOKUP"},
+        "Microsoft.ManagedComponentHost"  : {"USER_TYPE" : "MANAGEDCOMPONENTHOST"},
+        "Microsoft.Multicast"  : {"USER_TYPE" : "REPLICATE"},
+        "Multicast"  : {"USER_TYPE" : "REPLICATE"},
+        "Microsoft.OLEDBCommand"  : {"USER_TYPE" : "EXECUTE_SQL"},
+        "OLE DB Command"  : {"USER_TYPE" : "OS_COMMAND"},
+        "Microsoft.OLEDBDestination"  : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET"},
+        "OLE DB Destination": {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET"},
+        "Destination OLE DB": {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET"},
+
+        "Microsoft.OLEDBSource"  : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE"},
+        "OLE DB Source"  : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE"},
+        "Source OLE DB"  : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE"},
+        "Microsoft.Pipeline"  : {"USER_TYPE" : "PIPELINE"},
+        "SSIS.Pipeline.2"  : {"USER_TYPE" : "PIPELINE"},
+        "Microsoft.RawDestination"  : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET", "SYSTEM_TYPE" : "FLATFILE"},
+        "Microsoft.FlatFileDestination" : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET", "SYSTEM_TYPE" : "FLATFILE"},
+        "Microsoft.RawSource"  : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE", "SYSTEM_TYPE" : "FLATFILE"},
+        "Microsoft.SCD"  : {"USER_TYPE" : "SCD"},
+        "Microsoft.UnionAll"  : {"USER_TYPE" : "UNION"},
+        "Union All"  : {"USER_TYPE" : "UNION"},
+        "STOCK:SEQUENCE"  : {"USER_TYPE" : "STOCK_SEQUENCE"},
+        "CONTAINER_END"  : {"USER_TYPE" : "CONTAINER_END"},
+        "ExpressionTask" : {"USER_TYPE" : "EXPRESION_TASK"},
+        "ExecuteSQLTask" : {"USER_TYPE" : "EXECUTE_SQL_TASK"},
+        "ScriptTask" : {"USER_TYPE" : "SCRIPT_TASK"},
+        "SendMailTask" : {"USER_TYPE" : "SEND_MAIL"},
+        "FileSystemTask" : {"USER_TYPE" : "FILE_SYSTEM_TASK"},
+        "ExecutePackageTask" : {"USER_TYPE" : "EXECUTE_PACKAGE"},
+        "STOCK:FOREACHLOOP" : {"USER_TYPE" : "STOCK_FOREACHLOOP"},
+		"STOCK:FORLOOP" : {"USER_TYPE" : "STOCK_FORLOOP"},
+        "Microsoft.ExcelSource"  : {"USER_TYPE" : "EXCEL_SOURCE", "SRC_TGT_FLAG" : "SOURCE"},
+        "Microsoft.ExcelDestination"  : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET"},
+        "Microsoft.ExecuteProcess" : {"USER_TYPE" : "EXECUTE_PROCESS"},
+        "Microsoft.ScriptTask" : {"USER_TYPE" : "SCRIPT_TASK"},
+        "Microsoft.SqlServer.Dts.Tasks.ScriptTask.ScriptTask" : {"USER_TYPE" : "SCRIPT_TASK"},        
+        "Microsoft.RowCount" : {"USER_TYPE" : "ROW_COUNT"},
+        "Row Count" : {"USER_TYPE" : "ROW_COUNT"},
+        "MANAGEDCOMPONENTHOST": {"USER_TYPE" : "DUMMY"}
+    },
+    
+    "attr_capture" : {
+        "Filter" : {
+                "$NODE:filterConditions->[0]->{}" : "FILTER_CONDITIONS_ORIG",
+                "$NODE:advancedFilterCondition" : "FILTER_CONDITION_ADVANCED_ORIG"
+        },
+        "EXECUTE_SQL_TASK" : {
+            "DTS:PropertyExpression" : "PROPERTY_EXPRESSION",
+            "SQLTask:SqlStatementSource" : "SQL_STATEMENT",
+            "SQLTask:ParameterBinding" : "PARAM_BINDING",
+            "SQLTask:ResultBinding" : "RESULT_BINDING",
+            "DTS:ObjectData_OLD" : "OBJECT_DATA"
+        },
+        "EXECUTE_SQL" : {
+            "SQLTask:SqlStatementSource" : "SQL_STATEMENT",
+            "SQLTask:ParameterBinding" : "PARAM_BINDING",
+            "SQLTask:ResultBinding" : "RESULT_BINDING",
+            "DTS:ObjectData_OLD" : "OBJECT_DATA"
+        },
+        "STOCK_FOREACHLOOP" : {
+            "FEEADO" : "LOOP_INFO",
+            "DTS:ObjectName" : "OBJECT_NAME",
+            "DTS:ObjectData" : "OBJECT_DATA",
+            "SQLTask:DtsVariableName" : "RESULT_VARIABLE",
+            "DTS:ForEachVariableMapping" : "FOREACH_PARAMS"
+        },         
+        "SCRIPT_TASK" : {
+            "ProjectItem" : "VB_OR_CS_SCRIPT" // Visual basic or C# script
+        },
+        "EXPRESION_TASK" : {
+            "Expression" : "EXPRESSION"
+        },
+        
+        "EXECUTE_PROCESS" : {
+            "DTS:ObjectName" : "OBJECT_NAME",
+            "ExecuteProcessData" : "EXECUTE_PROCESS_DATA"
+        },
+        "SOURCE" : {
+            "SqlCommand" : "SQL_COMMAND"
+        },
+        "TARGET" : {
+            "SqlCommand" : "SQL_COMMAND"
+        },
+        "MANAGEDCOMPONENTHOST" : {
+           "UITypeEditor" : "SQL_COMMAND" 
+        },
+        "ALL_NODES" : {} // default attributes
+    },
+
+    "component_header_comment" : "-- Component %COMPONENT%, Type %TYPE% %ADDITIONAL_COMMENT%",
+    "dataset_creation_method" : "TABLE",
+    "table_creation_statement" : "CREATE OR REPLACE TEMPORARY TABLE %TABLE_NAME% AS\n(\n%INNER_SQL%\n)",
+    "sql_statement_separator":";\n",
+    
+    "global_replace" : {
+        //"\[dbo\]\." : "",
+        //"dbo\." : "EDW.",
+        "\[" : "",
+        "\]" : ""
+    }
+}

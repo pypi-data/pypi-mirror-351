@@ -1,0 +1,186 @@
+//!!!!!!!!!DO NOT MODIFY THIS FILE!!!!!!!!!
+//base pentaho reader json config file.
+//lists attributes to be picked up.
+//have this file inherited in converter config files
+{
+	"node_translation" : {
+//		Orchestration nodes
+		"SIMPLE_EVAL" : {},
+		"SQL" : {},
+		"SET_VARIABLES" : {},
+		"XSD_VALIDATOR" : {},
+
+//		Transformation nodes
+		"XMLInputStream" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "XML", "SRC_TGT_FLAG" : "SOURCE", "DELIMITED" : "1"},
+		"Denormaliser" : {"USER_TYPE" : "UNPIVOT"},
+		"SwitchCase" : {"USER_TYPE" : "SWITCH_CASE"},
+		"GetVariable" : {"USER_TYPE" : "TRANSFORMATION"},
+		"SetVariable" : {"USER_TYPE" : "TRANSFORMATION"},
+		"TransExecutor" : {"USER_TYPE" : "TRANSFORMATION"},
+		"JobExecutor" : {"USER_TYPE" : "TRANSFORMATION"},
+		"ReplaceString" : {"USER_TYPE" : "TRANSFORMATION"},
+		"DBProc" : {"USER_TYPE" : "LOOKUP"},
+		"SetValueConstant" : {"USER_TYPE" : "TRANSFORMATION"},
+		"Lookup" : {"USER_TYPE" : "SQL_JOIN"},
+		"DBJoin" : {"USER_TYPE" : "SQL_JOIN"},
+		"WriteToLog" : {"USER_TYPE" : "DUMMY"},
+		"DBLookup" : {"USER_TYPE" : "LOOKUP"},
+		"InsertUpdate" : {"USER_TYPE" : "LOOKUP"},
+		"IfNull" : {"USER_TYPE" : "TRANSFORMATION"},
+		"BlockingStep" : {"USER_TYPE" : "DUMMY"},
+		"Constant" : {"USER_TYPE" : "TRANSFORMATION"},
+		"SystemInfo" : {"USER_TYPE" : "DUMMY"},
+		"ExcelOutput" : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET", "SYSTEM_TYPE" : "FLATFILE"},
+		"Mail" : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET"},
+		"Dummy" : {"USER_TYPE" : "DUMMY"},
+//		"DBLookup" : {"USER_TYPE" : "TRANSFORMATION"},
+		"TextFileInput" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "FLATFILE", "SRC_TGT_FLAG" : "SOURCE", "DELIMITED" : "1"},
+		"Calculator" : {"USER_TYPE" : "TRANSFORMATION"},
+		"SelectValues" : {"USER_TYPE" : "TRANSFORMATION"},
+		"CsvInput" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "FLATFILE", "SRC_TGT_FLAG" : "SOURCE", "DELIMITED" : "1"},
+		"FilterRows" : {"USER_TYPE" : "FILTER"},
+		"Formula" : {"USER_TYPE" : "TRANSFORMATION", "PROPAGATE_FIELDS_FLAG" : 1},
+		"GroupBy" : {"USER_TYPE" : "AGGREGATOR"},
+		//"IfNull" : {"USER_TYPE" : "FILTER"}, enhancement needed
+		//"JoinRows" : {"USER_TYPE" : "JOINER"}, enhancement needed
+		//"MergeJoin" : {"USER_TYPE" : "JOINER"}, enhancement needed
+		//"SetValueConstant" :  {"USER_TYPE" : "SET_VALUE_CONSTANT"}, enhancement needed
+		"SortRows" :  {"USER_TYPE" : "SORTER"},
+		"StringOperations" :  {"USER_TYPE" : "TRANSFORMATION"},
+		//"StreamLookup" :  {"USER_TYPE" : "LOOKUP"},
+		//"SystemInfo" :  {"USER_TYPE" : "DATETIME_STRING"},
+		"TableInput" : {"USER_TYPE" : "SOURCE", "SRC_TGT_FLAG" : "SOURCE"},
+		"TextFileOutput" : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET", "SYSTEM_TYPE" : "FLATFILE"},
+		"TableOutput" : {"USER_TYPE" : "TARGET", "SRC_TGT_FLAG" : "TARGET"}//,
+		//"TRANS" : {"USER_TYPE" : "TRANSFORMATION"}, enhancement needed
+		//"ValueMapper" : {"USER_TYPE" : "TRANSFORMATION"} enhancement needed
+	},
+
+	"attr_capture" : { //technical, do not change!
+//		Orchestration nodes
+		"SIMPLE_EVAL" : {
+			"variablename" : "VARIABLE_NAME_SIMPLE_EVAL",
+			"valuetype" : "VALUE_TYPE_SIMPLE_EVAL",
+			"successnumbercondition" : "SUCCESS_NUMBER_CONDITION_SIMPLE_EVAL",
+			"comparevalue" : "COMPARE_VALUE_SIMPLE_EVAL",
+			"fieldtype" : "FIELD_TYPE_SIMPLE_EVAL"
+		},
+		"SQL" : {
+			"sql" : "SQL_OUT"
+		},
+		"SET_VARIABLES" : {
+			"fields" : "SET_VARIABLES_FIELDS"
+		},
+		"XSD_VALIDATOR" : {
+			"xmlfilename" : "XML_FILENAME_XSD_VALIDATOR",
+			"xsdfilename" : "XSD_FILENAME_XSD_VALIDATOR"
+		},
+
+//		Transformation nodes
+		"XMLInputStream" : {
+			"filename" : "FILENAME"
+		},
+		"SwitchCase" : {
+			"case" : "CASE_FIELDS",
+			"fieldname" : "FIELD_NAME"
+		},
+		"Denormaliser" : {
+			"fields" : "UNPIVOT_FIELDS"
+		},
+		"GetVariable" : {
+			"fields" : "SEL_VAL_OPER_FIELDS"
+		},
+		"TransExecutor" : {
+			"fields" : "SEL_VAL_OPER_FIELDS"
+		},
+		"JobExecutor" : {
+			"fields" : "STR_OPER_FIELDS"
+		},
+		"SetVariable" : {
+			"fields" : "STR_OPER_FIELDS"
+		},
+		"ReplaceString" : {
+			"fields" : "STR_OPER_FIELDS"
+		},
+		"DBProc" : {
+			"arg" : "LOOKUP_FIELDS"
+		},
+		"TableInput" : {
+			"sql" : "SQL",
+			"connection" : "CONNECTION_PROFILE",
+			"post_process_attribute" : {"SQL" : "join_array", "CONNECTION_PROFILE" : "join_array"}
+		},
+		"CsvInput" : {
+			"filename" : "FILE_PATH",
+			"post_process_attribute" : {"FILE_PATH" : "join_array"}
+		},
+		"Formula" : {
+			"formula" : "CALC_FIELDS"
+		},
+		"FilterRows" : {
+			"condition" : "FILTER_CONDITIONS"
+		},
+		"TextFileOutput" : {
+			"separator" : "FIELD_DELIMITER",
+			"file" : "FILE_ATTRIBUTES",
+			"FILE_ATTRIBUTES.name" : "FILE_PATH",
+			"unnest_array" : ["FILE_ATTRIBUTES"], // unnesting arrays/hashes into a regular hash
+			"post_process_attribute" : {"FIELD_DELIMITER" : "join_array", "FILE_PATH" : "join_array"}
+		},
+		"SortRows" : {
+			"fields" : "SORT_BY"
+		},
+		"GroupBy" : {
+			"group" : "GROUP_BY_FIELDS",
+			"fields" : "AGGR_NON_KEY_FIELDS"
+		},
+		"JOB" : {
+			"specification_method" : "JOB_EXEC_SPECIFICATION_METHOD",
+			"filename" : "SUBJOB_FILENAME"
+		},
+		"TRANS" : {
+			"specification_method" : "TRANS_EXEC_SPECIFICATION_METHOD",
+			"filename" : "TRANS_SUBJOB_FILENAME",
+			"trans_object_id" : "TRANS_SUBJOB_ID"
+		},
+		"StringOperations" : {
+			"fields" : "STR_OPER_FIELDS"
+		},
+		"TableOutput" : {
+			"fields" : "OBJECT_FIELDS",
+			"table" : "TABLE_NAME",
+			"post_process_attribute" : {"TABLE_NAME" : "join_array"}
+		},
+		"Calculator" : {
+			"calculation" : "CALC_OPER_FIELDS"
+		},
+		"SelectValues" : {
+			"fields" : "SEL_VAL_OPER_FIELDS"
+		},
+		"Constant" : {
+			"fields" : "STR_OPER_FIELDS"
+		},
+		"IfNull" : {
+			"fields" : "STR_OPER_FIELDS"
+		},
+		"DBLookup" : {
+			"lookup" : "LOOKUP_FIELDS"
+		},
+		"DBJoin" : {
+			"sql" : "SQL"
+		},
+		"SetValueConstant" : {
+			"fields" : "STR_OPER_FIELDS"
+		},
+		"InsertUpdate" : {
+			"lookup" : "LOOKUP_FIELDS"
+		},
+		"TextFileInput" : {
+			"file" : "FILE_FIELD"
+		}
+	},
+
+	"aggregate_function_mapping" : { // list only the functions that differ from standard function names
+		"COUNT_ALL" : "COUNT"
+	}
+}

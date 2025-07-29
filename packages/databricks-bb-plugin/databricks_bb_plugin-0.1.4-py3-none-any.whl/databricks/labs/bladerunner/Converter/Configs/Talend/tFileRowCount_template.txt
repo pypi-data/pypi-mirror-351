@@ -1,0 +1,7 @@
+# Construct the full file path and read the file into a DataFrame.
+# Add a 'count' column representing the total number of rows in the DataFrame.
+
+%NAME%_source = %BLANK%
+%NAME%_source_df = pd.read_csv(%NAME%_source)
+%NAME%_source_df['count'] = len(%NAME%_source_df)
+%NAME% = %NAME%_source_df.copy()

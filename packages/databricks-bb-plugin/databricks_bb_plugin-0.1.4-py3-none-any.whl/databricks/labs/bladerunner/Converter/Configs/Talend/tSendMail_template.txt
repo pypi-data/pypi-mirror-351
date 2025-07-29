@@ -1,0 +1,37 @@
+# Email parameters
+%NAME%_smtp_server = 'smtp.gmail.com'
+%NAME%_smtp_port = 587  # Typically, for TLS
+%NAME%_from_email = %FROM%
+%NAME%_from_email_password = "insert_password_here"
+%NAME%_to_email = """%TO%"""
+%NAME%_cc_email = %CC%
+%NAME%_bcc_email = %BCC%
+%NAME%_subject = %SUBJECT%
+%NAME%_body = %MESSAGE% + "\n\nAttachments Below if any:\n\n" + %ATTACHMENTS___0%
+
+# Set up email message
+%NAME%_msg = MIMEMultipart()
+%NAME%_msg['From'] = %NAME%_from_email
+%NAME%_msg['To'] = %NAME%_to_email
+%NAME%_msg['CC'] = %NAME%_cc_email
+%NAME%_msg['Subject'] = %NAME%_subject
+%NAME%_msg.attach(MIMEText(%NAME%_body, 'plain'))
+
+# Recipients list includes TO, CC, and BCC
+%NAME%_recipients = [%NAME%_to_email] + [%NAME%_cc_email] + [%NAME%_bcc_email]
+
+# Send email
+try:
+    %NAME%_server = smtplib.SMTP(%NAME%_smtp_server, %NAME%_smtp_port)
+    %NAME%_server.starttls()
+    %NAME%_server.login(%NAME%_from_email, %NAME%_from_email_password)
+    %NAME%_server.sendmail(
+        %NAME%_from_email,
+        %NAME%_recipients,
+        %NAME%_msg.as_string()
+    )
+    %NAME%_server.quit()
+    print('Email sent successfully!')
+except Exception as e:
+    print(f"Error: {e}")
+

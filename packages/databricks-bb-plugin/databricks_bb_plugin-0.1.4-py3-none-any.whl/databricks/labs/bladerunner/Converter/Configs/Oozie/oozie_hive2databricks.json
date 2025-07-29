@@ -1,0 +1,5 @@
+{
+		"line_subst": [
+			{"from" : "set spark.*OOZIE\s*", "to" : ""} // remove instructions like set spark.ndap.query.invoker=OOZIE
+		]
+}

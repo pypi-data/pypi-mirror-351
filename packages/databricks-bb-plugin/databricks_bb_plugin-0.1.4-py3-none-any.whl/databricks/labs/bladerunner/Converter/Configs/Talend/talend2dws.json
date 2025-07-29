@@ -1,0 +1,476 @@
+//talend reader json config file.
+//lists attributes to be picked up.
+//have this file inherited in converter config files
+{
+	"node_translation" : {
+		"tFileOutputParquet" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "PARQUET", "SRC_TGT_FLAG" : "TARGET"},
+		"tFileInputParquet" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "PARQUET", "SRC_TGT_FLAG" : "SOURCE"},
+		"tFileInputDelimited" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "FILE_DELIMITED", "SRC_TGT_FLAG" : "SOURCE"},
+		"tFileInputProperties" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.csv(%FILENAME%, sep=\",\", header=False)"},
+		"tFileInputFullRow" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.csv(%FILENAME%, sep=%ROWSEPARATOR%, header=%HEADER%)"},
+		"tFileOutputDelimited" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "FILE_DELIMITED", "SRC_TGT_FLAG" : "TARGET"},
+		"tRedshiftOutputBulk" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "FILE_REDSHIFT", "SRC_TGT_FLAG" : "TARGET"},
+		"tRedshiftOutputBulkExec" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "FILE_REDSHIFT", "SRC_TGT_FLAG" : "TARGET"},
+		"tFileOutputExcel" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "FILE_DELIMITED", "SRC_TGT_FLAG" : "TARGET"},
+		"tS3Put" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "S3_FILE", "SRC_TGT_FLAG" : "TARGET"},
+		"tS3List" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "S3_FILE", "SRC_TGT_FLAG" : "SOURCE"},
+		"tS3Get" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "S3_FILE", "SRC_TGT_FLAG" : "TARGET"},
+		"tS3Delete" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "S3_DELETE", "SRC_TGT_FLAG" : "TARGET"},
+		"tS3Copy" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "S3_COPY_FILE", "SRC_TGT_FLAG" : "TARGET"},
+		"tHashOutput" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "HASH_CACHE", "SRC_TGT_FLAG" : "TARGET"},
+		"tGreenplumOutput" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "GREENPLUM", "SRC_TGT_FLAG" : "TARGET"},
+		"tPostgresqlOutput" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "POSTGRES", "SRC_TGT_FLAG" : "TARGET"},
+		"tHDFSInput" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "HDFS", "SRC_TGT_FLAG" : "SOURCE"},
+		"tHDFSOutput" : {"USER_TYPE" : "TARGET", "SYSTEM_TYPE" : "HDFS", "SRC_TGT_FLAG" : "TARGET"},
+		"tHiveRow" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "HIVE"},
+		"tMSSqlInput" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.jdbc('jdbc:sqlserver:%HOST%:%PORT%;database=%DB_NAME%;user=%USER%;password=%PASSWORD%', %TABLE_NAME%, properties={'driver' : 'com.microsoft.sqlserver.jdbc.SQLServerDriver'})"},
+		"tMSSqlRow" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.jdbc('jdbc:sqlserver:%HOST%:%PORT%;database=%DB_NAME%;user=%USER%;password=%PASSWORD%', %TABLE_NAME%, properties={'driver' : 'com.microsoft.sqlserver.jdbc.SQLServerDriver'}).select(%SQL%)"},
+		"tFileInputJSON" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.json(%FILE_PATH%, sep=',')"},
+		"tSalesforceInput" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.sql(%EMBEDDED_SQL%)"},
+		"tFileCopy" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = shutil.copyfile(\n\t%FILE_PATH%,\n\t%DESTINATION%\n)"},
+		"tFileTouch" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = open(%FILE_PATH%).close()"},
+		"tParseRecordSet" : {"USER_TYPE" : "EXPRESSION"},
+		"tJDBCRow" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.jdbc(%JDBC_URL_FROM_PROPERTIES%).select(%SQL_FROM_PROPERTIES%)"},
+		"tJDBCConnection" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.jdbc(%JDBC_URL_FROM_PROPERTIES%)"},
+		"tHiveConnection" : {"USER_TYPE" : "UDF"},
+		"tHDFSConnection" : {"USER_TYPE" : "UDF"},
+		"tGreenplumConnection" : {"USER_TYPE" : "UDF"},
+//		"tHDFSConnection" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME%_hdfs_properties = {\n\t\"dfs.namenode.kerberos.principal\": %FILE_PRINCIPAL%,\n\t\"dfs.nameservices\": %FILE_PATH%\n}\n\n%NAME% = spark.read.csv(\"hdfs:\/\/\" + %FILE_PATH% + \"\/input\/\", properties=%NAME%_hdfs_properties)"},
+		"tHDFSGet" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "HDFS", "SRC_TGT_FLAG" : "SOURCE"},
+		"tDenormalize" : {"USER_TYPE" : "UDF", "FUNCTION" :  "%NAME% = reduce(DataFrame.unionAll, %INPUT_NODE_LIST_BY_NAME%)"},
+		"tDie" : {"USER_TYPE" : "UDF", "FUNCTION" :  "raise Exception(%MESSAGE% + \", exit code %CODE%\")"},
+		"tSQLiteRow" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.jdbc('jdbc:sqlserver:%HOST%:%PORT%;database=%DB_NAME%;user=%USER%;password=%PASSWORD%', %TABLE_NAME%, properties={'driver' : 'com.microsoft.sqlserver.jdbc.SQLServerDriver'}).select(%SQL%)"},
+		"tOracleRow" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.jdbc('jdbc:sqlserver:%HOST%:%PORT%;database=%DB_NAME%;user=%USER%;password=%PASSWORD%', %TABLE_NAME%, properties={'driver' : 'com.microsoft.sqlserver.jdbc.SQLServerDriver'}).select(%SQL%)"},
+		"tSampleRow" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = %SRC_NODE_NAME%.iloc[0]"},
+		"tHiveLoad" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.sql(f\"\"\"INSERT INTO %TABLE_NAME__NO_QUOTES__% %SELECT_QUERY__NO_QUOTES__% \"\"\")"},
+		"tCacheIn" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = %OUTPUT_NODE%"},
+		"tCacheOut" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = %SRC_NODE_NAME%"},
+		"tHiveClose" : {"USER_TYPE" : "UDF", "FUNCTION" : "# this node would close the hive connection, but is a passthrough dataframe instead since spark.stop() would close the spark connection as well\n\n# Enable below if needed:\n# %NAME% = %SRC_NODE_NAME%"},
+		"tGreenplumClose" : {"USER_TYPE" : "UDF", "FUNCTION" : "# this node would close the hive connection, but is a passthrough dataframe instead since spark.stop() would close the spark connection as well\n\n# Enable below if needed:\n# %NAME% = %SRC_NODE_NAME%"},
+		"tSchemaComplianceCheck" : {"USER_TYPE" : "UDF"},
+		"tDBBulkExec" : {"USER_TYPE" : "UDF"},
+		"tFTPPut" : {"USER_TYPE" : "UDF"},
+
+		"tForeach" : {"USER_TYPE" : "ITERATE"},
+		"tReplicate" :  {"USER_TYPE" : "REPLICATE"},
+		"tFilterRow" :  {"USER_TYPE" : "FILTER"},
+		//"tLogRow" :  {"USER_TYPE" : "DUMPER"},
+		"tUniqRow" :  {"USER_TYPE" : "DEDUP"},
+		"tJavaRow" : {"USER_TYPE" : "JAVA_CODE"},
+		"tJava" : {"USER_TYPE" : "JAVA_CODE"},
+		"tJavaFlex" : {"USER_TYPE" : "JAVA_CODE"},
+		"tAggregateRow" : {"USER_TYPE" : "AGGREGATOR"},
+		"tPartition" : {"USER_TYPE" : "REPLICATE"},
+		"tUnite" : {"USER_TYPE" : "UNION"},
+		"tMap" :  {"USER_TYPE" : "EXPRESSION"},
+		"tJoin" :  {"USER_TYPE" : "JOINER"},  // was CONFORMED_JOINER
+		"JOBLET" : {"USER_TYPE" : "SCRIPT_CALL"},
+		"tRunJob" : {"USER_TYPE" : "SCRIPT_CALL"},
+		//"tSalesforceInput" : {"USER_TYPE" : "WRAP_SQL"},
+		"tSqlRow" : {"USER_TYPE" : "WRAP_SQL"},
+		"tGreenplumRow" : {"USER_TYPE" : "WRAP_SQL"},
+		//"tHDFSConnection" : {"USER_TYPE" : "SOURCE"},
+		"tRowGenerator" : {"USER_TYPE" : "ROW_GENERATOR"},
+		"tFixedFlowInput" : {"USER_TYPE" : "ROW_GENERATOR"},
+		"tSortRow" : {"USER_TYPE" : "SORTER"},
+		"tContextLoad" : {"USER_TYPE" : "UDF"},
+		"INPUT" : {"USER_TYPE" : "INPUT_JOBLET"},
+		"TRIGGER_INPUT" : {"USER_TYPE" : "INPUT_JOBLET"},
+		"OUTPUT" : {"USER_TYPE" : "OUTPUT_JOBLET"},
+		//"TRIGGER_OUTPUT" : {"USER_TYPE" : "OUTPUT_JOBLET"},
+		"tFlowToIterate" : {"USER_TYPE" : "ITERATE"},
+		"tSystem" : {"USER_TYPE" : "SYSTEM_CALL"},
+		"tFlowMeter" : {"USER_TYPE" : "UDF"},
+		"tFlowMeterCatcher" : {"USER_TYPE" : "UDF"},
+		"tIterateToFlow" : {"USER_TYPE" : "UDF"},
+		"tSendMail" : {"USER_TYPE" : "UDF"},
+		"tLogRow" : {"USER_TYPE" : "UDF", "FUNCTION" : "%SRC_NODE_NAME%.display()"},
+		"tFileExist" : {"USER_TYPE" : "UDF", "FUNCTION" : "if os.path.exists(%FILE_PATH%):", "PARSE_JAVA" : "1"},
+		"tHDFSExist" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = os.path.exists(%DIRECTORY% + '/' + %FILE_PATH%)", "PARSE_JAVA" : "1"},
+		"tHDFSList" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = os.path.exists(%DIRECTORY%)", "PARSE_JAVA" : "1"},
+		"tHDFSDelete" : {"USER_TYPE" : "UDF", "FUNCTION" : "os.remove(%FILE_PATH%)", "PARSE_JAVA" : "1"},
+		"tFileDelete" : {"USER_TYPE" : "UDF", "FUNCTION" : "os.remove(%FILE_PATH%)"},
+		"tSCPPut" : {"USER_TYPE" : "UDF", "FUNCTION" : "utils.copy(host : %HOST%, port : %PORT%, username : %USERNAME%, files : %FILELIST%)"},
+		"tHDFSRowCount" : {"USER_TYPE" : "ROW_COUNT", "SYSTEM_TYPE" : "HDFS"},
+		"tSSH": {"USER_TYPE" : "SHELL_COMMAND"},
+
+		"tRedshiftRow" : {"USER_TYPE" : "SQL_BLOCK", "SYSTEM_TYPE" : "REDSHIFT"},
+		"tRedshiftBulkExec" : {"USER_TYPE" : "SQL_BLOCK", "SYSTEM_TYPE" : "REDSHIFT"},
+
+		"tPostgresqlRow" : {"USER_TYPE" : "SOURCE", "SYSTEM_TYPE" : "POSTGRES", "SRC_TGT_FLAG" : "SOURCE"},
+		
+//		"tFileRowCount" : {"USER_TYPE" : "ROW_COUNT", "SYSTEM_TYPE" : "FLATFILE"},
+		"tFileRowCount" : {"USER_TYPE" : "UDF"},
+		"tHashInput" : {"USER_TYPE" : "UDF", "FUNCTION" : "%NAME% = spark.read.option(%PATH%, sep=',', header='false')"},
+		"tWarn" : {"USER_TYPE" : "UDF", "FUNCTION" : "print(%MESSAGE%)", "PARSE_JAVA" : "1"},
+		"tSetGlobalVar" : {"USER_TYPE" : "GLOBAL_VARIABLE"},
+		"tFilterColumns" : {"USER_TYPE" : "REPLICATE"},
+		"tHDFSCopy" : {"USER_TYPE" : "COPY_FILE", "SYSTEM_TYPE" : "HDFS"},
+		"tParallelize" : {"USER_TYPE" : "THREADS"},
+		"tNormalize" : {"USER_TYPE" : "NORMALIZE_DATA"},
+		"tHiveCreateTable" : {"USER_TYPE" : "WRAP_SQL"},
+		"tHiveConfiguration" : {"USER_TYPE" : "HIVE_CONFIGURATION"}
+		, "tFileInputExcel" : {"USER_TYPE" : "READ_EXCEL"}
+		, "tFileList" : {"USER_TYPE" : "ITERATE_FILES"}
+		, "tHDFSPut" : {"USER_TYPE" : "HDFS_PUT"}
+		, "tLibraryLoad" : {"USER_TYPE" : "UDF", "FUNCTION" : "# TODO: load library '%LIB_PATH%'"}
+		, "tLoop" : {"USER_TYPE" : "LOOP"}
+		, "tPrejob" : {"USER_TYPE" : "PLACEMENT"}
+		, "tPostjob" : {"USER_TYPE" : "PLACEMENT"}
+	},
+
+	"UDF_filepath_tSendMail" : "tSendMail_template.txt",
+	"UDF_filepath_tFlowMeter" : "tFlowMeter_template.txt",
+	"UDF_filepath_tFlowMeterCatcher" : "tFlowMeterCatcher_template.txt",
+	"UDF_filepath_tIterateToFlow" : "tIterateToFlow_template.txt",
+	"UDF_filepath_tHiveConnection" : "tHiveConnection_to_azure_template.txt",
+	"UDF_filepath_tHDFSConnection" : "tHDFSConnection_to_azure_template.txt",
+	"UDF_filepath_tGreenplumConnection" : "tGreenplumConnection_template.txt",
+	"UDF_filepath_tSchemaComplianceCheck" : "tSchemaComplianceCheck_template.py",
+	"UDF_filepath_tDBBulkExec" : "tDBBulkExec_template.py",
+	"UDF_filepath_tFTPPut" : "tFTPPut_template.py",
+	
+	"UDF_filepath_tFileRowCount" : "tFileRowCount_template.txt",
+	"UDF_filepath_tContextLoad" : "tContextLoad_template.txt",
+
+	"ANALYZER_ATTRIBUTES" : { // to be reported in Misc Job Attributes tab
+		"COMMAND" : "1",
+		"FILENAME" : "1",
+		"SQL_QUERY" : "1",
+		"QUERY" : "1",
+		"DIRECTORY" : "1",
+		"FOLDER" : "1",
+		"UNDERLYING_JOB_NAME" : "1"
+	},
+
+	"attr_capture" : { //technical, do not change!
+		"ALL_COMPONENTS" : {
+			"FILENAME" : "FILE_PATH",
+			"SQL_QUERY" : "SQL",
+			"QUERY" : "SQL",
+			"UNIQUE_NAME" : "ID",
+			"LABEL" : "NAME",
+			"ACTIVATE" : "ACTIVATE"
+		},
+		"tSendMail" : {
+			"TO" : "TO",
+			"FROM" : "FROM",
+			"CC" : "CC",
+			"BCC" : "BCC",
+			"SUBJECT" : "SUBJECT",
+			"MESSAGE" : "MESSAGE",
+			"ATTACHMENTS" : "ATTACHMENTS___0" //get index 0 of ATTACHMENTS array only
+		},
+		"tHiveConnection" : {
+			"DBNAME" : "DB_NAME",
+			"PASS" : "PASSWORD",
+			"USER" : "USER_NAME",
+			"HOST" : "HOST",
+			"PORT" : "PORT",
+			"TABLE" : "TABLE"
+		},
+		"tGreenplumConnection" : {
+			"DBNAME" : "DB_NAME",
+			"PASS" : "PASSWORD",
+			"USER" : "USER_NAME",
+			"HOST" : "HOST",
+			"PORT" : "PORT",
+			"SCHEMA_DB" : "SCHEMA"
+		},
+		"tHashInput" : {
+			"BASE_FILE_PATH" : "PATH"
+		},
+		"tHDFSGet" : {
+			"NEWNAME" : "HDFS_PATH"
+//			"USERNAME" : "SCHEMA"
+		},
+		"tCacheIn" : {
+			"OUTPUT_CACHE" : "OUTPUT_NODE"
+		},
+		"tDie" : {
+			"MESSAGE" : "MESSAGE",
+			"CODE" : "CODE"
+		},
+		"tForeach" : {
+			"VALUES" : "VALUES"
+		},
+		"tFileCopy" : {
+			"DESTINATION" : "DESTINATION"
+		},
+		"tAggregateRow" : {
+			"GROUPBYS" : "AGGREGATE_COLUMNS",
+			"OPERATIONS" : "GROUPED_COLUMNS"
+		},
+		"tFilterRow" : {
+			"CONDITIONS" : "FILTER_CONDITIONS"
+		},
+		"tUniqRow" : {
+			"UNIQUE_KEY" : "DEDUP_KEYS"
+		},
+		"tJoin" : {
+			"USE_INNER_JOIN" : "USE_INNER_JOIN",
+			"JOIN_KEY" : "JOIN_CONDITIONS",
+			"USE_LOOKUP_COLS" : "USE_LOOKUP_COLS",
+			"LOOKUP_COLS" : "LOOKUP_COLS"
+		},
+		"tJavaRow" : {
+			"CODE" : "JAVA_CODE"
+		},
+		"tJava" : {
+			"CODE" : "JAVA_CODE"
+		},
+		"tRunJob" : {
+			"PROCESS" : "RUN_PROCESS",
+			"CONTEXTPARAMS" : "VAR_PARAMS"
+		},
+		"tHDFSConnection" : {
+			"FS_DEFAULT_NAME" : "FILE_PATH",
+			"NAMENODE_PRINCIPAL" : "FILE_PRINCIPAL"
+		},
+		"tHDFSDelete" : {
+			"PATH" : "FILE_PATH"
+		},
+		"tHDFSRowCount" : {
+			"FS_DEFAULT_NAME" : "FILE_PATH",
+			"FILENAME" : "BLANK"
+		},
+		"tFileRowCount" : {
+			"FS_DEFAULT_NAME" : "FILE_PATH",
+			"FILENAME" : "BLANK"
+		},
+		"tRowGenerator" : {
+			"NB_ROWS" : "NUM_RECORDS",
+			"VALUES" : "COL_FUNCTION_MAP"
+		},
+		"tFixedFlowInput" : {
+			"NB_ROWS" : "NUM_RECORDS",
+			"VALUES" : "COL_FUNCTION_MAP",
+			"USE_INTABLE" : "USE_INLINE_TABLE",
+			"INTABLE" : "COL_FUNCTION_MAP_INLINE_TABLE",
+			"USE_INLINECONTENT" : "USE_INLINE_CONTENT",
+			"ROWSEPARATOR" : "INLINE_CONTENT_ROW_SEPARATOR",
+			"FIELDSEPARATOR" : "INLINE_CONTENT_FIELD_SEPARATOR",
+			"INLINECONTENT" : "INLINE_CONTENT"
+		},
+		"tFileInputProperties" : {
+			"FILENAME" : "FILENAME"
+		},
+		"tFileInputFullRow" : {
+			"ROWSEPARATOR" : "ROWSEPARATOR",
+			"FILENAME" : "FILENAME",
+			"HEADER" : "HEADER"
+		},
+		"tSortRow" : {
+			"CRITERIA" : "SORT_CRITERIA"
+		},
+		"tNormalize" : {
+			"NORMALIZE_COLUMN" : "NORMALIZE_COLUMN",
+			"ITEMSEPARATOR" : "ITEM_SEPARATOR"
+		},
+		"tHiveRow" : {
+			"QUERY" : "SQL"
+		},
+		"tWarn" : {
+			"MESSAGE" : "MESSAGE"
+		},
+		"tFileExist" : {
+			"FILE_NAME" : "FILE_PATH"
+		},
+		"tSetGlobalVar" : {
+			"VARIABLES" : "VARIABLES"
+		},
+		"tHDFSExist" : {
+			"HDFSDIR" : "DIRECTORY"
+		},
+		"tHDFSList" : {
+			"DIRECTORY" : "DIRECTORY"
+		},
+		"tHDFSCopy" : {
+			"SOURCE_PATH" : "SOURCE_PATH",
+			"DEST_DIR" : "DEST_PATH"
+		},
+		"tFileInputDelimited" : {
+			"FIELDSEPARATOR" : "FIELD_DELIMITER",
+			"FOLDER" : "FILE_PATH",
+			"INCLUDEHEADER" : "SKIPPED_LEADING_LINES_NUMBER"
+		},
+		"tFileOutputDelimited" : {
+			"FIELDSEPARATOR" : "FIELD_DELIMITER",
+			"FOLDER" : "FILE_PATH",
+			"INCLUDEHEADER" : "SKIPPED_LEADING_LINES_NUMBER"
+		},
+		"tHiveCreateTable" : {
+			"TABLEACTION" : "SQL_ACTION",
+			"FILE_LOCATION" : "FILE_LOCATION",
+			"TABLE" : "TABLE_NAME"
+		},
+		"tRedshiftInput" : {
+			"TABLE" : "TABLE_NAME"
+		},
+		"tRedshiftOutput" : {
+			"TABLE" : "TABLE_NAME"
+		},
+		"tRedshiftRow" : {
+			"QUERY" : "SQL"
+		},
+		"tPostgresqlRow" : {
+			"QUERY" : "SQL"
+		},
+		"tMSSqlInput" : {
+			"HOST" : "HOST",
+			"PORT" : "PORT",
+			"DBNAME" : "DB_NAME",
+			"USER" : "USER",
+			"PASS" : "PASSWORD",
+			"TABLE" : "TABLE_NAME"
+		},
+		"tMSSqlRow" : {
+			"HOST" : "HOST",
+			"PORT" : "PORT",
+			"DBNAME" : "DB_NAME",
+			"USER" : "USER",
+			"PASS" : "PASSWORD",
+			"TABLE" : "TABLE_NAME"
+		},
+		"tHiveLoad" : {
+			"HOST" : "HOST",
+			"PORT" : "PORT",
+			"DBNAME" : "DB_NAME",
+			"USER" : "USER",
+			"PASS" : "PASSWORD",
+			"TABLE" : "TABLE_NAME__NO_QUOTES__",
+			"QUERY" : "SELECT_QUERY__NO_QUOTES__"
+		},
+		"tHiveConfiguration" : {
+			"DISTRIBUTION" : "DISTRIBUTION",
+			"DB_VERSION" : "DB_VERSION",
+			"HOST" : "HOST",
+			"PORT" : "PORT",
+			"USE_KRB" : "USE_KRB",
+			"HIVE_PRINCIPAL" : "HIVE_PRINCIPAL",
+			"USE_MAPRTICKET" : "USE_MAPRTICKET",
+			"SPARK_CONFIGURATION" : "SPARK_CONFIGURATION"
+		},
+		"tSystem" : {
+			"ARRAY_COMMAND": "ARRAY_COMMAND",
+			"COMMAND": "COMMAND"
+		},
+		"tSCPPut" : {
+			"HOST" : "HOST",
+			"PORT" : "PORT",
+			"USERNAME" : "USERNAME",
+			"FILELIST" : "FILELIST"
+		}
+		, "tFileInputExcel" : {
+			"ALL_SHEETS" : "ALL_SHEETS"
+			, "SHEETLIST" : "SHEET_LIST"
+			, "HEADER" : "SKIP_FIRST_ROWS"
+			, "FOOTER" : "SKIP_LAST_ROWS"
+			, "LIMIT" : "ROWS_LIMIT"
+			, "FIRST_COLUMN" : "FIRST_COLUMN"
+			, "LAST_COLUMN" : "LAST_COLUMN"
+			, "ADVANCED_SEPARATOR" : "CUSTOM_SEPARATORS"
+			, "THOUSANDS_SEPARATOR" : "SEPARATOR_THOUSANDS"
+			, "DECIMAL_SEPARATOR" : "SEPARATOR_DECIMAL"
+			, "TRIMALL" : "TRIM_ALL"
+			, "TRIMSELECT" : "TRIM_COLUMNS"
+			, "CONVERTDATETOSTRING" : "DATE_TO_STRING"
+			, "DATESELECT" : "DATE_TO_STRING_COLUMNS"
+			, "ENCODING:ENCODING_TYPE" : "ENCODING"
+			, "ENCODING" : "CUSTOM_ENCODING"
+			, "PASSWORD" : "PASSWORD"
+		}
+		, "tFileList" : {
+			"DIRECTORY" : "PATH"
+			, "FILES" : "INCLUDE_MASKS"
+			, "LIST_MODE" : "INCLUDE_TYPES"
+			, "INCLUDSUBDIR" : "RECURSIVE"
+			, "GLOBEXPRESSIONS" : "USE_GLOB"
+			, "IFEXCLUDE" : "USE_EXCLUDE"
+			, "EXCLUDEFILEMASK" : "EXCLUDE_MASKS"
+		}
+		, "tHDFSConnection" : {
+			"FS_DEFAULT_NAME" : "DEFAULT_FS"
+			, "USE_KRB" : "USE_KERBEROS"
+			, "NAMENODE_PRINCIPAL" : "NAMENODE_PRINCIPAL"
+			, "USE_KEYTAB" : "USE_KEYTAB"
+			, "PRINCIPAL" : "KERBEROS_PRINCIPAL"
+			, "KEYTAB_PATH" : "KEYTAB_PATH"
+			, "HADOOP_ADVANCED_PROPERTIES" : "ADVANCED_CONFIG"
+		}
+		, "tHDFSPut" : {
+			"USE_EXISTING_CONNECTION" : "USE_EXISTING_CONNECTION"
+			, "CONNECTION" : "CONNECTION"
+			, "LOCALDIR" : "SOURCE_DIR"
+			, "REMOTEDIR" : "DEST_DIR"
+			, "OVERWRITE" : "OVERWRITE"
+			, "PERL5_REGEX" : "USE_REGEX"
+			, "FILES" : "FILEMASK_LIST"
+		}
+		, "tJavaFlex" : {
+			"CODE_START" : "JAVA_PRE_LOOP"
+			, "CODE_MAIN" : "JAVA_LOOP_CODE"
+			, "CODE_END" : "JAVA_POST_LOOP"
+		}
+		, "tLibraryLoad" : {
+			"LIBRARY" : "LIB_PATH"
+		}
+		, "tLoop" : {
+			"FORLOOP" : "IS_FOR"
+			, "WHILELOOP" : "IS_WHILE"
+			, "FROM" : "FOR_FIRST_IDX"
+			, "TO" : "FOR_LAST_IDX"
+			, "STEP" : "FOR_IDX_STEP"
+			, "INCREASE" : "FOR_IDX_ASCENDING"
+			, "DECLARATION" : "WHILE_DECLARATION"
+			, "CONDITION" : "WHILE_CONDITION"
+			, "ITERATION" : "WHILE_ITERATION"
+		}
+	},
+
+	"link_attr_capture" : {
+		"ALL_LINKS" : {
+			"UNIQUE_NAME" : "label"
+		},
+		"RUN_IF" : {
+			"CONDITION" : "CONDITION"
+		}
+	},
+	
+	"embed_reader_attributes" : { //embeds attributes into the normalized representation of the node to be used by the writer. Technical, do not change!
+		"tFilterRow" : {
+			"SKIP_COLUMN_ALIASING" : "1"
+		}
+	},
+	"remove_if_false" : {
+		"DEDUP_KEYS" : "KEY_ATTRIBUTE"
+	},
+	"ignore_component_list" : ["tHDFSConfiguration", "tCatch", "tLogCatcher", 
+		"tChronometerStart","TRIGGER_OUTPUT"],
+
+	"ignore_component_name_list" : [
+		{"pattern" : "loadConnectionParameters"},
+		{"pattern" : "loadControlParameters"}
+	],
+	//list of attributes to be pivoted, because talend stores them as arrays of KV pairs
+	"pivot_attr" : ["AGGREGATE_COLUMNS", "GROUPED_COLUMNS",	"FILTER_CONDITIONS", "DEDUP_KEYS"],
+
+	// list of components to implement even if they don't have any links
+	"convert_unlinked_component_list" : ["tHiveConfiguration"],
+
+	//Option to use default sort without considering link priority, will fix some occurances where nodes are missed
+	"use_default_link_sort": "0",
+
+	//Set the priority of the Talend links when sorting, lower the number = higher priority
+	"talend_link_sort_priority" : {
+		"LOOKUP" : 1,
+		"UNION_INPUT" : 1,
+		"MAIN": 2,
+		"RUN_IF":2,
+		"COMPONENT_OK":3,
+		"COMPONENT_ERROR":3,
+		"SYNCHRONIZE":4,
+		"SUBJOB_OK":4,
+		"SUBJOB_ERROR":4
+	}
+}

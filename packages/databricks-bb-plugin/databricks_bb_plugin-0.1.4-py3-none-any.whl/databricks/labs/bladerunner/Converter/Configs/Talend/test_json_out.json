@@ -1,0 +1,82 @@
+{
+	//"inherit_from" : "somebasefile.json",
+	"header": "#Code converted on %CONVERTER_TIMESTAMP%\nimport os\nfrom pyspark.sql import *\nfrom pyspark.sql.functions import *\nfrom pyspark import SparkContext;\nfrom pyspark.sql.session import SparkSession\nsc = SparkContext('local')\nspark = SparkSession(sc)",
+	"footer": "quit()",
+	"script_extension": "py",
+	"pre_node_line" : "# Processing node %NODE_NAME%, type %NODE_TYPE%\n# COLUMNS: %COLUMN_LIST%",
+	"post_node_line" : "",
+	"explicit_aliasing" : "0",
+	"skip_rowid_generation" : "1", // omits generation of sys_row_id
+	
+	//use a template file.  this overrides any header/footer specs and the wrap specs below
+	"template_file" : "C:/Work/Clients_and_Partners/CLIENT/CodeGen_Templates/CLIENT_pyspark_template_v1.0.py",
+	"source_df_read_template" : "\t\t\t\t%DF% = dfs[%ZERO_BASED_SOURCE_INDEX%]",
+	"target_df_write_template" : "\t\t\t\t\ttrasfomedDF.append(%DF%)",
+	"source_target_exclude_from_body" : "1", //telling converter to exclude source and target code from the main body - because we need to have these statements placed separately in the pyspark code
+	"field_rename_df_pattern" : "%DF%_TMP",
+	"field_rename_df_comment" : "#Conforming layout of Hive to InfaCloud for %DF%",
+
+	"exclude_from_lit_wrapping" : [
+		"YYYY-MM-DD",
+		"MM\/DD\/YYYY"
+	],
+
+	"default_indent" : {
+		"header" : "",
+		"body" : "\t\t\t\t\t",
+		"footer" : ""
+	},
+	
+	"body_wrap" : {
+		"before" : "try:\n\n",
+		"after" : "\n\nexcept OSError:\n\tprint('Error Occurred')\n"
+	},
+	
+	"multiline_stmt_break" : " \ ",
+	"null_assignment" : "lit(None).cast(NullType())",
+	"sort_function" : "sort", //goes into the sorter node
+
+	"line_subst" : [
+		//{"from" : "\.csv" , "to" : "_csv"}
+		//{"from" : "(\S+)\s*\=" , "to" : "_csv"}
+	],
+
+	"filter_subst" : {
+		"LAST_N_DAYS" : { "expr" : "(((date_format(%TOKEN1%,'YYYY-MM-dd')==date_sub(date_format(current_timestamp(), 'YYYY-MM-dd'),%TOKEN2%))", "TOKEN1" : "(\w+)\s*=", "TOKEN2" : "\:(\d+)"},
+		" IN\s*\(" : {"expr" : "%TOKEN1%.isin%TOKEN2", "TOKEN1" : "(.+)\s+in", "TOKEN2" : "in\s+(.+)"},
+		" NOT IN\s*\(" : {"expr" : "%TOKEN1%.isin%TOKEN2 == False", "TOKEN1" : "(.+)\s+in", "TOKEN2" : "in\s+(.+)"}
+	},
+
+	//if threshold is met, introduce the registerTempTable code snippet
+	"target_special_handling" : {
+		"column_count_threshold" : "255",
+		"temp_df_name" : "%DF%_OUTPUT",
+		"final_df_name" : "%DF%_FINAL",
+		"final_df_population" : "sqlContext.sql('select * from %DF%')"
+	},
+
+
+	"commands" : {
+		"READER_FILE_DELIMITED": "spark.read.csv('%PATH%', sep='%DELIMITER%', header='%HEADER%')",
+		"READER_RELATIONAL": "spark.read.jdbc(%CONNECT_STRING%, \"\"\"%TABLE_NAME%\"\"\", properties={'user': %LOGIN%, 'password': %PASSWORD%, 'driver': %DRIVER%})",
+		"READER_SALEFORCE": "spark.read.salesforce(%CONNECT_STRING%, \"\"\"%TABLE_NAME%\"\"\", properties={'user': %LOGIN%, 'password': %PASSWORD%, 'driver': %DRIVER%})",
+		"WRITER_FILE_DELIMITED": "%DF%.write.format('csv').option('header','%HEADER%').mode('overwrite').option('sep','%DELIMITER%').csv('%PATH%')",
+		"WRITER_RELATIONAL": "%DF%.write.mode('append').jdbc(%CONNECT_STRING%, \"\"\"%TABLE_NAME%\"\"\", properties={'user': %LOGIN%, 'password': %PASSWORD%, 'driver': %DRIVER%})",
+		"WRITER_SALEFORCE": "SomeArray.Append(%DF%)"
+	},
+	"function_translation": {
+		"UPPER" : "upper",
+		"LOWER" : "lower"
+	},
+	"df_naming_template" : "%JOB_NAME%_%NODE_NAME%", //when not specified, the converter will use NODE_NAME
+	"env_var_extraction": "os.environ.get('%VAR%')",
+	"system_type_class" : {
+		"MySQL" : "RELATIONAL",
+		"Salesforce" : "SALEFORCE",
+		"TOOLKIT" : "RELATIONAL",
+		"DEFAULT" : "FILE_DELIMITED"
+	},
+	"connection_code_translations" : {
+		"Sample Salesforce Connection" : "SALESFORCE"
+	}
+}

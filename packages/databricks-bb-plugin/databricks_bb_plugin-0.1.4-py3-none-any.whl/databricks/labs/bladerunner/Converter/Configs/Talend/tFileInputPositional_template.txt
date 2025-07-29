@@ -1,0 +1,1 @@
+%NODE_NAME% = spark.read.csv(%SRC_NODE_NAME%_item, sep=%DELIMITER%)

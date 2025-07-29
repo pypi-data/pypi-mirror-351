@@ -1,0 +1,275 @@
+{
+	"CUSTOM_CONVERTER_MODULES" : [],
+	"COMBINED_CUSTOM_MODULES_LOAD" : 1,
+	"target_file_extension" : "py",
+	"post_process_header" : "# Databricks notebook source\nimport numpy as np\nimport datetime\n\ncurrent_date = datetime.datetime.today()",
+	"substitution_iter_limit" : 20000,
+	"pattern_match_while_iter_limit" : 20000,
+	"preprocess_file" : "1",
+	"preprocess_routine": "::preprocess_generic_sql",
+	"initialize_hooks_call" : "::init_hooks", //initialize context, pass all relevant info
+	"pre_finalization_handler" : "::finalize_content",
+	"code_fragment_breakers": { "line_end": [";"] },
+	"keep_comments_in_place" : "0",
+	"collect_scalar_strings" : 1,
+	"proc_variable_default_widget_value" : "",
+	"proc_variable_declaration_template" : "dbutils.widgets.text(name = '%VARNAME%', defaultValue = '%DEFAULT_VALUE%')\n%VARNAME% = dbutils.widgets.get(\"%VARNAME%\")\n",
+	"proc_variable_declaration_header" : "# COMMAND ----------\n# Variable_declaration_comment",
+	"proc_variable_sql_wrapping" : "'{%VARNAME%}'",
+	"variable_assignment_from_select" : "query_1 = spark.sql(f\"\"\"%QUERY%\"\"\")\n%VARIABLES_STRING% = query_1.first()%IS_SINGLE%",
+
+	"file_tabbing" : "\t",
+	"try_except_handling" : 1,
+	"remove_comments" :0,
+	"stmt_categorization_patterns":
+	[
+		{"category": "MARKER", "patterns" : ["^[\s\n]*\bEND\b\s+IF[\s\n]*$", "^[\s\n]*\bEND\b\s+LOOP[\s\n]*$"]},
+		{"category": "TRY_EXCEPT", "patterns" : ["^\s*\bEND\b\s*$", "^\s*\bBEGIN\b\s*$", "^\s*\bEXCEPTION\b\s*$", "^\s*\bEND\b\s+\w+\s*$"]},
+		{"category": "DELETE", "patterns" : ["^[\s\n]*\bCOMMIT\b[\s\n]*$", "^[\s\n]*$"]},
+		{"category": "PYTHON_VARIABLE_ASSIGNMENT", "patterns" : ["^[\s\n]*\w+\s*:=", "^[\s\n]*\bBEGIN\b[\s\n]*\w+\s*:="]},
+		{"category": "PYTHON_VARIABLE_REASSIGNMENT", "patterns" : ["^[\s\n]*\w+\s*="]},
+		{"category": "PYTHON_VARIABLE_DECLARATION", "patterns" : [
+			"^[\s\n]*DECLARE\s+\w+\s+(\bDATE\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bINT\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b|\bRECORD\b|\w+\.\w+\%ROWTYPE)\s*",
+			"^[\s\n]*\w+\s+(\bDATE\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bINT\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b|\bRECORD\b|\w+\.\w+\%ROWTYPE)\s*",
+			"^[\s\n]*\s*(__BB_COMMENT_[0-9]+__)*\s*\w+\s+(\bDATE\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bINT\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b|\bRECORD\b|\w+\.\w+\%ROWTYPE)\s*"
+		]},
+		{"category": "SELECT_INTO", "patterns" : ["^\s*SELECT\s+.*?\bINTO\b"]},
+		{"category": "LOOP_FETCH", "patterns" : ["^[\s\n]*LOOP\s+FETCH"]},
+		{"category": "PYTHON_FOR_LOOP", "patterns" : ["^[\s\n]*FOR", "^[\s\n]*\bBEGIN\b[\s\n]+\bFOR\b"]},
+		{"category": "PYTHON_CONDITIONAL", "patterns" : ["^[\s\n]*(\bIF\b|\bELSIF\b|\bELSE\b)"]},
+		{"category": "CURSOR_DEF", "patterns" : ["^\s*CURSOR\s+"]},
+		{"category": "COMMENT_FRAGMENT", "patterns" : ["\bPERFORM\s+\*\s+FROM\s+sbdt\.edl_log\b\s*\(","select\s+sbdt\.edl_log\s*\("]},
+		{"category": "EXECUTE_IMMEDIATE", "patterns" : ["^\s*EXECUTE\s+IMMEDIATE\b","^\s*EXECUTE\b"]},
+		{"category": "UPDATE_TO_MERGE", "patterns" : ["^\s*UPDATE\b.*?\bFROM\b"]},
+
+		{"category": "FUNCTION_EXEC", "patterns" : ["^\s*PERFORM\s+\w+\.\w+\("]}
+	],
+
+	"fragment_handling" :
+	{
+		"SELECT_INTO" : "::select_into_fragment",
+		"PYTHON_VARIABLE_DECLARATION": "::python_variable_declaration",
+		"PYTHON_VARIABLE_ASSIGNMENT": "::python_variable_assignment",
+		"PYTHON_VARIABLE_REASSIGNMENT": "::python_variable_reassignment",
+		"PYTHON_CONDITIONAL": "::python_conditional",
+		"TRY_EXCEPT": "::try_except",
+		"PYTHON_FOR_LOOP": "::python_for_loop",
+		"LOOP_FETCH": "::python_loop_fetch",
+		"DELETE": "::delete_fragment",
+		"CURSOR_DEF": "::cursor_def",
+		"SP_LOG": "::sp_log",
+		"COMMENT_FRAGMENT" : "::comment_fragment",
+		"EXECUTE_IMMEDIATE" : "::execute_immediate_fragment",
+		"UPDATE_TO_MERGE" : "::convert_update_to_merge",
+		"FUNCTION_EXEC" : "::notebook_call",
+		"__DEFAULT_HANDLER__": "::default_handler"
+	},
+
+	// "between_sql_fragments" : "\n# COMMAND ----------\n",
+	"between_default_fragments" : "",
+	"default_sql_wrapping": "%DF% = spark.sql(f\"\"\"\n%SQL%\n\"\"\")\nnum_count = %DF%.first()[0] if %DF% and %DF%.first() else 0\n",
+	"sql_wrapping": "%DF% = spark.sql(%SQL%)\nnum_count = %DF%.first()[0] if %DF% and %DF%.first() else 0\n",
+	"identify_procedure_headers" : [
+		"(CREATE\s+OR\s+REPLACE\s+FUNCTION.*?\)\s*(__BB_COMMENT_[0-9]+__)*\s*(\bRETURNS\b))",
+		"(CREATE\s+OR\s+REPLACE\s+FUNCTION.*?(\bRETURNS\b))"
+	],
+
+	"pre_process_subst" : [
+		{"from": "CREATE\s+OR\s+REPLACE\s+FUNCTION.*?\)\s*(__BB_COMMENT_[0-9]+__)*\s*(\bRETURNS\b.*?\bAS\s+\$\$)", "to": ""},
+		{"from": "CREATE\s+OR\s+REPLACE\s+FUNCTION.*?\)\s*(\bRETURNS\b.*?\bAS\s+\$\$)", "to": ""},
+		{"from": "CREATE\s+OR\s+REPLACE\s+FUNCTION.*?\)\s*(__BB_COMMENT_[0-9]+__)*\s*(\bRETURNS\b.*?\bAS\s+\$function\$)", "to": ""},
+		{"from": "CREATE\s+OR\s+REPLACE\s+FUNCTION.*?\)\s*(\bRETURNS\b.*?\bAS\s+\$function\$)", "to": ""}
+	],
+
+	"python_conditional_subst" : [
+		{"from": "\bIF\b(.*?)\!=(.*)", "to": "if $1 __notequals__ $2"},
+		{"from": "\bIF\b(.*?)=(.*)", "to": "if $1 __equals__ $2"},
+		{"from": "\bELSIF\b(.*?)=(.*)", "to": "elif $1 __equals__ $2"},
+		{"from": "\bELSE\b(.*?)=(.*)", "to": "else $1 __equals__ $2"},
+		{"from": "\bIF\b(.*?)\bIN\b(.*)", "to": "if $1 __i_n__ $2"},
+		{"from": "\bELSIF\b(.*?)\bIN\b(.*)", "to": "elif $1 __i_n__ $2"},
+		{"from": "\bELSE\b(.*?)\bIN\b(.*)", "to": "else $1 __i_n__ $2"},
+		{"from": "__notequals__", "to": "!="},
+		{"from": "__equals__", "to": "=="},
+		{"from": "__i_n__", "to": "in"},
+		{"from": "IF", "to": "__i_f__"},
+		{"from": "__i_f__", "to": "if"},
+		{"from": "ELSE", "to": "__el_se__"},
+		{"from": "__el_se__", "to": "else"},
+		{"from": "ELSIF", "to": "__el_sif__"},
+		{"from": "__el_sif__", "to": "elif"},
+		{"from": "(<|>)\s*==", "to": "$1="},
+		{"from": "null", "to": "None"},
+		{"from": "<>", "to": "!="}
+	],
+
+	"python_for_loop_subst" : [
+		{"from": "FOR\s+(\w+)\s+IN\s+(.*)", "to": "for $1 __in__ $2"},
+		{"from": "__in__", "to": "in"},
+		{"from": "([0-9]+)\s*\.\.\s*([0-9]+)", "to": "range($1, $2+1)"}
+
+		// further hook processing after this
+	],
+
+	"python_variable_declaration_subst" : [
+		{"from": "(\s*\w+)\s+(\bDATE\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bINT\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b|\bRECORD\b|\w+\.\w+\%ROWTYPE)\s*:=\s*(.*)", "to": "$1 = $3"},
+		{"from": "(\s*\w+)\s+NUMBER\s+DEFAULT\s+(datetime\.datetime\.now\(\)).*", "to": "$1 = $2"},
+		{"from": "(\s*\w+)\s+(\bDATE\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bINT\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b|\bRECORD\b|\w+\.\w+\%ROWTYPE).*", "to": "$1 = None"}
+		//\bDATE\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b|\bRECORD\b|\w+\.\w+\%ROWTYPE
+	],
+
+	"python_variable_assignment_subst" : [
+		{"from": "\s*:=\s*", "to": " = "},
+		{"from": "\bNULL\b", "to": "None"},
+		{"from": "\+\s*\n", "to": "+ \\n"}
+	],
+
+	"sp_log_subst" : [
+		{"from": "sp_log_oids_messages\s*\(([\s\S]+)\)\s*$",  "to" : "dbutils.notebook.run('path/sp_log_oids_messages.py',60,arguments={$1})"},
+		{"from": "sp_log_oids_errors*\(([\s\S]+)\)\s*$",  "to" : "dbutils.notebook.run('path/sp_log_oids_errors.py',60,arguments={$1})"},
+		{"from": "oids\.sp_log_oids_messages\s*\(([\s\S]+)\)\s*\;",  "to" : "dbutils.notebook.run('path/sp_log_oids_messages.py',60,arguments={$1})"},
+		{"from": "sp_log_messages\s*\(([\s\S]+)\)\s*\;",  "to" : "dbutils.notebook.run('path/sp_log_messages.py',60,arguments={$1})"},
+		{"from": "(\w+)\s*\=\>\s*([\s\S]+)?(\,|\})", "to": "\"$1\" : $2$3"},
+		{"from": "sp_log_ods_errors\s*\(([\s\S]+)\)\s*\;",  "to" : "dbutils.notebook.run('path/sp_log_ods_errors.py',60,arguments={$1})"}
+	],
+
+	"cursor_def_pre_subst" : [
+		{"from": "\s*CURSOR\s+", "to": "def "},
+		{"from": "\s*IN\s+[\w\.]+\s*[\%\w]", "to": ""}
+		//{"from": "\s*\bIS\b", "to": "__COLON__"}
+		// {"from": "__COLON__([\s\S]+)", "to": ":\n\tinner_query = spark.sql(f\"\"\"$1\"\"\")\n\treturn inner_query"}
+
+		// further hook processing after this
+	],
+
+	// reserved for visual changes only, this is the last step
+	"final_visual_subst" : [
+		{"from": "#__endif__", "to": ""},
+		{"from": "#__endloop__", "to": ""},
+		{"from": "#__ignored_except__", "to": ""},
+		{"from": "# COMMAND ----------\n# COMMAND ----------", "to": "# COMMAND ----------"},
+		{"from": "\n[\ \t]+# COMMAND ----------\n",  "to" : "\n"},
+		{"from": "\n# COMMAND ----------[\n\s]*$", "to": "\n"},
+		{"from": "#\"\"\"--", "to": "\"\"\"--"},
+		{"from": "\n(\s*)(\/\s*)\n", "to": "\n$1# $2\n"},
+		{"from": "\n(\s*)(\bGRANT\b.*)", "to": "\n$1# $2"},
+		//{"from": "\n\s*\bRAISE\b\s*\n", "to": "\n\n"},
+		{"from": "\bexcept\b:", "to": "except Exception as ex:\n\tprint(ex)"},
+		{"from": "\bSQLERRM\b", "to": "str(ex)"},
+		{"from": ":=", "to": "="}
+	],
+
+	"line_subst" : [
+		{"from": "\bset\s+define\s+off\b",  "to" : ""},
+		{"from": "RRRRMMDD",  "to" : "yyyyMMdd"},
+		{"from": "RRRRMM",  "to" : "yyyyMM"},
+		//{"from": "YYYYMM",  "to" : "yyyyMM"},
+		{"from": "\bEXIT\s+WHEN\b.*",  "to" : ""},
+		{"from": "\bRAISE\b\;",  "to" : ""},
+		{"from": "(\bEND\s+IF\b)",  "to" : "#__endif__"}, //needed for hook processing
+		{"from" : "TO_CHAR\s*\(\s*(\w+)\s*\,\s*\'Mon\'\s*\)", "to" : "DATE_FORMAT($1,'MMM')"},
+		{"from" : "TO_CHAR\s*\(\s*\((\w+\s*\(*\s*\)*)\s*\:\:timestamp\s+AT\s+time\s+zone\s+(\'.*?\')\s*\)\:*\:*\w+\s*\,\s*\'IWIYYY\'\s*\)", "to" : "EXTRACT(WEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))||EXTRACT(YEAROFWEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))"},
+		{"from" : "TO_CHAR\s*\(\s*\((\w+\s*\(*\s*\)*)\s*\:\:timestamp\s+AT\s+time\s+zone\s+(\'.*?\')\s*\)\:*\:*\w+\s*\,\s*\'IW\-IYYY\'\s*\)", "to" : "EXTRACT(WEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))||'-'||EXTRACT(YEAROFWEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))"},
+		{"from" : "TO_CHAR\s*\(\s*\((\w+\s*\(*\s*\)*)\s*\:\:timestamp\s+AT\s+time\s+zone\s+(\'.*?\')\s*\)\:*\:*\w+\s*\,\s*\'IYYYIW\'\s*\)", "to" : "EXTRACT(YEAROFWEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))||EXTRACT(WEEK from from_utc_timestamp(to_utc_timestamp($1, current_timezone()), $2))"},
+		{"from" : "TO_CHAR\((\w*\.*\w*\.*\w+)\s*\,\'YYYYMMWW\'\)", "to" : "FORMAT_DATE($1,'yyyyMM')||EXTRACT(YEAROFWEEK from $1)"},
+		{"from" : "TO_CHAR\((\w*\.*\w*\.*\w+)\s*\,\'IW\'\)", "to" : "EXTRACT(YEAROFWEEK from $1)"},
+		{"from" : "TO_CHAR(\(\w*\.*\w*\.*\w+\s*\,\'00000000\'\))", "to" : "TO_CHAR_TEMP($1)"},
+		{"from" : "TO_CHAR(\(\w*\.*\w*\.*\w+\s*\,\'9999999\'\))", "to" : "TO_CHAR_TEMP($1)"},
+		{"from" : "\bset\s+enable_seqscan\s*\=\s*off\b", "to" :""},
+		{"from" : "\bset\s+enable_seqscan\s*\=\s*on\b", "to" :""},
+		{"from" : "\bset\s+enable_nestloop\s*\=\s*off\b", "to" :""},
+		{"from" : "\bset\s+enable_nestloop\s*\=\s*on\b", "to" :""},
+		{"from" : "\bset\s+client_min_messages\s+to\b.*", "to" :""},
+		{"from" : "\bsnapshot_date\b", "to" :"current_timestamp"},		
+		{"from" : "\bdow\b", "to" :"DAYOFWEEK"},
+		{"from" : "\bUSING\s*HINT\b", "to" :"USING_HINT"},
+		{"from" : "\bSET\s+OPTIMIZER\=ON", "to" :""},
+		{"from" : "\bSET\s+OPTIMIZER\=OFF", "to" :""},
+		{"from" : "\bSQLSTATE\b", "to" :"''"},
+		{"from" : "MM-yy", "to" :"MMM-yy"},
+		{"from" : "YYYYMM", "to" :"yyyyMM", "case_sensitive_match" : "1"},
+		
+		
+		{"from": "\bFROM\s+now\(\)",  "to" : "FROM CURRENT_DATE"},
+		{"from": "(\w+)\.\"(\w+)\"",  "to" : "$1.`$2`"},
+		{"from": ".*\bSELECT\s+NEXTVAL\(.*",  "to" : ""},
+		{"from": "\bisoyear\b",  "to" : "year"},
+		{"from": "(\bEND\s+LOOP\b)",  "to" : "#__endloop__"}, //needed for hook processing
+		{"from": "__PART_OF_STRING_EXCPT__",  "to" : "exception"}, //needed for hook processing
+		//{"from": "\bSET\s+\w+\s*\=.*",  "to" : ""}, //needed for hook processing
+		{"from": "\bNUMERIC\b\s*\([0-9]+\,[0-9]+\)\[\]",  "to" : "numeric"}, //needed for hook processing
+		{"from": "\bNUMERIC\b\s*\([0-9]+\)\[\]",  "to" : "numeric"}, //needed for hook processing
+		{"from": "\bNUMERIC\b\s*\[\]",  "to" : "numeric"}, //needed for hook processing
+		{"from": "\bINTEGER\b\s*\[\]",  "to" : "int"}, //needed for hook processing
+		{"from" : "TO_CHAR(\(.*?'EEEE'\s*\))", "to" : "UPPER(date_format$1)"},
+		{"from": "\bRETURN\s+FALSE\s*",  "to" : ""},
+
+		{"from": "\bdistributed\s+by\b",  "to" : "distributed_by"},
+		{"from": "\bdistributed\s+randomly\b",  "to" : ""},
+
+		//{"from": "\s*\bEND\b",  "to" : ""},
+		{"from": "\:\:character\s+varying\b",  "to" : "::string"},
+		{"from": "\:\:timestamp\s+without\s+time\s+zone\b",  "to" : ""},
+		{"from": "\:\:text\b",  "to" : "::string"},
+		{"from": "\bon\s+commit\s+drop\b",  "to" : ""},
+		{"from": "\$\$",  "to" : ""},
+		{"from": "\$function\$",  "to" : ""},
+		{"from": "EXECUTE\s+ON\s+ANY",  "to" : ""},
+		{"from": "\bRAISE\s+NOTICE\s*(.*)",  "to" : ""},
+		{"from": "\bRETURN\s+TRUE\b",  "to" : ""},
+		{"from": "\bRETURN\s+FALSE\b",  "to" : ""},
+		{"from": "\bGET\s+DIAGNOSTICS\s+(\w+)\s*=\s*ROW_COUNT\b",  "to" : "$1 = num_count"},
+		{"from": "\{current_fw\}",  "to" : "__current_fw__"},
+		{"from": "__current_fw__",  "to" : "'{current_fw}'"},
+		{"from": "\{current_date\}",  "to" : "__current_date__"},
+		{"from": "__current_date__",  "to" : "'{current_date}'"},
+		{"from": "\{l_maxWeek\}",  "to" : "__l_maxWeek__"},
+		{"from": "__l_maxWeek__",  "to" : "'{l_maxWeek}'"},
+		{"from": "\{l_maxWeek_txt\}",  "to" : "__l_maxWeek_txt__"},
+		{"from": "__l_maxWeek_txt__",  "to" : "'{l_maxWeek_txt}'"}		
+		//{"from": "\w+\s+(\bDATE\b|\bBIGINT\b|\bNUMERIC\b|\bVARCHAR\b|\bLONG\b|\bINTEGER\b|\bTIMESTAMP\b|\bINTERVAL\b|\bTEXT\b|\bRECORD\b|\w+\.\w+\%ROWTYPE)\s*",  "to" : ""}
+	],
+	// for default handler -- in this case sql fragments, comments (not python fragments)
+	"block_subst" : [
+		{"from": "\n\s*\n",  "to" : "\n"},
+		{"from": "(\bEND\s+IF\b)",  "to" : "#__endif__"}, //needed for hook processing
+		{"from": "\|\|\s*\'\;\'", "to": ""},
+		//{"from": "\|\|", "to": "+"},
+		{"from": "\bCREATE\s+TEMP\s+TABLE\b", "to": "CREATE TEMP VIEW"},
+		{"from": "(\bEND\s+LOOP\b)",  "to" : "#__endloop__"} //needed for hook processing
+	],
+
+	"function_subst" : [
+		{"from": "TRUNC", "to": "date_trunc", "arg_placement": { "1":"2||'DD'", "2":"1" } },
+		{"from": "SYSDATE",  "to" : "current_date()"},
+		{"from": "ISNULL",  "to" : "NVL"},
+		{"from": "TO_NUMBER", "to" : "INT"},
+		{"from": "TO_CHAR", "num_args" : 1, "output_template" : "date_format($1,'MM/dd/yyy')"},
+		{"from": "ARRAY_TO_STRING", "to" : "ARRAY_JOIN"},
+		//{"from": "ODS.SP_LOG_MESSAGES", "to" : "__BLANK__"},
+		{"from": "RAISE_APPLICATION_ERROR", "output_template" : "print($2)"},
+		{"from": "distributed_by", "to" : "__BLANK__"},
+		//{"from": "EXECUTE_IMMEDIATE", "to" : "spark.sql"},
+		{"from": "LENGTH", "to" : "len"},
+		{"from": "DATE_PART", "to" : "EXTRACT"},
+		{"from": "SPLIT_PART", "to" : "SPLIT"},
+		{"from": "TO_CHAR", "to" : "date_format"},
+		{"from": "TO_CHAR_TEMP", "to" : "TO_CHAR"},
+		{"from" : "TO_DATE", "output_template" : "FORMAT_DATE($1,'MMM-yy')"},
+		{"from" : "FORMAT_DATE", "to" : "TO_DATE"},
+		{"from": "STRING_AGG", "output_template" : "array_join(collect_set($1),$2)"},
+		{"from": "QUOTE_LITERAL", "output_template" : "regexp_replace($1,'''', '\\''')"},
+		{"from": "now", "to" : "datetime.datetime.now"},
+		{"from": "CLOCK_TIMESTAMP", "to" : "datetime.datetime.now"},
+		{"from": "timeofday", "to" : "datetime.datetime.now"},
+		{"from": "unnest", "to" : "explode"},
+		
+		//{"from": "substring", "output_template" : "EXTRACT(WEEK FROM CURRENT_DATE)","arg_placement": { "1":"week_of_year_iso"}},
+		
+		//{"from": "ROUND", "to" : "round"},
+		{"from": "DBMS_OUTPUT.put_line", "to" : "print"},
+		{"from": "SUBSTR", "num_args" : 2, "output_template" : "$1[$2:]"},
+		{"from": "SUBSTR", "num_args" : 3, "output_template" : "$1[$2:$3]"}
+	]
+
+}

@@ -1,0 +1,24 @@
+{
+	"inherit_from":["netezza2sparksql.json"],
+	"target_sql" : "DATABRICKS",
+	"from_after_delete" : "1",
+
+	"line_subst" : [
+		{"from" : "\(\s*DT_WSTR\s*\,\s*([0-9]+)\s*\)\s*(\@\[User\:\:\w+\])", "to" : "SUBSTRING(CAST($2 AS STRING), 1, $1)"},
+		{"from" : "\(\s*DT_WSTR\s*\,\s*([0-9]+)\s*\)\s*(\@\[System\:\:\w+\])", "to" : "SUBSTRING(CAST($2 AS STRING), 1, $1)"},
+		{"from" : "\(\s*DT_WSTR\s*\,\s*([0-9]+)\s*\)\s*(\@\[\$Package\:\:\w+\])", "to" : "SUBSTRING(CAST($2 AS STRING), 1, $1)"},
+		{"from" : "\(\s*DT_STR\s*\,\s*([0-9]+)\s*\)\s*(\@\[User\:\:\w+\])", "to" : "SUBSTRING(CAST($2 AS STRING), 1, $1)"},
+		{"from" : "\(\s*DT_STR\s*\,\s*([0-9]+)\s*\)\s*(\@\[System\:\:\w+\])", "to" : "SUBSTRING(CAST($2 AS STRING), 1, $1)"},
+		{"from" : "\(\s*DT_STR\s*\,\s*([0-9]+)\s*\)\s*(\@\[\$Package\:\:\w+\])", "to" : "SUBSTRING(CAST($2 AS STRING), 1, $1)"},
+		{"from" : "\@\[User\:\:(\w+)\]","to" :"{V_$1}"},
+		{"from" : "\@\[System\:\:(\w+)\]","to" :"$1"},
+		{"from" : "\bUser\:\:(\w+)","to" :"{V_$1}"}
+		],
+
+	 "block_subst" : [
+		],
+
+	"function_subst" : [
+		{"from" : "DATEADD", "arg_pattern" : {"1" : "\"mm\""},  "output_template" : "DATEADD(MONTH,$2,$3)"}
+	]
+}

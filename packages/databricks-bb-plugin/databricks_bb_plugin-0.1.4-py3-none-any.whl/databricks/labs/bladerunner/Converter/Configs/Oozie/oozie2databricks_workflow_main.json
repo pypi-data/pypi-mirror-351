@@ -1,0 +1,191 @@
+//this is a sample file for oozie to databricks workflow conversion
+{
+
+	"inherit_from" : ["oozie2dws.json"],
+	"user_type_mapping" : {
+		"DECISION" : "NESTED_CONDITION", // the writer is coded for NESTED_CONDITION, conforming DECISION to that
+		"JAVA-COM.NEXR.NDAP.ACTION.REMOTE.REMOTESHELLMAIN" : "SHELL_COMMAND",
+		"FS" : "SHELL_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.HIVE.CUSTOMHIVEACTIONMAIN" : "SQL",
+		"JAVA-COM.NEXR.NDAP.ACTION.HBASE.HBASETRUNCATEACTIONMAIN" : "EMPTY_COMMAND",
+		"COM.NEXR.NDAP.ACTION.WORKFLOW.SUBWORKFLOWWRAPPERMAIN"  : "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.WAITNODEMAIN" : "WAIT_COMMAND",
+		"MAP-REDUCE" : "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.TRINO.TRINOACTIONMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.WORKFLOW.IMPORTWORKFLOWWRAPPERMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.WORKFLOW.DISTCPWORKFLOWWRAPPERMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.EXTERNAL.EXTERNALDBQUERYMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.DISTCP.CUSTOMDISTCPMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.DBIMPORT.DBIMPORTMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.SPARKJOB.CUSTOMSPARKMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.WORKFLOW.ICEBERGPROCEDUREWORKFLOWWRAPPERMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.ICEBERGJOB.CUSTOMICEBERGPROCEDUREACTIONMAIN": "EMPTY_COMMAND",
+		"JAVA-COM.NEXR.NDAP.ACTION.HTTP.HTTPREQUESTMAIN": "EMPTY_COMMAND"
+	},
+	"sql_converter_config_file" : "oozie_hive2databricks.json", // need to convert embedded sql from hive to databricks
+	"use_generic_workflow_builder" : 0, // this means that -u option on cli has to point to this file and -M CodeGeneration::DatabricksJobs should be used
+	"workflow_specs" : { // will kick in only if use_generic_workflow_builder is on
+		"workflow_class" : "CodeGeneration::DatabricksJobs",
+		"workflow_component_mapping" : {
+			"SHELL_COMMAND" : { // this is a shell command
+				"job_cluster_key": "auto_scaling_cluster",
+				"task_key" : "%COMPONENT_NAME%",
+				"description" : "%DESCRIPTION%",
+				"spark_python_task" : {
+			 		"python_file" : "/somePath/%JOB_NAME%_%COMPONENT_NAME%_%USER_TYPE%.py"
+			 	}
+			},
+			"SQL" : { // this is a SQL command
+				"task_key" : "%COMPONENT_NAME%",
+				"job_cluster_key": "auto_scaling_cluster",
+				"description" : "%DESCRIPTION%",
+				"spark_python_task" : {
+			 		"python_file" : "/somePath/%JOB_NAME%_%COMPONENT_NAME%_%USER_TYPE%.py"
+			 	}
+			},
+			"FORK" : { // this is a SQL command
+				"task_key" : "%COMPONENT_NAME%",
+				"job_cluster_key": "auto_scaling_cluster",
+				"description" : "%DESCRIPTION%",
+				"spark_python_task" : {
+			 		"python_file" : "/somePath/generic_FORK.py"
+			 	}
+			},
+			"JOIN" : { // this is a SQL command
+				"task_key" : "%COMPONENT_NAME%",
+				"job_cluster_key": "auto_scaling_cluster",
+				"description" : "%DESCRIPTION%",
+				"spark_python_task" : {
+			 		"python_file" : "/somePath/generic_JOIN.py"
+			 	}
+			},
+			"NESTED_CONDITION" : {
+				"task_key" : "%COMPONENT_NAME%",
+				"job_cluster_key": "auto_scaling_cluster",
+				"spark_python_task" : {
+			 		"python_file" : "/Workspace/Users/%JOB_NAME%_%COMPONENT_NAME%_%USER_TYPE%.py"
+			 	}
+			},
+			"SUB_NESTED_CONDITION" : {
+				"task_key" : "Condition_%COMPONENT_NAME%",
+				"condition_task": {
+					"op": "EQUAL_TO",
+					"left": "{{tasks.%COMPONENT_NAME%.values.is_true}}",
+					"right": "true"
+				}
+			},
+			"WAIT_COMMAND" : {
+				"task_key" : "%COMPONENT_NAME%",
+				"job_cluster_key": "auto_scaling_cluster",
+				"spark_python_task" : {
+					"python_file" : "/somePath/%JOB_NAME%_%COMPONENT_NAME%.py"
+				}
+			},
+			"EMPTY_COMMAND" : {
+				"task_key" : "%COMPONENT_NAME%",
+				"job_cluster_key": "auto_scaling_cluster",
+				"spark_python_task" : {
+					"python_file" : "/somePath/%JOB_NAME%_%COMPONENT_NAME%.py"
+				}
+			}
+		},
+
+		"default_workflow_attr" : {
+			"tags" : {
+				"cost-center": "engineering",
+				"team": "jobs"
+			},
+			"job_clusters" : [
+				{
+					"job_cluster_key": "auto_scaling_cluster",
+					"new_cluster": {
+						"spark_version": "13.3.x-scala2.12",
+						"node_type_id": "r3.xlarge",
+						"spark_env_vars": {
+							"PYSPARK_PYTHON": "/databricks/python3/bin/python3"
+						},
+						"enable_elastic_disk": "false",
+						"data_security_mode": "LEGACY_SINGLE_USER_STANDARD",
+						"runtime_engine": "STANDARD",
+						"num_workers": 8
+					}
+				}
+			],
+			"email_notifications" :  {
+				"on_start": [
+					"user.name@databricks.com"
+				],
+				"on_success": [
+					"user.name@databricks.com"
+				],
+				"on_failure": [
+					"user.name@databricks.com"
+				],
+				"no_alert_for_skipped_runs": false
+			},
+			"timeout_seconds" : 86400,
+			"schedule" : {
+				"quartz_cron_expression": "20 30 * * * ?",
+				"timezone_id": "Europe/London",
+				"pause_status": "PAUSED"
+			},
+			"max_concurrent_runs" : 10,
+			"format" : "MULTI_TASK"
+		},
+
+		"default_task_attr" : {
+			"timeout_seconds" : 86400,
+			"max_retries" : 3,
+			"min_retry_interval_millis" : 2000,
+			"retry_on_timeout" : false
+		},
+
+		"nested_conditional_operation_mapping" : {
+			"=" : "EQUAL_TO",
+			"==" : "EQUAL_TO",
+			"<>" : "NOT_EQUAL",
+			"!=" : "NOT_EQUAL",
+			"<" : "LESS_THAN",
+			">" : "GREATER_THAN",
+			"<=" : "LESS_THAN_OR_EQUAL",
+			">=" : "GREATER_THAN_OR_EQUAL"
+		},
+		//"output_workflow_filename_template" : "%JOB_NAME%.json",
+		//"script_header" : "#this is a standard header for workflow %WORKFLOW_NAME%\n\ttry:", // can also provide "script_header_template" instead
+		//"script_header_template" : "!BB_CONFIG_WRITER_DIR!/Spark/pyspark_airflow_workflow_header.py",
+		//"script_footer" : "\texcept:\n\t\tprint('An exception occurred')", // can also provide "script_footer_template" instead
+		//"code_indent" : "            ", //code indent for workflow code - 12 spaces
+		//"skip_component_name_patterns" : ["audit"],
+		//"skip_component_types" : ["email", "start"],
+
+		// "workflow_component_template_START" : "%WORKFLOW_TEMPLATE_PATH%/START_template.py",
+		// "workflow_component_template_SESSION" : "!BB_CONFIG_WRITER_DIR!/Spark/pyspark_airflow_SESSION.py",
+		// "workflow_component_template_COMMAND" : "!BB_CONFIG_WRITER_DIR!/Spark/databricksJobs_template_COMMAND.py",
+		"workflow_component_template_SHELL_COMMAND" : "databricksJobs_template_COMMAND.py",
+		"workflow_component_template_SQL" : "databricksJobs_template_SPARKSQL.py",
+		"workflow_component_template_FORK" : "databricksJobs_template_FORK.py",
+		"workflow_component_template_JOIN" : "databricksJobs_template_JOIN.py",
+		"workflow_component_template_NESTED_CONDITION" : "databricksJobs_template_NESTED_CONDITION.py",
+		"workflow_component_template_WAIT_COMMAND" : "databricksJobs_template_WAIT_COMMAND.py",
+		"workflow_component_template_EMPTY_COMMAND" : "databricksJobs_template_EMPTY_COMMAND.py"
+		
+		// "workflow_component_template_SET_VARIABLE" : "!BB_CONFIG_WRITER_DIR!/Spark/databricksJobs_template_SET_VARIABLE.py",
+		// "workflow_component_template_DIE" : "!BB_CONFIG_WRITER_DIR!/Spark/databricksJobs_template_DIE.py",
+		// "workflow_component_template_SYNCHRONIZE" : "!BB_CONFIG_WRITER_DIR!/Spark/databricksJobs_template_SYNCHRONIZE.py",
+		// "workflow_component_template_EMAIL" : "%WORKFLOW_TEMPLATE_PATH%/EMAIL_template.py",
+		// "workflow_component_template_ASSIGNMENT" : "!BB_CONFIG_WRITER_DIR!/Spark/ASSIGNMENT_template.py",
+		// "workflow_component_template_CONTROL" : "!BB_CONFIG_WRITER_DIR!/Spark/CONTROL_template.py",
+		// "workflow_component_template_DECISION" : "!BB_CONFIG_WRITER_DIR!/Spark/DECISION_template.py",
+
+		//"flow_start" : "\n########### Flow definition ###########\n",
+		//"dependency_instruction_template" : "%COMPONENT_NAME% << %UPSTREAM_COMPONENT_LIST%",
+
+		// "component_list_spec" : {
+		// 	"list_enclosure" : "[,]", //specify start character sequence before comma and closing char sequence after comma
+		// 	"single_item_use_enclosure_flag" : "0"
+		// }
+		//parameter passing.
+		//"single_entry_template_COMMAND" : "#Command label %TOKEN1%\nos.system('%TOKEN2%')",
+		//"single_entry_template_ASSIGNMENT" : "%TOKEN1% = %TOKEN2%"
+	}
+}

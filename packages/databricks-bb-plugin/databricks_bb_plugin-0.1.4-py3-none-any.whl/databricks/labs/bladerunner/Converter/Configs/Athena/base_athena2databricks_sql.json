@@ -1,0 +1,181 @@
+{
+	"target_file_extension": "sql",
+	"inherit_from" : ["general_sql_specs.json"],
+	
+	"line_subst" : [
+		{"from" : "\bdate_diff\s*\(\s*'(\w+)'", "to" : "date_diff($1"},
+		{"from" : "\b(date_add)\s*\(\s*'(\w+)'", "to" : "$1($2"},
+		{"from" : "\bvarchar\b\([0-9]+\)", "to" : "string"},
+		{"from" : "\bvarchar\b", "to" : "string"},
+		{"from" : "\bcross\s+join\s+unnest\b", "to" : "unnest"},
+		{"from" : "\bposition\s*\((.*)?\s*\bIN\b\s*(.*?)\s*\)", "to" : "instr($2,$1)"},
+		{"from" : "\bEXTRACT\s*\(\s*(YEAR)\s+FROM\b", "to" : "date_part('$1', "},
+		{"from" : "\bEXTRACT\s*\(\s*(MONTH)\s+FROM\b", "to" : "date_part('$1', "},
+		{"from" : "\btry\(date\b", "to" : "try_date"},
+		{"from": "'%Y\-%m\-%d'", "to": "'yyyy-MM-dd'"},
+		{"from": "'%Y\/%m\/%d'", "to": "'yyyy/MM/dd'"},
+		{"from": "'%Y\.%m\.%d'", "to": "'yyyy.MM.dd'"},
+		{"from": "'%d\-%m\-%Y'", "to": "'dd-MM-yyyy'"},
+		{"from": "'%d\/%m\/%Y'", "to": "'dd/MM/yyyy'"},
+		{"from": "'%d\.%m\.%Y'", "to": "'dd.MM.yyyy'"},
+		{"from": "'%m\-%d\-%Y'", "to": "'MM-dd-yyyy'"},
+		{"from": "'%m\/%d\/%Y'", "to": "'MM/dd/yyyy'"},
+		{"from": "'%m\.%d\.%Y'", "to": "'MM.dd.yyyy'"},
+		{"from": "'%Y%m%d'", "to": "'yyyyMMdd'"},
+		{"from": "'%d%b%Y'", "to": "'ddMMMyyyy'"},
+		{"from": "'%d%d%Y'", "to": "'ddMMMyyyy'"},
+		{"from": "'%d\-%b\-%Y'", "to": "'dd-MMM-yyyy'"},
+		{"from": "'%d\.%b\.%Y'", "to": "'dd.MMM.yyyy'"},
+		{"from": "'%Y%b%d'", "to": "'yyyyMMMdd'"},
+		{"from": "'%Y\-%b\-%d'", "to": "'yyyy-MMM-dd'"},
+		{"from": "'%Y\.%b\.%d'", "to": "'yyyy.MMM.dd'"},
+		{"from": "'%H\:%M\:%S'", "to": "'HH:mm:ss'"},
+		{"from": "'%I\:%M\:%S %p'", "to": "'hh:mm:ss a'"},
+		{"from": "'%H\.%M\.%S'", "to": "'HH.mm.ss'"},
+		{"from": "'%I\.%M\.%S %p'", "to": "'hh.mm.ss a'"},
+		{"from": "'%Y\-%m\-%d %H\:%M\:%S'", "to": "'yyyy-MM-dd HH:mm:ss'"},
+		{"from": "'%Y\-%m\-%d %I\:%M\:%S %p'", "to": "'yyyy-MM-dd hh:mm:ss a'"},
+		{"from": "'%Y\/%m\/%d %H\:%M\:%S'", "to": "'yyyy/MM/dd HH:mm:ss'"},
+		{"from": "'%Y\/%m\/%d %I\:%M\:%S %p'", "to": "'yyyy/MM/dd hh:mm:ss a'"},
+		{"from": "'%Y\.%m\.%d %H\:%M\:%S'", "to": "'yyyy.MM.dd HH:mm:ss'"},
+		{"from": "'%Y\.%m\.%d %I\:%M\:%S %p'", "to": "'yyyy.MM.dd hh:mm:ss a'"},
+		{"from": "'%d\-%m\-%Y %H\:%M\:%S'", "to": "'dd-MM-yyyy HH:mm:ss'"},
+		{"from": "'%d\-%m\-%Y %I\:%M\:%S %p'", "to": "'dd-MM-yyyy hh:mm:ss a'"},
+		{"from": "'%d\/%m\/%Y %H\:%M\:%S'", "to": "'dd/MM/yyyy HH:mm:ss'"},
+		{"from": "'%d\/%m\/%Y %I\:%M\:%S %p'", "to": "'dd/MM/yyyy hh:mm:ss a'"},
+		{"from": "'%d\.%m\.%Y %H\:%M\:%S'", "to": "'dd.MM.yyyy HH:mm:ss'"},
+		{"from": "'%d\.%m\.%Y %I\:%M\:%S %p'", "to": "'dd.MM.yyyy hh:mm:ss a'"},
+		{"from": "'%Y\-%m\-%d %H\:%M\:%S\.%f'", "to": "'yyyy-MM-dd HH:mm:ss.SSS'"},
+		{"from": "'%Y\-%m\-%d %I\:%M\:%S\.%f %p'", "to": "'yyyy-MM-dd hh:mm:ss.SSS a'"},
+		{"from": "'%Y\-%m\-%dT%H\:%M\:%S'", "to": "'yyyy-MM-dd-HH:mm:ss'"},
+		{"from": "'%Y\-%m\-%dT%H\:%M\:%S\.%f", "to": "'yyyy-MM-dd'T'HH:mm:ss.SSS'"},
+		{"from": "'%Y\-%m\-%dT%H\:%M\:%S%z'", "to": "'yyyy-MM-dd'T'HH:mm:ssXXX'"},
+		{"from": "'%Y\-%m\-%dT%H\:%M\:%S\.%f%z'", "to": "'yyyy-MM-dd'T'HH:mm:ss.SSSXXX'"},
+		{"from" : "%Y\b", "to" : "yyyy", "case_sensitive_match" : "1"},
+		{"from" : "%y\b", "to" : "yy", "case_sensitive_match" : "1"},
+		{"from" : "%m\b", "to" : "MM", "case_sensitive_match" : "1"},
+		{"from" : "%M\b", "to" : "MMMM", "case_sensitive_match" : "1"},
+		{"from" : "%m\b", "to" : "MM", "case_sensitive_match" : "1"},
+		{"from" : "%d\b", "to" : "dd", "case_sensitive_match" : "1"},
+		{"from" : "%b\b", "to" : "MMM", "case_sensitive_match" : "1"},
+		{"from" : "%H\b", "to" : "HH", "case_sensitive_match" : "1"},
+		{"from" : "%i\b", "to" : "mm", "case_sensitive_match" : "1"},
+		{"from" : "%s\b", "to" : "ss", "case_sensitive_match" : "1"},
+		{"from" : "%A\b", "to" : "EEEE", "case_sensitive_match" : "1"},
+		{"from" : "%B\b", "to" : "MMMM", "case_sensitive_match" : "1"},
+		{"from" : "%P\b", "to" : "a", "case_sensitive_match" : "1"},
+		{"from" : "%I\b", "to" : "hh", "case_sensitive_match" : "1"},
+		{"from" : "%a\b", "to" : "EEE", "case_sensitive_match" : "1"}
+		
+	],
+	 "block_subst": [
+		
+		{"from" : "\bWITH\s+ORDINALITY\s+AS\b", "to" : "as"},
+	 	{"from" : "(\bcast\s*\(\s*)(json_extract\s*\(.*?)\bas\s+(array\s*\<\s*json\s*\>)", "extension_call" : "::cast_json_array"}
+	 ],
+
+	"function_subst" : [
+		{"from" : "try_date", "output_template" : "try_cast($1 as date"},
+		{"from" : "CARDINALITY", "to" : "size"},
+		{"from" : "DATE_ADD", "to" : "DATEADD"},
+		{"from" : "date_diff", "to" : "TIMESTAMPDIFF"},
+		{"from" : "SPLIT_PART", "output_template" : "split($1, $2)[$3-1]"},
+		{"from" : "from_iso8601_date", "output_template" : "cast($1 as date)"},
+		{"from" : "from_iso8601_timestamp", "output_template" : "cast($1 as TIMESTAMP)"},
+		{"from" : "date", "output_template" : "cast($1 as date)"},
+		{"from" : "UNNEST", "output_template" : "LATERAL VIEW EXPLODE($1)"},
+		{"from" : "REGEXP_LIKE", "output_template" : "$1 RLIKE $2"},
+		{"from" : "DATE_PARSE", "to" : "to_timestamp"},
+		{"from" : "SUBSTRING", "to" : "SUBSTR"},
+		{"from" : "LEAST", "output_template" : "ARRAY_MIN(ARRAY(%ALL_ARGS%))"},
+		{"from" : "flatten", "to" : "explode"},
+		{"from" : "ARRAY_AGG", "to" : "collect_list"},
+		{"from" : "JSON_FORMAT", "to" : "TO_JSON"},
+		{"from" : "TO_CHAR", "to" : "DATE_FORMAT"},
+		{"from" : "array_position", "to" : "array_position_temp"},
+		{"from" : "array_position_temp", "output_template" : "array_position(array($1),$2)"},
+		{"from" : "JSON_ARRAY_LENGTH", "output_template" : "size(from_json($1, 'array<string>'))"},
+		{"from" : "WEEK", "to" : "weekofyear"},
+		{"from" : "TO_UNIXTIME", "to" : "unix_timestamp"},
+		{"from" : "t", "output_template" : "%ALL_ARGS%"},
+		{"from" : "p", "output_template" : "%ALL_ARGS%"},
+		{"from" : "q", "output_template" : "%ALL_ARGS%"},
+		
+		{"from" : "JSON_EXTRACT_SCALAR", "to" : "get_json_object"},
+		{"from" : "JSON_EXTRACT", "to" : "get_json_object"},
+		{"from" : "JSON_PARSE", "output_template" : "from_json($1, schema_of_json($1))"},
+		{"from" : "CONTAINS", "to" : "array_contains"}
+		
+	]
+
+}
+// this is a loadable code
+/*LOADABLE_CODE
+use strict;
+use Common::MiscRoutines;
+
+my $MR = new Common::MiscRoutines(MESSAGE_PREFIX => 'BBCONV');
+
+sub main::cast_json_array
+{
+	my $cont = shift;
+	my $orig_cont = $MR->deep_copy($cont);
+	
+	# remove single line comments
+	$cont =~ s/\-\-.*//gm;
+
+	my @json_array_sections = $cont =~ /(\bcast\s*\(\s*json_extract\s*\(.*?\bas\s+array\s*\<\s*json\s*\>\s*\))/gis;
+	
+	foreach my $section (@json_array_sections)
+	{
+		my $next_step = 0;
+		while(1 == 1)
+		{
+			last if $next_step;
+			my $start_prenth_count = 0;
+			my $end_prenth_count = 0;
+			my $current_text = '';
+			foreach my $char (split //, $section)
+			{
+				if($char eq '(')
+				{
+					$start_prenth_count += 1;
+				}
+				elsif($char eq ')')
+				{
+					$end_prenth_count += 1;
+				}
+				$current_text .= $char;
+
+				if($start_prenth_count !=0 && $start_prenth_count == $end_prenth_count)
+				{
+					if($current_text =~ /\bas\s+array\s*\<\s*json\s*\>/is)
+					{
+						my $updated_current_text = $MR->deep_copy($current_text);
+						$updated_current_text =~ s/(\bcast\s*\(\s*)(json_extract\s*\(.*?)\bas\s+(array\s*\<\s*json\s*\>)/$1Array($2), schema_of_json($2)/gis;
+						$orig_cont =~ s/\Q$current_text\E/$updated_current_text/gis;
+						$next_step = 1;
+						last;
+					}
+					else
+					{
+						
+						my $left_section = substr($section, length($current_text) - 1);
+						if($left_section =~ /(\bcast\s*\(\s*json_extract\s*\(.*?\bas\s+array\s*\<\s*json\s*\>\s*\))/is)
+						{
+							$section = $1;
+						}
+						else
+						{
+							$next_step = 1;
+						}
+						last;
+					}
+				}
+			}
+		}
+	}
+	return $orig_cont;
+}
+
+LOADABLE_CODE*/
