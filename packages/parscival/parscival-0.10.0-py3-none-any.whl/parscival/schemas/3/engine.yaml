@@ -1,0 +1,840 @@
+# parscival_spec_version: '3.0.0'
+# Dogma Schema for Parscival
+
+# record: a dictionary with fixed keys.
+# map: a dictionary with dynamic keys.
+# array: a list with a fixed number of elements.
+# collection: a list with a variable number of elements.
+
+# metadata
+
+# parscival specification version
+parscival_spec_version:
+  # type is semver
+  type: semver
+  # qualifier indicates if it is required
+  qualifier: required
+
+# description of the specification
+description:
+  # type is string
+  type: string
+  # qualifier indicates if it is required
+  qualifier: required
+
+# source of the specification
+source:
+  # type is string
+  type: string
+  # qualifier indicates if it is required
+  qualifier: required
+
+# schema of the specification
+schema:
+  # type is string
+  type: string
+  # qualifier indicates if it is required
+  qualifier: required
+
+# format of the specification
+format:
+  # type is string
+  type: string
+  # qualifier indicates if it is required
+  qualifier: required
+
+# version of the specification
+version:
+  # type is semver
+  type: semver
+  # qualifier indicates if it is required
+  qualifier: required
+
+# author of the specification
+author:
+  # type is string
+  type: string
+  # qualifier indicates if it is required
+  qualifier: required
+
+# options
+
+# options section
+options:
+  # type is record
+  type: record
+  # qualifier indicates if it is required
+  qualifier: required
+  # members of the options record
+  members:
+    # only requested keys option
+    only_requested_keys:
+      # type is boolean
+      type: boolean
+      # qualifier indicates if it is optional
+      qualifier: optional
+    # remove transient option
+    remove_transient:
+      # type is boolean
+      type: boolean
+      # qualifier indicates if it is optional
+      qualifier: optional
+
+# initializing
+
+# initializing section
+initializing:
+  # type is record
+  type: record
+  # qualifier indicates if it is required
+  qualifier: required
+  # members of the initializing record
+  members:
+    # arguments for initializing
+    args:
+      # type is map
+      type: map
+      # qualifier indicates if it is optional
+      qualifier: optional
+    # keys for initializing
+    keys:
+      # type is record
+      type: record
+      # qualifier indicates if it is required
+      qualifier: required
+      # members of the keys record
+      members:
+        # parsing keys
+        parsing:
+          # type is map
+          type: map
+          # qualifier indicates if it is required
+          qualifier: required
+          # members of the parsing map
+          members:
+            # parsing type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # members of the parsing type record
+            members:
+              # type of parsing
+              type:
+                # type is string
+                type: string
+                # qualifier indicates if it is required
+                qualifier: required
+                # allowed values for type
+                allowed: ["string", "integer", "boolean", "date"]
+              # qualifier for parsing
+              qualifier:
+                # type is string
+                type: string
+                # qualifier indicates if it is required
+                qualifier: required
+                # allowed values for qualifier
+                allowed: ["optional", "optional once", "optional repeated",
+                          "required", "required once ","required repeated"]
+        # mapping keys
+        mapping:
+          # type is map
+          type: map
+          # qualifier indicates if it is required
+          qualifier: required
+          # members of the mapping map
+          members:
+            # mapping type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # members of the mapping type record
+            members:
+              # type of mapping
+              type:
+                # type is string
+                type: string
+                # qualifier indicates if it is required
+                qualifier: required
+                # allowed values for type
+                allowed: ["string", "integer", "boolean", "date"]
+
+# ingesting
+
+# ingesting section
+ingesting:
+  # type is record
+  type: record
+  # qualifier indicates if it is required
+  qualifier: required
+  # nullable indicates if it can be null
+  nullable: true
+  # members of the ingesting record
+  members:
+    # files for ingesting
+    files:
+      # type is map
+      type: map
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the files map
+      members:
+        # file type record
+        type: record
+        # qualifier indicates if it is required
+        qualifier: required
+        # members of the file type record
+        members:
+          # plugins for file processing
+          plugins:
+            # type is collection
+            type: collection
+            # qualifier indicates if it is optional
+            qualifier: optional
+            # members of the plugins collection
+            members:
+              # plugin type record
+              type: record
+              # qualifier indicates if it is required
+              qualifier: required
+              # allow unknown fields in plugin
+              allow_unknown: true
+              # minimum length of plugin list
+              minlength: 1
+              # maximum length of plugin list
+              maxlength: 2
+              # members of the plugin type record
+              members:
+                # parameters for plugin
+                params:
+                  # type is map
+                  type: map
+                  # qualifier indicates if it is optional
+                  qualifier: optional
+                  # members of the params map
+                  members:
+                    # type of parameter
+                    type: any
+
+# parsing
+
+# parsing section
+parsing:
+  # type is map
+  type: map
+  # qualifier indicates if it is required
+  qualifier: required
+  # allow unknown fields in parsing
+  allow_unknown: true
+  # minimum length of parsing map
+  minlength: 1
+  # maximum length of parsing map
+  maxlength: 1
+  # members of the parsing map
+  members:
+    # parsing type record
+    type: record
+    # qualifier indicates if it is required
+    qualifier: required
+    # allow unknown fields in parsing type
+    allow_unknown: true
+    # minimum length of parsing type record
+    minlength: 3
+    # members of the parsing type record
+    members:
+      # type of parsing
+      type:
+        # type is string
+        type: string
+        # qualifier indicates if it is required
+        qualifier: required
+      # record separator for parsing
+      record_separator:
+        # type is string
+        type: string
+        # qualifier indicates if it is required
+        qualifier: required
+      # record finalizer for parsing
+      record_finalizer:
+        # type is string
+        type: string
+        # qualifier indicates if it is optional
+        qualifier: optional
+
+# mapping
+
+# mapping section
+mapping:
+  # type is record
+  type: record
+  # qualifier indicates if it is required
+  qualifier: required
+  # one of the members must be present
+  one_of_members:
+    - 'source_targets'
+    - 'target_template'
+  # members of the mapping record
+  members:
+    # source targets for mapping
+    source_targets:
+      # type is map
+      type: map
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # nullable indicates if it can be null
+      nullable: true
+      # members of the source targets map
+      members:
+        # type of source targets
+        type: collection
+        # qualifier indicates if it is required
+        qualifier: required
+        # members of the source targets collection
+        members:
+          # source target record
+          type: record
+          # qualifier indicates if it is required
+          qualifier: required
+          # members of the source target record
+          members:
+            # target of source
+            target:
+              # type is string
+              type: string
+              # qualifier indicates if it is required
+              qualifier: required
+            # rank of source
+            rank:
+              # type is string
+              type: string
+              # qualifier indicates if it is optional
+              qualifier: optional
+            # plugins for source target
+            plugins:
+              # type is collection
+              type: collection
+              # qualifier indicates if it is optional
+              qualifier: optional
+              # members of the plugins collection
+              members:
+                # plugin type record
+                type: record
+                # qualifier indicates if it is required
+                qualifier: required
+                # allow unknown fields in plugin
+                allow_unknown: true
+                # minimum length of plugin list
+                minlength: 1
+                # maximum length of plugin list
+                maxlength: 2
+                # members of the plugin type record
+                members:
+                  # parameters for plugin
+                  params:
+                    # type is map
+                    type: map
+                    # qualifier indicates if it is optional
+                    qualifier: optional
+                    # members of the params map
+                    members:
+                      # type of parameter
+                      type: any
+
+    # target template for mapping
+    target_template:
+      # type is map
+      type: map
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # nullable indicates if it can be null
+      nullable: true
+      # members of the target template map
+      members:
+        # template record
+        type: record
+        # qualifier indicates if it is required
+        qualifier: required
+        # members of the template record
+        members:
+          # template string
+          template:
+            # type is string
+            type: string
+            # qualifier indicates if it is required
+            qualifier: required
+          # plugins for template
+          plugins:
+            # type is collection
+            type: collection
+            # qualifier indicates if it is optional
+            qualifier: optional
+            # members of the plugins collection
+            members:
+              # plugin type record
+              type: record
+              # qualifier indicates if it is required
+              qualifier: required
+              # allow unknown fields in plugin
+              allow_unknown: true
+              # minimum length of plugin list
+              minlength: 1
+              # maximum length of plugin list
+              maxlength: 2
+              # members of the plugin type record
+              members:
+                # parameters for plugin
+                params:
+                  # type is map
+                  type: map
+                  # qualifier indicates if it is optional
+                  qualifier: optional
+                  # members of the params map
+                  members:
+                    # type of parameter
+                    type: any
+
+# curating
+
+# curating section
+curating:
+  # type is record
+  type: record
+  # qualifier indicates if it is required
+  qualifier: required
+  # members of the curating record
+  members:
+    # after initializing plugins
+    after_initializing:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the after initializing record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # before ingesting plugins
+    before_ingesting:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the before ingesting record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # after ingesting plugins
+    after_ingesting:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the after ingesting record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # before parsing plugins
+    before_parsing:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the before parsing record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # after parsing plugins
+    after_parsing:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the after parsing record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # before mapping plugins
+    before_mapping:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the before mapping record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # after mapping plugins
+    after_mapping:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the after mapping record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # before storing plugins
+    before_storing:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the before storing record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+          # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # after storing plugins
+    after_storing:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the after storing record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+    # before finishing plugins
+    before_finishing:
+      # type is record
+      type: record
+      # qualifier indicates if it is optional
+      qualifier: optional
+      # members of the before finishing record
+      members:
+        # plugins collection
+        plugins:
+          # type is collection
+          type: collection
+          # qualifier indicates if it is optional
+          qualifier: optional
+          # members of the plugins collection
+          members:
+            # plugin type record
+            type: record
+            # qualifier indicates if it is required
+            qualifier: required
+            # allow unknown fields in plugin
+            allow_unknown: true
+            # minimum length of plugin list
+            minlength: 1
+            # maximum length of plugin list
+            maxlength: 2
+            # members of the plugin type record
+            members:
+              # parameters for plugin
+              params:
+                # type is map
+                type: map
+                # qualifier indicates if it is optional
+                qualifier: optional
+                # members of the params map
+                members:
+                  # type of parameter
+                  type: any
+
+# storing
+
+# storing section
+storing:
+  # type is map
+  type: map
+  # qualifier indicates if it is required
+  qualifier: required
+  # members of the storing map
+  members:
+    # storing type record
+    type: record
+    # qualifier indicates if it is optional
+    qualifier: optional
+    # members of the storing type record
+    members:
+      # plugins collection
+      plugins:
+        # type is collection
+        type: collection
+        # qualifier indicates if it is optional
+        qualifier: optional
+        # members of the plugins collection
+        members:
+          # plugin type record
+          type: record
+          # qualifier indicates if it is required
+          qualifier: required
+          # allow unknown fields in plugin
+          allow_unknown: true
+          # minimum length of plugin list
+          minlength: 1
+          # maximum length of plugin list
+          maxlength: 2
+          # members of the plugin type record
+          members:
+            # parameters for plugin
+            params:
+              # type is map
+              type: map
+              # qualifier indicates if it is optional
+              qualifier: optional
+              # members of the params map
+              members:
+                # type of parameter
+                type: any
