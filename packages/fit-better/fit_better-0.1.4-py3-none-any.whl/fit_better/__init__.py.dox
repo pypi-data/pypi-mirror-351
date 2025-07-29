@@ -1,0 +1,16 @@
+"""
+@package fit_better
+@brief Main package for the Fit-Better machine learning framework
+
+This package contains components for training, evaluating, and deploying
+machine learning models, with a focus on regression problems.
+
+@section modules Main Modules
+
+- core: Core functionality for model training and evaluation
+- data: Data handling and preprocessing
+- evaluation: Metrics and evaluation utilities
+- io: Input/output operations, including model persistence
+- models: Model implementations and wrappers
+- utils: Utility functions and helpers
+"""

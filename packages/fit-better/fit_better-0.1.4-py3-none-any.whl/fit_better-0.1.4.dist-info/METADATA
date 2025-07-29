@@ -1,0 +1,335 @@
+Metadata-Version: 2.1
+Name: fit-better
+Version: 0.1.4
+Summary: A package for improved regression modeling with partitioning
+Home-page: https://github.com/xlindo/fit-better
+Author: xlindo
+Author-email: hi@xlindo.com
+License: Proprietary
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: joblib>=1.0.0
+Requires-Dist: matplotlib>=3.3.0
+Requires-Dist: numpy>=1.19.0
+Requires-Dist: scikit-learn>=0.24.0
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: pytest>=6.0.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: markdown; extra == "docs"
+Requires-Dist: pdoc>=4.0.0; extra == "docs"
+Provides-Extra: extra
+Requires-Dist: lightgbm; extra == "extra"
+Requires-Dist: xgboost; extra == "extra"
+
+# Fit Better
+
+A Python package for finding optimal regression strategies for both 1D and nD data.
+
+## Features
+
+- **Smart Regression Flow**: Automatically finds the best regression approach by:
+  - Testing different partitioning strategies
+  - Evaluating various regression algorithms
+  - Combining the best approaches for optimal results
+  - Handling both 1D and nD data efficiently
+
+- **Partitioning Strategies**:
+  - Percentile-based partitioning
+  - Range-based partitioning
+  - Equal-width partitioning
+  - K-means clustering
+  - K-medoids clustering
+  - Adaptive boundary determination
+
+- **Regression Algorithms**:
+  - Linear Regression
+  - Ridge Regression
+  - Lasso Regression
+  - Elastic Net
+  - Random Forest
+  - Gradient Boosting
+  - LightGBM
+  - XGBoost
+  - Support for custom algorithms
+
+- **Evaluation Metrics**:
+  - R² Score
+  - Mean Squared Error (MSE)
+  - Root Mean Squared Error (RMSE)
+  - Mean Absolute Error (MAE)
+  - Explained Variance Score
+  - Custom metric support
+
+- **Visualization Capabilities**:
+  - Actual vs Predicted plots
+  - Error distribution visualization
+  - Percentage error analysis
+  - Partition boundary visualization
+  - Model comparison plots
+  - Comprehensive regression reports
+
+- **C++ Deployment**:
+  - Full implementation of core regression models in C++17
+  - Boost-based JSON model loading
+  - Highly efficient prediction capabilities
+  - Direct export from Python models
+  - Performance optimization for production environments
+
+## Installation
+
+```bash
+pip install fit-better
+```
+
+Or install with additional features:
+
+```bash
+# Install with extra ML libraries
+pip install fit-better[extra]
+
+# Install with development tools
+pip install fit-better[dev]
+
+# Install with documentation tools
+pip install fit-better[docs]
+```
+
+## Quick Start
+
+```python
+from fit_better import RegressionFlow
+
+# Initialize the regression flow
+flow = RegressionFlow()
+
+# Find the best regression strategy
+result = flow.find_best_strategy(
+    X_train=X_train,
+    y_train=y_train,
+    X_test=X_test,
+    y_test=y_test,
+    n_partitions=5,
+    n_jobs=-1
+)
+
+# Make predictions
+predictions = flow.predict(X_new)
+
+# Get performance metrics
+print(f"Best R² Score: {result.best_r2}")
+print(f"Best RMSE: {result.best_rmse}")
+print(f"Best Strategy: {result.best_strategy}")
+```
+
+## Advanced Usage
+
+### Custom Partitioning
+
+```python
+from fit_better import RegressionFlow, PartitionMode
+
+flow = RegressionFlow()
+result = flow.find_best_strategy(
+    X_train=X_train,
+    y_train=y_train,
+    X_test=X_test,
+    y_test=y_test,
+    partition_mode=PartitionMode.PERCENTILE,
+    n_partitions=10
+)
+```
+
+### Custom Regression Algorithms
+
+```python
+from fit_better import RegressionFlow, RegressorType
+
+flow = RegressionFlow()
+result = flow.find_best_strategy(
+    X_train=X_train,
+    y_train=y_train,
+    X_test=X_test,
+    y_test=y_test,
+    regressor_type=RegressorType.LIGHTGBM
+)
+```
+
+### Creating Visualization Reports
+
+```python
+from fit_better.utils.plotting import create_regression_report_plots
+
+# Create a comprehensive evaluation report with visualizations
+figures = create_regression_report_plots(
+    y_true=y_test,
+    y_pred=predictions,
+    output_dir="reports",
+    model_name="RandomForest"
+)
+```
+
+### Scikit-learn Integration
+
+```python
+from fit_better.sklearn_utils import AdaptivePartitionRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+# Create a sklearn-compatible pipeline
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('regressor', AdaptivePartitionRegressor(
+        n_partitions=5,
+        partition_mode='kmeans',
+        n_jobs=-1,
+        random_state=42  # For reproducible results
+    ))
+])
+
+# Fit and predict using sklearn API
+pipeline.fit(X_train, y_train)
+predictions = pipeline.predict(X_test)
+```
+
+### Ensuring Reproducibility
+
+```python
+from fit_better import RegressionFlow
+from fit_better.models.sklearn import PartitionTransformer, AdaptivePartitionRegressor
+
+# Set a random seed for reproducible results
+random_state = 42
+
+# Use the random_state parameter with any clustering-based partitioning
+transformer = PartitionTransformer(
+    n_parts=3,
+    partition_mode='kmeans',
+    random_state=random_state
+)
+
+# All clustering-based partitioning methods support random_state
+model = AdaptivePartitionRegressor(
+    n_parts=3,
+    partition_mode='kmeans++',
+    random_state=random_state
+)
+```
+
+### C++ Model Deployment
+
+Export your trained model to use in C++ applications:
+
+```python
+from fit_better.io import export_model_to_json
+
+# Export the model to JSON format for C++ deployment
+export_model_to_json(result.best_model, "best_model.json")
+```
+
+## C++ Implementation
+
+The C++ implementation provides a highly efficient way to deploy models trained with fit-better in production environments.
+
+### Supported Models in C++
+
+| Model Type | Support Level | Notes |
+|------------|--------------|-------|
+| Linear Regression | Full | Complete implementation with all parameters |
+| Ridge Regression | Full | Including L2 regularization |
+| Lasso Regression | Full | Including L1 regularization |
+| Elastic Net | Full | Combined L1 and L2 regularization |
+| Decision Tree | Full | Complete decision tree implementation |
+| Random Forest | Full | Ensemble of decision trees |
+| Gradient Boosting | Full | Boosting with decision trees |
+
+### Preprocessing Support in C++
+
+| Preprocessor | Support Level |
+|------------|--------------|
+| StandardScaler | Full |
+| MinMaxScaler | Full |
+
+## Documentation
+
+Complete documentation is available at [https://fit-better.readthedocs.io](https://fit-better.readthedocs.io)
+
+You can also generate documentation locally using:
+
+```bash
+# Generate HTML documentation
+./utils/docs.sh --format html --output-dir docs/html
+
+# Generate Markdown documentation
+./utils/docs.sh --format markdown --output-dir docs/markdown
+
+# Include private members in documentation
+./utils/docs.sh --format html --output-dir docs/html --private
+```
+
+## Project Design
+
+The fit_better package follows these design principles:
+
+- **Minimal Dependencies**: Core functionality relies only on NumPy, SciPy, and scikit-learn
+- **Modular Architecture**: Components can be used independently or combined
+- **Consistent Interfaces**: All components follow consistent API patterns
+- **Comprehensive Testing**: Extensive test suite ensures reliability
+- **Well-Documented**: Detailed docstrings and examples for all functionality
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is under a Proprietary License. Please contact the authors for licensing details.
+
+## Authors
+
+- hi@xlindo.com - *Initial work*
+
+## Developer Setup
+
+### Code Formatting
+
+This project uses Black for code formatting. We enforce consistent code style through pre-commit hooks and CI checks.
+
+#### Setting Up Pre-commit Hooks
+
+To automatically format your code before each commit:
+
+1. Install development dependencies:
+   ```bash
+   pip install -e .[dev]
+   ```
+
+2. Set up pre-commit hooks:
+   ```bash
+   # Run the setup script
+   ./utils/setup_pre_commit.sh
+   
+   # Or install manually
+   pre-commit install
+   ```
+
+Once installed, the pre-commit hooks will automatically format your Python code using Black before each commit.
+
+To manually run formatting on all files:
+```bash
+pre-commit run --all-files
+```
+
+**Note**: Our CI pipeline checks for proper formatting but doesn't apply changes. Make sure to format your code locally before pushing.
+
+## Acknowledgments
+
+- Thanks to scikit-learn for providing the foundational machine learning algorithms
+- Special thanks to the open source community for inspiration and support
+
+
