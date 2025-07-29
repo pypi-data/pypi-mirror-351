@@ -1,0 +1,18 @@
+[project]
+name = "mynelibs"
+version = "1.0.0"
+description = "A simple Python library"
+authors = [{ name="PAT", email="patdev495@gmail.com" }]
+readme = "README"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+
+dependencies = [
+    "numpy",
+    "watchdog",
+    "PyYAML",
+    "opencv-python",
+]
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
