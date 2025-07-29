@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: ondil
+Version: 0.3.0
+Summary: Methods for online / incremental estimation of distributional regression models
+Author-email: Simon Hirsch <simon.hirsch@stud.uni-due.de>, Jonathan Berrisch <jonathan.berrisch@uni-due.de>, Florian Ziel <florian.ziel@uni-due.de>
+Project-URL: Homepage, https://github.com/simon-hirsch/ondil
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: <3.14,>=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: scipy<2.2.0,>=1.00
+Requires-Dist: numpy<=2.1.0,>=1.2
+Requires-Dist: numba<1.0.0,>=0.59.1
+Provides-Extra: pandas
+Requires-Dist: pandas>=1.26; extra == "pandas"
+Provides-Extra: polars
+Requires-Dist: polars; extra == "polars"
+Provides-Extra: all
+Requires-Dist: ondil[pandas,polars]; extra == "all"
+Dynamic: license-file
