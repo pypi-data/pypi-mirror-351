@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: fast-mq-task
+Version: 1.1.3
+Summary: fast rabbitmq task for zsodata
+Home-page: http://www.zsodata.com
+Author: zsodata
+Author-email: team@zso.io
+License: BSD License
+Platform: all
+Requires-Python: >=3.7
+
+pip uninstall fast-mq-task
+
+
+pip install --upgrade fast-mq-task -i https://pypi.python.org/simple
+pip show fast-mq-task
+
+
