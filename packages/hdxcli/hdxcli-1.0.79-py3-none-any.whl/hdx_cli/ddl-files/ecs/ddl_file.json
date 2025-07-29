@@ -1,0 +1,486 @@
+{
+  "envoy-000719" : {
+    "aliases" : {
+      "envoy" : { },
+      "search-logs" : { }
+    },
+    "mappings" : {
+      "dynamic" : "false",
+      "properties" : {
+        "@size" : {
+          "type" : "integer"
+        },
+        "@timestamp" : {
+          "type" : "alias",
+          "path" : "timestamp_ms"
+        },
+        "@type" : {
+          "type" : "alias",
+          "path" : "source_type"
+        },
+        "asg" : {
+          "type" : "alias",
+          "path" : "service"
+        },
+        "aws_asg" : {
+          "type" : "keyword"
+        },
+        "aws_az" : {
+          "type" : "keyword"
+        },
+        "aws_region" : {
+          "type" : "keyword"
+        },
+        "az" : {
+          "type" : "alias",
+          "path" : "aws_az"
+        },
+        "call_site" : {
+          "type" : "keyword"
+        },
+        "call_stack" : {
+          "type" : "keyword"
+        },
+        "canary" : {
+          "type" : "keyword"
+        },
+        "container_id" : {
+          "type" : "keyword"
+        },
+        "container_name" : {
+          "type" : "keyword"
+        },
+        "envoy_active_healthcheck" : {
+          "properties" : {
+            "add_healthy_event" : {
+              "properties" : {
+                "first_check" : {
+                  "type" : "boolean"
+                }
+              }
+            },
+            "cluster_name" : {
+              "type" : "keyword"
+            },
+            "eject_unhealthy_event" : {
+              "properties" : {
+                "failure_type" : {
+                  "type" : "keyword"
+                }
+              }
+            },
+            "health_check_failure_event" : {
+              "properties" : {
+                "failure_type" : {
+                  "type" : "keyword"
+                }
+              }
+            },
+            "health_checker_type" : {
+              "type" : "keyword"
+            },
+            "subject" : {
+              "properties" : {
+                "socket_address" : {
+                  "properties" : {
+                    "address" : {
+                      "type" : "keyword"
+                    },
+                    "ipv4_compat" : {
+                      "type" : "boolean"
+                    },
+                    "port_value" : {
+                      "type" : "integer"
+                    },
+                    "protocol" : {
+                      "type" : "keyword"
+                    },
+                    "resolver_name" : {
+                      "type" : "keyword"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "envoy_front_v1" : {
+          "properties" : {
+            "bytes_received" : {
+              "type" : "long"
+            },
+            "bytes_sent" : {
+              "type" : "long"
+            },
+            "client_id" : {
+              "type" : "keyword"
+            },
+            "clientip" : {
+              "type" : "text",
+              "fields" : {
+                "raw" : {
+                  "type" : "keyword",
+                  "ignore_above" : 10922
+                }
+              },
+              "norms" : false
+            },
+            "duration_millis" : {
+              "type" : "integer"
+            },
+            "failure_reason" : {
+              "type" : "keyword"
+            },
+            "host_header" : {
+              "type" : "keyword"
+            },
+            "http_version" : {
+              "type" : "keyword"
+            },
+            "lyft_user_id" : {
+              "type" : "keyword"
+            },
+            "method" : {
+              "type" : "keyword"
+            },
+            "status" : {
+              "type" : "short"
+            },
+            "unique_id" : {
+              "type" : "keyword"
+            },
+            "upstream_cluster" : {
+              "type" : "keyword"
+            },
+            "upstream_ip" : {
+              "type" : "keyword"
+            },
+            "upstream_time_millis" : {
+              "type" : "integer"
+            },
+            "uri_path" : {
+              "type" : "keyword"
+            },
+            "user_agent" : {
+              "type" : "keyword"
+            }
+          }
+        },
+        "envoy_ingress_v1" : {
+          "properties" : {
+            "bytes_received" : {
+              "type" : "long"
+            },
+            "bytes_sent" : {
+              "type" : "long"
+            },
+            "clientip" : {
+              "type" : "text",
+              "fields" : {
+                "raw" : {
+                  "type" : "keyword",
+                  "ignore_above" : 10922
+                }
+              },
+              "norms" : false
+            },
+            "duration_millis" : {
+              "type" : "integer"
+            },
+            "edge_user_agent" : {
+              "type" : "keyword"
+            },
+            "failure_reason" : {
+              "type" : "keyword"
+            },
+            "grpc_status_resp" : {
+              "type" : "integer"
+            },
+            "grpc_status_trailer" : {
+              "type" : "integer"
+            },
+            "host_header" : {
+              "type" : "keyword"
+            },
+            "http_version" : {
+              "type" : "keyword"
+            },
+            "lyft_user_id" : {
+              "type" : "keyword"
+            },
+            "method" : {
+              "type" : "keyword"
+            },
+            "status" : {
+              "type" : "short"
+            },
+            "unique_id" : {
+              "type" : "keyword"
+            },
+            "upstream_ip" : {
+              "type" : "ip"
+            },
+            "upstream_time_millis" : {
+              "type" : "integer"
+            },
+            "uri_path" : {
+              "type" : "keyword"
+            },
+            "user_agent" : {
+              "type" : "keyword"
+            }
+          }
+        },
+        "envoy_outlier" : {
+          "properties" : {
+            "action" : {
+              "type" : "keyword"
+            },
+            "cluster" : {
+              "type" : "keyword"
+            },
+            "type" : {
+              "type" : "keyword"
+            }
+          }
+        },
+        "envoy_service" : {
+          "type" : "keyword"
+        },
+        "envoy_v1" : {
+          "properties" : {
+            "amzn_request_id" : {
+              "type" : "keyword"
+            },
+            "bytes_received" : {
+              "type" : "long"
+            },
+            "bytes_sent" : {
+              "type" : "long"
+            },
+            "clientip" : {
+              "type" : "text",
+              "fields" : {
+                "raw" : {
+                  "type" : "keyword",
+                  "ignore_above" : 10922
+                }
+              },
+              "norms" : false
+            },
+            "duration_millis" : {
+              "type" : "integer"
+            },
+            "failure_reason" : {
+              "type" : "keyword"
+            },
+            "grpc_status_resp" : {
+              "type" : "integer"
+            },
+            "grpc_status_trailer" : {
+              "type" : "integer"
+            },
+            "host_header" : {
+              "type" : "keyword"
+            },
+            "http_version" : {
+              "type" : "keyword"
+            },
+            "method" : {
+              "type" : "keyword"
+            },
+            "status" : {
+              "type" : "short"
+            },
+            "unique_id" : {
+              "type" : "keyword"
+            },
+            "upstream_ip" : {
+              "type" : "keyword"
+            },
+            "upstream_time_millis" : {
+              "type" : "integer"
+            },
+            "uri_path" : {
+              "type" : "keyword"
+            },
+            "user_agent" : {
+              "type" : "keyword"
+            }
+          }
+        },
+        "exc" : {
+          "type" : "text",
+          "fields" : {
+            "raw" : {
+              "type" : "keyword",
+              "ignore_above" : 10922
+            }
+          },
+          "norms" : false
+        },
+        "host" : {
+          "type" : "keyword"
+        },
+        "ingest_timestamp_ms" : {
+          "type" : "date"
+        },
+        "k8s_annotations_json" : {
+          "type" : "keyword"
+        },
+        "k8s_arch" : {
+          "type" : "keyword"
+        },
+        "k8s_cluster" : {
+          "type" : "keyword"
+        },
+        "k8s_labels_json" : {
+          "type" : "keyword"
+        },
+        "k8s_namespace" : {
+          "type" : "keyword"
+        },
+        "k8s_node" : {
+          "type" : "keyword"
+        },
+        "k8s_pod" : {
+          "type" : "keyword"
+        },
+        "k8s_service" : {
+          "type" : "keyword"
+        },
+        "log_id" : {
+          "type" : "keyword"
+        },
+        "log_level" : {
+          "type" : "keyword"
+        },
+        "log_name" : {
+          "type" : "keyword"
+        },
+        "msg" : {
+          "type" : "text",
+          "fields" : {
+            "raw" : {
+              "type" : "keyword",
+              "ignore_above" : 10922
+            }
+          },
+          "norms" : false
+        },
+        "owner" : {
+          "type" : "keyword"
+        },
+        "pid" : {
+          "type" : "integer"
+        },
+        "region" : {
+          "type" : "alias",
+          "path" : "aws_region"
+        },
+        "revision" : {
+          "type" : "keyword"
+        },
+        "search" : {
+          "properties" : {
+            "lyft_id" : {
+              "type" : "alias",
+              "path" : "search_lyftid"
+            },
+            "uuid" : {
+              "type" : "alias",
+              "path" : "search_uuid"
+            }
+          }
+        },
+        "search_lyftid" : {
+          "type" : "keyword"
+        },
+        "search_uuid" : {
+          "type" : "keyword"
+        },
+        "service" : {
+          "type" : "keyword"
+        },
+        "service_instance" : {
+          "type" : "keyword"
+        },
+        "source" : {
+          "type" : "alias",
+          "path" : "source_file"
+        },
+        "source_file" : {
+          "type" : "keyword"
+        },
+        "source_type" : {
+          "type" : "keyword"
+        },
+        "timestamp_ms" : {
+          "type" : "date"
+        },
+        "uri_path" : {
+          "type" : "keyword"
+        }
+      }
+    },
+    "settings" : {
+      "index" : {
+        "allocation" : {
+          "max_retries" : "50"
+        },
+        "mapping" : {
+          "total_fields" : {
+            "limit" : "20000"
+          },
+          "ignore_malformed" : "false"
+        },
+        "refresh_interval" : "30s",
+        "translog" : {
+          "flush_threshold_size" : "2gb",
+          "durability" : "async"
+        },
+        "provided_name" : "envoy-000719",
+        "creation_date" : "1661864662329",
+        "unassigned" : {
+          "node_left" : {
+            "delayed_timeout" : "1m"
+          }
+        },
+        "number_of_replicas" : "1",
+        "uuid" : "ZSpK-iVQRQiN7Hz6U3yThw",
+        "version" : {
+          "created" : "7090399"
+        },
+        "codec" : "default",
+        "routing" : {
+          "allocation" : {
+            "require" : {
+              "node_type" : "hot"
+            },
+            "total_shards_per_node" : "15"
+          }
+        },
+        "search" : {
+          "slowlog" : {
+            "threshold" : {
+              "fetch" : {
+                "warn" : "1s",
+                "trace" : "-1",
+                "debug" : "-1",
+                "info" : "-1"
+              },
+              "query" : {
+                "warn" : "10s",
+                "trace" : "-1",
+                "debug" : "-1",
+                "info" : "-1"
+              }
+            }
+          }
+        },
+        "number_of_shards" : "64",
+        "max_docvalue_fields_search" : "200"
+      }
+    }
+  }
+}

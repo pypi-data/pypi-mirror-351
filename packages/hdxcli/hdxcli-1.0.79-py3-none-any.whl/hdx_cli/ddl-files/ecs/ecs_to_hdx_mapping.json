@@ -1,0 +1,18 @@
+{
+ "simple_datatypes": {
+  "text": "string",
+  "integer": "int32",
+  "date": "datetime",
+  "boolean": "boolean",
+  "geo_point": "string",
+  "keyword": "string",
+  "double": "double",
+  "long": "int64",
+  "short": "int8",
+  "binary": "string"
+ },
+ "compound_datatypes": {
+     "array": "array",
+     "nested": "map"
+ }
+}

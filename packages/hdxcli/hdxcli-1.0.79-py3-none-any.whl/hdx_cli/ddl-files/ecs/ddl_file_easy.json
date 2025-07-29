@@ -1,0 +1,48 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "dynamic_templates": [
+      {
+        "strings": {
+          "match_mapping_type": "string",
+          "mapping": {
+            "ignore_above": 1024,
+            "type": "keyword"
+          }
+        }
+      }
+    ],
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "agent_name": {
+        "type": "keyword",
+        "ignore_above": 1024
+      },
+      "applied_by_agent": {
+        "type": "boolean"
+      },
+      "etag": {
+        "type": "keyword",
+        "ignore_above": 1024
+      },
+      "service": {
+        "properties": {
+          "environment": {
+            "type": "keyword",
+            "ignore_above": 1024
+          },
+          "name": {
+            "type": "keyword",
+            "ignore_above": 1024
+          }
+        }
+      },
+      "settings": {
+        "type": "object",
+        "dynamic": "true"
+      }
+    }
+  }
+}

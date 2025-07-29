@@ -1,0 +1,162 @@
+{
+  "mappings": {
+    "_data_stream_timestamp": {
+      "enabled": true
+    },
+    "dynamic_templates": [
+      {
+        "strings_as_keyword": {
+          "match_mapping_type": "string",
+          "mapping": {
+            "ignore_above": 1024,
+            "type": "keyword"
+          }
+        }
+      }
+    ],
+    "date_detection": false,
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "data_stream": {
+        "properties": {
+          "dataset": {
+            "type": "constant_keyword",
+            "value": "deprecation.elasticsearch"
+          },
+          "namespace": {
+            "type": "constant_keyword",
+            "value": "default"
+          },
+          "type": {
+            "type": "constant_keyword",
+            "value": "logs"
+          }
+        }
+      },
+      "ecs": {
+        "properties": {
+          "version": {
+            "type": "keyword",
+            "ignore_above": 1024
+          }
+        }
+      },
+      "elasticsearch": {
+        "properties": {
+          "cluster": {
+            "properties": {
+              "name": {
+                "type": "keyword",
+                "ignore_above": 1024
+              },
+              "uuid": {
+                "type": "keyword",
+                "ignore_above": 1024
+              }
+            }
+          },
+          "elastic_product_origin": {
+            "type": "keyword",
+            "ignore_above": 1024
+          },
+          "event": {
+            "properties": {
+              "category": {
+                "type": "keyword",
+                "ignore_above": 1024
+              }
+            }
+          },
+          "http": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "x_opaque_id": {
+                    "type": "keyword",
+                    "ignore_above": 1024
+                  }
+                }
+              }
+            }
+          },
+          "node": {
+            "properties": {
+              "id": {
+                "type": "keyword",
+                "ignore_above": 1024
+              },
+              "name": {
+                "type": "keyword",
+                "ignore_above": 1024
+              }
+            }
+          }
+        }
+      },
+      "event": {
+        "properties": {
+          "code": {
+            "type": "keyword",
+            "ignore_above": 1024
+          },
+          "dataset": {
+            "type": "keyword",
+            "ignore_above": 1024
+          }
+        }
+      },
+      "host": {
+        "properties": {
+          "ip": {
+            "type": "ip"
+          }
+        }
+      },
+      "log": {
+        "properties": {
+          "level": {
+            "type": "keyword",
+            "ignore_above": 1024
+          },
+          "logger": {
+            "type": "keyword",
+            "ignore_above": 1024
+          }
+        }
+      },
+      "message": {
+        "type": "text"
+      },
+      "process": {
+        "properties": {
+          "thread": {
+            "properties": {
+              "name": {
+                "type": "keyword",
+                "ignore_above": 1024
+              }
+            }
+          }
+        }
+      },
+      "service": {
+        "properties": {
+          "name": {
+            "type": "keyword",
+            "ignore_above": 1024
+          }
+        }
+      },
+      "trace": {
+        "properties": {
+          "id": {
+            "type": "keyword",
+            "ignore_above": 1024
+          }
+        }
+      }
+    }
+  }
+}

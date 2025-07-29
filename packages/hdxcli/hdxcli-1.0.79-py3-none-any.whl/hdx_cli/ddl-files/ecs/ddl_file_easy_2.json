@@ -1,0 +1,41 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "label": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "service": {
+        "properties": {
+          "environment": {
+            "type": "keyword"
+          },
+          "name": {
+            "type": "keyword"
+          }
+        }
+      },
+      "transaction": {
+        "properties": {
+          "name": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          }
+        }
+      },
+      "url": {
+        "type": "keyword"
+      }
+    }
+  }
+}
