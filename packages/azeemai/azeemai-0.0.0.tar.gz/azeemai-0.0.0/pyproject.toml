@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "azeemai"                      
+description = "A voice AI SDK for assistants" 
+readme = "README.md"                 
+license = { file = "LICENSE" }    
+requires-python = ">=3.10"
+dynamic = ["version"]
+
+authors = [
+  { name = "Noureddin Abusharekh", email = "nour@versein.com" },
+  { name = "Muhammad Azeem", email = "azeem@versein.com" }
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [ ]
+
+[project.optional-dependencies]
+dev=[]
+console=[]
+
+[project.scripts]
+
+[project.urls]
+Homepage = "https://versein.com"
+GitHub = "https://github.com/versein/versein"
+Documentation = "https://versein.com/docs"
+Changelog = "https://github.com/versein/versein/releases"
+Issues = "https://github.com/versein/versein/issues"
+
+[tool.setuptools_scm]
+version_file = "src/versein/_version.py"
