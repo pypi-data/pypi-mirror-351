@@ -1,0 +1,15 @@
+<nav class="navbar navbar-dark bg-dark">
+  <a
+    class="navbar-brand col-sm-3 col-md-2 mr-0"
+    href="{{ url(index_url) }}"
+  >
+    {{ project_name }}
+  </a>
+  <ul class="navbar-nav px-3">
+    {%- if logout_path %}
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="{{ logout_path }}">Logout</a>
+    </li>
+    {%- endif %}
+  </ul>
+</nav>

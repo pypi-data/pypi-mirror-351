@@ -1,0 +1,100 @@
+[tool.poetry]
+name = "aiohttp_admin2"
+version = "0.0.18"
+description = "Generator an admin interface based on aiohttp."
+authors = ["Mykhailo Havelia <misha.gavela@gmail.com>"]
+maintainers = ["Mykhailo Havelia <misha.gavela@gmail.com>"]
+license = "MIT"
+readme = 'README_BUILD.rst'
+homepage = "https://github.com/arfey/aiohttp_admin2"
+repository = "https://github.com/arfey/aiohttp_admin2"
+documentation = "https://aiohttp-admin2.readthedocs.io"
+keywords = ["aiohttp_admin2", "admin interface", "aiohttp"]
+packages = [
+    { include = "aiohttp_admin2" },
+    { include = "aiohttp_admin2/**/*" },
+]
+exclude = ["tests/**/*"]
+
+[tool.poetry.dependencies]
+python = "^3.12.0"
+aiohttp = "^3.6.3"
+aiohttp-jinja2 = "^1.4.2"
+aiomysql = {version = "0.2.0", optional = true}
+aiopg = {version = "1.5.0a1", extras = ["sa"]}
+python-dateutil = "2.9.0"
+sqlalchemy = "2.0.41"
+
+umongo = {version = "^3.1.0", extras = ["motor"], optional = true}
+
+[tool.poetry.group.dev.dependencies]
+aiofiles = "24.1.0"
+aiohttp-devtools = "1.1.2"
+aiohttp-jinja2 = "1.6"
+aiohttp-security = "0.5.0"
+aiohttp-session = "2.12.1"
+cryptography = "45.0.2"
+
+[tool.poetry.group.test.dependencies]
+pytest = "8.3.5"
+pytest-aiohttp = "1.1.0"
+pytest-asyncio = "0.26.0"
+pytest-docker = "3.2.1"
+twine = "6.1.0"
+
+[tool.poetry.extras]
+motor = ["umongo"]
+mysql = ["aiomysql"]
+
+
+[tool.poetry-dynamic-versioning]
+enable = false
+
+[tool.pytest.ini_options]
+asyncio_mode="auto"
+addopts = "-s"
+asyncio_default_fixture_loop_scope = "session"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+
+[tool.isort]
+line_length = 80
+multi_line_output = 3
+include_trailing_comma = true
+use_parentheses = true
+ensure_newline_before_comments = true
+force_grid_wrap = 2
+extend_skip_glob = [".git", "env/*", ".venv/*", ".mypy_cache/*", "example_projects/*", "tests/*"]
+
+[tool.flake8]
+max-line-length = 80
+max-complexity = 12
+exclude = [".git", "env/*", ".venv/*", ".mypy_cache/*", "example_projects/*", "tests/*"]
+extend-ignore = ["P101"]
+
+[tool.bandit]
+exclude_dirs = ["env", ".venv", ".cache", "tests/", ".mypy_cache", "example_projects"]
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_defs = true
+follow_imports = "silent"
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = "tests/*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "example_projects/*"
+ignore_errors = true

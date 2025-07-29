@@ -1,0 +1,9 @@
+{% macro list_cell(cell) %}
+    {% if cell.url %}
+        <a href="{{ cell.url }}">
+            {{ cell.value }}
+        </a>
+    {% else %}
+        {{ cell.value }}
+    {% endif %}
+{% endmacro %}
