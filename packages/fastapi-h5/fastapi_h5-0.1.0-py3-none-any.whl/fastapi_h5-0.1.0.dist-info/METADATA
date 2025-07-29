@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: fastapi_h5
+Version: 0.1.0
+Summary: FastAPI routes to expose objects via hdf5-rest
+Author-email: Felix Engelmann <felix-github@nlogn.org>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/felix-engelmann/fastapi-h5
+Project-URL: Issues, https://github.com/felix-engelmann/fastapi-h5/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fastapi
+Requires-Dist: numpy
+Provides-Extra: tests
+Requires-Dist: uvicorn; extra == "tests"
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-asyncio; extra == "tests"
+Requires-Dist: aiohttp; extra == "tests"
+Requires-Dist: h5pyd; extra == "tests"
+Requires-Dist: readerwriterlock; extra == "tests"
+Dynamic: license-file
