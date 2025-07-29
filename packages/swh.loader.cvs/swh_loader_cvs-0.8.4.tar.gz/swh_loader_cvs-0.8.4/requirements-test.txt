@@ -1,0 +1,5 @@
+celery-types
+pytest >= 8.1
+pytest-mock
+swh.loader.core[testing]
+swh.scheduler[testing]
