@@ -1,0 +1,78 @@
+[project]
+name = "coveo-stew"
+version = "4.0a1"
+description = "Opinionated python packaging and development utilities"
+requires-python = ">=3.9,<4"
+license = { text = "Apache-2.0" }
+readme = "README.md"
+authors = [
+    { name = "Jonathan Piché", email = "tools@coveo.com" },
+]
+
+keywords = [ "packaging", "poetry", "plugin", "ci", "tests" ]
+
+dependencies = [
+    "click >=8",  # might be able to remove this?
+    "coveo-functools >=2",
+    "coveo-itertools >=2",
+    "coveo-systools >=2",
+    "coveo-styles >=2",
+    "junit-xml >=1",
+    "packaging >=25",
+    "poetry >=2",
+    "poetry-plugin-export >=1",  # the `requires-plugins` section doesn't seem to work for nested plugins
+    "setuptools >=80",
+    "toml >=0.10",
+    "tomlkit >=0.13",
+    "importlib-resources >=6",
+]
+
+[project.urls]
+repository = "https://github.com/coveo/stew"
+
+[project.entry-points."poetry.application.plugin"]
+stew = "coveo_stew.poetry_plugin:StewPlugin"
+
+[tool.poetry]
+packages = [{ include = "coveo_stew/**/*" }]
+
+[tool.poetry.group.test.dependencies]
+black = "24.10"
+coveo-testing = "^2.0.0"
+flake8 = "^7.0.0"
+isort = "*"
+mypy = "1.12"
+pytest = "*"
+types-setuptools = "*"
+types-toml = "*"
+
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1"
+
+
+[tool.stew]
+build-without-hashes = true
+
+[tool.stew.ci]
+pytest = true
+offline-build = true
+black = true
+
+[tool.stew.ci.custom-runners]
+flake8 = { check-args = "--ignore=E203,E501,E701,E704,W503" }
+
+[tool.stew.ci.custom-runners.isort]
+check-args = ["--check", "."]
+autofix-args = ["."]
+
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+extend_skip =  [".poetry"]
+
+[build-system]
+requires = ["poetry_core>=2.0"]
+build-backend = "poetry.core.masonry.api"
