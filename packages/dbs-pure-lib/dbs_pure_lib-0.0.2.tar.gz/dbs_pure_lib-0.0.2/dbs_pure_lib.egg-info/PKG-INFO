@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: dbs_pure_lib
+Version: 0.0.2
+Summary: DBS Image Utilities
+Home-page: 
+Author: igor_varha
+Author-email: ivarhauzh@gmail.com
+License-File: LICENSE.txt
+Requires-Dist: torch
+Requires-Dist: nibabel
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+Code for SlicerDBS support contains several additional methods
+
