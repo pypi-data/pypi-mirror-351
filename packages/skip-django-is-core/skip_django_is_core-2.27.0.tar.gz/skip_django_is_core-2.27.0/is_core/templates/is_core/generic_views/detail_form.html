@@ -1,0 +1,28 @@
+{% extends 'is_core/generic_views/default_form.html' %}
+{% load i18n permissions %}
+
+{% block view-class %}detail-view{% endblock %}
+
+{% block content %}
+    {% has_permission 'export' %}
+    {% if export_types %}
+    <div class="clearfix">
+        <ul class="inline-list inline-list-left table-buttons">
+            <li>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" title="{% trans 'Export files in selected format' %}"><i class="fa fa-file-export"></i> <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        {% for title, type, serialization_format, accept in export_types %}
+                        <li>
+                            <a href="{{ api_url }}?_accept={{accept}}&_serialization_format={{ serialization_format }}&_fields={{ rest_detail_export_fieldset|urlencode }}" target="_blank" class="export" data-type="{{ type }}">{{ title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+    {% endhas_permission %}
+    {{ block.super }}
+{% endblock %}
