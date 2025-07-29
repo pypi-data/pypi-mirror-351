@@ -1,0 +1,16 @@
+[project]
+name = "smartbytesize"
+version = "0.1.0"
+description = "Convert bytes to a human-readable format (KB, MB, GB, etc.)"
+authors = [{ name = "Praveenkumar Nedumaran", email = "creatorpravin@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.7"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["byteformatter"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

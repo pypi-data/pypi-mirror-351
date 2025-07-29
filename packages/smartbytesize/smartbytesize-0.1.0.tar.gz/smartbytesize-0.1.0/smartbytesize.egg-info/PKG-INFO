@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: smartbytesize
+Version: 0.1.0
+Summary: Convert bytes to a human-readable format (KB, MB, GB, etc.)
+Author-email: Praveenkumar Nedumaran <creatorpravin@gmail.com>
+License: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# ByteFormatter
+
+A simple Python library to convert bytes into human-readable formats (KB, MB, GB, etc.)
+
+## Usage
+
+```python
+from byteformatter import get_size
+
+print(get_size(1253656))  # Output: '1.20 MB'
