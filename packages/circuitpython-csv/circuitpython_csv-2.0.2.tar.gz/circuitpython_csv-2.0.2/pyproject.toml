@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2022 Alec Delaney
+#
+# SPDX-License-Identifier: MIT
+
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+    "setuptools-scm",
+]
+
+[project]
+name = "circuitpython-csv"
+description = "CircuitPython helper library for working with CSV files"
+version = "2.0.2"
+readme = "README.rst"
+authors = [
+    {name = "Alec Delaney", email = "tekktrik@gmail.com"}
+]
+keywords = [
+    "adafruit",
+    "csv",
+    "data",
+    "files",
+    "embedded",
+    "micropython",
+    "circuitpython",
+]
+license = "MIT AND PSF-2.0 AND 0BSD"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Embedded Systems",
+    "Topic :: System :: Hardware",
+    "Topic :: File Formats",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: Implementation :: MicroPython",
+]
+dynamic = ["dependencies", "optional-dependencies"]
+
+[project.urls]
+Homepage = "https://github.com/tekktrik/CircuitPython_CSV"
+Repository = "https://github.com/tekktrik/CircuitPython_CSV"
+Doumentation = "https://circuitpython-csv.readthedocs.io"
+
+[tool.setuptools]
+py-modules = ["circuitpython_csv"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+optional-dependencies = {optional = {file = ["optional_requirements.txt"]}}
+
+[tool.ruff.lint]
+select = ["D", "PL", "I"]
+ignore = ["D213", "D203"]
