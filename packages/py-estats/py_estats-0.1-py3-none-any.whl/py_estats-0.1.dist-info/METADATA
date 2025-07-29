@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: py-estats
+Version: 0.1
+Summary: A python statistical library for energy statistics methods.
+Home-page: https://github.com/E-Stats/estats
+Author: Omar Mohamed Ghanem, Faidulla Mahmoud Ryad, Eiad Samih, Mohamed Samir Elsayed
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scipy
+Requires-Dist: numba
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Estats
+Estats is a python statistical package containing a set of method based upon energy statistics.
+
+Energy statistics are a set of distribition-free non-parametrics methods first expounded by GÃ¡bor J. SzÃ©kely and later on expanded by several others. They are of particular interest because they very little about the data generating distribution, merely that either its first or second moment is defined.
+
+As well as being non-parametrc, energy statistics are valuable because its methods take no notice of the size of the data matrix $X$, since all its methods are functions of the distance matrix of $X$ not of $X$ itself, therefore there is no trouble in analysing multi-dimensional data
