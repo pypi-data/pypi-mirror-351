@@ -1,0 +1,18 @@
+[project]
+name = "BlazeStore"
+version = "0.1.0"
+description = "The blazing-fast data toolkit for quantitative workflows"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "clickhouse-df>=0.1.5",
+    "dynaconf>=3.2.11",
+    "lark>=1.2.2",
+    "polars>=1.30.0",
+    "rich>=14.0.0",
+    "sqlparse>=0.5.3",
+    "toolz>=1.0.0",
+    "varname>=0.14.0",
+    "xcals>=0.0.1",
+    "ygo>=1.1.0",
+]
