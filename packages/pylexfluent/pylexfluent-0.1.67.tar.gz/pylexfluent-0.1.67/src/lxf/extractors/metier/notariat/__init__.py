@@ -1,0 +1,1 @@
+from lxf.extractors.metier.notariat.repertoire.repertoire_extractor import extract_repertoire_data
