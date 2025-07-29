@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2025 German Aerospace Center <fame@dlr.de>
+#
+# SPDX-License-Identifier: Apache-2.0
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "fameio"
+version = "3.4.0"
+description = "Tools for input preparation and output digestion of FAME models"
+license = "Apache-2.0"
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+authors = [
+    { name = "Felix Nitsch", email = "fame@dlr.de" },
+    { name = "Christoph Schimeczek", email = "fame@dlr.de" },
+    { name = "Ulrich Frey", email = "fame@dlr.de" },
+    { name = "Benjamin Fuchs", email = "fame@dlr.de" },
+]
+maintainers = [
+    { name = "Felix Nitsch", email = "fame@dlr.de" },
+    { name = "Christoph Schimeczek", email = "fame@dlr.de" },
+]
+keywords = ["FAME", "fameio", "agent-based modelling", "energy systems"]
+dynamic = ["classifiers"]
+dependencies = [
+    "fameprotobuf>=2.0.2,<3.0",
+    "pandas>= 1.0,<3.0",
+    "pyyaml>=6.0,<7.0",
+]
+
+[project.urls]
+homepage = "https://helmholtz.software/software/fame"
+repository = "https://gitlab.com/fame-framework/fame-io"
+"Changelog" = "https://gitlab.com/fame-framework/fame-io/-/blob/main/CHANGELOG.md"
+"Issue Tracking" = "https://gitlab.com/fame-framework/fame-io/-/issues"
+
+[project.scripts]
+makeFameRunConfig = "fameio.scripts:makeFameRunConfig"
+convertFameResults = "fameio.scripts:convertFameResults"
+reformatTimeSeries = "fameio.scripts:reformatTimeSeries"
+
+[tool.poetry]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+]
+packages = [{ include = "fameio", from = "src" }]
+include = ["CHANGELOG.md"]
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3"
+mockito = "^1.5"
+pre-commit = "^3.8"
+coverage = { version = "^7.6", extras = ["toml"] }
+black = "^24.8"
+prospector = { version = "^1.16", extras = ["with_mypy"] }
+types-PyYAML = "^6.0"
+
+[tool.black]
+line-length = 120
+
+[tool.coverage.run]
+branch = true
+source = ["fameio"]
+omit = ["./src/fameio/scripts/*"]
+command_line = "-m pytest"
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+skip_empty = true
+precision = 2
+sort = "Cover"
+exclude_also  = ['@overload']
+
+[tool.coverage.xml]
+output = "coverage.xml"

@@ -1,0 +1,957 @@
+<!-- SPDX-FileCopyrightText: 2025 German Aerospace Center <fame@dlr.de>
+
+SPDX-License-Identifier: Apache-2.0 -->
+
+|               |                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Package**   | ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fameio) ![PyPI - Version](https://img.shields.io/pypi/v/fameio) [![PyPI license](https://img.shields.io/pypi/l/fameio.svg)](https://badge.fury.io/py/fameio) [![REUSE status](https://api.reuse.software/badge/gitlab.com/fame-framework/fame-io)](https://api.reuse.software/info/gitlab.com/fame-framework/fame-io)                                                  |
+| **Test**      | [![pipeline status](https://gitlab.com/fame-framework/fame-io/badges/main/pipeline.svg)](https://gitlab.com/fame-framework/fame-io/commits/main) [![coverage report](https://gitlab.com/fame-framework/fame-io/badges/main/coverage.svg)](https://gitlab.com/fame-framework/fame-io/-/commits/main)                                                                                                                                    |
+| **Activity**  | ![GitLab last commit](https://img.shields.io/gitlab/last-commit/fame-framework%2Ffame-io) ![GitLab closed issues by-label](https://img.shields.io/gitlab/issues/closed/fame-framework%2Ffame-io)                                                                                                                                                                                                                                       |
+| **Style**     | [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![log style - common changelog](https://img.shields.io/badge/log_style-common_changelog-blue)](https://common-changelog.org/) ![Static Badge](https://img.shields.io/badge/type%20checked-mypy-039dfc) [![linting: pylint](https://img.shields.io/badge/linting-pylint-green)](https://github.com/pylint-dev/pylint) |
+| **Reference** | [![JOSS](https://joss.theoj.org/papers/10.21105/joss.04958/status.svg)](https://doi.org/10.21105/joss.04958) [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.4314337.svg)](https://doi.org/10.5281/zenodo.4314337)                                                                                                                                                                                                              |
+
+# FAME-Io
+
+*Tools for input preparation and output digestion of FAME models*
+
+FAME-Io compiles input for FAME models in protobuf format and extracts model outputs to human-readable files.
+Please visit the [FAME-Wiki](https://gitlab.com/fame-framework/wiki/-/wikis/home) to get an explanation of FAME and its components.
+
+# Installation
+
+We recommend installing `fameio` using PyPI:
+
+    pip install fameio
+
+You may also use `pipx`. For detailed information please refer to the official `pipx` [documentation](https://github.com/pypa/pipx).
+
+    pipx install fameio
+
+`fameio` is currently developed and tested for Python 3.9 or higher.
+See the `pyproject.toml` for a complete listing of dependencies.
+
+# Usage
+
+FAME-Io currently offers two main scripts `makeFameRunConfig` and `convertFameResults`, plus a helper script `reformatTimeSeries`
+All are automatically installed with the package.
+The first one creates a protobuf file for FAME applications using YAML definition files and CSV files.
+The second one reads output files from FAME applications in protobuf format and converts them to CSV files.
+The third script reformats time series CSV files to FAME format.
+
+You may use the [example data](https://gitlab.com/dlr-ve/esy/amiris/examples) provided for the [AMIRIS](https://gitlab.com/dlr-ve/esy/amiris/amiris) model which can be used to simulate electricity markets in [Germany](https://gitlab.com/dlr-ve/esy/amiris/examples/-/tree/main/Germany2019), [Austria](https://gitlab.com/dlr-ve/esy/amiris/examples/-/tree/main/Austria2019), and a simple [proof-of-concept model](https://gitlab.com/dlr-ve/esy/amiris/examples/-/tree/main/Simple).
+
+## Make a FAME run configuration
+
+Digests configuration files in YAML format, combines them with CSV data files and creates a single input file for FAME applications in protobuf format.
+Call structure:
+
+    makeFameRunConfig -f <path/to/scenario.yaml>
+
+You may also specify any of the following arguments:
+
+| Command                | Action                                                                                                                                   |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `-l` or `--log`        | Sets the logging level. Default is `info`. Options are `debug`, `info`, `warning`, `warn`, `error`, `critical`.                          |
+| `-lf` or `--logfile`   | Sets the logging file. Default is `None`. If `None` is provided, all logs get only printed to the console.                               |
+| `-o` or `--output`     | Sets the path of the compiled protobuf output file. Default is `config.pb`.                                                              |
+| `-enc` or `--encoding` | Sets the encoding of all yaml files to the given one (e.g. 'utf8' or 'cp1252'. Default is `None`, i.e. your operating system's standard. |
+
+This could look as follows:
+
+    makeFameRunConfig -f <path/to/scenario.yaml> -l debug -lf <path/to/scenario.log> -o <path/to/config.pb>
+
+You may also call the configuration builder from any Python script with
+
+```python
+from fameio.scripts.make_config import Options, run as make_config
+
+make_config({Options.FILE: "path/to/scenario.yaml", })
+```
+
+Similar to the console call you may also specify custom run config arguments and add it in a dictionary to the function
+call.
+
+```python
+from fameio.scripts.make_config import Options, run as make_config
+
+run_config = {Options.FILE: "path/to/scenario.yaml",
+              Options.LOG_LEVEL: "info",
+              Options.OUTPUT: "output.pb",
+              Options.LOG_FILE: "scenario.log",
+              }
+
+make_config(run_config)
+```
+
+You can also use the associated argument parser, to extract the run_config dynamically from a string:
+
+```python
+from fameio.scripts.make_config import Options, run as make_config
+from fameio.cli.make_config import handle_args
+
+my_defaults = {Options.FILE: "path/to/scenario.yaml",
+               Options.LOG_LEVEL: "info",
+               Options.OUTPUT: "output.pb",
+               Options.LOG_FILE: "scenario.log",
+               }
+my_arg_string = ['-f', 'my/other/scenario.yaml', '-l', 'error']
+
+run_config = handle_args(my_arg_string, my_defaults)
+make_config(run_config)
+```
+
+### Scenario YAML
+
+The "scenario.yaml" file contains all configuration options for a FAME-based simulation.
+It consists of the sections `Schema`, `GeneralProperties`, `Agents` and `Contracts`, and the optional
+section `StringSets`.
+All of them are described below.
+
+#### Schema
+
+The Schema describes a model's components such as its types of agents, their inputs, what data they exchange, etc.
+It is also used to validate the model inputs provided in the `scenario.yaml`.
+Since the Schema is valid until the model itself is changed, it is recommended to defined it in a separate file and
+include the file here.
+
+Currently, the schema specifies:
+
+* which type of Agents can be created
+* what type of input attributes an Agent uses
+* what type of Products an Agent can send in Contracts, and
+* the names of the Java packages for the classes corresponding to Agents, DataItems and Portables.
+
+The Schema consists of the sections `JavaPackages` and `AgentTypes`.
+
+##### JavaPackages
+
+This section defines the name of the Java packages in which the model code is located.
+A similar data set was formerly specified in the `fameSetup.yaml`, but is now specified in the schema.
+Each of the three sections `Agents`, `DataItems`, and `Portables` contain a list of fully qualified java package names
+of your model's classes.
+Package names can occur in multiple lists and may overlap.
+It is not necessary (but possible) to specify the nearest enclosing package for each Agent, DataItem or Portable.
+Specifying any super-package will also work.
+Also, package names occur on multiple lists for Agent, DataItem or Portable.
+
+For example, for a project with all its
+
+* Agent-derived java classes located in packages below the package named "agents",
+* DataItem implementation classes in a subpackage named "msg",
+* Portable implementation classes in a subpackages named "portableItems" and "otherPortables",
+
+the corresponding section in the schema would look like this:
+
+```yaml
+JavaPackages:
+  Agents:
+    - "agents"
+  DataItems:
+    - "msg"
+  Portables:
+    - "portableItems"
+    - "otherPortables"
+```
+
+One can leave out the `DataItems` specifications, but `Agents` and `Portables` are required and must not be empty.
+
+##### AgentTypes
+
+Here, each type of agent that can be created in your FAME-based application is listed, its attributes and its available
+Products for Contracts.
+The structure of this section
+
+```yaml
+AgentTypes:
+  MyAgentType:
+    Attributes:
+      MyAttribute:
+        ...
+      MyOtherAttribute:
+        ...
+    Products: [ 'Product1', 'Product2', 'Product3' ]
+    Outputs: [ 'Column1', 'Column2', 'Column3' ]
+    Metadata:
+      Some: "Dict with Metadata that you would like to add"
+  MyOtherAgentWithoutProductsOrAttributes:
+```
+
+* `MyAgentType` Java's simple class name of the Agent type
+* `Attributes` indicates that beginning of the attribute definition section for this Agent type
+* `MyAttribute` Name of an attribute as specified in the corresponding Java source code of this Agent type (annotated
+  with "@Input")
+* `MyOtherAttribute` Name of another attribute derived from Java source code
+* `Products` list or dictionary of Products that this Agent can send in Contracts; derived from Java source code of this
+  Agent type (annotated with "@Product")
+* `Outputs` list or dictionary of Output columns that this Agent can write to; derived from Java source code of this
+  Agent type (annotated with "@Output")
+* `Metadata` dictionary with any content that is assigned to this Agent type as additional information
+* `MyOtherAgentWithoutProductsOrAttributes` an Agent type that requires neither Attributes nor Products
+
+Attributes, Products, Outputs and Metadata are optional - there may be useful Agents that require none of them.
+Products and Outputs can both be lists of Strings, or dictionaries with additional Metadata.
+For example, you could write the above in the following way:
+
+```yaml
+Products:
+  Product1:
+    Metadata:
+      Any: "information you would like to add to Product1 using a dictionary form"
+  Product2:
+  Product3:
+Outputs:
+  Column1:
+  Column2:
+    ThisEntry: "is ignored, as it is not below the keyword: 'Metadata'"
+    Metadata:
+      My: "Metadata"
+      That: "will be saved to Column2"
+  Column3:
+```
+
+Here, "Product1" and "Column2" have additional, optional Metadata assigned to them (using the keyword "Metadata").
+The other Products and Columns have no metadata assigned to them - which is also ok.
+
+In the AgentType definition example above attribute definition was not shown explicitly (indicated by `...`).
+The next example provides details on how to define an attribute:
+
+```yaml
+MySimpleAttribute:
+  AttributeType: enum
+  Mandatory: true
+  List: false
+  Values: [ 'AllowedValue1', 'AllowedValue2' ]
+  Default: 'AllowedValue1'
+  Help: 'My help text'
+  Metadata:
+    Go: "here"
+
+MyComplexAttribute:
+  AttributeType: block
+  NestedAttributes:
+    InnerAttributeA:
+      AttributeType: integer
+      Values:
+        1:
+          Metadata:
+            Explain: "1 is a allowed value"
+        2:
+          Metadata:
+            Comment: "2 is also allowed, but consider using 1"
+    InnerAttributeB:
+      AttributeType: double
+```
+
+* `MySimpleAttribute`, `MyDoubleList`, `MyComplexAttribute` Names of the attributes as specified in the Java enum
+  annotated with "@Input"
+* `AttributeType` (required) data type of the attribute; see options in table below
+* `Mandatory` (optional - true by default) if true: the attribute is required for this agent and validation will fail if
+  the attribute is missing in the scenario **and** no default is provided
+* `List` (optional - false by default)
+    * `AttributeType: time_series` cannot be true
+    * `AttributeType: block`
+        * if true: any nested element in the scenario must be part of a list element and thus can appear multiple times
+        * if false: any nested element in the scenario can only appear once
+    * any other AttributeType: the attribute is interpreted as list, i.e. multiple values can be assigned to this
+      attribute in the scenario
+* `NestedAttributes` (required only if `AttributeType: block`, otherwise disallowed) starts an inner Attribute
+  definition block - defined Attributes are sub-elements of `MyComplexAttribute`
+* `Values` (optional - None by default):
+    * if present, defines a list or dictionary of allowed values for this attribute
+    * if a dictionary is used, individual Metadata can be assigned to each allowed value using the `Metadata` keyword
+* `Default` (optional - None by default):
+    * if present, defines a default value to be used if the scenario does not specify one
+    * must match one of the entries in `Values` in case those are defined
+    * can be a list if the attribute is a list
+* `Help` (optional - None by default): if present, defines a help text for your Attribute
+* `Metadata` (optional - None by default): if present, defines additional metadata assigned to the Attribute
+
+| AttributeType | value                                                                                                                   |
+|---------------|-------------------------------------------------------------------------------------------------------------------------|
+| `integer`     | a 32-bit integer value                                                                                                  |
+| `double`      | a 64-bit floating-point value (integers also allowed)                                                                   |
+| `long`        | a 64-bit integer value                                                                                                  |
+| `time_stamp`  | either a FAME time stamp string or 64-bit integer value                                                                 |
+| `string`      | any string                                                                                                              |
+| `string_set`  | a string from a set of allowed `Values` defined in `StringSet` section in `scenario`                                    |
+| `enum`        | a string from a set of allowed `Values` defined in `schema`                                                             |
+| `time_series` | either a path to a .csv-file or a single 64-bit floating-point value; does not support `List: true`                     |
+| `block`       | this attribute has no value of its own but hosts a group of nested Attributes; implies `NestedAttributes` to be defined |
+
+#### GeneralProperties
+
+Specifies FAME-specific properties of the simulation. Structure:
+
+```yaml
+GeneralProperties:
+  RunId: 1
+  Simulation:
+    StartTime: 2011-12-31_23:58:00
+    StopTime: 2012-12-30_23:58:00
+    RandomSeed: 1
+```
+
+Parameters:
+
+* `RunId` an ID that can be given to the simulation; use at your discretion
+* `StartTime` time stamp in the format YYYY-MM-DD_hh:mm:ss; first moment of the simulation.
+* `StopTime` time stamp in the format YYYY-MM-DD_hh:mm:ss; last moment of the simulation - i.e. simulation terminates
+  after passing that time stamp
+* `RandomSeed` seed to initialise random number generation; each value leads to a unique series of random numbers.
+
+#### Agents
+
+Specifies all Agents to be created in the simulation in a list. Each Agent has its own entry.
+Structure:
+
+```yaml
+Agents:
+  - Type: MyAgentWithInputs
+    Id: 1
+    Attributes:
+      MyEnum: SAME_SHARES
+      MyInteger: 2
+      MyDouble: 4.2
+      MyTimeSeries: "./path/to/time_series.csv"
+    Metadata:
+      Can: "also be assigned"
+
+  - Type: MyAgentWithoutInputs
+    Id: 2
+```
+
+Agent Parameters:
+
+* `Type` Mandatory; Java's simple class name of the agent to be created
+* `Id` Mandatory; simulation-unique id of this agent; if two agents have the same ID, the configuration process will
+  stop.
+* `Attributes` Optional; if the agent has any attributes, specify them here in the format "AttributeName: value"; please
+  see attribute table above
+* `Metadata` Optional; can be assigned to each instance of an Agent, as well as to each of its Attributes
+* `Ext` Optional; Reserved key for parameters not used by fameio but its extensions, e.g., FAME-Gui
+
+A warning is logged for any other key at this level.
+The specified `Attributes` for each agent must match the specified `Attributes` options in the linked Schema (see
+above).
+For better structure and readability of the `scenario.yaml`, `Attributes` may also be specified in a nested way as
+demonstrated below.
+
+```yaml
+Agents:
+  - Type: MyAgentWithInputs
+    Id: 1
+    Attributes:
+      Parent:
+        MyEnum: SAME_SHARES
+        MyInteger: 2
+      Parent2:
+        MyDouble: 4.2
+        Child:
+          MyTimeSeries: "./path/to/time_series.csv"
+```
+
+In case Attributes are defined with `List: true` option, lists are assigned to an Attribute or Group:
+
+```yaml
+Attributes:
+  MyDoubleList: [ 5.2, 4.5, 7, 9.9 ]
+  MyListGroup:
+    - IntValueA: 5
+      IntValueB: 42
+    - IntValueA: 7
+      IntValueB: 100
+```
+
+Here, `MyDoubleList` and `MyListGroup` need to specify `List: true` in the corresponding Schema.
+The shorter `[]`-notation was used to assign a list of floating-point values to `MyDoubleList`.
+Nested items `IntValueA` and `IntValueB` of `MyListGroup` are assigned within a list, allowing the specification of
+these nested items several times.
+
+##### Attribute Metadata
+
+Metadata can be assigned to any value, list item, or superstructure.
+To assign Metadata to a primitive value, create a dictionary from it, set the actual value with the inner
+keyword `Value` and add the keyword `Metadata` like this:
+
+```yaml
+ValueWithoutMetadata: 1
+SameValueWithMetadata:
+  Value: 1
+  Metadata: # describe `SameValueWithMetadata` herein
+```
+
+You can assign Metadata to a list of primitive values using the keyword `Values` like this:
+
+```yaml
+ValueListWithoutMetadata: [ 1,2,3 ]
+SameValueListWithListMetadata:
+  Values: [ 1,2,3 ]
+  Metadata: # describe the whole list of values with Metadata here
+```
+
+or specify Metadata for each (or just some) value individually, like this:
+
+```yaml
+ValueListWithoutMetadata: [ 1,2,3 ]
+SameValueListWithMetadataAtEachElement:
+  - Value: 1
+    Metadata: # describe this specific value "1" with Metadata here
+  - Value: 2  # this value has no Metadata attached, but you can still use the keyword `Value`
+  - 3 # or use in the actual directly since this value has no Metadata anyway
+```
+
+or assign Metadata to both the list and any of its list entries, like this:
+
+```yaml
+ValueListWithoutMetadata: [ 1,2,3 ]
+SameValueListWithAllMetadata:
+  Metadata: # Recommendation: place the Metadata of the list first if the list of values is extensive, as in this case
+  Values:
+    - Value: 1
+      Metadata: # describe this specific value "1" with Metadata here
+    - Value: 2
+      Metadata: # describe this specific value "2" with Metadata here
+    - Value: 3
+      Metadata: # describe this specific value "3" with Metadata here
+```
+
+You can assign Metadata directly to a nested element by adding the Metadata keyword:
+
+```yaml
+NestedItemWithoutMetadata:
+  A: 1
+  B: 2
+SameNestedItemWithMetadata:
+  A: 1
+  B: 2
+  Metadata: # These Metadata describe `SameNestedItemWithMetadata`
+```
+
+Similar to lists of values, you can assign Metadata to a list of nested elements using the `Values` keyword, like this:
+
+```yaml
+ListOfNestedItemsWithoutMetadata:
+  - A: 1
+    B: 10
+  - A: 2
+    B: 20
+SameListOfNestedItemsWithGeneralMetadata:
+  Values:
+    - A: 1
+      B: 10
+    - A: 2
+      B: 20
+  Metadata: # These Metadata describe `SameListOfNestedItemsWithGeneralMetadata` as a whole
+```
+
+and, similar to nested elements, you can assign Metadata directly to any list element, like this:
+
+```yaml
+ListOfNestedItemsWithoutMetadata:
+  - A: 1
+    B: 10
+  - A: 2
+    B: 20
+SameListOfNestedItemsWithGeneralMetadata:
+  - A: 1
+    B: 10
+    Metadata: # These Metadata describe the first list item
+  - A: 2
+    B: 20
+    Metadata: # These Metadata describe the second list item
+```
+
+Again, you may apply both variants and apply Metadata to the list and each of its items if you wish.
+
+#### Contracts
+
+Specifies all Contracts, i.e. repetitive bilateral transactions in between agents.
+Contracts are given as a list.
+We recommend moving Contracts to separate files and to use the `!include` command to integrate them in the scenario.
+
+```yaml
+Contracts:
+  - SenderId: 1
+    ReceiverId: 2
+    ProductName: ProductOfAgent_1
+    FirstDeliveryTime: -25
+    Every: 3600
+    Metadata:
+      Some: "additional information can go here"
+
+  - SenderId: 2
+    ReceiverId: 1
+    ProductName: ProductOfAgent_2
+    FirstDeliveryTime: -22
+    Every: 1 hour
+    Attributes:
+      ProductAppendix: value
+      TimeOffset: 42
+```
+
+Contract Parameters:
+
+* `SenderId` unique ID of agent sending the product
+* `ReceiverId` unique ID of agent receiving the product
+* `ProductName` name of the product to be sent
+* `FirstDeliveryTime` first time of delivery in the format "seconds after the January 1st 2000, 00:00:00"
+* `Every` delay time in between deliveries; either an integer value in seconds, or a qualified time span in the format "<integer> <TimeUnit>(s)", where TimeUnit is one of "second", "minute", "hour", "day", "week", "month", "year" - with an options "s" at the end; mind that week, month, and year refer to fixed-length intervals of 168, 730, and 8760 hours.
+* `DeliveryIntervalInSteps` deprecated; delay time in between deliveries in seconds (use instead of `Every`)
+* `Metadata` can be assigned to add further helpful information about a Contract
+* `Attributes` can be set to include additional information as `int`, `float`, `enum`, or `dict` data types
+
+##### Definition of Multiple Similar Contracts
+
+Often, scenarios contain multiple agents of similar type that also have similar chains of contracts.
+Therefore, FAME-Io supports a compact definition of multiple similar contracts.
+`SenderId` and `ReceiverId` can both be lists and support One-to-N, N-to-One and N-to-N relations like in the following
+example:
+
+```yaml
+Contracts:
+  # effectively 3 similar contracts (0 -> 11), (0 -> 12), (0 -> 13)
+  # with otherwise identical ProductName, FirstDeliveryTime, and Every
+  - SenderId: 0
+    ReceiverId: [ 11, 12, 13 ]
+    ProductName: MyOtherProduct
+    FirstDeliveryTime: 100
+    Every: 1 hour
+
+  # effectively 3 similar contracts (1 -> 10), (2 -> 10), (3 -> 10)
+  # with otherwise identical ProductName, FirstDeliveryTime, and Every
+  - SenderId: [ 1, 2, 3 ]
+    ReceiverId: 10
+    ProductName: MyProduct
+    FirstDeliveryTime: 100
+    Every: 1 hour
+
+  # effectively 3 similar contracts (1 -> 11), (2 -> 12), (3 -> 13)
+  # with otherwise identical ProductName, FirstDeliveryTime, and Every
+  - SenderId: [ 1, 2, 3 ]
+    ReceiverId: [ 11, 12, 13 ]
+    ProductName: MyThirdProduct
+    FirstDeliveryTime: 100
+    Every: 1 hour
+```
+
+When combined with YAML anchors, the complexity of extensive contract chains can be reduced.
+The following example is equivalent to the previous one, enabling contracts to be quickly extended to a new group of agents:
+
+```yaml
+Groups:
+  - &agentList1: [ 1, 2, 3 ]
+  - &agentList2: [ 11, 12, 13 ]
+
+Contracts:
+  - SenderId: 0
+    ReceiverId: *agentList2
+    ProductName: MyOtherProduct
+    FirstDeliveryTime: 100
+    Every: 1 hour
+
+  - SenderId: *agentList1
+    ReceiverId: 10
+    ProductName: MyProduct
+    FirstDeliveryTime: 100
+    Every: 1 hour
+
+  - SenderId: *agentList1
+    ReceiverId: *agentList2
+    ProductName: MyThirdProduct
+    FirstDeliveryTime: 100
+    Every: 1 hour
+```
+
+Lists can be nested in senders and receivers as follows:
+
+```
+Groups:
+  - SenderId: 42
+    ReceiverId: [1, [2, 3], [4, [5]]]
+    ProductName: AnImportantProduct
+    FirstDeliveryTime: 101
+    Every: 30 minutes
+```
+
+This feature should not be overused, as nested lists can become messy and difficult to read.
+Special care should be taken when using it with an N-to-N mapping, as it will be difficult to check whether senders and receivers are matched correctly.
+
+#### StringSets
+
+This optional section defines values of type `string_set`.
+In contrast to `enum` values, which are **statically** defined in the `Schema`, `string_set` values can be **dynamically
+** defined in this section.
+If an agent attribute is of type `string_set` and the attribute is set in the `scenario`, then
+
+1. the section `StringSets` in the `scenario` must contain an entry named exactly like the attribute, and
+2. the attribute value must be contained in the string set's `Values` declaration.
+
+For instance:
+
+In `schema`:
+
+``` yaml
+AgentTypes:
+  FuelsMarket:
+    Attributes:
+      FuelType:
+        AttributeType: string_set
+```
+
+In `scenario`:
+
+``` yaml
+StringSets:
+  FuelType:
+    Values: ['OIL', 'HARD_COAL', 'LIGNITE']
+
+Agents:
+ - Type: FuelsMarket
+   Id: 1
+   Attributes:
+     FuelType: OIL
+```
+
+Important: If different types of Agents shall refer to the same StringSet, their attributes in schema must have the
+**exact** same name.
+
+### CSV files
+
+TIME_SERIES inputs are not directly fed into the Scenario YAML file.
+Instead, TIME_SERIES reference a CSV file that can be stored some place else.
+These CSV files follow a specific structure:
+
+* They should contain exactly two columns - any other columns are ignored. A warning is raised if more than two non-empty columns are detected.
+* The first column must be a time stamp in form `YYYY-MM-DD_hh:mm:ss` or a [FAME-Timestamp](https://gitlab.com/fame-framework/wiki/-/wikis/architecture/decisions/TimeStamp) integer value.
+* The second column must be a numerical value (either integer or floating-point)
+* The separator of the two columns is a semicolon
+* The data must **not** have headers, except for comments marked with `#`
+
+You may add comments using `#`.
+Exemplary content of a valid CSV file:
+
+    # If you want an optional header, you must use a comment
+    2012-01-01_00:00:00;400
+    2013-01-01_00:00:00;720.5
+    2014-01-01_00:00:00;650
+    2015-01-01_00:00:00;99.27772
+    2016-01-01_00:00:00;42  # optional comment on this particular data point
+    2017-01-01_00:00:00;0.1
+
+Please refer also to the detailed article about `TimeStamps` in the [FAME-Wiki](https://gitlab.com/fame-framework/wiki/-/wikis/TimeStamp).
+For large CSV files (with more than 20,000 rows) we recommend using the integer representation of FAME-Timestamps in the first column (instead of text representation) to improve conversion speed.
+A warning will be raised for very large files (exceeding 50,000 rows) that require time stamp conversion.
+Use `reformatTimeSeries` to convert one or multiple timeseries CSV files into FAME format to improve conversion speed and avoid this warning.
+
+### Split and join multiple YAML files
+
+The user may include other YAML files into a YAML file to divide the content across files as convenient.
+We explicitly recommend using this feature for the `Schema` and `Contracts` sections.
+Otherwise, the scenario.yaml may become crowded.
+
+#### Command: !Include
+
+To hint YAML to load the content of another file use `!include "path/relative/to/including/yaml/file.yml"`.
+You can concatenate !include commands and can use !include in the included file as well.
+The path to the included file is always relative to the file using the !include command.
+So with the following file structure
+
+###### file-structure
+
+```
+a.yaml
+folder/b.yaml
+folder/c.yaml
+folder/deeper_folder/d.yaml
+```
+
+the following !include commands work
+
+###### in a.yaml
+
+```
+ToBe: !include "folder/b.yaml"
+OrNot: !include "folder/deeper_folder/d.yaml"
+```
+
+###### in b.yaml
+
+```
+ThatIs: !include "c.yaml"
+TheQuestion: !include "deeper_folder/d.yaml"
+```
+
+Provided that
+
+###### in c.yaml
+
+```
+Or: maybe
+```
+
+###### d.yaml
+
+```
+not: "?"
+```
+
+the resulting file would look like this:
+
+###### THe Joined file a.yaml
+
+```
+ToBe:
+  ThatIs:
+    Or: maybe
+  TheQuestion:
+    not: "?"
+OrNot:
+  not: "?"
+```
+
+You may also specify absolute file paths if preferred by starting with a "/".
+
+When specifying only a file path, the complete content of the file is assigned to the given key.
+You always need a key to assign the !include command to.
+However, you cannot combine the value returned from !include with other values in the same key.
+Thus, the following combinations do not work:
+
+###### caveats.yml
+
+```
+!include "file.yaml" # no key assigned
+
+Key:
+  Some: OtherItem
+  !include "file.yaml" # cannot join with other named items
+
+List:
+  - an: entry
+  !include "file.yaml" # cannot directly join with list items, even if !include returns a list
+```
+
+#### Integrate specific nodes of YAML files
+
+Instead of including *all* content in the included file, you may also pick a specific node within that file.
+For this use `!include [<relative/path/to/file.yaml>, Path:To:Field:In:Yaml]`.
+Here, `:` is used in the node-specifying string to select a sequence of nodes to follow - with custom depth.
+Consider the following two files:
+
+###### file_to_be_included.yaml
+
+```yaml
+Set1:
+  Subset1:
+    Key: Value
+Set2:
+  OtherKey: OtherValue
+```
+
+###### including_file.yaml
+
+```yaml
+- Type: MyAgentWithInputs
+  Id: 1
+  Attributes: !include_node [ file_to_be_included.yaml, Set1:Subset1 ]
+```
+
+Compiling "including_file.yaml" results in
+
+###### resulting_file.yaml
+
+```yaml
+- Type: MyAgentWithInputs
+  Id: 1
+  Attributes:
+    Key: Value
+```
+
+#### Load multiple files
+
+Using wildcards in the given path (e.g. "path/to/many/*.yaml") will lead to loading multiple files and assigning their
+content to the same key.
+You can make use of this feature with or without specifying a node selector.
+However, the elements to be joined across multiple files must be lists.
+These lists are then concatenated into a single list and then assigned to the key in the file calling !include.
+This feature is especially useful for Contracts: You can split the Contracts list into several files and place them in a
+separate folder.
+Then use !include to re-integrate them into your configuration. An example:
+
+###### my_contract1.yaml
+
+```
+Contracts:
+ - ContractA
+ - ContractB
+```
+
+###### my_contract2.yaml
+
+```
+Contracts:
+ - ContractC
+ - ContractD
+ - ContractE
+```
+
+###### including_file.yaml
+
+```
+Contracts: [!include "my_contract*.yaml", "Contracts"]
+```
+
+results in
+
+###### result.yaml
+
+```
+Contracts:
+ - ContractA
+ - ContractB
+ - ContractC
+ - ContractD
+ - ContractE
+```
+
+#### Ignoring files
+
+Files that have their name start with "IGNORE_" are not included with the !include command.
+You will see a debug output to notify you that the file was ignored.
+Use this to temporarily take files out ouf your configuration without deleting or moving them.
+
+## Read FAME results
+
+Takes an output file in protobuf format of FAME-based applications and converts it into files in CSV format.
+An individual file for each type of Agent is created in a folder named after the protobuf input file.
+Call structure:
+
+    convertFameResults -f <./path/to/protobuf_file.pb>
+
+You may also specify any of the following arguments:
+
+| Command                                       | Action                                                                                                                                                                                                |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-l` or `--log` <option>                      | Sets the logging level. Default is `WARNING`. Options are `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`.                                                                                            |
+| `-lf` or `--logfile` <file>                   | Sets the logging file. Default is `None`. If `None` is provided, all logs get only printed to the console.                                                                                            |
+| `-a` or `--agents` <list-of-agents>           | If specified, only a subset of agents is extracted from the protobuf file. Default is to extract all agents.                                                                                          |
+| `-o` or `--output`                            | Sets the path to where the generated output files are written to. If not specified, the folder's name is derived from the input file's name. Folder will be created if it does not exist.             |
+| `-se` or `--single-export`                    | Enables export of individual agents to individual files, when present. If not present (the default) one file per `AgentType` is created.                                                              |
+| `-m` or `--memory-saving`                     | When specified, reduces memory usage profile at the cost of runtime. Use only when necessary.                                                                                                         |
+| `-cc` or `--complex-column` <option>          | Defines how to deal with complex indexed output columns (if any). `IGNORE` ignores complex columns. `SPLIT` creates a separate file for each complex indexed output column.                           |
+| `-t` or `--time` <option>                     | Option to define conversion of time steps to given format (default=`UTC`) by `-t/--time {UTC, INT, FAME}`                                                                                             |
+| `--input-recovery` or `--no-input-recovery`   | If True, all input data are recovered in addition to the outputs (default=False).                                                                                                                     |
+| `-mt` or `--merge-times` <list-of-parameters> | Option to merge `TimeSteps` of a certain range of steps in the output files to associate multiple time steps with a common logical time in your simulation and reduce number of lines in output files |
+
+The option `--merge-times` requires exactly three integer arguments separated by spaces:
+
+| Position | Name         | Meaning                                                                                  |
+|----------|--------------|------------------------------------------------------------------------------------------|
+| First    | Focal point  | TimeStep on which `steps-before` earlier and `steps-after` later TimeSteps are merged on |
+| Second   | Steps before | Range of TimeSteps before the `focal-point` they get merged to, must be Zero or positive |
+| Third    | Steps after  | Range of TimeSteps after the `focal-point` they get merged to, must be Zero or positive  |
+
+This could look as follows:
+
+    convertFameResults -f <./path/to/protobuf_file.pb> -l debug -lf <path/to/output.log> -a AgentType1 AgentType2 -o myCsvFolder -m -cc SPLIT --merge-times 0 1799 1800
+
+Make sure that in the range of time steps you specify for merging, there is only one value per column in the merged time
+range.
+If multiple values per column are merged values will get concatenated and might yield unexpected results.
+
+You may also call the conversion script from any Python script with:
+
+```python
+from fameio.scripts.convert_results import Options, run as convert_results
+
+convert_results({Options.FILE: "./path/to/protobuf_file.pb"})
+```
+
+Similar to the console call you may also specify custom run config arguments and add it in a dictionary to the function
+call.
+
+```python
+from fameio.scripts.convert_results import Options, run as convert_results
+
+run_config = {Options.FILE: "./path/to/protobuf_file.pb",
+              Options.LOG_LEVEL: "info",
+              Options.LOG_FILE: "scenario.log",
+              Options.OUTPUT: "Output",
+              Options.AGENT_LIST: ['AgentType1', 'AgentType2'],
+              Options.MEMORY_SAVING: False,
+              Options.SINGLE_AGENT_EXPORT: False,
+              Options.RESOLVE_COMPLEX_FIELD: "SPLIT",
+              Options.TIME: "INT",
+              Options.TIME_MERGING: {},
+              }
+
+convert_results(run_config)
+```
+
+You can also use the associated argument parser, to extract the run_config dynamically from a string:
+
+```python
+from fameio.scripts.convert_results import Options, run as convert_results
+from fameio.cli.convert_results import handle_args
+
+my_defaults = {Options.FILE: "./path/to/protobuf_file.pb",
+               Options.LOG_LEVEL: "info",
+               Options.LOG_FILE: "scenario.log",
+               Options.OUTPUT: "Output",
+               Options.AGENT_LIST: ['AgentType1', 'AgentType2'],
+               Options.MEMORY_SAVING: False,
+               Options.SINGLE_AGENT_EXPORT: False,
+               Options.RESOLVE_COMPLEX_FIELD: "SPLIT",
+               Options.TIME: "INT",
+               Options.TIME_MERGING: {},
+               }
+my_arg_string = ['-f', 'my/other/scenario.yaml', '-l', 'error']
+
+run_config = handle_args(my_arg_string, my_defaults)
+convert_results(run_config)
+```
+
+## Reformat time series
+
+Takes CSV time series files and reformats them into FAME time format.
+This improves speed of run configuration creation but also reduces readability of the CSV files' content.
+Thus, we recommend to apply this reformatting only for CSV time series files with more than 20,000 lines.
+
+Call structure:
+
+    reformatTimeSeries -fp <file_or_file_pattern*.csv>
+
+You may also specify any of the following arguments:
+
+| Command                       | Action                                                                                                                                                                                 |
+|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-l` or `--log` <option>      | Sets the logging level. Default is `WARNING`. Options are `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`.                                                                             |
+| `-lf` or `--logfile` <file>   | Sets the logging file. Default is `None`. If `None` is provided, all logs get only printed to the console.                                                                             |
+| `--replace` or `--no-replace` | If `--replace` is specified, existing csv files are replaced with the new content. Otherwise and by default, new files are created extending the original file name by "_reformatted". |
+
+## Cite FAME-Io
+
+If you use FAME-Io for academic work, please cite as follows.
+
+Bibtex entry:
+
+```
+@article{fameio2023joss,
+  author  = {Felix Nitsch and Christoph Schimeczek and Ulrich Frey and Benjamin Fuchs},
+  title   = {FAME-Io: Configuration tools for complex agent-based simulations},
+  journal = {Journal of Open Source Software},
+  year    = {2023},
+  doi     = {doi: https://doi.org/10.21105/joss.04958}
+}
+```
+
+## Available Support
+
+This is a purely scientific project by (at the moment) one research group.
+Thus, there is no paid technical support available.
+However, we will give our best to answer your questions and provide support.
+
+If you experience any trouble with FAME-Io, you may contact the developers via [fame@dlr.de](mailto:fame@dlr.de).
+Please report bugs and make feature requests by filing issues following the provided templates (see
+also [Contribute](CONTRIBUTING.md)).
+For substantial enhancements, we recommend that you contact us via [fame@dlr.de](mailto:fame@dlr.de) for working
+together on the code in common projects or towards common publications and thus further develop FAME-Io.
