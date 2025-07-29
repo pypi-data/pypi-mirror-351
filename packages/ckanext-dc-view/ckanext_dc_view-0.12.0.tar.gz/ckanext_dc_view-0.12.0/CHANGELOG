@@ -1,0 +1,100 @@
+0.12.0
+ - integration with DCOR version bump for CKAN 2.11.3
+0.11.1
+ - ci: update GitHub Actions workflow to use Docker for testing
+ - tests: add 'follow_redirects=False' to `app.get()`
+ - tests: remove outdated direct-upload-based tests
+0.11.0
+ - ref: migrate to dcor_shared.RQJob
+0.10.2
+ - setup: fix ckanext namespace
+0.10.1
+ - build: fix CI pipeline
+0.10.0
+ - setup: migrate to pyproject.toml
+0.9.2
+ - enh: show metadata table caption at top
+ - enh: show "pipeline" metadata
+ - enh: html.escape displayed metadata
+ - enh: display correct alias medium
+0.9.1
+ - ref: do not use tempfile.TemporaryDirectory
+ - ref: create /tmp/matplotlib before importing matplotlib
+0.9.0
+ - ref: don't create any preview files locally, upload directly to S3
+ - ref: only serve preview images from S3
+ - ref: migrate to dcor_shared 0.7.4
+0.8.2
+ - maintenance release
+0.8.1
+ - fix: failed to create preview images due to invalid basin data
+0.8.0
+ - feat: add job that uploads preview images to S3
+0.7.1
+ - fix: make bg jobs work with dcor_schemas 0.18.2
+ - ref: cleanup
+0.7.0
+ - ref: migration to CKAN 2.10.1
+0.6.10
+ - maintenance release
+0.6.9
+ - enh: do not queue preview generation after condensing task
+0.6.8
+ - enh: add --modified-days argument to "run-jobs-dc_view" CLI
+0.6.7
+ - fix: add redis connection
+0.6.6
+ - fix: prevent enqueueing of same background job twice
+0.6.5
+ - maintenance release
+0.6.4
+ - enh: switch to deformation vs. area plots in previews (#4)
+ - enh: allow to regenerate all preview images using the CLI
+   command option "run-jobs-dc_view" with the --force option
+0.6.3
+ - fix: typo with new line in CLI
+0.6.2
+ - fix: allow KeyvoardInterrup in CLI
+0.6.1
+ - fix: catch and print errors in "run-jobs-dc_view"
+0.6.0
+ - feat: add CLI command "run-jobs-dc_view"
+0.5.13
+ - ref: change background job ID to "{package_id}_{position}_preview"
+0.5.12
+ - fix: generate empty previous image when there is nothing
+   to plot
+0.5.11
+ - fix: preview image could not be generated if the necessary
+   features are not available
+0.5.10
+ - fix: only compute an overview plot from the first 5000 events
+   otherwise the background job may timeout (#3)
+ - tests: add basic test for preview generation job
+ - ci: fix codecov
+0.5.9
+ - tests: use vagrant for tests
+0.5.8
+ - ci: migrate to GH Actions
+ - build: use install_requires instead of requirements.txt
+0.5.7
+ - enh: only create relevant jobs for DC mimetype data
+0.5.6
+ - fix: use "deform" for datasets that don't have "bright_avg"
+   in preview
+0.5.5
+ - ref: move to dcor_shared 0.2.5
+0.5.4
+ - enh: add a ``job_id`` to the "preview" background job and,
+   depending on whether or not the ckanext-dc_serve extensions is
+   installed, wait for the "condense" background job before
+   attempting to create a preview image; this avoids computing
+   the brightness twice (#2)
+0.5.3
+ - fix: manifest did not include .yml
+0.5.2
+ - maintenance release
+0.5.1
+ - maintenance release
+0.5.0
+ - initial open-sourced version
