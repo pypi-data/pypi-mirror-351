@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: 12306-search-mcp
+Version: 0.1.1
+Summary: 12306-mcp-server,用于查询12306车票信息
+Author-email: xiongda <jsynwy@gmail.com>
+Requires-Python: >=3.12
+Requires-Dist: aiohttp>=3.12.2
+Requires-Dist: mcp[cli]>=1.9.1
+Requires-Dist: requests>=2.32.3
