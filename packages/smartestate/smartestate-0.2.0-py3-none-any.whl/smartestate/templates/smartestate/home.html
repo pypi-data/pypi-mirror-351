@@ -1,0 +1,15 @@
+{% extends "smartestate/base.html" %}
+
+{% block filter_search_form %}
+{% if show_filter_search_on_homepage %}
+	<div class="container detail-text">
+		<br><br>
+		{% include "listings/filter-search-homepage.html" %}
+	</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<br><br>
+{{ cover_text|safe }}
+{% endblock %}

@@ -1,0 +1,13 @@
+.broker-row:hover {
+	cursor: pointer;
+}
+.hidden-form {
+	display: none;
+}
+.suggestions-row {
+	display: none;
+}
+/* TODO: See Feature #403. */
+.ajax-response {
+	display: none;
+}

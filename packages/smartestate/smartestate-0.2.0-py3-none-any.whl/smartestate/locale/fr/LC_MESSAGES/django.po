@@ -1,0 +1,68 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-24 17:27+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: settings.py:162
+msgid "English"
+msgstr "Anglais"
+
+#: settings.py:163
+msgid "German"
+msgstr "Allemand"
+
+#: settings.py:164
+msgid "French"
+msgstr "Français"
+
+#: settings.py:165
+msgid "Spanish"
+msgstr "Espagnol"
+
+#: settings.py:166
+msgid "Italian"
+msgstr "Italien"
+
+#: templates/smartestate/base.html:93
+msgid "Listings"
+msgstr "Offres"
+
+#: templates/smartestate/base.html:97
+msgid "Rental Listings"
+msgstr "Offres de locacion"
+
+#: templates/smartestate/base.html:100
+msgid "For Sale Listings"
+msgstr "Offres de vente"
+
+#: templates/smartestate/base.html:130 templates/smartestate/base.html:131
+#: templates/smartestate/base.html:135
+msgid "Search"
+msgstr "Chercher"
+
+#: templates/smartestate/base.html:150
+msgid "Logged in"
+msgstr "Connecté"
+
+#: templates/smartestate/base.html:150
+msgid "Use Brokerage"
+msgstr "Utiliser Brokerage"
+
+#: templates/smartestate/base.html:150
+msgid "Use Admin"
+msgstr "Utiliser Admin"
