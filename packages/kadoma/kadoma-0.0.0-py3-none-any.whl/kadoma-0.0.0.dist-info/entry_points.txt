@@ -1,0 +1,3 @@
+[console_scripts]
+kadoma-cli = kadoma.cli:cli
+kadoma-mqtt = kadoma.mqtt:main
