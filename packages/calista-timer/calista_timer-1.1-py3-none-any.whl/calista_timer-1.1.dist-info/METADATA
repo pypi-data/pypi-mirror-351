@@ -1,0 +1,44 @@
+Metadata-Version: 2.3
+Name: calista-timer
+Version: 1.1
+Summary: Simple terminal based timer
+License: MIT
+Author: Vall-333
+Author-email: vallg8343@proton.me
+Requires-Python: >=3.13
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: click (>=8.2.1,<9.0.0)
+Description-Content-Type: text/markdown
+
+# Calista
+
+Calista is a simple terminal based timer with pomodoro like features.
+
+## Installation 
+
+Use the package manager pipx to install calista
+
+```bash
+pipx install https://github.com/Vall-333/calista.git
+```
+
+## Usage
+
+To start the application
+
+```bash
+calista
+```
+To see the list of commands
+
+```bash
+calista --help
+```
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
