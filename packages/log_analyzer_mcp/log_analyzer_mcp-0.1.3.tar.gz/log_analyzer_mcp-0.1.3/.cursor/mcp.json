@@ -1,0 +1,51 @@
+{
+  "mcpServers": {
+    "log_analyzer_mcp_server_dev": {
+      "command": "/Users/dominikus/git/nold-ai/log_analyzer_mcp/scripts/run_log_analyzer_mcp_dev.sh",
+      "args": [],
+      "env": {
+        "PYTHONUNBUFFERED": "1",
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONPATH": "/Users/dominikus/git/nold-ai/log_analyzer_mcp",
+        "MCP_LOG_LEVEL": "DEBUG",
+        "MCP_LOG_FILE": "/Users/dominikus/git/nold-ai/log_analyzer_mcp/logs/mcp/log_analyzer_mcp_server.log"
+      }
+    },
+    "log_analyzer_mcp_server_test": {
+      "command": "uvx",
+      "args": [
+        "--refresh",
+        "--default-index", "https://test.pypi.org/simple/",
+        "--index", "https://pypi.org/simple/",
+        "--index-strategy", "unsafe-best-match",
+        "log_analyzer_mcp_server@latest"
+      ],
+      "env": {
+        "MCP_LOG_LEVEL": "INFO",
+        "MCP_LOG_FILE": "/Users/dominikus/git/nold-ai/log_analyzer_mcp/logs/mcp/log_analyzer_mcp_server.log"
+      }
+    },
+    "log_analyzer_mcp_server_prod": {
+      "command": "uvx",
+      "args": [
+        "log_analyzer_mcp_server"
+      ],
+      "env": {
+        "MCP_LOG_LEVEL": "INFO",
+        "MCP_LOG_FILE": "/Users/dominikus/git/nold-ai/log_analyzer_mcp/logs/mcp/log_analyzer_mcp_server.log"
+      }
+    },  
+    "FastMCP Docs": {
+      "url": "https://gitmcp.io/jlowin/fastmcp"
+    },
+    "MCP Python SDK Docs": {
+      "url": "https://gitmcp.io/modelcontextprotocol/python-sdk"
+    },
+    "MCP Protocol Docs": {
+      "url": "https://gitmcp.io/modelcontextprotocol/modelcontextprotocol"
+    },
+    "Chroma MCP Server Docs": {
+      "url": "https://gitmcp.io/djm81/chroma_mcp_server"
+    }
+  }
+} 
