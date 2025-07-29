@@ -1,0 +1,4 @@
+[console_scripts]
+generate_docs=generate_ruleset_docs:generate
+japr=japr.japr:cli
+
