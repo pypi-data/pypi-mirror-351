@@ -1,0 +1,9 @@
+[console_scripts]
+blog-example=team_query.cli:blog_example
+team-query=team_query.cli:main
+tests=tests.run_tests:main
+
+[team_query.compilers]
+javascript=team_query.compilers.javascript:JavaScriptCompiler
+python=team_query.compilers.python:PythonCompiler
+
