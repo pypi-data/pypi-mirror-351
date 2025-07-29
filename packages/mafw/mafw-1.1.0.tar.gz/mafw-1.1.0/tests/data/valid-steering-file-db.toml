@@ -1,0 +1,42 @@
+# MAFw steering file generated on 2024-11-24 18:15:36.849115
+
+# uncomment the line below and insert the processors you want to run from the available processor list
+processors_to_run = ["CountStandardTables"]
+
+# customise the name of the analysis
+analysis_name = "mafw analysis"
+analysis_description = "Filling DB"
+available_processors = ["AccumulatorProcessor", "GaussAdder", "ModifyLoopProcessor", "FillFileTableProcessor", "PrimeFinder", "CountStandardTables"]
+
+[DBConfiguration]
+URL = 'sqlite:///:memory:' # Change the protocol depending on the DB type. Update this file to the path of your DB.
+
+[DBConfiguration.pragmas] # Leave these default values, unless you know what you are doing!
+journal_mode = "wal"
+cache_size = -64000
+foreign_keys = 1
+synchronous = 0
+
+[CountStandardTables]
+n_table = -1
+
+[AccumulatorProcessor] # A processor to calculate the sum of the first n values via a looping approach.
+last_value = 100 # Last value of the series
+
+[GaussAdder] # A processor to calculate the sum of the first n values via the so called *Gauss formula*.
+last_value = 100 # Last value of the series.
+
+[ModifyLoopProcessor] # Example processor demonstrating how it is possible to change the looping structure.
+item_to_abort = 65 # Item to abort
+items_to_skip = [12, 16, 25] # List of items to be skipped.
+total_item = 100 # Total item in the loop.
+
+[FillFileTableProcessor] # Processor to fill a table with the content of a directory
+root_folder = 'C:\Users\bulghao\Documents\autorad-analysis' # The root folder for the file listing
+
+[PrimeFinder] # Finds prime number between n_min and n_max.
+n_max = 10111 # Number to finish prime search
+n_min = 111 # Number to start prime search
+
+[UserInterface] # Specify UI options
+interface = "rich" # Default "rich", backup "console"

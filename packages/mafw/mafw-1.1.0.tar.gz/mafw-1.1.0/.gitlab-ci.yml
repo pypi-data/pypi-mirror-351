@@ -1,0 +1,202 @@
+variables:
+  HOME: "/tmp"
+  UV_CACHE_DIR: .uv_cache
+  HATCH_CACHE_DIR: .hatch_cache
+
+
+stages:
+  - test
+  - scans
+  - build
+  - deploy
+  - maintenance
+
+
+include:
+  - project: 'jrc-templates/ci-cd/helm'
+    ref: master
+    file: 'liso/dojo-ci.yaml'
+    rules:
+      - if: $CI_SERVER_HOST == $PRIVATE_GITLAB
+
+.proxy_def: &proxy_def
+  - if [[ $CI_SERVER_HOST == $PRIVATE_GITLAB ]]; then export HTTPS_PROXY=$PROXY; fi
+  - if [[ $CI_SERVER_HOST == $PRIVATE_GITLAB ]]; then export HTTP_PROXY=$PROXY; fi
+  - if [[ $CI_SERVER_HOST == $PRIVATE_GITLAB ]]; then export NO_PROXY=$NOPROXY; fi
+  - echo $HTTPS_PROXY
+  - echo $HTTP_PROXY
+  - echo $NO_PROXY
+
+.retry_def: &retry_def
+  retry:
+    max: 2
+    when: runner_system_failure
+
+.basic_hatch_job:
+  tags:
+    - $RUNNER_TAG
+  image: bulghao/dev-env:mafw-dev-image@sha256:af6d02c5232cce3fe830c50e7f8b166de5ccfe1579c1ae67d074c53e89065384
+  before_script:
+    - hatch config set dirs.python /tmp/hatch/python
+    - export UV_CACHE_DIR=${CI_PROJECT_DIR}/${UV_CACHE_DIR}
+    - export HATCH_CACHE_DIR=${CI_PROJECT_DIR}/${HATCH_CACHE_DIR}
+    - mkdir -p ${UV_CACHE_DIR} ${HATCH_CACHE_DIR}
+    - *proxy_def
+  <<: *retry_def
+
+.basic_maintenance_job:
+  tags:
+    - $RUNNER_TAG
+  image: bulghao/dev-env:mafw-maint_image@sha256:f3fd445e7a8bc98bbde7d13274883c1d5fb659e1fa4a9f3833af3779d24943fb
+  <<: *retry_def
+
+unittest:
+  extends: .basic_hatch_job
+  stage: test
+  script:
+#    - hatch test -c tests/test_active.py
+    - hatch test -a -c
+    - hatch run hatch-test.py3.11:cov-html
+    - hatch run hatch-test.py3.11:cov-xml
+  coverage: '/\*\*TOTAL\*\*.*\| \*\*(\d+)%\*\*/'
+  artifacts:
+    paths:
+      - htmlcov/
+    expire_in: 1 day
+  dependencies: []
+  rules:
+    # Skip for scheduled retry pipelines
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_PIPELINE == "retry"
+      when: never
+    # Always run when the force-unittest label is present on merge requests
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /force-unittest/
+      when: on_success
+    # Run only when relevant paths change (for any pipeline type)
+    - changes:
+        - "src/**/*"
+        - "tests/**/*"
+        - "pyproject.toml"
+      when: on_success
+    # Skip in all other cases
+    - when: never
+
+package_build:
+  extends: .basic_hatch_job
+  stage: build
+  script:
+    - hatch build
+  artifacts:
+    paths:
+      - dist/*
+    expire_in: 1 day
+  dependencies: [ ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_PIPELINE == "retry"
+      when: never
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: on_success
+
+doc_build:
+  extends: .basic_hatch_job
+  stage: build
+  script:
+    - hatch run dev.py3.11:doc clean
+    - hatch run dev.py3.11:doc html
+    - hatch run dev.py3.11:doc latexpdf
+  artifacts:
+    paths:
+      - docs/build/html/*
+      - docs/build/latex/mafw.pdf
+    expire_in: 1 day
+  dependencies:
+    - package_build
+  rules:
+    - if: $CI_SERVER_HOST == $PRIVATE_GITLAB
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_PIPELINE == "retry"
+      when: never
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: on_success
+
+package_local_publish:
+  extends: .basic_hatch_job
+  stage: deploy
+  dependencies:
+    - package_build
+  script:
+    - export HATCH_INDEX_USER=gitlab-ci-token
+    - export HATCH_INDEX_AUTH=${CI_JOB_TOKEN}
+    - hatch publish --repo ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_PIPELINE == "retry"
+      when: never
+    - if: $CI_COMMIT_TAG && $CI_PIPELINE_SOURCE != "schedule"
+      when: on_success
+
+package_pypi_publish:
+  extends: .basic_hatch_job
+  stage: deploy
+  dependencies:
+    - package_build
+  script:
+    - export HATCH_INDEX_USER=__token__
+    - export HATCH_INDEX_AUTH=${PYPI_TOKEN}
+    - twine check --strict dist/*
+    - hatch publish
+  rules:
+    - if: $CI_SERVER_HOST == $PRIVATE_GITLAB
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_PIPELINE == "retry"
+      when: never
+    - if: $CI_COMMIT_TAG && $CI_PIPELINE_SOURCE != "schedule"
+      when: on_success
+
+pages_publish:
+  tags:
+    - $RUNNER_TAG
+  image: debian:latest
+  stage: deploy
+  pages: true
+  dependencies:
+    - doc_build
+    - unittest
+  script:
+    - mkdir -p public/doc
+    - cp -R docs/build/html/* public/doc
+    - cp -R docs/build/latex/mafw.pdf public/doc/mafw.pdf
+    - mkdir -p public/coverage
+    - cp -R htmlcov/* public/coverage
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_SERVER_HOST == $PRIVATE_GITLAB
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_PIPELINE == "retry"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"
+      when: on_success
+
+retry_pipelines:
+  extends: .basic_maintenance_job
+  stage: maintenance
+  before_script:
+    - export GITLAB_PRIVATE_TOKEN=${SCHEDULED_PIPELINES_TOKEN}
+  script:
+    - python /usr/local/bin/retry_pipelines.py
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_PIPELINE == "retry" && $CI_SERVER_HOST == $PUBLIC_GITLAB
+      when: always
+
+sync_public_release:
+  extends: .basic_maintenance_job
+  stage: deploy
+  before_script:
+    - *proxy_def
+    - export PRIVATE_GITLAB_TOKEN=${JRC_RELEASE_TOKEN}
+    - export PUBLIC_GITLAB_TOKEN=${CEE_RELEASE_TOKEN}
+  script:
+    - python /usr/local/bin/clone_release.py
+  rules:
+    - if: $CI_SERVER_HOST == $PRIVATE_GITLAB && $CI_COMMIT_TAG && $CI_PIPELINE_SOURCE != "schedule"
+      when: on_success

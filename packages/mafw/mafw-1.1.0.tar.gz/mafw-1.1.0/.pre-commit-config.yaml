@@ -1,0 +1,34 @@
+fail_fast: false
+
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.8.3
+  hooks:
+    # Run the linter.
+    - id: ruff
+      args:
+        - --fix
+    # Run the formatter.
+    - id: ruff-format
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0  # Use the ref you want to point at
+  hooks:
+    - id: check-toml
+- repo: https://github.com/abravalheri/validate-pyproject
+  rev: v0.23
+  hooks:
+    - id: validate-pyproject
+- repo: local
+  hooks:
+    - id: update-changelog
+      name: Update the CHANGELOG
+      entry: update-changelog
+      args:
+        - "--silent"
+        - "--guess-release"
+        - "--auto-commit"
+      pass_filenames: false
+      language: system
+      stages: [pre-push]
+      always_run: true

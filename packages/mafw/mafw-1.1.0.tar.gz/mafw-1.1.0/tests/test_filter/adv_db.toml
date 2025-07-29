@@ -1,0 +1,12 @@
+[GlobalFilter]
+new_only = true
+just_noise = 'something useless'
+
+[AdvProcessor.Filter.Sample]
+sample_name = 'Sample_0000[123]'
+
+[AdvProcessor.Filter.Resolution]
+resolution_value = 50
+
+[AdvProcessor.Filter.Image]
+filename = '*file_0[12345]0*'

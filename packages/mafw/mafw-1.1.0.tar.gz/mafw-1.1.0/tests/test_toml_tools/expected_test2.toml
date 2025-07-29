@@ -1,0 +1,22 @@
+# MAFw configuration file generated on 2024-11-19 16:34:57.464219
+
+# uncomment the line below and insert the processors you want to run from the available processor list
+# processors_to_run = []
+
+# customise the name of the analysis
+analysis_name = "mafw analysis"
+analysis_description = """Summing up numbers"""
+available_processors = ["ActiveParameterProcessor", "AnotherActiveParameterProcessor", "PassiveParameterProcessor", "AnotherPassiveParameterProcessor"]
+
+[ActiveParameterProcessor] # A processor with one active parameter.
+active_param = 100 # An active parameter with default value -1
+
+[AnotherActiveParameterProcessor] # Another processor with one active parameter.
+active_param = 101 # An active parameter with default value -1
+
+[PassiveParameterProcessor] # A processor with one passive parameter.
+passive_param = -1 # A passive parameter with default value -1
+
+[AnotherPassiveParameterProcessor] # Another processor with one passive parameter.
+passive_param = 103 # A passive parameter with default value -1
+

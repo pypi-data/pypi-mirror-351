@@ -1,0 +1,3 @@
+"""
+A library of examples.
+"""

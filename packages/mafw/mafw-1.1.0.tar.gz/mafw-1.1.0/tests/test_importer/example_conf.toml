@@ -1,0 +1,35 @@
+# FilenameParser configuration file
+#
+# General idea:
+#
+# The file contains the information required to build all the FilenameElement requested by the importer.
+#
+# Prepare a table for each element and in each table add the regexp, the type and optionally the default.
+# Adding the default field, will make the element optional.
+#
+# Add the table name in the elements array. The order is irrelevant. The division in compulsory and optional elements
+# is also irrelevant. It is provided here just for the sake of clarity.
+#
+# You can have as many element tables as you like, but only the one listes in the elements array will be used to
+# configure the Importer.
+#
+elements = [
+    # compulsory elements:
+    'sample', 'energy',
+    # optional elements:
+    'repetition'
+]
+
+
+[sample]
+regexp = '[_]*(?P<sample>sample_\d+)[_]*'
+type='str'
+
+[energy]
+regexp = '[_]*energy_(?P<energy>\d+\.*\d*)[_]*'
+type='float'
+
+[repetition]
+regexp = '[_]*repetition_(?P<repetition>\d+)[_]*'
+type='int'
+default = 1

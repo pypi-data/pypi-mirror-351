@@ -1,0 +1,26 @@
+[GlobalFilter]
+new_only = true
+field3 = false
+
+
+[MyProcessor.Filter.MyOtherModel]
+field2 = 1
+field1 = -1
+id_ = [1,2,3,4]
+
+[AnotherProcessor.Filter]
+MyModel = {field1=1,  sample_name='Sample_0000*'}
+
+[AnotherProcessor.Filter.MyOtherModel]
+field2 = 1
+field1 = -1
+id_ = [1,2,3,4]
+
+[MyProcessor]
+param = 2
+
+[MyProcessor.Filter.MyModel]
+field2 = 'ciccia'
+field1 = 101
+field_list = [1, 2, 3]
+

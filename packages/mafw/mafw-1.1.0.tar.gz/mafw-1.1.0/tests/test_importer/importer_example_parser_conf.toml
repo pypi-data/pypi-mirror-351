@@ -1,0 +1,21 @@
+# FilenameParser configuration file
+#
+elements = [
+    # compulsory elements:
+    'sample_name', 'exposure',
+    # optional elements:
+    'resolution'
+]
+
+[sample_name]
+regexp = '^(?P<sample_name>sample_\d{3})'
+type = 'str'
+
+[resolution]
+regexp = '[-_]r(?P<resolution>\d+)u?'
+type = 'int'
+default = 25
+
+[exposure]
+regexp = '[-_]exp(?P<exposure>\d+\.?\d*)h?'
+type = 'float'
