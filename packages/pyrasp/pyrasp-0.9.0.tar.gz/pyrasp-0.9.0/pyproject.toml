@@ -1,0 +1,36 @@
+[project]
+name = "pyrasp"
+version = "0.9.0"
+authors = [
+    { name = "Renaud Bidou", email = "renaud@paracyberbellum.io" }
+]
+description = "Python RASP"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
+keywords = [ "rasp", "web application", "security", "xss", "sql injection", "waf", "dlp" ]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Framework :: Flask",
+  "Framework :: Django",
+  "Framework :: FastAPI"
+]
+dependencies = [
+  "scikit-learn==1.6.0",
+  "numpy==1.*",
+  "requests>=2.32.2",
+  "psutil>=6.0.0",
+  "pyjwt==2.8.0",
+  "cloudpickle==3.1.0",
+  "setuptools>=75.5.0"
+]
+
+[project.urls]
+Homepage = "https://pyrasp.paracyberbellum.io"
+Documentation = "https://paracyberbellum.gitbook.io/pyrasp"
+GitHub = "https://github.com/rbidou/pyrasp"
+
+[tool.setuptools.package-data]
+pyrasp = ["data/*"]
+
