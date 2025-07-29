@@ -1,0 +1,6 @@
+[console_scripts]
+demo = demo:main
+todo_demo = todo_demo:main
+
+[pytest11]
+headless_kivy = headless_kivy_pytest.plugin
