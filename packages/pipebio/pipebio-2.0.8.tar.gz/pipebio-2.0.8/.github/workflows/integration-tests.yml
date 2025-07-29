@@ -1,0 +1,73 @@
+name: Integration tests
+run-name: Integration tests
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # every day at 5 AM UTC
+  workflow_dispatch:      # allow manual triggering too
+
+jobs:
+  test-testpypi:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install pipebio from PyPi
+        run: |
+          python -m pip install --upgrade pip
+          pip install --no-cache-dir \
+            --index-url https://test.pypi.org/simple/ \
+            --extra-index-url https://pypi.org/simple \
+            pipebio
+
+      - name: Run tests
+        run: |
+          echo "Running basic import test..."
+          python -c "import pipebio; print('Imported pipebio:', pipebio.__version__)"
+
+      - name: Build package
+        run: |
+          python -m pip install .[build]
+          ./build.sh
+
+  test-pypi:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install pipebio from PyPi
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipebio
+
+      - name: Run tests
+        run: |
+          echo "Running basic import test..."
+          python -c "import pipebio; print('Imported pipebio:', pipebio.__version__)"
+
+      - name: Build package
+        run: |
+          python -m pip install .[build]
+          ./build.sh

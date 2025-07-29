@@ -1,0 +1,67 @@
+# This workflow will install Python dependencies and run regression tests
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python package
+run-name: Python package
+
+on:
+  push:
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+      
+      - name: Run tests
+        run: |
+          make python-tests
+      
+      - name: Build package
+        run: |
+          python -m pip install .[build]
+          ./build.sh
+
+  installation-failure-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.14.0-beta.2" ]
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Verify installation fails
+        run: |
+          python -m pip install --upgrade pip
+          # Try to install from TestPyPI
+          if python -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ pipebio; then
+            echo "Installation succeeded but should have failed for unsupported Python version"
+            exit 1
+          else
+            echo "Installation failed as expected for unsupported Python version"
+            # Check if the error message contains our version requirement
+            pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ pipebio 2>&1 | grep -q "python_version" || \
+            (echo "Error message did not contain expected version requirement message" && exit 1)
+          fi
