@@ -1,0 +1,859 @@
+# ModelManager API
+
+A Python API for managing machine learning models, usecases, datasets, and assets with ModelManager.
+
+---
+
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Usecase Management](#usecase-management)
+- [Model Management](#model-management)
+- [Database Integration](#database-integration)
+- [Advanced & Reference](#advanced--reference)
+- [Tips & Resources](#tips--resources)
+
+---
+
+## Overview
+ModelManager API lets you:
+- Register, update, and delete ML usecases and models
+- Manage datasets and assets
+- Integrate with MLFlow, AzureML, and DVC
+- Track versions and metrics
+
+---
+
+## Features
+- Easy Python interface for model lifecycle management
+- Support for classification, regression, and forecasting
+- Integration with popular ML tools (MLFlow, AzureML)
+- Version control and what-if analysis
+
+---
+
+## Installation
+```bash
+pip install mmanager  # Or your preferred installation method
+```
+
+---
+
+## Quick Start
+```python
+from mmanager.mmanager import Usecase, Model
+
+secret_key = 'YOUR_SECRET_KEY'
+url = 'YOUR_API_URL'
+
+# Add a Usecase
+usecase_data = {"name": "My Usecase", "description": "Short description"}
+Usecase(secret_key, url).post_usecase(usecase_data)
+
+# Add a Model
+model_data = {
+    "project": "<usecase-id>",
+    "transformerType": "Classification",
+    "target_column": "target_column_name"
+}
+Model(secret_key, url).post_model(model_data)
+```
+
+---
+
+## Usecase Management
+```python
+from mmanager.mmanager import Usecase
+
+# Create a usecase
+usecase_data = {"name": "Fraud Detection", "description": "Detect fraud in transactions"}
+Usecase(secret_key, url).post_usecase(usecase_data)
+
+# List all usecases
+Usecase(secret_key, url).get_usecases()
+
+# Get usecase details
+Usecase(secret_key, url).get_detail(usecase_id)
+
+# Update a usecase
+update_data = {"description": "Updated description"}
+Usecase(secret_key, url).patch_usecase(update_data, usecase_id)
+
+# Delete a usecase
+Usecase(secret_key, url).delete_usecase(usecase_id)
+```
+
+---
+
+## Model Management
+```python
+from mmanager.mmanager import Model
+
+# Add a model
+model_data = {
+    "project": usecase_id,
+    "transformerType": "Classification", # or Regression, Forecasting
+    "training_dataset": "/path/train.csv",
+    "test_dataset": "/path/test.csv",
+    "target_column": "Class"
+}
+Model(secret_key, url).post_model(model_data)
+
+# List models under a usecase
+Model(secret_key, url).get_models(usecase_id)
+
+# Get model details
+Model(secret_key, url).get_details(model_id)
+
+# Delete a model
+Model(secret_key, url).delete_model(model_id)
+```
+
+---
+
+## Database Integration
+```python
+from mmanager.mmanager import TableInfo, FieldInfo, Usecase
+
+# Add a related database table
+table_data = {
+    "table_type": "actual",
+    "table_name": "daily_act2",
+    "db_link": 11
+}
+TableInfo(secret_key, url).post_table_info(data=table_data)
+
+# Add fields to the table
+field_data = {
+    "table_id": 9,
+    "display_name": "actual2",
+    "field_type": "",
+    "field_name": ""
+}
+FieldInfo(secret_key, url).post_field_info(data=field_data)
+
+# Load database cache for a usecase
+Usecase(secret_key, url).load_cache(usecase_id=7)
+```
+
+---
+
+## Advanced & Reference
+- Forecasting usecases
+- MLFlow and AzureML integration
+- Version control (Git/DVC)
+- Metrics and causal inference
+- What-if analysis
+
+See the [full documentation] or original README for advanced features.
+
+---
+
+## Tips & Resources
+- Example scripts: `example_script/`
+- Example assets: `assets/`
+- Logs: `mmanager_log.log`
+- For more advanced examples, see the [original README] or full documentation.
+
+---
+
+For advanced integrations, troubleshooting, or to contribute, see the [full documentation] or contact the maintainer.
+
+| source | Forina, M. et al, PARVUS -An Extendible Package for Data Exploration, Classification and Correlation.,Institute of Pharmaceutical and Food Analysis and Technologies, Via Brigata Salerno,16147 Genoa, Italy.  |
+| contributor | S. Aeberhard, D. Coomans and O. de Vel, Comparison of Classifiers in High Dimensional Settings, Tech. Rep. no. 92-02, (1992), Dept. of Computer Science and Dept. of Mathematics and Statistics, James Cook, University of North Queensland. |
+| is_private | Set True to keep the usecase private. Default False. |
+| trustability | Set True to list in trustability. Default False. |
+| explainability | Set True to list in explainability. Default False. |
+| hide_model | Set True to hide model related to this usecase. Default False. |
+| notification_emails | List of emails that will be notified. Eg: johndoe@qausal.com, adams_mary@qausal.com |
+
+---
+
+## Forecasting Usecase
+```python
+from mmanager.mmanager import Usecase
+
+secret_key = 'YOUR_SECRET_KEY'
+url = 'YOUR_API_URL'
+
+# Define forecasting usecase information
+usecase_info = {
+    "name": "",
+    "usecase_type": "Forecasting",
+    "author": "Jane Doe",
+    "description": "Forecast future sales based on historical data",
+    "source": "Internal Data",
+    "contributor": "Analytics Team",
+    "image": "",  # Optional: path to image
+    "performance_data_selection": "",
+    "applications": ""
+}
+
+# Forecasting-specific fields
+forecasting_fields = {
+    "performance_data_selection": "{'from':'2023-01-01', 'to':'2023-12-31'}",
+    "notification_emails": ["jane.doe@example.com"],
+    "forecasting_template": "two_conditions"
+}
+
+# Feature tabs for the forecasting UI
+forecasting_feature_tabs = {
+    "result_tab": True,
+    "series_tab": True,
+    "condition_tab": True,
+    "performance_tab": True,
+    "ab_testing_tab": True,
+    "release_tab": True
+}
+
+# Create the forecasting usecase
+Usecase(secret_key, url).post_usecase(
+    usecase_info,
+    forecasting_fields,
+    forecasting_feature_tabs
+)
+```
+
+## Update Usecase
+
+```python
+from mmanager.mmanager import Usecase
+secret_key = 'Secret-Key'
+url = 'URL'
+project_id = Project_id #use model_id number to update
+data = {
+		"author": "AuthorName",
+		"description": "UsecaseDescription",
+		"source": "UsecasSource",
+		"contributor": "UsecaseContributor",
+		"image": 'image.jpg' , #path to image file
+		"banner": 'banner.jpg' , #path to banner file
+	}
+Usecase(secret_key, url).patch_usecase(data, project_id)
+```
+
+---
+# Get All Usecases Uploaded By Authenticated User
+```python
+from mmanager.mmanager import Usecase
+secret_key = 'Secret-Key'
+url = 'URL'
+usecases = Usecase(secret_key,url).get_usecases()
+print(usecases)
+```
+---
+
+# Get Usecase Detail
+```python
+from mmanager.mmanager import Usecase
+secret_key = 'Secret-Key'
+url = 'URL' 
+usecase_id = "Usecase-Id"
+
+# GET USECASE DETAIL
+usecase_detail = Usecase(secret_key,url).get_detail(usecase_id)
+print(usecase_detail)
+
+# GET ALL USECASE UPLOATED BY AUTHENTICATED USER
+_usecases = Usecase(secret_key,url).get_usecases()
+print(_usecases)
+
+# GET ALL MODEL ID REGISTERED UNDER USECASE
+model_list = Usecase(secret_key,url).get_models(usecase_id)
+print(model_list)
+```
+---
+
+## Delete Project
+
+```python
+from mmanager.mmanager import Usecase
+secret_key = 'Secret-Key'
+url = 'URL'
+project_id = Project_id #use project_id number to delete
+Usecase(secret_key,url).delete_usecase(project_id)
+```
+---
+
+## Add Related Database
+```python
+from mmanager.mmanager import ExternalDatabase
+secret_key = 'Secret-Key'
+url = 'URL'
+# db_type: Postgres, MySQL
+related_db_data ={
+    "db_type":"Postgres",
+    "db_name":"db_name",
+    "db_user":"username",
+    "db_password":"db_pass",
+    "db_host":"localhost",
+    "db_port":"5432"
+}
+ExternalDatabase(secret_key,url).post_related_db(data=related_db_data)
+```
+## Link External Database
+``` python
+from mmanager.mmanager import ExternalDatabase
+secret_key = 'Secret-Key'
+url = 'URL'
+# link_type: Client, System
+external_db_data = {
+    "link_type":"System",
+    "usecase":"usecase_id",
+    "external_db":"related_db_id",
+    "train_table":"",
+    "test_table":"",
+    "pred_table":"",
+    "actuals_table":""
+}
+ExternalDatabase(secret_key,url).link_externaldb(data=external_db_data)
+```
+
+## Add Tables
+``` python
+from mmanager.mmanager import TableInfo
+secret_key = 'Secret-Key'
+url = 'URL'
+table_data = {
+    "table_type":"" #eg:"actual",
+    "table_name": "" #eg:"daily_act2",
+    "db_link": #eg:11
+    }
+
+TableInfo(secret_key,url).post_table_info(data=table_data)
+```
+
+## Add Fields
+``` python
+from mmanager.mmanager import FieldInfo
+secret_key = 'Secret-Key'
+url = 'URL'
+field_data = {
+    "table_id": "" #eg:9,
+    "display_name": "" #eg:actual2,
+    "field_type": "",
+    "field_name":""
+    }
+FieldInfo(secret_key,url).post_field_info(data=field_data)
+```
+
+## Load Database Cache
+``` python
+from mmanager.mmanager import Usecase
+secret_key = 'Secret-Key'
+url = 'URL'
+Usecase(secret_key,url).load_cache(usecase_id=7)
+```
+---
+
+## Add Model 
+
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+path = 'assets' #path to csv file
+
+model_data = {
+    "project": "1", #Project ID or Usecase ID
+    "transformerType": "Classification", #Options: Classification, Regression, Forcasting
+    "datasetinsertionType": "Manual" #Options: AzureML, External DB, Manual
+    "training_dataset": "/path/train.csv"
+    "test_dataset": "/path/test.csv"
+    "pred_dataset": "/path/pred.csv"
+    "actual_dataset": "/path/truth.csv"
+    "model_file_path": "/path/model.h5"
+    "target_column": "Class"
+}
+Model(secret_key, url).post_model(model_data)
+```
+
+#### Other optional data 
+| Key word | Example |
+| ----------- | ----------- |
+| note |  |
+| model_area |  |
+| model_dependencies |  |
+| model_usage |  |
+| model_audjustment |  |
+| model_developer |  |
+| model_approver |  |
+| model_maintenance |  |
+| documentation_code |  |
+| production | Production (Options: production, observation, retired) |
+| model_input_data | "/path/input.csv" (Path to input data.) |
+| computing_type | Classical (Options: Classical, Qantum, Hybrid) |
+| binarize_scoring_flag | Set True to label binarize. Default False. |
+| algorithmType | Xgboost (Options: Xgboost, GBM) |
+| modelFramework | driverless_ai (Options: driverless_ai, tensorflow, keras, scikit, statmodlib, other) |
+---
+
+## Create Config File For Azure ML Credentials
+- Get Credentials from your existing Azure ML account.
+- Create a config file in following format 
+- Give credential file path in credPath field to enable using AML integration service.
+
+```json
+{
+    "subscription_id": "<subscription-id>",
+    "resource_group": "<resource_group>",
+    "workspace_name": "<workspace_name>",
+    "tenant-id": "<tenant-id>",
+    "datastore_name": "<datastore_name>"
+}
+```
+## Add Model, Fetch Datasets And Model From Azure ML
+
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_data = {
+    "project": "<project-id>", #Project ID or Usecase ID
+    "transformerType": "model-type", #Options: Classification, Regression, Forcasting 
+    "target_column": "target-column-name", #Target Column
+    }
+
+ml_options = {
+    "credPath": "config.json", #Path to Azure ML credential files.
+    "datasetinsertionType": "AzureML", #Option: AzureML, Manual
+    "fetchOption": ["Model"], #To fetch model, add ["Model", "Dataset"] to fetch both model and datasets.
+    "modelName": "model-name", #Fetch model file registered with model name.
+    "dataPath": "dataset-name", #Get datasets registered with dataset name.
+    }
+Model(secret_key, url).post_model(model_data, ml_options)
+```
+## Add Model, Upload Datasets And Model Manually And Register To Azure ML
+
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+path = 'assets' #path to csv file
+model_data = {
+    "project": "1", #Project ID or Usecase ID
+    "transformerType": "Classification", #Options: Classification, Regression, Forcasting
+    "datasetinsertionType": "Manual" #Options: AzureML, External DB, Manual
+    "training_dataset": "/path/train.csv"
+    "test_dataset": "/path/test.csv"
+    "pred_dataset": "/path/pred.csv"
+    "actual_dataset": "/path/truth.csv"
+    "model_file_path": "/path/model.h5"
+    "target_column": "Class"
+}
+
+ml_options = {
+    "credPath": "config.json", #Path to Azure ML credential files.
+    "datasetinsertionType": "Manual", #Option: AzureML, Manual
+    "registryOption": ["Model"], #To register model, add ["Model", "Dataset"] to register both model and datasets.
+    "datasetUploadPath": "dataset-name", #To registere dataset on path.
+    }
+model = Model(secret_key, url).post_model(model_data, ml_options)
+model.json()
+```
+---
+## ADD MODEL: MLFLOW
+### Add MLFlow Creds
+``` python
+from mmanager.mmanager import MLFlow
+secret_key = 'Secret-Key'
+url = 'URL' 
+
+mlflow_cred_data = {
+    "name": "", #eg:"Test Credentials"
+    "aws_secret_access_key": "", #eg:"ueCepWaPlDIb/nATh7wYibgBMKXG3qn9PSZhk"
+    "aws_access_key_id": "", #eg:"DO0MT6XN0CACQQ"
+    "mlflow_s3_endpoint_url": "", #eg:"https://sfo3.digitaloceanspaces.com"
+    "artifact_path": "", #eg:"pathtomodelfiles"
+    "tracking_uri": "", #eg:"https://example.mlflow.com"
+    "usecase": usecase_id #Usecase ID
+}
+mlflow_cred = MLFlow(secret_key, url).post_mlflow_creds(mlflow_cred_data)
+mlflow_cred_id = mlflow_cred.json().get('id')
+mlflow_cred.json()
+```
+
+### Get MLFlow Creds
+``` python
+from mmanager.mmanager import MLFlow
+secret_key = 'Secret-Key'
+url = 'URL' 
+
+creds_id = #eg:1
+mlflow_cred = MLFlow(secret_key, url).get_mlflow_creds(mlflow_creds_id=creds_id)
+mlflow_cred_dict = mlflow_cred.json()
+
+usecase_id = mlflow_cred_dict.get('usecase')
+mlflow_cred_id = mlflow_cred_dict.get('id')
+mlflow_tracking_uri = mlflow_cred_dict.get('tracking_uri')
+mlflow_aws_secret_access_key = mlflow_cred_dict.get('aws_secret_access_key')
+mlflow_aws_access_key_id = mlflow_cred_dict.get('aws_access_key_id')
+mlflow_s3_endpoint_url = mlflow_cred_dict.get('mlflow_s3_endpoint_url')
+```
+### Download Datasets And Model Files From MLFlow Server
+``` python 
+from mmanager.mmanager import MLFlow
+secret_key = 'Secret-Key'
+url = 'URL' 
+
+mlflow_exp_name = experiment_name #Not Optional
+run_id = None #Optional
+artifact_path = None #Optional
+
+# Note: This will download the files in temp location eg:/opt/tmp/dataset/train.csv
+mlflow_datafiles_details = MLFlow(secret_key, url).download_dataset_model(mlflow_cred_id, mlflow_exp_name)
+mlflow_datafiles_details_dict = mlflow_datafiles_details.json()
+
+modelfile_dict = mlflow_datafiles_details_dict.get("model",{})
+datasets_dict = mlflow_datafiles_details_dict.get("datasets",{})
+
+# Note: File names might vary, as user will upload those in the MLFlow
+trainfile_path = datasets_dict.get("train.csv", None)
+testfile_path = datasets_dict.get("test.csv", None)
+predfile_path = datasets_dict.get("pred.csv", None)
+actualfile_path = datasets_dict.get("actual.csv", None)
+modelfile_path = modelfile_dict.get("model_file", None)
+
+mlflow_data_is_local = mlflow_datafiles_details_dict.get("is_local") #If the location of datasets are not in s3 bucket or any other external storages is_local = True.
+```
+
+### Add Model
+``` python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL' 
+model_data = {
+    "project": usecase_id, #Project ID or Usecase ID
+    "transformerType": "Classification", #Options: Classification, Regression, Forcasting
+    "datasetinsertionType": "MLFlow", #Options: Manual, AzureML, MLFlow
+    "training_dataset": trainfile_path, #path to csv file
+    "test_dataset": testfile_path, #path to csv file
+    "pred_dataset": predfile_path, #path to csv file
+    "actual_dataset": actualfile_path, #path to csv file
+    "model_file_path": modelfile_path, #path to model file|
+    "is_mlflow_local": mlflow_data_is_local,
+    "target_column": "", #Target Column, eg:Class
+    "note": "", #Short description of Model, eg: MLFlow mmanager test model.
+}
+model = Model(secret_key, url).post_model(model_data)
+model.json()
+```
+---
+
+## Update Model
+
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = Model_id #use model_id number to update
+data = {
+		"transformerType": "logistic",
+		"target_column": "id",
+		"training_dataset": "train.csv", #path to csv file
+		"pred_dataset": "submissionsample.csv", #path to csv file
+		"actual_dataset": "truth.csv", #path to csv file
+		"test_dataset": "test.csv", #path to csv file
+	}
+Model(secret_key, url).patch_model(data, model_id)
+```
+
+---
+
+# Delete Model
+
+---
+
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model_id" #use model_id number to delete
+Model(secret_key,url).delete_model(model_id)
+```
+
+---
+
+---
+# Get Model Details
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model_id" 
+Model(secret_key,url).get_details(model_id)
+```
+---
+
+---
+# Get Metrics
+ - Get latest metrics recorded under Model
+ - Metric Type
+    * Developement Metric
+    * Scoring Metric
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+metric = Model(secret_key,url).get_latest_metrics(model_id="Model-Id", metric_type="Metric-Type")
+```
+---
+
+# Generate Model Report
+---
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+Model(secret_key,url).generate_report(model_id)
+```
+---
+
+# Get Model Report
+---
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+all_report = Model(secret_key,url).get_all_reports(model_id=model_id)
+```
+---
+# Get Causal Analysis Graphs
+---
+### Get Causal Discovery Graphs
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+graph_type = "HeatMap" #Options : 3D_CausalDiscovery_Comparision, 2D_CausalDiscovery_Comparision, HeatMap
+causal_dicovery = Model(secret_key, url).get_causal_discovery_graphs(model_id, graph_type=graph_type)
+causal_dicovery
+```
+---
+---
+## Get Causal Inference Graphs
+### Get Causal Inference Top 5 Effects
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+graph_type = "coeff_graph" #Options : top_effect_p_values, top_effect_rsquared, coeff_graph
+causal_inference_top5_effects = Model(secret_key, url).get_causal_inference_graphs(model_id, graph_type=graph_type)
+causal_inference_top5_effects
+```
+---
+### Get Causal Inference Effects Comparision
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+graph_type = "coeff_graph" #Options : top_effect_p_values, top_effect_rsquared, coeff_graph
+treatment=""
+outcome=""
+causal_inference_effects_comparision = Model(secret_key, url).get_causal_inference_graphs(model_id, graph_type=graph_type, treatment=treatment, outcome=outcome)
+causal_inference_effects_comparision
+```
+---
+---
+## Get Causal Inference Correlations
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+graph_type = "correlation_graph" #Options : correlation_graph, causal_correlation_summary
+treatment=""
+outcome=""
+causal_inference_correlation = Model(secret_key, url).get_causal_inference_correlation(model_id, graph_type=graph_type, treatment=treatment, outcome=outcome)
+causal_inference_correlation
+```
+---
+## Get Causal Analysis Insight
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+file_path = "file/path"
+treatment = "treatment-variable"
+outcome = "outcome-variable"
+causal_insights = Model(secret_key, url).get_causal_insights({"file_path": file_path, "treatment": treatment, "outcome": outcome})
+causal_insights
+```
+---
+# Get Model Features
+---
+## Display What If Analysis Tool
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+what_if_analysis = Model(secret_key, url).get_wit(model_id)
+what_if_analysis
+```
+---
+## Display Model Detail Tool
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+model_detail_graph = Model(secret_key, url).get_netron(model_id)
+model_detail_graph
+```
+---
+## Display Data Distribution Tool
+```python
+from mmanager.mmanager import Model
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+model_detail_graph = Model(secret_key, url).get_data_distribution(model_id)
+model_detail_graph
+```
+---
+# Build What If Analysis Tool
+---
+### Add What If Resources For Image Classification Usecase
+```python
+from mmanager.mmanager import WhatIf
+secret_key = 'Secret-Key'
+url = 'URL'
+data = {
+    "usecase":"",
+    "model":"",
+    "label":""
+    "imgclass_datatype":"Local" #Resource Type: Options: Dicom(Pass Dicom data for image processing), Local (Upload data from the locally), Bucket (Get data from the storage bucket)
+    "input_model":"", #If imgclass_datatype is Local (Model file should be in h5 extension. (eg: model.h5)).
+    "input_zip":"", #If imgclass_datatype is Local (eg: histo.zip).
+    "modelfile_url":"", #If imgclass_datatype is Bucket (Model file should be in h5 extension. (eg: https://bucket.example.com/model.h5)).
+    "zip_url":"", #If imgclass_datatype is Bucket (eg: https://bucket.example.com/histo.zip).
+}
+dicom_fields = {
+    "dicom_datatype":"", #Dicom Resource Link Type Options: Local(Upload dicom data from the locally), Bucket (Get data from the storage bucket)
+    "dicom_zipfile":"", #Add your dicom zip file. (If dicom_datatype is Local.)
+    "dicom_labelfile":"", #Add your dicom label file. eg: data.csv (If dicom_datatype is Local.)
+    "dicom_url":"", #Add URL to your dicom file. (eg: https://bucket.example.com/histo_dicom.zip) (If dicom_datatype is Bucket.)
+    "dicom_labelfile_url":"", #Add URL to your dicom label file. (eg: https://bucket.example.com/data.csv) (If dicom_datatype is Bucket.)
+    "dicom_id_col":"", # Label File ID Column eg: id, entry etc.
+    "dicom_target_col":"", #Label File Target Column eg:Finding, Label, Score etc.
+}
+# If imgclass_datatype is Dicom.
+data.update({dicom_fields})
+wit_imgcls_resource_files = Model(secret_key, url).post_img_cls_wit_files(data)
+wit_imgcls_resource_files
+```
+---
+### Build What If Analysis
+```python
+from mmanager.mmanager import WhatIf
+secret_key = 'Secret-Key'
+url = 'URL'
+model_id = "Model-Id" #use model_id number
+wit = Model(secret_key, url).build_wit(model_id)
+wit
+```
+---
+### Version Control
+```python
+# ADD GIT CONFIG
+from mmanager.mmanager import VersionControl
+data = {
+    "tag": "dvc_example",
+    "git_url": "github.com",
+    "git_repo": "https://github.com/jhondoe/example.git",
+    "git_branch": "main",
+    "username": "jhondoe",
+    "email":"jhondoe@gmail.com",
+    "access_token":"",
+    "is_active": True,
+  }
+git_config = VersionControl(secret_key, url).git_config(data)
+git_config.json()
+```
+```python
+# DVC SETUP
+from mmanager.mmanager import VersionControl
+git_config_id = ""
+dvc_set = VersionControl(secret_key, url).dvc_set(git_config_id)
+dvc_set.json()
+```
+```python
+# ADD MODEL: NO ML INTEGRATION
+from mmanager.mmanager import Model
+usecase_id =""
+model_data = {
+    "project": usecase_id, #Project ID or Usecase ID
+    "transformerType": "Classification", #Options: Classification, Regression, Forcasting
+    "training_dataset": "train.csv", #path to csv file
+    "test_dataset": "test.csv", #path to csv file
+    "pred_dataset": "pred_score_data.csv", #path to csv file
+    "actual_dataset": "truth_data.csv", #path to csv file
+    "model_file_path": "model.h5", #path to model file
+    "target_column": "class", #Target Column
+    "note": "Wine", #Short description of Model
+    "model_area": "",
+    "model_dependencies": "",
+    "model_usage": "",
+    "model_audjustment": "",
+    "model_developer": "",
+    "model_approver": "",
+    "data_version_tags": "Classification_Model_V1", #Auto Generated If Not Provided
+    "data_version_comment": "Classification Model Uploaded Jan 2025" #Add Custom Commit Message
+    
+}
+model = Model(secret_key, url).post_model(model_data)
+model.json()
+```
+```python
+# ADD MODEL: NO ML INTEGRATION
+from mmanager.mmanager import Model
+model_id = ""
+model_data = {
+    "transformerType": "Classification", #Options: Classification, Regression, Forcasting
+    "training_dataset": "train_updated.csv", #path to csv file
+    "target_column": "class", #Target Column
+    "note": "Updated", #Short description of Model
+    "model_area": "",
+    "model_dependencies": "",
+    "model_usage": "",
+    "model_audjustment": "Updated",
+    "model_developer": "",
+    "model_approver": "",
+    "data_version_tags": "Classification_Model_V2", #Auto Generated If Not Provided of UsecaseId_ModelId_DateTimeStamp eg: "42_273_2023_06_15_095950"
+    "data_version_comment": "Classification Model Updated Feb 2025" #Add Custom Commit Message
+}
+model = Model(secret_key, url).patch_model(model_data, model_id)
+model.json()
+```
+```python
+# GET DATA VERSION
+from mmanager.mmanager import VersionControl
+model_id = ""
+versions = VersionControl(secret_key, url).get_version_tags(model_id, usecase_id)
+versions.json()
+```
+```python
+# GET DATA VERSION DETAIL
+from mmanager.mmanager import VersionControl
+tag_name = ""
+version = VersionControl(secret_key, url).get_version_details(tag_name)
+version.json()
+```
+```python
+# SWITCH DATA VERSION
+from mmanager.mmanager import VersionControl
+model_id = ""
+usecase_id = ""
+tag_name = ""
+versions = VersionControl(secret_key, url).switch_data_version(model_id, usecase_id, tag_name)
+versions.json()
+```
+---
