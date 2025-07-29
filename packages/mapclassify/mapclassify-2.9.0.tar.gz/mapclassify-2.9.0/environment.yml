@@ -1,0 +1,26 @@
+# Run `conda-env create -f environment.yml`
+name: mapclassify
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - geodatasets
+  - geopandas
+  - git
+  - ipywidgets
+  - jupyterlab
+  - libpysal
+  - lonboard
+  - matplotlib
+  - nbconvert
+  - networkx
+  - numba
+  - palettable
+  - pip
+  - pyarrow
+  - pydeck
+  - scikit-learn
+  - seaborn
+  - shapely
+  - pip:
+    - git+https://github.com/pysal/mapclassify.git@main

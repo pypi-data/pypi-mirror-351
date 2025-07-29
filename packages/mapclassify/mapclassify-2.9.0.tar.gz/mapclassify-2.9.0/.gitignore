@@ -1,0 +1,15 @@
+*.pyc
+.CHANGELOG.md.swp
+.ropeproject/
+dist/
+examples/notebooks/.ipynb_checkpoints/
+examples/python/
+mapclassify.egg-info/
+mapclassify/.ropeproject/
+mapclassify/datasets/calemp/.ropeproject/
+mapclassify/tests/.ropeproject/
+.DS_Store
+.vscode/settings.json
+__pycache__
+/notebooks/.ipynb_checkpoints/
+result_images/
