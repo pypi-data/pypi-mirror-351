@@ -1,0 +1,53 @@
+0.6.0
+ - integration with DCOR version bump for CKAN 2.11.3
+0.5.8
+ - maintenance release
+0.5.7
+ - ci: update GitHub Actions workflow to use Docker for testing
+ - tests: migrate to S3-only data
+0.5.6
+ - maintenance release
+0.5.3
+ - setup: try to fix ckanext namespace
+0.5.2
+ - setup: bring back pkg-util namespace __init__.py
+0.5.1
+ - build: fix CI pipeline
+0.5.0
+ - setup: migrate to pyproject.toml
+0.4.2
+ - fix: properly escape html in logs
+0.4.1
+ - enh: display logs with <details> tag
+0.4.0
+ - ref: migrate to dcor_shared 0.7.3
+ - tests: add tests
+0.3.3
+ - maintenance release
+0.3.2
+ - maintenance release
+0.3.1
+ - docs: update gitignore
+ - ci: use standarad ckan.ini
+0.3.0
+ - maintenance release for CKAN 2.10
+0.2.9
+ - maintenance release
+0.2.8
+ - maintenance release
+0.2.7
+ - ci: fix coverage stats
+0.2.6
+ - tests: run tests with vagrant
+0.2.5
+ - setup: use install_requires instead of requirements.txt
+0.2.4
+ - ci: migrate to GH Actions
+0.2.3
+ - fix: manifest did not include .yml
+0.2.2
+ - maintenance release
+0.2.1
+ - maintenance release
+0.2.0
+ - initial open-sourced version
