@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kachaka-api"
+version = "3.11.11.0"
+authors = [
+    { name = "Preferred Robotics inc." },
+]
+dependencies = ['grpcio==1.66.1', 'numpy>=2.2.0', 'protobuf>=5.27.2']
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://kachaka.life/"
+Repository = "https://github.com/pf-robotics/kachaka-api"
+
+[tool.hatch.build.targets.wheel]
+packages = ["kachaka_api"]
+
+[tool.setuptools.package-data]
+kachaka_api = ["py.typed"]

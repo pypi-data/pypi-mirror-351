@@ -1,0 +1,58 @@
+name: Import Test
+
+on: push
+
+jobs:
+  test-installation:
+    strategy:
+      matrix:
+        include:
+          # Ubuntu 22.04
+          - os: ubuntu-22.04
+            python-version: "3.10"
+          
+          # Ubuntu 24.04
+          - os: ubuntu-24.04
+            python-version: "3.10"
+          - os: ubuntu-24.04
+            python-version: "3.11"
+          - os: ubuntu-24.04
+            python-version: "3.12"
+          
+          # Windows 11 (Windows Server 2022)
+          - os: windows-2022
+            python-version: "3.10"
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'kachaka_api/**'
+              - '.github/workflows/**'
+
+      - name: Skip job if no changes in target directory
+        if: steps.paths.outputs.target != 'true'
+        run: |
+          echo "No changes that affect the test installation job."
+          exit 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          
+      - name: Install package
+        run: |
+          pip install .
+          
+      - name: Verify installation
+        run: |
+          python -c "import kachaka_api; print(kachaka_api.__file__)"

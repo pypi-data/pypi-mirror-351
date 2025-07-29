@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: kachaka-api
+Version: 3.11.11.0
+Project-URL: Homepage, https://kachaka.life/
+Project-URL: Repository, https://github.com/pf-robotics/kachaka-api
+Author: Preferred Robotics inc.
+License-Expression: Apache-2.0
+License-File: LICENSE
+Requires-Python: >=3.10
+Requires-Dist: grpcio==1.66.1
+Requires-Dist: numpy>=2.2.0
+Requires-Dist: protobuf>=5.27.2
+Description-Content-Type: text/markdown
+
+# kachaka-api
+
+## Overview
+kachaka-apiは[スマートファニチャー・プラットフォーム「カチャカ」](https://kachaka.life/) のAPIを利用するためのPythonライブラリです。
+ドキュメントは[kachaka-api manual](https://github.com/pf-robotics/kachaka-api/blob/main/README.md)をご覧ください。
+
+## License
+Copyright 2023 Preferred Robotics, Inc.
+Licensed under [the Apache License, Version 2.0](LICENSE).
