@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "anshitsu"
+version = "2.0.2"  # using poetry-dynamic-versioning
+description = "A tiny digital photographic utility."
+readme = "README.md"
+authors = ["Iosif Takakura <iosif@huideyeren.info>"]
+homepage = "https://github.com/huideyeren"
+repository = "https://github.com/huideyeren/anshitsu"
+documentation = "https://github.com/huideyeren/anshitsu"
+license = "MIT"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+style = "pep440"
+
+[tool.poetry.dependencies]
+python = "<4.0,>=3.10"
+numpy = "*"
+Pillow = "*"
+colorcorrect = "*"
+fire = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+flake8 = "*"
+mypy = "*"
+black = "*"
+isort = "*"
+pyproject-flake8 = "*"
+pytest-randomly = "*"
+tox = "*"
+pytest-cov = "*"
+
+[tool.poetry.scripts]
+anshitsu = "anshitsu.main:main"
+
+[tool.poetry.group.dev.dependencies]
+importlib-metadata = "*"
+poetry-dynamic-versioning = "*"
+setuptools = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.black]
+line-length = 88
+
+[tool.mypy]
+ignore_missing_imports=1
