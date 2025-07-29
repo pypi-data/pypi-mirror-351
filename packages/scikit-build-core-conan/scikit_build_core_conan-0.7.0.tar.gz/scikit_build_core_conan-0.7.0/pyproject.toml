@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scikit-build-core-conan"
+version = "0.7.0"
+authors = [
+    { name = "Zhengyu Wu", email = "zhengyu.wu21@imperial.ac.uk" },
+]
+description = "A conan plugin for scikit-build-core"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Build Tools",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Development Status :: 3 - Alpha",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "scikit-build-core >= 0.10.0",
+    "conan >= 2.11.0",
+    "tomli; python_version < '3.11'",
+]
+
+[project.urls]
+Homepage = "https://github.com/wu-vincent/scikit-build-core-conan"
+Issues = "https://github.com/wu-vincent/scikit-build-core-conan/issues"
