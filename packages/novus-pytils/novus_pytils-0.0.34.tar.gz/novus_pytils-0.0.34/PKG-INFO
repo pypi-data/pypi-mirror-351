@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: novus-pytils
+Version: 0.0.34
+Summary: A repository for useful python methods which abstract methods I can never remember how to use.
+Project-URL: Homepage, https://github.com/jmcmeen/novus-pytils
+Author-email: John McMeen <johnmcmeen@gmail.com>
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Requires-Dist: numpy
+Description-Content-Type: text/markdown
+
+# novus-pytils
+A library of useful Python methods/wrappers.
