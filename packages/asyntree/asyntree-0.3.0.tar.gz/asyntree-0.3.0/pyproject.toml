@@ -1,0 +1,81 @@
+[build-system]
+requires = ["uv_build>=0.7.5,<0.8.0"]
+build-backend = "uv_build"
+
+[project]
+name = "asyntree"
+version = "0.3.0"
+description = "Syntax trees and file utilities."
+authors = [
+    {name = "Luke Miloszewski", email = "lukemiloszewski@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12.0,<3.14.0"
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "rich~=14.0",
+    "typer~=0.15"
+]
+
+[project.urls]
+Homepage = "https://github.com/lukemiloszewski/asyntree"
+Repository = "https://github.com/lukemiloszewski/asyntree"
+Changelog = "https://github.com/lukemiloszewski/asyntree/releases"
+
+[project.scripts]
+asyntree = "asyntree.cli:app"
+
+[dependency-groups]
+dev = [
+    "deptry~=0.21",
+    "pytest~=8.3",
+    "pytest-cov~=6.1",
+    "ruff~=0.11",
+    "typeguard~=4.4",
+]
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+publish-url = "https://upload.pypi.org/legacy/"
+
+[tool.coverage.paths]
+source = ["src"]
+tests = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["asyntree"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100
+omit = [
+  "*/*init*",
+  "*/*__main__.py"
+]
+
+[tool.ruff]
+line-length = 100
+lint.ignore = [
+    "E501",  # line too long, handled by black
+    "E731",  # lambda assignment
+    "UP007", # use `X | Y` for type annotations
+    "UP006", # super-call-super
+    "UP035", # typing.type is deprecated
+]
+lint.select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+]
+
+[tool.ruff.lint.isort]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+known-first-party = ["asyntree"]
