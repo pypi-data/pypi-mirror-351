@@ -1,0 +1,66 @@
+Metadata-Version: 2.3
+Name: liquichange
+Version: 0.2.2
+Summary: Build and modify Liquibase changelogs in Python.
+License: Apache-2.0
+Author: Nelson Moore
+Author-email: nelson.moore@essential-soft.com
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: dev
+Requires-Dist: myst-nb (>=0.17.1) ; extra == "dev"
+Requires-Dist: pytest (>=8.3.5)
+Requires-Dist: pytest-cov (>=4.0.0) ; extra == "dev"
+Requires-Dist: sphinx-autoapi (>=2.1.0) ; extra == "dev"
+Requires-Dist: sphinx-rtd-theme (>=1.2.0) ; extra == "dev"
+Description-Content-Type: text/markdown
+
+# liquichange
+Build and modify Liquibase changelogs in Python.
+
+## Installation
+
+```bash
+$ pip install liquichange
+```
+
+## Usage
+
+`liquichange` can be used to generate Liquibase XML changelogs as follows:
+
+```python
+from liquichange.changelog import Changelog, Changeset, CypherChange
+
+# instantiate Changelog
+changelog = Changelog()
+
+# add Changeset with change_type neo4j:cypher to Changelog
+changeset = Changeset(
+  id="42",
+  author="Nelson",
+  change_type=CypherChange(
+    text="MERGE (:property {handle: 'fastq_name', model: 'GDC'})"
+  )
+)
+changelog.add_changeset(changeset)
+
+# write changelog to XML file
+file_path = "path/to/file.xml"
+changelog.save_to_file(
+  file_path=file_path,
+  encoding="UTF-8"
+)
+```
+
+## License
+
+`liquichange` is licensed under the terms of the the Apache 2.0 license.
+
+LIQUIBASE is a registered trademark of Liquibase, INC. Liquibase Open Source is released under the Apache 2.0 license.
+
