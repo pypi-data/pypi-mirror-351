@@ -1,0 +1,106 @@
+[project]
+name = "headless-kivy"
+dynamic = ["version"]
+description = "Headless renderer for Kivy framework"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Sassan Haradji", email = "me@sassanh.com" }]
+maintainers = [{ name = "Sassan Haradji", email = "me@sassanh.com" }]
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ['kivy', 'headless', 'display', 'pytest', 'test']
+dependencies = [
+  "numpy >= 1.24.2, < 2.0.0",
+  "kivy >= 2.2.1",
+  "python-strtobool >= 1.0.0",
+]
+
+[project.optional-dependencies]
+test = ["pypng >= 0.20220715.0"]
+
+[tool.uv]
+dev-dependencies = [
+  "poethepoet >= 0.29.0",
+  "pyright >= 1.1.399",
+  "ruff >= 0.11.6",
+  "pytest >= 8.3.3",
+]
+
+[project.urls]
+homepage = 'https://github.com/sassanh/headless-kivy/'
+repository = 'https://github.com/sassanh/headless-kivy/'
+documentation = 'https://github.com/sassanh/headless-kivy/'
+changelog = 'https://github.com/sassanh/headless-kivy/blob/main/CHANGELOG.md'
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "headless_kivy/_version.py"
+
+[tool.hatch.version.raw-options]
+local_scheme = "setup_scm_schemes:local_scheme"
+
+[tool.hatch.build]
+packages = ["headless_kivy", "headless_kivy_pytest"]
+
+[tool.hatch.build.targets.sdist]
+packages = ["headless_kivy", "headless_kivy_pytest"]
+
+[project.scripts]
+demo = "demo:main"
+todo_demo = "todo_demo:main"
+
+[tool.poe.tasks]
+lint = "ruff check . --unsafe-fixes"
+typecheck = "pyright -p pyproject.toml ."
+sanity = ["typecheck", "lint"]
+
+[tool.poe.tasks.deploy-to-device]
+cmd = 'scripts/deploy.sh'
+
+[tool.ruff]
+target-version = 'py311'
+
+[tool.ruff.lint]
+select = ['ALL']
+ignore = ['INP001', 'PLR0911', 'D203', 'D213']
+fixable = ['ALL']
+unfixable = []
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
+multiline-quotes = "double"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "PLR0913", "PLR0915"]
+"headless_kivy_pytest/*" = ["S101", "PLR0913", "PLR0915"]
+
+[tool.ruff.format]
+quote-style = 'single'
+
+[tool.isort]
+profile = "black"
+
+[tool.pyright]
+exclude = ['typings', '.venv']
+filterwarnings = 'error'
+disableTaggedHints = true
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:"]
+
+[tool.coverage.run]
+source = ['headless_kivy', 'headless_kivy_pytest']
+omit = [
+  'headless_kivy_pytest/plugin.py',
+  'headless_kivy/_version.py',
+  "setup_scm_schemes.py",
+]
+
+[project.entry-points.pytest11]
+headless_kivy = "headless_kivy_pytest.plugin"
