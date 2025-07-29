@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: unstructured-fileconverter-haystack
+Version: 0.4.3
+Summary: Haystack 2.x component to convert files into Documents using the Unstructured API
+Project-URL: Documentation, https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/unstructured#readme
+Project-URL: Issues, https://github.com/deepset-ai/haystack-core-integrations/issues
+Project-URL: Source, https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/unstructured
+Author-email: deepset GmbH <info@deepset.ai>
+License-Expression: Apache-2.0
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Requires-Dist: haystack-ai>=2.0.0
+Requires-Dist: unstructured-client>=0.21.0
+Requires-Dist: unstructured>=0.15.0
+Description-Content-Type: text/markdown
+
+# unstructured-fileconverter-haystack
+
+[![PyPI - Version](https://img.shields.io/pypi/v/unstructured-fileconverter-haystack.svg)](https://pypi.org/project/unstructured-fileconverter-haystack)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/unstructured-fileconverter-haystack.svg)](https://pypi.org/project/unstructured-fileconverter-haystack)
+
+-----
+
+**Table of Contents**
+
+- [unstructured-fileconverter-haystack](#unstructured-fileconverter-haystack)
+  - [Installation](#installation)
+  - [License](#license)
+  - [Testing](#testing)
+
+## Installation
+
+```console
+pip install unstructured-fileconverter-haystack
+```
+
+## License
+
+`unstructured-fileconverter-haystack` is distributed under the terms of the [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) license.
+
+## Testing
+
+To run tests, first start a Docker container running the Unstructured API:
+
+```console
+docker run -p 8000:8000 -d --rm --name unstructured-api quay.io/unstructured-io/unstructured-api:latest --port 8000 --host 0.0.0.0
+```
+
+Then run tests:
+
+```console
+hatch run test
+```
