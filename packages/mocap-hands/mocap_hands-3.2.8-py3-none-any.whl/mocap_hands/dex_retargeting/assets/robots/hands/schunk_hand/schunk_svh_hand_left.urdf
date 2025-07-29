@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="svh">
+  <link name="base_link"/>
+  <joint name="root_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="left_hand_base_link"/>
+    <origin rpy="0 0 -1.57079" xyz="0 0 0"/>
+  </joint>
+  <link name="left_hand_base_link">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.032"/>
+      <geometry>
+        <mesh filename="meshes/visual/base10.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.009"/>
+      <geometry>
+        <cylinder radius="0.045" length="0.045"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- LENGTH NOT FOUND IN DATASHEET! GUESSED!!! -->
+  <link name="left_hand_e1">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0.01313 0"/>
+      <geometry>
+        <mesh filename="meshes/visual/h10_left.obj" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0.01313 0.013"/>
+      <geometry>
+        <box size="0.05 0.05 0.026"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.00573 0.0035 0.05747"/>
+      <geometry>
+        <box size="0.0584 0.038 0.0641"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.01 0.0035 0.096"/>
+      <geometry>
+        <box size="0.042 0.038 0.015"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- LENGTH NOT FOUND IN DATASHEET! GUESSED!!! -->
+  <link name="left_hand_e2">
+    <visual>
+      <origin xyz="0.0007 0 -0.01002"/>
+      <geometry>
+        <mesh filename="meshes/visual/h11_left.obj" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="-0.016 0 0.02"/>
+      <geometry>
+        <box size="0.0246 0.035 0.0564"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="-0.0032 -0.0083 0.048"/>
+      <geometry>
+        <box size="0.012 0.018 0.021"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- THUMB LINKS -->
+  <link name="LeftHandThumb1_link_1">
+    <visual>
+      <origin xyz="0 0 0.02442"/>
+      <geometry>
+        <mesh filename="meshes/visual/d10_left.obj" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.02842"/>
+      <geometry>
+        <box size="0.024 0.0188 0.008"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0125 0.0 0.04292"/>
+      <geometry>
+        <box size="0.006 0.024 0.033"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.0125 0.0 0.04292"/>
+      <geometry>
+        <box size="0.006 0.024 0.033"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandThumb1_link_2">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/d11_left.obj" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/d11_left.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandThumb2_link_0">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/d12_left.obj" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/d12_left.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandThumb3_link_0">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.007 0.000 0.000"/>
+      <mass value="0.02"/>
+      <inertia ixx="1e-5" ixy="0.0" ixz="0.0" iyy="2e-5" iyz="0.0" izz="2e-5"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/d13_left.obj" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/d13_left.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- INDEX FINGER LINKS -->
+  <link name="LeftHandIndex1_link_0">
+    <visual>
+      <origin xyz="0 0 0.01321"/>
+      <geometry>
+        <mesh filename="meshes/visual/f10_f20.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.00121"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandIndex1_link_1">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/f11.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/f11.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandIndex2_link_0">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.01 0.000 0.000"/>
+      <mass value="0.024"/>
+      <inertia ixx="9e-7" ixy="0.0" ixz="0.0" iyy="3e-6" iyz="0.0" izz="2e-6"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/f12.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/f12.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandIndex3_link_0">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.007 0.000 0.000"/>
+      <mass value="0.02"/>
+      <inertia ixx="1e-5" ixy="0.0" ixz="0.0" iyy="2e-5" iyz="0.0" izz="2e-5"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/finger_tip.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/finger_tip.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- MIDDLE FINGER LINKS -->
+  <link name="left_hand_virtual_k">
+    <visual>
+      <origin xyz="0 0 0.01321"/>
+      <geometry>
+        <mesh filename="meshes/visual/f10_f20.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.00321"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandMiddle1_link_0">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/f21.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/f21.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandMiddle2_link_0">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/f22_f32.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/f22_f32.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandMiddle3_link_0">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.007 0.000 0.000"/>
+      <mass value="0.02"/>
+      <inertia ixx="1e-5" ixy="0.0" ixz="0.0" iyy="2e-5" iyz="0.0" izz="2e-5"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/finger_tip.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/finger_tip.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- RING FINGER LINKS -->
+  <link name="LeftHandRing1_link_0">
+    <visual>
+      <origin xyz="0 0 -0.01321"/>
+      <geometry>
+        <mesh filename="meshes/visual/f30_f40.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.00321"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandRing1_link_1">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/f31.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/f31.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandRing2_link_0">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/f22_f32.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/f22_f32.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandRing3_link_0">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.007 0.000 0.000"/>
+      <mass value="0.02"/>
+      <inertia ixx="1e-5" ixy="0.0" ixz="0.0" iyy="2e-5" iyz="0.0" izz="2e-5"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/finger_tip.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/finger_tip.obj" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- LITTLE FINGER LINKS -->
+  <link name="LeftHandPinky1_link_0">
+    <visual>
+      <origin xyz="0 0 -0.01321"/>
+      <geometry>
+        <mesh filename="meshes/visual/f30_f40.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.00321"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandPinky1_link_1">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/f41.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/f41.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandPinky2_link_0">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.007 0.000 0.000"/>
+      <mass value="0.02"/>
+      <inertia ixx="8e-7" ixy="0.0" ixz="0.0" iyy="2e-6" iyz="0.0" izz="2e-6"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/f42.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/f42.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="LeftHandPinky3_link_0">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.007 0.000 0.000"/>
+      <mass value="0.02"/>
+      <inertia ixx="1e-5" ixy="0.0" ixz="0.0" iyy="2e-5" iyz="0.0" izz="2e-5"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="meshes/visual/finger_tip.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/collision/finger_tip.obj"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LeftHandThumb1_joint_2" type="revolute">
+    <parent link="LeftHandThumb1_link_1"/>
+    <child link="LeftHandThumb1_link_2"/>
+    <limit effort="1000.0" lower="-0.97039" upper="0.66374"  velocity="1"/>
+    <origin rpy="-1.570809 -0.699391 0.002499" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <!-- BASE_LINE JOINTS -->
+  <joint name="LeftHandThumb1_joint_1" type="revolute">
+    <parent link="left_hand_e1"/>
+    <child link="LeftHandThumb1_link_1"/>
+    <limit effort="1000.0" lower="-0.73303" upper="1.81863" velocity="1"/>
+    <origin rpy="0.59829044 -0.63200986 0.5955324" xyz="0.0371 0.0103 0.032061"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="left_hand_f4" type="fixed">
+    <parent link="left_hand_base_link"/>
+    <child link="left_hand_e1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+  <joint name="left_hand_j5" type="revolute">
+    <parent link="left_hand_e1"/>
+    <child link="left_hand_e2"/>
+    <limit effort="1000.0" upper="0.0" lower="0" velocity="1"/>
+    <origin rpy="0 0 0" xyz="-0.0244 0 0.032061"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandThumb1_joint_1" multiplier="0.000000001" offset="0"/>
+  </joint>
+  <!-- THUMB JOINTS -->
+  <joint name="LeftHandThumb2_joint_0" type="revolute">
+    <parent link="LeftHandThumb1_link_2"/>
+    <child link="LeftHandThumb2_link_0"/>
+    <limit effort="1000.0" upper="0.98506" lower="0" velocity="1"/>
+    <origin rpy="1.573274 -0.003074 0.695892" xyz="0.044344 0.037305 0"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandThumb1_joint_1" multiplier="1.01511" offset="0"/>
+  </joint>
+  <joint name="LeftHandThumb3_joint_0" type="revolute">
+    <parent link="LeftHandThumb2_link_0"/>
+    <child link="LeftHandThumb3_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.406" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0.030089 -0.000105 0.00012"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandThumb1_joint_1" multiplier="1.44889" offset="0"/>
+  </joint>
+  <!-- INDEX FINGER JOINTS -->
+  <joint name="LeftHandIndex2_joint_0" type="revolute">
+    <parent link="LeftHandIndex1_link_1"/>
+    <child link="LeftHandIndex2_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.334" velocity="1"/>
+    <origin rpy="1.5707964 0 0" xyz="0.036 -0.000003 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="LeftHandIndex1_joint_1" type="revolute">
+    <parent link="LeftHandIndex1_link_0"/>
+    <child link="LeftHandIndex1_link_1"/>
+    <limit effort="1000.0" upper="0.28833" lower="0" velocity="1"/>
+    <origin rpy="-1.5707 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandPinky1_joint_1" multiplier="-0.5" offset="0"/>
+  </joint>
+  <!-- JOINT Finger_Spread in BASE_LINE section for better UX -->
+  <joint name="LeftHandIndex3_joint_0" type="revolute">
+    <parent link="LeftHandIndex2_link_0"/>
+    <child link="LeftHandIndex3_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.394" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0.0246 -0.000002 0"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandIndex2_joint_0" multiplier="1.0450" offset="0"/>
+  </joint>
+  <!-- MIDDLE FINGER JOINTS -->
+  <joint name="LeftHandMiddle1_joint_0" type="revolute">
+    <parent link="left_hand_virtual_k"/>
+    <child link="LeftHandMiddle1_link_0"/>
+    <limit effort="1000.0" lower="0.0" upper="0.79849" velocity="1"/>
+    <origin rpy="-1.5707 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="LeftHandMiddle2_joint_0" type="revolute">
+    <parent link="LeftHandMiddle1_link_0"/>
+    <child link="LeftHandMiddle2_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.334" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0.0427 -0.000004 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="LeftHandMiddle3_joint_0" type="revolute">
+    <parent link="LeftHandMiddle2_link_0"/>
+    <child link="LeftHandMiddle3_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.334" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0.0252 -0.000002 0"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandMiddle2_joint_0" multiplier="1.0454" offset="0"/>
+  </joint>
+  <!-- RING FINGER JOINTS -->
+  <joint name="LeftHandRing1_joint_1" type="revolute">
+    <parent link="LeftHandRing1_link_0"/>
+    <child link="LeftHandRing1_link_1"/>
+    <limit effort="1000.0" lower="-0.28832" upper="0" velocity="1"/>
+    <origin rpy="-1.5707 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandPinky1_joint_1" multiplier="0.5" offset="0"/>
+  </joint>
+  <joint name="LeftHandRing2_joint_0" type="revolute">
+    <parent link="LeftHandRing1_link_1"/>
+    <child link="LeftHandRing2_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.334" velocity="1"/>
+    <origin rpy="1.5707 0 0" xyz="0.0382 0 0.000004"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandRing1_joint_0" multiplier="1.3588" offset="0"/>
+  </joint>
+  <joint name="LeftHandRing3_joint_0" type="revolute">
+    <parent link="LeftHandRing2_link_0"/>
+    <child link="LeftHandRing3_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.395" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0.0243 0 0.000002"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandRing1_joint_0" multiplier="1.42093" offset="0"/>
+  </joint>
+  <!-- PINKY JOINTS -->
+  <joint name="LeftHandPinky1_joint_1" type="revolute">
+    <parent link="LeftHandPinky1_link_0"/>
+    <child link="LeftHandPinky1_link_1"/>
+    <limit effort="1000.0" lower="-0.58289" upper="0" velocity="1"/>
+    <origin rpy="-1.5707 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="LeftHandPinky2_joint_0" type="revolute">
+    <parent link="LeftHandPinky1_link_1"/>
+    <child link="LeftHandPinky2_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.334" velocity="1"/>
+    <origin rpy="1.5707 0 0" xyz="0.0229 0 0.000002"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandPinky1_joint_0" multiplier="1.35880" offset="0"/>
+  </joint>
+  <joint name="LeftHandPinky3_joint_0" type="revolute">
+    <parent link="LeftHandPinky2_link_0"/>
+    <child link="LeftHandPinky3_link_0"/>
+    <limit effort="1000.0" lower="0" upper="1.3971" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0.0154 0 0.000001"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="LeftHandPinky1_joint_0" multiplier="1.42307" offset="0"/>
+  </joint>
+  <joint name="LeftHandIndex1_joint_0" type="revolute">
+    <parent link="left_hand_e1"/>
+    <child link="LeftHandIndex1_link_0"/>
+    <limit effort="1000.0" upper="0.79849" lower="0" velocity="1"/>
+    <origin rpy="0 -1.5707 0" xyz="0.0226 0 0.109961"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="left_hand_middle_spread_dummy" type="fixed">
+    <parent link="left_hand_e1"/>
+    <child link="left_hand_virtual_k"/>
+    <origin rpy="0 -1.5707 1.5707" xyz="0 -0.000700 0.117161"/>
+  </joint>
+  <joint name="LeftHandRing1_joint_0" type="revolute">
+    <parent link="left_hand_e2"/>
+    <child link="LeftHandRing1_link_0"/>
+    <limit effort="1000.0" lower="0.0" upper="0.98175" velocity="1"/>
+    <origin rpy="-1.5707 -1.5707 1.5707" xyz="0 -0.0007 0.0766"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <joint name="LeftHandPinky1_joint_0" type="revolute">
+    <parent link="left_hand_e2"/>
+    <child link="LeftHandPinky1_link_0"/>
+    <limit effort="1000.0" lower="0.0" upper="0.98174" velocity="1"/>
+    <origin rpy="-1.5707 -1.5707 1.5707" xyz="-0.0242 -0.0007 0.071899"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="thtip"/>
+  <link name="fftip"/>
+  <link name="mftip"/>
+  <link name="rftip"/>
+  <link name="lftip"/>
+  <joint name="thtip_joint" type="fixed">
+    <parent link="LeftHandThumb3_link_0"/>
+    <child link="thtip"/>
+    <origin rpy="0.00000 -0.00000 0.00000" xyz="0.0275 0.000 0.000"/>
+  </joint>
+  <joint name="fftip_joint" type="fixed">
+    <parent link="LeftHandIndex3_link_0"/>
+    <child link="fftip"/>
+    <origin rpy="0.00000 -0.00000 0.00000" xyz="0.014 0.000 0.000"/>
+  </joint>
+  <joint name="mftip_joint" type="fixed">
+    <parent link="LeftHandMiddle3_link_0"/>
+    <child link="mftip"/>
+    <origin rpy="0.00000 -0.00000 0.00000" xyz="0.014 0.000 0.000"/>
+  </joint>
+  <joint name="rftip_joint" type="fixed">
+    <parent link="LeftHandRing3_link_0"/>
+    <child link="rftip"/>
+    <origin rpy="0.00000 -0.00000 0.00000" xyz="0.014 0.000 0.000"/>
+  </joint>
+  <joint name="lftip_joint" type="fixed">
+    <parent link="LeftHandPinky3_link_0"/>
+    <child link="lftip"/>
+    <origin rpy="0.00000 -0.00000 0.00000" xyz="0.014 0.000 0.000"/>
+  </joint>
+</robot>

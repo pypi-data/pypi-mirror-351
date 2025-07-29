@@ -1,0 +1,22 @@
+[tool.black]
+line_length = 120
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+
+[tool.poetry.dependencies]
+lxml = "^5.3.2"
+anytree = "^2.13.0"
+pinocchio = "^0.4.3"
+pytransform3d = "^3.14.0"
+nlopt = "^2.7.1"
+
+[tool.mypy]
+plugins = ["numpy.typing.mypy_plugin"]
+
+[tool.pytest.ini_options]
+addopts = "--disable-warnings"
+testpaths = [
+    "tests",
+]
