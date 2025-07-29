@@ -1,0 +1,41 @@
+Metadata-Version: 2.1
+Name: telemetry_tempest_plugin
+Version: 2.5.1
+Summary: Tempest plugin for Telemetry Projects
+Home-page: https://www.openstack.org/
+Author: OpenStack
+Author-email: openstack-discuss@lists.openstack.org
+Classifier: Environment :: OpenStack
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+License-File: LICENSE
+Requires-Dist: pbr>=2.0
+Requires-Dist: oslo.config>=6.0.0
+Requires-Dist: oslo.utils>=3.37.0
+Requires-Dist: tempest>=17.1.0
+Requires-Dist: gabbi>=2.7.0
+
+========================
+Telemetry Tempest Plugin
+========================
+
+Tempest plugin for Telemetry Project.
+
+It contains tempest tests for Aodh, Ceilometer, and Gnocchi Projects.
+
+* Free software: Apache license
+* Documentation: https://docs.openstack.org/ceilometer/latest/
+* Source: https://opendev.org/openstack/telemetry-tempest-plugin
+* Bugs: https://bugs.launchpad.net/ceilometer
+

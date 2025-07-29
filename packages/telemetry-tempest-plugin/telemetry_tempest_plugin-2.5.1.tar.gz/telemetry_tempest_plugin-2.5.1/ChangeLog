@@ -1,0 +1,322 @@
+CHANGES
+=======
+
+2.5.1
+-----
+
+* Use PROMETHEUS\_CUSTOM\_SCRAPE\_TARGETS to pass sg\_core scrape endpoint
+* Create network for integration scenarios
+* Remove Ubuntu Jammy job
+* Remove CentOS Stream 9 job from master
+* tox: Fix broken releasenotes target
+* Remove jobs for retired branches
+* Add stable/2025.1 job
+* Skip functional tests for .gitreview
+* Use Prometheus plugin
+
+2.5.0
+-----
+
+* Drop unnecessary variable overrides
+* Switch to openstack-k8s-operators/sg-core
+* Update gate jobs as per the 2025.1 cycle testing runtime
+* Fix sg-core test
+* Remove unused environment variables
+
+2.4.0
+-----
+
+* Replace assertDictContainsSubset
+* Bump hacking
+* Metadata grouping releasenote
+* Use metadata server grouping as default
+* Gnocchi: Use specific stable branch for stable branch jobs
+* Remove stable/2023.1 job from master gate
+* Remove support for Pyton 3.8 and older
+* Disable prometheus tests in stable branches
+* Re-enable GLOBAL\_VENV
+* Drop unnecessary 'x' bit from doc config file
+* Add stable branch jobs
+* Apply consistent irrelevant files for dsvm jobs
+* Use server\_group in Prom autoscaling scenario
+* Drop remaining options for panko
+* Parametrize autoscaling instance load length
+
+2.3.0
+-----
+
+* Poll multiple times for deleted resources
+* Cleanup leftover stacks
+
+2.2.0
+-----
+
+* Drop devstack-gate
+* Add basic admin tests for Aodh
+* Parametrize prometheus rate duration
+* Fix compatibility with gabbi >= 2.7.0
+
+2.1.1
+-----
+
+
+2.1.0
+-----
+
+* Add Autoscaling test with prometheus
+* Ensure both severities are used in test data
+
+2.0.0
+-----
+
+* Make regex for excluding tests more specific
+* Revert "Make centos 9 stream jobs non-voting"
+* Fix sg-core test scenario
+* Drop dib-utils
+* Fix typo to enable sg-core service in tempest conf
+* Fix typo in alarm backend name
+* Make centos 9 stream jobs non-voting
+* Refactor options to enabled backends
+* Increase attempts to delete archive policy
+* Revert "Remove autoscaling until gate issues sorted out"
+* Separate backends by type
+* Remove usage of six
+* Remove unused babel.cfg
+* Cleanup .zuul.yaml
+* Add functional integration test coverage for Aodh
+* Disable sg-core related tests by default
+* Separate prometheus related tests
+* Add test\_addtitions to the TOC tree
+* Add sg-core integration test
+* Add a description about how to add new tests
+* Disable GLOBAL\_VENV and disable "telemetry-dsvm-integration-train"
+
+1.10.0
+------
+
+* Replace reference to deprecated [service\_available] aodh\_plugin
+
+1.9.0
+-----
+
+* Add gnocchi to required projects
+* Set aodh\_threshold to "6000000000" in tempest.conf
+
+1.8.0
+-----
+
+* Disable SSL validation in gabbi tests
+* Pin stable/wallaby jobs nodeset to Ubuntu Focal (20.04)
+* zuul: Declare queue at top level
+
+1.7.0
+-----
+
+* Add stable branch tests for centos-8s tempest tests
+* Fix FIPS job - nslookup\_target
+* remove unicode from code
+* Replace CentOS Stream 8 by 9
+
+1.6.0
+-----
+
+
+1.5.0
+-----
+
+* Focus testing on train and wallaby
+* Make telemetry-dsvm-integration patches vote again
+* Adding FIPS job definitions for telemetry components
+* Remove autoscaling until gate issues sorted out
+
+1.4.0
+-----
+
+* Move doc requirements to doc
+* Enable tls-proxy support in test jobs
+* Remove ties to panko
+* setup.cfg: Replace dashes with underscores
+* Switch telemetry-tempest-dsvm to non-voting for now
+* Use py3 as the default runtime for tox
+
+1.3.0
+-----
+
+* Increase swap size in order to avoid OOM killer
+* Use tempest's ServiceClients rather than Manager
+
+1.2.0
+-----
+
+* Allow to disable SSL validation in gabbi tests
+
+1.1.0
+-----
+
+* [goal] Migrate telemetry-tempest-plugin jobs to focal
+* Use image\_create() from tempest scenario manager
+* Stop to use the \_\_future\_\_ module
+* Switch to newer openstackdocstheme and reno versions
+* Fix hacking min version to 3.0.1
+* Fix the endpoint url trailing slash issue
+* Add stable branch jobs on the plugins master gate
+* Further py27 cleanup support
+
+1.0.0
+-----
+
+* Cleanup py27 support
+* Drop python 2.7 support and testing
+* Create event type alarm for aodh API test
+* Tolerate existing gabbiliveceph archive policy
+* Old branch don't use python3
+* Update invalid link
+* Make job USE\_PYTHON3
+* Sync Sphinx requirement
+* Update the constraints url
+
+0.4.0
+-----
+
+* [train][goal] Define new 'telemetry-dsvm-integration-ipv6-only' job
+* Add config option to enable/disable alarm creation during testing
+* Add Python 3 Train unit tests
+* Create a safe rand name for stack name
+* Use gnocchi search api to check gnocchi resources
+* Replace git.openstack.org URLs with opendev.org URLs
+* Replace git.openstack.org URLs with opendev.org URLs
+* Add the native zuulv3 instead of legacy way
+* OpenDev Migration Patch
+* Fix old branch telemetry-dsvm-integration job
+* Replace openstack.org git:// URLs with https://
+
+0.3.0
+-----
+
+* Fix gabbi tests
+* Update hacking version to latest
+* Make aodh tempest tests work with Python3
+* Change openstack-dev to openstack-discuss
+* Removed older version of python added 3.5
+* Change testing defaults
+* Allow to use environment variable to override some metric values
+* Reorganize scenario testing
+* Cleanup tox.ini
+* import zuul job settings from project-config
+
+0.1.0
+-----
+
+* Consider region when filtering Gnocchi base URL
+* Check alarm state just after the PUT
+* Fix gnocchi package
+* List instances of all tenants
+* Don't install system tempest with devstack
+* fix tox python3 overrides
+* gabbi 1.42 expect a host to be set
+* Fix documentation build
+* Fix index.rst in order to fix doc building
+* Fix aodh service name check in tempest tests
+* Enable heat support in telemetry-tempest-plugin
+* Zuul: Remove project name
+* Fix aodh service config option name
+* Rename integration job
+* Sync tempest code from ceilometer
+* Moved gnocchi tempest tests under telemetry tempest plugin
+* Add gating to the plugin
+* tempest: remove ceilometer-api alarm
+* Add devstack plugin to ease integration tests
+* Apply cookiecutter to newly split project telemetry-tempest-plugin
+* Remove Ceilometer API
+* tests: fix Redis key length debugging output format
+* Use generic user for both zuul v2 and v3
+* handle new tempest swift interface
+* Update tests to do not use deprecated test.services()
+* Use tempest.clients.Manager as base clients class
+* Move object storage container\_client to match tempest
+* Replace the usage of some aliases in tempest
+* tempest: Use primary user token
+* use tempest manager
+* post\_test\_hook: stop sourcing gnocchi/devstack/settings
+* tempest: fix some future flake8 issue
+* tempest: remove deprecation warning
+* tempest: Allow to configure granularity
+* integration: always run all commands
+* tempest: tell tempest our scenario are long
+* integration: Fix report generation
+* tempest: Don't hardcode the network name
+* Cleanup post\_test\_hook.sh
+* tempest: use the configured flavor
+* tempest: rework gabbi setup
+* Correct bad use response\_strings in live.yaml
+* tempest: Fix exception handling
+* tempest: remove confusing stack check step
+* fix gnocchi unprocessed measures debug
+* tempest: remove broken tests
+* Switch to use stable data\_utils
+* Switch to use stable data\_utils
+* tempest: skip legacy telemetry-api tests
+* prepare future tempest breakage
+* Remove smoke tag for TelemetryNotificationAPITest
+* set OS\_AUTH\_TYPE in gate
+* match generic cirros name
+* Switch to use test\_utils.call\_until\_true
+* gabbi: use history
+* stop hardcode timeout in tempest tests
+* Do not use non-UUID resource ID in Aodh+Gnocchi tests
+* Use Tempest stable library interfaces
+* Switch to decorators.idempotent\_id
+* show panko events for debug
+* check panko during integration test
+* tempest: use tempest img
+* tempest: Allow to not run deprecated API tests
+* tempest: allow usage of scenario-img for autoscaling
+* Fix error module usage
+* Test suite for Aodh's gnocchi-resource-threshold alarm
+* integration: run gabbi first
+* integration: deleting the stack sometimes timeout
+* tempest: support keystone v3 for autoscaling
+* tests: generate reports when tempest fail
+* Reenable the tempest test about nova notification
+* integration tests: fix generation of tests\_results.html
+* use aodhclient in integration test
+* Clean the glance v1 code in tempest plugin
+* Fix gate problem related to  \_error\_checker()
+* Add autoscaling scenario in tempest tests
+* Stop adding ServiceAvailable group option
+* Cleanup imports in code
+* Fix tempest.conf generation
+* Add missing %s in print message
+* Remove unused LOG
+* Copy images\_client from tempest + Correct concurrency of gabbi 1.22.0
+* Use trusts in Heat integration test
+* Copy images\_client from tempest
+* catch DriverLoadFailure for get\_transport optional
+* tempest: import ImagesClient as ImagesClientV2
+* tempest\_plugin: drop telemetry decorator
+* tempest\_plugin: drop telemetry decorator
+* replace deprecated heat command with OSC
+* Fix Ceilometer tests config options
+* devstack Fix unprocess measure path
+* gate: add missing sudo
+* tempest: migrate api and scnario tests from tempest
+* tests: fix unworking debug output
+* fix tempest path
+* integration-gate: fix publicURL retrieval
+* tempest: migrate base class for tests
+* tempest: add ceilometer tempest plugin
+* tempest: add telemetry client manager
+* tempest: migrate conf.py from tempest tree
+* tempest: copy telemetry client from tempest tree
+* show queue status on integration test
+* Use gnocchiclient for integration script
+* devstack: fix debug info for Gnocchi
+* integration tests: additional debugging infos
+* integration: Add debugging information
+* integration: fix typo
+* Use new location of subunit2html
+* integration: add some new tests
+* integration test: adjusts timeout
+* integration: chown ceilometer directory properly
+* integration: use the right user in gate
+* tests: add an integration test
