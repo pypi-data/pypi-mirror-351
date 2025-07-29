@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+include CAMBIOS_REALIZADOS.md
+include PYPI_INSTRUCTIONS.md
+include example_usage.py
+include upload_to_pypi.sh
+recursive-include fastapi *.py
+recursive-include fastapi/dependencies *.py
+recursive-include fastapi/openapi *.py
+recursive-include fastapi/middleware *.py
+recursive-include fastapi/security *.py
+global-exclude __pycache__
+global-exclude *.py[co]
