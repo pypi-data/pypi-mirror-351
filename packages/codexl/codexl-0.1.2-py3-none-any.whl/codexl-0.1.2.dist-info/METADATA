@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: codexl
+Version: 0.1.2
+Summary: A tool to manage multiple git repositories and working directories
+Author: Your Name
+Author-email: your.email@example.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.7
+Requires-Dist: click >=8.0.0
+Requires-Dist: gitpython >=3.1.0
+Requires-Dist: pyyaml >=6.0
+Requires-Dist: questionary >=1.10.0
+
