@@ -1,0 +1,96 @@
+name: John Doe
+phone: 555-123-4567
+email: john.doe@example.com
+linkedin: linkedin.com/in/johndoe
+github: github.com/johndoe
+
+# Options: FireSans, Roboto, NotoSans, SourceSansPro, CormorantGaramond, Charter
+# font: roboto
+
+sections:
+  - education
+  - experience
+  - projects
+  - skills
+
+objective:
+  title: Objective
+  text: Enthusiastic software developer seeking opportunities to build impactful tools and learn in collaborative environments.
+
+education:
+  title: Education
+  items:
+    - school: Example University
+      location: Fictional City, CA
+      degree: BSc in Software Engineering
+      date: Aug. 2021 -- May 2025
+
+experience:
+  title: Experience
+  items:
+    - title: Software Development Intern
+      dates: May 2023 -- Aug. 2023
+      company: ExampleTech Inc.
+      location: Remote
+      items:
+        - Contributed to internal tools using React and Node.js
+        - Improved unit test coverage by 40% across services
+    - title: Help Desk Technician
+      dates: Sep. 2021 -- Apr. 2023
+      company: Campus IT Services
+      location: Fictional City, CA
+      items:
+        - Provided technical support to 200+ students and staff weekly
+        - Maintained lab equipment and documented common fixes
+    - title: Web Development Assistant
+      dates: Jan. 2022 -- Sep. 2022
+      company: University Communications Office
+      location: Fictional City, CA
+      items:
+        - Helped maintain and update university departmental websites
+        - Designed layouts using HTML/CSS and integrated content with CMS
+    - title: Freelance Developer
+      dates: Jun. 2021 -- Dec. 2021
+      company: Self-Employed
+      location: Remote
+      items:
+        - Built portfolio websites for small businesses
+        - Customized WordPress themes and handled client revisions
+
+projects:
+  title: Projects
+  items:
+    - title: TaskTrackr
+      stack: Python, Flask, SQLite, Bootstrap
+      dates: Jan. 2023 -- Mar. 2023
+      items:
+        - Built a personal productivity tracker web app
+        - Implemented user authentication and task filtering
+    - title: Weather CLI Tool
+      stack: Python, Requests, Click
+      dates: Nov. 2022 -- Dec. 2022
+      items:
+        - Developed a terminal-based weather application using public APIs
+        - Packaged and published it on GitHub with installation instructions
+    - title: BudgetBuddy
+      stack: React, Firebase, Chart.js
+      dates: Mar. 2022 -- May 2022
+      items:
+        - Built a web app for tracking personal expenses and setting budget goals
+        - Integrated real-time data sync with Firebase
+    - title: Markdown Blog Engine
+      stack: Node.js, Express, EJS, MongoDB
+      dates: Jan. 2022 -- Feb. 2022
+      items:
+        - Created a simple blogging platform with Markdown post support
+        - Implemented user authentication and admin dashboard
+
+skills:
+  title: Technical Skills
+  items:
+    - title: Languages
+      items: [Python, JavaScript, Java, C++, SQL]
+    - title: Frameworks & Tools
+      items: [Flask, React, Node.js, Git, Docker, VS Code]
+    - title: Libraries
+      items: [pandas, NumPy, requests]

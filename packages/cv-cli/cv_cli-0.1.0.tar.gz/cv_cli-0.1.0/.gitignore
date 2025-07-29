@@ -1,0 +1,12 @@
+.venv/
+.vscode/
+.temp/
+.coverage
+
+dist/
+build/*
+output/*
+
+profiles/*
+!profiles/example.yaml
+*__pycache__

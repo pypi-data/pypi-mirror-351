@@ -1,0 +1,148 @@
+%---------------
+% Style commands
+%---------------
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{titling}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{pgffor}
+\usepackage{xparse}
+\usepackage{iftex}
+
+%----------FONT OPTIONS----------
+\newcommand{\resetFont}{\renewcommand{\rmdefault}{cmr}} % default LaTeX serif
+\resetFont{}
+
+% XeTex options
+% \ifXeTeX
+% \usepackage{fontspec}
+% \setmainfont{calibri}
+% \fi
+
+% Sans-serif options (ATS-friendly)
+\newcommand{\useFiraSans}{\resetFont{}\usepackage[sfdefault]{FiraSans}}         % Modern, clean
+\newcommand{\useRoboto}{\resetFont{}\usepackage[sfdefault]{roboto}}             % Android-friendly
+\newcommand{\useNotoSans}{\resetFont{}\usepackage[sfdefault]{noto-sans}}        % Google standard
+\newcommand{\useSourceSansPro}{\resetFont{}\usepackage[default]{sourcesanspro}} % Adobe free font
+\newcommand{\useHelvetica}{\resetFont{}\usepackage{helvet}}                     % pdfLaTeX approximation of Arial
+\newcommand{\useVerdana}{\resetFont{}\usepackage{arev}}                         % Approximates Verdana
+
+% Serif options (ATS-friendly)
+\newcommand{\useCormorantGaramond}{\resetFont{}\usepackage{CormorantGaramond}}  % Elegant
+\newcommand{\useCharter}{\resetFont{}\usepackage{charter}}                      % Clear, formal
+\newcommand{\useTimesNewRoman}{\resetFont{}\usepackage{times}}                  % Basic Times (not full Unicode)
+\newcommand{\useCambria}{\resetFont{}\usepackage{tgpagella}}                    % Palatino as Cambria-like
+\newcommand{\useGeorgia}{\resetFont{}\usepackage{newpxtext,newpxmath}}          % Reasonable Georgia approximation
+
+% \useNotoSans{}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+\setlength{\footskip}{4.1pt}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\ifPDFTeX
+\pdfgentounicode=1
+\input{glyphtounicode}
+\fi
+
+%-------------------------
+% Custom commands
+\NewDocumentCommand{\resumeHeader}{m m o o o}{
+    \textbf{\Huge #1} \\ \vspace{3pt}
+    \vspace{4pt}
+    #2
+    \IfValueT{#3}{$|$ #3}
+    \IfValueT{#4}{$|$ #4}
+    \IfValueT{#5}{$|$ #5}
+    \\[-8pt]
+    \noindent\color{black}\titlerule 
+    \vspace{-5pt}
+}
+
+
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{-2pt}}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny\textbullet}}$}
+
+\newcommand{\resumeItemList}[1]{
+  \begin{itemize}
+    \foreach \x in {#1}  {
+      \resumeItem{\x}
+    }
+  \end{itemize}\vspace{-5pt}
+}
+
+\newcommand{\sectionEntry}[5]{
+    
+}
+
+\newcommand{\resumeSection}[2]{
+  \section{\textbf{#1} }
+    \resumeSubHeadingListStart
+        #2
+    \resumeSubHeadingListEnd
+}
+
+\newcommand{\resumeSkillsItem}[2]{
+    \textbf{#1}{#2} \\
+}
+
+\NewDocumentCommand{\resumeSkills}{o o o o o o o o}{
+  \small{\item{
+    \IfValueT{#1}{\IfValueT{#2}{\resumeSkillsItem{#1}{#2}}}
+    \IfValueT{#3}{\IfValueT{#4}{\resumeSkillsItem{#3}{#4}}}
+    \IfValueT{#5}{\IfValueT{#6}{\resumeSkillsItem{#5}{#6}}}
+    \IfValueT{#7}{\IfValueT{#8}{\resumeSkillsItem{#7}{#8}}}
+  }}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}

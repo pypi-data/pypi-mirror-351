@@ -1,0 +1,89 @@
+\documentclass[letterpaper,11pt]{article}
+\input{style.tex}
+
+%----------- FONTS -----------
+{% if font == "FiraSans" %}
+\useFiraSans
+{% elif font == "Roboto" %}
+\useRoboto
+{% elif font == "NotoSans" %}
+\useNotoSans
+{% elif font == "SourceSansPro" %}
+\useSourceSansPro
+{% elif font == "CormorantGaramond" %}
+\useCormorantGaramond
+{% elif font == "Charter" %}
+\useCharter
+{% endif %}
+
+\begin{document}
+%----------- HEADER -----------
+\resumeHeader
+{ {{-name | tex -}} }
+{ {{-phone | tex -}} }
+{%if email%}[{{-email | tex -}}]{%endif%}
+{%if linkedin%}[{{-linkedin | tex -}}]{%endif%}
+{%if github%}[{{-github | tex -}}]{%endif%}
+{% for section in sections %}
+{% if section == "objective" and objective %}
+
+%----------- OBJECTIVE -----------
+\resumeSection{ {{- objective.title | tex | default("") -}} }{
+\item{ {{-objective.text | tex-}} }
+}
+{% endif %}
+{% if section == "education" and education %}
+
+%----------- EDUCATION -----------
+\resumeSection{ {{- education["title"] | tex | default("") -}} }{
+{% for edu in education["items"] %}
+\resumeSubheading
+{ {{-edu.degree | tex-}} }{ {{-edu.date | tex-}} }
+{ {{-edu.school | tex-}} }{ {{-edu.location | tex-}} }
+{% endfor %}
+}
+{% endif %}
+{% if section == "experience" and experience %}
+
+%----------- EXPERIENCE -----------
+\resumeSection{ {{- experience["title"] | tex | default("") -}} }{
+{% for job in experience["items"] %}
+\resumeSubheading
+{ {{-job.title | tex -}} }{ {{-job.dates | tex -}} }
+{ {{-job.company | tex -}} }{ {{-job.location | tex -}} }
+\resumeItemList{
+{% for item in job["items"] %}
+{ {{-item | tex-}} }{% if not loop.last %}, {% endif %}
+{% endfor %}
+}
+{% endfor %}
+}
+{% endif %}
+{% if section == "projects" and projects %}
+
+%----------- PROJECTS -----------
+\resumeSection{ {{- projects["title"] | tex | default("") -}} }{
+{% for project in projects["items"] %}
+\resumeProjectHeading
+{\textbf{ {{-project.title | tex-}} } $|$ \emph{ {{-project.stack | tex-}} -}}{ {{-project.dates | tex-}} }
+\resumeItemList{
+{% for item in project["items"] %}
+{ {{-item | tex-}} }{% if not loop.last %}, {% endif %}
+{% endfor %}
+}
+{% endfor %}
+}
+{% endif %}
+{% if section == "skills" and skills %}
+
+%----------- SKILLS -----------
+\resumeSection{ {{- skills["title"] | tex | default("") -}} }{
+\resumeSkills
+{% for skill in skills["items"] %}
+[{{- skill.title | tex | default("") -}}][: {{ skill["items"] | join(', ') | tex | default("") -}}]
+{% endfor %}
+}
+{% endif %}
+{% endfor %}
+
+\end{document}
