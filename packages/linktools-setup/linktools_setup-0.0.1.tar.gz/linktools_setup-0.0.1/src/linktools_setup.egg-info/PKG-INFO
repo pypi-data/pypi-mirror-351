@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: linktools-setup
+Version: 0.0.1
+Summary: linktools toolkit
+Author-email: Hu Ji <669898595@qq.com>
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://github.com/linktools-toolkit/linktools-setup
+Project-URL: Repository, https://github.com/linktools-toolkit/linktools-setup.git
+Requires-Python: >=3.6
+License-File: LICENSE
+Requires-Dist: pyyaml
+Requires-Dist: jinja2
+Requires-Dist: setuptools>=80
+Dynamic: license-file
