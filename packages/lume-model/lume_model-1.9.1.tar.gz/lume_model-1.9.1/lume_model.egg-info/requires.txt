@@ -1,0 +1,17 @@
+pydantic
+numpy
+pyyaml
+mlflow
+
+[dev]
+botorch
+torch
+pre-commit
+pytest
+
+[docs]
+mkdocs
+mkdocstrings
+mkdocstrings-python
+mkdocs-material
+mkdocs-include-markdown-plugin
