@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: vegrofi
+Version: 0.0.1
+Summary: Verification tool for the GROGU's spin Hamiltonian file.
+Author-email: Andrey Rybakov <rybakov.ad@icloud.com>
+Project-URL: Homepage, https://github.com/adrybakov/vegrofi.git
+Project-URL: Repository, https://github.com/adrybakov/vegrofi.git
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: termcolor
+Dynamic: license-file
+
+*******************************************
+Verificator for GROGU spin Hamiltonian file
+*******************************************
+
+To verify the spin Hamiltonian file:
+
+*   (optional) Create virtual environment
+
+    .. code-block:: console
+
+        python3.13 -m venv .venv
+
+
+*   (optional) Activate virtual environment
+
+    .. code-block:: console
+
+        source .venv/bin/activate
+
+*   Install the tool
+
+    .. code-block:: console
+
+        pip install vegrofi
+
+*   Run the Verificator
+
+    .. code-block:: console
+
+        vegrofi <filename>
+
+* Enjoy
