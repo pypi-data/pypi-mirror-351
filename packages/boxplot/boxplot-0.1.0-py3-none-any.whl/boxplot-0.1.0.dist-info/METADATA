@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: boxplot
+Version: 0.1.0
+Summary: Boxplot de forma simples
+Home-page: https://github.com/nukhes/boxplot
+Author: nukhes
+Author-email: nukhes <nukhes@protonmail.com>
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# boxplot
+este é um programa que visa calcular os quartis em um boxplot baseado em uma lista X de números. boxplot é uma maneira de construir medias mais precisas, eliminando valores absurdos em relação ao demais, criando uma "média mais realista".
+
+# fórmula de calculo
+para dizer que um valor é "absurdo" ele deve ser menor que o minimo ou maior que o máximo, estes são definidos com fórmulas arbitrarias
+```
+minimo = q1 - 1.5*(q3-q1)
+maximo = q3 + 1.5*(q3-q1)
+```
