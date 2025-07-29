@@ -1,0 +1,84 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fastapi-templates-framework"
+version = "0.1.0"
+description = "FastAPI framework templates and utilities for rapid API development"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Jordi", email = "jordi@example.com" }
+]
+maintainers = [
+    { name = "Jordi", email = "jordi@example.com" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: FastAPI",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["fastapi", "api", "framework", "templates", "web", "async", "openapi"]
+dependencies = [
+    "fastapi>=0.100.0",
+    "starlette>=0.27.0",
+    "pydantic>=2.0.0",
+    "sqlmodel>=0.0.8",
+    "sqlalchemy>=2.0.0",
+    "uvicorn[standard]>=0.23.0",
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.24.0",
+    "mypy>=1.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+]
+all = [
+    "fastapi-templates-framework[dev]",
+]
+
+[project.urls]
+Homepage = "https://github.com/jordi/fastapi-templates-framework"
+Documentation = "https://github.com/jordi/fastapi-templates-framework#readme"
+Repository = "https://github.com/jordi/fastapi-templates-framework.git"
+"Bug Tracker" = "https://github.com/jordi/fastapi-templates-framework/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fastapi"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/fastapi",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+strict = true
