@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: nvidia-haystack
+Version: 0.1.8
+Project-URL: Documentation, https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/nvidia#readme
+Project-URL: Issues, https://github.com/deepset-ai/haystack-core-integrations/issues
+Project-URL: Source, https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/nvidia
+Author-email: deepset GmbH <info@deepset.ai>
+License-Expression: Apache-2.0
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Requires-Dist: haystack-ai
+Requires-Dist: requests>=2.25.0
+Requires-Dist: tqdm>=4.21.0
+Description-Content-Type: text/markdown
+
+# nvidia-haystack
+
+[![PyPI - Version](https://img.shields.io/pypi/v/nvidia-haystack.svg)](https://pypi.org/project/nvidia-haystack)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/nvidia-haystack.svg)](https://pypi.org/project/nvidia-haystack)
+
+---
+
+**Table of Contents**
+
+- [nvidia-haystack](#nvidia-haystack)
+  - [Installation](#installation)
+  - [Contributing](#contributing)
+  - [License](#license)
+
+## Installation
+
+```console
+pip install nvidia-haystack
+```
+
+## Contributing
+
+`hatch` is the best way to interact with this project, to install it:
+
+```sh
+pip install hatch
+```
+
+With `hatch` installed, to run all the tests:
+
+```
+hatch run test
+```
+
+> Note: integration tests will be skipped unless the env var NVIDIA_API_KEY is set. The api key needs to be valid
+> in order to pass the tests.
+
+To only run unit tests:
+
+```
+hatch run test -m "not integration"
+```
+
+To run the linters `ruff` and `mypy`:
+
+```
+hatch run lint:all
+```
+
+## License
+
+`nvidia-haystack` is distributed under the terms of the [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) license.
