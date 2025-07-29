@@ -1,0 +1,3 @@
+# Kanna
+
+Kanna is a minimalist task runner built specifically for Python projects using pyproject.toml. Forget complex setups — define and run your custom tasks straight from your pyproject, no extra tools …
