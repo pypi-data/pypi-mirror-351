@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: docksec
+Version: 0.2.0
+Summary: Docker security analysis tool
+Author: Advait Patel
+Project-URL: Bug Tracker, https://github.com/advaitpatel/DockSec/issues
+Project-URL: Documentation, https://github.com/advaitpatel/DockSec/blob/main/README.md
+Project-URL: Source Code, https://github.com/advaitpatel/DockSec
+Requires-Python: >=3.12
+License-File: LICENSE
+Requires-Dist: langchain
+Requires-Dist: langchain-openai
+Requires-Dist: python-dotenv
+Requires-Dist: pandas
+Requires-Dist: tqdm
+Requires-Dist: colorama
+Requires-Dist: rich
+Requires-Dist: fpdf
+Requires-Dist: setuptools
+Dynamic: author
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
