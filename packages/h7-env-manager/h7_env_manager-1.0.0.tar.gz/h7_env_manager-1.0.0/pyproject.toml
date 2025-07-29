@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "h7-env-manager"
+version = "1.0.0"
+description = "Core utility classes for environment variable management in Python projects"
+readme = "README.md"
+authors = [
+    {name = "Roger Mori", email = "roger.mori@example.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "python-dotenv>=0.19.0",
+    "h7-file-finder>=1.0.1",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/rogermori/h7-env-manager"
+"Bug Tracker" = "https://github.com/rogermori/h7-env-manager/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.flake8]
+max-line-length = 100
+exclude = [".git", "__pycache__", "build", "dist"]
+
+[tool.black]
+line-length = 100
+target-version = ["py37", "py38", "py39", "py310"]
