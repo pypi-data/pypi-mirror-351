@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: benchstore_client_library
+Version: 3.6.4
+Summary: benchstore_client_library
+Home-page: https://github.com/staticafi/BenchStore/
+Download-URL: https://github.com/staticafi/BenchStore/
+Author: Tom Christian
+Author-email: tom.christian@openxta.com
+License: BSD
+Project-URL: Documentation, https://github.com/staticafi/BenchStore/
+Platform: Linux
+Requires-Python: >=3.6
+Description-Content-Type: text/plain
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: cpjson
+Requires-Dist: certifi
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: platform
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+The benchstore-client-library is a robust Python library designed to streamline the collection, 
+storage, and retrieval of benchmarking results. It addresses the common challenge developers and 
+performance engineers face when handling large volumes of benchmark data—efficient organization 
+and quick access.
