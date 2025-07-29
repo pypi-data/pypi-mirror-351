@@ -1,0 +1,158 @@
+Metadata-Version: 2.4
+Name: XER_Technologies_metadata_extractor
+Version: 0.2.0
+Summary: Internal data extraction utilities
+Author-email: Jakob Wiren <jakob.wiren@xer-tech.com>
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: scipy>=1.11.0
+Requires-Dist: boto3>=1.34.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: ruff>=0.0.290; extra == "dev"
+Requires-Dist: types-boto3>=1.0.2; extra == "dev"
+
+# XER Technologies Metadata Extractor
+
+A Python package for extracting metadata from CSV and binary files with memory-efficient processing for large files (100MB+).
+
+## Installation
+
+```bash
+pip install XER_Technologies_metadata_extractor
+```
+
+## Usage
+
+### Local Files
+```python
+from XER_Technologies_metadata_extractor import LocalFileAdapter
+
+adapter = LocalFileAdapter("data/dir")
+results = adapter.process_metadata(csv_file="file.csv", bin_file="file.bin")
+
+# For large files
+results = adapter.process_large_csv_chunked("large_file.csv", chunk_size=10000)
+```
+
+### S3 Storage
+```python
+from XER_Technologies_metadata_extractor import S3Adapter
+
+adapter = S3Adapter(s3_client, "bucket-name")
+results = adapter.process_metadata(csv_object_key="file.csv")
+```
+
+### Direct Data Processing
+```python
+from XER_Technologies_metadata_extractor import MetadataExtractor
+
+extractor = MetadataExtractor()
+with open("file.csv", "rb") as f:
+    results = extractor.process_metadata(csv_data=f, csv_filename="file.csv")
+```
+
+## Development
+
+```bash
+git clone <repo-url>
+cd XERMetaDataExtractor
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -e ".[dev]"
+```
+
+### Quality Checks
+```bash
+pytest
+black .
+mypy .
+ruff check .
+```
+
+## Build Configuration
+
+This package uses `pyproject.toml` for modern Python packaging standards. The configuration includes:
+
+### Project Metadata
+- **Name**: `XER_Technologies_metadata_extractor`
+- **Version**: `0.1.0`
+- **Python Requirements**: `>=3.8`
+- **Dependencies**: `pandas>=2.0.0`
+
+### Development Dependencies
+The `[project.optional-dependencies]` section defines development tools:
+- **Testing**: `pytest`, `pytest-cov`
+- **Code Formatting**: `black`, `isort`
+- **Linting**: `ruff`, `mypy`
+
+### Build System
+Uses `setuptools` with automatic package discovery from the `src/` directory.
+
+## Installing from Other Repositories
+
+### From Git Repository (HTTPS)
+```bash
+pip install git+https://github.com/your-org/XERMetaDataExtractor.git
+```
+
+### From Git Repository (SSH)
+```bash
+pip install git+ssh://git@github.com/your-org/XERMetaDataExtractor.git
+```
+
+### From Specific Branch/Tag
+```bash
+pip install git+https://github.com/your-org/XERMetaDataExtractor.git@main
+pip install git+https://github.com/your-org/XERMetaDataExtractor.git@v0.1.0
+```
+
+### From Local Repository
+```bash
+pip install /path/to/XERMetaDataExtractor
+```
+
+### Editable Install from Repository
+For development across multiple projects:
+```bash
+git clone https://github.com/your-org/XERMetaDataExtractor.git
+pip install -e ./XERMetaDataExtractor
+```
+
+### Building Distribution Packages
+```bash
+# Install build tools
+pip install build
+
+# Build wheel and source distribution
+python -m build
+
+# Install from built wheel
+pip install dist/XER_Technologies_metadata_extractor-0.1.0-py3-none-any.whl
+```
+
+### Private Repository Access
+For private repositories, ensure proper authentication:
+```bash
+# Using personal access token
+pip install git+https://token:x-oauth-basic@github.com/your-org/XERMetaDataExtractor.git
+
+# Using SSH key (recommended for private repos)
+pip install git+ssh://git@github.com/your-org/XERMetaDataExtractor.git
+```
+
+## License
+
+Internal use only - XER Technologies
