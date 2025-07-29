@@ -1,0 +1,8 @@
+[console_scripts]
+ai-api = ai_scrapping_toolkit.cli.run_api:main
+ai-export = ai_scrapping_toolkit.cli.export_data:main
+ai-extract = ai_scrapping_toolkit.cli.extract_data:main
+ai-process = ai_scrapping_toolkit.cli.process_data:main
+ai-scraper = ai_scrapping_toolkit.cli.web_scraper:main
+ai-search = ai_scrapping_toolkit.cli.search:main
+ai-smart-search = ai_scrapping_toolkit.cli.smart_search:main
