@@ -1,0 +1,288 @@
+Metadata-Version: 2.4
+Name: asncounter
+Version: 0.1.1
+Summary: Count the number of hits (HTTP, packets, etc) per autonomous system number (ASN) and related network blocks
+Author-email: Antoine Beaupré <anarcat@debian.org>
+License-Expression: AGPL-3.0-or-later
+Project-URL: Homepage, https://gitlab.com/anarcat/asncounter
+Project-URL: Issues, https://gitlab.com/anarcat/asncounter/issues
+Classifier: Environment :: Console
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pyasn
+Provides-Extra: full
+Requires-Dist: scapy; extra == "full"
+Requires-Dist: prometheus_client; extra == "full"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Dynamic: license-file
+
+# ASN counter
+
+Count the number of hits (HTTP, packets, etc) per autonomous system
+number (ASN) and related network blocks. 
+
+This is useful when you get a lot of traffic on a server to figure out
+which network is responsible for the traffic, to direct abuse
+complaints or block whole networks, or on core routers to figure out
+who your peers are and who you might want to seek particular peering
+agreements with
+
+## Features
+
+ - reads packets from a text file (or stdin) one per line
+ - counts number of hits or packets per ASN and netblock
+ - can parse some tcpdump output or read packets directly from
+   interfaces with [scapy][]
+ - fast ASN lookups [pyasn][]
+ - automatic download of [relevant databases](https://archive.routeviews.org/route-views4/bgpdata/) from
+   [routeviews.org](https://routeviews.org/)
+ - Prometheus exporter
+ - written in Python
+ - optional Python REPL interpreter shell to drill into reports
+
+ [scapy]: https://scapy.readthedocs.io/
+ [pyasn]: https://github.com/hadiasghari/pyasn
+
+## Examples
+
+### Simple web log counter
+
+This extracts the IP addresses from current access logs and reports ratios:
+
+```
+> awk '{print $2}' /var/log/apache2/*access*.log | ./asncounter.py
+INFO: using datfile ipasn_20250527.1600.dat.gz
+INFO: collecting addresses from <stdin>
+INFO: loading datfile /home/anarcat/.cache/pyasn/ipasn_20250527.1600.dat.gz...
+INFO: finished reading data
+INFO: loading /home/anarcat/.cache/pyasn/asnames.json
+count	percent	ASN	AS
+12779	69.33	66496	SAMPLE, CA
+3361	18.23	None	None
+366	1.99	66497	EXAMPLE, FR
+337	1.83	16276	OVH, FR
+321	1.74	8075	MICROSOFT-CORP-MSN-AS-BLOCK, US
+309	1.68	14061	DIGITALOCEAN-ASN, US
+128	0.69	16509	AMAZON-02, US
+77	0.42	48090	DMZHOST, GB
+56	0.3	136907	HWCLOUDS-AS-AP HUAWEI CLOUDS, HK
+53	0.29	17621	CNCGROUP-SH China Unicom Shanghai network, CN
+total: 18433
+count	percent	prefix	ASN	AS
+12779	69.33	192.0.2.0/24	66496	SAMPLE, CA
+3361	18.23	None		
+298	1.62	178.128.208.0/20	14061	DIGITALOCEAN-ASN, US
+289	1.57	51.222.0.0/16	16276	OVH, FR
+272	1.48	2001:DB8::/48	66497	EXAMPLE, FR
+235	1.27	172.160.0.0/11	8075	MICROSOFT-CORP-MSN-AS-BLOCK, US
+94	0.51	2001:DB8:1::/48	66497	EXAMPLE, FR
+72	0.39	47.128.0.0/14	16509	AMAZON-02, US
+69	0.37	93.123.109.0/24	48090	DMZHOST, GB
+53	0.29	27.115.124.0/24	17621	CNCGROUP-SH China Unicom Shanghai network, CN
+```
+
+This can also be done in real time of course:
+
+```
+tail -F /var/log/apache2/*access*.log | awk '{print $2}' | ./asncounter.py
+```
+
+The above report will be generated when the process is killed. Send
+`SIGHUP` to show a report without interrupting the parser:
+
+    pkill -HUP asncounter
+
+### tcpdump parser
+
+Extract IP addresses from incoming TCP/UDP packets on `eth0` and
+report the top 5:
+
+```sh
+> tcpdump -c 10000 -q -i eth0 -n -Q in "(udp or tcp)" | asncounter --top 5 --input-format tcpdump
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+INFO: collecting IPs from stdin, using datfile ipasn_20250523.1600.dat.gz
+INFO: loading datfile /root/.cache/pyasn/ipasn_20250523.1600.dat.gz...
+INFO: loading /root/.cache/pyasn/asnames.json
+ASN     count   AS
+136907  7811    HWCLOUDS-AS-AP HUAWEI CLOUDS, HK
+8075    254     MICROSOFT-CORP-MSN-AS-BLOCK, US
+62744   164     QUINTEX, US
+24940   114     HETZNER-AS, DE
+14618   82      AMAZON-AES, US
+prefix  count
+166.108.192.0/20        1294
+188.239.32.0/20 1056
+166.108.224.0/20        970
+111.119.192.0/20        951
+124.243.128.0/18        667
+```
+
+This likely can't deal with a multi-gigabit per second small packet
+attack (2 million packets per second or more). But in a real
+production environment, it could easily deal with regular the 100-200
+megabit per second traffic, where tcpdump and asncounter each took
+about 2% of one core to handle about 3-5 thousand packets per second.
+
+### scapy parser
+
+Extract IP addresses directly from the network interface, bypassing
+tcpdump entirely:
+
+```sh
+asncounter --interface
+```
+
+This is much slower than the tcpdump parser (close to full 100% CPU
+usage) in a 100-200mbps scenario like above, but could eventually be
+leveraged to implement byte counts, which are harder to extract from
+tcpdump because of the variability of its output.
+
+### REPL
+
+With `--repl`, you will drop into a Python shell where you can
+interactively get real-time statistics:
+
+```sh
+> awk '{print $2}' /var/log/apache2/*access*.log | asncounter --repl --top 2
+INFO: using datfile ipasn_20250527.1600.dat.gz
+INFO: collecting addresses from <stdin>
+INFO: starting interactive console, use recorder.display_results() to show current results
+INFO: recorder.asn_counter and .prefix_counter dictionnaries have the full data
+Python 3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> INFO: loading datfile /home/anarcat/.cache/pyasn/ipasn_20250527.1600.dat.gz...
+INFO: finished reading data
+
+>>> recorder.display_results()
+INFO: loading /home/anarcat/.cache/pyasn/asnames.json
+count	percent	ASN	AS
+13008	69.38	66496	SAMPLE, CA
+3422	18.25	None	None
+total: 18748
+count	percent	prefix	ASN	AS
+13008	69.38	192.0.2.0/24	66496	SAMPLE, CA
+3422	18.25	None		
+total: 18748
+>>> recorder.asn_counter
+Counter({66496: 13008, None: 3422, [...]})
+>>> recorder.prefix_counter
+Counter({'192.0.2.0/24': 13008, None: 3422, [...]})
+```
+
+So you can get the actual number of hits for an AS, even if it's not
+listed in the `--top` entries with:
+
+```python
+>>> recorder.asn_counter.get(66496)
+13008
+```
+
+### Blocking whole networks
+
+asncounter does not block anything: it only counts. Another mechanism
+needs to be used to actually block attackers or act on the collected
+data.
+
+If you want to block the network blocks, you can use the shown
+netblocks directly in (say) Linux's netfilter firewall, or Nginx's
+[access module](https://nginx.org/en/docs/http/ngx_http_access_module.html) [geo module](https://nginx.org/en/docs/http/ngx_http_geo_module.html). For example, this will reject
+traffic from a network with iptables:
+
+    iptables -I INPUT -s 192.0.2.0/24 -j REJECT 
+
+or with nftables:
+
+    nft insert rule inet filter INPUT 'ip saddr 192.0.2.0/24 reject'
+
+This will likely become impractical with large number of networks,
+look into [IP sets](https://wiki.nftables.org/wiki-nftables/index.php/Sets) to scale that up.
+
+With Nginx, you can block a network with the `deny` directive:
+
+    deny 192.0.2.0/24;
+
+This will return a `403` status code. If you want to be fancier, you
+can return a tailored status code and build a larger list with the
+`geo` module:
+
+    geo $geo_map_deny {
+        default 0;
+
+        192.0.2.0/24 1;
+    }
+
+    if ($geo_map_deny) {
+      return 429;
+    }
+
+Many networks can be listed in the `geo` block relatively effectively.
+
+[pyasn][] doesn't ([unfortunately](https://github.com/hadiasghari/pyasn/issues/82)) provide an easy command line
+interface to extract the data you need to block an *entire* AS. For
+that, you need to revert to some Python. From inside the `--repl`
+loop:
+
+```python
+print("\n".join(sorted(recorder.asndb.get_as_prefixes(64496))))
+```
+
+This will give you the list of prefixes associated with AS64496, which
+is actually empty in this case, as AS64496 is an example AS from
+[RFC5398][].
+
+ [RFC5398]: https://www.rfc-editor.org/rfc/rfc5398.html
+
+# Performance considerations
+
+As mentioned above, this will unlikely tolerate multi-gigabit denial
+of service attacks. The tcpdump parser, however, is pretty fast and
+should be able to sustain a saturated gigabit link under normal
+conditions. The scapy parser is slower.
+
+Memory usage seems reasonable: on startup, it uses about 250MB of
+memory, and a long-running process with about 40 000 blocks was using
+about 400MB.
+
+By extrapolation, it is expect that data on the full routing table
+(currently 1.2 million entries) could be held within 12 GB of memory,
+although that would be a rare condition, only occurring on a core
+router with traffic from literally the entire internet.
+
+# Limitations
+
+- only counts, does not calculate bandwidth, but could be extended to
+  do so
+- does not actually do any sort of mitigation or blocking, purely an
+  analysis tool
+- test coverage is relatively low, 37% as of this writing. most
+  critical paths are covered, although not the scapy parser or the
+  RIB file download procedures
+- only a small set of tcpdump outputs have been tested
+
+Note that this documentation and test code uses sample AS numbers from
+[RFC5398][], IPv4 addresses from [RFC5737](https://www.rfc-editor.org/rfc/rfc5737.html), and IPv6 addresses from
+[RFC3849](https://www.rfc-editor.org/rfc/rfc3849.html). Some more well known entities (e.g. Amazon, Facebook)
+have not been redacted from the output for clarity.
+
+# Installation
+
+Simply:
+
+    pip install asncounter
+
+Can also run from the source directory directly.
+
+Dependencies:
+
+- [pyasn][]
+- [scapy][] (optional)
+- [prometheus_client][] (optional)
+
+[prometheus_client]: https://prometheus.github.io/client_python/
