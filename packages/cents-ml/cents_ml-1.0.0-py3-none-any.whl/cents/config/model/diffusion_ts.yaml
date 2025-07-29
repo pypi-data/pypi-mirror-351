@@ -1,0 +1,27 @@
+_target_: generator.diffusion_ts.gaussian_diffusion.Diffusion_TS
+name: diffusion_ts
+context_reconstruction_loss_weight: 0.1
+tc_loss_weight: 0
+noise_dim: 256
+cond_emb_dim: 16
+n_layer_enc: 4
+n_layer_dec: 5
+d_model: 128
+n_steps: 1000
+sampling_timesteps: 1000
+sampling_batch_size: 4096
+loss_type: l1 #l2
+beta_schedule: cosine #linear
+n_heads: 4
+mlp_hidden_times: 4
+eta: 0.0
+attn_pd: 0.0
+resid_pd: 0.0
+kernel_size: null
+padding_size: null
+use_ff: True
+reg_weight: null
+gradient_accumulate_every: 2
+ema_decay: 0.99
+ema_update_interval: 10
+use_ema_sampling: False
