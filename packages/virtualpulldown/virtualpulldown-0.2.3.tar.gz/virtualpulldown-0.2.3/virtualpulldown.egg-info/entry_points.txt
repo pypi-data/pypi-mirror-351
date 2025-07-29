@@ -1,0 +1,4 @@
+[console_scripts]
+vp_fig = virtualpulldown.makefig_auto:main
+vp_post_install_message = virtualpulldown.cli:post_install_message
+vp_prepare = virtualpulldown.v_pulldown_v2:main
