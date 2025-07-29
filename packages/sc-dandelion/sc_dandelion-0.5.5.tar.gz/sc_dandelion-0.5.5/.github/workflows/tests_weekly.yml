@@ -1,0 +1,114 @@
+name: weekly tests
+
+on:
+  schedule:
+    # every Sunday at 0:00
+    #        ┌───────────── minute (0 - 59)
+    #        │ ┌───────────── hour (0 - 23)
+    #        │ │ ┌───────────── day of the month (1 - 31)
+    #        │ │ │ ┌───────────── month (1 - 12)
+    #        │ │ │ │ ┌───────────── day of the week (0 - 6)
+    #        │ │ │ │ │
+    #        │ │ │ │ │
+    #        │ │ │ │ │
+    #        * * * * *
+    - cron: "0 0 * * 0"
+
+env:
+  cache-version: "cache-v3"
+
+jobs:
+  tests:
+    timeout-minutes: 720
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      max-parallel: 10
+      matrix:
+        config:
+          - { python-version: "3.10", os: ubuntu-latest }
+          - { python-version: "3.11", os: ubuntu-latest }
+          - { python-version: "3.12", os: ubuntu-latest }
+          # - { python-version: "3.13", os: ubuntu-latest }
+          - { python-version: "3.10", os: macos-13 }
+          - { python-version: "3.11", os: macos-13 }
+          - { python-version: "3.12", os: macos-13 }
+          # - { python-version: "3.13", os: macos-13 }
+          # disabled until it's fixed.
+    runs-on: ${{ matrix.config.os }}
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      NOT_CRAN: true
+      TZ: UTC
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+
+      - name: Install ubuntu system dependencies
+        if: matrix.config.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get install libcurl4-openssl-dev
+          sudo apt-get update -y && sudo apt-get install -y zlib1g-dev libglpk-dev libgmp3-dev libxml2-dev libicu-dev libhdf5-serial-dev libcurl4-gnutls-dev
+
+      - name: Install macOS system dependencies
+        if: matrix.config.os == 'macos-13'
+        run: |
+          brew install cairo pkg-config autoconf automake libtool
+
+      - name: Setup micromamba
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-name: dandelion
+          environment-file: environment.yml
+          cache-environment: true
+          cache-downloads: true
+          cache-environment-key: environment-${{ env.cache-version }}-${{ matrix.config.os }}
+          cache-downloads-key: downloads-${{ env.cache-version }}-${{ matrix.config.os }}
+          post-cleanup: "all"
+          create-args: >-
+            python=${{ matrix.config.python-version }}
+            igblast>=1.17.0
+            blast
+            rpy2
+            r-optparse
+            r-shazam
+            r-alakazam
+            r-tigger
+            r-scoper
+            bioconductor-edger
+
+      - name: Display Python version
+        run: |
+          python --version
+          which python
+
+      - name: Test if blast works
+        run: |
+          blastn -h
+
+      - name: Test if igblast works
+        run: |
+          igblastn -h
+
+      - name: Install Dandelion
+        run: |
+          pip install pertpy
+          pip install palantir
+          pip install ".[scirpy]"
+
+      - name: Test if R dependencies are installed properly
+        run: |
+          Rscript tests/r_dependencies.R
+        shell: bash -l {0}
+
+      - name: Test with pytest
+        run: |
+          pytest
+
+      - name: Show coverage
+        run: |
+          coverage report
