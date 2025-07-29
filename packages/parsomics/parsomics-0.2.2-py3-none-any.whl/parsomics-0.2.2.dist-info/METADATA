@@ -1,0 +1,41 @@
+Metadata-Version: 2.3
+Name: parsomics
+Version: 0.2.2
+Summary: A metapackage for the parsomics project
+License: GPL-3.0
+Author: Pedro Sader Azevedo
+Author-email: pedro.saderazevedo@lnbr.cnpem.br
+Requires-Python: >=3.12, <4.0
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: parsomics-api-server (>=3.0.1,<4.0.0)
+Requires-Dist: parsomics-cli (>=2.2.1,<3.0.0)
+Requires-Dist: parsomics-core (>=4.1.0,<5.0.0)
+Requires-Dist: parsomics-plugin-clean (>=0.1.2,<0.2.0)
+Requires-Dist: parsomics-plugin-dbcan (>=1.0.4,<2.0.0)
+Requires-Dist: parsomics-plugin-interpro (>=1.0.5,<2.0.0)
+Requires-Dist: parsomics-plugin-proteinfer (>=0.1.2,<0.2.0)
+Description-Content-Type: text/markdown
+
+# `parsomics-metapackage`
+
+A metapackage for the parsomics project. It includes:
+
+- parsomics-cli
+- parsomics-core
+- parsomics-api-server
+- parsomics-plugin-clean
+- parsomics-plugin-dbcan
+- parsomics-plugin-interpro
+- parsomics-plugin-proteinfer
+
+## License
+
+This work is licensed under the terms of the GPL-3.0.
+
+## Copyright
+
+© 2025 Brazilian Center for Research in Energy and Materials (CNPEM).
+
