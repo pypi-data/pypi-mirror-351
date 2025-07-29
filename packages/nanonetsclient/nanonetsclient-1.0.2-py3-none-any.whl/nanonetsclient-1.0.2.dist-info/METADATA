@@ -1,0 +1,154 @@
+Metadata-Version: 2.1
+Name: nanonetsclient
+Version: 1.0.2
+Summary: Nanonets API SDK for Python
+Home-page: https://github.com/nanonets/nanonets-python-sdk
+Author: Nanonets
+Author-email: support@nanonets.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests >=2.25.0
+Requires-Dist: python-dotenv >=0.19.0
+
+# nanonetsclient
+
+> **Python SDK for the Nanonets API**
+
+> **Minimum Python version required:** 3.7
+
+---
+
+**Nanonets** is an AI-powered Intelligent Document Processing platform that helps you:
+- Extract structured data from invoices, receipts, forms, and more documents 
+- Supports pdf, images (jpg, png, tiff), excel files, scanned documents and photos
+- Automate data entry and document workflows
+- Convert unstructured documents into machine-readable formats
+- Integrate advanced OCR and table extraction into your apps
+
+**Keywords:** OCR, document extraction, invoice processing, receipt OCR, table extraction, data capture, workflow automation, AI document processing, unstructured to structured data, Python SDK, Nanonets API
+
+---
+
+## Get your API Key
+
+Sign up and get your API key from your [Nanonets dashboard](https://app.nanonets.com/#/keys).
+
+---
+
+## Installation
+
+```bash
+pip install nanonetsclient
+```
+
+## Authentication
+
+Set your API key as an environment variable:
+
+```bash
+export NANONETS_API_KEY='your_api_key'
+```
+
+Or pass it directly when initializing the client:
+
+```python
+from nanonets import NanonetsClient
+client = NanonetsClient(api_key='your_api_key')
+```
+
+## Quick Start
+
+```python
+from nanonets import NanonetsClient
+
+client = NanonetsClient(api_key='your_api_key')
+
+# 1. Create a workflow
+workflow = client.workflows.create(
+    description="SDK Example Workflow",
+    workflow_type=""  # Instant learning
+)
+workflow_id = workflow.get("workflow_id") or workflow.get("id")
+
+# 2. Configure fields and table headers
+fields = [
+    {"name": "invoice_number"},
+    {"name": "total_amount"},
+    {"name": "invoice_date"}
+]
+table_headers = [
+    {"name": "item_description"},
+    {"name": "quantity"},
+    {"name": "unit_price"},
+    {"name": "total"}
+]
+client.workflows.set_fields(
+    workflow_id=workflow_id,
+    fields=fields,
+    table_headers=table_headers
+)
+
+# 3. Upload a document to process
+result = client.workflows.upload_document(
+    workflow_id=workflow_id,
+    file_path="invoice.pdf",
+    async_mode=False,
+    metadata={"test": "true"}
+)
+print("Upload result:", result)
+```
+
+## Features
+- Workflow Management
+- Fields and Tables Configuration
+- Document Processing
+- Document Moderation
+
+## Available Methods
+
+**Workflow Management**
+- `create_workflow`
+- `get_workflow`
+- `list_workflows`
+- `set_fields`
+- `update_field`
+- `delete_field`
+- `update_metadata`
+- `update_settings`
+
+**Document Processing**
+- `upload_document`
+- `get_document`
+- `list_documents`
+- `delete_document`
+
+**Document Moderation**
+- `update_field_value`
+- `add_field_value`
+- `delete_field_value`
+- `add_table`
+- `delete_table`
+- `update_table_cell`
+- `add_table_cell`
+- `delete_table_cell`
+- `verify_field`
+- `verify_table_cell`
+- `verify_table`
+- `verify_document`
+
+## Complete Documentation
+
+For full documentation and advanced usage, visit:  
+[https://apidocs.nanonets.com/docs/sdk/python-sdk/](https://apidocs.nanonets.com/docs/sdk/python-sdk/)
+
+## License
+
+MIT
