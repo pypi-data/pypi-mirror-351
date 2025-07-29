@@ -1,0 +1,29 @@
+Metadata-Version: 2.3
+Name: maeser
+Version: 0.1.3
+Summary: A package for building RAG chatbot applications for educational contexts.
+Author: Carson Bush
+Author-email: hyperdriveguy@byui.edu
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: gpu
+Requires-Dist: faiss-cpu (>=1.8.0.post1,<2.0.0)
+Requires-Dist: flask (>=3.0.3,<4.0.0)
+Requires-Dist: flask-login (>=0.6.3,<0.7.0)
+Requires-Dist: langchain (>=0.2.8,<0.3.0)
+Requires-Dist: langchain-text-splitters (>=0.2.2,<0.3.0)
+Requires-Dist: langchain_community (>=0.2.7,<0.3.0)
+Requires-Dist: langchain_core (>=0.2.19,<0.3.0)
+Requires-Dist: langchain_openai (>=0.1.16,<0.2.0)
+Requires-Dist: langgraph (>=0.1.8,<0.2.0)
+Requires-Dist: ldap3 (>=2.9.1,<3.0.0)
+Requires-Dist: markdown (>=3.6,<4.0)
+Requires-Dist: markdownify (>=0.13.1,<0.14.0)
+Requires-Dist: pyYAML (>=6.0.1,<7.0.0)
+Requires-Dist: pymdown-extensions (>=10.8.1,<11.0.0)
+Requires-Dist: ragas (>=0.1.10,<0.2.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
