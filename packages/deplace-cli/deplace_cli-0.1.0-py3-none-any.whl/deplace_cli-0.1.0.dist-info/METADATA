@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: deplace-cli
+Version: 0.1.0
+Summary: A CLI tool to access Datasets.
+Home-page: https://www.depalceai.com
+Author: Deplace AI
+Author-email: admin@deplaceai.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: azure-identity>=1.15.0
+Requires-Dist: azure-storage-file-datalake>=12.14.1
+Dynamic: author
+Dynamic: requires-dist
+Dynamic: summary
+
+# Deplace CLI 
+
+## Download a dataset 
+
+## Visualize Annotations
