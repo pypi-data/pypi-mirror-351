@@ -1,0 +1,13 @@
+name: default
+normalize: True
+scale: True
+use_learned_normalizer: True
+shuffle: True
+threshold: 6
+time_series_dims: 1
+time_series_columns: []
+seq_len: 8
+user_group: null
+
+numeric_context_bins: 5
+context_vars: {}
