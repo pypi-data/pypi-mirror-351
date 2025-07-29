@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: intan-importer
+Version: 0.1.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Scientific/Engineering
+Requires-Dist: numpy>=1.20
+License-File: LICENSE
+Summary: Fast Python bindings for reading Intan RHS files
+Author: JB
+License: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Repository, https://github.com/brant01/python-intan-importer
+Project-URL: Issues, https://github.com/brant01/python-intan-importer/issues
+
+
+
+
+# intan-importer
+
+Fast Python bindings for reading Intan RHS files, powered by Rust for high performance.
+
+## Installation
+
+```bash
+pip install intan-importer
+```
+
+## Quick Start
+
+```python
+import intan_importer
+
+# Load a single RHS file
+recording = intan_importer.load("path/to/file.rhs")
+
+# Or load all RHS files from a directory
+recording = intan_importer.load("path/to/directory/")
+
+# Access metadata
+print(f"Sample rate: {recording.header.sample_rate} Hz")
+print(f"Duration: {recording.duration()} seconds")
+
+# Access data as NumPy arrays
+if recording.data:
+    timestamps = recording.data.timestamps  # Sample numbers
+    amplifier_data = recording.data.amplifier_data  # Shape: (channels, samples)
+    
+    # Convert timestamps to seconds
+    time_seconds = timestamps / recording.header.sample_rate
+```
+
+## Data Units
+
+- **Timestamps**: Sample numbers (divide by sample_rate for seconds)
+- **Amplifier data**: Microvolts (µV)
+- **DC amplifier data**: Volts (V)
+- **ADC/DAC data**: Volts (V)
+- **Digital data**: 0 or 1
+
+## License
+
+Licensed under MIT.
+
