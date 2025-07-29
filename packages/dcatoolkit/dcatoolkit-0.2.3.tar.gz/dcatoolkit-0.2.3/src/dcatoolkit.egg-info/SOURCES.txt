@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+src/dcatoolkit/__init__.py
+src/dcatoolkit/analytics.py
+src/dcatoolkit/representation.py
+src/dcatoolkit.egg-info/PKG-INFO
+src/dcatoolkit.egg-info/SOURCES.txt
+src/dcatoolkit.egg-info/dependency_links.txt
+src/dcatoolkit.egg-info/requires.txt
+src/dcatoolkit.egg-info/top_level.txt
+tests/test_alignments.py
+tests/test_contacts.py
+tests/test_sequence_numbering.py
