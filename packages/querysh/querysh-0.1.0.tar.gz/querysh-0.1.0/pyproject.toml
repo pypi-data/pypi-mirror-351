@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel>=0.37.0", "build>=0.7.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "querysh"
+dynamic = ["version"]
+description = "A shell interface for MLX models"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+
+[project.scripts]
+querysh = "querysh.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["querysh/tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=querysh"
+
+[tool.coverage.run]
+source = ["querysh"]
+omit = ["querysh/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "pass",
+    "@abstractmethod"
+] 

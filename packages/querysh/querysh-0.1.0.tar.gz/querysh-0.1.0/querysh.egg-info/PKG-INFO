@@ -1,0 +1,82 @@
+Metadata-Version: 2.4
+Name: querysh
+Version: 0.1.0
+Summary: A shell interface for MLX models
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+Dynamic: requires-python
+
+# querysh
+
+A command-line interface that uses local, offline AI to help you write and execute shell commands. Powered by MLX-optimized Llama 3.2 1B Instruct model running entirely on your machine.
+
+## Features
+
+- Natural language to shell command conversion
+- Command validation and safety checks
+- Interactive command execution
+- Rich terminal interface
+- Support for command suggestions and modifications
+- Fully local and offline operation using MLX-optimized Llama 3.2 1B Instruct model
+- No internet connection or API keys required
+
+## Installation
+
+### Requirements
+- Python 3.8 or higher
+- macOS (for MLX support)
+
+### Dependencies
+- mlx-lm>=0.0.6
+- rich>=13.7.0
+
+### Install from PyPI
+```bash
+pip install querysh
+```
+
+### Install from source
+```bash
+git clone https://github.com/pabl0cesar/querysh.git
+cd querysh
+pip install -e .
+```
+
+## Usage
+
+Simply run the `querysh` command in your terminal:
+
+```bash
+querysh
+```
+
+Then describe what you want to do in natural language. For example:
+- "List all files in the current directory"
+- "Find all Python files modified in the last week"
+- "Create a backup of my documents folder"
+
+The AI will suggest appropriate shell commands, and you can choose to execute them or modify them.
+
+## Development
+
+### Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/pabl0cesar/querysh.git
+cd querysh
+```
+
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install development dependencies:
+```bash
+pip install -e ".[dev]"
+```
