@@ -1,0 +1,119 @@
+{% extends 'core/base.html' %}
+{% load material_form i18n static %}
+
+{% block page_title %}{% trans "Feedback" %}{% endblock page_title %}
+
+{% block browser_title %}{% trans "Feedback" %}{% endblock browser_title %}
+
+{% block extra_head %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/hjelp/hjelp.css" %}" />
+{% endblock extra_head %}
+
+{% block content %}
+    <p>
+	{% blocktrans %}
+            Please give us detailed and honest feedback so that we can make AlekSIS even better!
+	{% endblocktrans %}
+    </p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <ul class="collection">
+            <li class="collection-item">
+                <div class="row"><div class="col s12 l6">{{ form.design_rating.label }}
+                  <span class="red-text">*</span>
+                  <span class="red-text">{{ form.design_rating.errors }}</span>
+                </div>
+                    <div class="rating col s12 l6">
+                        {% for radio in form.design_rating %}
+                            {{ radio.tag }}
+                            <label for="{{ radio.id_for_label }}"></label>
+                        {% endfor %}
+                    </div>
+                </div>
+            <div class="hide-on-large-only">&nbsp;</div>
+            </li>
+            <li class="collection-item">
+                <div class="row"><div class="col s12 l6">{{ form.performance_rating.label }}
+                  <span class="red-text">*</span>
+                  <span class="red-text">{{ form.performance_rating.errors }}</span>
+                </div>
+                    <div class="rating col s12 l6">
+                        {% for radio in form.performance_rating %}
+                            {{ radio.tag }}
+                            <label for="{{ radio.id_for_label }}"></label>
+                        {% endfor %}
+                    </div>
+                </div>
+            <div class="hide-on-large-only">&nbsp;</div>
+            </li>
+            <li class="collection-item">
+                <div class="row"><div class="col s12 l6">{{ form.usability_rating.label }}
+                  <span class="red-text">*</span>
+                  <span class="red-text">{{ form.usability_rating.errors }}</span>
+                </div>
+                    <div class="rating col s12 l6">
+                        {% for radio in form.usability_rating %}
+                            {{ radio.tag }}
+                            <label for="{{ radio.id_for_label }}"></label>
+                        {% endfor %}
+                    </div>
+                </div>
+            <div class="hide-on-large-only">&nbsp;</div>
+            </li>
+            <li class="collection-item">
+                <div class="row"><div class="col s12 l6">{{ form.overall_rating.label }}
+                  <span class="red-text">*</span>
+                  <span class="red-text">{{ form.overall_rating.errors }}</span>
+                </div>
+                    <div class="rating col s12 l6">
+                        {% for radio in form.overall_rating %}
+                            {{ radio.tag }}
+                            <label for="{{ radio.id_for_label }}"></label>
+                        {% endfor %}
+                    </div>
+                </div>
+            <div class="hide-on-large-only">&nbsp;</div>
+            </li>
+
+            <li class="collection-item">
+                <div>
+                    <div class="input-field support-input-mobile">
+                        <textarea id="{{ form.ideas.id_for_label }}" name="{{ form.ideas.html_name }}"
+                                  class="materialize-textarea"></textarea>
+                        <label for="{{ form.ideas.id_for_label }}">{{ form.ideas.label }}</label>
+                    </div>
+                </div>
+            </li>
+
+            <li class="collection-item">
+                <div>
+                    <div class="input-field support-input-mobile">
+                        <textarea id="{{ form.apps.id_for_label }}" name="{{ form.apps.html_name }}"
+                                  class="materialize-textarea"></textarea>
+                        <label for="{{ form.apps.id_for_label }}">{{ form.apps.label }}</label>
+                    </div>
+                </div>
+            </li>
+
+            <li class="collection-item">
+                <div>
+                    <div class="input-field support-input-mobile">
+                        <textarea id="{{ form.more.id_for_label }}" name="{{ form.more.html_name }}"
+                                  class="materialize-textarea"></textarea>
+                        <label for="{{ form.more.id_for_label }}">{{ form.more.label }}</label>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+        <button type="submit" name="go" class="btn waves-effect waves-light green">
+            {% blocktrans %}Send feedback{% endblocktrans %}
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+
+
+{% endblock %}

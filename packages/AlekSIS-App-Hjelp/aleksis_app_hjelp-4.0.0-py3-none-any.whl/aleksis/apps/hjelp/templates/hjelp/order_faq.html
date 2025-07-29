@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+{% load i18n material_form static %}
+
+{% block page_title %}{% trans "Manage FAQ" %}{% endblock page_title %}
+{% block browser_title %}{% trans "Manage FAQ" %}{% endblock browser_title %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static "css/hjelp/hjelp.css" %}">
+{% endblock extra_head %}
+
+{% block content %}
+    {#  Sections  #}
+    <a href="{% url "create_faq_section" %}" class="btn primary-color">
+        <i class="material-icons left">create_new_folder</i> {% trans "Add FAQ section" %}
+    </a>
+    {#  Questions  #}
+    <a href="{% url "create_faq_question" %}" class="btn secondary-color">
+        <i class="material-icons left">playlist_add</i> {% trans "Add FAQ question" %}
+    </a>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.management_form }}
+        <div id="sections">
+            {% for faq_form in form %}
+                <div class="card-panel {% if not faq_form.instance.show %}disabled{% endif %}">
+                    <div class="row">
+                        <div class="handle-container">
+                            <i class="material-icons handle outer-handle small">drag_handle</i>
+                        </div>
+                        <div class="form-container col s11 push-s1" data-order-field="{{ faq_form.ORDER.auto_id }}">
+                            <div class="row">
+                              <div class="col s8 l10">
+                                {% form form=faq_form layout=layout %}{% endform %}
+                              </div>
+                              <div class="col s4 l2">
+                                <a href="{% url "delete_faq_section" faq_form.instance.pk %}"
+                                   class="btn-flat red-text waves-effect right">
+                                  <i class="material-icons left">delete</i>
+                                  {% trans "Delete" %}
+                                </a>
+                              </div>
+                            </div>
+                            <div class="collection question-sortable" data-pk="{{ faq_form.instance.id }}">
+                                {% for question in faq_form.instance.questions.all %}
+                                    <div class="collection-item
+                                                question-container
+                                                {% if not question.show %}disabled{% endif %}
+                                    ">
+                                        <input type="hidden" name="question-ids[]" value="{{ question.id }}">
+                                        <input type="hidden" name="question-sections[]" value="{{ question.section.id }}">
+
+                                        <div class="start-icons">
+                                          <i class="material-icons handle inner-handle black-text">drag_handle</i>
+                                          <i class="material-icons grey-text text-lighten-25">
+                                              {{ question.show|yesno:"visibility,visibility_off" }}
+                                          </i>
+                                        </div>
+
+                                        <div class="main-question">
+                                          {{ question.question_text }}
+                                        </div>
+                                        <div class="end-button">
+                                          <a href="{% url "update_faq_question" question.pk %}"
+                                             class="btn-flat primary-color-text waves-effect">
+                                              <i class="material-icons left">edit</i>
+                                              {% trans "Edit" %}
+                                          </a>
+                                          <a href="{% url "delete_faq_question" question.pk %}"
+                                             class="btn-flat red-text waves-effect">
+                                              <i class="material-icons left">delete</i>
+                                              {% trans "Delete" %}
+                                          </a>
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <div class="collection-item">
+                                        {% trans "There are no questions in this section." %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% include "core/partials/save_button.html" %}
+    </form>
+
+    <script src="{% static "js/hjelp/order_faq.js" %}"></script>
+{% endblock content %}

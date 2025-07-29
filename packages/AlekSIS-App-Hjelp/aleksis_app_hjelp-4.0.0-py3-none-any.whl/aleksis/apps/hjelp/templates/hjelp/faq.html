@@ -1,0 +1,71 @@
+{% extends 'core/base.html' %}
+{% load html_helpers i18n %}
+
+{% block page_title %}FAQ ({% trans "Frequently Asked Questions" %}){% endblock page_title %}
+
+{% block browser_title %}FAQ ({% trans "Frequently Asked Questions" %}){% endblock browser_title %}
+
+{% block content %}
+    {% for section in sections %}
+      <section>
+        <h4>
+          <i class="material-icons iconify" data-icon="mdi:{{ section.icon }}" {% firstof  section.icon_color "black" %}-text"></i>
+          {{ section.name }}
+        </h4>
+
+        <ul class="collapsible">
+          {% for question in section.visible_questions %}
+            <li>
+              <div class="collapsible-header">
+                <i class="material-icons iconify" data-icon="mdi:{% firstof question.icon "frequently-asked-questions" %}"></i>
+                {{ question.question_text }}
+              </div>
+              <div class="collapsible-body">
+                {{ question.answer_text|add_class_to_el:"ul, browser-default"|safe }}
+              </div>
+            </li>
+          {% empty %}
+            <li>
+              <div class="collapsible-header">
+                {% trans "There are no questions in this section." %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endfor %}
+
+
+    <p class="flow-text">
+      {% blocktrans %}
+        Your question is not listed above?
+      {% endblocktrans %}
+    </p>
+    <p>
+      {% if user.is_authenticated %}
+        <a class="btn  blue waves-effect waves-green" href="{% url "ask_faq" %}">
+          <i class="material-icons left">chat</i>
+          {% blocktrans %}
+            Ask your question
+          {% endblocktrans %}
+        </a>
+      {% else %}
+        {% blocktrans %}
+          If you have a question please ask one of your site administrators:
+        {% endblocktrans %}
+        <ul>
+          {% for admin in ADMINS %}
+            <li>
+              {{ admin.0 }}
+              &lt;
+              <a href="mailto:{{ admin.1 }}">
+                {{ admin.1 }}
+              </a>
+              &gt;
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </p>
+
+{% endblock %}

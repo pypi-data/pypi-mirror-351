@@ -1,0 +1,140 @@
+{% extends 'core/base.html' %}
+{% load static i18n any_js %}
+
+{% block browser_title %}{% blocktrans %}Report an issue{% endblocktrans %}{% endblock browser_title %}
+
+{% block page_title %}{% blocktrans %}Report an issue{% endblocktrans %}{% endblock page_title %}
+
+{% block extra_head %}
+    {{ form.media.css }}
+    {% include_css "select2-materialize" %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/hjelp/hjelp.css" %}" />
+{% endblock %}
+
+{% block content %}
+    <form method="post" id="rebus-form">
+        {% csrf_token %}
+
+        <p class="red-text">{{ form.non_field_errors }}</p>
+
+        <div class="row">
+            <div id="{{ form.category_1.auto_id }}" class="input-field col s12 m4 browser-default">
+                <div class="issue-flex-row">
+                    <div id="bug_category_1_icon" class="issue-category-icon">
+                        <i class="material-icons prefix small">bug_report</i>
+                    </div>
+                    <div class="support-input-mobile issue-category-field">
+                        {{ form.category_1 }}
+                    </div>
+                </div>
+            </div>
+            <div id="{{ form.category_2.auto_id }}" class="input-field col s12 m4 browser-default" style="display: none" disabled>
+                <div class="issue-flex-row">
+                    <div id="bug_category_2_icon" class="issue-category-icon">
+                    </div>
+                    <div class="support-input-mobile issue-category-field">
+                        {{ form.category_2 }}
+                    </div>
+                </div>
+            </div>
+            <div id="{{ form.category_3.auto_id }}" class="input-field col s12 m4 browser-default" style="display: none" disabled>
+                <div class="issue-flex-row">
+                    <div id="bug_category_3_icon" class="issue-category-icon">
+                    </div>
+                    <div class="support-input-mobile issue-category-field">
+                        {{ form.category_3 }}
+                    </div>
+                </div>
+            </div>
+            <div id="{{ form.free_text.auto_id }}" class="input-field col s12 m4" style="display: none" disabled>
+                <div class="issue-flex-row">
+                    <div id="bug_category_free_text_icon" class="issue-category-icon">
+                    </div>
+                    <div class="input-field support-input-mobile issue-free-text-field">
+                        {{ form.free_text }}
+                        <label for="{{ form.free_text.id_for_label }}"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <p class="red-text">{{ form.short_description.errors }}</p>
+            <div class="input-field col s12 support-input-mobile">
+                <i class="material-icons prefix">help</i>
+                {{ form.short_description }}
+                <label for="{{ form.short_description.id_for_label }}">{% blocktrans %}Please describe your issue in <strong>one</strong> sentence{% endblocktrans %}</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <p class="red-text">{{ form.long_description.errors }}</p>
+            <div class="input-field col s12 support-input-mobile">
+                <i class="material-icons prefix">mode_edit</i>
+                <textarea id="{{ form.long_description.id_for_label }}" name="{{ form.long_description.html_name }}" class="materialize-textarea"></textarea>
+                <label for="{{ form.long_description.id_for_label }}">{% blocktrans %}Please describe your issue <strong>more detailed</strong> (optional){% endblocktrans %}</label>
+            </div>
+        </div>
+
+        <button type="submit" name="go" id="go" class="btn waves-effect waves-light green">
+            {% blocktrans %}Submit bugreport{% endblocktrans %}
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+
+    {% include_js "select2-materialize" %}
+    {{ form.media.js }}
+    <script>
+        $('#go').click(function (event) {
+            var el = $("#rebus-form").get(0);
+            var valid = el.reportValidity();
+            console.log(valid);
+            if (!valid) {
+                M.toast({html: "<i class='material-icons left'>error</i>{% blocktrans %}Please fill in all required fields!{% endblocktrans %}"})
+            }
+        });
+        $.fn.hideAndDisable = function (id) {
+            $(id).hide();
+            $(id).disabled = true;
+        }
+        $.fn.setNextProperties = function (field_id, next_field_id, next_field_name) {
+            $.ajax({
+                url: '{% url "issues_get_next_properties" %}',
+                data: {
+                    'id': field_id
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.free_text) {
+                        $.fn.hideAndDisable(next_field_id)
+                        next_field_id = "#{{ form.free_text.auto_id }}"
+                        $(next_field_id).children().children('.issue-category-field').children('label').html(data.placeholder)
+                    } else {
+                        $.fn.hideAndDisable("#{{ form.free_text.auto_id }}")
+                        $("[name=" + next_field_name + "]").next("span.select2:first").find("span.select2-selection__placeholder").html(data.placeholder);
+                    }
+                    $(next_field_id).children().children('.issue-category-icon').html("<i class=\"material-icons iconify prefix small\" data-icon=\"" + data.icon + "\"></i>");
+                    if (($(next_field_id).is(':hidden')) && ((data.has_children)) || (data.free_text)){
+                        $(next_field_id).disabled = false;
+                        $(next_field_id).show();
+                    }
+                }
+            });
+        }
+        $("#{{ form.category_1.auto_id }}").on('input', function() {
+            $.fn.setNextProperties($('#' + this.id).find(':selected').val(), "#{{ form.category_2.auto_id }}", "bug_category_2")
+            if ($("#{{ form.category_3.auto_id }}").is(':visible')) {
+                $.fn.hideAndDisable("#{{ form.category_3.auto_id }}")
+            }
+        });
+        $("#{{ form.category_2.auto_id }}").on('input', function() {
+            let id = $('#' + this.id).find(':selected').val();
+            if (id !== "") {
+                $.fn.setNextProperties(id, "#{{ form.category_3.auto_id }}", "bug_category_3");
+            } else if ($("#{{ form.category_3.auto_id }}").is(':visible')) {
+                $.fn.hideAndDisable("#{{ form.category_3.auto_id }}")
+            }
+        });
+    </script>
+
+{% endblock %}

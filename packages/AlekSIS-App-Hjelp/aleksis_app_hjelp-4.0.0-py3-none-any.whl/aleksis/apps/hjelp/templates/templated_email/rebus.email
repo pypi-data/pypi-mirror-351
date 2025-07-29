@@ -1,0 +1,41 @@
+{% load i18n %}
+
+{% block subject %}
+    {% blocktrans with issue=short_description %}New issue: {{ issue }}{% endblocktrans %}
+{% endblock %}
+
+
+{% block plain %}
+    {% blocktrans with username=user.username full_name=user.person.full_name email=user.person.email %}
+    The user {{ username }} (full name: {{ full_name }}, email: <{{ email }}>) has submitted the following issue:
+    {% endblocktrans %}
+    {{ categories }}
+    {{ short_description }}
+    {{ long_description }}
+{% endblock %}
+
+{% block html %}
+<style>
+    {% include "templated_email/html_mail.css" %}
+</style>
+<main>
+    <p>
+        {% blocktrans with username=user.username full_name=user.person.full_name email=user.person.email %}
+            The user {{ username }} (full name: {{ full_name }}, email: <a href="mailto:{{ email }}">&lt;{{ email }}&gt;</a>)
+            has submitted the following issue:
+        {% endblocktrans %}
+    </p>
+    <div class="card-panel">
+        <p>
+            {% for category in categories_single %}
+                <span class="chip">{{ category }}</span>
+            {% if not forloop.last %}
+                →
+            {% endif %}
+            {% endfor %}
+        </p>
+        <h4>{{ short_description }}</h4>
+        <p>{{ long_description|linebreaksbr }}</p>
+    </div>
+</main>
+{% endblock %}

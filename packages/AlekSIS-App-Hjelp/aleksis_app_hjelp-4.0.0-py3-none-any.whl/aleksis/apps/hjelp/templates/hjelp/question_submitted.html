@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block no_page_title %}{% endblock no_page_title %}
+
+{% block browser_title %}
+  {% blocktrans %}
+    Question Submitted Successfully
+  {% endblocktrans %}
+{% endblock browser_title %}
+
+{% block content %}
+
+  <p class="flow-text">
+    <i class="material-icons">done_all</i>
+    {% blocktrans %}
+      We've received your question and will answer as soon as possible.
+    {% endblocktrans %}
+  </p>
+
+  <a href="{% url 'index' %}" class="waves-effect waves-light btn green">
+    <i class="material-icons left">home</i> {% trans "Back to landing page" %}
+  </a>
+  <a href="{% url 'ask_faq' %}" class="waves-effect waves-light btn secondary-color">
+    <i class="material-icons left">history</i> {% trans "Submit another question" %}
+  </a>
+  <a href="{% url 'faq' %}" class="waves-effect waves-light btn primary-color">
+    <i class="material-icons left">question_answer</i> {% trans "Back to FAQ" %}
+  </a>
+
+{% endblock %}

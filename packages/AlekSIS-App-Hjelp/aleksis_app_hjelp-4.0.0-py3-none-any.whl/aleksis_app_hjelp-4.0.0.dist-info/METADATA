@@ -1,0 +1,75 @@
+Metadata-Version: 2.3
+Name: AlekSIS-App-Hjelp
+Version: 4.0.0
+Summary: AlekSIS (School Information System) — App Hjelp (FAQ, issue reporting and support)
+License: EUPL-1.2-or-later
+Keywords: SIS,education,school,support,feedback
+Author: Julian Leucker
+Author-email: leuckeju@katharineum.de
+Maintainer: Jonathan Weth
+Maintainer-email: jonathan.weth@teckids.org
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django :: 3.0
+Classifier: Intended Audience :: Education
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Education
+Classifier: Typing :: Typed
+Requires-Dist: aleksis-core (>=4.0.0,<5.0.0)
+Project-URL: Documentation, https://aleksis.org/AlekSIS/docs/html/
+Project-URL: Homepage, https://aleksis.org
+Project-URL: Repository, https://edugit.org/AlekSIS/official/AlekSIS-App-Hjelp
+Description-Content-Type: text/x-rst
+
+AlekSIS (School Information System) — App Hjelp (FAQ and support)
+=================================================================
+
+AlekSIS
+-------
+
+This is an application for use with the `AlekSIS®`_ platform.
+
+Features
+--------
+
+* Report issues
+* Frequently asked questions
+* Ask questions
+* Feedback
+
+Licence
+-------
+
+::
+
+  Copyright © 2019, 2020, 2021, 2022 Jonathan Weth <dev@jonathanweth.de>
+  Copyright © 2019, 2020, 2021 Julian Leucker <leuckeju@katharineum.de>
+  Copyright © 2019, 2020, 2021 Hangzhi Yu <yuha@katharineum.de>
+  Copyright © 2019 Frank Poetzsch-Heffter <p-h@katharineum.de>
+  Copyright © 2020 Dominik George <dominik.george@teckids.org>  
+  Copyright © 2020 Tom Teichler <tom.teichler@teckids.org>
+
+  Licenced under the EUPL, version 1.2 or later, by Teckids e.V. (Bonn, Germany).
+
+Please see the LICENCE file accompanying this distribution for the
+full licence text or on the `European Union Public Licence`_ website
+https://joinup.ec.europa.eu/collection/eupl/guidelines-users-and-developers
+(including all other official language versions).
+
+Trademark
+---------
+
+AlekSIS® is a registered trademark of the AlekSIS open source project, represented
+by Teckids e.V. Please refer to the `trademark policy`_ for hints on using the trademark
+AlekSIS®.
+
+.. _AlekSIS®: https://aleksis.org/
+.. _European Union Public Licence: https://eupl.eu/
+.. _trademark policy: https://aleksis.org/pages/about
+

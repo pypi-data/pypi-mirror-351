@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block no_page_title %}{% endblock no_page_title %}
+
+{% block browser_title %}
+  {% blocktrans %}
+    Feeback Submitted Successfully
+  {% endblocktrans %}
+{% endblock browser_title %}
+
+{% block content %}
+  <p class="flow-text">
+    {% blocktrans %}
+      Thank you for your feedback. It was successfully submitted.
+    {% endblocktrans %}
+  </p>
+
+  <a href="{% url 'index' %}" class="waves-effect waves-light btn green">
+    <i class="material-icons left">home</i> {% trans "Back to landing page" %}
+  </a>
+  <a href="{% url 'feedback' %}" class="waves-effect waves-light btn secondary-color">
+    <i class="material-icons left">history</i> {% trans "Submit another feedback" %}
+  </a>
+{% endblock %}
