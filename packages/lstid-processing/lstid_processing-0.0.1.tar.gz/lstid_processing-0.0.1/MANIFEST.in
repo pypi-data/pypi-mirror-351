@@ -1,0 +1,11 @@
+graft lstid_processing/model_runs
+graft lstid_processing/map_files
+
+include *.rst
+include *.md
+include LICENSE
+
+include *.cfg
+include *.toml
+include *.yml
+include .zenodo.json
