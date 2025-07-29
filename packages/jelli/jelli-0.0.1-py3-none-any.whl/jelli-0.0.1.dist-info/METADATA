@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: jelli
+Version: 0.0.1
+Summary: A JAX-based EFT likelihood.
+Author-email: Aleks Smolkovič <aleks.smolkovic@ijs.si>, Peter Stangl <peter.stangl@cern.ch>
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: jax
+Requires-Dist: wilson
+Requires-Dist: rgevolve
+Requires-Dist: multipledispatch
+Requires-Dist: networkx
+Requires-Dist: h5py
+Dynamic: license-file
+
+# jelli - a JAX-based EFT Likelihood
