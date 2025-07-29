@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: tree-sitter-rune
+Version: 0.0.1
+Summary: Rune grammar for tree-sitter
+Author-email: Zhuhao Wang <zhuhaow@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/zhuhaow/tree-sitter-rune
+Keywords: incremental,parsing,tree-sitter,rune
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Compilers
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Typing :: Typed
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Provides-Extra: core
+Requires-Dist: tree-sitter~=0.24; extra == "core"
+
+# tree-sitter-rune
+
+[![Build/test](https://github.com/zhuhaow/tree-sitter-rune/actions/workflows/ci.yml/badge.svg)](https://github.com/zhuhaow/tree-sitter-rune/actions/workflows/ci.yml)
+
+[Tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar for the [Rune programming language](https://rune-rs.github.io).
+
+## About Rune
+
+Rune is a language for programmatic scripting and configuration. It's designed to be embedded in Rust applications as a dynamic scripting layer.
+
+Learn more about the Rune language at its [official website](https://rune-rs.github.io) and [documentation](https://rune-rs.github.io/book/).
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
