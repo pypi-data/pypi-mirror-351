@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hasnainkk"
+version = "1.0"
+description = "A dual-library Telegram bot framework with Pyrogram and PTB support"
+authors = [{name = "hasnainkk-07", email = "lord_izana@yahoo.com"}]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Endx0/hasnainkk"
+Bug Tracker = "https://github.com/Endx0/hasnainkk/issues"
+
+[project.dependencies]
+pyrogram = "^2.0.0"
+python-telegram-bot = "^20.0"
+pyyaml = "^6.0"

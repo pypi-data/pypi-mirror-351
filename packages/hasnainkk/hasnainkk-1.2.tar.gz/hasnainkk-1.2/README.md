@@ -1,0 +1,139 @@
+### hasnainkk
+
+**hasnainkk** is a modular, dual-library framework for building powerful Telegram bots using both [Pyrogram](https://docs.pyrogram.org/) and [python-telegram-bot (PTB)](https://docs.python-telegram-bot.org/). It is designed for speed, flexibility, and developer-friendliness—intentionally disabling flood wait handling for use cases where strict performance is required.
+
+---
+
+## ✨ Features
+
+- 🔁 **Dual-library support**: Use both Pyrogram and PTB in the same codebase.
+- 🧱 **Modular architecture**: Clean separation between handlers, core, and utilities.
+- 🧠 **Flood wait bypassing**: For advanced users who prefer custom handling or no rate limits.
+- 📂 **YAML/JSON config loading**: Flexible and easy configuration.
+- 📦 **Production-ready structure**: Includes examples, unit tests, and packaging setup.
+
+---
+
+## 📁 Project Structure
+
+```
+hasnainkk/
+├── hasnainkk/
+│   ├── core/               # Core logic: config, dispatcher, logger, session management
+│   ├── handlers/           # Base handler classes for Pyrogram and PTB
+│   ├── utils/              # Helper functions and decorators
+│   └── examples/           # Sample Pyrogram and PTB bot scripts
+├── tests/                  # Unit tests
+├── LICENSE                 # MIT License
+├── README.md               # This file
+├── setup.py                # setuptools installer
+├── pyproject.toml          # Build metadata
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install from source
+
+```bash
+git clone https://github.com/Endx0/hasnainkk
+cd hasnainkk
+pip install .
+```
+
+Or use it as a package (once published to PyPI):
+
+```bash
+pip install hasnainkk
+```
+
+---
+
+### 2. Configuration
+
+Create a file named `config.yaml` or `config.json`:
+
+```yaml
+pyrogram:
+  api_id: 12345
+  api_hash: "your_api_hash"
+  bot_token: "your_pyrogram_bot_token"
+
+ptb:
+  bot_token: "your_ptb_bot_token"
+```
+
+---
+
+### 3. Run an Example
+
+#### Pyrogram:
+
+```bash
+python -m hasnainkk.examples.pyro_example
+```
+
+#### PTB:
+
+```bash
+python -m hasnainkk.examples.ptb_example
+```
+
+---
+
+## 🧠 How It Works
+
+- `SessionManager`: Initializes and starts both Pyrogram and PTB bots.
+- `Dispatcher`: Manages handlers and attaches them to the correct client.
+- `BaseHandler`: Abstract class you subclass to create handlers for either library.
+- `@ignore_flood_wait`: Optional decorator to suppress flood wait errors without retry.
+
+---
+
+## 🧪 Tests
+
+```bash
+pytest tests/
+```
+
+---
+
+## 🧩 Extending
+
+Create your own handler by subclassing:
+
+```python
+from hasnainkk.handlers import PyrogramHandler
+
+class MyCustomHandler(PyrogramHandler):
+    async def handle(self, client, message):
+        await message.reply("Hello from custom handler!")
+```
+
+Register it in your dispatcher:
+
+```python
+dispatcher.add_handler(MyCustomHandler(config), library="pyrogram")
+```
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 👤 Author
+
+**Wangling** – [hasnainkk-07](https://github.com/hasnainkk-07)  
+Feel free to open an issue or PR!
+
+---
+
+## 🌐 Links
+
+- [Pyrogram Documentation](https://docs.pyrogram.org/)
+- [python-telegram-bot Documentation](https://docs.python-telegram-bot.org/)
+- [YAML Spec](https://yaml.org/)
