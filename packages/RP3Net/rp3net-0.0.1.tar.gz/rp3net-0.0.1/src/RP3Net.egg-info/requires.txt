@@ -1,0 +1,11 @@
+torch==2.5.*
+pandas
+transformers==4.46.*
+ml_collections
+peft
+tqdm
+
+[training]
+lightning[pytorch-extra]==2.4.*
+polars==1.27.*
+wandb
