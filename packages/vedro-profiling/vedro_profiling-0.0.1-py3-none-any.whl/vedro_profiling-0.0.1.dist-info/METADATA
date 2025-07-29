@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: vedro-profiling
+Version: 0.0.1
+Summary: Vedro plugin for measuring docker resource usage.
+Home-page: https://github.com/lolimpo/vedro-profiling
+Author: Nikita Mikheev
+Author-email: thelol1mpo@gmail.com
+License: Apache-2.0
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Typing :: Typed
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: vedro<2.0.0,>=1.13.0
+Requires-Dist: docker<8.0.0,>=7.0.0
+Requires-Dist: matplotlib<4.0.0,>=3.10.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Vedro profiling
+
+Vedro plugin for measuring docker resource usage of tests.
