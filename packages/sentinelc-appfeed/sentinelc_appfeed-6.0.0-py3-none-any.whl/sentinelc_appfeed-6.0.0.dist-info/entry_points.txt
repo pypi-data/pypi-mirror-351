@@ -1,0 +1,3 @@
+[console_scripts]
+applib-builder = sentinelc_appfeed.builder:main
+applib-validator = sentinelc_appfeed.validator:main
