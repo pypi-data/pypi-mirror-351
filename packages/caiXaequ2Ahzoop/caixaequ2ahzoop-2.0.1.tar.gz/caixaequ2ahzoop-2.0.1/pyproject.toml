@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "caiXaequ2Ahzoop"
+version = "2.0.1"
+description = "caiXaequ2Ahzoop"
+readme = "README.md"
+requires-python = ">=3.7"
+authors = [
+  { name="caiXaequ2Ahzoop", email="caiXaequ2Ahzoop@caiXaequ2Ahzoop.com" }
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
