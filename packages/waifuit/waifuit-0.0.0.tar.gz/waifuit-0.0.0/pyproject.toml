@@ -1,0 +1,12 @@
+[project]
+name = "waifuit"
+version = "0.0.0"
+description = "A Python wrapper for the waifu.it API."
+readme = "README.md"
+authors = [
+    { name = "Keksi", email = "hello@keksi.dev" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+]
