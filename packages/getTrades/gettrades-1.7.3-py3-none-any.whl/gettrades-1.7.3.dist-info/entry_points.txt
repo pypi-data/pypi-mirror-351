@@ -1,0 +1,5 @@
+[console_scripts]
+getTrades = getTrades.getTrades:main_cli_entrypoint
+
+[gui_scripts]
+getTrades = getTrades.getTrades:main_cli_entrypoint

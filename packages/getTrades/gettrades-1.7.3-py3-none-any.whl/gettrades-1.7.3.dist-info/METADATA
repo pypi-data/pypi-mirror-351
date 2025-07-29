@@ -1,0 +1,67 @@
+Metadata-Version: 2.4
+Name: getTrades
+Version: 1.7.3
+Summary: A tool querying Bitvavo.com to retrieve all trades and calculate overall results
+Author-email: Nico de Smidt <nico@ndsrf.eu>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.13.0
+Requires-Dist: configparser-crypt==1.1.0
+Requires-Dist: keyring==25.6.0
+Requires-Dist: pandas==2.2.3
+Requires-Dist: tabulate2==1.10.1
+Requires-Dist: websockets==14.2
+Description-Content-Type: text/markdown
+
+## getTrades v1.7
+Read trades and calculate overall profit/loss
+
+usage: **python getTrades.py [option]**
+
+where [option] can be:
+| option | explanation |
+| :--- | :--- |
+| **-h** | this help message |
+| **-a** | add a config section |
+| **-d \#** | delete a config section (asks for config number if no config section nr is given) |
+| **-l** | list all config section and their numbers |
+| **-u \#** | use a specific config section (by number found by -l option) |
+| **-k** | (Advanced) use saved result set, don't query Bitvavo again |
+| **-v** | verbose, show debug information |
+
+When no option is provided, a standard run will be executed, when more than one config exist, a config number is asked to run the program with
+
+Initial run will ask for API and Secret to api.bitvavo.com and store this information encrypted in a config.ini file.
+
+This will be the default and does not need to be specified further until there are more than 1 configs
+
+## Operations
+
+getTrades is build to perform like an application `python -m getTrades`, and can be called directly from the commandline. 
+
+Best (and tested) operation is achieved using pipx ( https://pipx.pypa.io/stable/installation/ )
+`pipx run getTrades`
+
+1. make sure pipx is installed and operating correctly
+2. make sure `python3 --version` says `Python 3.13.3`
+3. open a command window and run `pipx run getTrades`
+4. when no `config.ini` file exists it will be created, user is asked to provide name, API key and API secret. the program exits
+5. the AES key with which the `config.ini` file is encrypted, is stored in the system keyring, as such you will be prompted for your system's password.
+6. when run a second time, getTrades will call out to Bitvavo.com and retrieve all trades, wallet balances and current prices of assets.
+
+## Analysis
+
+sample results:
+![result.jpg](https://i.imgur.com/qJn3LWQ.jpeg)
+1. in the leftmost column the ***token symbol*** is given, ***EUR_Wallet*** denotes the current real EURO balance in your wallet.
+2. ***Token Balance*** is the current amount of tokens in your wallet
+3. ***EUR(realized)*** is the result of all previous trades, result-investment per token
+4. ***EUR(unrealized)*** is the Euro value of your current wallet tokens (including kept Euro's)
+5. ***EUR(total)*** = ***EUR(realized)*** \+ ***EUR(unrealized)***
+6. ***price*** is the current market price of the token
+7. ***BE-price*** (break-even price) is the  `EUR(realized)` amount divided by `Token Balance`. This provides the price at which the remaining amount of tokens has a `price` that makes up for the investment in `EUR(realized)` (this metric is only relevant for situations where the `EUR(realized)` balance is negative (so (still) at a loss)
+8. ***BE%*** is the % a token value has to increase to reach break-even
+
+Happy trading
