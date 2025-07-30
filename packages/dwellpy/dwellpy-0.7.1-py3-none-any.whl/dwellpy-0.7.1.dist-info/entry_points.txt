@@ -1,0 +1,5 @@
+[console_scripts]
+dwellpy = dwellpy.main:main
+
+[gui_scripts]
+dwellpy-gui = dwellpy.main:main
