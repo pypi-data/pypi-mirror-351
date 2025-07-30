@@ -1,0 +1,14 @@
+[Unit]
+Description=koco_product_sqlmodel
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/home/kocoadmin/koco_product_sqlmodel
+LimitNOFILE=4096
+ExecStart=/home/kocoadmin/koco_product_sqlmodel/gunicorn-server-start.sh
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
