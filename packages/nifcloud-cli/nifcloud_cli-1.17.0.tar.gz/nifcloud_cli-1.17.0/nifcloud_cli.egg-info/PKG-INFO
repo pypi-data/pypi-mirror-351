@@ -1,0 +1,127 @@
+Metadata-Version: 2.4
+Name: nifcloud-cli
+Version: 1.17.0
+Summary: NIFCLOUD Command-Line Tools
+Home-page: https://github.com/nifcloud/nifcloud-cli
+Author: Fujitsu
+License: Apache-2.0
+Project-URL: Homepage, https://github.com/nifcloud/nifcloud-cli
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Natural Language :: English
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: awscli==1.38.10
+Requires-Dist: nifcloud==1.17.0
+Requires-Dist: pyyaml==5.3.1
+Dynamic: home-page
+Dynamic: license-file
+
+# nifcloud-cli
+
+[![Test](https://github.com/nifcloud/nifcloud-cli/workflows/Test/badge.svg)](https://github.com/nifcloud/nifcloud-cli/actions?query=workflow%3ATest)
+[![PyPI](https://badge.fury.io/py/nifcloud-cli.svg)](https://pypi.org/project/nifcloud-cli)
+
+Universal Command Line Interface for NIFCLOUD Services 
+
+## Requirements
+
+* Python 3.8 or later
+
+## How to Install
+
+### Using pip
+
+```
+$ pip install nifcloud-cli
+$ nifcloud --version
+```
+
+### Using MSI installer (Windows only)
+
+1. Download the MSI installer from [Release](https://github.com/nifcloud/nifcloud-cli/releases).
+1. Run the downloaded MSI installer.
+1. Check the nifcloud-cli from command prompt.
+    ```
+    C:\> nifcloud --version
+    ```
+
+### Using docker
+
+```
+$ docker run -it --rm ghcr.io/nifcloud/nifcloud-cli --version
+```
+
+## Usage
+
+### Set credentials
+
+You can configure credentials via environment variables or `nifcloud configure` command.
+
+#### via environment variable
+
+- Linux
+
+```
+$ export NIFCLOUD_ACCESS_KEY_ID=<Your NIFCLOUD Access Key ID>
+$ export NIFCLOUD_SECRET_ACCESS_KEY=<Your NIFCLOUD Secret Access Key>
+$ export NIFCLOUD_DEFAULT_REGION=jp-east-1
+```
+
+- Windows
+
+```
+C:\> set NIFCLOUD_ACCESS_KEY_ID=<Your NIFCLOUD Access Key ID>
+C:\> set NIFCLOUD_SECRET_ACCESS_KEY=<Your NIFCLOUD Secret Access Key>
+C:\> set NIFCLOUD_DEFAULT_REGION=jp-east-1
+```
+
+#### via `nifcloud configure` command
+
+```
+$ nifcloud configure
+NIFCLOUD Access Key ID [None]: <Your NIFCLOUD Access Key ID>
+NIFCLOUD Secret Access Key [None]: <Your NIFCLOUD Secret Access Key>
+Default region name [jp-east-1]: jp-east-1
+Default output format [None]:
+```
+
+config file is saved under the `.nifcloud` directory in your home directory (`$HOME` or `%UserProfile%`)
+
+### Show available services
+
+```
+$ nifcloud help
+```
+
+### Show available actions for the service
+
+```
+$ nifcloud computing help
+```
+
+### Show available parameters for the action
+
+```
+$ nifcloud computing create-key-pair help
+```
+
+### Run the command actually
+
+```
+$ nifcloud computing create-key-pair --key-name foobar123 --password foobar123 
+```
+
+## License
+
+See [LICENSE](LICENSE).
