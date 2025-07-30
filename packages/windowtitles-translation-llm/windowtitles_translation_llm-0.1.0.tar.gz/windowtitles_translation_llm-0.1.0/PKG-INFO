@@ -1,0 +1,173 @@
+Metadata-Version: 2.3
+Name: windowtitles-translation-llm
+Version: 0.1.0
+Summary: This project aims to forward translate and backward translate window titles using the help of llama model.
+Author: qiblatainf
+Author-email: qiblatain@live.com
+Requires-Python: >=3.10
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: ollama
+Requires-Dist: tqdm
+Description-Content-Type: text/markdown
+
+- **Forward Translation**
+
+  - Word-wise translation of input strings from any detected source language → English.
+  - Optional token-level mapping (`getTokenList`) for round-trip tracking.
+  - Preserve specified “protected” tokens (e.g. IDs, placeholders, rules).
+
+- **Preserving Sementics during Translation**
+
+  - Chunk-wise translation of input strings from any detected source language → English. 
+  - Merges common prepositional phrases, translates whole sentences when possible, then aligns individual parts for better context.
+  - Uses BERT-based alignment to keep multi-word units intact.
+
+- **Backward Translation**
+
+  - Restoration of original text by inverting the mapping produced during forward translation.
+
+
+---
+
+## 📦 Installation
+
+To install the package, run
+  ```bash
+  pip install windowtitles-translation@git+https://github.com/paxray/windowtitles-translation-llm.git
+  ```
+  to install without cloning the repository. If the repository is already cloned, running
+  ```bash
+  pip install .
+  ```
+  in the root folder also works.
+
+
+## Features
+
+- **Forward translation** using Hugging Face MarianMT.
+- **Back-translation** to reconstruct original window titles.
+- **Token mapping** for granular translation control.
+- **Preserve placeholders** and specified words.
+
+## Usage
+
+### Forward Translation
+
+Use the `getTranslations` function from `main.py`:
+
+```python
+from main import getTranslations
+
+payload = {
+    "windowTitles": ["Fenêtre de terminal", "Título de documento"],
+    "preserveWordsList": ["Word"],
+    "getTokenList": True,
+    "windowTitlesLanguage": None,
+    "translationType": "forward" 
+}
+
+translations = getTranslations(payload)
+print(translations)
+```
+
+Output example:
+
+```json
+{
+  "Fenêtre de terminal": {
+    "language": "fr",
+    "translation": "Terminal window",
+    "tokenMapping": { ... }
+  },
+  "Título de documento": {
+    "language": "es",
+    "translation": "Document title",
+    "tokenMapping": { ... }
+  }
+} 
+
+```
+
+### Backward Translation
+
+Use the `getOriginalData` function to reverse a translation:
+
+```python
+from main import getOriginalData
+
+payload = {
+    "alteredWindowTitles": {
+        "alteredWindowTitle": { ... }
+    },
+    "translationType": "backward"
+}
+
+originals = getOriginalData(payload)
+print(originals)
+```
+
+## CLI
+
+By default, running `main.py` performs a backward translation on sample data:
+
+```bash
+python main.py
+```
+
+Results are saved to `data/output-data/output_file_name.json`.
+
+## Configuration Options
+
+Below are the configuration options for both forward and backward translation payloads. Each field’s datatype and whether it is mandatory are listed.
+
+**Forward Translation Payload**:
+
+- `windowTitles` (List[str], **mandatory**):
+  - A list of strings representing the window titles to be translated.
+- `preserveWordsList` (List[str], **optional**, default=[]):
+  - Words or tokens you want to remain unchanged during translation.
+- `getTokenList` (bool, **optional**, default=False):
+  - If true, includes a mapping of source-to-target tokens in the output.
+- `windowTitlesLanguage` (str, **optional**, default=None):
+  - ISO 639-1 code (e.g., "fr", "es"); forces the source language detection.
+- `translationType` (str, **mandatory**):
+  - For forward translation use the keyword "forward"
+
+**Backward Translation Payload** (fields within `alteredWindowTitles` entries):
+
+- `alteredWindowTitles` (str, **mandatory**):
+  - The translated window title you wish to revert.
+- `tokenMapping` (Dict[int, int], **mandatory**):
+  - Original-to-translated token index mapping used during forward translation.
+- `translationType` (str, **mandatory**):
+  - For backward translation use the keyword "backward"
+
+**Config.py**
+
+- `device` = "cpu" #or "cuda"
+ - Set to 'CPU' by default. Change to 'Cuda' to use GPU.
+
+
+## Project Structure
+
+```
+└── src
+  └── windowtitles_translation
+    ├── constants.py
+    ├── config.py
+    ├── commonMethods.py
+    ├── backwardTranslation.py
+    ├── forwardTranslation.py
+    ├── forwardTranslationWithSemantics.py
+    ├── main.py
+└── data
+    ├── input-data
+    └── output-data
+```
+
+
+

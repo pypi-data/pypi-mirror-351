@@ -1,0 +1,18 @@
+[project]
+name = "windowtitles-translation-llm"
+version = "0.1.0"
+description = "This project aims to forward translate and backward translate window titles using the help of llama model."
+authors = [
+    {name = "qiblatainf",email = "qiblatain@live.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ollama",
+    "tqdm"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
