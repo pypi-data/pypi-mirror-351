@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: inversql
+Version: 0.0.1
+Summary: Default template for PDM package
+Author-email: RenChu Wang <patrick1031wang@gmail.com>
+License: MIT
+Requires-Python: <4,>=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: scikit-learn>=1.6.1
+Requires-Dist: numpy>=2.2.6
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: rich>=14.0.0
+Requires-Dist: textual>=3.2.0
+
+# InverSQL
