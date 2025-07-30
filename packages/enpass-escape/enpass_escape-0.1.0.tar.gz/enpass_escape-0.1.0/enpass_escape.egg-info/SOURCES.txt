@@ -1,0 +1,17 @@
+.gitignore
+LICENSE
+README.md
+pyproject.toml
+.github/workflows/publish.yml
+enpass_escape/__init__.py
+enpass_escape/cli.py
+enpass_escape.egg-info/PKG-INFO
+enpass_escape.egg-info/SOURCES.txt
+enpass_escape.egg-info/dependency_links.txt
+enpass_escape.egg-info/entry_points.txt
+enpass_escape.egg-info/requires.txt
+enpass_escape.egg-info/top_level.txt
+testdata/apple/Passwords.csv
+testdata/enpass/export.csv
+testdata/enpass/export.json
+tests/unittest/test_enpass_escape.py
