@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "langraph_api"
+version = "0.0.3"
+description = "LangGraph Azure Function Agents"
+authors = ["Example <example@example.com>"]
+packages = [
+    
+    { include = "langraph_api" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+azure-functions = "*"
+pydantic = "*"
+openai-agents = "*"
+langchain = "*"
+langgraph = "*"
+langchain_community = "*"
+langchain-core = "*"
+openapi-schema-pydantic = "*"
+requests = "*"
+dacite = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
