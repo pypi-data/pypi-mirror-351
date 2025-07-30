@@ -1,0 +1,13 @@
+prefix=/Users/mdx527/Code/surrogate_hessian_relax/.conda
+exec_prefix=/Users/mdx527/Code/surrogate_hessian_relax/.conda
+libdir=/Users/mdx527/Code/surrogate_hessian_relax/.conda/lib
+sharedlibdir=/Users/mdx527/Code/surrogate_hessian_relax/.conda/lib
+includedir=/Users/mdx527/Code/surrogate_hessian_relax/.conda/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
