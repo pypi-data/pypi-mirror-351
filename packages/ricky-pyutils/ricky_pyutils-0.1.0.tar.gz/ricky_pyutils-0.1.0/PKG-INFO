@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: ricky-pyutils
+Version: 0.1.0
+Summary: Utilitaires Python par Ricky
+Author-email: Ricky <dev.creusot.aym@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/ricky/ricky-pyutils
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydantic>=2.10.6
+Requires-Dist: requests>=2.28
+Provides-Extra: dev
+Requires-Dist: ruff>=0.3.0; extra == "dev"
+Dynamic: license-file
+
+# Ricky PyUtils
+
+Collection d'utilitaires Python par Ricky.
+
+## Installation
+
+```bash
+pip install ricky-pyutils
+```
+
+## Utilisation
+
+```python
+import ricky_pyutils
+
+# Exemples d'utilisation à venir
+```
+
+## Développement
+
+1. Cloner le repository
+2. Installer les dépendances de développement :
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Installer le package en mode développement :
+   ```bash
+   pip install -e .
+   ```
+
+## Tests
+
+```bash
+pytest
+```
+
+## Licence
+
+MIT License - Voir le fichier LICENSE pour plus de détails.
