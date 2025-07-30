@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: nvpl-fft
+Version: 0.4.2.1
+Summary: NVPL FFT
+Author-email: Nvidia CUDA Installer Team <cuda_installer@nvidia.com>
+License-Expression: LicenseRef-Nvidia-NVPL-License
+Project-URL: Homepage, https://developer.nvidia.com/nvpl/
+Project-URL: Documentation, https://docs.nvidia.com/nvpl/
+Keywords: nvidia,nvpl,hpc,Fourier Transform,fft,fftw
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: C
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Fortran
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# NVPL FFT
+The NVPL FFT library is a component of the NVIDIA Performance Libraries (NVPL), a collection of high performance mathematical libraries optimized for the NVIDIA Grace ARMv9.0-A architecture and future NVIDIA aarch64 CPUs.
+
+These CPU-only libraries have no dependency on CUDA, and are drop in replacements for standard C and Fortran mathematical APIs allowing HPC applications to achieve maximum performance on NVIDIA CPU platforms.
+
+- [NVPL Homepage](https://developer.nvidia.com/nvpl/)
+- [NVPL Documentation](https://docs.nvidia.com/nvpl/)
+- [NVPL Downloads](https://developer.nvidia.com/nvpl-downloads/)

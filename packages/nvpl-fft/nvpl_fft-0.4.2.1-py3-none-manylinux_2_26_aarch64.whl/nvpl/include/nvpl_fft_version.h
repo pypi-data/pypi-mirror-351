@@ -1,0 +1,9 @@
+#ifndef _NVPL_FFT_VERSION_H_
+#define _NVPL_FFT_VERSION_H_
+
+#define NVPL_FFT_VER_MAJOR 0
+#define NVPL_FFT_VER_MINOR 4
+#define NVPL_FFT_VER_PATCH 2
+#define NVPL_FFT_VERSION 402
+
+#endif /* _NVPL_FFT_VERSION_H_ */
