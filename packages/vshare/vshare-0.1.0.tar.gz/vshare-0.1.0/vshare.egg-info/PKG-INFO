@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: vshare
+Version: 0.1.0
+Summary: Share any file over LAN using QR code and local server
+Home-page: https://github.com/yourusername/vshare
+Author: Vansh Sharma
+Author-email: your_email@example.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+# Vshare 📡
+
+A simple tool to share any file over LAN using a QR code and a local web server.
+
+## Install
+
+```bash
+pip install vshare
