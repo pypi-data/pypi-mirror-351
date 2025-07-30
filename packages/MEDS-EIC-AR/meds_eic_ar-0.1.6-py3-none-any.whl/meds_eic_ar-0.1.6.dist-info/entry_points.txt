@@ -1,0 +1,4 @@
+[console_scripts]
+MEICAR_generate_trajectories = MEDS_EIC_AR.__main__:generate_trajectories
+MEICAR_pretrain = MEDS_EIC_AR.__main__:pretrain
+MEICAR_process_data = MEDS_EIC_AR.preprocessing.__main__:process_data
