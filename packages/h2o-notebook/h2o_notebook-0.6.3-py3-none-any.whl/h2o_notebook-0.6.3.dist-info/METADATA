@@ -1,0 +1,37 @@
+Metadata-Version: 2.4
+Name: h2o-notebook
+Version: 0.6.3
+Summary: Python client for H2O Notebook Labs
+Project-URL: Documentation, https://docs.h2o.ai/notebook/py/initialization
+Author-email: "H2O.ai" <support@h2o.ai>
+Requires-Python: >=3.8
+Requires-Dist: certifi>=2022.12.7
+Requires-Dist: gcloud>=0.18.3
+Requires-Dist: google-api-python-client>=2.108.0
+Requires-Dist: grpcio>=1.60.0
+Requires-Dist: h2o-authn>=1.1.0
+Requires-Dist: h2o-cloud-discovery>=2.1.0
+Requires-Dist: h2o-drive>=1.0.0
+Requires-Dist: ipython>=8.0.0
+Requires-Dist: ipywidgets>=8.0.0
+Requires-Dist: protobuf>=4.25.1
+Requires-Dist: python-dateutil>=2.8.2
+Requires-Dist: requests>=2.26.0
+Requires-Dist: urllib3>=1.26.15
+Description-Content-Type: text/markdown
+
+# `h2o-notebook`
+
+[![pypi](https://img.shields.io/pypi/v/h2o-notebook?style=flat-square)](https://pypi.org/project/h2o-notebook/)
+
+Python client for [H2O Notebook Labs](https://docs.h2o.ai/notebook/).
+
+## Installation
+
+```sh
+pip install h2o-notebook
+```
+
+## Usage
+
+Visit the [documentation](https://docs.h2o.ai/notebook/py/initialization) for more information.
