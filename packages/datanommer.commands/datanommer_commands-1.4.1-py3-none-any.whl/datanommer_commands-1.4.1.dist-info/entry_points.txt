@@ -1,0 +1,7 @@
+[console_scripts]
+datanommer-create-db=datanommer.commands:create
+datanommer-dump=datanommer.commands:dump
+datanommer-extract-users=datanommer.commands.extract_users:main
+datanommer-latest=datanommer.commands:latest
+datanommer-stats=datanommer.commands:stats
+
