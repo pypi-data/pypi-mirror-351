@@ -1,0 +1,5 @@
+# EXAMPLE
+# - name: '<DATASET NAME>'
+#  parser: PartNetMobility|Dataset
+#  root_dir: 
+#  file_globber: 'dataset/*/mobility.urdf'
