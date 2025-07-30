@@ -1,0 +1,11 @@
+pyHanko[pkcs11]>=0.29.0
+pyhanko-cli>=0.1.1
+
+[mypy]
+pyhanko-beid-plugin
+types-PyYAML
+
+[testing]
+pyhanko-beid-plugin
+pytest>=6.1.1
+pytest-cov<6.2,>=4.0
