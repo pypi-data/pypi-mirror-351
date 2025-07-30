@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: pytournament
+Version: 0.1.0
+Summary: A Python library for managing sports games and tournaments
+Project-URL: Homepage, https://github.com/Padelanalytics/pytournament
+Project-URL: Bug Tracker, https://github.com/Padelanalytics/pytournament/issues
+Project-URL: Documentation, https://pytournament.readthedocs.io
+Author-email: Francisco Revilla <paconte@gmail.com>
+License: MIT
+Keywords: league,scheduling,sports,tournament
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.10
+Requires-Dist: click>=8.0.0
+Requires-Dist: pycountry>=24.6.1
+Requires-Dist: pydantic>=2.11.2
+Requires-Dist: pytest-cov>=6.1.1
+Requires-Dist: pytest>=8.3.5
+Requires-Dist: typing-extensions>=4.13.1
+Provides-Extra: dev
+Requires-Dist: mypy>=1.15.0; extra == 'dev'
+Requires-Dist: pre-commit>=4.2.0; extra == 'dev'
+Requires-Dist: ruff>=0.11.4; extra == 'dev'
+Requires-Dist: tox>=4.25.0; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: sphinx-autodoc-typehints>=1.20.0; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme>=1.2.0; extra == 'docs'
+Requires-Dist: sphinx>=6.0.0; extra == 'docs'
+Description-Content-Type: text/markdown
+
+# pytournament
