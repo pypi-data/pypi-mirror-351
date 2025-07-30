@@ -1,0 +1,69 @@
+root:
+             creates   file:./
+             creates   file:plan.py
+             creates   step:runpy ./plan.py
+
+file:./
+               state = STATIC
+          created by   root:
+            supplies   file:inventory.def
+            supplies   file:inventory.txt
+            supplies   file:plan.py
+            supplies   file:upload.zip
+            supplies   step:make-inventory -i inventory.def -o inventory.txt
+            supplies   step:runpy ./plan.py
+            supplies   step:zip-inventory inventory.txt upload.zip
+
+file:plan.py
+               state = STATIC
+          created by   root:
+            consumes   file:./
+            supplies   step:runpy ./plan.py
+
+step:runpy ./plan.py
+               state = SUCCEEDED
+          created by   root:
+            consumes   file:./
+            consumes   file:plan.py
+             creates   dg:data/**
+             creates   file:inventory.def
+             creates   step:make-inventory -i inventory.def -o inventory.txt
+             creates   step:zip-inventory inventory.txt upload.zip
+
+file:inventory.def
+               state = STATIC
+          created by   step:runpy ./plan.py
+            consumes   file:./
+            supplies   step:make-inventory -i inventory.def -o inventory.txt
+
+dg:data/**
+          created by   step:runpy ./plan.py
+
+step:make-inventory -i inventory.def -o inventory.txt
+               state = SUCCEEDED
+          created by   step:runpy ./plan.py
+            consumes   file:./
+            consumes   file:inventory.def
+             creates   file:inventory.txt
+            supplies   file:inventory.txt
+
+file:inventory.txt
+               state = BUILT
+          created by   step:make-inventory -i inventory.def -o inventory.txt
+            consumes   file:./
+            consumes   step:make-inventory -i inventory.def -o inventory.txt
+            supplies   step:zip-inventory inventory.txt upload.zip
+
+step:zip-inventory inventory.txt upload.zip
+               state = SUCCEEDED
+          created by   step:runpy ./plan.py
+            consumes   file:./
+            consumes   file:inventory.txt
+             creates   file:upload.zip
+            supplies   file:upload.zip
+
+file:upload.zip
+               state = BUILT
+          created by   step:zip-inventory inventory.txt upload.zip
+            consumes   file:./
+            consumes   step:zip-inventory inventory.txt upload.zip
