@@ -1,0 +1,278 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* energetica_website_sale_order
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-29 08:44+0000\n"
+"PO-Revision-Date: 2025-05-29 08:44+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__auxiliar_service
+msgid "Auxiliar Service"
+msgstr "¿Dispones de algún servicio auxiliar?"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__cadastral_reference
+msgid "Cadastral Reference"
+msgstr "Referencia Catastral"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__cau
+msgid "Cau"
+msgstr "CAU"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__cnae
+msgid "Cnae"
+msgstr "CNAE"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__conditions
+msgid "Conditions"
+msgstr "Condiciones"
+
+#. module: energetica_website_sale_order
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Contract Info"
+msgstr "Datos de contrato"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__cups
+msgid "Cups"
+msgstr "CUPS"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__current_power_p1
+msgid "Current Power P1"
+msgstr "Potencia actual P1"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__current_power_p2
+msgid "Current Power P2"
+msgstr "Potencia actual P2"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__current_power_p3
+msgid "Current Power P3"
+msgstr "Potencia actual P3"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__current_power_p4
+msgid "Current Power P4"
+msgstr "Potencia actual P4"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__current_power_p5
+msgid "Current Power P5"
+msgstr "Potencia actual P5"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__current_power_p6
+msgid "Current Power P6"
+msgstr "Potencia actual P6"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__current_power_point
+msgid "Current Power Point"
+msgstr "Potencia actual Punta"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__current_power_valley
+msgid "Current Power Valley"
+msgstr "Potencia actual Valle"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__donation
+msgid "Donation"
+msgstr "Donativo voluntario"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__iban
+msgid "Iban"
+msgstr "IBAN"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__iban_statement
+msgid "Iban Statement"
+msgstr "Declaración sobre IBAN"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__installation
+msgid "Installation"
+msgstr "Instalación"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__installation_power
+msgid "Installation Power"
+msgstr "Potencia de instalación"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__installation_situation
+msgid "Installation Situation"
+msgstr "Situación de instalación"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__installation_type
+msgid "Installation Type"
+msgstr "Tipo de instalación"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__is_home
+msgid "Is Home"
+msgstr "¿Es una vivienda?"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__is_light
+msgid "Is Light"
+msgstr "¿Hay luz actualmente?"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__is_previous_titular
+msgid "Is Previous Titular"
+msgstr "¿Eras el titular con la anterior comercializadora?"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__payment_conditions
+msgid "Payment Conditions"
+msgstr "Condiciones de pago"
+
+#. module: energetica_website_sale_order
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Payment Info"
+msgstr "Información de pago"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__power_type
+msgid "Power Type"
+msgstr "Tipo de potencia"
+
+#. module: energetica_website_sale_order
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Power info"
+msgstr "Tención y Potencia"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__privacy_policy
+msgid "Privacy Policy"
+msgstr "Politica de privacidad"
+
+#. module: energetica_website_sale_order
+#: model:ir.model,name:energetica_website_sale_order.model_sale_order
+msgid "Sales Order"
+msgstr "Contratación"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__selfconsume
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Selfconsume"
+msgstr "Autoconsumo"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__service_city
+msgid "Service City"
+msgstr "Ciudad"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__service_state_id
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_state_id
+msgid "Service Province"
+msgstr "Provincia"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__service_street
+msgid "Service Street"
+msgstr "Dirección"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__service_zip_code
+msgid "Service Zip Code"
+msgstr "Código postal"
+
+#. module: energetica_website_sale_order
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Service point data"
+msgstr "Datos de punto de suministro"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__statement
+msgid "Statement"
+msgstr "Declaración responsable"
+
+#. module: energetica_website_sale_order
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Supply Point"
+msgstr "Punto de suministro"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__tariff
+msgid "Tariff"
+msgstr "Tarifa"
+
+#. module: energetica_website_sale_order
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Tariff info"
+msgstr "Tarifas"
+
+#. module: energetica_website_sale_order
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Terms and Conditions"
+msgstr "Terminos y condiciones"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_city
+msgid "Titular City"
+msgstr "Ciudad"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_email
+msgid "Titular Email"
+msgstr "Correo electrónico"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_firstname
+msgid "Titular Firstname"
+msgstr "Nombre"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_lastname
+msgid "Titular Lastname"
+msgstr "Apellidos"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_nif
+msgid "Titular Nif"
+msgstr "NIF"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_phone
+msgid "Titular Phone"
+msgstr "Teléfono"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_street
+msgid "Titular Street"
+msgstr "Dirección"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__titular_zip_code
+msgid "Titular Zip Code"
+msgstr ""
+
+#. module: energetica_website_sale_order
+#: model_terms:ir.ui.view,arch_db:energetica_website_sale_order.view_order_form
+msgid "Titularity Info"
+msgstr "Datos de titular"
+
+#. module: energetica_website_sale_order
+#: model:ir.model.fields,field_description:energetica_website_sale_order.field_sale_order__voltage_installation_type
+msgid "Voltage Installation Type"
+msgstr ""
