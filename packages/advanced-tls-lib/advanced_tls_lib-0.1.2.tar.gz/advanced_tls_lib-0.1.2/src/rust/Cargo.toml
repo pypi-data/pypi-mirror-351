@@ -1,0 +1,47 @@
+[package]
+name = "advanced_tls_rust"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "advanced_tls_rust"
+path = "lib.rs"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+tokio = { version = "1.35", features = ["full"] }
+async-trait = "0.1"
+bytes = "1.5"
+futures = "0.3"
+hyper = { version = "0.14", features = ["full"] }
+http = "0.2"
+rustls = { version = "0.21" }
+rustls-native-certs = "0.6"
+webpki-roots = "0.25"
+quinn = "0.9"  # For QUIC/HTTP3
+h2 = "0.3"  # For HTTP/2
+tower = "0.4"
+pin-project = "1.1"
+tracing = "0.1"
+parking_lot = "0.12"
+dashmap = "5.5"
+rand = "0.8"
+crossbeam = "0.8"
+arc-swap = "1.6"
+mio = "0.8"
+socket2 = "0.5"
+
+# For Python bindings
+pyo3 = { version = "0.20", features = ["extension-module", "abi3-py38"] }
+pyo3-asyncio = { version = "0.20", features = ["tokio-runtime"] }
+
+[dev-dependencies]
+criterion = "0.5"
+proptest = "1.4"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
