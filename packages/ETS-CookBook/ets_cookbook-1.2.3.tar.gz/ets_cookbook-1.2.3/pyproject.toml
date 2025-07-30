@@ -1,0 +1,41 @@
+[build-system]
+requires = ['setuptools', 'setuptools-scm']
+build-backend = 'setuptools.build_meta'
+
+
+
+[project]
+name = 'ETS_CookBook'
+version = '1.2.3'
+authors = [
+  { name='Omar Usmani', email='Omar.Usmani@TNO.nl' },
+]
+description = 'The ETS (TNO) CookBook of useful Python Scripts'
+readme = 'README.md'
+requires-python = '>=3.11'
+classifiers = [
+    'Programming Language :: Python :: 3',
+    'License :: OSI Approved :: Apache Software License',
+    'Operating System :: OS Independent',
+]
+
+
+dynamic = ['dependencies']
+[tool.setuptools.dynamic]
+dependencies = {file = ['requirements.txt']}
+
+[tool.setuptools.package-data]
+'ETS_CookBook' = ['py.typed']
+
+[tool.setuptools.packages.find]
+where = ['src']
+[tool.pytest.ini_options]
+pythonpath = ['src/ETS_CookBook']
+
+
+[project.urls]
+'Homepage' = 'https://github.com/TNO/ETS_CookBook'
+
+[[tool.mypy.overrides]]
+module = ['geopandas/*', 'plotly/*', 'tomllib/*', 'tomli/*']
+ignore_missing_imports = true
