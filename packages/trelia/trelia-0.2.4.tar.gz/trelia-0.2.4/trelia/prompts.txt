@@ -1,0 +1,3 @@
+rating_prompt=Review the following code:\n\nTask:\n{task_description}\n\nDeliverables:\n{deliverables}\n\nCode:\n{clean_code}\n\nReturn a strict score based on how completely the code meets the deliverable.\nOnly respond in this format: Rating: x.x/5 (no explanation).\nGive 1.0/5 if code is missing or only partially fulfills the task.
+
+feedback_prompt=Task:\n{task}\n\nCode:\n{code}\n\nGive feedback in less than 15 words to improve the code. No extra text.
