@@ -1,0 +1,14 @@
+colored-logging
+earthaccess
+modland>=1.1.0
+python-dateutil
+rasters
+requests
+
+[dev]
+build
+pytest>=6.0
+pytest-cov
+jupyter
+pytest
+twine
