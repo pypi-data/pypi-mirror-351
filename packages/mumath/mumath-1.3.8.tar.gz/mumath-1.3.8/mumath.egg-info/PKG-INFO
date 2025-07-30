@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: mumath
+Version: 1.3.8
+Summary: LATEX to MathML conversion tool
+Home-page: https://github.com/fourpoints/mumath
+Author: ::fourpoints
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: markdown
+Requires-Dist: markdown; extra == "markdown"
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: summary
+
+# Mumath
+Mumath is a LATEX-like to MathML conversion tool written in Python.
+
+It also includes Markdown extensions for inline `$...$` and blocks `$$...$$`
+and a simple server for quick testing.
+
+Install and open in browser:
+```sh
+$ pip install mumath
+$ py -m mumath.server --open
+```
