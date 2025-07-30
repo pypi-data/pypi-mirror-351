@@ -1,0 +1,28 @@
+[project]
+name = "scdrakex"
+version = "1.1.5"
+authors = [
+    {name = "Natapol Pornputtapong", email = "natapol.por@gmail.com"},
+]
+description = "scGPT embedding extension for scDrake"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = {text = "MIT"}
+# dependencies = ["torch>=2.6.0", "torchvision>=0.21.0", "torchaudio>=2.6.0", "scgpt>=0.2.4", "pytorch-fast-transformers>=0.4.0"]
+dependencies = ["torch>=2.3.0"]
+
+[project.urls]
+Homepage = "https://github.com/natapol/scdrake-ext"
+Issues = "https://github.com/natapol/scdrake-ext/issues"
+[tool.pdm]
+distribution = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "scanpy>=1.9.8",
+]
