@@ -1,0 +1,5 @@
+[console_scripts]
+one_time_scripts = blabpy.one_time_scripts:one_time_script
+seedlings = blabpy.seedlings.cli:seedlings
+vihi = blabpy.vihi.cli:vihi
+vihi_make_random_regions = blabpy.vihi.intervals.cli:cli_batch_create_files_with_random_regions
