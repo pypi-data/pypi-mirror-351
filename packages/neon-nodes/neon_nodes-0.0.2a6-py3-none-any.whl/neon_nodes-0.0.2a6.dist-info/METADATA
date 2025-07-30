@@ -1,0 +1,80 @@
+Metadata-Version: 2.1
+Name: neon-nodes
+Version: 0.0.2a6
+Summary: Neon node clients for Hana
+Home-page: https://github.com/NeonGeckoCom/neon-nodes
+Author: NeonGecko
+Author-email: developers@neon.ai
+License: BSD-3-Clause
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Provides-Extra: voice-client
+Requires-Dist: neon-utils[network]>=1.12.2a1,~=1.9; extra == "voice-client"
+Requires-Dist: ovos-dinkum-listener~=0.2; extra == "voice-client"
+Requires-Dist: ovos-plugin-manager~=0.3; extra == "voice-client"
+Requires-Dist: ovos-vad-plugin-silero~=0.0.1; extra == "voice-client"
+Requires-Dist: ovos-microphone-plugin-alsa~=0.0.0; extra == "voice-client"
+Requires-Dist: ovos-ww-plugin-precise-lite[tflite]~=0.1; extra == "voice-client"
+Requires-Dist: pydub~=0.25; extra == "voice-client"
+Requires-Dist: SpeechRecognition~=3.10; extra == "voice-client"
+Requires-Dist: sdnotify~=0.3; extra == "voice-client"
+Requires-Dist: requests~=2.28; extra == "voice-client"
+Requires-Dist: mock~=5.0; extra == "voice-client"
+Requires-Dist: numpy~=1.26; extra == "voice-client"
+Requires-Dist: ovos-config~=0.1; extra == "voice-client"
+Provides-Extra: voice-client-mac
+Requires-Dist: neon-utils[network]~=1.9; extra == "voice-client-mac"
+Requires-Dist: ovos-dinkum-listener==0.0.3a29; extra == "voice-client-mac"
+Requires-Dist: ovos-vad-plugin-silero~=0.0.1; extra == "voice-client-mac"
+Requires-Dist: ovos-microphone-plugin-pyaudio~=0.0.0; extra == "voice-client-mac"
+Requires-Dist: ovos-ww-plugin-precise-lite[full]~=0.1.2; extra == "voice-client-mac"
+Requires-Dist: pydub~=0.25; extra == "voice-client-mac"
+Requires-Dist: SpeechRecognition~=3.10; extra == "voice-client-mac"
+Requires-Dist: sdnotify~=0.3; extra == "voice-client-mac"
+Requires-Dist: requests~=2.28; extra == "voice-client-mac"
+Requires-Dist: mock~=5.0; extra == "voice-client-mac"
+Requires-Dist: numpy~=1.26; extra == "voice-client-mac"
+Provides-Extra: websocket-client
+Requires-Dist: websockets~=12.0; extra == "websocket-client"
+
+# Neon Nodes
+Clients for connecting to a server running Hana. These are minimal classes that
+are responsible for collecting a user's input, sending it to a remote system for
+processing, and presenting a response to the user.
+
+## Voice Client
+The voice client will start a service that listens for a wake word on the local
+system, sends recorded speech to a HANA endpoint for processing, and plays back
+the response.
+
+## Websocket Client
+The websocket client starts a local listener service and establishes a websocket
+connection to a remove HANA server. Compared to the Voice Client, this has 
+lower latency and allows for asynchronous messages from the HANA server.
+
+## Configuration
+This service is configured via `~/.config/neon/neon.yaml`.
+
+```yaml
+neon_node:
+  description: Neon Node  # Friendly description of the node
+  hana_address: https://hana.neonaiservices.com  # Hana server HTTP address
+  hana_username: node_user  # Hana node user username
+  hana_password: node_password  # Hana node user password
+```
+
+## Running with Docker
+To run Docker containers, the host system must have a Pulse server running.
+
+### Websocket Client
+```shell
+docker run \
+  -v ${XDG_RUNTIME_DIR}/pulse:${XDG_RUNTIME_DIR}/pulse \
+  -v ~/.config/pulse/cookie:/tmp/pulse_cookie\
+  -e PULSE_COOKIE=/tmp/pulse_cookie \
+  -e PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native \
+  --device /dev/snd \
+  neon-node-websocket
+```
