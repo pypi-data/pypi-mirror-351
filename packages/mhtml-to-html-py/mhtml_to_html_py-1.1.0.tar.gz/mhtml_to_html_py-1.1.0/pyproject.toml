@@ -1,0 +1,72 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mhtml-to-html-py"
+version = "1.1.0"
+description = "Python wrapper for mhtml-to-html Go tool with automatic encoding detection"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "mpr1255", email = "mpr1255@users.noreply.github.com" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers", 
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Markup :: HTML",
+    "Topic :: Utilities",
+]
+keywords = ["mhtml", "html", "conversion", "encoding", "chinese", "gbk", "gb18030", "japanese", "korean", "gonejack"]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.optional-dependencies]
+test = [
+    "pytest>=6.0",
+    "pytest-cov>=3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/mpr1255/mhtml-to-html-py"
+Repository = "https://github.com/mpr1255/mhtml-to-html-py"
+Issues = "https://github.com/mpr1255/mhtml-to-html-py/issues"
+"Original Go Tool" = "https://github.com/gonejack/mhtml-to-html"
+
+[project.scripts]
+mhtml-to-html-py = "mhtml_converter.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mhtml_converter"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"mhtml_converter/bin" = "mhtml_converter/bin"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/mhtml_converter",
+    "/README.md",
+    "/LICENSE",
+    "/go-cli",
+    "/tests",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--cov=mhtml_converter",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+] 
