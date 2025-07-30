@@ -1,0 +1,59 @@
+Elvet is a machine learning-based differential equation and variational problem solver.
+- It can solve any system of **coupled ODEs or PDEs** with any boundary conditions.
+- It can go beyond differential equations, and solve variational problems that consist of the **minimization of a given functional**, without computing the corresponding Euler-Lagrange equations.
+- It can also be used for **fitting** any family of functions (which are viewed as a machine learning model) to a set of multi-dimensional data points.
+
+By default, **Elvet** uses **neural networks** to solve these problems.
+
+# Quick start
+
+Try Elvet online in Google Colaboratory through the [example notebooks](https://elvet.gitlab.io/elvet/examples.html).
+
+Install Elvet by running `pip install elvet`. Tensorflow is required.
+
+The following code solves the [logistic differential equation](https://en.wikipedia.org/wiki/Logistic_function#Logistic_differential_equation):
+```python
+import elvet
+
+def equation(x, f, df_dx):
+    return df_dx - f * (1 - f)
+
+bc = elvet.BC(0, lambda x, f, df_dx: f - 1/2)
+domain = elvet.box((-5, 5, 101))
+
+result = elvet.solver(equation, bc, domain, epochs=5e3)
+```
+Where have defined the equation, in the form `equation(x, f, df_dx) == 0`, the "boundary" condition `f(0) - 1/2 == 0`, and the domain: the interval (or "box" in elvet's terms) `[-5, 5]`, with 101 equally spaced points. Then we use the `solver` function to generate a solver, which contains a machine learning model. This model is, by default, a fully connected neural net with one hidden layer with 10 units and 1 unit in the input and output layers. The `epochs` argument specifies over how many epochs this model is to be trained.
+
+The predictions of the trained model, which give the solution to the differential equations, can be obtained through `result.prediction()`. They can also be plotted, and compared with the analytic solution, which is just the sigmoid function
+```python
+import elvet.plotting
+
+def analytic_solution(x):
+    return 1 / (1 + elvet.math.exp(-x))
+
+elvet.plotting.plot_prediction(result, true_function=analytic_solution)
+```
+This code should produce the plot
+
+![](images/logistic_prediction.png)
+
+# Documentation
+
+The [documentation](https://elvet.gitlab.io/elvet) contains a detailed specification of Elvet's API.
+
+# Citation
+
+If you use elvet, please cite [arXiv:2103.14575](https://arxiv.org/abs/2103.14575)
+
+Bibtex:
+```latex
+@misc{araz2021elvet,
+      title={Elvet -- a neural network-based differential equation and variational problem solver}, 
+      author={Jack Y. Araz and Juan Carlos Criado and Michael Spannwosky},
+      year={2021},
+      eprint={2103.14575},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
