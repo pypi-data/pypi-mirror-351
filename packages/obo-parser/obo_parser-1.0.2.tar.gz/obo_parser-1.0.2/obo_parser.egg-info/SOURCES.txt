@@ -1,0 +1,16 @@
+MANIFEST.in
+README.md
+requirements.txt
+setup.py
+obo_parser/__init__.py
+obo_parser/bin.py
+obo_parser/parser.py
+obo_parser/utils.py
+obo_parser/version.json
+obo_parser.egg-info/PKG-INFO
+obo_parser.egg-info/SOURCES.txt
+obo_parser.egg-info/dependency_links.txt
+obo_parser.egg-info/entry_points.txt
+obo_parser.egg-info/requires.txt
+obo_parser.egg-info/top_level.txt
+tests/test.py
