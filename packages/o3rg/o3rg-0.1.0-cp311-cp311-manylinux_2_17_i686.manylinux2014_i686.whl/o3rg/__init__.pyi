@@ -1,0 +1,6 @@
+class SearchMatch:
+    line: int
+    match_result: str
+
+def search(file_name: str, search_regex: str) -> list[SearchMatch]:  ...
+def search_dir(dir_path: str, search_regex: str) -> list[(SearchMatch, str)]:  ...
