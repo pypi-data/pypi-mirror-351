@@ -1,0 +1,12 @@
+[project]
+name = "InvokeMcpServer"
+version = "0.1.2"
+description = "Invoke MCP Server in the program"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.9.1",
+    "python-dotenv>=1.1.0",
+    "sqids>=0.5.2",
+    "weberfuncs>=0.0.171",
+]
