@@ -1,0 +1,38 @@
+Metadata-Version: 2.4
+Name: blabpy
+Version: 0.37.0
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: pyarrow
+Requires-Dist: pympi-ling
+Requires-Dist: pydub
+Requires-Dist: StrEnum
+Requires-Dist: tqdm
+Requires-Dist: click
+Requires-Dist: requests
+Requires-Dist: GitPython
+Requires-Dist: pywin32; sys_platform == "win32"
+Requires-Dist: pyprojroot
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+
+# blabpy
+Python package to facilitate lab work
+
+Install with 
+
+```sh
+pip install blabpy
+```
+
+Upgrade with
+
+```sh
+pip install blabpy --upgrade
+```
