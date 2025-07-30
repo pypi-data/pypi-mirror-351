@@ -1,0 +1,43 @@
+[project]
+name = "quiver-pdb"
+version = "0.7.0"
+description = "Quiver files are simply one large file with the contents of many smaller files inside of them."
+readme = "README.md"
+authors = [
+    { name = "rabbitQ", email = "deepthough@postech.ac.kr" }
+]
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "click>=8.1.8",
+]
+license = "MIT"
+
+[project.scripts]
+qvfrompdbs = "quiver_pdb.qvfrompdbs:qvfrompdbs"
+qvls = "quiver_pdb.qvls:list_tags"
+qvextract = "quiver_pdb.qvextract:extract_pdbs"
+qvextractspecific = "quiver_pdb.qvextractspecific:extract_selected_pdbs"
+qvscorefile = "quiver_pdb.qvscorefile:extract_scorefile"
+qvrename = "quiver_pdb.qvrename:rename_tags"
+qvsplit = "quiver_pdb.qvsplit:qvsplit"
+qvslice = "quiver_pdb.qvslice:qvslice"
+
+[build-system]
+requires = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+#requires = ["hatchling"]
+#build-backend = "hatchling.build"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+python-source = "python"
+
+[dependency-groups]
+dev = [
+    "maturin>=1.8.3",
+]
