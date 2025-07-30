@@ -1,0 +1,57 @@
+[project]
+name = "strsplitter"
+version = "1.0.1"
+description = "A string splitting utility with customizable splitters and filtering."
+authors = [{ name = "Kessoum Khaled", email = "khaled.kessoum@univ-bejaia.dz" }]
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["string", "split", "utility", "filtering"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+license = { file = "LICENSE" }
+
+dependencies = ["click>=8.2.1", "pre-commit>=4.2.0"]
+
+[project.urls]
+Homepage = "https://github.com/ckalandk/strsplit"
+Issues = "https://github.com/ckalandk/strsplit/issues"
+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "tab"
+docstring-code-format = true
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+packages = ["strsplitter"]
+
+[tool.setuptools.package-data]
+"strsplit" = ["py.typed"]
+
+[dependency-groups]
+dev = ["pytest>=8.3.5", "pytest-cov>=6.1.1"]
+
+[project.scripts]
+strsplit-cli = "strsplitter.__main__:main"
+
+[[tool.uv.index]]
+name = "strsplitter"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
