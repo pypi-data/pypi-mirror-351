@@ -1,0 +1,145 @@
+[build-system]
+requires = [
+  "setuptools >= 64",
+  "setuptools_scm[toml]>=6.2",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tiffslide"
+description = "tifffile-based drop-in replacement for openslide-python"
+license.file = "LICENSE"
+authors = [
+  {name = "Andreas Poehlmann", email = "andreas.poehlmann@bayer.com"},
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Utilities",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Operating System :: Unix",
+  "Operating System :: MacOS",
+]
+requires-python = ">=3.9"
+dependencies = [
+  "imagecodecs",
+  "fsspec>=2023.3.0",
+  "pillow>=9.1.0",
+  "tifffile>=2023.7.4,<2025.5.21",
+  "zarr>=2.16.0,<3.0",
+  "typing_extensions>=4.0",
+]
+dynamic = ["version"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Homepage = "https://github.com/Bayer-Group/tiffslide"
+Download = "https://github.com/Bayer-Group/tiffslide"
+Source = "https://github.com/Bayer-Group/tiffslide"
+Changelog = "https://github.com/Bayer-Group/tiffslide/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+  "pre-commit",
+  "black",
+  "pytest>=6",
+  "pytest-benchmark",
+  "pytest-cov",
+  "mypy",
+]
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+exclude = ["tests/*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+tiffslide = ["py.typed"]
+
+[tool.setuptools_scm]
+write_to = "tiffslide/_version.py"
+version_scheme = "post-release"
+
+[tool.pytest.ini_options]
+addopts = [
+  "-v",
+  # (only needed by windows) disable faulthandler plugin to suppress non-fatal error msgs
+  "-p", "no:faulthandler",
+  "-m", "not compat",
+]
+markers = [
+  "compat",
+]
+
+[tool.isort]
+profile = "black"
+py_version = "39"
+force_single_line = true
+extend_skip = ["setup.py", "docs/source/conf.py"]
+
+[tool.coverage.run]
+source = ["tifffile"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "raise NotImplementedError",
+  "if TYPE_CHECKING:",
+  "if MYPY:",
+  "^\\s+[.][.][.]$",
+]
+
+[tool.mypy]
+python_version = "3.9"
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+namespace_packages = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = false
+plugins = ["numpy.typing.mypy_plugin"]
+
+[[tool.mypy.overrides]]
+module = ["tiffslide.tests.*"]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = ["fsspec.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tifffile.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["openslide.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["zarr.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["imagecodecs.*"]
+ignore_missing_imports = true
