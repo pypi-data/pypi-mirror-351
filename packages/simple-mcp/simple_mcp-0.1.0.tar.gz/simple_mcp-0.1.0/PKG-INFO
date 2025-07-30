@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: simple-mcp
+Version: 0.1.0
+Summary: A simple demonstration of the Model Context Protocol (MCP) implementation
+Author-email: Arunkumar Selvam <arunkse@amazon.com>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.13
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: mcp[cli]>=1.9.2
+Requires-Dist: twine>=6.1.0
+Description-Content-Type: text/markdown
+
+# Simple MCP
+
+A simple demonstration of the Model Context Protocol (MCP) implementation.
+
+## Overview
+
+This project provides a minimal example of creating an MCP server with a simple mathematical operation. It demonstrates how to set up and use the MCP protocol for extending AI assistant capabilities.
+
+## Installation
+
+```bash
+pip install simple-mcp
+```
+
+## Usage
+
+After installation, you can use the simple-mcp command:
+
+```bash
+simple-mcp
+```
+
+To use as an MCP server with compatible AI assistants:
+
+```python
+from simple_mcp.simple_mcp import mcp
+
+# Start the MCP server
+mcp.run()
+```
+
+## Features
+
+- Simple addition function exposed as an MCP tool
+- Easy to extend with your own tools
+
+## Requirements
+
+- Python 3.13+
+- mcp[cli] >= 1.9.2
+
+## License
+
+[MIT](LICENSE)
