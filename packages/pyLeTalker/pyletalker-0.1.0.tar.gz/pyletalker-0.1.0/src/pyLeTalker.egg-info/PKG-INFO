@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: pyLeTalker
+Version: 0.1.0
+Summary: Numerical voice simulation
+License: GPL-2.0 License
+Project-URL: Repository, https://github.com/tikuma-lsuhsc/pyLeTalker
+Project-URL: Documentation, https://tikuma-lsuhsc.github.io/pyLeTalker/
+Project-URL: Discussions, https://github.com/tikuma-lsuhsc/pyLeTalker/discussions
+Project-URL: Issues, https://github.com/tikuma-lsuhsc/pyLeTalker/issues
+Project-URL: Pull_Requests, https://github.com/tikuma-lsuhsc/pyLeTalker/pulls
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: typing_extensions
+Requires-Dist: numpy
+Requires-Dist: scipy
+Dynamic: license-file
