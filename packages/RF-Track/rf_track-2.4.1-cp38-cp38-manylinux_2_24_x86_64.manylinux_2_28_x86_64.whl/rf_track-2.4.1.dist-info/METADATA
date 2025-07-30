@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: RF-Track
+Version: 2.4.1
+Summary: The CERN tracking code RF-Track
+Home-page: https://gitlab.cern.ch/rf-track
+Author: Andrea Latina
+Author-email: Andrea Latina <andrea.latina@cern.ch>
+License: Proprietary
+Project-URL: Homepage, https://gitlab.cern.ch/rf-track
+Project-URL: Documentation, https://gitlab.cern.ch/rf-track/rf-track-reference-manual/-/raw/master/RF_Track_reference_manual.pdf?ref_type=heads
+Project-URL: Tracker, https://gitlab.cern.ch/groups/rf-track/-/issues
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: C++
+Classifier: License :: Other/Proprietary License
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS :: MacOS X
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+
