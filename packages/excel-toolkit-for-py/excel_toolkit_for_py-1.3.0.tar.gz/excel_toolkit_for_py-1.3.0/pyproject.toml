@@ -1,0 +1,35 @@
+# pyproject.toml
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["excel_toolkit_for_py"]
+
+[project]
+name = "excel_toolkit_for_py"
+version = "1.3.0"
+description = "📊 Facilite a leitura, manipulação, conversão, validação e exportação de arquivos Excel e CSV com Python."
+authors = [
+    { name = "Roberto Lima", email = "robertolima.izphera@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "MIT"}
+dependencies = [
+    "pandas>=1.0.0",
+    "openpyxl>=3.0.0",
+    "msoffcrypto-tool>=5.1.1",
+    "xlrd>=2.0.1",
+    "xlwt>=1.3.0",
+    "weasyprint>=60.1",
+    "jinja2>=3.1.2"
+]
+
+[project.urls]
+Homepage = "https://github.com/robertolima-dev/excel-toolkit-for-py"
+Repository = "https://github.com/robertolima-dev/excel-toolkit-for-py"
+Issues = "https://github.com/robertolima-dev/excel-toolkit-for-py/issues"
