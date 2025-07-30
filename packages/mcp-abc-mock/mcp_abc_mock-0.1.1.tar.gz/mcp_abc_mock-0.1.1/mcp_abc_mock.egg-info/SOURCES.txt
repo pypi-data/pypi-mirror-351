@@ -1,0 +1,15 @@
+MANIFEST.in
+README.md
+pyproject.toml
+requirements.txt
+setup.py
+mcp_abc_mock/__init__.py
+mcp_abc_mock/__main__.py
+mcp_abc_mock/fake_abc_data.csv
+mcp_abc_mock/server_stdio.py
+mcp_abc_mock/test_mcp_tools_client.py
+mcp_abc_mock.egg-info/PKG-INFO
+mcp_abc_mock.egg-info/SOURCES.txt
+mcp_abc_mock.egg-info/dependency_links.txt
+mcp_abc_mock.egg-info/requires.txt
+mcp_abc_mock.egg-info/top_level.txt

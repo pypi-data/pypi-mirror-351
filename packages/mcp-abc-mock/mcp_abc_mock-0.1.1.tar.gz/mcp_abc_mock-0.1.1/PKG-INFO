@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: mcp-abc-mock
+Version: 0.1.1
+Summary: Mock MCP server tools for ABC model context protocol
+Home-page: 
+Author: Kyle Fang
+Author-email: kfang01@amgen.com
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi
+Requires-Dist: pandas
+Requires-Dist: mcp
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# MCP for ABC mock server
+
