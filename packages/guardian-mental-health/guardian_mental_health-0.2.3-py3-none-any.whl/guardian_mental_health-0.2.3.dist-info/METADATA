@@ -1,0 +1,276 @@
+Metadata-Version: 2.4
+Name: guardian-mental-health
+Version: 0.2.3
+Summary: Mental health monitoring system using transformer models with RTX optimization
+Home-page: https://github.com/scoorpion1008/Guardian
+Author: Carlos Hernandez
+Author-email: Carlos Hernandez <scorpioon1008@ai-withcarlos.com>
+License-Expression: MIT
+Project-URL: Bug Tracker, https://github.com/scoorpion1008/Guardian/issues
+Project-URL: Documentation, https://github.com/scoorpion1008/Guardian/wiki
+Project-URL: Source Code, https://github.com/scoorpion1008/Guardian
+Project-URL: PyPI, https://pypi.org/project/guardian-mental-health/
+Keywords: mental health,nlp,transformers,pytorch,discord,machine learning,bert,rtx,onnx
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Communications :: Chat
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Education
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=2.0.0
+Requires-Dist: torchvision>=0.15.0
+Requires-Dist: torchaudio>=2.0.0
+Requires-Dist: transformers>=4.30.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: scikit-learn>=1.3.0
+Requires-Dist: streamlit>=1.25.0
+Requires-Dist: plotly>=5.15.0
+Requires-Dist: matplotlib>=3.7.0
+Requires-Dist: discord.py>=2.3.0
+Requires-Dist: tqdm>=4.65.0
+Requires-Dist: requests>=2.30.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: ninja
+Requires-Dist: accelerate>=0.20.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: pylint>=2.17.0; extra == "dev"
+Requires-Dist: mypy>=1.4.0; extra == "dev"
+Requires-Dist: twine>=4.0.0; extra == "dev"
+Requires-Dist: build>=1.0.0; extra == "dev"
+Requires-Dist: wheel>=0.42.0; extra == "dev"
+Provides-Extra: optimize
+Requires-Dist: onnx>=1.14.0; extra == "optimize"
+Requires-Dist: onnxruntime-gpu>=1.16.0; platform_system != "Darwin" and extra == "optimize"
+Requires-Dist: onnxruntime>=1.16.0; platform_system == "Darwin" and extra == "optimize"
+Provides-Extra: rtx
+Requires-Dist: onnx>=1.14.0; extra == "rtx"
+Requires-Dist: onnxruntime-gpu>=1.16.0; extra == "rtx"
+Requires-Dist: ninja>=1.10.0; extra == "rtx"
+Requires-Dist: accelerate>=0.20.0; extra == "rtx"
+Provides-Extra: deploy
+Requires-Dist: gunicorn>=21.0.0; extra == "deploy"
+Requires-Dist: uvicorn>=0.23.0; extra == "deploy"
+Requires-Dist: fastapi>=0.100.0; extra == "deploy"
+Provides-Extra: all
+Requires-Dist: onnx>=1.14.0; extra == "all"
+Requires-Dist: onnxruntime-gpu>=1.16.0; platform_system != "Darwin" and extra == "all"
+Requires-Dist: onnxruntime>=1.16.0; platform_system == "Darwin" and extra == "all"
+Requires-Dist: ninja>=1.10.0; extra == "all"
+Requires-Dist: accelerate>=0.20.0; extra == "all"
+Requires-Dist: gunicorn>=21.0.0; extra == "all"
+Requires-Dist: uvicorn>=0.23.0; extra == "all"
+Requires-Dist: fastapi>=0.100.0; extra == "all"
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+
+# Guardian - Mental Health Monitoring System
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI version](https://img.shields.io/badge/pypi-v0.1.0-blue.svg)](https://pypi.org/project/guardian-mental-health/)
+
+Guardian is an advanced mental health monitoring system designed to detect and alert parents or guardians about potential mental health risks in adolescents' online communications. The system uses transformer-based deep learning models to analyze text for indicators of depression, anxiety, and suicidal ideation.
+
+> **Security Note**: This project requires a Discord bot token for monitoring messages. For security, tokens should NEVER be committed to version control. Instead, use environment variables or a `.env` file (see `.env.example`). See the [Discord Bot Setup Guide](discord_bot_setup.md) for details.
+
+## 🧠 Key Features
+
+- **Transformer-based classification**: Uses BERT to analyze text for mental health risk indicators
+- **Real-time monitoring**: Monitors Discord messages and other platforms
+- **Streamlit dashboard**: Interactive dashboard for parents to review alerts and trends
+- **Multi-level risk assessment**: Classifies communications into different risk levels
+- **Privacy-focused**: Only alerts on concerning patterns, not normal conversations
+- **Optimized inference**: Accelerated with CUDA, ONNX Runtime, and batch processing
+- **Efficient batch processing**: Handles multiple messages at once for better performance
+- **Automatic hardware adaptation**: Selects the best backend based on available hardware
+
+## 📋 Project Structure
+
+```text
+mental_monitoring/
+├── models/                      # ML models and training code
+│   ├── transformer_classifier.py # BERT-based classifier model
+│   └── training.py              # Training and evaluation code
+├── data/                        # Dataset files
+│   └── samples.json             # Sample message data
+├── discord_bot/                 # Discord integration
+│   └── monitor.py               # Discord message monitoring with batch processing
+├── dashboard/                   # Parent dashboard UI
+│   └── streamlit_app.py         # Streamlit dashboard application
+├── utils/                       # Helper utilities
+│   ├── tokenizer.py             # Text preprocessing
+│   └── optimized_inference.py   # Accelerated inference engine (CUDA, ONNX, TensorRT)
+├── config/                      # Configuration modules
+│   ├── config.py                # Main configuration settings
+│   └── optimization_config.py   # Inference optimization settings
+└── main.py                      # Main entry point with batch processing options
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.8 or higher
+- PyTorch 2.0+ (with CUDA support recommended)
+- Streamlit
+- Discord.py
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/guardian.git
+cd guardian
+```
+
+2. Create a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+3. Activate the virtual environment:
+
+```bash
+# On Windows
+venv\Scripts\activate
+
+# On macOS/Linux
+source venv/bin/activate
+```
+
+4. Install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+5. Configure the application:
+   - Edit `config.py` to set your Discord bot token and other settings
+   - Place your trained model in the models directory, or train a new one
+
+### Running the Application
+
+Start the Streamlit dashboard:
+
+```bash
+python main.py dashboard
+```
+
+Start the Discord bot:
+
+```bash
+# Basic usage
+python main.py bot --token YOUR_DISCORD_BOT_TOKEN
+
+# With optimized batch processing
+python main.py bot --token YOUR_DISCORD_BOT_TOKEN --batch-size 16 --batch-interval 3.0 --optimize
+```
+
+Optimize the Discord bot for your hardware:
+
+```bash
+# Get recommendations for your system
+python optimize_discord_bot.py --benchmark
+```
+
+Train a model:
+
+```bash
+python main.py train --dataset path/to/dataset.csv
+```
+
+Evaluate a model:
+
+```bash
+python main.py evaluate --dataset path/to/dataset.csv
+```
+
+## 🧪 Training the Model
+
+The system can be fine-tuned on various mental health datasets:
+
+1. **Reddit SuicideWatch and Mental Health Collection**
+2. **DepressionEmo Dataset**
+3. **Robin: A Novel Online Suicidal Text Corpus**
+4. **Suicide and Depression Detection Dataset (Kaggle)**
+
+Example training command:
+
+```bash
+python main.py train --dataset data/combined_dataset.csv --epochs 5 --batch-size 16
+```
+
+## 📊 Dashboard
+
+The Streamlit dashboard provides:
+
+- Overview of risk metrics
+- Timeline of detected risk indicators
+- Message history with risk assessment
+- Analysis tool for manual message evaluation
+- Mental health resources for parents
+
+## 🔒 Privacy and Ethics
+
+This tool is designed with privacy and ethical considerations in mind:
+
+- Data is processed locally and not stored on external servers
+- Only high-risk communications trigger alerts
+- The system is designed as a supplementary tool, not a replacement for proper mental health care
+- Parents should discuss monitoring with adolescents and ensure proper consent
+
+## � Performance Optimization
+
+Guardian uses advanced optimization techniques to improve inference speed:
+
+- **CUDA Acceleration**: Leverages NVIDIA GPUs for faster model inference
+- **ONNX Runtime**: Export and run models through ONNX for significant speedup
+- **TensorRT Integration**: Optional TensorRT support for maximum performance
+- **Batch Processing**: Process multiple messages at once for higher throughput
+- **Automatic Mixed Precision**: Use FP16 calculations where appropriate
+- **Dynamic Backend Selection**: Automatically choose the best inference backend
+
+### Example Scripts
+
+The `examples/` directory contains scripts demonstrating how to use optimization features:
+
+```bash
+# Run batch message processing benchmark
+python examples/batch_message_processing.py
+
+# Run Discord bot with optimized settings
+python examples/run_optimized_bot.py --batch-size 16
+```
+
+## �📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- HuggingFace Transformers library
+- Mental health research community for datasets and guidance
+- Streamlit for the dashboard framework
