@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: package-finder
+Version: 0.1.0
+Summary: Add your description here
+Author-email: Hao Wu <haowu@hooray.ai>
+Requires-Python: >=3.13
+Requires-Dist: click>=8.2.1
+Requires-Dist: tqdm>=4.67.1
