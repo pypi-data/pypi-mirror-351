@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: pop-xhome
+Version: 1.0.0
+Summary: XHome Pop
+Author: hanback
+Author-email: support@hanback.co.kr
+Keywords: xhome
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.6
+Requires-Dist: paho-mqtt<2.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
