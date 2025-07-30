@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: modular-mcp
+Version: 0.2.0
+Summary: A modular companion package for the Model Context Protocol SDK, designed to extend functionality with a clean and decoupled architecture.
+Author-email: Damyan Dimitrov <inspirationalcode@gmail.com>
+Maintainer-email: Damyan Dimitrov <inspirationalcode@gmail.com>
+License: MIT
+Keywords: automation,git,llm,mcp,modular
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.13
+Provides-Extra: mcp
+Requires-Dist: mcp>=1.9.1; extra == 'mcp'
+Description-Content-Type: text/markdown
+
+# modular-mcp
