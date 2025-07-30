@@ -1,0 +1,39 @@
+load("@fbcode_macros//build_defs:python_library.bzl", "python_library")
+
+oncall("llamafirewall")
+
+python_library(
+    name = "experimental_scanners",
+    srcs = glob(["*.py"]),
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.scanners.experimental",
+    deps = [
+        "fbsource//third-party/pypi/pydantic:pydantic",
+        "//security/genai/LlamaFirewall/src/llamafirewall:llamafirewall_data_types",
+        "//security/genai/LlamaFirewall/src/llamafirewall/scanners:custom_check_scanner",
+    ],
+)
+
+python_library(
+    name = "alignmentcheck_scanner",
+    srcs = ["alignmentcheck_scanner.py"],
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.scanners.experimental",
+    deps = [
+        "fbsource//third-party/pypi/pydantic:pydantic",
+        "//security/genai/LlamaFirewall/src/llamafirewall:llamafirewall_data_types",
+        "//security/genai/LlamaFirewall/src/llamafirewall/scanners:custom_check_scanner",
+    ],
+)
+
+python_library(
+    name = "piicheck_scanner",
+    srcs = ["piicheck_scanner.py"],
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.scanners.experimental",
+    deps = [
+        "fbsource//third-party/pypi/pydantic:pydantic",
+        "//security/genai/LlamaFirewall/src/llamafirewall:llamafirewall_data_types",
+        "//security/genai/LlamaFirewall/src/llamafirewall/scanners:custom_check_scanner",
+    ],
+)
