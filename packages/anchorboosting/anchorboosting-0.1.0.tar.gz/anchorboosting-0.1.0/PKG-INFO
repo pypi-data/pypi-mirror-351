@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: anchorboosting
+Version: 0.1.0
+Summary: Anchor Boosting
+Author-email: Malte Londschien <malte@londschien.ch>
+Project-URL: homepage, https://github.com/mlondschien/anchorboosting/
+Classifier: Programming Language :: Python
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: lightgbm
+Dynamic: license-file
+
+# Anchor Boosting
+
+Efficient tree-based nonlinear anchor regression and classification for Python [1]
+
+## References
+
+[1] Londschien, M., M. Burger, G. Rätsch, P. Bühlmann (2025). Working paper.
