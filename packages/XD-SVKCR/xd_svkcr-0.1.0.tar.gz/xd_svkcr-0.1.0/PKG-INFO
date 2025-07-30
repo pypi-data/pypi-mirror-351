@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: XD_SVKCR
+Version: 0.1.0
+Summary: A library that contains (well literally) random stuff
+Home-page: https://github.com/RoiXd/XD_SVKCR
+Author: Roixd
+Author-email: chibouni562@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: Public Domain
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary
+
+--UNFINISHED--
+
+Inclues SuperVectors, SuperVectors 2D, BlackBoxes
+
+SVectors: Vectors that randomly change their value depending on the magic we give then (using SHA256)
+SVectors2: A set of two SVectors that can perform more flexible functions
+BlackBoxes: A box that can only return Success in an unhingly rare condition (ideal to troll your friends)
+
+LICENSE: Public domain
+...
