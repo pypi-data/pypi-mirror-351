@@ -1,0 +1,182 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S0_empty [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	S4_closed [color=blue fontame=Menlo shape=ellipse style=""]
+	S3_closing [color=blue fontame=Menlo shape=ellipse style=""]
+	S2_happy [color=blue fontame=Menlo shape=ellipse style=""]
+	S1_lonely [color=blue fontame=Menlo shape=ellipse style=""]
+	S1_growing [color=blue fontame=Menlo shape=ellipse style=""]
+	t0 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">send</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S3_closing
+	t1 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">closed</font></td></tr><tr ><td color="pink"><font point-size="9">W_closed</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S4_closed
+	t2 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">error</font></td></tr><tr ><td color="pink"><font point-size="9">W_close_with_error</font></td></tr></table>> margin=0.2 shape=none]
+	S0_empty -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S4_closed
+	t3 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_got_dilate</font></td></tr><tr ><td color="pink"><font point-size="9">D_received_dilate</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t3:tableport:w [arrowhead=none]
+	t3:tableport:e -> S2_happy
+	t4 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">send</font></td></tr><tr ><td color="pink"><font point-size="9">S_send</font></td></tr></table>> margin=0.2 shape=none]
+	S1_lonely -> t4:tableport:w [arrowhead=none]
+	t4:tableport:e -> S1_lonely
+	t5 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_unwelcome</font></td></tr><tr ><td color="pink"><font point-size="9">close_unwelcome</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t5:tableport:w [arrowhead=none]
+	t5:tableport:e -> S3_closing
+	t6 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_got_phase</font></td></tr><tr ><td color="pink"><font point-size="9">_grow_got_phase</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t6:tableport:w [arrowhead=none]
+	t6:tableport:e -> S1_growing
+	t7 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">scared</font></td></tr><tr ><td color="pink"><font point-size="9">close_scared</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t7:tableport:w [arrowhead=none]
+	t7:tableport:e -> S3_closing
+	t8 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">_got_phase</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t8:tableport:w [arrowhead=none]
+	t8:tableport:e -> S3_closing
+	t9 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">send</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t9:tableport:w [arrowhead=none]
+	t9:tableport:e -> S4_closed
+	t10 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_got_welcome</font></td></tr><tr ><td color="pink"><font point-size="9">water_seed</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t10:tableport:w [arrowhead=none]
+	t10:tableport:e -> S1_growing
+	t11 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_unwelcome</font></td></tr><tr ><td color="pink"><font point-size="9">close_unwelcome</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t11:tableport:w [arrowhead=none]
+	t11:tableport:e -> S3_closing
+	t12 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_code</font></td></tr><tr ><td color="pink"><font point-size="9">do_got_code</font></td></tr></table>> margin=0.2 shape=none]
+	S0_empty -> t12:tableport:w [arrowhead=none]
+	t12:tableport:e -> S1_lonely
+	t13 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">error</font></td></tr><tr ><td color="pink"><font point-size="9">W_close_with_error</font></td></tr></table>> margin=0.2 shape=none]
+	S1_lonely -> t13:tableport:w [arrowhead=none]
+	t13:tableport:e -> S4_closed
+	t14 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_error</font></td></tr><tr ><td color="pink"><font point-size="9">W_close_rx_error</font></td></tr></table>> margin=0.2 shape=none]
+	S0_empty -> t14:tableport:w [arrowhead=none]
+	t14:tableport:e -> S3_closing
+	t15 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_unwelcome</font></td></tr><tr ><td color="pink"><font point-size="9">close_unwelcome</font></td></tr></table>> margin=0.2 shape=none]
+	S0_empty -> t15:tableport:w [arrowhead=none]
+	t15:tableport:e -> S3_closing
+	t16 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t16:tableport:w [arrowhead=none]
+	t16:tableport:e -> S3_closing
+	t17 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_error</font></td></tr><tr ><td color="pink"><font point-size="9">W_close_rx_error</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t17:tableport:w [arrowhead=none]
+	t17:tableport:e -> S3_closing
+	t18 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">got_key</font></td></tr><tr ><td color="pink"><font point-size="9">W_got_key</font></td><td color="pink"><font point-size="9">D_got_key</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t18:tableport:w [arrowhead=none]
+	t18:tableport:e -> S1_growing
+	t19 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">scared</font></td></tr><tr ><td color="pink"><font point-size="9">close_scared</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t19:tableport:w [arrowhead=none]
+	t19:tableport:e -> S3_closing
+	t20 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">_got_phase</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t20:tableport:w [arrowhead=none]
+	t20:tableport:e -> S4_closed
+	t21 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">scared</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t21:tableport:w [arrowhead=none]
+	t21:tableport:e -> S4_closed
+	t22 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">error</font></td></tr><tr ><td color="pink"><font point-size="9">W_close_with_error</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t22:tableport:w [arrowhead=none]
+	t22:tableport:e -> S4_closed
+	t23 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">got_key</font></td></tr><tr ><td color="pink"><font point-size="9">W_got_key</font></td><td color="pink"><font point-size="9">D_got_key</font></td></tr></table>> margin=0.2 shape=none]
+	S1_lonely -> t23:tableport:w [arrowhead=none]
+	t23:tableport:e -> S1_lonely
+	t24 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">close_lonely</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t24:tableport:w [arrowhead=none]
+	t24:tableport:e -> S3_closing
+	t25 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">close_happy</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t25:tableport:w [arrowhead=none]
+	t25:tableport:e -> S3_closing
+	t26 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">happy</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t26:tableport:w [arrowhead=none]
+	t26:tableport:e -> S2_happy
+	t27 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_error</font></td></tr><tr ><td color="pink"><font point-size="9">close_error</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t27:tableport:w [arrowhead=none]
+	t27:tableport:e -> S3_closing
+	t28 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_error</font></td></tr><tr ><td color="pink"><font point-size="9">W_close_rx_error</font></td></tr></table>> margin=0.2 shape=none]
+	S1_lonely -> t28:tableport:w [arrowhead=none]
+	t28:tableport:e -> S3_closing
+	t29 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">rx_unwelcome</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t29:tableport:w [arrowhead=none]
+	t29:tableport:e -> S3_closing
+	t30 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">rx_error</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t30:tableport:w [arrowhead=none]
+	t30:tableport:e -> S3_closing
+	t31 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_verifier</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t31:tableport:w [arrowhead=none]
+	t31:tableport:e -> S3_closing
+	t32 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">error</font></td></tr><tr ><td color="pink"><font point-size="9">W_close_with_error</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t32:tableport:w [arrowhead=none]
+	t32:tableport:e -> S4_closed
+	t33 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">scared</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t33:tableport:w [arrowhead=none]
+	t33:tableport:e -> S3_closing
+	t34 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">send</font></td></tr><tr ><td color="pink"><font point-size="9">S_send</font></td></tr></table>> margin=0.2 shape=none]
+	S1_growing -> t34:tableport:w [arrowhead=none]
+	t34:tableport:e -> S1_growing
+	t35 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_unwelcome</font></td></tr><tr ><td color="pink"><font point-size="9">close_unwelcome</font></td></tr></table>> margin=0.2 shape=none]
+	S1_lonely -> t35:tableport:w [arrowhead=none]
+	t35:tableport:e -> S3_closing
+	t36 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">_got_version</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t36:tableport:w [arrowhead=none]
+	t36:tableport:e -> S3_closing
+	t37 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">happy</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t37:tableport:w [arrowhead=none]
+	t37:tableport:e -> S3_closing
+	t38 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">send</font></td></tr><tr ><td color="pink"><font point-size="9">S_send</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t38:tableport:w [arrowhead=none]
+	t38:tableport:e -> S2_happy
+	t39 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">error</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t39:tableport:w [arrowhead=none]
+	t39:tableport:e -> S4_closed
+	t40 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">rx_unwelcome</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t40:tableport:w [arrowhead=none]
+	t40:tableport:e -> S4_closed
+	t41 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">close_lonely</font></td></tr></table>> margin=0.2 shape=none]
+	S0_empty -> t41:tableport:w [arrowhead=none]
+	t41:tableport:e -> S3_closing
+	t42 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_verifier</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t42:tableport:w [arrowhead=none]
+	t42:tableport:e -> S4_closed
+	t43 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">_got_dilate</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t43:tableport:w [arrowhead=none]
+	t43:tableport:e -> S4_closed
+	t44 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_got_phase</font></td></tr><tr ><td color="pink"><font point-size="9">W_received</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t44:tableport:w [arrowhead=none]
+	t44:tableport:e -> S2_happy
+	t45 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">send</font></td></tr><tr ><td color="pink"><font point-size="9">S_send</font></td></tr></table>> margin=0.2 shape=none]
+	S0_empty -> t45:tableport:w [arrowhead=none]
+	t45:tableport:e -> S0_empty
+	t46 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">scared</font></td></tr><tr ><td color="pink"><font point-size="9">close_scared</font></td></tr></table>> margin=0.2 shape=none]
+	S1_lonely -> t46:tableport:w [arrowhead=none]
+	t46:tableport:e -> S3_closing
+	t47 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">error</font></td></tr><tr ><td color="pink"><font point-size="9">W_close_with_error</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t47:tableport:w [arrowhead=none]
+	t47:tableport:e -> S4_closed
+	t48 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">happy</font></td></tr></table>> margin=0.2 shape=none]
+	S1_lonely -> t48:tableport:w [arrowhead=none]
+	t48:tableport:e -> S2_happy
+	t49 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_got_version</font></td></tr><tr ><td color="pink"><font point-size="9">process_version</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t49:tableport:w [arrowhead=none]
+	t49:tableport:e -> S2_happy
+	t50 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">_got_dilate</font></td></tr></table>> margin=0.2 shape=none]
+	S3_closing -> t50:tableport:w [arrowhead=none]
+	t50:tableport:e -> S3_closing
+	t51 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">_got_version</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t51:tableport:w [arrowhead=none]
+	t51:tableport:e -> S4_closed
+	t52 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">happy</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t52:tableport:w [arrowhead=none]
+	t52:tableport:e -> S4_closed
+	t53 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">close_lonely</font></td></tr></table>> margin=0.2 shape=none]
+	S1_lonely -> t53:tableport:w [arrowhead=none]
+	t53:tableport:e -> S3_closing
+	t54 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_verifier</font></td></tr><tr ><td color="pink"><font point-size="9">W_got_verifier</font></td></tr></table>> margin=0.2 shape=none]
+	S2_happy -> t54:tableport:w [arrowhead=none]
+	t54:tableport:e -> S2_happy
+	t55 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_seed</font></td></tr></table>> margin=0.2 shape=none]
+	S0_empty -> t55:tableport:w [arrowhead=none]
+	t55:tableport:e -> S1_growing
+	t56 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S4_closed -> t56:tableport:w [arrowhead=none]
+	t56:tableport:e -> S4_closed
+}

@@ -1,0 +1,16 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S0_no_key [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	S1_verified_key [color=blue fontame=Menlo shape=ellipse style=""]
+	t0 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">got_verified_key</font></td></tr><tr ><td color="pink"><font point-size="9">record_key</font></td><td color="pink"><font point-size="9">drain</font></td></tr></table>> margin=0.2 shape=none]
+	S0_no_key -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S1_verified_key
+	t1 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">send</font></td></tr><tr ><td color="pink"><font point-size="9">deliver</font></td></tr></table>> margin=0.2 shape=none]
+	S1_verified_key -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S1_verified_key
+	t2 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">send</font></td></tr><tr ><td color="pink"><font point-size="9">queue</font></td></tr></table>> margin=0.2 shape=none]
+	S0_no_key -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S0_no_key
+}

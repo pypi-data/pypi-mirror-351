@@ -1,0 +1,109 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S3A [color=blue fontame=Menlo shape=ellipse style=""]
+	S3B [color=blue fontame=Menlo shape=ellipse style=""]
+	S1A [color=blue fontame=Menlo shape=ellipse style=""]
+	S4 [color=blue fontame=Menlo shape=ellipse style=""]
+	S2B [color=blue fontame=Menlo shape=ellipse style=""]
+	S2A [color=blue fontame=Menlo shape=ellipse style=""]
+	S0B [color=blue fontame=Menlo shape=ellipse style=""]
+	S0A [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	t0 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">add_message</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S3B
+	t1 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S4 -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S4
+	t2 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">ignore_mood_and_T_mailbox_done</font></td></tr></table>> margin=0.2 shape=none]
+	S0A -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S4
+	t3 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S4 -> t3:tableport:w [arrowhead=none]
+	t3:tableport:e -> S4
+	t4 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">add_message</font></td></tr><tr ><td color="pink"><font point-size="9">queue</font></td></tr></table>> margin=0.2 shape=none]
+	S0B -> t4:tableport:w [arrowhead=none]
+	t4:tableport:e -> S0B
+	t5 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">rx_message_theirs</font></td></tr></table>> margin=0.2 shape=none]
+	S4 -> t5:tableport:w [arrowhead=none]
+	t5:tableport:e -> S4
+	t6 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">add_message</font></td></tr><tr ><td color="pink"><font point-size="9">queue</font></td></tr></table>> margin=0.2 shape=none]
+	S2A -> t6:tableport:w [arrowhead=none]
+	t6:tableport:e -> S2A
+	t7 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">record_mood</font></td></tr></table>> margin=0.2 shape=none]
+	S2A -> t7:tableport:w [arrowhead=none]
+	t7:tableport:e -> S3A
+	t8 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">ignore_mood_and_T_mailbox_done</font></td></tr></table>> margin=0.2 shape=none]
+	S0B -> t8:tableport:w [arrowhead=none]
+	t8:tableport:e -> S4
+	t9 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">connected</font></td></tr></table>> margin=0.2 shape=none]
+	S4 -> t9:tableport:w [arrowhead=none]
+	t9:tableport:e -> S4
+	t10 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">add_message</font></td></tr></table>> margin=0.2 shape=none]
+	S4 -> t10:tableport:w [arrowhead=none]
+	t10:tableport:e -> S4
+	t11 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">rx_message_ours</font></td></tr></table>> margin=0.2 shape=none]
+	S4 -> t11:tableport:w [arrowhead=none]
+	t11:tableport:e -> S4
+	t12 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">add_message</font></td></tr><tr ><td color="pink"><font point-size="9">queue</font></td></tr></table>> margin=0.2 shape=none]
+	S1A -> t12:tableport:w [arrowhead=none]
+	t12:tableport:e -> S1A
+	t13 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_message_ours</font></td></tr><tr ><td color="pink"><font point-size="9">dequeue</font></td></tr></table>> margin=0.2 shape=none]
+	S2B -> t13:tableport:w [arrowhead=none]
+	t13:tableport:e -> S2B
+	t14 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">add_message</font></td></tr><tr ><td color="pink"><font point-size="9">queue</font></td></tr></table>> margin=0.2 shape=none]
+	S0A -> t14:tableport:w [arrowhead=none]
+	t14:tableport:e -> S0A
+	t15 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">ignore_mood_and_T_mailbox_done</font></td></tr></table>> margin=0.2 shape=none]
+	S1A -> t15:tableport:w [arrowhead=none]
+	t15:tableport:e -> S4
+	t16 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">connected</font></td></tr></table>> margin=0.2 shape=none]
+	S0A -> t16:tableport:w [arrowhead=none]
+	t16:tableport:e -> S0B
+	t17 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">rx_message_ours</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t17:tableport:w [arrowhead=none]
+	t17:tableport:e -> S3B
+	t18 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_closed</font></td></tr><tr ><td color="pink"><font point-size="9">T_mailbox_done</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t18:tableport:w [arrowhead=none]
+	t18:tableport:e -> S4
+	t19 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">connected</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_open</font></td><td color="pink"><font point-size="9">drain</font></td></tr></table>> margin=0.2 shape=none]
+	S2A -> t19:tableport:w [arrowhead=none]
+	t19:tableport:e -> S2B
+	t20 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t20:tableport:w [arrowhead=none]
+	t20:tableport:e -> S3B
+	t21 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_mailbox</font></td></tr><tr ><td color="pink"><font point-size="9">record_mailbox_and_RC_tx_open_and_drain</font></td></tr></table>> margin=0.2 shape=none]
+	S0B -> t21:tableport:w [arrowhead=none]
+	t21:tableport:e -> S2B
+	t22 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">add_message</font></td></tr><tr ><td color="pink"><font point-size="9">queue</font></td><td color="pink"><font point-size="9">RC_tx_add</font></td></tr></table>> margin=0.2 shape=none]
+	S2B -> t22:tableport:w [arrowhead=none]
+	t22:tableport:e -> S2B
+	t23 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S2B -> t23:tableport:w [arrowhead=none]
+	t23:tableport:e -> S2A
+	t24 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t24:tableport:w [arrowhead=none]
+	t24:tableport:e -> S3A
+	t25 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_mailbox</font></td></tr><tr ><td color="pink"><font point-size="9">record_mailbox</font></td></tr></table>> margin=0.2 shape=none]
+	S0A -> t25:tableport:w [arrowhead=none]
+	t25:tableport:e -> S1A
+	t26 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">record_mood_and_RC_tx_close</font></td></tr></table>> margin=0.2 shape=none]
+	S2B -> t26:tableport:w [arrowhead=none]
+	t26:tableport:e -> S3B
+	t27 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">connected</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_close</font></td></tr></table>> margin=0.2 shape=none]
+	S3A -> t27:tableport:w [arrowhead=none]
+	t27:tableport:e -> S3B
+	t28 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_message_theirs</font></td></tr><tr ><td color="pink"><font point-size="9">N_release_and_accept</font></td></tr></table>> margin=0.2 shape=none]
+	S2B -> t28:tableport:w [arrowhead=none]
+	t28:tableport:e -> S2B
+	t29 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">connected</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_open</font></td><td color="pink"><font point-size="9">drain</font></td></tr></table>> margin=0.2 shape=none]
+	S1A -> t29:tableport:w [arrowhead=none]
+	t29:tableport:e -> S2B
+	t30 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S0B -> t30:tableport:w [arrowhead=none]
+	t30:tableport:e -> S0A
+	t31 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">rx_message_theirs</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t31:tableport:w [arrowhead=none]
+	t31:tableport:e -> S3B
+}

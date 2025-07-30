@@ -1,0 +1,39 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S1B_wanting_connected [color=blue fontame=Menlo shape=ellipse style=""]
+	S0B_idle_connected [color=blue fontame=Menlo shape=ellipse style=""]
+	S1A_wanting_disconnected [color=blue fontame=Menlo shape=ellipse style=""]
+	S0A_idle_disconnected [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	t0 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">refresh</font></td></tr></table>> margin=0.2 shape=none]
+	S1A_wanting_disconnected -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S1A_wanting_disconnected
+	t1 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">connected</font></td></tr></table>> margin=0.2 shape=none]
+	S0A_idle_disconnected -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S0B_idle_connected
+	t2 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">connected</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_list</font></td></tr></table>> margin=0.2 shape=none]
+	S1A_wanting_disconnected -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S1B_wanting_connected
+	t3 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_nameplates</font></td></tr><tr ><td color="pink"><font point-size="9">I_got_nameplates</font></td></tr></table>> margin=0.2 shape=none]
+	S0B_idle_connected -> t3:tableport:w [arrowhead=none]
+	t3:tableport:e -> S0B_idle_connected
+	t4 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S0B_idle_connected -> t4:tableport:w [arrowhead=none]
+	t4:tableport:e -> S0A_idle_disconnected
+	t5 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">refresh</font></td></tr></table>> margin=0.2 shape=none]
+	S0A_idle_disconnected -> t5:tableport:w [arrowhead=none]
+	t5:tableport:e -> S1A_wanting_disconnected
+	t6 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">refresh</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_list</font></td></tr></table>> margin=0.2 shape=none]
+	S1B_wanting_connected -> t6:tableport:w [arrowhead=none]
+	t6:tableport:e -> S1B_wanting_connected
+	t7 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">refresh</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_list</font></td></tr></table>> margin=0.2 shape=none]
+	S0B_idle_connected -> t7:tableport:w [arrowhead=none]
+	t7:tableport:e -> S1B_wanting_connected
+	t8 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S1B_wanting_connected -> t8:tableport:w [arrowhead=none]
+	t8:tableport:e -> S1A_wanting_disconnected
+	t9 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_nameplates</font></td></tr><tr ><td color="pink"><font point-size="9">I_got_nameplates</font></td></tr></table>> margin=0.2 shape=none]
+	S1B_wanting_connected -> t9:tableport:w [arrowhead=none]
+	t9:tableport:e -> S0B_idle_connected
+}
