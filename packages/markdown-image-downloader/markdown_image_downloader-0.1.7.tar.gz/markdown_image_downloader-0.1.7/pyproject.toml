@@ -1,0 +1,23 @@
+[project]
+name = "markdown-image-downloader"
+version = "0.1.7"
+description = "A tool to download and organize images referenced in markdown files"
+authors = [{ name = "mufidu", email = "mufidu@outlook.com" }]
+dependencies = ["pillow>=11.0.0", "tqdm>=4.66.5"]
+readme = "README.md"
+requires-python = ">= 3.9"
+license = { file = "LICENSE" }
+classifiers = [
+	"License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+]
+keywords = ["markdown", "image", "downloader", "automation"]
+urls.Homepage = "https://github.com/mufidu/markdown-image-downloader"
+urls.Source = "https://github.com/mufidu/markdown-image-downloader.git"
+
+[project.scripts]
+markdown-image-downloader = "downloader:main"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
