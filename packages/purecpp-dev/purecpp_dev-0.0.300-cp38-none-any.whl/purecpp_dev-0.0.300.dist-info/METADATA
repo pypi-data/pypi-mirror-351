@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: purecpp_dev
+Version: 0.0.300
+Summary: This package is a part of the PureCPP ecosyste.
+Home-page: https://github.com/pureai-ecosystem/purecpp
+Author: PureAI
+Author-email: contato@pureai.com.br
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Requires-Dist: auditwheel
+Requires-Dist: build
+Requires-Dist: requests
+Requires-Dist: wheel
+Requires-Dist: pybind11
+Requires-Dist: setuptools
+
