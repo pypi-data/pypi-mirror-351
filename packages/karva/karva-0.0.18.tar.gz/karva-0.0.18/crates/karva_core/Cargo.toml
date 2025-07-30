@@ -1,0 +1,33 @@
+[package]
+name = "karva_core"
+version = "0.0.0"
+
+edition = { workspace = true }
+rust-version = { workspace = true }
+homepage = { workspace = true }
+documentation = { workspace = true }
+repository = { workspace = true }
+authors = { workspace = true }
+license = { workspace = true }
+
+[lib]
+doctest = false
+
+[dependencies]
+camino = { workspace = true }
+colored = { workspace = true }
+pyo3 = { workspace = true }
+ruff_python_ast = { workspace = true }
+ruff_python_parser = { workspace = true }
+ruff_source_file = { workspace = true }
+ruff_text_size = { workspace = true }
+serde = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, optional = true }
+tracing-tree = { workspace = true, optional = true }
+ignore = { workspace = true }
+
+
+[dev-dependencies]
+tempfile = "3.8"
+regex = "1"
