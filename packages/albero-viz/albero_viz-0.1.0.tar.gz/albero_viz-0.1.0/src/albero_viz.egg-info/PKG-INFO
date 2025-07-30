@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: albero-viz
+Version: 0.1.0
+Summary: A directory tree visualization tool with colored output
+Author: Abdelhakim6
+License: MIT
+Keywords: tree,directory,filesystem,cli,visualization
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: System :: Filesystems
+Classifier: Topic :: Utilities
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+# Albero - Directory Tree Visualization Tool
+
+A simple command-line tool to visualize directory structures with colored output.
+
+## Features
+
+- 🌳 Beautiful tree-like directory visualization
+- 🎨 Colored output (blue for directories, green for files)
+- 📁 Option to show only directories
+- 🚀 Fast and lightweight
+- 🐍 Pure Python, no external dependencies
+
+## Installation
+
+```bash
+pip install albero-viz
