@@ -1,0 +1,49 @@
+# Python
+*venv
+__pycache__
+*.log
+
+# Development environments
+.vscode
+.DS_Store
+
+# Environment and settings
+.env
+settings.json
+*.key
+
+# Build and compilation
+target
+Cargo.lock
+
+# Data and model files
+data
+lora_onnx_params
+intermediate_activations
+proof_artifacts
+*.ezkl
+*.srs
+input.json
+witness.json
+proof.json
+
+# Output files
+nohup.out
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.toc
+
+# Python package distribution
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+.pypirc
