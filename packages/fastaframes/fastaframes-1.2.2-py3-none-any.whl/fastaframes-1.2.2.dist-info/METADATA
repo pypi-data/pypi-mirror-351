@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: fastaframes
+Version: 1.2.2
+Summary: A very simple fasta file parser.
+Author-email: Patrick Garrett <pgarrett@scripps.edu>
+License: MIT License
+        
+        Copyright (c) 2023 Patrick Garrett
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: repository, https://github.com/pgarrett-scripps/FastaFrames.git
+Keywords: Fasta,Pandas,DataFrame
+Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas
+Dynamic: license-file
+
+![example workflow](https://github.com/pgarrett-scripps/FastaFrames/actions/workflows/python-package.yml/badge.svg)
+![example workflow](https://github.com/pgarrett-scripps/FastaFrames/actions/workflows/pylint.yml/badge.svg)
+
+# FastaFrames
+FastaFrames is a python package to convert between FASTA files and pandas DataFrames.
+
+## Usage
+
+To install fastaframes use pip:
+
+```sh
+pip install fastaframes
+```
+
+### Reading a FASTA file
+```python
+from fastaframes import to_df
+
+fasta_df = to_df(data='example.fasta')
+```
+
+### Writing a FASTA file
+```python
+from fastaframes import to_fasta
+
+to_fasta(data=fasta_df, output_file='output.fasta')
+```
+
+# Columns:
+- **db**: Database from which the sequence was retrieved. db is 'sp' for UniProtKB/Swiss-Prot and 'tr' for UniProtKB/TrEMBL.
+- **unique_identifier**: The primary accession number of the UniProtKB entry.
+- **entry_name**: The entry name of the UniProtKB entry.
+- **protein_name**: The recommended name of the UniProtKB entry as annotated in the RecName field. For UniProtKB/TrEMBL entries without a RecName field, the SubName field is used. In case of multiple SubNames, the first one is used. The 'precursor' attribute is excluded, 'Fragment' is included with the name if applicable.
+- **organism_name**:  The scientific name of the organism of the UniProtKB entry.
+- **organism_identifier**: The unique identifier of the source organism, assigned by the NCBI.
+- **gene_name**: The first gene name of the UniProtKB entry. If there is no gene name, OrderedLocusName or ORFname, the GN field is not listed.
+- **protein_existence**: The numerical value describing the evidence for the existence of the protein.
+- **sequence_version**: The version number of the sequence.
+- **protein_sequence**: The protein amino acid sequence.
+
+## Example FASTA file:
+
+```
+>sp|A0A087X1C5|CP2D7_HUMAN Putative cytochrome P450 2D7 OS=Homo sapiens OX=9606 GN=CYP2D7 PE=5 SV=1
+MGLEALVPLAMIVAIFLLLVDLMHRHQRWAARYPPGPLPLPGLGNLLHVDFQNTPYCFDQ
+```
+
+## Will produce the following:
+
+|   | db | unique_identifier | entry_name   | protein_name                                         | organism_name | organism_identifier | gene_name | protein_existence | sequence_version | protein_sequence                                       |
+|---|----|------------------|--------------|------------------------------------------------------|---------------|---------------------|-----------|-------------------|------------------|--------------------------------------------------------|
+| 0 | sp | A0A087X1C5       | CP2D7_HUMAN  | Putative cytochrome P450 2D7                         | Homo sapiens  | 9606.0              | CYP2D7    | 5.0               | 1.0              | MGLEALVPLAMIVAIFLLLVDLMHRHQRWAARYPPGPLPLPGLGNLLHVDFQNTPYCFDQ |
