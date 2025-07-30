@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: odoo-addons-oca-cooperative
+Version: 16.0.20250530.0
+Summary: Meta package for oca-cooperative Odoo addons
+Classifier: Programming Language :: Python
+Classifier: Framework :: Odoo
+Classifier: Framework :: Odoo :: 16.0
+Requires-Dist: odoo-addon-cooperator<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-cooperator-documentation<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-cooperator-portal<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-cooperator-website<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-cooperator-website-recaptcha<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-l10n-be-cooperator<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-l10n-be-cooperator-national-number<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-l10n-be-cooperator-portal<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-l10n-be-cooperator-portal-national-number<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-l10n-be-cooperator-website-national-number<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-l10n-es-cooperator<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-l10n-fr-cooperator<16.1dev,>=16.0dev
+
+UNKNOWN
