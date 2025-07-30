@@ -1,0 +1,37 @@
+# Include important files
+include README.md
+include INSTALL.md
+include LICENSE
+include requirements.txt
+include install_deps.sh
+
+# Include C++ source files
+recursive-include src/core *.h *.cpp
+recursive-include bindings *.cpp *.h
+
+# Include Rust source files
+recursive-include src/rust *.rs *.toml
+
+# Include Python source
+recursive-include src/python *.py
+
+# Include configuration files
+include pyproject.toml
+include setup.py
+include CMakeLists.txt
+
+# Include examples and tests
+recursive-include examples *.py
+recursive-include tests *.py
+
+# Exclude build artifacts
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude *.so
+global-exclude *.dll
+global-exclude *.dylib
+prune build
+prune dist
+prune .git
+prune .pytest_cache
+prune .mypy_cache
