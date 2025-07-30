@@ -1,0 +1,81 @@
+Metadata-Version: 2.3
+Name: tilt-pi
+Version: 0.2.0
+Summary: A Python client for interacting with the Tilt Pi API
+License: MIT
+Keywords: tilt-pi,tilt,hydrometer,brewing,fermentation
+Author: Michael Heyman
+Author-email: michaelheyman@users.noreply.github.com
+Requires-Python: >=3.13
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Home Automation
+Classifier: Topic :: System :: Hardware
+Classifier: Typing :: Typed
+Requires-Dist: aiohttp (>=3.11.18,<4.0.0)
+Project-URL: Repository, https://github.com/michaelheyman/tilt-pi
+Description-Content-Type: text/markdown
+
+# tilt-pi
+
+A Python client for interacting with the Tilt Pi API.
+
+This library provides a Python interface to the Tilt Pi, allowing you to retrieve data from Tilt
+Hydrometers connected to it.
+
+The Tilt Pi is a Raspberry Pi-based device that can read data from Tilt Hydrometers and broadcast it
+over the network. The Tilt Pi can be used to monitor the fermentation of beer, wine, cider, and
+other beverages.
+
+The benefit of the Tilt Pi is that it can be placed in a location with better reception than the
+Tilt Hydrometer itself, allowing for more reliable data collection.
+
+## Installation
+
+You can install `tilt-pi` using pip:
+
+```bash
+pip install tilt-pi
+```
+
+## Development
+
+This project uses [Poetry](https://python-poetry.org/) for dependency management and packaging.
+
+To set up for development:
+
+1. Clone the repository.
+2. Install Poetry if you haven't already.
+3. Run `poetry install --with dev` to install dependencies, including development tools.
+
+### Linting and Formatting
+
+This project uses [Ruff](https://github.com/astral-sh/ruff) for linting and formatting.
+You can run Ruff with:
+
+```bash
+poetry run ruff check .
+poetry run ruff format .
+```
+
+### Testing
+
+Tests are written using [pytest](https://pytest.org/).
+You can run tests with:
+
+```bash
+poetry run pytest
+```
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
