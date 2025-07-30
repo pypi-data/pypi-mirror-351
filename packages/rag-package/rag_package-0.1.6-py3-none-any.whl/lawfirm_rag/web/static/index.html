@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LawFirm-RAG - Legal Document Analysis</title>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="logo">
+                        <i class="fas fa-gavel"></i>
+                        LawFirm-RAG
+                    </h1>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="app.showModelManager()">
+                            <i class="fas fa-cog"></i>
+                            Model Management
+                        </button>
+                        <button class="btn btn-secondary" onclick="app.checkHealth()">
+                            <i class="fas fa-heartbeat"></i>
+                            Health Check
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Model Status Banner -->
+                <div id="model-status" class="status-banner">
+                    <div class="status-content">
+                        <i class="fas fa-robot"></i>
+                        <span id="model-status-text">Checking model status...</span>
+                        <button class="btn btn-sm btn-primary" onclick="app.showModelManager()">
+                            Manage Models
+                        </button>
+                    </div>
+                </div>
+
+                <!-- File Upload Section -->
+                <section class="upload-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-upload"></i> Upload Legal Documents</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="upload-area" id="upload-area">
+                                <div class="upload-content">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <h3>Drag & Drop Files Here</h3>
+                                    <p>or <button class="btn btn-link" onclick="document.getElementById('file-input').click()">browse files</button></p>
+                                    <small>Supports PDF, DOCX, and TXT files</small>
+                                </div>
+                                <input type="file" id="file-input" multiple accept=".pdf,.docx,.txt" style="display: none;">
+                            </div>
+                            <div id="file-list" class="file-list"></div>
+                            <button id="upload-btn" class="btn btn-primary" disabled>
+                                <i class="fas fa-upload"></i>
+                                Upload Documents
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Session Info -->
+                <section id="session-section" class="session-section" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-info-circle"></i> Session Information</h2>
+                        </div>
+                        <div class="card-body">
+                            <div id="session-info"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analysis Section -->
+                <section id="analysis-section" class="analysis-section" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-search"></i> Document Analysis</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="analysis-controls">
+                                <select id="analysis-type" class="form-select">
+                                    <option value="summary">Document Summary</option>
+                                    <option value="key_points">Key Points</option>
+                                    <option value="legal_issues">Legal Issues</option>
+                                    <option value="recommendations">Recommendations</option>
+                                </select>
+                                <button id="analyze-btn" class="btn btn-primary">
+                                    <i class="fas fa-play"></i>
+                                    Analyze Documents
+                                </button>
+                            </div>
+                            <div id="analysis-result" class="result-area"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Query Generation Section -->
+                <section id="query-section" class="query-section" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-database"></i> Legal Database Query Generation</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="query-controls">
+                                <select id="database-select" class="form-select">
+                                    <option value="westlaw">Westlaw</option>
+                                    <option value="lexis">LexisNexis</option>
+                                    <option value="bloomberg">Bloomberg Law</option>
+                                    <option value="fastcase">Fastcase</option>
+                                    <option value="casetext">Casetext</option>
+                                </select>
+                                <button id="generate-query-btn" class="btn btn-primary">
+                                    <i class="fas fa-magic"></i>
+                                    Generate Query
+                                </button>
+                                <button id="generate-all-btn" class="btn btn-secondary">
+                                    <i class="fas fa-list"></i>
+                                    All Databases
+                                </button>
+                            </div>
+                            <div id="query-result" class="result-area"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Model Management Modal -->
+        <div id="model-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-robot"></i> Model Management</h2>
+                    <button class="modal-close" onclick="app.hideModelManager()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="model-status-section">
+                        <h3>Current Status</h3>
+                        <div id="current-model-status" class="model-status-card">
+                            <div class="status-indicator">
+                                <i class="fas fa-circle status-dot"></i>
+                                <span id="status-text">No AI model loaded</span>
+                            </div>
+                            <div class="status-details">
+                                <p>Query generator: <span id="query-gen-status">Available (fallback mode)</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="available-models-section">
+                        <h3>Available Models</h3>
+                        <div class="model-grid">
+                            <!-- Dynamic model cards will be inserted here -->
+                            
+                            <!-- Placeholder for future models -->
+                            <div class="model-card coming-soon">
+                                <div class="model-header">
+                                    <h4>More Models Coming Soon</h4>
+                                    <span class="model-badge">Future</span>
+                                </div>
+                                <div class="model-info">
+                                    <p>Additional legal and general-purpose models will be available in future updates.</p>
+                                </div>
+                                <div class="model-actions">
+                                    <button class="btn btn-secondary" disabled>
+                                        <i class="fas fa-clock"></i>
+                                        Coming Soon
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="model-variants-section" id="model-variants" style="display: none;">
+                        <h3>Law Chat Model Variants</h3>
+                        <div class="variants-grid">
+                            <div class="variant-item">
+                                <span class="variant-name">Q2_K</span>
+                                <span class="variant-size">2.83 GB</span>
+                                <span class="variant-quality">Smallest, significant quality loss</span>
+                                <button class="btn btn-sm btn-outline" onclick="app.downloadModel('law-chat-q2_k')">Download</button>
+                            </div>
+                            <div class="variant-item">
+                                <span class="variant-name">Q3_K_M</span>
+                                <span class="variant-size">3.30 GB</span>
+                                <span class="variant-quality">Small, high quality loss</span>
+                                <button class="btn btn-sm btn-outline" onclick="app.downloadModel('law-chat-q3_k_m')">Download</button>
+                            </div>
+                            <div class="variant-item recommended-variant">
+                                <span class="variant-name">Q4_0</span>
+                                <span class="variant-size">3.83 GB</span>
+                                <span class="variant-quality">Recommended balance</span>
+                                <button class="btn btn-sm btn-primary" onclick="app.downloadModel('law-chat:latest')">Download</button>
+                            </div>
+                            <div class="variant-item">
+                                <span class="variant-name">Q5_0</span>
+                                <span class="variant-size">4.65 GB</span>
+                                <span class="variant-quality">Higher quality</span>
+                                <button class="btn btn-sm btn-outline" onclick="app.downloadModel('law-chat-q5_0')">Download</button>
+                            </div>
+                            <div class="variant-item">
+                                <span class="variant-name">Q8_0</span>
+                                <span class="variant-size">7.16 GB</span>
+                                <span class="variant-quality">Highest quality</span>
+                                <button class="btn btn-sm btn-outline" onclick="app.downloadModel('law-chat-q8_0')">Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p id="loading-text">Processing...</p>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <!-- Load modules first -->
+    <script src="/assets/modules/UIManager.js"></script>
+    <script src="/assets/modules/ApiClient.js"></script>
+    <script src="/assets/modules/ModelManager.js"></script>
+    <script src="/assets/modules/FileHandler.js"></script>
+    <script src="/assets/modules/DocumentAnalyzer.js"></script>
+    
+    <!-- Main application -->
+    <script src="/assets/app.js"></script>
+</body>
+</html> 
