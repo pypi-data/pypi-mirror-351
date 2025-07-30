@@ -1,0 +1,123 @@
+#  -*- coding: utf-8 -*-
+"""
+Author: Rafael R. L. Benevides
+"""
+
+import pandas
+
+from numpy import ndarray, double, bool_, datetime64
+
+from pathlib import Path
+
+from typing import Any
+
+
+class BulletinA:
+
+    url: str = ...
+    path: Path = ...
+
+    def __init__(self) -> None: ...
+
+    @classmethod
+    def update(cls) -> None: ...
+
+    @property
+    def mjd_utc(self) -> ndarray[Any, double]: ...
+
+    @property
+    def jd12_utc(self) -> ndarray[Any, double]: ...
+
+    @property
+    def jd12_ut1(self) -> ndarray[Any, double]: ...
+
+    @property
+    def mjd_ut1(self) -> ndarray[Any, double]: ...
+
+    @property
+    def date_utc(self) -> ndarray[Any, datetime64]: ...
+
+    # ---------- ---------- ---------- Polar motion
+    @property
+    def pm_pred(self) -> ndarray[Any, bool_]: ...
+
+    @property
+    def pm_x(self) -> ndarray[Any, double]: ...
+
+    @property
+    def pm_x_error(self) -> ndarray[Any, double]: ...
+
+    @property
+    def pm_y(self) -> ndarray[Any, double]: ...
+
+    @property
+    def pm_y_error(self) -> ndarray[Any, double]: ...
+
+    # ---------- ---------- ---------- dut = UT1 - UTC
+    @property
+    def dut_pred(self) -> ndarray[Any, bool_]: ...
+
+    @property
+    def dut(self) -> ndarray[Any, double]: ...
+
+    @property
+    def dut_error(self) -> ndarray[Any, double]: ...
+
+    # ---------- ---------- ---------- LOD
+    @property
+    def lod(self) -> ndarray[Any, double]: ...
+
+    @property
+    def lod_error(self) -> ndarray[Any, double]: ...
+
+    # ---------- ---------- ---------- Nutation
+    @property
+    def nutation_pred(self) -> ndarray[Any, bool_]: ...
+
+    @property
+    def dX_IAU2000A(self) -> ndarray[Any, double]: ...
+
+    @property
+    def dX_IAU2000A_error(self) -> ndarray[Any, double]: ...
+
+    @property
+    def dY_IAU2000A(self) -> ndarray[Any, double]: ...
+
+    @property
+    def dY_IAU2000A_error(self) -> ndarray[Any, double]: ...
+
+
+class BulletinC:
+
+    url: str = ...
+    path: Path = ...
+
+    def __init__(self) -> None: ...
+
+    @classmethod
+    def update(cls) -> None: ...
+
+    @property
+    def mjd_utc(self) -> ndarray[Any, double]: ...
+
+    @property
+    def jd12_utc(self) -> ndarray[Any, double]: ...
+
+    @property
+    def jd12_ut1(self) -> ndarray[Any, double]: ...
+
+    @property
+    def mjd_ut1(self) -> ndarray[Any, double]: ...
+
+    @property
+    def date_utc(self) -> ndarray[Any, datetime64]: ...
+
+    @property
+    def dat(self) -> ndarray[Any, int]: ...
+
+
+def update_bulletins() -> None: ...
+
+def get_latest_update() -> pandas.Timestamp: ...
+
+def update_if_needed() -> None: ...
