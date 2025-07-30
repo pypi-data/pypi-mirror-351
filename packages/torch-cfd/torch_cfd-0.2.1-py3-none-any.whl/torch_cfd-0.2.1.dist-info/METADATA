@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: torch-cfd
+Version: 0.2.1
+Summary: PyTorch CFD
+Home-page: https://github.com/scaomath/torch-cfd
+Author: Shuhao Cao
+Author-email: scao.math@gmail.com
+License: Apache-2.0
+Keywords: pytorch,cfd,pde,spectral,fluid dynamics,deep learning,neural operator
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: LICENSE-MIT
+Requires-Dist: numpy>=2.2.0
+Requires-Dist: torch>=2.5.0
+Requires-Dist: xarray>=2025.3.1
+Requires-Dist: tqdm>=4.62.0
+Requires-Dist: einops>=0.8.0
+Requires-Dist: dill>=0.4.0
+Requires-Dist: matplotlib>=3.5.0
+Requires-Dist: seaborn>=0.13.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+PyTorch Computational Fluid Dynamics Library
