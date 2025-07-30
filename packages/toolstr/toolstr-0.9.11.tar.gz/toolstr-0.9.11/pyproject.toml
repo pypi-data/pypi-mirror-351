@@ -1,0 +1,36 @@
+
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "toolstr"
+readme = "README.md"
+requires-python = ">=3.7"
+dynamic = ["version", "description"]
+license = {file = "LICENSE"}
+dependencies = [
+    "tooltime>=0.2.10",
+    "typing-extensions>=4.0.0",
+]
+
+[project.optional-dependencies]
+performance = [
+    "scikit-image>=0.19.2",
+]
+styling = [
+    "rich>=12.1.0",
+]
+full = [
+    "scikit-image>=0.19.2",
+    "rich>=12.1.0",
+]
+
+[project.urls]
+Source = "https://github.com/sslivkoff/toolstr"
+
+
+[tool.mypy]
+strict = true
+implicit_reexport = true
+files = ["toolstr"]
