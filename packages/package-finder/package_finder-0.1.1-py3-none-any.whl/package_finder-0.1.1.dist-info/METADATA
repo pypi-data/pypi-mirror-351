@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: package-finder
+Version: 0.1.1
+Summary: Add your description here
+Author-email: Hao Wu <haowu@dataset.sh>
+Requires-Python: >=3.13
+Requires-Dist: click>=8.2.1
+Requires-Dist: tqdm>=4.67.1
+Description-Content-Type: text/markdown
+
+# Package Finder CLI
+
+A command-line tool to recursively scan a directory for Node.js and Python projects. It extracts basic metadata (`name` and `version`) from project files like `package.json`, `pyproject.toml`, and `setup.py`, and outputs the results to a JSON file.
+
+---
+
+## ✨ Features
+
+- ✅ Supports **Node.js** (`package.json`) with package manager detection (`npm`, `yarn`, `pnpm`)
+- ✅ Supports **Python** (`pyproject.toml`, `setup.py`)
+- ✅ Ignores unnecessary folders like `node_modules/`, `.git/`, `.venv/`, `dist/`, etc.
+- ✅ Skips symlinked directories to avoid cycles and unnecessary traversal
+- ✅ Displays real-time progress using `tqdm`
+- ✅ Built with `click` for a clean subcommand-based CLI
+
+---
+
+## 🚀 Installation
+
+```shell
+pip install package-finder
+```
+
+## 📦 Usage
+
+```shell
+# Scan Python projects
+find-package python <input_folder> <output.json>
+
+# Scan Node.js projects
+find-package node <input_folder> <output.json>
+```
