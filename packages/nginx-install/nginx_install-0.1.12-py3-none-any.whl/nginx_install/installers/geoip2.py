@@ -1,0 +1,246 @@
+import shutil
+import bs4
+import re
+import asyncio
+import os
+from os.path import relpath
+from multiprocessing import cpu_count
+from pathlib import Path
+from vermils.io import aio
+from pydantic import Field
+from ..context import Context
+from .base import BuiltinInstaller
+
+ver_re = re.compile(r"^(\d+\.\d+\.\d+)$")
+
+
+class GeoIP2Installer(BuiltinInstaller):
+    enabled: bool = False
+    dynamic: bool = False
+    account_id: str = ''
+    license_key: str = ''
+    edition_ids: list[str] = Field(
+        default_factory=lambda:
+        ["GeoLite2-ASN", "GeoLite2-City", "GeoLite2-Country"]
+    )
+    conf_path: Path = Path("/usr/local/etc/GeoIP.conf")
+    database_dir: Path = Path("/usr/local/share/GeoIP")
+    enable_auto_update: bool = True
+    auto_update_cron: str = "0 0 * * 0"
+    configure_opts: list[str] = Field(default_factory=list)
+
+    @property
+    def ngx_modulenames(self) -> tuple[str, ...]:
+        return ("ngx_http_geoip2_module",)
+
+    async def _build_maxminddb(self, ctx: Context):  # skipcq: PY-R1000
+        logger = ctx.logger
+        client = ctx.client
+        r = await client.get(
+            "https://github.com/maxmind/libmaxminddb/releases/latest",
+            follow_redirects=True,
+        )
+        r.raise_for_status()
+
+        soup = bs4.BeautifulSoup(r.content, "lxml")
+        v = ''
+        for h1 in soup.find_all("h1"):
+            m = ver_re.match(h1.text.strip())
+            if m:
+                v = m.group(1)
+                break
+        if not v:
+            raise RuntimeError(f"{self}: Failed to find latest version")
+
+        logger.debug("%s: Latest libmaxminddb version: %s", self, v)
+        tar_path = ctx.build_dir / f"libmaxminddb-{v}.tar.gz"
+        await ctx.download(
+            "https://github.com/maxmind/libmaxminddb/releases/download/"
+            f"{v}/libmaxminddb-{v}.tar.gz",
+            tar_path,
+            title="Get libmaxminddb source",
+        )
+        rs = await ctx.run_cmd(
+            f"tar -xzf '{tar_path}' -C '{ctx.build_dir}' "
+            f"&& cd '{ctx.build_dir}/libmaxminddb-{v}' "
+            f"&& ./configure {' '.join(self.configure_opts)} "
+            f"&& make -j {cpu_count()} "
+            "&& make check "
+            "&& make install "
+            "&& cd - "
+        )
+        rs.raise_for_returncode()
+
+        rs = await ctx.run_cmd("ldconfig")
+        if rs.failed:
+            logger.warning(
+                "%s: Failed to run initial ldconfig because of %s, "
+                "try to add ld config",
+                self, await rs.get_error_str())
+            if not ctx.dry_run:
+                async with aio.open("/etc/ld.so.conf.d/local.conf", "a+") as f:
+                    if "/usr/local/lib" not in await f.read():
+                        await f.write("/usr/local/lib\n")
+            rs = await ctx.run_cmd("ldconfig")
+            rs.raise_for_returncode()
+
+    async def _get_db(
+            self, ctx: Context, account_id: str, license_key: str) -> list[str]:
+        logger = ctx.logger
+        if not account_id or not license_key:
+            logger.warning(
+                "%s: Account ID and License Key are not set, "
+                "skipping downloading GeoIP2 databases", self)
+            return []
+
+        logger.debug("%s: Downloading GeoIP2 databases", self)
+        edition_ids = self.edition_ids
+        downloads = list[asyncio.Task]()
+        for eid in edition_ids:
+            loop = asyncio.get_running_loop()
+            downloads.append(
+                loop.create_task(
+                    ctx.download(
+                        "https://download.maxmind.com/app/geoip_download?"
+                        f"edition_id={eid}&license_key={license_key}"
+                        "&suffix=tar.gz",
+                        ctx.build_dir / f"{eid}.tar.gz",
+                        title=f"Get {eid}"
+                    ))
+            )
+        await asyncio.gather(*downloads)
+
+        for eid in edition_ids:
+            path_prefix = ctx.build_dir / eid
+            rs = await ctx.run_cmd(
+                f"tar -xzf '{path_prefix}.tar.gz' -C '{ctx.build_dir}' "
+                f"&& cp -rf '{path_prefix}_'* {self.database_dir} "
+
+            )
+            rs.raise_for_returncode()
+
+            newest = ''
+            for folder in os.listdir(self.database_dir):
+                if not os.path.isdir(self.database_dir / folder):
+                    continue
+                if folder.startswith(eid) and folder > newest:
+                    newest = folder
+            newest_dir = self.database_dir / newest
+            newest_file = newest_dir / f"{eid}.mmdb"
+            linkdest = self.database_dir / f"{eid}.mmdb"
+            if not newest or not newest_file.exists():
+                logger.warning(
+                    "%s: Cannot extract %s database file from decompressed content",
+                    self, eid
+                )
+                continue
+            if linkdest.exists():
+                os.remove(linkdest)
+            shutil.copy(newest_file, linkdest)
+
+            for folder in os.listdir(self.database_dir):
+                if not os.path.isdir(self.database_dir / folder):
+                    continue
+                if folder.startswith(eid):
+                    shutil.rmtree(self.database_dir / folder)
+
+        return edition_ids
+
+    async def _enable_auto_update(
+            self, ctx: Context, account_id: str,
+            license_key: str, edition_ids: list[str]
+    ):
+        logger = ctx.logger
+        logger.debug("%s: Installing geoipupdate", self)
+        # if system flavor is debian
+        if os.path.exists("/etc/debian_version"):
+            arch = os.uname().machine
+            if arch == "x86_64":
+                arch = "amd64"
+            elif arch == "aarch64":
+                arch = "arm64"
+            else:
+                raise RuntimeError(f"{self}: Unknown architecture {arch}")
+            rs = await ctx.run_cmd(
+                "wget -qO geoipupdate.deb "
+                "https://github.com/maxmind/geoipupdate/releases/download/v7.0.1/"
+                f"geoipupdate_7.0.1_linux_{arch}.deb"
+                "&& dpkg -i geoipupdate.deb && rm geoipupdate.deb"
+            )
+        else:
+            rs = await ctx.run_cmd(
+                "apt-get update "
+                "&& apt-get install -y software-properties-common python3-launchpadlib"
+                "&& add-apt-repository ppa:maxmind/ppa "
+                "&& apt-get update && apt-get install -y geoipupdate"
+            )
+        rs.raise_for_returncode()
+
+        conf = (
+            f"AccountID {account_id}\n"
+            f"LicenseKey {license_key}\n"
+            f"EditionIDs {' '.join(edition_ids)}\n"
+            f"DatabaseDirectory {self.database_dir}\n"
+        )
+        logger.debug("%s: Writing GeoIP2.conf", self)
+        if not ctx.dry_run:
+            async with aio.open(self.conf_path, "w") as f:
+                await f.write(conf)
+        rs = await ctx.run_cmd(
+            f"echo \"{self.auto_update_cron} "
+            f"`which geoipupdate` -f \"{self.conf_path}\"\" "
+            "> /etc/cron.d/geoipupdate"
+        )
+        rs.raise_for_returncode()
+
+    async def prepare(self, ctx):
+        logger = ctx.logger
+        logger.debug("%s: Preparing GeoIP2 installer", self)
+        task = ctx.progress.add_task("Prepare GeoIP2", total=3)
+
+        account_id = os.environ.get("MAXMIND_ID", self.account_id)
+        license_key = os.environ.get("MAXMIND_KEY", self.license_key)
+
+        await self._build_maxminddb(ctx)
+        edition_ids = await self._get_db(ctx, account_id, license_key)
+
+        ctx.progress.update(task, advance=1)
+
+        if edition_ids and self.enable_auto_update:
+            await self._enable_auto_update(
+                ctx, account_id, license_key, edition_ids)
+
+        ctx.progress.update(task, advance=1)
+
+        # Download module source
+        path = ctx.build_dir / "ngx_http_geoip2_module"
+        logger.debug("%s: Cloning GeoIP2 module into %s", self, path)
+        await ctx.git_clone(
+            "https://github.com/leev/ngx_http_geoip2_module.git",
+            path,
+            title="Clone GeoIP2 module"
+        )
+
+        ctx.core.configure_opts.append(
+            f"--add{'-dynamic' if self.dynamic else ''}-module="
+            f"{relpath(path, ctx.nginx_src_dir)}"
+        )
+
+        ctx.progress.update(task, advance=1)
+
+    async def build(self, ctx):
+        ...
+
+    async def install(self, ctx):
+        ...
+
+    async def uninstall(self, ctx):
+        task = ctx.progress.add_task("Uninstall GeoIP2", total=1)
+        ctx.print(f"{self}: Cannot determine dependencies to clean. "
+                  "You may need to mannually remove "
+                  f"{self.database_dir}, /etc/cron.d/geoipupdate, {self.conf_path}, "
+                  "geoipupdate and /usr/local/lib/libmaxminddb.so")
+        ctx.progress.update(task, advance=1)
+
+    async def clean(self, ctx):
+        ...

@@ -1,0 +1,4 @@
+[console_scripts]
+nginx-install=nginx_install.cli:run
+nginx_install=nginx_install.cli:run
+
