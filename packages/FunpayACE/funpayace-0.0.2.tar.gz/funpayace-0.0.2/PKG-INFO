@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: FunpayACE
+Version: 0.0.2
+Summary: Библиотека для удобного управления Funpay
+Author: Looko
+License: MIT
+Requires-Python: >=3.7
+License-File: LICENSE
+Requires-Dist: aiohttp<4.0,>=3.7
+Dynamic: license-file
