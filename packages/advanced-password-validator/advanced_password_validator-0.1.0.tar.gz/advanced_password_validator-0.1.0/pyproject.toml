@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "advanced_password_validator"
+version = "0.1.0"
+description = "A dynamic password validation system with preconfigured modes and rule-based design"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+authors = [
+    {name = "HysingerDev", email = "HysingerDev@gmail.com"}
+]
+requires-python = ">=3.8"
+keywords = [
+    "password",
+    "validation",
+    "security",
+    "rules",
+    "authentication",
+    "python"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Intended Audience :: Developers"
+]
+dependencies = []
+
+[project.urls]
+homepage = "https://github.com/MassivelyOverthinking/Password_validator"
+source = "https://github.com/MassivelyOverthinking/Password_validator"
+bugTracker = "https://github.com/MassivelyOverthinking/Password_validator/issues"
+documentation = "https://github.com/MassivelyOverthinking/Password_validator#readme"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+advanced_password_validator = ["data/*.txt"]
