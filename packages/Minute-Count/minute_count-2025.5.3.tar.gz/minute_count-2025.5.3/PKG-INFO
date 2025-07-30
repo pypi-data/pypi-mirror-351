@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: Minute-Count
+Version: 2025.5.3
+Summary: A command-line tool for generating an overview over the amount of minutes (in terms of mp3 files) in a directory
+Author: Günthner
+License-File: LICENSE.txt
+Keywords: Command-Line,Music
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Requires-Dist: mutagen>=1.40.0
+Description-Content-Type: text/markdown
+
+# Minute-Count
+
+A command-line tool for generating an overview over the amount of minutes (in terms of mp3 files) in a directory.
+
+This package can also be used from python.
