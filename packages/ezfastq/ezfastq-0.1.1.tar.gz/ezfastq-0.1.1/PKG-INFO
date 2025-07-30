@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: ezfastq
+Version: 0.1.1
+Summary: Scan directories for FASTQ files and associate with sample names
+Author-email: Daniel Standage <daniel.standage@st.dhs.gov>, Ryan Berger <ryan.berger@st.dhs.gov>
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: rich
+Dynamic: license-file
+
+# ezfastq
+
+Search a source directory for FASTQ files matching a list of given sample names and copy to a destination directory.
+
+
+```
+# Shell
+ezfastq /path/to/data/ sample1 sample2 sample3 --workdir=path/to/dest/
+ezfastq /opt/seq/ samplenames.txt --workdir=out/
+
+# Python
+import ezfastq
+samples = ["sample1", "sample2", "sample3"]
+source = "/path/to/seqs/"
+dest = "new/path/"
+ezfastq.api.copy(samples, source, workdir=dest)
+```
