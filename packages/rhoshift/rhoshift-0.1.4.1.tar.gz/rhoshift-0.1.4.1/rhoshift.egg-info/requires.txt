@@ -1,0 +1,17 @@
+boto3
+kubernetes
+openshift-client
+python-dotenv
+requests
+colorlog
+pyfiglet
+typing-extensions
+
+[dev]
+ruff
+pre-commit
+build
+
+[test]
+pytest
+pytest-cov
