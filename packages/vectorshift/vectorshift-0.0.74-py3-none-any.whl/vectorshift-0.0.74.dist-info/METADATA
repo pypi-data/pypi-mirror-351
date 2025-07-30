@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: vectorshift
+Version: 0.0.74
+Summary: VectorShift Python SDK
+Author: Alex Leonardi, Pratham Goyal, Eric Shen
+Author-email: support@vectorshift.ai
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+Requires-Dist: networkx==3.1
+Requires-Dist: tomli>=2.0.1
+Requires-Dist: pytest>=7.0.0
+Requires-Dist: bson>=0.5.10
+Requires-Dist: black>=23.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: summary
+
+# VectorShift SDK
+Python SDK in development for VS pipeline creation and interaction
