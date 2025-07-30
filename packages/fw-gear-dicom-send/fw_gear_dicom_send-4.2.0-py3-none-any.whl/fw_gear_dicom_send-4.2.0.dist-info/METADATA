@@ -1,0 +1,146 @@
+Metadata-Version: 2.1
+Name: fw-gear-dicom-send
+Version: 4.2.0
+Summary: Send DICOMs from Flywheel to a remote DICOM server using pynetdicom
+Home-page: https://gitlab.com/flywheel-io/flywheel-apps/dicom-send.git
+License: MIT
+Keywords: Flywheel,Gears,DICOM,Python
+Author: Flywheel
+Author-email: support@flywheel.io
+Requires-Python: >=3.9,<4.0
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Classifier: Topic :: Scientific/Engineering :: Medical Science Apps.
+Requires-Dist: backoff (>=1.11.1,<2.0.0)
+Requires-Dist: flywheel-gear-toolkit (>=0.6.1,<0.7.0)
+Requires-Dist: fw-core-client (>=1.1.0,<2.0.0)
+Requires-Dist: fw-file[dicom] (>=1.3,<2.0)
+Requires-Dist: pathvalidate (>=2.5.0,<3.0.0)
+Requires-Dist: pynetdicom (>=2.0.2,<3.0.0)
+Project-URL: Repository, https://gitlab.com/flywheel-io/flywheel-apps/dicom-send.git
+Description-Content-Type: text/markdown
+
+# dicom-send Gear
+
+A [Flywheel Gear](https://github.com/flywheel-io/gears/tree/master/spec) to use
+[`pynetdicom`](https://github.com/pydicom/pynetdicom) to send DICOM data from
+a [Flywheel](https://flywheel.io/) instance to a DICOM server.
+
+## Description
+
+[`pynetdicom`](https://github.com/pydicom/pynetdicom) is a library built on top of
+[`pydicom`](https://github.com/pydicom/pydicom). The dicom-send Gear uses `pynetdicom`
+as a DICOM SCU to connect from a [Flywheel](https://flywheel.io/) instance to a specific
+DICOM server. The DICOM server must be reachable from the host of the
+[Flywheel](https://flywheel.io/) instance. Before transmitting the DICOM file, a
+private tag
+indicating the DICOM file's source as Flywheel is added to each DICOM file to
+avoid being re-ingested into a [Flywheel](https://flywheel.io/) instance.
+
+## Gear Inputs
+
+### Regular inputs
+
+* **file**: Any DICOM file or an archive (zip or tar) containing DICOM file(s). Non
+  DICOM files are ignored. If no input is provided, all DICOM files in the session
+  where
+  the Gear is executed are downloaded and used as input.
+
+> NOTE: The gear will run with a dedicated read-only API key with the same
+permissions
+> as the user whio created the job.
+
+### TLS related inputs
+
+* **key**: Private key used for TLS negotiation, required if the config
+option
+  `tls_enabled` is set to `enabled`
+* **cert**: Public certificate used for TLS negotiation, required if the config
+option
+  `tls_enabled` is set to `enabled`
+* **add_cert_file**: Optional TLS certificate to add to the default list of
+trusted
+  certificates. If your PACS server has a self-signed sert, you should supply the
+  root
+  CA here, unless you have the config option `tls_require_peer_cert` set to
+  `False`.
+
+## Configuration Settings
+
+### General configuration
+
+* **destination**: The IP address or hostname of the destination DICOM server.
+Note: The
+  server must be reachable from the host of the Flywheel instance.
+* **called_ae**: The Called AE title of the receiving DICOM server.
+* **calling_ae**: The Calling AE title. Default = flywheel.
+* **port**: Port number of the listening DICOM service. Default = 104.
+* **file_download_retry_time**: Max time (per file) to back-off download a file
+on a
+  server error (500, 501, 502, etc.)
+* **group**: Dicom group to apply dicom-send tag, default `0x0021`.
+* **identifier**: Private tag creator for dicom-send tag, default `Flywheel`.
+* **tag_value**: Dicom tag value for dicom-send tag, default `DICOM send`.
+
+### TLS configuration
+
+> Note: Whatever key/cert you pass in should have been signed by a root CA that
+is on
+> the list of trusted certs for your PACS server, if its not, the request will
+most
+> likely be rejected.
+
+A helpful resource is the [Orthanc docs on
+dicom-tls](https://book.orthanc-server.com/faq/dicom-tls.html)
+
+* **tls_enabled**: (boolean), if yes, the `cert` and `key` inputs must be passed
+in,
+and possibly the `add_cert_file`
+  need to pass in a `cert` and `key` input, and possibly an `add_cert_file` input if
+  your PACS server has a self-signed cert.
+* **tls_security_profile**: Security profile to use, default BCP 195.
+* **tls_require_peer_cert**: Require the peer server to have a valid/trusted cert.  
+This
+  defaults to `true`, but can be set to `false` if you trust the destination and
+  don't
+  want to add your root CA to the `add_cert_file` input.
+
+## Gear outputs
+
+The gear will generate a report listing each dicom file/archive that was exported.  
+The
+report includes the following columns:
+
+* ***Acquisition ID:*** the FW Acquisition ID
+* ***FW Path:*** a human readable flywheel path to the file that was exported,
+in the
+  following format:
+  * `<group>/<proj.label>/<sub.label>/<ses.label>/<acq.label>/files/<file.name>`
+* ***Filename:*** Name of the file/archive that was sent
+* ***Images in Series:*** Number of images in the series to be sent
+* ***Images Sent:*** Number of images successfully sent
+* ***Status:*** “Complete” if images in series == Images Sent, “Incomplete” if Images
+  Sent < Images in Series, “Failed” if Images Sent == 0.
+
+This report is printed at the end of the log file, and also saved as an attachment to
+the session container that the gear was run from.  The output name of this report file
+follows the following pattern:
+
+`dicom-send_report-<session label>_<acquisition label>_YYYY-MM-DD_HH:MM:SS.csv` where
+`<acquisition_label>` is only present if one specific acquisition was selected for
+export.
+
+The gear will present as successful only if all dicoms that were attempted, were sent
+succesfully.
+
+## Testing
+
+For information on gear testing, see the [testing readme](./docs/TESTING.md).
+
