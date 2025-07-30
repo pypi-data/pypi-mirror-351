@@ -1,0 +1,91 @@
+# indent_template
+
+下の方に日本語の説明があります
+
+## Overview
+- A tool to replace strings without breaking indent.
+- description is under construction.
+
+## Usage
+```python
+import indent_template
+
+# String before replacement
+template_str = """
+def func():
+	ls = VALUE_HERE
+	print(str(ls + VALUE_HERE))
+"""
+
+# String after replacement
+rep_str = """[
+	"hoge",
+	"fuga"
+]"""
+
+# Replacing strings without breaking indentation [indent_template]
+result_str = indent_template.replace(
+	template_str,	# String before replacement
+	{"VALUE_HERE": rep_str}	# Replacement pattern
+)
+# Result confirmation
+print(result_str)
+```
+
+## Result
+```
+def func():
+	ls = [
+		"hoge",
+		"fuga"
+	]
+	print(str(ls + [
+		"hoge",
+		"fuga"
+	]))
+```
+
+## 概要
+- インデントを崩さずに文字列の置き換えが実施できます。
+- プログラミング言語やjsonなどをプログラムで出力する際などに便利です。
+- 説明は執筆途上です
+
+## 使用例
+```python
+import indent_template
+
+# 置き換え元の文字列
+template_str = """
+def func():
+	ls = VALUE_HERE
+	print(str(ls + VALUE_HERE))
+"""
+
+# 置き換え後文字列
+rep_str = """[
+	"hoge",
+	"fuga"
+]"""
+
+# インデントを崩さずに文字列を置き換える [indent_template]
+result_str = indent_template.replace(
+	template_str,	# 置き換え元の文字列
+	{"VALUE_HERE": rep_str}	# 置き換えパターン
+)
+# 結果確認
+print(result_str)
+
+```
+
+## 結果
+```
+def func():
+	ls = [
+		"hoge",
+		"fuga"
+	]
+	print(str(ls + [
+		"hoge",
+		"fuga"
+	]))
+```
