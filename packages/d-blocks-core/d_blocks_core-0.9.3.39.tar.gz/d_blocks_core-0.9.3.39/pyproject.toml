@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "d-blocks-core"
+version = "0.9.3.39"
+description = ""
+authors = ["d-blocks-coder <d.blocks.coder@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include = "dblocks_core", from = "src" }, 
+    { include = "dblocks_plugin", from = "src" }, # namespace package for plugins
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Topic :: Database",
+    "Topic :: Software Development"
+]
+
+[tool.poetry.scripts]
+# core features
+dbe = 'dblocks_core.script.dbe:main'
+dbee = 'dblocks_core.script.dbe:main'
+d-bee = 'dblocks_core.script.dbe:main'
+debbie = 'dblocks_core.script.dbe:main'
+
+# experimental features
+dbexp = 'dblocks_core.script.dbexp:main'
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+teradatasql = "^20.0.0.20"
+pyaml = "^24.9.0"
+attrs = "^24.2.0"
+sqlalchemy = "^2.0.36"
+teradatasqlalchemy = "^20.0.0.3"
+cattrs = "^24.1.2"
+typer = "^0.13.1"
+loguru = "^0.7.2"
+rich = "^13.9.4"
+platformdirs = "^4.3.6"
+click = "8.1.7"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+flake8 = "^7.1.1"
+jupyterlab = "^4.3.1"
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-dynamic-versioning]
+# https://smhk.net/note/2023/12/gitlab-ci-and-poetry-dynamic-versioning/
+#   poetry self add "poetry-dynamic-versioning[plugin]"`
+#   poetry dynamic-versioning enable
+# https://pypi.org/project/poetry-dynamic-versioning/
+enable = false
+vcs = "git"
+pattern = '(?P<base>\d+\.\d+\.\d+.\d+)'
+
