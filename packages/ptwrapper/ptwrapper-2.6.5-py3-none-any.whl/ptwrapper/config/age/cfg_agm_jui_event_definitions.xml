@@ -1,0 +1,19 @@
+<!-- 
+Filename:    CFG_AGM_JUI_MULTIBODY_EVENT_DEFINITIONS.xml
+Modules:     MAPPS,OSVE
+Description: This XML file configure the event calcualted by AGM in MAPPS and OSVE.
+Authors:     F.Nespoli
+Date:        30 May 2022
+-->
+
+<!-- Definition of the toplevel node -->
+<eventDefinition>
+
+   <!-- Definition of event panel_illumination_mx -->
+   <event name="+X Panel Illumination" type="PANEL_ILLUMINATION">
+      <panelType> +x </panelType>
+	  <minValue> 0 </minValue>
+	  <maxValue> 90 </maxValue>
+   </event>
+
+</eventDefinition>
