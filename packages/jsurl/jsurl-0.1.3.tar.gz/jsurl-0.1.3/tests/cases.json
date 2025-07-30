@@ -1,0 +1,712 @@
+{
+  "validURLs": [
+    {
+      "url": "https://example.com",
+      "description": "Basic HTTPS URL",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/"
+      }
+    },
+    {
+      "url": "http://localhost",
+      "description": "Localhost URL",
+      "expected": {
+        "protocol": "http:",
+        "hostname": "localhost",
+        "host": "localhost",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "http://localhost",
+        "href": "http://localhost/"
+      }
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "URL with port number",
+      "expected": {
+        "protocol": "http:",
+        "hostname": "localhost",
+        "host": "localhost:8080",
+        "port": "8080",
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "http://localhost:8080",
+        "href": "http://localhost:8080/"
+      }
+    },
+    {
+      "url": "https://sub.example.com",
+      "description": "URL with subdomain",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "sub.example.com",
+        "host": "sub.example.com",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://sub.example.com",
+        "href": "https://sub.example.com/"
+      }
+    },
+    {
+      "url": "https://example.com/path/to/resource",
+      "description": "URL with path",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path/to/resource",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path/to/resource"
+      }
+    },
+    {
+      "url": "https://example.com/path/to/resource?query=string&foo=bar",
+      "description": "URL with query string",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path/to/resource",
+        "search": "?query=string&foo=bar",
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path/to/resource?query=string&foo=bar"
+      }
+    },
+    {
+      "url": "https://example.com/path/to/resource#fragment",
+      "description": "URL with fragment",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path/to/resource",
+        "search": null,
+        "hash": "#fragment",
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path/to/resource#fragment"
+      }
+    },
+    {
+      "url": "https://example.com/path/to/resource?query=string#fragment",
+      "description": "URL with query string and fragment",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path/to/resource",
+        "search": "?query=string",
+        "hash": "#fragment",
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path/to/resource?query=string#fragment"
+      }
+    },
+    {
+      "url": "https://user:password@example.com",
+      "description": "URL with authentication credentials",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": "user",
+        "password": "password",
+        "origin": "https://example.com",
+        "href": "https://user:password@example.com/"
+      }
+    },
+    {
+      "url": "https://user:password@example.com:8443/path?query=string#fragment",
+      "description": "Complex URL with all components",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com:8443",
+        "port": "8443",
+        "pathname": "/path",
+        "search": "?query=string",
+        "hash": "#fragment",
+        "username": "user",
+        "password": "password",
+        "origin": "https://example.com:8443",
+        "href": "https://user:password@example.com:8443/path?query=string#fragment"
+      }
+    },
+    {
+      "url": "https://example.com/path/to/page;param=value/resource",
+      "description": "URL with path parameters",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path/to/page;param=value/resource",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path/to/page;param=value/resource"
+      }
+    },
+    {
+      "url": "https://example.com/path with spaces/",
+      "description": "Path with unencoded spaces (browser auto-encodes)",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path with spaces/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path with spaces/"
+      }
+    },
+    {
+      "url": "https://example.com/path%20with%20encoded%20spaces/",
+      "description": "Path with encoded spaces",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path%20with%20encoded%20spaces/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path%20with%20encoded%20spaces/"
+      }
+    },
+    {
+      "url": "http://example.com/~username/",
+      "description": "Path with tilde",
+      "expected": {
+        "protocol": "http:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/~username/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "http://example.com",
+        "href": "http://example.com/~username/"
+      }
+    },
+    {
+      "url": "https://example.com/?q=%E6%97%A5%E6%9C%AC%E8%AA%9E",
+      "description": "Query with URL-encoded non-ASCII characters (Japanese)",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/",
+        "search": "?q=%E6%97%A5%E6%9C%AC%E8%AA%9E",
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/?q=%E6%97%A5%E6%9C%AC%E8%AA%9E"
+      }
+    },
+    {
+      "url": "https://xn--wgv71a119e.example.com",
+      "description": "Internationalized Domain Name (IDN) in Punycode format",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "xn--wgv71a119e.example.com",
+        "host": "xn--wgv71a119e.example.com",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://xn--wgv71a119e.example.com",
+        "href": "https://xn--wgv71a119e.example.com/"
+      }
+    },
+    {
+      "url": "http://192.168.1.1",
+      "description": "URL with IP address as host",
+      "expected": {
+        "protocol": "http:",
+        "hostname": "192.168.1.1",
+        "host": "192.168.1.1",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "http://192.168.1.1",
+        "href": "http://192.168.1.1/"
+      }
+    },
+    {
+      "url": "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]",
+      "description": "URL with IPv6 address as host",
+      "expected": {
+        "protocol": "http:",
+        "hostname": "[2001:0db8:85a3:0000:0000:8a2e:0370:7334]",
+        "host": "[2001:0db8:85a3:0000:0000:8a2e:0370:7334]",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]",
+        "href": "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/"
+      }
+    },
+    {
+      "url": "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:8080",
+      "description": "URL with IPv6 address and port",
+      "expected": {
+        "protocol": "http:",
+        "hostname": "[2001:0db8:85a3:0000:0000:8a2e:0370:7334]",
+        "host": "[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:8080",
+        "port": "8080",
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:8080",
+        "href": "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:8080/"
+      }
+    },
+    {
+      "url": "ftp://ftp.example.com/pub/file.txt",
+      "description": "FTP protocol URL",
+      "expected": {
+        "protocol": "ftp:",
+        "hostname": "ftp.example.com",
+        "host": "ftp.example.com",
+        "port": null,
+        "pathname": "/pub/file.txt",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "ftp://ftp.example.com",
+        "href": "ftp://ftp.example.com/pub/file.txt"
+      }
+    },
+    {
+      "url": "file:///C:/Users/username/Documents/file.txt",
+      "description": "Local file URL (Windows format)",
+      "expected": {
+        "protocol": "file:",
+        "hostname": "",
+        "host": "",
+        "port": null,
+        "pathname": "/C:/Users/username/Documents/file.txt",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "file://",
+        "href": "file:///C:/Users/username/Documents/file.txt"
+      }
+    },
+    {
+      "url": "file:///home/username/documents/file.txt",
+      "description": "Local file URL (Unix/Linux format)",
+      "expected": {
+        "protocol": "file:",
+        "hostname": "",
+        "host": "",
+        "port": null,
+        "pathname": "/home/username/documents/file.txt",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "file://",
+        "href": "file:///home/username/documents/file.txt"
+      }
+    },
+    {
+      "url": "mailto:user@example.com",
+      "description": "Mailto scheme",
+      "expected": {
+        "protocol": "mailto:",
+        "hostname": null,
+        "host": null,
+        "port": null,
+        "pathname": "user@example.com",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "mailto:",
+        "href": "mailto:user@example.com"
+      }
+    },
+    {
+      "url": "tel:+1-234-567-8901",
+      "description": "Tel scheme",
+      "expected": {
+        "protocol": "tel:",
+        "hostname": null,
+        "host": null,
+        "port": null,
+        "pathname": "+1-234-567-8901",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "tel:",
+        "href": "tel:+1-234-567-8901"
+      }
+    },
+    {
+      "url": "data:text/plain;base64,SGVsbG8gV29ybGQh",
+      "description": "Data scheme with inline data",
+      "expected": {
+        "protocol": "data:",
+        "hostname": null,
+        "host": null,
+        "port": null,
+        "pathname": "text/plain;base64,SGVsbG8gV29ybGQh",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "data:",
+        "href": "data:text/plain;base64,SGVsbG8gV29ybGQh"
+      }
+    },
+    {
+      "url": "javascript:alert('Hello World!');",
+      "description": "JavaScript scheme",
+      "expected": {
+        "protocol": "javascript:",
+        "hostname": null,
+        "host": null,
+        "port": null,
+        "pathname": "alert('Hello World!');",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "javascript:",
+        "href": "javascript:alert('Hello World!');"
+      }
+    },
+    {
+      "url": "wss://example.com/socketserver",
+      "description": "Secure WebSocket URL",
+      "expected": {
+        "protocol": "wss:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/socketserver",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "wss://example.com",
+        "href": "wss://example.com/socketserver"
+      }
+    },
+    {
+      "url": "https://example.com:443",
+      "description": "Explicit default HTTPS port",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com:443",
+        "port": "443",
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com:443",
+        "href": "https://example.com:443/"
+      }
+    },
+    {
+      "url": "https://example.com/path/",
+      "description": "Path with trailing slash",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path/",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path/"
+      }
+    },
+    {
+      "url": "https://example.com/path",
+      "description": "Path without trailing slash",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path"
+      }
+    },
+    {
+      "url": "about:blank",
+      "description": "Special browser URL for blank page",
+      "expected": {
+        "protocol": "about:",
+        "hostname": null,
+        "host": null,
+        "port": null,
+        "pathname": "blank",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "about:",
+        "href": "about:blank"
+      }
+    },
+    {
+      "url": "https://example.com/index.html?",
+      "description": "URL with trailing query mark but no query",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/index.html",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/index.html"
+      }
+    },
+    {
+      "url": "https://example.com/index.html#",
+      "description": "URL with trailing hash mark but no fragment",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/index.html",
+        "search": null,
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/index.html"
+      }
+    },
+    {
+      "url": "https://example.com/path/?query=value",
+      "description": "Path with trailing slash followed by query",
+      "expected": {
+        "protocol": "https:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/path/",
+        "search": "?query=value",
+        "hash": null,
+        "username": null,
+        "password": null,
+        "origin": "https://example.com",
+        "href": "https://example.com/path/?query=value"
+      }
+    },
+    {
+      "url": "http://user:@example.com",
+      "description": "Authentication with empty password",
+      "expected": {
+        "protocol": "http:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": "user",
+        "password": "",
+        "origin": "http://example.com",
+        "href": "http://user:@example.com/"
+      }
+    },
+    {
+      "url": "http://@example.com",
+      "description": "Authentication with empty username and password",
+      "expected": {
+        "protocol": "http:",
+        "hostname": "example.com",
+        "host": "example.com",
+        "port": null,
+        "pathname": "/",
+        "search": null,
+        "hash": null,
+        "username": "",
+        "password": null,
+        "origin": "http://example.com",
+        "href": "http://example.com/"
+      }
+    }
+  ],
+  "invalidURLs": [
+    {
+      "url": "://example.com",
+      "description": "Invalid due to missing scheme (protocol)"
+    },
+    {
+      "url": "http:/example.com",
+      "description": "Invalid due to single slash after scheme (requires two slashes)"
+    },
+    {
+      "url": "https://example.com:-80",
+      "description": "Invalid due to negative port number"
+    },
+    {
+      "url": "https://example.com:65536",
+      "description": "Invalid due to port number out of range (0-65535)"
+    },
+    {
+      "url": "https://example.com:port",
+      "description": "Invalid due to non-numeric port number"
+    },
+    {
+      "url": "https://user@:password@example.com",
+      "description": "Invalid due to malformed authentication info (multiple @ symbols)"
+    },
+    {
+      "url": "http://example.com#fragment1#fragment2",
+      "description": "Invalid due to multiple fragment identifiers (#)"
+    },
+    {
+      "url": "http://example.com?query1?query2",
+      "description": "Invalid due to multiple query identifiers (?)"
+    },
+    {
+      "url": "http://2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+      "description": "Invalid due to IPv6 address not enclosed in square brackets"
+    },
+    {
+      "url": "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+      "description": "Invalid due to missing closing square bracket"
+    },
+    {
+      "url": "file:/C:/folder/file.txt",
+      "description": "Invalid due to missing third slash after file scheme"
+    },
+    {
+      "url": "https://example.com:65a",
+      "description": "Invalid due to alphabetic characters in port number"
+    },
+    {
+      "url": "http://example.com:8080:9090",
+      "description": "Invalid due to multiple port numbers specified"
+    },
+    {
+      "url": "//example.com",
+      "description": "Protocol-relative URL is invalid standalone (context-dependent)"
+    },
+    {
+      "url": "random-text",
+      "description": "Invalid due to neither scheme nor host specified"
+    }
+  ],
+  "edgeCases": [
+    {
+      "url": null,
+      "description": "Empty string. May be interpreted as current page URL by some browsers"
+    },
+    {
+      "url": "/path/to/resource",
+      "description": "Relative URL is not valid standalone but valid in context with base URL"
+    },
+    {
+      "url": "path/to/resource",
+      "description": "Relative URL is not valid standalone but valid in context with base URL"
+    },
+    {
+      "url": "?query=string",
+      "description": "Query-only relative URL. Not valid standalone but valid in context with base URL"
+    },
+    {
+      "url": "#fragment",
+      "description": "Fragment-only relative URL. Not valid standalone but valid in context with base URL"
+    },
+    {
+      "url": "https://example.com/%",
+      "description": "Incomplete percent encoding. Considered invalid by many browsers"
+    },
+    {
+      "url": "https://example.com/%1",
+      "description": "Incomplete percent encoding. Considered invalid by many browsers"
+    },
+    {
+      "url": "https://example.com/%1G",
+      "description": "Invalid percent encoding (non-hexadecimal character)"
+    }
+  ]
+}
