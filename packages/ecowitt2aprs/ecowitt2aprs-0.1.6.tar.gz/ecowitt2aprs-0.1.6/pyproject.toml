@@ -1,0 +1,35 @@
+[project]
+name = "ecowitt2aprs"
+version = "0.1.6"
+description = "Transform Ecowitt API JSON to APRS Complete Weather Report format"
+authors = [{ name = "Chris Jewell", email = "chrism0dwk@gmail.com"}]
+maintainers = [{ name = "Chris Jewell", email = "chrism0dwk@gmail.com"}]
+keywords = ["APRS", "Packet", "Geolocation", "Amateur Radio"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Telecommunications Industry",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Communications :: Ham Radio",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "argparse>=1.4.0",
+    "pyyaml>=6.0.2",
+]
+
+[project.scripts]
+ecowitt2aprs = "ecowitt2aprs:main"
+
+[build-system]
+requires = ["uv_build>=0.7.8,<0.8.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "jupyterlab>=4.4.3",
+    "ruff>=0.11.12",
+]
