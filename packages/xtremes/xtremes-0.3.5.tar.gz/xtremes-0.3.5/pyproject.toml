@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "xtremes"
+version = "0.3.5"
+dependencies = [
+  "numpy",
+  "scipy",
+  "pynverse",
+  "tqdm",
+  "matplotlib"
+]
+authors = [
+  { name="Erik Haufs", email="erik.haufs@rub.de" },
+]
+description = "Some utilities to perform Extreme Value Analysis"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/haufse/xtremes" # to be changed optionally
+Repository = "https://github.com/haufse/xtremes"
+Documentation = "https://xtremes.readthedocs.io/en/latest/"
+#Issues = "https://github.com/pypa/sampleproject/issues"
