@@ -1,0 +1,72 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fastapi-frame"
+version = "0.1.4"
+description = "FastAPI framework template structure without dependencies - use as a starting point for FastAPI projects"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Jordi", email = "jordi@example.com" }
+]
+maintainers = [
+    { name = "Jordi", email = "jordi@example.com" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: FastAPI",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["fastapi", "api", "framework", "templates", "web", "async", "openapi"]
+dependencies = []
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = [
+    "black>=23.0.0",
+    "isort>=5.12.0",
+]
+all = [
+    "fastapi-frame[dev]",
+]
+
+[project.urls]
+Homepage = "https://github.com/jordi/fastapi-frame"
+Documentation = "https://github.com/jordi/fastapi-frame#readme"
+Repository = "https://github.com/jordi/fastapi-frame.git"
+"Bug Tracker" = "https://github.com/jordi/fastapi-frame/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fastapi_frame"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/fastapi_frame",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+strict = true
