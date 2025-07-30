@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "marketing-measures"
+version = "0.1.4"
+authors = [
+    { name = "Hoorsana Damavandi, Feng Mai, Vivek Astvansh", email = "hdamavan@utk.edu" },
+]
+description = "A Python package for measuring marketing emphasis in text data using Hugging Face transformers and multiple marketing constructs."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy>=1.0.0",
+    "pandas>=1.0.0",
+    "scipy>=1.2.0",
+    "scikit-learn>=1.0.0",
+    "transformers>=3.0.0",
+    "torch>=0.8.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Marketing-Measures/marketing-measures"
+"Bug Tracker" = "https://github.com/Marketing-Measures/marketing-measures/issues"
+"Documentation" = "https://github.com/Marketing-Measures/marketing-measures#readme"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=22.0",
+    "flake8>=4.0",
+    "mypy>=0.900",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["marketing_measures*"]
+
+[tool.setuptools.package-data]
+marketing_measures = ["seeds/*.json", "data/*.pkl", "data/*.npz"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
