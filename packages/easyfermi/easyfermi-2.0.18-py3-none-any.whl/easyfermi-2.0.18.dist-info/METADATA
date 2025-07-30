@@ -1,0 +1,35 @@
+Metadata-Version: 2.1
+Name: easyfermi
+Version: 2.0.18
+Summary: The easiest way to analyze Fermi-LAT data
+Author: Raniere de Menezes
+Author-email: <easyfermi@gmail.com>
+Keywords: python,fermi,GUI,graphical interface,easyfermi,gamma-rays
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS :: MacOS X
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+
+
+# easyfermi
+The easiest way to analyze Fermi-LAT data.
+
+# Requirements
+It is required to install Miniconda 3 or Anaconda 3 before installing easyfemri
+_easyFermi_ relies on _Fermitools_, _fermipy_, _emcee_, and _gammapy_. 
+
+# Install
+Please folow the GitHub tutorial for installation:
+https://github.com/ranieremenezes/easyFermi
+
+
+# YouTube tutorials
+
+We have some usage tutorials on YouTube:
+
+https://www.youtube.com/channel/UCeLCfEoWasUKky6CPNN_opQ
+
+
