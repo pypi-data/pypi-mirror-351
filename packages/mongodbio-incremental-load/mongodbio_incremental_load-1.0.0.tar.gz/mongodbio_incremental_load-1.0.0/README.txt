@@ -1,0 +1,1 @@
+This is extended version of mongodbio, the different is, this will not use "_id" field to perform split, create range, calculation etc. But it will use user-input mongodb datetim field file such as created_at, updated_at or timestampe instead.
