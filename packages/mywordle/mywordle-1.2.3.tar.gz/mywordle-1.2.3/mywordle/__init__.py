@@ -1,0 +1,3 @@
+from .Wordle import (
+    Wordle
+)
