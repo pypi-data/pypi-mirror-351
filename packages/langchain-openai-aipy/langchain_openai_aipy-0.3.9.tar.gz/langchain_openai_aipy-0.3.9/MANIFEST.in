@@ -1,0 +1,5 @@
+include langchain_openai/*
+recursive-include langchain_openai/chat_models *
+recursive-include langchain_openai/embeddings *
+recursive-include langchain_openai/llms *
+recursive-include langchain_openai/output_parsers *
