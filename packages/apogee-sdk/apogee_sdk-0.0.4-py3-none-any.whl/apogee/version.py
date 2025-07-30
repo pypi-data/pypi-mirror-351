@@ -1,0 +1,1 @@
+__version__ = "0.0.4" # Also update version number in pyproject.toml
