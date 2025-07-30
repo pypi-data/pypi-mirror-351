@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: nobuild
+Version: 0.1.1
+Summary: Distribution-independent custom image creation framework, inspired by FascodeNetwork 'LUBS-U'
+Author-Email: AmaseCocoa <amase.cocoa@gmail.com>
+License: MIT
+Requires-Python: <3.14,>=3.13
+Requires-Dist: typer-slim>=0.16.0
+Requires-Dist: rich>=14.0.0
+Requires-Dist: requests>=2.32.3
+Description-Content-Type: text/markdown
+
+# nobuild
+Distribution-independent custom image creation framework, inspired by [LUBS](https://lubs.fascode.net/).
+## Purpose
+## Target
+- Creating an image creation framework that is independent of any particular distribution
+- Easy to use
+- Configuration file based on existing format
+### Non-Target
+- Generate multiple versions based on different distributions from a single project.
+  - Directory structure may vary by distribution
+- GUI frontend included
+  - nobuild is not a remastering tool, and since the configuration files are already easy to read, there is no need for a GUI frontend, which would only lead to unnecessary bloat.
