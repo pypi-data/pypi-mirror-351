@@ -1,0 +1,2 @@
+from evoml_utils.binning.kmeans_integer_array_binning import KmeansIntegerArrayBinning
+from evoml_utils.binning.dynamic_integer_array_binning import DynamicIntegerArrayBinning

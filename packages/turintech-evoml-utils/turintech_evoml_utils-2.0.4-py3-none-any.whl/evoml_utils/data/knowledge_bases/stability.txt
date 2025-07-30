@@ -1,0 +1,26 @@
+:- use_module(library(lists)).
+
+% Checks whether the model makes probabilistic classifications, if so it is stable as the underlying density is smooth
+it_has_a_hard_decision_boundary(X) :- model(X), mlTask(X, classification), hasAttr(X, Y), \+ member(Y, [has_predict_proba,
+                                                                                                        predict_proba
+                                                                                                       ]).
+\+ the_model_forms_a_discontinuous_approximation(X) :- \+ it_has_a_hard_decision_boundary(X).
+\+ it_is_not_a_smooth_approximation(X) :- \+ it_has_a_hard_decision_boundary(X).
+
+% Checks whether a modeltype is present that forms a discontinuous approximation
+the_model_forms_a_discontinuous_approximation(X) :- model(X), modelType(X, Y), member(Y, [tree-based_model,
+                                                                                nearest_neighbors_model
+                                                                               ]).
+% Recommends parameter changes                                                                               
+consider_changing_the_parameter_value_of(X, Y) :- model(X), \+ the_model_forms_a_discontinuous_approximation(X), hasAttr(X, Y), hasValue(Y, relu).               
+                                                                
+% Checks whether the model is smooth or not
+it_is_not_a_smooth_approximation(X) :- the_model_forms_a_discontinuous_approximation(X); consider_changing_the_parameter_value_of(X, Y).
+
+% Conclusions go here. Evaluates based on the information given, whether the model is stable.
+the_model_is_stable(X) :- \+ it_is_not_a_smooth_approximation(X).
+small_changes_in_feature_values_should_not_affect_the_result(X) :- the_model_is_stable(X).
+the_model_is_relatively_stable(X) :- \+ the_model_forms_a_discontinuous_approximation(X), \+ the_model_is_stable(X).
+small_changes_in_feature_values_are_less_likely_to_affect_the_result(X) :- the_model_is_relatively_stable(X).
+the_model_is_not_stable(X) :- \+ the_model_is_stable(X).
+a_small_change_in_feature_values_could_result_in_an_extreme_change_in_the_approximation(X) :- the_model_is_not_stable(X).

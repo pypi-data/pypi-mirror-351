@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: turintech-evoml-utils
+Version: 2.0.4
+Summary: A set of utilities for the evoML platform
+Home-page: https://turintech.ai
+Author: Turing Intelligence Technology
+Author-email: support@turintech.ai
+License: TURING INTELLIGENCE TECHNOLOGY LIMITED END-USER LICENCE
+Keywords: turintech,evoml,utilities
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.9,<4
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy <3.0.0,>1.21.0
+Requires-Dist: pandas <2.0,>=1.3.1
+Requires-Dist: scikit-learn <2.0.0,>=1.5.0
+Requires-Dist: scipy <2.0.0,>=1.7.3
+Requires-Dist: phonenumbers <9.0.0,>=8.12.28
+Requires-Dist: email-validator <3.0.0,>=1.1.3
+Requires-Dist: pyap <1.0.0,>=0.3.1
+Requires-Dist: python-stdnum <2.0.0,>=1.16
+Requires-Dist: turintech-evoml-api-models <4.0.0,>=3.1.0a0
+Requires-Dist: pycountry <25.0.0,>=18.5.26
+Requires-Dist: pydantic <2.0.0,>=1.7.3
+Requires-Dist: sktime <0.36.0,>0.30.0
+Requires-Dist: turintech-evoml-metaml <4.0.0,>=3.2.1a0
+

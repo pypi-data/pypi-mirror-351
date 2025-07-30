@@ -1,0 +1,52 @@
+:- use_module(library(lists)).
+
+% looks for cases i which we know that the model uses a stochastic optimiser
+it_uses_a_stochastic_optimiser(X) :- model(X), modelType(X, y), member(Y, [deep_learning_model, gradient_model]).
+stochastic_optimiser_parameter_value(X, Y) :- model(X), hasParam(X, Y), member(Y, [early_stopping]).
+stochastic_optimiser_parameter_value(X, solver) :- model(X), hasParam(X, solver), hasValue(solver, Y),
+                                \+ member(Y, [svd, cholesky, lsqr, sparse_cg, liblinear, newton-cg]).
+it_uses_a_stochastic_optimiser(X) :- stochastic_optimiser_parameter_value(X, Y).
+
+% looks for cases in which a parameter indicates the random sampling of data
+it_relies_on_sampling_from_the_data(X) :- model(X), hasParam(X, Y), member(Y, [max_samples,
+                                                                               min_samples,
+                                                                               max_subpopulation,
+                                                                               n_subsamples,
+                                                                               subsample,
+                                                                               subsample_for_bin,
+                                                                               subsample_freq
+                                                                              ]).
+
+% specific cases in which a parameter can induce stochasticity
+stochastic_parameter_value(X, shuffle) :- model(X), hasParam(X, shuffle), hasValue(shuffle, true).
+stochastic_parameter_value(X, shuffle) :- model(X), hasParam(X, has_time), hasValue(has_time, false).
+
+% general cases in which a parameter can induce stochasticity
+stochastic_parameter_value(X, Y) :- model(X), hasParam(X, Y), hasValue(Y, random).
+
+% marks that the model has a parameter value of stochastic nature
+it_has_a_stochastic_parameter_value(X) :- stochastic_parameter_value(X, Y).
+
+%recommendations for changing parameter values in order to improve consistency
+consider_changing_the_parameter_value_of(X, Y) :- stochastic_optimiser_parameter_value(X, Y).
+consider_changing_the_parameter_value_of(X, Y) :- stochastic_parameter_value(X, Y).
+
+% Checks whether there are any parameters that are known to be associated with something stochastic
+one_of_its_parameters_indicates_stochasticity(X) :- model(X), hasParam(X, Y), member(Y, [
+                                                                               rsm, % Random Subspace method
+                                                                               random_strength,
+                                                                               random_state,
+                                                                               jitter,
+                                                                               min_sample_split,
+                                                                               min_samples_leaf,
+                                                                               colsample_bytree,
+                                                                               colsample_bylevel,
+                                                                               colsample_bynode
+                                                                              ]).
+% Conclusions go here. Evaluates based on the information given, whether the model is consistent.
+the_model_is_consistent(X) :- \+ it_uses_a_stochastic_optimiser(X),
+                              \+ it_relies_on_sampling_from_the_data(X),
+                              \+ it_has_a_stochastic_parameter_value(X),
+                              \+ one_of_its_parameters_indicates_stochasticity(X).
+the_model_is_not_consistent(X) :- \+ the_model_is_consistent(X).
+this_means_that_the_model_will_be_more_difficult_to_reproduce_when_retraining_on_the_same_dataset(X) :- the_model_is_not_consistent(X).
