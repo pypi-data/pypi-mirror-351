@@ -1,0 +1,7 @@
+[project]
+name = "fts-mcp"
+version = "0.0.1"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["lenlp", "tantivy", "rapidfuzz", "fastmcp"]

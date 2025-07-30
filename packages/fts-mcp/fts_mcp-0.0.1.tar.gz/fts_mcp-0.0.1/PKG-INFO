@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: fts-mcp
+Version: 0.0.1
+Summary: Add your description here
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: lenlp
+Requires-Dist: tantivy
+Requires-Dist: rapidfuzz
+Requires-Dist: fastmcp
