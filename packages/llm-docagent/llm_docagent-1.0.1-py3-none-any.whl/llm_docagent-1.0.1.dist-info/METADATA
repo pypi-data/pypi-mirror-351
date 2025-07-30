@@ -1,0 +1,126 @@
+Metadata-Version: 2.4
+Name: llm-docagent
+Version: 1.0.1
+Summary: AI-powered documentation generator for code projects
+Home-page: https://github.com//docagent
+Author: Ansh Tyagi
+Author-email: Ansh Tyagi <anshtyagi314159@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Anshtyagi1729/DocAgent
+Project-URL: BugReports, https://github.com/Anshtyagi1729/DocAgent
+Project-URL: Source, https://github.com/Anshtyagi1729/DocAgent
+Project-URL: Documentation, https://github.com/Anshtyagi1729/DocAgent#readme
+Keywords: documentation,ai,llm,openai,huggingface,ollama,groq,code-analysis
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Documentation
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.25.0
+Requires-Dist: python-dotenv>=0.19.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: flake8>=3.9; extra == "dev"
+Requires-Dist: twine>=3.0; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+**Project Title & Description**
+
+The Docagent project is a Python-based documentation generator that provides comprehensive technical documentation for software projects. It is designed to be flexible and adaptable to various project types and languages, making it a valuable tool for developers and users alike.
+
+**Features**
+
+The Docagent project offers the following key features:
+
+* **Multi-language support**: Supports documentation generation for projects written in multiple programming languages.
+* **Comprehensive documentation**: Generates detailed documentation that includes project statistics, architecture, installation instructions, usage examples, and API/code reference.
+* **Customizable templates**: Allows users to customize the documentation template to suit their specific needs.
+* **LLM-based documentation generation**: Utilizes Large Language Models (LLMs) to generate high-quality documentation that is both accurate and engaging.
+
+**Architecture**
+
+The Docagent project is organized into the following main components:
+
+* **Core**: The core module contains the main logic for generating documentation, including the LLM-based documentation generation.
+* **Analyzer**: The analyzer module is responsible for analyzing the project code and extracting relevant information for documentation generation.
+* **Providers**: The providers module contains the LLM-based documentation generation providers, which are used to generate high-quality documentation.
+* **CLI**: The CLI module provides a command-line interface for users to interact with the Docagent project.
+
+**Installation**
+
+To install the Docagent project, follow these steps:
+
+1. Clone the repository: `git clone <repository-url>`
+2. Create a virtual environment: `python -m venv venv`
+3. Activate the virtual environment: `source venv/bin/activate` (on Windows: `venv\Scripts\activate`)
+4. Install dependencies: `pip install -r requirements.txt`
+
+**Usage**
+
+To use the Docagent project, follow these steps:
+
+1. Run the CLI: `python -m docagent`
+2. Provide the project path: `--project-path <project-path>`
+3. Choose the documentation generation mode: `--mode <mode>` (e.g., `--mode comprehensive` for comprehensive documentation generation)
+4. Customize the documentation template: `--template <template>` (optional)
+
+**API/Code Reference**
+
+The Docagent project provides the following key functions, classes, or modules:
+
+* **DocumentationGenerator**: The main class responsible for generating documentation.
+* **CodeAnalyzer**: The class responsible for analyzing the project code and extracting relevant information for documentation generation.
+* **LLMManager**: The class responsible for managing the LLM-based documentation generation providers.
+
+**Configuration**
+
+The Docagent project requires the following environment variables or config files:
+
+* **PROJECT_PATH**: The path to the project directory.
+* **LLM_PROVIDER**: The name of the LLM-based documentation generation provider to use.
+
+**Development**
+
+To contribute to the Docagent project, follow these steps:
+
+1. Clone the repository: `git clone <repository-url>`
+2. Create a new branch: `git checkout -b <branch-name>`
+3. Make changes to the code: `git add <file-name>` and `git commit -m "<commit-message>"`
+4. Push changes to the remote repository: `git push origin <branch-name>`
+5. Create a pull request: `git request-pull origin <branch-name>`
+
+**Dependencies**
+
+The Docagent project requires the following external libraries or tools:
+
+* **Python**: The Python programming language.
+* **LLM-based documentation generation providers**: The LLM-based documentation generation providers used to generate high-quality documentation.
+
+By following these instructions, you should be able to successfully install and use the Docagent project to generate comprehensive technical documentation for your software projects.
+
+---
+
+## Project Statistics
+
+- **Total Files**: 10
+- **Total Lines of Code**: 1,428
+- **Languages**: python, markdown, text
+- **Project Type**: Python
+- **Documentation Generated**: 2025-05-29 at 17:14:23
+
+*Generated by DocAgent v1.0.0 - AI-powered documentation generator*
