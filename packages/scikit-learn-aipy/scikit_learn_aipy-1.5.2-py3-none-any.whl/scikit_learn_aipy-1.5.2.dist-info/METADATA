@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: scikit-learn-aipy
+Version: 1.5.2
+Summary: A set of python modules for machine learning and data mining
+Author-email: The QPYPI Team <qpypi@qpython.org>
+License: BSD
+Project-URL: Homepage, https://qpypi.qpython.org/project/scikit-learn-aipy/
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: Android
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development
+Requires-Python: ==3.12.*
+Description-Content-Type: text/markdown
+Requires-Dist: scipy-aipy
+Requires-Dist: numpy-aipy
+Requires-Dist: joblib
+Requires-Dist: threadpoolctl
+
+This project is a branch of [scikit-learn](https://pypi.org/project/scikit-learn/) on [QPython](https://www.qpython.org).
+
+scikit-learn is a Python module for machine learning built on top of SciPy and is distributed under the 3-Clause BSD license.
+
+The project was started in 2007 by David Cournapeau as a Google Summer of Code project, and since then many volunteers have contributed. See the [About us](https://scikit-learn.org/dev/about.html#authors) page for a list of core contributors.
+
+It is currently maintained by a team of volunteers.
+
+Website: https://scikit-learn.org
