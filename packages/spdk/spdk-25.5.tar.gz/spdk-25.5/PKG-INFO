@@ -1,0 +1,84 @@
+Metadata-Version: 2.4
+Name: spdk
+Version: 25.5
+Summary: Python bindings for the Storage Performance Development Kit (SPDK)
+Project-URL: Homepage, https://spdk.io
+Project-URL: Source, https://github.com/spdk/spdk
+Project-URL: Bug Tracker, https://github.com/spdk/spdk/issues
+Author-email: SPDK Authors <spdk@lists.linux.dev>
+License: BSD-3-Clause
+Keywords: bindings,nvme,performance,spdk,storage
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Hardware
+Requires-Python: >=3.8
+Provides-Extra: cli
+Requires-Dist: configshell-fb; extra == 'cli'
+Provides-Extra: sma
+Requires-Dist: grpcio; extra == 'sma'
+Requires-Dist: protobuf; extra == 'sma'
+Requires-Dist: pyyaml; extra == 'sma'
+Description-Content-Type: text/markdown
+
+# SPDK Python Bindings and Scripts
+
+[![PyPI Latest Release](https://img.shields.io/pypi/v/spdk.svg)](https://pypi.org/project/spdk/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/spdk.svg?label=PyPI%20downloads)](https://pypi.org/project/spdk/)
+
+## Overview
+
+The Storage Performance Development Kit ([SPDK](http://www.spdk.io)) provides a set of tools
+and libraries for writing high performance, scalable, user-mode storage
+applications. This directory contains Python bindings and scripts that facilitate interaction with SPDK components.
+
+## Installation
+
+Examples below are using [UV](https://docs.astral.sh/uv/getting-started/installation/).
+
+An extremely fast Python package and project manager, written in Rust.
+
+```shell
+$ uv venv
+$ source .venv/bin/activate
+```
+
+Then, you can install spdk from PyPI with:
+
+```shell
+uv pip install spdk
+```
+
+or install from source with:
+
+```shell
+git clone https://github.com/spdk/spdk.git
+cd spdk
+uv pip install python/
+```
+
+## Getting Started
+
+From a shell:
+
+```bash
+spdk-rpc rpc_get_methods
+```
+
+From a Python interpreter:
+
+```python
+>>> from spdk.rpc.client import JSONRPCClient
+
+>>> client = JSONRPCClient(server_addr, port)
+>>> client.call("rpc_get_methods")
+```
+
+For more information, see <https://spdk.io/doc/jsonrpc.html>
