@@ -1,0 +1,9 @@
+ducktools-classbuilder>=0.9.0
+ducktools-pythonfinder>=0.9.1
+ducktools-lazyimporter>=0.7.3
+textual>=3.2.0
+importlib_resources>=6.4
+
+[testing]
+pytest
+pytest-cov
