@@ -1,0 +1,27 @@
+# 环境变量文件（包含敏感信息）
+.env
+.env.local
+.env.*.local
+
+# Python虚拟环境
+.venv/
+venv/
+__pycache__/
+
+# uv相关文件
+uv.lock
+.python-version
+
+# 结果文件（保留目录结构，忽略生成的文件）
+results/*.json
+results/*.html
+results/*.pdf
+.pytest_cache/
+coverage.xml
+.coverage
+PROJECT_SUMMARY.md
+htmlcov/
+
+# IDE和编辑器文件
+.specstory/
+.cursorindexingignore
