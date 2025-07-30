@@ -1,0 +1,68 @@
+[
+  {
+    "repository": {
+      "name": "modelcontextprotocol/servers",
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "description": "Repository from direct URL"
+    },
+    "category": "direct_url",
+    "server_name": "github",
+    "server_config": {
+      "command": "npx",
+      "args": [
+        "-y , @modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
+      },
+      "name": "GitHub Repository Manager",
+      "description": "Manages GitHub repositories, enabling file operations and API integration",
+      "tags": [
+        "github , repository management , file operations , api integration"
+      ]
+    }
+  },
+  {
+    "repository": {
+      "name": "modelcontextprotocol/servers",
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "description": "Repository from direct URL"
+    },
+    "category": "direct_url",
+    "server_name": "memory",
+    "server_config": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "name": "Knowledge Graph Memory Server",
+      "description": "A server providing a knowledge graph-based persistent memory system",
+      "tags": [
+        "Knowledge Graph , Memory Management , Persistent Storage"
+      ]
+    }
+  },
+  {
+    "repository": {
+      "name": "modelcontextprotocol/servers",
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "description": "Repository from direct URL"
+    },
+    "category": "direct_url",
+    "server_name": "postgres",
+    "server_config": {
+      "command": "npx",
+      "args": [
+        "-y , @modelcontextprotocol/server-postgres",
+        "postgresql",
+        null
+      ],
+      "name": "PostgreSQL Database Server",
+      "description": "Provides read-only database access with schema inspection",
+      "tags": [
+        "database , postgresql , readonly"
+      ]
+    }
+  }
+]
