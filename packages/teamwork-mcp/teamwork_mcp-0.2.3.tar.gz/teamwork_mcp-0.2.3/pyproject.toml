@@ -1,0 +1,31 @@
+[project]
+name = "teamwork-mcp"
+version = "0.2.3"
+description = "SSE-based MCP Server and Client"
+readme = "README.md"
+requires-python = "<3.12"
+dependencies = [
+    "anthropic>=0.45.1",
+    "argparse>=1.4.0",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.2.1",
+    "python-dotenv>=1.0.1",
+    "firecrawl-py>=1.14.1",
+    "loguru",
+    "pillow",
+    "regex",
+    "arxiv",
+    "tqdm",
+    "requests_oauthlib",
+    "astor",
+]
+authors = [
+    { name="Qingxu Fu", email="fuqingxu.fqx@alibaba-inc.com" }
+]
+
+[tool.setuptools.packages.find]
+include = ["teamwork_mcp*"]
+
+
+[tool.setuptools]
+include-package-data = true
