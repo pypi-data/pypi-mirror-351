@@ -1,0 +1,364 @@
+Metadata-Version: 2.4
+Name: ajaxai-sdk
+Version: 0.1.1
+Summary: Simple batch processing at scale for Gemini and Claude
+Project-URL: Homepage, https://ajaxai.co
+Project-URL: Documentation, https://docs.ajaxai.co
+Author-email: AjaxAI Team <support@ajaxai.co>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Requires-Dist: dydantic
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: shortuuid>=1.0.0
+Description-Content-Type: text/markdown
+
+# AjaxAI Python SDK
+
+The official Python SDK for [AjaxAI](https://www.ajaxai.co) - batch AI processing made simple.
+
+AjaxAI removes everything that isn't directly related to your business logic—no JSONL files, no polling, no parsing. The goal is to make batch AI processing even easier than synchronous.
+
+## Installation
+
+```bash
+pip install ajaxai-sdk
+```
+
+## Quick Start
+
+```python
+from ajaxai import create_batch_job, AjaxAiRequestItem
+
+# Set your API key
+import os
+os.environ["AJAXAI_API_KEY"] = "your_api_key_here"
+
+# Create a job
+job = create_batch_job(job_type="content_generation")
+
+# Add requests
+request = AjaxAiRequestItem(request_id="req_1").add_text("Write a short poem about AI")
+job.add_request(request)
+
+# Submit and get results
+job.submit()
+
+# Check results when ready
+if job.get_state() == "succeeded":
+    for result in job.get_results():
+        print(result.response['text'])
+```
+
+## Getting Started
+
+1. **Sign up** at [ajaxai.co](https://www.ajaxai.co)
+2. **Complete setup** including Google Cloud integration
+3. **Get your API key** from the [settings page](https://www.ajaxai.co/settings)
+4. **Install the SDK** and start processing
+
+## Core Workflow
+
+The AjaxAI workflow is straightforward: create a job, add requests, submit, and get results. No file management or complex state tracking needed.
+
+```python
+from ajaxai import create_batch_job, AjaxAiRequestItem
+
+# Create a job (job_type is required for result routing)
+job = create_batch_job(job_type="data_analysis")
+
+# Add multiple requests
+prompts = [
+    "Analyze customer sentiment: 'Great product, fast shipping!'",
+    "Summarize: 'The quarterly report shows 15% growth...'",
+    "Extract key points from: 'Meeting notes: discussed budget...'"
+]
+
+for i, prompt in enumerate(prompts):
+    request = AjaxAiRequestItem(request_id=f"analysis_{i}").add_text(prompt)
+    job.add_request(request)
+
+# Submit for processing
+job.submit()
+```
+
+## Handling Results: Two Approaches
+
+### Manual Checking
+Check results when you're ready:
+
+```python
+# Check job status
+print(f"Job status: {job.get_state()}")
+
+# Process results when complete
+if job.get_state() == "succeeded":
+    for result in job.get_results():
+        print(f"Request {result.summary.request_id}: {result.response['text']}")
+```
+
+### Background Callbacks (Recommended)
+Set up automatic result processing:
+
+```python
+from ajaxai import AjaxAiClient
+from ajaxai.registry import ajaxai_callback
+
+@ajaxai_callback('data_analysis')
+def handle_analysis_results(job):
+    print(f"Analysis job {job.job_id} completed!")
+    for result in job.get_results():
+        print(f"Result: {result.response['text']}")
+
+# Start background processing
+client = AjaxAiClient()
+client.start_polling()
+
+# Submit jobs - callbacks will trigger automatically
+job = create_batch_job(job_type="data_analysis")
+# ... add requests and submit
+```
+
+## Structured Outputs
+
+One of the most tedious parts of AI processing is parsing free-form text responses. Structured outputs let you define exactly what you want back:
+
+```python
+from pydantic import BaseModel
+from typing import List
+
+class ProductAnalysis(BaseModel):
+    product_name: str
+    rating: float
+    pros: List[str]
+    cons: List[str]
+    recommendation: str
+
+# Request structured output
+request = AjaxAiRequestItem(
+    request_id="product_review",
+    output_model=ProductAnalysis
+).add_text("Analyze: 'Great headphones, amazing sound but battery life could be better'")
+
+job.add_request(request)
+job.submit()
+
+# Get typed results
+for result in job.get_results():
+    try:
+        analysis = ProductAnalysis.model_validate_json(result.response['text'])
+        print(f"Product: {analysis.product_name}")
+        print(f"Rating: {analysis.rating}")
+    except ValidationError:
+        # Handle occasional parsing errors
+        print(f"Raw response: {result.response['text']}")
+```
+
+## Multimodal Processing
+
+Process text and images together:
+
+```python
+request = AjaxAiRequestItem(request_id="image_analysis")\
+    .add_text("What's in this image?")\
+    .add_image("https://example.com/product-photo.jpg")\
+    .add_text("Suggest marketing copy based on what you see.")
+
+job.add_request(request)
+job.submit()
+```
+
+**Image Requirements:**
+- Must be publicly accessible URLs
+- Must include file extension (`.jpg`, `.png`, etc.) in the URL
+- Use robust hosting (cloud storage, CDNs, e-commerce platforms)
+- Avoid protected or rate-limited URLs
+
+## Available Models
+
+- **`gemini-2.0-flash`** (default) - Best balance of quality and speed
+- **`gemini-2.0-flash-lite`** - Optimized for speed
+
+```python
+job = create_batch_job(
+    job_type="quick_tasks",
+    model="gemini-2.0-flash-lite"
+)
+```
+
+## Understanding Responses
+
+Every result follows this structure:
+
+```python
+# result.response always contains {'text': '<AI output>'}
+response_text = result.response['text']
+
+# Additional data available
+request_data = result.request      # Original request
+metadata = result.metadata         # Your custom metadata  
+summary = result.summary          # Status, timing, errors
+usage = result.usage             # Token usage and costs
+```
+
+## Metadata for Context
+
+Carrying context through your processing pipeline usually means database lookups. Metadata travels with your requests instead:
+
+```python
+from pydantic import BaseModel
+
+class JobMetadata(BaseModel):
+    campaign_id: str
+    priority: str
+
+class RequestMetadata(BaseModel):
+    customer_id: str
+    category: str
+
+# Job-level metadata
+job = create_batch_job(
+    job_type="customer_analysis",
+    job_metadata=JobMetadata(campaign_id="Q2_2025", priority="high")
+)
+
+# Request-level metadata
+request = AjaxAiRequestItem(request_id="analysis_1")\
+    .add_text("Analyze customer feedback")\
+    .add_request_metadata(RequestMetadata(customer_id="12345", category="electronics"))
+```
+
+Metadata is available when processing results without additional database queries. It doesn't affect token usage since it's never sent to the AI model.
+
+## Complete Example
+
+```python
+from ajaxai import create_batch_job, AjaxAiRequestItem, AjaxAiClient
+from ajaxai.registry import ajaxai_callback
+from pydantic import BaseModel
+from typing import List
+
+class EmailAnalysis(BaseModel):
+    sentiment: str
+    urgency_level: int  # 1-5 scale
+    key_topics: List[str]
+    requires_response: bool
+
+@ajaxai_callback('email_processing')
+def handle_email_results(job):
+    print(f"Processing completed emails from job {job.job_id}")
+    
+    for result in job.get_results():
+        try:
+            analysis = EmailAnalysis.model_validate_json(result.response['text'])
+            print(f"Email {result.summary.request_id}:")
+            print(f"  Sentiment: {analysis.sentiment}")
+            print(f"  Urgency: {analysis.urgency_level}/5")
+            print(f"  Needs response: {analysis.requires_response}")
+        except ValidationError:
+            print(f"Could not parse: {result.response['text']}")
+
+def process_emails():
+    # Start background processing
+    client = AjaxAiClient()
+    client.start_polling()
+    
+    # Create job
+    job = create_batch_job(job_type="email_processing")
+    
+    emails = [
+        "Hi, the quarterly report is due tomorrow. Can you send it ASAP?",
+        "Thanks for the great presentation yesterday!",
+        "URGENT: Server down, customers can't access the app!"
+    ]
+    
+    for i, email_text in enumerate(emails):
+        request = AjaxAiRequestItem(
+            request_id=f"email_{i}",
+            output_model=EmailAnalysis
+        ).add_text(f"Analyze this email: {email_text}")
+        job.add_request(request)
+    
+    job.submit()
+    # Results will be processed automatically by the callback
+
+if __name__ == "__main__":
+    process_emails()
+```
+
+## API Reference
+
+### Core Functions
+
+- **`create_batch_job(job_type, **kwargs)`** - Create a new batch job
+- **`AjaxAiRequestItem(request_id)`** - Build individual requests
+- **`@ajaxai_callback(job_type)`** - Register result handlers
+
+### Key Methods
+
+- **`job.add_request(request)`** - Add request to job queue
+- **`job.submit()`** - Start processing
+- **`job.get_state()`** - Check job status
+- **`job.get_results()`** - Stream results
+- **`request.add_text(text)`** - Add text content
+- **`request.add_image(url)`** - Add image content
+
+## Best Practices
+
+### ✅ Do This
+- Always specify `job_type` for proper result routing
+- Use structured outputs for reliable, typed responses
+- Handle parsing errors gracefully (LLMs are reliable but not perfect)
+- Use robust, public image URLs with file extensions
+- Leverage metadata to reduce database lookups
+
+### ❌ Avoid This
+- Protected or rate-limited image URLs
+- Assuming structured output is always perfectly formatted
+- Hardcoding API keys (use environment variables)
+- Ignoring job completion status
+
+## Error Handling
+
+```python
+from ajaxai.classes.exceptions import (
+    AjaxAiApiError,
+    AjaxAiAuthorizationError,
+    AjaxAiRateLimitError
+)
+
+try:
+    job = create_batch_job(job_type="analysis")
+    job.submit()
+except AjaxAiAuthorizationError:
+    print("Check your API key")
+except AjaxAiRateLimitError:
+    print("Rate limited - try again later")
+except AjaxAiApiError as e:
+    print(f"API error: {e}")
+```
+
+## What Makes This Different
+
+AjaxAI's goal is simple: remove everything that isn't directly related to your business logic. No JSONL files, no complex polling, no parsing workflows. Whether you're processing 10 requests or 10,000, the code stays the same.
+
+## Support
+- **Support:** [support@ajaxai.co](mailto:support@ajaxai.co)
+
+## License
+
+See [LICENSE](LICENSE) file for details.
+
+---
+
+**Ready to get started?** [Sign up at ajaxai.co](https://www.ajaxai.co)

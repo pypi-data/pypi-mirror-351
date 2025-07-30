@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ajaxai-sdk"
+version = "0.1.1"
+authors = [
+    { name="AjaxAI Team", email="support@ajaxai.co" },
+]
+description = "Simple batch processing at scale for Gemini and Claude"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    "requests>=2.25.0",
+    "pydantic>=2.0.0",
+    "shortuuid>=1.0.0",
+    "dydantic",
+]
+
+[project.urls]
+Homepage = "https://ajaxai.co"
+Documentation = "https://docs.ajaxai.co"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sdk/ajaxai"]
+
+[tool.hatch.build.targets.wheel.sources]
+"sdk/ajaxai" = "ajaxai"

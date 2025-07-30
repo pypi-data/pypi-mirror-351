@@ -1,0 +1,21 @@
+venv/
+.env
+*.pyc
+__pycache__/
+
+# large files & directories
+product-label-359922-28eeee8a554e.json
+ajaxai-bfb978248def.json
+client_secret_293740684635-0t8jei2f7s0301j2d3cp9qn5rkiojvnt.apps.googleusercontent.com.json
+
+
+*.log
+*.log.*
+
+# --- Local files ---
+submit_job.py
+resume_job.py
+test_1_simple_happy_path.py
+test_2_simple_longer_200_requests.py
+test_3_slightly_more_complex.py
+temp_job_completion_test.py
