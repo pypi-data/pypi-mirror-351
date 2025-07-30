@@ -1,0 +1,55 @@
+name: Test
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pre-commit/action@v3.0.1
+      
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+          activate-environment: true
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          cache-dependency-path: 'test/frontend/pnpm-lock.yaml'
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+      - name: Install JS dependencies
+        run: pnpm install
+        working-directory: test/frontend
+      - name: Build frontend
+        run: pnpm run build
+        working-directory: test/frontend
+      - name: Install Python dependencies
+        run: uv sync
+      - name: Collect static files
+        run: python manage.py collectstatic --noinput
+      - name: Run tests
+        run: |
+          coverage run -m pytest
+          coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+
+  

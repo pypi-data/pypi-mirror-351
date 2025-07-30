@@ -1,0 +1,29 @@
+# Python
+.venv
+*.egg-info
+
+# Django
+db.sqlite3
+static
+public
+
+# coverage
+.coverage
+htmlcov
+
+# testing
+*.sock
+
+# caches
+__pycache__
+
+# IntelliJ based IDEs
+.idea
+
+# Finder (MacOS) folder config
+.DS_Store
+
+# Node.js
+dist
+build
+node_modules

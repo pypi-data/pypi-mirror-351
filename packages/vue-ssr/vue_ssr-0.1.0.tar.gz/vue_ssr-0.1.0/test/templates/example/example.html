@@ -1,0 +1,15 @@
+{% load django_vite %}
+{% load vue_ssr %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Example</title>
+  {% vite_hmr_client %}
+  {% vite_asset 'userGreeting.ts' %}
+</head>
+<body>
+  <user-greeting>{% render_vue "userGreeting.ts" username=username %}</user-greeting>
+</body>
+</html>
