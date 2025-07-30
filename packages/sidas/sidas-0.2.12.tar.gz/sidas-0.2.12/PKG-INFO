@@ -1,0 +1,88 @@
+Metadata-Version: 2.4
+Name: sidas
+Version: 0.2.12
+Author-email: Christian Kranemann <christian.kranemann@al-ko.com>
+License: MIT
+Requires-Python: >=3.12
+Requires-Dist: boto3>=1.36.11
+Requires-Dist: click>=8.1.8
+Requires-Dist: croniter>=1.4.1
+Requires-Dist: dacite>=1.9.2
+Requires-Dist: dataclasses-json>=0.6.7
+Requires-Dist: duckdb>=1.2.1
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: polars>=1.24.0
+Requires-Dist: pyarrow>=19.0.1
+Requires-Dist: pydantic>=2.10.6
+Requires-Dist: smart-open[s3]>=7.1.0
+Requires-Dist: sqlalchemy>=2.0.38
+Provides-Extra: test
+Requires-Dist: pytest-cov>=4.1.0; extra == 'test'
+Requires-Dist: pytest>=7.4.2; extra == 'test'
+Description-Content-Type: text/markdown
+
+# sida
+
+```python
+import random
+import statistics
+
+from sidas.extensions import REGISTER_ASSETS_IN_MEMORY
+from sidas.extensions.assets import DownstreamAsset, ScheduledAsset
+from sidas.extensions.coordinators import SimpleCoordinator
+
+
+class Numbers(ScheduledAsset[list[float]]):
+    cron_expression = "0 0 * * *"
+
+    def transformation(self) -> list[float]:
+        return [random.normalvariate() for i in range(10)]
+
+
+class Mean(DownstreamAsset[float]):
+    def transformation(self, n: Numbers) -> float:
+        return statistics.mean(n.data)
+
+
+class Variance(DownstreamAsset[float]):
+    def transformation(self, n: Numbers) -> float:
+        return statistics.variance(n.data)
+
+
+class Report(DownstreamAsset[str]):
+    def transformation(self, m: Mean, v: Variance) -> str:
+        return f"Todays random numbers: mean {m.data} and var {v.data}"
+
+
+# define the Persisters
+REGISTER_ASSETS_IN_MEMORY(Numbers, Mean, Variance, Report)
+
+# instantiate the assets
+n = Numbers()
+m = Mean()
+v = Variance()
+r = Report()
+
+# instantiate a cooridnator
+coordinator = SimpleCoordinator()
+```
+
+```python
+class Numbers(ScheduledAsset[list[float]]):
+    cron_expression = "0 0 * * *"
+
+    def __init__(self, resource: File)
+    def transformation(self) -> list[float]:
+        return [random.normalvariate() for i in range(10)]
+
+
+def test_report() -> None:
+    m = Mean()
+    m.data = 0.0
+
+    v = Variance()
+    v.data = 1.1
+
+    r = Report()
+    assert r.transformation() == "Todays random numbers: mean 0.0 and var 1.0"
+```

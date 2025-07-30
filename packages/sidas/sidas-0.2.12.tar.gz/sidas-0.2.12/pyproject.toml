@@ -1,0 +1,59 @@
+[project]
+name = "sidas"
+version = "0.2.12"
+description = ""
+authors = [
+    {name = "Christian Kranemann", email = "christian.kranemann@al-ko.com"},
+]
+dependencies = [
+    "boto3>=1.36.11",
+    "click>=8.1.8",
+    "croniter>=1.4.1",
+    "dacite>=1.9.2",
+    "dataclasses-json>=0.6.7",
+    "duckdb>=1.2.1",
+    "pandas>=2.2.3",
+    "polars>=1.24.0",
+    "pyarrow>=19.0.1",
+    "pydantic>=2.10.6",
+    "smart-open[s3]>=7.1.0",
+    "sqlalchemy>=2.0.38",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+sidas = "sidas.cli:cli"
+
+[project.optional-dependencies] 
+test = [
+    "pytest>=7.4.2",
+    "pytest-cov>=4.1.0",
+]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "freezegun>=1.5.1",
+    "moto>=5.1.1",
+    "pytest>=8.3.4",
+    "types-boto3-custom",
+]
+
+[tool.uv.sources]
+types-boto3-custom = { path = "vendored/types_boto3_custom-1.36.11-py3-none-any.whl" }
+
+[tool.ruff]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "pep621"
+update_changelog_on_bump = true
+major_version_zero = true
