@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: anylist
+Version: 0.0.1rc1
+Summary: Add your description here
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: aiohttp>=3.12.2
+Requires-Dist: cryptography>=45.0.3
+Requires-Dist: protobuf>=6.31.0
+Requires-Dist: pydantic>=2.11.5
