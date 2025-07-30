@@ -1,0 +1,17 @@
+beautifulsoup4
+colored-logging
+matplotlib
+numpy
+pandas
+pygrib
+python-dateutil
+rasters
+requests
+
+[dev]
+build
+pytest>=6.0
+pytest-cov
+jupyter
+pytest
+twine
