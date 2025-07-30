@@ -1,0 +1,155 @@
+[tool.poetry]
+name = "isabelle-client"
+version = "0.5.6"
+description = "A client to Isabelle proof assistant server"
+authors = ["Boris Shminke <boris@shminke.com>"]
+license = "Apache-2.0"
+repository = "https://github.com/inpefess/isabelle-client"
+readme = "README.rst"
+classifiers=[
+	"Programming Language :: Python :: 3.13",
+	"Programming Language :: Python :: 3.12",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.9",
+	"License :: OSI Approved :: Apache Software License",
+	"Operating System :: OS Independent",
+	"Intended Audience :: Science/Research",
+	"Development Status :: 4 - Beta",
+	"Environment :: Console",
+	"Natural Language :: English",
+	"Topic :: Scientific/Engineering :: Artificial Intelligence",
+	"Typing :: Typed"
+]
+keywords = ["TCP client", "Isabelle proof assistant", "interactive theorem prover"]
+include = ["isabelle_client/py.typed"]
+
+[tool.poetry.dependencies]
+python = ">= 3.9.1, < 3.14"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+mypy = "*"
+pre-commit = "*"
+sphinx-autodoc-typehints = "*"
+types-dataclasses = "*"
+tox = "*"
+tbump = "*"
+toml = "*"
+furo = "*"
+pyroma = "*"
+sphinx-gallery = "*"
+ruff = "*"
+python-lsp-server = {version = "*", extras = ["rope"]}
+pylsp-rope = "*"
+pylsp-mypy = "*"
+python-lsp-ruff = "*"
+pydoclint = "*"
+
+[tool.poetry.group.test.dependencies]
+coverage = "*"
+pytest = "*"
+
+[tool.isort]
+profile = "black"
+src_paths = ["isabelle_client"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = """--doctest-modules
+    --junit-xml test-results/isabelle-client.xml"""
+testpaths = ["isabelle_client"]
+
+[tool.mypy]
+show_error_codes = true
+incremental = true
+disable_error_code = "no-redef"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = True
+envlist = py39,py310,py311,py312,py313
+
+[testenv]
+deps =
+    pytest
+    coverage
+    mypy
+    toml
+    pyroma
+    ruff
+    pydoclint
+commands =
+    ruff format
+    ruff check
+    pydoclint isabelle_client
+    mypy isabelle_client
+    pyroma -n 10 .
+    coverage run
+    coverage xml
+    coverage report
+"""
+
+[tool.tbump]
+github_url = "https://github.com/inpfess/isabelle-client/"
+
+[tool.tbump.version]
+current = "0.5.6"
+regex = '''
+  (?P<major>\d+)
+  \.
+  (?P<minor>\d+)
+  \.
+  (?P<patch>\d+)
+  '''
+
+[tool.tbump.git]
+message_template = "Bump to {new_version}"
+tag_template = "v{new_version}"
+
+[[tool.tbump.file]]
+src = "isabelle_client/__init__.py"
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
+
+[[tool.tbump.file]]
+src = "doc/conf.py"
+
+[tool.coverage.run]
+command_line = "-m pytest"
+source = ["isabelle_client"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "D", "S", "UP", "PL"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.per-file-ignores]
+"doc/auto_examples/plot_example.py" = ["E402"]
+"examples/plot_example.py" = ["E402"]
+"examples/cicm2022_example.ipynb" = ["W605", "S311"]
+
+[tool.ruff.lint.pylint]
+max-statements = 10
+
+[tool.pydoclint]
+style = "sphinx"
+arg-type-hints-in-docstring = false
+check-return-types = false
+check-yield-types = false
