@@ -1,0 +1,98 @@
+Metadata-Version: 2.3
+Name: pdf-password-remover
+Version: 0.3.0
+Summary: A Python based CLI tool to remove passwords from PDF files.
+Author: Ronald Erosa
+Author-email: thecasualdev@gmail.com
+Requires-Python: >=3.9
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: pycryptodome (>=3.23.0,<4.0.0)
+Requires-Dist: pypdf2 (>=3.0.1,<4.0.0)
+Requires-Dist: pytest (>=8.3.5,<9.0.0)
+Requires-Dist: tk
+Requires-Dist: tkinterdnd2 (>=0.3.0,<0.4.0)
+Requires-Dist: typer (>=0.16.0,<0.17.0)
+Description-Content-Type: text/markdown
+
+# PDF Password Remover
+
+A Python-based CLI tool to remove passwords from PDF files. Supports both single files and batch processing of directories. Includes an optional GUI file picker for convenience.
+
+[![PyPI version](https://badge.fury.io/py/pdf-password-remover.svg)](https://badge.fury.io/py/pdf-password-remover)
+[![Builds and Tests](https://github.com/thecasualdev17/pdf-password-remover/actions/workflows/build-test.yml/badge.svg)](https://github.com/thecasualdev17/pdf-password-remover/actions/workflows/build-test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+## Features
+- ✅Remove passwords from individual PDF files or all PDFs in a directory
+- ✅Optional GUI file/directory picker
+- ✅Output unlocked PDFs to a specified directory
+- ✅Simple command-line interface
+
+## Installation
+
+### From PyPI
+
+Install the latest release from PyPI:
+```sh
+pip install pdf-password-remover
+```
+
+### From Source
+
+1. Clone the repository:
+   ```sh
+   git clone <repo-url>
+   cd pdf-password-remover
+   ```
+2. Install dependencies using Poetry:
+   ```sh
+   poetry install
+   ```
+
+## Usage
+
+Run the CLI tool using Poetry:
+
+```sh
+poetry run pdf-password-remover remove-password [INPUT_PATH] [PASSWORD] [--output OUTPUT_DIR]
+```
+
+Or, if installed via pip:
+
+```sh
+pdf-password-remover remove-password [INPUT_PATH] [PASSWORD] [--output OUTPUT_DIR]
+```
+
+- `INPUT_PATH`: Path to the password-protected PDF file or directory (optional, will prompt if omitted)
+- `PASSWORD`: Password for the PDF file(s) (optional, will prompt if omitted)
+- `--output`/`-o`: Directory to save the unlocked PDF file(s) (optional)
+
+### Example
+
+Remove password from a single file:
+```sh
+pdf-password-remover remove-password myfile.pdf mypassword
+```
+
+Batch process a directory and specify output directory:
+```sh
+pdf-password-remover remove-password ./pdfs mypassword --output ./unlocked
+```
+
+If you omit arguments, the tool will prompt you interactively and offer a GUI picker.
+
+## Development
+
+- Source code is in `src/pdf_password_remover/`
+- Main CLI entry point: `main.py`
+- PDF utilities: `pdf_utils.py`
+
+## License
+MIT
+
+
