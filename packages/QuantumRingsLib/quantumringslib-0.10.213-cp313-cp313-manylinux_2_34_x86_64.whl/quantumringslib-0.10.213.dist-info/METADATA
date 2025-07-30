@@ -1,0 +1,173 @@
+Metadata-Version: 2.4
+Name: QuantumRingsLib
+Version: 0.10.213
+Summary: A Quantum Development Library
+Author-email: "Quantum Rings Inc." <contact@quantumrings.com>
+Project-URL: Homepage, https://www.quantumrings.com/docs
+Project-URL: Documentation, https://www.quantumrings.com/docs
+Project-URL: API Reference, https://quantumrings.com/doc/modules.html
+Keywords: quantum,quantum circuit,quantum computing,quantum programming language,quantum register,quantum tools,tools,sdk
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: Scientific/Engineering
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: ==3.13.*
+Description-Content-Type: text/x-rst
+License-File: LICENSE.rst
+Dynamic: license-file
+Dynamic: requires-python
+
+================================================
+Welcome to the Quantum Rings SDK (CPU only mode)
+================================================
+
+Minimum System Requirements
+---------------------------
+
+A system with a configuration better than the minimum requirements is advised. 
+Lower configurations may affect the number of qubits that can be supported and
+may perform poorly.
+
+-  Operating systems recommended:
+
+   -  Ubuntu 22.04.4 LTS
+   -  Ubuntu 24.04.4 LTS
+   -  Windows 11 Pro
+   -  macOS 15
+   -  WSL2 based Linux instances
+
+-  64-bit Intel i9 x86 CPU (14 cores 20 logical processors recommended) or equivalent
+
+-  DDR5 or better memory channels recommended
+
+-  32 GB Installed physical memory
+
+-  18 GB Available physical memory
+
+-  64-bit Python version 3.11 or later
+
+----------------------
+Installation Procedure
+----------------------
+
+**STEP - 1**
+
+Obtain your license to the `Quantum Rings SDK <https://www.quantumrings.com/>`_ by selecting the *Login* menu.
+
+Skip this step, if you are already registered.
+
+Login to the `Quantum Rings portal <https://portal.quantumrings.com/developer/>`_. Download your access keys by selecting the *Manage Keys* menu in the left-hand side bar.
+
+
+**STEP - 2**
+
+Create a virtual environment for your python version using the following example.
+
+.. code-block:: console
+
+    virtualenv --python=/usr/bin/python3.11 myenv
+    source myenv/bin/activate
+
+In some installations, the virtual environment can be created as follows:
+
+.. code-block:: console
+
+    python3.11 -m venv myenv
+    source myenv/bin/activate
+
+Note that installing a python virtual environment may require additional steps.
+
+You can optionally choose to install Jupyter notebook, at this time using the following command.
+
+.. code-block:: console
+
+    pip install notebook
+
+
+**STEP - 3**
+
+Install the Quantum Rings SDK using the following command:
+
+.. code-block:: console
+
+    pip install QuantumRingsLib
+
+
+**STEP - 4**
+
+Store your credentials to the Quantum Rings SDK locally using the following commands from your terminal. 
+Edit the <...> fields and enter the values provided for you.
+
+If you are using the Jupyter notebook, open the termnial as follows:
+
+From your Jupyter notebook, select *File->New->Terminal*. This launches the terminal window. 
+
+From this terminal window, create the configuration file holding the license key as follows:
+
+.. code-block:: console
+
+    mkdir ~/.config/quantumrings
+    echo -e '[default]\nemail = <YOUR_ACCOUNT_ID>\nkey = <YOUR_ACCESS_KEY>\nbackend = scarlet_quantum_rings' > ~/.config/quantumrings/quantumrings.conf
+
+
+**STEP - 5**
+
+Now, try the following program from your Jupyter notebook to ensure that everything is working fine.
+
+.. code-block:: console
+
+    import QuantumRingsLib
+    from QuantumRingsLib import QuantumRegister, AncillaRegister, ClassicalRegister, QuantumCircuit
+    from QuantumRingsLib import QuantumRingsProvider
+    from QuantumRingsLib import job_monitor
+    from QuantumRingsLib import JobStatus
+    from QuantumRingsLib import OptimizeQuantumCircuit
+    from matplotlib import pyplot as plt
+    import numpy as np
+    import math
+
+    provider = QuantumRingsProvider(token =<YOUR_TOKEN_HERE>, name=<YOUR_ACCOUNT_NAME_HERE>)
+    backend = provider.get_backend("scarlet_quantum_rings")
+    numberofqubits = 50
+    shots = 100
+    
+    q = QuantumRegister(numberofqubits , 'q')
+    c = ClassicalRegister(numberofqubits , 'c')
+    qc = QuantumCircuit(q, c)
+
+    qc.h(0);
+    for i in range (qc.num_qubits - 1):
+        qc.cnot(i, i + 1);
+
+    qc.measure_all();
+
+    job = backend.run(qc, shots=shots)
+    job_monitor(job)
+
+    result = job.result()
+    counts = result.get_counts()
+
+
+============================
+Feedback and getting support
+============================
+
+We love to hear from you! Please join our `Discord community <https://discord.com/invite/dZJvX5AfkS>`_ to discuss anything quantum computing.
+
+
+`SDK Documentation <https://portal.quantumrings.com/doc/>`_
+
+`FAQ <https://portal.quantumrings.com/developer/support/>`_
+
+`Managing your license keys <https://portal.quantumrings.com/developer/keys/>`_
+
+`Need more qubits? Requuest here <https://portal.quantumrings.com/developer/keys/>`_
+
+
+
+
+
