@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools", "wheel", "uv_build"]
+build-backend = "uv_build"
+
+[project]
+name = "mumle"
+version = "0.0.3"
+description = "Tiny (meta-)modeling framework."
+authors = [
+    {name = "Arkadiusz Michał Ryś", email = "Arkadiusz.Michal.Rys@gmail.com"},
+    {name = "Joeri Exelmans",       email = "joeri.exelmans@gmail.com"},
+    {name = "Andrei Bondarenko",    email = "andrei.i.bondarenko@gmail.com"},
+    {name = "Robbe Teughels",       email = "robbe.teughels@student.uantwerpen.be"},
+    {name = "Inte Vleminckx",       email = "inte.vleminckx@student.uantwerpen.be"},
+]
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+]
+license = {file = "LICENSE"}
+keywords = ["modeling"]
+
+dependencies = [
+    "lark>=1.1.9,<2", # For textual parsing
+    "jinja2>=3.1.4,<4", # Not a hard requirement, only for model-to-text transformation
+    "rdflib>=7.1.4,<8", # Not a hard requirement, only for the rdf state
+    "neo4j>=5.28.1,<6", # Not a hard requirement, only for the neo4j state
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+doc = [
+    "sphinx",
+    "sphinx-rtd-theme",
+]
+dev = [
+    "ruff",
+    "invoke",
+    "vermin",
+#    "ty",
+]
+
+[project.urls]
+source = "https://git.rys.one/phd/mumle"
+
+[project.scripts]
+mumle = "mumle.main:main"
+
+[tool.uv]
+dev-dependencies = [
+    "ruff",
+    "invoke",
+#    "ty",
+]
+extra-index-url = ["https://pip:glpat-aq2VpazxthkoqZ9b3bDz@git.rys.one/api/v4/groups/phd/-/packages/pypi/simple"]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["build", "dist", ".venv", "./tasks.py"]
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "B", "C4", "SIM", "TID", "ARG", "RUF"]
+ignore = ["E501"] # Ignore line length
+
+[tool.pytest.ini_options]
+markers = [
+    "long: marks tests as long-running (deselect with '-m \"not long\"')"
+]
+addopts = "-m 'not long'" # pytest -m "long or not long" to run all tests
