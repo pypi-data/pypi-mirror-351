@@ -1,0 +1,17 @@
+typing
+pathlib
+matplotlib
+numpy
+pandas
+tabulate
+black
+mypy
+pdoc
+pylint
+ruff
+pandas-stubs
+types-tabulate
+
+[build]
+setuptools
+cython
