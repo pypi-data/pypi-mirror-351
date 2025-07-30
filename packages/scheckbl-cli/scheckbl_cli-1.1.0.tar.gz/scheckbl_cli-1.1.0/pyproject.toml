@@ -1,0 +1,29 @@
+[project]
+name = "scheckbl-cli"
+version = "1.1.0"
+description = "Search & filter tool for SCheck Blocklist datasets."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Stainowy" }
+]
+dependencies = [
+    "click>=8.0",
+    "colorama>=0.4",
+    "scheckbl>=1.0.0"
+]
+requires-python = ">=3.8"
+
+[project.scripts]
+scheckbl-cli = "scheckbl_cli.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/SCheck-Blocklist/SCheck-Blocklist"
+Repository = "https://github.com/SCheck-Blocklist/CLI"
+PyPI-Library = "https://pypi.org/project/scheckbl"
+CLI-Website = "https://scheckbl-blocklist.vercel.app/cli"
+Main-Website = "https://scheck-blocklist.vercel.app"
