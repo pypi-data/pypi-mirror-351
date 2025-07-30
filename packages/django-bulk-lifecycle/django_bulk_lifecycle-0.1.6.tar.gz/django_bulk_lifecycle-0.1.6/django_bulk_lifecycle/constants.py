@@ -1,0 +1,6 @@
+BEFORE_INSERT = "before_insert"
+AFTER_INSERT = "after_insert"
+BEFORE_UPDATE = "before_update"
+AFTER_UPDATE = "after_update"
+BEFORE_DELETE = "before_delete"
+AFTER_DELETE = "after_delete"
