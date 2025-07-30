@@ -1,0 +1,85 @@
+// Copyright (c) 2023 Massachusetts Institute of Technology
+// SPDX-License-Identifier: MIT
+
+.uq-viz-container {
+  width: 100%;
+  display: flex;
+
+  img {
+    width: 100%;
+  }
+
+  span.circle {
+    margin-top: 2px;
+    margin-bottom: -2px;
+    height: 1rem;
+    width: 1rem;
+    border: 1.5px solid black;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  :global(.customTooltip.tooltip) {
+    position: fixed;
+    transform: translate(-50%,calc(-100% - 10px));
+    opacity: 1;
+  
+    .arrow {
+      left: 50%;
+      transform: translate(-50%,0);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    table {
+      width: 100%;
+    }
+  }
+
+  pre {
+    color: white;
+    text-align: left;
+    background-color: #333;
+  }
+
+  .uq-viz-sidebar {
+    width: 200px;
+    border: 1px solid gray;
+  }
+
+
+
+  /* SCATTERPLOT POINT STYLING */
+  .prototype-point, .training-example-point, .inference-sample-point {
+    transition: 0.25s;
+  }
+
+  .prototype-point, .training-example-point{
+    r: 5;
+
+    &:hover {
+      r: 7;
+    }
+  }
+
+  .inference-sample-point {
+    r: 7;
+
+    &:hover {
+      r: 10;
+    }
+  }
+
+  /* Increase the point sizes on mobile devices */
+  @media only screen and (max-width: 1000px) {
+    .prototype-point, .training-example-point{
+      r: 7;
+    }
+  
+    .inference-sample-point {
+      r: 10;
+    }
+  }
+}
