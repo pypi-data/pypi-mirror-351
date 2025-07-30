@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "firefly_reports"
+authors = [{name = "Christopher Tyler", email = "ChristopherTyler@engineer.com"}]
+classifiers = ["License :: OSI Approved :: MIT License"]
+#dynamic = ["version", "description"]
+version = "0.2.0"
+description = "Generate reports using Firefly's API."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "click>=8.2.1",
+    "requests>=2.32.3",
+]
+
+[project.scripts]
+firefly_reports = "firefly_reports.__main__:main"
