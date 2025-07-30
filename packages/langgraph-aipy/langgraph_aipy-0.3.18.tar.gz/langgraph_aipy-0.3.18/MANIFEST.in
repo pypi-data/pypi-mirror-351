@@ -1,0 +1,16 @@
+include langgraph/*
+recursive-include langgraph/_api *
+recursive-include langgraph/channels *
+recursive-include langgraph/checkpoint/base *
+recursive-include langgraph/checkpoint/memory *
+recursive-include langgraph/checkpoint/serde *
+recursive-include langgraph/func *
+recursive-include langgraph/graph *
+recursive-include langgraph/managed *
+recursive-include langgraph/prebuilt *
+recursive-include langgraph/pregel *
+recursive-include langgraph/store/base *
+recursive-include langgraph/store/memory *
+recursive-include langgraph/utils *
+include langgraph_sdk/*
+recursive-include langgraph_sdk/auth *
