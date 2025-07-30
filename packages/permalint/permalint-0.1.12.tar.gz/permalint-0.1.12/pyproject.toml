@@ -1,0 +1,37 @@
+[project]
+name = "permalint"
+version = "0.1.12"
+description = "Lint URLs"
+authors = [{ name = "Sanchit Ram Arvind", email = "sanchitram@gmail.com" }]
+dependencies = ["ruff~=0.0", "tldextract>=5.3.0"]
+readme = "README.md"
+requires-python = ">= 3.9"
+
+[project.urls]
+Homepage = "https://github.com/sanchitram/permalint"
+Repository = "https://github.com/sanchitram/permalint"
+Source = "https://github.com/sanchitram/permalint"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+managed = true
+dev-dependencies = ["pytest", "ruff", "ty"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/permalint"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+ignore = ["D1", "D211", "D213", "S101", "FBT001"]
+select = ["ALL"]
