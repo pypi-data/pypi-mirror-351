@@ -1,0 +1,293 @@
+Metadata-Version: 2.4
+Name: automagik-tools
+Version: 0.1.0
+Summary: A monorepo package for MCP tools with dynamic loading capabilities
+Author-email: Cezar Vasconcelos <cezar@namastex.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/namastexlabs/automagik-tools
+Project-URL: Documentation, https://github.com/namastexlabs/automagik-tools/README.md
+Project-URL: Repository, https://github.com/namastexlabs/automagik-tools
+Project-URL: Issues, https://github.com/namastexlabs/automagik-tools/issues
+Keywords: mcp,tools,ai,agents,fastmcp,whatsapp,discord,notion
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Communications :: Chat
+Classifier: Topic :: Office/Business
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: fastmcp>=2.5.0
+Requires-Dist: fastapi>=0.104.0
+Requires-Dist: uvicorn>=0.24.0
+Requires-Dist: pydantic>=2.10.0
+Requires-Dist: pydantic-settings>=2.5.0
+Requires-Dist: typer>=0.15.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: importlib-metadata>=6.0.0
+Requires-Dist: watchdog>=3.0.0
+Requires-Dist: pyyaml>=6.0.1
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: twine>=6.1.0
+Provides-Extra: evolution-api
+Requires-Dist: httpx>=0.28.1; extra == "evolution-api"
+Requires-Dist: python-dotenv>=1.1.0; extra == "evolution-api"
+Provides-Extra: discord
+Requires-Dist: discord.py>=2.3.0; extra == "discord"
+Requires-Dist: python-dotenv>=1.1.0; extra == "discord"
+Provides-Extra: notion
+Requires-Dist: notion-client>=2.0.0; extra == "notion"
+Requires-Dist: python-dotenv>=1.1.0; extra == "notion"
+Provides-Extra: github
+Requires-Dist: pygithub>=2.1.0; extra == "github"
+Requires-Dist: python-dotenv>=1.1.0; extra == "github"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Provides-Extra: all
+Requires-Dist: automagik-tools[discord,evolution-api,github,notion]; extra == "all"
+
+# automagik-tools
+
+A monorepo Python package for building, running, and extending Model Context Protocol (MCP) tools and servers. It provides a plugin-based framework for integrating real-world services (like WhatsApp, Discord, Notion, GitHub, etc.) with AI agents and LLMs, using the FastMCP protocol.
+
+---
+
+## 🚀 Features
+- **Multi-tool server:** Serve multiple tools on a single FastAPI/Uvicorn server with path-based routing
+- **Plugin architecture:** Easily add new tools via entry points
+- **Ready-to-use integrations:** WhatsApp (Evolution API), with more planned (Discord, Notion, GitHub)
+- **CLI interface:** List, run, and manage tools from the command line
+- **Dynamic loading:** Tools are discovered and loaded at runtime
+
+---
+
+## 📦 Installation
+
+You can install automagik-tools as a standard Python package:
+
+```bash
+pip install automagik-tools
+```
+
+Or, for development (editable) installs:
+
+```bash
+git clone https://github.com/namastexlabs/automagik-tools.git
+cd automagik-tools
+pip install -e .
+```
+
+---
+
+## 🏁 Quick Start
+
+### 1. List Available Tools
+
+```bash
+automagik-tools list
+```
+
+### 2. Run a Tool Server (Single Tool)
+
+```bash
+automagik-tools serve --tool evolution-api
+```
+
+- By default, serves on `0.0.0.0:8000` (configurable with `--host` and `--port`)
+- The tool will be available at `/mcp` (e.g., `http://localhost:8000/mcp`)
+
+### 3. Run a Multi-Tool Server
+
+```bash
+automagik-tools serve-all --tools evolution-api,discord,notion
+```
+
+- Each tool is mounted at its own path, e.g., `/evolution-api/mcp`, `/discord/mcp`
+- You can specify which tools to serve with `--tools`, or omit to serve all discovered tools
+
+### 🤖 Connecting to MCP-Compatible Clients
+
+You can connect your automagik-tools server to any MCP-compatible client (such as an LLM agent, orchestrator, or workflow tool) by specifying the server endpoint in a JSON configuration. For example:
+
+```json
+{
+    "mcpServers": {
+        {
+        "whatsapp-evolution-api": {
+            "transport": "sse",
+            "url": "http://localhost:8000/mcp"
+        }
+    }
+}
+```
+
+- For multi-tool servers, use the full path (e.g., `/evolution-api/mcp`):
+
+```json
+{
+    "mcpServers": {
+        {
+        "whatsapp-evolution-api": {
+            "transport": "sse",
+           "url": "http://localhost:8000/evolution-api/mcp"
+        }
+    }
+}
+```
+
+- Adjust the `url` to match your server's address and port.
+- The `transport` can be `sse`, `stdio`, or another supported protocol depending on your client and deployment.
+
+This allows your LLM agent or automation platform to call tools, access resources, and use prompts exposed by automagik-tools as part of its workflow.
+
+---
+
+## ⚙️ Configuration
+
+Some tools require configuration (e.g., API keys, base URLs). You can set these via environment variables or a `.env` file in your project root. Example for Evolution API:
+
+```env
+EVOLUTION_API_BASE_URL=https://your-evolution-api-server.com
+EVOLUTION_API_KEY=your_api_key_here
+EVOLUTION_API_TIMEOUT=30
+```
+
+---
+
+## 🛠️ Developing New Tools
+
+You can add new tools by creating a Python module and registering it as an entry point in your `pyproject.toml`:
+
+1. **Create your tool:**
+
+```python
+# my_tools/my_cool_tool.py
+from fastmcp import FastMCP
+
+def create_tool(config):
+    mcp = FastMCP("My Cool Tool")
+
+    @mcp.tool()
+    def say_hello(name: str) -> str:
+        return f"Hello, {name}!"
+
+    return mcp
+```
+
+2. **Register the tool in your `pyproject.toml`:**
+
+```toml
+[project.entry-points."automagik_tools.plugins"]
+my-cool-tool = "my_tools.my_cool_tool:create_tool"
+```
+
+3. **Install your package (editable mode recommended for development):**
+
+```bash
+pip install -e .
+```
+
+4. **Your tool will now appear in `automagik-tools list` and can be served!**
+
+---
+
+## 🧩 Extending/Contributing
+- Add new tools as plugins using the entry point system
+- Follow the FastMCP documentation for advanced tool/resource/prompt patterns
+- PRs and issues welcome!
+
+---
+
+## 📚 Documentation
+- [FastMCP Documentation](https://github.com/jlowin/fastmcp)
+
+---
+
+## 📝 License
+MIT 
+
+---
+
+## 🧪 Testing
+
+The project includes a comprehensive test suite using **pytest**. After installation, you can run tests directly:
+
+### Quick Test Commands
+
+```bash
+# Install development dependencies first
+uv pip install -e ".[dev]"
+
+# Run all tests
+pytest tests/
+
+# Run specific test categories
+pytest tests/test_cli.py              # CLI tests
+pytest tests/test_mcp_protocol.py     # MCP protocol tests  
+pytest tests/test_integration.py      # Integration tests
+pytest tests/tools/                   # Tool-specific tests
+
+# Run tests with coverage
+pytest tests/ --cov=automagik_tools --cov-report=html
+
+# Run specific test
+pytest tests/test_cli.py::TestCLIBasics::test_list_command -v
+
+# Run tests matching a pattern
+pytest -k "test_list" -v
+
+# Skip slow tests
+pytest tests/ -m "not slow" -v
+```
+
+### Using Make (Alternative)
+
+We also provide a Makefile for convenience:
+
+```bash
+make help           # Show all available commands
+make test           # Run all tests  
+make test-unit      # Run unit tests
+make test-mcp       # Run MCP protocol tests
+make test-coverage  # Run with coverage report
+make lint           # Check code quality
+make format         # Format code
+```
+
+### Test Categories
+
+The test suite is organized into several categories:
+
+- **Unit Tests** (`test_cli.py`, `test_evolution_api.py`): Test individual components
+- **MCP Protocol Tests** (`test_mcp_protocol.py`): Test MCP compliance and stdio transport
+- **Integration Tests** (`test_integration.py`): Test complete workflows end-to-end
+
+### Environment Variables for Testing
+
+Set these environment variables for Evolution API tests:
+
+```bash
+export EVOLUTION_API_BASE_URL="http://your-api-server:8080"
+export EVOLUTION_API_KEY="your_api_key"
+```
+
+### Test Configuration
+
+Tests are configured via `pytest.ini`. Key features:
+
+- **Automatic async support** for MCP protocol testing
+- **Coverage reporting** with HTML output in `htmlcov/`
+- **Test markers** for categorizing tests (`unit`, `integration`, `mcp`, etc.)
+- **Timeout protection** for long-running tests
+
+--- 

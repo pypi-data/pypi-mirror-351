@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+automagik_tools/__init__.py
+automagik_tools/cli.py
+automagik_tools.egg-info/PKG-INFO
+automagik_tools.egg-info/SOURCES.txt
+automagik_tools.egg-info/dependency_links.txt
+automagik_tools.egg-info/entry_points.txt
+automagik_tools.egg-info/requires.txt
+automagik_tools.egg-info/top_level.txt
+automagik_tools/tools/__init__.py
+automagik_tools/tools/evolution_api/__init__.py
+tests/test_cli_simple.py
+tests/test_integration.py
+tests/test_mcp_protocol.py
+tests/test_unit_fast.py

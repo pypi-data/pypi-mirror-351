@@ -1,0 +1,5 @@
+[automagik_tools.plugins]
+evolution-api = automagik_tools.tools.evolution_api:create_tool
+
+[console_scripts]
+automagik-tools = automagik_tools.cli:main
