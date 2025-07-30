@@ -1,0 +1,55 @@
+Metadata-Version: 2.4
+Name: jinjazzle
+Version: 1.2.3
+Summary: Jinja2 extensions
+Author-email: Julien Lecomte <julien@lecomte.at>
+License: MIT
+Project-URL: Homepage, https://gitlab.com/cappysan/jinjazzle
+Project-URL: Documentation, https://jinjazzle.docs.cappysan.dev
+Project-URL: Source code, https://gitlab.com/cappysan/jinjazzle
+Project-URL: Bug tracker, https://gitlab.com/cappysan/jinjazzle/-/issues
+Project-URL: Changelog, https://gitlab.com/cappysan/jinjazzle/-/raw/main/CHANGELOG.md
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: jinja2>=3.0.0
+Requires-Dist: python-slugify>=7.0.0
+Dynamic: license-file
+
+[![license](https://img.shields.io/badge/license-MIT-brightgreen)](https://spdx.org/licenses/MIT.html)
+[![documentation](https://img.shields.io/badge/documentation-html-informational)](https://jinjazzle.docs.cappysan.dev)
+[![pipelines](https://gitlab.com/cappysan/libs/jinjazzle/badges/main/pipeline.svg?ignore_skipped=true)](https://gitlab.com/cappysan/libs/jinjazzle/pipelines)
+[![coverage](https://gitlab.com/cappysan/libs/jinjazzle/badges/main/coverage.svg)](https://jinjazzle.docs.cappysan.dev/coverage/index.html)
+
+# jinjazzle
+
+Jinja2 extensions
+
+
+## Installation
+
+You can install the latest version from PyPI package repository.
+
+~~~bash
+python3 -mpip install -U jinjazzle
+~~~
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+## Locations
+
+  * Documentation: [https://jinjazzle.docs.cappysan.dev](https://jinjazzle.docs.cappysan.dev)
+  * Website: [https://gitlab.com/libs/cappysan/jinjazzle](https://gitlab.com/libs/cappysan/jinjazzle)
+  * PyPi: [https://pypi.org/project/jinjazzle](https://pypi.org/project/jinjazzle)
