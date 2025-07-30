@@ -1,0 +1,17 @@
+name: sea-names
+channels:
+  - conda-forge
+dependencies:
+  - pytest
+  - pytest-cov
+  - isort
+  - flake8
+  - pre-commit
+  - types-setuptools
+  - mypy
+  - black
+  - bump-my-version
+  - pip
+  - pip:
+    - build
+    - twine

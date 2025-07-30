@@ -1,0 +1,9 @@
+# syntax = docker/dockerfile:experimental
+ARG baseimage
+
+FROM $baseimage
+
+COPY docker/scripts/install-test-dependencies.sh /tmp/install-test-dependencies.sh
+COPY dev-environment.yml /tmp/envs/
+
+RUN --mount=type=cache,id=python-boilerplate,target=/opt/conda/pkgs --mount=type=cache,id=python-boilerplate,target=/root/.cache/pip /tmp/install-test-dependencies.sh && rm -rf /tmp/envs /tmp/install-test-dependencies.sh

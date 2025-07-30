@@ -1,0 +1,9 @@
+name: sea-names
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - shapely
+  - requests
+  - appdirs
+  - numpy
