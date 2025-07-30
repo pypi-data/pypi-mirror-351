@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: p10k-edit
+Version: 0.0.16
+Summary: Tool to Edit PowerLevel10k p10k.zsh Config File (work-in-progress)
+Project-URL: Documentation, https://github.com/kkatayama/p10k-edit#readme
+Project-URL: Issues, https://github.com/kkatayama/p10k-edit/issues
+Project-URL: Source, https://github.com/kkatayama/p10k-edit
+Author-email: Teddy Katayama <kkatayama@udel.edu>
+License-Expression: MIT
+License-File: LICENSE.txt
+Keywords: POWERLEVEL10K,p10k,p10k.zsh
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.7
+Requires-Dist: iterm2
+Requires-Dist: psutil
+Requires-Dist: pyobjc
+Requires-Dist: rich
+Description-Content-Type: text/markdown
+
+# p10k edit
+
+[![PyPI - Version](https://img.shields.io/pypi/v/p10k-edit.svg)](https://pypi.org/project/p10k-edit)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/p10k-edit.svg)](https://pypi.org/project/p10k-edit)
+
+-----
+
+**Table of Contents**
+
+- [Installation](#installation)
+- [License](#license)
+
+## Installation
+
+```console
+pip install p10k-edit
+```
+
+## License
+
+`p10k-edit` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
