@@ -1,0 +1,2 @@
+[console_scripts]
+jupyter-dist-test = nbdistributed.tests.test_integration:main
