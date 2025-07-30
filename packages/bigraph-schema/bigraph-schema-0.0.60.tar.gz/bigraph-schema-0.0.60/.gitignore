@@ -1,0 +1,14 @@
+*.out
+out/
+.idea/
+*-checkpoint.ipynb
+__pycache__
+.DS_Store
+.DS_Store?
+._*
+.python-version
+.pytest_cache
+lib/
+*.ipynb_checkpoints/
+dist/
+bigraph_schema.egg-info/
