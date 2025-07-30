@@ -1,0 +1,109 @@
+Metadata-Version: 2.4
+Name: ncw
+Version: 0.2.0
+Summary: Nested collections wrapper
+Project-URL: Homepage, https://gitlab.com/blackstream-x/ncw
+Project-URL: CI, https://gitlab.com/blackstream-x/ncw/-/pipelines
+Project-URL: Bug Tracker, https://gitlab.com/blackstream-x/ncw/-/issues
+Project-URL: Repository, https://gitlab.com/blackstream-x/ncw.git
+Author-email: Rainer Schwarzbach <rainer@blackstream.de>
+License: MIT No Attribution
+        
+        Copyright 2025 Rainer Schwarzbach
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: nested-collections
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# ncw
+
+_Nested collections wrapper_
+
+Classes to access and/or modify data in nested collections,
+i.e. possibly deep nested dicts or lists of str, int, float, bool, or None.
+
+## Installation
+
+Install from PyPI
+
+``` bash
+pip install ncw
+```
+
+
+## Example Usage
+
+The **Structure** class prevents accidental changes to the underlying data structure
+by preventing direct access.
+All returned substructures are deep copies of the internally stored substructures.
+
+The **MutableStructure** class allows changes (ie. deletions and updates)
+to the underlying data structure, and returns the internally stored substructures themselves.
+
+Please note that both classes make a deep copy of the data structure at initialization time
+(thus preventing accidental changes to the original data through the instance).
+
+``` pycon
+>>> serialized = '{"herbs": {"common": ["basil", "oregano", "parsley", "thyme"], "disputed": ["anise", "coriander"]}}'
+>>>
+>>> import json
+>>> from ncw import Structure, MutableStructure
+>>>
+>>> readonly = Structure.from_json_string(serialized)
+>>> readonly["herbs"]
+{'common': ['basil', 'oregano', 'parsley', 'thyme'], 'disputed': ['anise', 'coriander']}
+>>> readonly["herbs.common"]
+['basil', 'oregano', 'parsley', 'thyme']
+>>> readonly["herbs", "common"]
+['basil', 'oregano', 'parsley', 'thyme']
+>>> readonly["herbs", "common", 1]
+'oregano'
+>>> readonly["herbs.common.1"]
+'oregano'
+>>> readonly["herbs.common.1"] = "marjoram"
+Traceback (most recent call last):
+  File "<python-input-9>", line 1, in <module>
+    readonly["herbs.common.1"] = "marjoram"
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^
+TypeError: 'Structure' object does not support item assignment
+>>>
+>>> original_data = json.loads(serialized)
+>>> writable = MutableStructure(original_data)
+>>> writable.data == original_data
+True
+>>> writable.data is original_data
+False
+>>> writable["herbs.common.1"]
+'oregano'
+>>> writable["herbs.common.1"] = "marjoram"
+>>> del writable["herbs", "common", 2]
+>>> writable["herbs.common"]
+['basil', 'marjoram', 'thyme']
+>>>
+```
