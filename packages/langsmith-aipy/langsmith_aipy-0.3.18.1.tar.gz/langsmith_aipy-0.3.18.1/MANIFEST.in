@@ -1,0 +1,10 @@
+include langsmith/*
+recursive-include langsmith/_internal *
+recursive-include langsmith/_internal/otel *
+recursive-include langsmith/beta *
+recursive-include langsmith/cli *
+recursive-include langsmith/env *
+recursive-include langsmith/evaluation *
+recursive-include langsmith/evaluation/integrations *
+recursive-include langsmith/testing *
+recursive-include langsmith/wrappers *
