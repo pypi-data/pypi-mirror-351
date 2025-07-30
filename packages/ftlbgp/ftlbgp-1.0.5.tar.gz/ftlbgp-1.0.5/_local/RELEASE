@@ -1,0 +1,17 @@
+sudo apt-get install python3-pip
+sudo python3 -m pip install --upgrade build
+sudo python3 -m pip install --upgrade twine
+python3 -m build
+python3 -m twine upload dist/*
+
+git config --global init.defaultBranch main     
+git config --global user.email "schlamp@leitwert.net"     
+git config --global user.name "Johann Schlamp"     
+
+git init     
+git branch -m main     
+git add -A *
+git commit -m "initial release"     
+git branch -M main     
+git remote add origin git@github.com:leitwert-net/ftlbgp.git     
+git push -u origin main
