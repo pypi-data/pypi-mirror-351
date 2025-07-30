@@ -1,0 +1,100 @@
+Metadata-Version: 2.4
+Name: cryoblob
+Version: 2025.4.5
+Summary: Particle Picking of Cryo-EM Datasets
+Author-email: Debangshu Mukherjee <mukherjeed@ornl.gov>, "Alexis N. Williams" <williamsan@ornl.gov>, "Albina Y. Borisevich" <albinab@ornl.gov>
+Maintainer-email: Debangshu Mukherjee <mukherjeed@ornl.gov>
+License: MIT License
+        
+        Copyright (c) 2023 ORNL
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://code.ornl.gov/arm-inititative/multi-particle-cryoem
+Keywords: elecron microscopy,cryoEM
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mrcfile==1.5.0
+Requires-Dist: numpy>=1.13.0
+Requires-Dist: matplotlib>=2.2.0
+Requires-Dist: matplotlib-scalebar>=0.5.0
+Requires-Dist: ipywidgets>=8.1.0
+Requires-Dist: tqdm>=4.66.0
+Requires-Dist: jax[cuda12]
+Requires-Dist: jaxtyping<0.3,>=0.2.33
+Requires-Dist: beartype
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: chex>=0.1.89
+Requires-Dist: pytest>=8.3.5
+Requires-Dist: nbsphinx>=0.9.7
+Requires-Dist: nbconvert>=7.16.6
+Requires-Dist: ipykernel>=6.29.5
+Requires-Dist: sphinx>=7.0.0
+Requires-Dist: sphinx-rtd-theme>=3.0.2
+Requires-Dist: build>=1.2.2.post1
+Dynamic: license-file
+
+# Multi-Particle Cryo-EM
+
+This package is intended to function as the repository for data wrangling and analysis.
+
+This package can use both CPUs and GPUs because of JAX.
+
+Additionally, the package organization assumes that a POSIX compliant system is present *(Linux or MacOS)*. Ideally you should be running this in a Linux environment.
+
+## Pre-Installation
+
+These are directions on how to get your python environment ready for installation
+
+#### Pyenv pre-installation
+
+To get ready for installing the first time using [venv](https://docs.python.org/3/library/venv.html):
+```
+git git@code.ornl.gov:intersect-em/particle_finding.git
+cd particle_finding
+python -m venv env
+source env/bin/activate
+```
+
+This prepares your python environment for installation in the next steps
+
+#### Conda pre-installation
+To install for the first time using [conda](https://docs.conda.io/en/latest/):
+```
+conda create -n arm python==3.10
+git clone git@code.ornl.gov:arm-inititative/multi-particle-cryoem.git
+cd multi-particle-cryoem
+```
+
+## Installation
+
+After pre-installation, these are the directions to install the `cryoblob` package.
+
+```
+pip install -e .
+```
+
+
+## Package Organization
+* The **codes** are located in */src/cryoblob/*
+* The **notebooks** are located in */tutorials/*
