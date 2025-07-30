@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+src/__init__.py
+src/bounded_contexts_linter/__init__.py
+src/bounded_contexts_linter/cli.py
+src/bounded_contexts_linter/flake8_plugin.py
+src/bounded_contexts_linter/main.py
+src/bounded_contexts_linter/py.typed
+src/bounded_contexts_linter/utils.py
+src/bounded_contexts_linter.egg-info/PKG-INFO
+src/bounded_contexts_linter.egg-info/SOURCES.txt
+src/bounded_contexts_linter.egg-info/dependency_links.txt
+src/bounded_contexts_linter.egg-info/entry_points.txt
+src/bounded_contexts_linter.egg-info/requires.txt
+src/bounded_contexts_linter.egg-info/top_level.txt
+tests/test_linter.py

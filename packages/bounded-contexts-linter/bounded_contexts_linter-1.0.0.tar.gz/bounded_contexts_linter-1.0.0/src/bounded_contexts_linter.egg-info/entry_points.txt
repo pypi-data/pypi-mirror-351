@@ -1,0 +1,6 @@
+[console_scripts]
+bc-linter = bounded_contexts_linter.cli:main
+bounded-contexts-linter = bounded_contexts_linter.cli:main
+
+[flake8.extension]
+BC = bounded_contexts_linter.flake8_plugin:BoundedContextLinter

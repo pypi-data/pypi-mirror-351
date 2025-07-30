@@ -1,0 +1,39 @@
+[project]
+name = "bounded-contexts-linter"
+version = "1.0.0"
+description = "A static code analyzer that checks the isolation of bounded contexts in Domain-Driven Design (DDD) projects"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+flake8 = [
+    "flake8>=7.2.0",
+]
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pavelmaksimov/bounded-contexts-linter"
+"Bug Tracker" = "https://github.com/pavelmaksimov/bounded-contexts-linter/issues"
+
+[project.entry-points."flake8.extension"]
+BC = "bounded_contexts_linter.flake8_plugin:BoundedContextLinter"
+
+[project.scripts]
+bc-linter = "bounded_contexts_linter.cli:main"
+bounded-contexts-linter = "bounded_contexts_linter.cli:main"
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+target-version = "py311"
+include = ["src/**/*.py", "tests/**/*.py", "examples/**/*.py"]
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.ruff.lint.flake8-copyright]
+author = "Ruff"
