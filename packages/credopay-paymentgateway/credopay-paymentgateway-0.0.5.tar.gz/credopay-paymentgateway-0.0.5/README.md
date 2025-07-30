@@ -1,0 +1,74 @@
+# CredoPay Payment Gateway
+
+CredoPay Payment Gateway is a Python library that provides an easy-to-use interface for interacting with the CredoPay payment gateway API. This library allows you to create orders, check order statuses, and manage transactions securely and efficiently.
+
+## Features
+
+- **Order Management**: Create and manage orders through CredoPay.
+- **Transaction Management**: Handle transactions with ease.
+- **Secure Authentication**: Uses secure basic authentication for API requests.
+- **System Information**: Attaches system and server information to each request for better tracking and security.
+
+## Installation
+
+You can install the package via pip. Run the following command:
+
+```bash
+pip install credopay-paymentgateway
+```
+
+## Usage
+
+### Initializing the Gateway
+
+To start using the CredoPay Gateway, initialize the CredoPayPaymentGateway class with your client ID and client secret:
+
+```bash
+from credopay_paymentgateway import CredoPayPaymentGateway
+
+gateway = CredoPayPaymentGateway('your-client-id', 'your-client-secret')
+```
+
+### Creating an Order
+
+To create an order, use the create_order method of the OrderAPI class:
+
+```bash
+order_data = {
+    'receiptId': '00000001',
+    'amount': 100,
+    'currency': 'INR',
+    'description': 'Test Payment',
+    'customerFields': {
+        'name': 'Sample User',
+        'email': 'xxx@yyy.xom',
+        'phone': '1234567890'
+    },
+    'uiMode': 'checkout',
+    'redirectType' : 'post' // or 'redirect'
+}
+
+try:
+    order_response = gateway.order.create_order(order_data)
+    print("Order Response:", order_response)
+except Exception as e:
+    print('Error:', e)
+```
+
+### Checking Order Status
+
+To check the status of an existing order, use the check_status method:
+
+```bash
+order_id = 'order-id'
+
+try:
+    status_response = gateway.order.check_status(order_id)
+    print("Order Status:", status_response)
+except Exception as e:
+    print('Error:', e)
+```
+
+## License
+
+This project is licensed under the MIT License.
