@@ -1,0 +1,25 @@
+Metadata-Version: 2.3
+Name: hyperflow-py-models
+Version: 0.1.4
+Summary: Hyperflow Python models package
+Author: Hyperflow
+Author-email: hyperflow2025@gmail.com
+Requires-Python: >=3.9
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: alembic
+Requires-Dist: grpcio-tools (>=1.71.0,<2.0.0)
+Requires-Dist: protobuf
+Requires-Dist: psycopg2-binary (>=2.9.10,<3.0.0)
+Requires-Dist: pydantic
+Requires-Dist: sqlalchemy
+Description-Content-Type: text/markdown
+
+# Hyperflow Python Models
+
+This package provides Python models generated from Protocol Buffers definitions for Hyperflow.
+
