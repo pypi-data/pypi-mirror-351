@@ -1,0 +1,17 @@
+include:
+  - project: computing/gitlab-ci-templates
+    file: python.yml
+
+stages:
+  - build
+  - lint
+
+build:
+  extends:
+    - .python:build
+  stage: build
+
+lint:
+  extends:
+    - .python:flake8
+  stage: lint
