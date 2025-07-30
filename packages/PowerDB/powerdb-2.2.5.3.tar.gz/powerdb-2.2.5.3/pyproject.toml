@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "PowerDB"
+version = "2.2.5.3"
+authors = [
+  { name="WeDu-official", email="fplu.the.founder@gmail.com" },
+]
+dependencies = [
+    "openpyxl >= 3.1.5"
+]
+description = "a DBM which is fast & easy to use for local small scale databases"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 6 - Mature",
+    "Intended Audience :: Developers",
+    "Topic :: Database",
+    "Natural Language :: English",
+    "Operating System :: Microsoft :: Windows :: Windows 8.1",
+    "Operating System :: Microsoft :: Windows :: Windows 10",
+    "Operating System :: Microsoft :: Windows :: Windows 11",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: Other/Proprietary License"
+]
+
+[project.urls]
+Homepage = "https://github.com/WeDu-official/PowerDB"
+Issues = "https://github.com/WeDu-official/PowerDB/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/PowerDB/PowerDB.py"]
