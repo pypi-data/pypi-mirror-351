@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: naus
+Version: 0.1.0
+Summary: naus Python API
+Author-email: arslee07 <mail@arslee.me>
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pyzmq
+Requires-Dist: numpy
+Requires-Dist: opencv-python
+
+# naus.py
+
+naus API bindings for Python
+
+## Installation
+
+```shell
+pip install .
+```
+
+## Usage
+
+See [examples](./examples/)
