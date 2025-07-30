@@ -1,0 +1,50 @@
+# Default configuration for Edge MLOps Monitor
+
+system:
+  # Interval in seconds between system metric collections
+  sampling_interval_seconds: 10
+  # Maximum memory buffer size in MB for system metrics
+  max_memory_buffer_mb: 50
+
+model_logging:
+  # Maximum number of model inputs/outputs to keep in buffer
+  buffer_size: 1000
+  # Log level for model logging
+  log_level: INFO
+
+drift_detection:
+  # Drift detection algorithm to use
+  # Currently supported: ks_test (Kolmogorov-Smirnov test)
+  algorithm: ks_test
+  # P-value threshold for drift detection
+  # Lower values are more conservative (less likely to flag drift)
+  threshold: 0.05
+  # Path to reference data file (JSON format)
+  reference_data_path: "reference_data.json"
+  # Check for drift after every N predictions
+  check_frequency: 100
+
+telemetry:
+  # Interval in seconds between telemetry upload attempts
+  upload_interval_seconds: 300
+  # Maximum number of records to include in a single batch
+  max_batch_size: 100
+  # Base delay in seconds for exponential backoff retry
+  retry_base_delay_seconds: 1
+  # Maximum delay in seconds for exponential backoff retry
+  retry_max_delay_seconds: 60
+  # Maximum number of retry attempts
+  retry_max_attempts: 5
+
+storage:
+  # Storage type for telemetry data
+  # Currently supported: s3, sqlite
+  type: "s3"
+  # S3 bucket name for telemetry data
+  bucket: "your-telemetry-bucket"
+  # S3 key prefix for telemetry data
+  prefix: "edge-device-1/"
+  # Path to SQLite database for local storage
+  sqlite_path: "edge_mlops_monitor.db"
+  # Maximum size of SQLite database in MB
+  max_sqlite_size_mb: 100
