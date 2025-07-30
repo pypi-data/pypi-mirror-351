@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: neatlogs
+Version: 0.2.0
+Summary: A Python package for extracting and managing logs to build a collaborative workspace for agents
+Project-URL: Homepage, https://github.com/NeatLogs/neatlogs
+Project-URL: Repository, https://github.com/NeatLogs/neatlogs.git
+Project-URL: Issues, https://github.com/NeatLogs/neatlogs/issues
+Author-email: Shubham Kanyal <your.email@example.com>
+License: MIT
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Requires-Dist: litellm>=1.59.8
+Requires-Dist: python-dotenv>=1.0.1
+Description-Content-Type: text/markdown
+
+
+## Quick Start
+
+```python
+import NeatLogs as nl
+
+# Initialize logging
+nl.init()
+
