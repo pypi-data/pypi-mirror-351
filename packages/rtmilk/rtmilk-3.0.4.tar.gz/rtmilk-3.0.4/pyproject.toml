@@ -1,0 +1,109 @@
+[project]
+name = "rtmilk"
+version = "3.0.4"
+description = "Remember The Milk API wrapper"
+maintainers = [
+	{ name = "Rehan Khwaja", email = "rehan@khwaja.name" }
+]
+keywords = ["RememberTheMilk", "Remember", "Milk"]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [
+	"Development Status :: 5 - Production/Stable",
+	"Intended Audience :: Developers",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+	"Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.23.0",
+    "urllib3>=1.26; python_version>='3.10'",
+    "pydantic>=2.8",
+    "aiohttp>=3.9",
+    "listdiff>=1.0.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/rkhwaja/rtmilk"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.poe.tasks]
+build = "uv build"
+test = "pytest"
+lint = "ruff check src tests"
+
+[tool.poe.tasks.test-with-coverage]
+shell = """
+pytest --cov=src || exit 1
+coverage xml
+"""
+
+[tool.ruff]
+line-length = 1000
+lint.ignore = [
+    "A002",     # Disallows argument names which shadow builtins
+    "ANN",      # Missing annotations
+    "COM812",   # Missing trailing comma
+    "D",        # Missing docstrings
+    "DTZ",      # datetime timezone rules
+    "EM",       # Rules about strings in exception constructors
+    "ERA001",   # Commented out code
+    "FBT",      # Disallows bool positional arguments
+    "FIX",      # Disallows TODO-type comments
+    "G004",     # Disallows f-strings in logging
+    "N802",     # Function naming rules
+    "I",        # Import formatting
+    "N803",     # Argument naming rule
+    "N806",     # Variable naming rule
+    "N815",     # Variable naming rule
+    "PLR0913",  # Too many arguments
+    "PT013",    # Only allows one way of importing pytest
+    "PTH",      # Forces use of pathlib
+    "TCH",      # Requires type-checking blocks
+    "TD",       # Requires special formatting of TODO-type comments
+    "TRY003",   # Disallows long messages in exceptions
+    "W191",     # Disallows tab spacing
+    ]
+lint.select = ["ALL"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"__init__.py" = ["F403"]
+"tests/*" = [
+    "INP001",   # Disallows implicit namespace
+    "LOG015",   # Disallows use of root logger
+    "S101",     # Disallows asserts
+    "S311",     # Disallows use of randint
+    "T20",      # Disallows print
+    ]
+"_properties.py" = [
+    "SLF001",   # Disallows private member access
+    ]
+"client.py" = [
+    "SLF001",   # Disallows private member access
+    ]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "single"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+asyncio_default_fixture_loop_scope = "function"
+
+[dependency-groups]
+dev = [
+    "pytest>=7.1",
+    "pyperclip>=1.8.0",
+    "python-dateutil>=2.8.1",
+    "python-dotenv>=0.17.1",
+    "pytest-cov>=3",
+    "pytest-asyncio>=0.24.0",
+    "poethepoet>=0.16.4",
+    "ruff>=0.11.10",
+]
