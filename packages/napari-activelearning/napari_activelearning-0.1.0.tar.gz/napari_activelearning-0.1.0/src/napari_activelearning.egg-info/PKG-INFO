@@ -1,0 +1,128 @@
+Metadata-Version: 2.4
+Name: napari-activelearning
+Version: 0.1.0
+Summary: An active learning plugin for fine tuning of deep learning models.
+Author: Fernando Cervantes (The Jackson Laboratory)
+Author-email: fernando.cervantes@jax.org
+License: MIT License
+        
+        Copyright (c) 2024 The Jackson Laboratory
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/TheJacksonLaboratory/activelearning
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Framework :: napari
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: napari
+Requires-Dist: numpy
+Requires-Dist: dask[array]
+Requires-Dist: magicgui
+Requires-Dist: qtpy
+Requires-Dist: scikit-image
+Requires-Dist: tifffile
+Requires-Dist: tensorstore==0.1.59
+Requires-Dist: ome-zarr==0.9.0
+Requires-Dist: zarr<3.0.0,>=2.12.0
+Requires-Dist: zarrdataset>=0.2.1
+Provides-Extra: cellpose
+Requires-Dist: cellpose>=3.0.0; extra == "cellpose"
+Provides-Extra: testing
+Requires-Dist: tox; extra == "testing"
+Requires-Dist: pytest; extra == "testing"
+Requires-Dist: pytest-cov; extra == "testing"
+Requires-Dist: pytest-qt; extra == "testing"
+Requires-Dist: napari; extra == "testing"
+Requires-Dist: pyqt5; extra == "testing"
+Dynamic: license-file
+
+# Active Learning tools for ML models fine-tuning
+Active learning tools for fine-tuning ML models
+
+[![License MIT](https://img.shields.io/pypi/l/napari-activelearning.svg?color=green)](https://github.com/TheJacksonLaboratory/activelearning/raw/main/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/napari-activelearning.svg?color=green)](https://pypi.org/project/napari-activelearning)
+[![Python Version](https://img.shields.io/pypi/pyversions/napari-activelearning.svg?color=green)](https://python.org)
+[![tests](https://github.com/TheJacksonLaboratory/activelearning/workflows/tests/badge.svg)](https://github.com/TheJacksonLaboratory/activelearning/actions)
+[![codecov](https://codecov.io/gh/TheJacksonLaboratory/activelearning/branch/main/graph/badge.svg)](https://codecov.io/gh/TheJacksonLaboratory/napari-activelearning)
+[![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-activelearning)](https://napari-hub.org/plugins/napari-activelearning)
+
+A plugin for running a complete active learning workflow
+
+----------------------------------
+
+This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
+
+<!--
+Don't miss the full getting started guide to set up your new package:
+https://github.com/napari/cookiecutter-napari-plugin#getting-started
+
+and review the napari docs for plugin developers:
+https://napari.org/stable/plugins/index.html
+-->
+
+## Installation
+
+You can install `napari-activelearning` via [pip]:
+
+    pip install napari-activelearning
+
+
+
+
+## Contributing
+
+Contributions are very welcome. Tests can be run with [tox], please ensure
+the coverage at least stays the same before you submit a pull request.
+
+## License
+
+Distributed under the terms of the [MIT] license,
+"napari-activelearning" is free and open source software
+
+## Issues
+
+If you encounter any problems, please [file an issue] along with a detailed description.
+
+[napari]: https://github.com/napari/napari
+[Cookiecutter]: https://github.com/audreyr/cookiecutter
+[@napari]: https://github.com/napari
+[MIT]: http://opensource.org/licenses/MIT
+[BSD-3]: http://opensource.org/licenses/BSD-3-Clause
+[GNU GPL v3.0]: http://www.gnu.org/licenses/gpl-3.0.txt
+[GNU LGPL v3.0]: http://www.gnu.org/licenses/lgpl-3.0.txt
+[Apache Software License 2.0]: http://www.apache.org/licenses/LICENSE-2.0
+[Mozilla Public License 2.0]: https://www.mozilla.org/media/MPL/2.0/index.txt
+[cookiecutter-napari-plugin]: https://github.com/napari/cookiecutter-napari-plugin
+
+[napari]: https://github.com/napari/napari
+[tox]: https://tox.readthedocs.io/en/latest/
+[pip]: https://pypi.org/project/pip/
+[PyPI]: https://pypi.org/
