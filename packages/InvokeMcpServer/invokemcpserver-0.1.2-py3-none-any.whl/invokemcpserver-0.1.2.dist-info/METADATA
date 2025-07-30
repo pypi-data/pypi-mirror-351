@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: InvokeMcpServer
+Version: 0.1.2
+Summary: Invoke MCP Server in the program
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: mcp>=1.9.1
+Requires-Dist: python-dotenv>=1.1.0
+Requires-Dist: sqids>=0.5.2
+Requires-Dist: weberfuncs>=0.0.171
+
+## InvokeMcpServer
