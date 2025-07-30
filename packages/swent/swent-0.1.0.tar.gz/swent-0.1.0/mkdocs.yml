@@ -1,0 +1,116 @@
+site_name: swent - Software Entropy Measurement Tool
+site_description: Comprehensive documentation for swent, a tool for measuring software entropy in Python projects
+site_author: swent contributors
+site_url: https://git.ligo.org/greg/swent
+
+repo_name: greg/swent
+repo_url: https://git.ligo.org/greg/swent
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.arithmatex:
+      generic: true
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - Configuration: getting-started/configuration.md
+  - Concepts:
+      - What is Software Entropy?: concepts/software-entropy.md
+      - Why Measure Entropy?: concepts/why-measure.md
+      - Interpreting Results: concepts/interpreting-results.md
+  - Metrics Deep Dive:
+      - Overview: metrics/overview.md
+      - Complexity Metrics:
+          - Cyclomatic Complexity: metrics/complexity/cyclomatic.md
+          - Halstead Metrics: metrics/complexity/halstead.md
+          - Maintainability Index: metrics/complexity/maintainability.md
+      - Size Metrics:
+          - File Size Analysis: metrics/size/file-size.md
+          - Project Structure: metrics/size/structure.md
+      - Duplication Metrics:
+          - AST Fingerprinting: metrics/duplication/ast-fingerprinting.md
+          - Duplication Detection: metrics/duplication/detection.md
+      - Dependency Metrics:
+          - Import Analysis: metrics/dependencies/imports.md
+          - Coupling Metrics: metrics/dependencies/coupling.md
+          - Circular Dependencies: metrics/dependencies/circular.md
+      - Documentation Metrics:
+          - Docstring Coverage: metrics/documentation/coverage.md
+          - Documentation Quality: metrics/documentation/quality.md
+      - Change Metrics:
+          - Git History Analysis: metrics/change/git-history.md
+          - Code Churn: metrics/change/churn.md
+  - Entropy Calculation:
+      - Formula Design: entropy/formula.md
+      - Normalization: entropy/normalization.md
+      - Weights and Tuning: entropy/weights.md
+      - Technical Debt Estimation: entropy/technical-debt.md
+  - Usage Guide:
+      - CLI Reference: usage/cli.md
+      - CI/CD Integration: usage/cicd.md
+      - Pre-commit Hooks: usage/pre-commit.md
+      - Customization: usage/customization.md
+  - API Reference:
+      - Core API: api/core.md
+      - Analyzers: api/analyzers.md
+      - Metrics: api/metrics.md
+      - Calculator: api/calculator.md
+  - Contributing:
+      - Development Setup: contributing/setup.md
+      - Adding Analyzers: contributing/analyzers.md
+      - Testing: contributing/testing.md
+      - Code Style: contributing/style.md
+  - Appendix:
+      - Assumptions: appendix/assumptions.md
+      - Limitations: appendix/limitations.md
+      - References: appendix/references.md
+      - Changelog: appendix/changelog.md
