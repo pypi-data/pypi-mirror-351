@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: kensho-kfinance
+Version: 2.2.5
+Summary: Python CLI for kFinance
+Author-email: Luke Brown <luke.brown@kensho.com>, Michelle Keoy <michelle.keoy@kensho.com>, Keith Page <keith.page@kensho.com>, Matthew Rosen <matthew.rosen@kensho.com>, Nick Roshdieh <nick.roshdieh@kensho.com>
+Project-URL: source, https://github.com/kensho-technologies/kfinance
+Project-URL: changelog, https://github.com/kensho-technologies/kfinance/blob/main/kfinance/CHANGELOG.md
+Project-URL: documentation, https://docs.kensho.com/llmreadyapi/python-library
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: AUTHORS.md
+Requires-Dist: cachetools<6,>=5.5
+Requires-Dist: langchain-core>=0.3.15
+Requires-Dist: langchain-google-genai<3,>=2.1.0
+Requires-Dist: numpy>=1.22.4
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: pillow>=10
+Requires-Dist: pydantic<3,>=2.10.0
+Requires-Dist: pyjwt>=2.8.0
+Requires-Dist: python-dateutil<2.9,>=2.8.2
+Requires-Dist: strenum>=0.4.15
+Requires-Dist: tabulate>=0.9.0
+Requires-Dist: types-requests<3,>=2.22.0
+Requires-Dist: requests<3,>=2.22.0
+Requires-Dist: urllib3>=1.21.1
+Provides-Extra: dev
+Requires-Dist: coverage<8,>=7.6.10; extra == "dev"
+Requires-Dist: ipykernel<7,>=6.29; extra == "dev"
+Requires-Dist: mypy<2,>=1.15.0; extra == "dev"
+Requires-Dist: nbconvert<8,>=7.16; extra == "dev"
+Requires-Dist: nbformat<6,>5.10; extra == "dev"
+Requires-Dist: nbqa<2,>1.9; extra == "dev"
+Requires-Dist: pytest<7,>=6.1.2; extra == "dev"
+Requires-Dist: pytest-cov<7,>=6.0.0; extra == "dev"
+Requires-Dist: requests_mock<2,>=1.12; extra == "dev"
+Requires-Dist: ruff<1,>=0.9.4; extra == "dev"
+Requires-Dist: time_machine<3,>=2.1; extra == "dev"
+Requires-Dist: types-cachetools<6,>=5.5; extra == "dev"
+Dynamic: license-file
+
+# kFinance
+
+The kFinance Python library provides a simple interface for the LLM-ready API, streamlining API requests and response handling. It can be used on its own, with LLMs, or integrated into applications.
+
+For a complete overview of the functions, usage, and features of the kFinance Python library, please refer to documentation [here](https://kensho-kfinance.readthedocs.io/en/stable/).
+
+Any questions or suggestions can be sent to the [kFinance Maintainers](kfinance-maintainers@kensho.com).
+
+# Setup
+
+You can install kFinance on [PyPI](https://pypi.org/project/kensho-kfinance/) via 
+
+`pip install kensho-kfinance`
+
+# Getting started
+
+To receive access, please email [S&P Global Market Intelligence](market.intelligence@spglobal.com) for information on free trials and pricing.
+
+Once access is obtained, get started using the [Authentication Guide](https://docs.kensho.com/llmreadyapi/kf-authentication) and [Usage Guide](https://docs.kensho.com/llmreadyapi/usage).
+
+We also provide an [interactive notebook](usage_examples.ipynb) that demonstrates some usage examples.
+
+# Versioning
+The kFinance uses semantic versioning (major, minor, patch). 
+To bump the version, add a new entry in [CHANGELOG.md](kfinance%2FCHANGELOG.md). 
+This will generate a new version of the library as part of the release process.
+
+# License
+
+Use is solely in accordance with the signed agreement between your entity and S&P.
+
+Copyright 2025-present Kensho Technologies, LLC. The present date is determined by the timestamp of the most recent commit in the repository.
