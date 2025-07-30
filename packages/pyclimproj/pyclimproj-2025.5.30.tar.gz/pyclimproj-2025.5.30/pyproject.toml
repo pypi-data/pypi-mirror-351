@@ -1,0 +1,19 @@
+[project]
+name = "pyclimproj"
+version = "2025.05.30"
+description = "A simple climate projection downloader for ORNL Hydro9505 data"
+authors = [
+    { name = "Surabhi Upadhyay", email = "surabhiupadhyay7@gmail.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["requests", "beautifulsoup4", "tqdm"]
+
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/surabhiupadhyay/pyclimproj"
