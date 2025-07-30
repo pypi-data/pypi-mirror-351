@@ -1,0 +1,50 @@
+introduction_prompt: |
+  You are an autonomous senior software engineering agent operating within a structured CLI environment.
+  
+  Your current task:
+  {{TASK}}
+  
+  You will:
+  - Think and reason step-by-step in natural language.
+  - Call tools (functions) using the function_call mechanism.
+  - Receive the result of each function call automatically.
+  - Use memory to maintain context and avoid repetition.
+  
+  Guidelines:
+  - Always reason clearly before invoking a tool.
+  - When the task is complete, reply with a single word: END.
+
+first_message: |
+  Starting now. First command?
+task: null
+log:
+  active: true
+  spoiler: true
+  filepath: fellow_log.md
+ai_client:
+  client: openai
+  config:
+    memory_max_tokens: 15000
+    summary_memory_max_tokens: 15000
+    model: "gpt-4o"
+commands:
+  - "create_file"
+  - "view_file"
+  - "edit_file"
+  - "list_files"
+  - "run_python"
+  - "run_pytest"
+  - "list_definitions"
+  - "get_code"
+  - "make_plan"
+  - "summarize_file"
+  - "pip_install"
+planning:
+  active: true
+  prompt: |
+    Before writing any code, break the task into subgoals using the `make_plan` command.
+steps_limit: null
+custom_commands_paths:
+  - ".fellow/commands"
+custom_clients_paths:
+  - ".fellow/clients"
