@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: xkynet
+Version: 0.0.2
+Summary: chatbot for erpnext
+Author-email: Neil Ortaliz <neil.ortaliz@xurpas.com>, Randell Santos <randell@xurpas.com>
+Requires-Python: >=3.10
+Requires-Dist: openai>=1.55.3
+Requires-Dist: graphrag==2.1.0
+Requires-Dist: pandas==2.2.3
+Requires-Dist: asyncio==3.4.3
