@@ -1,0 +1,14 @@
+[build-system]
+requires = ["scikit-build-core", "pybind11", "setuptools"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "v55pymath"
+version = "0.1.2"
+description = "Math tools including C++ acceleration"
+authors = [{name = "Victor Fazyatdenov", email = "soyuznikbu@gmail.com"}]
+dependencies = []
+
+[tool.scikit-build]
+wheel.packages = ["v55pymath"]
+cmake.args = ["-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL"]  
