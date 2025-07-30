@@ -1,0 +1,30 @@
+# pyproject.toml
+[project]
+name = "edge_mlops_monitor"
+version = "0.1.1"
+description = "A lightweight MLOps monitoring solution for edge devices"
+readme = "README.md"
+authors = [
+    { name = "Edge MLOps Monitor Contributors", email = "edmon.sahakyan@gmail.com" }
+]
+license = "MIT"
+requires-python = ">=3.10,<3.12"
+dependencies = [
+    "psutil>=5.9.0",
+    "scipy>=1.8.0",
+    "boto3>=1.24.0",
+    "PyYAML>=6.0",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
+]
+urls = { Homepage = "https://github.com/Edmon02/edge-mlops-monitor" }
+
+[tool.setuptools]
+packages = { find = {} }
+package-data = { "edge_mlops_monitor" = ["schema.sql", "default_config.yaml"] }
