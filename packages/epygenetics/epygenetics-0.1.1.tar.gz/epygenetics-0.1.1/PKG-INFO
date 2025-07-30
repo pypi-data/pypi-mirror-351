@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: epygenetics
+Version: 0.1.1
+Summary: A library to optimize functions
+Author-email: Alejandro Mielgo <alejandro.mielgo.barba@gmail.com>
+License-File: LICENSE
+Requires-Dist: numpy==2.2.5
+Dynamic: license-file
