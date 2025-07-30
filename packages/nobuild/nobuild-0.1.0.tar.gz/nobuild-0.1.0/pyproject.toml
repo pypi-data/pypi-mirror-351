@@ -1,0 +1,30 @@
+[project]
+name = "nobuild"
+version = "0.1.0"
+description = "Make Debian-Based Distro without VM"
+authors = [
+    { name = "AmaseCocoa", email = "amase.cocoa@gmail.com" },
+]
+dependencies = [
+    "typer-slim>=0.16.0",
+    "rich>=14.0.0",
+    "requests>=2.32.3",
+]
+requires-python = ">=3.13,<3.14"
+readme = "README.md"
+
+[project.license]
+text = "MIT"
+
+[project.scripts]
+nobuild = "nobuild:app"
+nobuild-debian = "nobuild.distro.debian:app"
+
+[tool.pdm]
+distribution = true
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
