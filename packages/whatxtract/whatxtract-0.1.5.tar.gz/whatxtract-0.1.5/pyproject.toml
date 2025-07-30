@@ -1,0 +1,84 @@
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[project]
+name = "whatxtract"
+dynamic = ["version"]
+description = "Extract and verify WhatsApp contact numbers via WhatsApp Web using an automation-powered Python toolkit."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+keywords = [
+  "WhatsApp",
+  "WhatsApp Extractor",
+  "WhatsApp Number Checker",
+  "WhatsApp Validator",
+  "WhatsApp Automation",
+  "Contacts Extractor",
+  "WhatsApp User Checker",
+  "WhatsApp Web Scraper"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Communications :: Chat",
+  "Topic :: Communications :: Telephony",
+  "Topic :: Internet :: WWW/HTTP :: Browsers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+  "tqdm",
+  "faker",
+  "colorlog",
+  "selenium",
+  "undetected-chromedriver",
+]
+authors = [
+    { name = "Hasan Rasel", email = "rrss.mahmud@gmail.com" },
+]
+
+[project.scripts]
+whatxtract = "whatxtract.waweb:main"
+
+[project.urls]
+Homepage = "https://github.com/bitbytelab/whatxtract"
+Issues = "https://github.com/bitbytelab/whatxtract/issues"
+
+[project.optional-dependencies]
+dev = [
+  "hatchling",
+  "uv-dynamic-versioning"
+]
+
+[tool.hatch.build]
+exclude = [
+  "/.*",
+  "/dist",
+  "/docs",
+  "/tests",
+  "/local",
+  "/logs",
+  "/output",
+  "/WAProfiles",
+  ".gitignore",
+  ".last_dep_check",
+  ".readthedocs.yaml",
+  "inject_tree.py",
+  "NOTES.md",
+  "README_bak.md",
+  "ruff.toml"
+]
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+# [tool.setuptools]
+# packages = ["whatxtract"]
+
+# [tool.uv.version]
+# source = "scm"
