@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: mongodbio-incremental-load
+Version: 1.0.0
+Summary: Apache-beam mongodbio with custom date range filter field
+Home-page: https://github.com/KaranratRatta/mongodbio-incremental-load
+Author: Karanrat Rattanawichai
+Author-email: karanrat.rattanawichai@gmail.com
+Keywords: Apache,Beam,python,mongodbio
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+License-File: LICENCE.txt
+Requires-Dist: apache-beam
+Requires-Dist: pymongo
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+This is extended version of mongodbio, the different is, this will not use "_id" field to perform split, create range, calculation etc. But it will use user-input mongodb datetim field file such as created_at, updated_at or timestampe instead.
+
+Change Log
+==========
+
+1.0.0 (2025-05-30)
+-------------------
+- First Release
