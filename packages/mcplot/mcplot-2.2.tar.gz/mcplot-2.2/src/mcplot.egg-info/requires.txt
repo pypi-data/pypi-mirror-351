@@ -1,0 +1,15 @@
+numpy
+matplotlib
+pandas
+
+[doc]
+numpydoc>=1.1
+jinja2>=2
+sphinx>=3
+sphinx_book_theme>=1.0.1
+
+[test]
+setuptools>=42
+coverage[toml]>=5.2.1
+pytest>=6.0
+pytest-cov>=2.11.0
