@@ -1,0 +1,12 @@
+[project]
+name = "langchain-zhipuai-dev"
+version = "0.2.1"
+description = "Implementation of LangChain for ZhipuAI(Just for coding exercise)"
+readme = "README.md"
+authors = [{ name = "poneding", email = "poneding@gmail.com" }]
+requires-python = ">=3.12"
+dependencies = ["langchain-core>=0.3.62", "zhipuai>=2.1.5.20250526"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
