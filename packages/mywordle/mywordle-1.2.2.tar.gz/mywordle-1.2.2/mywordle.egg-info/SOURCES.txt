@@ -1,0 +1,14 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+mywordle/Wordle.py
+mywordle/__init__.py
+mywordle.egg-info/PKG-INFO
+mywordle.egg-info/SOURCES.txt
+mywordle.egg-info/dependency_links.txt
+mywordle.egg-info/requires.txt
+mywordle.egg-info/top_level.txt
+mywordle/data/.DS_Store
+mywordle/data/possible_guesses.txt
+mywordle/data/possible_words.txt

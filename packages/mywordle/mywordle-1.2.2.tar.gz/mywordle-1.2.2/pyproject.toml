@@ -1,0 +1,51 @@
+[build-system]
+requires = ['setuptools', 'wheel']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'mywordle'
+
+version = '1.2.2'
+
+description = 'a library that brings Wordle to Python with exceptional customization and personlization'
+
+authors = [{name = 'Kevin Zhu'}, {email = 'kzhu2099@gmail.com'}]
+maintainers = [{name = 'Kevin Zhu'}, {email = 'kzhu2099@gmail.com'}]
+
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+
+    'Intended Audience :: Developers',
+    'Intended Audience :: End Users/Desktop',
+
+    'License :: OSI Approved :: MIT License',
+
+    'Natural Language :: English',
+
+    'Operating System :: OS Independent',
+
+    'Programming Language :: Python :: 3',
+
+    'Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary'
+]
+
+readme = 'README.md'
+
+license = {file = 'LICENSE'}
+
+requires-python = '>= 3.9'
+
+dependencies = ['kzutil']
+
+[project.urls]
+Homepage = 'https://github.com/kzhu2099/My-Wordle'
+Issues = 'https://github.com/kzhu2099/My-Wordle/issues'
+
+[tool.setuptools.package-data]
+'mywordle.data' = ['*']
+
+[tool.setuptools.packages.find]
+include = ['mynyt', 'mynyt.*']
+
+[tool.setuptools]
+license-files = []
