@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: video_frame_extractor
+Version: 2.0.0
+Summary: Advanced Video Frame Extractor with Smart Deduplication and Blur Detection
+Home-page: https://github.com/yourusername/video_frame_extractor
+Author: Your Name
+Author-email: your.email@example.com
+Project-URL: Source, https://github.com/yourusername/video_frame_extractor
+Project-URL: Bug Reports, https://github.com/yourusername/video_frame_extractor/issues
+Keywords: video frame extraction scene detection deduplication blur detection
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Multimedia :: Video
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.19.5
+Requires-Dist: opencv-python>=4.5.5
+Requires-Dist: scikit-image>=0.18.3
+Requires-Dist: scikit-learn>=1.0.2
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# 视频帧提取工具
+
+高级视频帧提取工具，具有智能去重和模糊检测功能。
+
+## 功能特性
+
+- 智能场景检测与分割
+- 视觉多样性评估与去重
+- 模糊帧自动过滤
+- 关键帧时间戳水印
+- 输出详细元数据
+- 支持批量处理
+
+## 安装
+
+```bash
+pip install video_frame_extractor
