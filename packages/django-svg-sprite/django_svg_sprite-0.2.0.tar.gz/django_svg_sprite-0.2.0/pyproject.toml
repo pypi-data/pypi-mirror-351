@@ -1,0 +1,71 @@
+[project]
+name = "django-svg-sprite"
+version = "0.2.0"
+description = "A Django template tag for easy use of SVG sprites in templates."
+authors = [
+    {name = "Tobias Bölz",email = "tobias@boelz.eu"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+dependencies = [
+    "django (>=4.2)"
+]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+
+[project.urls]
+homepage = "https://tmb.codeberg.page/django-svg-sprite/"
+repository = "https://git.boelz.eu/tmb/django-svg-sprite"
+changelog = "https://tmb.codeberg.page/django-svg-sprite/changelog/"
+issues = "https://git.boelz.eu/tmb/django-svg-sprite/issues"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+isort = "^6.0.1"
+pytest-django = "^4.11.1"
+coverage = "^7.8.0"
+flake8 = "^7.2.0"
+flake8-quotes = "^3.4.0"
+flake8-bugbear = "^24.12.12"
+flake8-print = "^5.0.0"
+flake8-pep3101 = "^2.1.0"
+flake8-eradicate = "^1.5.0"
+nox = "^2025.5.1"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6.1"
+pymdown-extensions = "^10.15"
+mkdocstrings = {extras = ["python"], version = "^0.29.1"}
+mkdocs-material = "^9.6.14"
+markdown-callouts = "^0.4.0"
+
+[tool.black]
+target-version = ["py39"]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+pythonpath = "."
+DJANGO_SETTINGS_MODULE = "django_svg_sprite.tests.settings"
