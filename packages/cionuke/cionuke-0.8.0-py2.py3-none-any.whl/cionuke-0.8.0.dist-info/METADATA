@@ -1,0 +1,166 @@
+Metadata-Version: 2.1
+Name: cionuke
+Version: 0.8.0
+Summary: Nuke plugin for Conductor Cloud Rendering Platform.
+Home-page: https://github.com/ConductorTechnologies/cionuke
+Author: conductor
+Author-email: info@conductortech.com
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Multimedia :: Graphics :: 3D Rendering
+Description-Content-Type: text/markdown
+Requires-Dist: ciocore<8.0.0,>=7.0.2
+Requires-Dist: ciopath<2.0.0,>=1.1.2
+Requires-Dist: cioseq<1.0.0,>=0.1.14
+Requires-Dist: ciotemplate<1.0.0,>=0.1.2
+
+# Conductor for Nuke
+
+Nuke plugin submitter for the Conductor Cloud rendering service.
+
+## Install
+
+
+**To install the latest version.**
+```bash
+pip install --upgrade cionuke --target=$HOME/Conductor
+```
+
+**To install a specific version, for example 0.1.0.**
+```bash
+pip install --upgrade --force-reinstall cionuke==0.1.0 --target=$HOME/Conductor
+```
+
+**Setup from a command prompt or Powershell on Windows.** 
+
+```bash
+python ~/Conductor/cionuke/post_install.py
+```
+
+> **NOTE** An alternative is to install from the Plugins page in the [Conductor Companion app](https://docs.conductortech.com/getting_started/installation/#companion-app)
+
+
+## Usage
+
+To set up a render, go to **Render** menu in Nuke and choose **Render with Conductor**.
+
+For detailed help, checkout the [tutorial](https://docs.conductortech.com/tutorials/nuke) and [reference](https://docs.conductortech.com/reference/nuke) documentation.
+
+## [Contributing](./CONTRIBUTING.md)
+
+
+## License
+[MIT](https://choosealicense.com/licenses/mit)
+
+## Changelog
+
+## Version:0.8.0 -- 29 May 2025
+* Adds PySide6 support for Nuke 16 
+* Adds validation that checks coredata resources (projects, inst types, software) before submission.
+* The submitter now connects to coredata and detects the current version on creation of a new node.
+* Extract the connect function because there was a py2 error (on Mac at least)
+* Add ValidateConductorData validator to check for outdated Conductor data.
+* No longer sets the nuke version when rebuilding the dropdown.
+* Use PathList::real_files to expand folders for preview.
+
+## Version:0.6.1 -- 11 Jan 2024
+* Fixes a missing import in 0.6.0
+
+## Version:0.6.0 -- 06 Dec 2023
+* Adds a check to ensure that the output path exists and that no uploaded paths are inside the output path
+* Hides the preemptible checkbox for CW instances
+* Updates dependency to ciocore 7.02 and adds the cionuke version to the UI
+
+## Version:0.5.1 -- 03 Aug 2023
+* Updated with compatibility ciocore 6.0.0, which introduces support for CoreWeave instance types
+
+### Version:0.4.15 -- 27 Mar 2023
+* Replaces jsondecodeerror to support python 2.7. [fd07afc]
+
+### Version:0.4.14 -- 27 Mar 2023
+
+* Updates changelog and sets version to 0.4.14. [a2be33c]
+* Replaces jsondecodeerror to support python 2.7. [fd07afc]
+
+### Version:0.4.14 -- 27 Mar 2023
+
+* Replaces jsondecodeerror to support python 2.7. [fd07afc]
+
+### Version:0.4.13 -- 29 Mar 2022
+
+* Fixes missing pip flags. [d2f78c2]
+
+### Version:0.4.12 -- 29 Mar 2022
+
+* Corrects issue loading plugin on Windows in Nuke13
+
+### Version:0.4.7 -- 10 Mar 2022
+
+* Sets logging propogation to false. [b713c5c]
+
+### Version:0.4.6 -- 03 Mar 2022
+
+* Adds a call to logging setup as it has been removed from ciocore. [b3c78e3]
+
+### Version:0.4.5 -- 01 Feb 2022
+
+* Fixes a bug where the Metadata and Extra Evvironment widgets would try to evaluate JSON as TCL and fail, causing an annoying alert. [6295dfb]
+
+### Version:0.4.4 -- 01 Feb 2022
+
+* Adds a menu.py to the repo, simplifying changes in post_install.py and making it easier to develop directly off the git repo. [e66757f]
+
+### Version:0.4.3 -- 25 Jan 2022
+
+* Path resolution now recognizes %V and %v path tokens which ensures the output path is valid for stereo scenes. [888a536]
+
+### Version:0.2.6 -- 21 Oct 2021
+
+* Write contributing documentation. [6a54695]
+
+### Version:0.2.3 -- 13 Oct 2021
+
+* Rewrite init and menu py files to avoid using exec, which is a security weakness. [84b0c8d]
+
+### Version:0.2.1 -- 05 Oct 2021
+
+* Use the directory name of connected write nodes to generate the output_path. This fixes a bug that could set it to the filename, not the diirectory, when only a single write node was connected and it didn't refer to a sequence. [fd28dfc]
+
+### Version:0.2.0 -- 04 Oct 2021
+
+* Post install script is now pythion 2 and 3 compatible. [52fbb1c]
+* Adds a windows pathmap flag in the task command to remove letter drives. [1070249]
+* On submitting a job, a validation window is shown, which updates to a submission response window. [05efc97]
+
+### Version:0.1.7 -- 27 Sep 2021
+
+* Use getValue() instead of evaluate(), because evaluate() puts the whole script directory in front
+  of any evlauated value. [bfcff6c]
+
+### Version:0.1.6 -- 24 Sep 2021
+
+* Adds path map creation but not yet activated. [69e86c3]
+* Fixed bug in TCL knob evaluation, and added better error handling. [3073e4c]
+
+### Version:0.1.5 -- 23 Sep 2021
+
+* Improves the dependency scraping algorithm. It now looks into LiveGroups, and it doesn't get
+  confused when what should be an upstream node turns out to be a knob. [10f95a5]
+ 
+### Version:0.1.4 -- 23 Sep 2021
+
+* Adds submission response dialog. Also improves defaults and fixes some UI bugs. [4fa1efd]
+
+### Version:0.1.3 -- 22 Sep 2021
+
+* Dependency scraping works. [c589035]
+
+### Version:0.1.2 -- 20 Sep 2021
+
+* The first version that makes a successful render. [205a8f1]
+
+### Version:0.1.0 -- 07 Apr 2021
+
+* Initial WIP - All knobs added to ui.. [5f4711f]
+
+--
