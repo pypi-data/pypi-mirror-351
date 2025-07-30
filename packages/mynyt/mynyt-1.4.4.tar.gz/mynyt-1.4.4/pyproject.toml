@@ -1,0 +1,54 @@
+[build-system]
+requires = ['setuptools', 'wheel']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'mynyt'
+
+version = '1.4.4'
+
+description = 'a library that brings the New York Times to you with rss feeds and emails'
+
+authors = [{name = 'Kevin Zhu'}, {email = 'kzhu2099@gmail.com'}]
+maintainers = [{name = 'Kevin Zhu'}, {email = 'kzhu2099@gmail.com'}]
+
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+
+    'Intended Audience :: Developers',
+    'Intended Audience :: End Users/Desktop',
+
+    'License :: OSI Approved :: MIT License',
+
+    'Natural Language :: English',
+
+    'Operating System :: OS Independent',
+
+    'Programming Language :: Python :: 3',
+
+    'Topic :: Communications :: Email',
+    'Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary'
+]
+
+readme = 'README.md'
+
+license = {file = 'LICENSE'}
+
+requires-python = '>= 3.9'
+
+dependencies = [
+    'feedparser',
+    'requests',
+    'pytz',
+    'kzutil'
+]
+
+[project.urls]
+Homepage = 'https://github.com/kzhu2099/My-NYT'
+Issues = 'https://github.com/kzhu2099/My-NYT/issues'
+
+[tool.setuptools.packages.find]
+include = ['mynyt', 'mynyt.*']
+
+[tool.setuptools]
+license-files = []
