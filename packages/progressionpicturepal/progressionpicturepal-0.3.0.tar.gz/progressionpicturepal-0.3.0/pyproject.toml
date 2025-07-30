@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "progressionpicturepal"
+version = "0.3.0"
+description = "Compose image-flow diagrams with captions and arrows"
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+authors = [{name="Sam Lewis", email="sam.vr.lewis@gmail.com"}]
+dependencies = [ "Pillow>=8.0" ]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["progressionpicturepal*"]
