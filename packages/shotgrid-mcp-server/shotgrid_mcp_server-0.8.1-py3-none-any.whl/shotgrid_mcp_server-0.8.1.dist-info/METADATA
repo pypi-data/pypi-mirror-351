@@ -1,0 +1,462 @@
+Metadata-Version: 2.4
+Name: shotgrid-mcp-server
+Version: 0.8.1
+Summary: A Model Context Protocol (MCP) server implementation using fastmcp
+Project-URL: Homepage, https://github.com/loonghao/shotgrid-mcp-server
+Project-URL: Repository, https://github.com/loonghao/shotgrid-mcp-server.git
+Project-URL: Issues, https://github.com/loonghao/shotgrid-mcp-server/issues
+Project-URL: Changelog, https://github.com/loonghao/shotgrid-mcp-server/blob/main/CHANGELOG.md
+Author-email: Hal Long <hal.long@outlook.com>
+License: MIT
+License-File: LICENSE
+Keywords: Flow Production Tracking,api,mcp,server,shotgrid
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: <3.11,>=3.10
+Requires-Dist: aiohttp>=3.9.0
+Requires-Dist: fastmcp>=2.2.1
+Requires-Dist: mcp>=1.6.0
+Requires-Dist: pendulum<4.0.0,>=3.1.0
+Requires-Dist: platformdirs>=4.1.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: python-slugify<9.0.0,>=8.0.4
+Requires-Dist: requests>=2.31.0
+Requires-Dist: shotgun-api3
+Requires-Dist: tenacity<10.0.0,>=9.1.2
+Requires-Dist: uvicorn>=0.22.0
+Provides-Extra: dev
+Requires-Dist: black>=23.12.1; extra == 'dev'
+Requires-Dist: coverage>=7.4.0; extra == 'dev'
+Requires-Dist: flake8>=7.0.0; extra == 'dev'
+Requires-Dist: isort>=5.13.2; extra == 'dev'
+Requires-Dist: mypy>=1.8.0; extra == 'dev'
+Requires-Dist: nox>=2023.4.22; extra == 'dev'
+Requires-Dist: pytest-cov>=4.1.0; extra == 'dev'
+Requires-Dist: pytest>=7.4.4; extra == 'dev'
+Requires-Dist: ruff>=0.1.11; extra == 'dev'
+Requires-Dist: uv>=0.1.12; extra == 'dev'
+Provides-Extra: lint
+Requires-Dist: black; extra == 'lint'
+Requires-Dist: mypy; extra == 'lint'
+Requires-Dist: ruff; extra == 'lint'
+Requires-Dist: types-requests; extra == 'lint'
+Provides-Extra: test
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'test'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'test'
+Requires-Dist: pytest-mock>=3.10.0; extra == 'test'
+Requires-Dist: pytest>=7.0.0; extra == 'test'
+Requires-Dist: pyyaml; extra == 'test'
+Description-Content-Type: text/markdown
+
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/loonghao-shotgrid-mcp-server-badge.png)](https://mseep.ai/app/loonghao-shotgrid-mcp-server)
+
+# 🎯 ShotGrid MCP Server
+
+English | [简体中文](README_zh.md)
+
+<div align="center">
+
+A high-performance ShotGrid Model Context Protocol (MCP) server implementation based on fastmcp
+
+[![Python Version](https://img.shields.io/pypi/pyversions/shotgrid-mcp-server.svg)](https://pypi.org/project/shotgrid-mcp-server/)
+[![License](https://img.shields.io/github/license/loonghao/shotgrid-mcp-server.svg)](LICENSE)
+[![PyPI version](https://badge.fury.io/py/shotgrid-mcp-server.svg)](https://badge.fury.io/py/shotgrid-mcp-server)
+[![codecov](https://codecov.io/gh/loonghao/shotgrid-mcp-server/branch/main/graph/badge.svg)](https://codecov.io/gh/loonghao/shotgrid-mcp-server)
+[![Downloads](https://pepy.tech/badge/shotgrid-mcp-server)](https://pepy.tech/project/shotgrid-mcp-server)
+[![Downloads](https://static.pepy.tech/badge/shotgrid-mcp-server/week)](https://pepy.tech/project/shotgrid-mcp-server)
+[![Downloads](https://static.pepy.tech/badge/shotgrid-mcp-server/month)](https://pepy.tech/project/shotgrid-mcp-server)
+
+</div>
+
+## 🎬 Demo
+
+Here's a simple example of querying entities using the ShotGrid MCP server:
+
+![ShotGrid MCP Server Demo](images/sg-mcp.gif)
+
+## ✨ Features
+
+- 🚀 High-performance implementation based on fastmcp
+- 🛠 Complete CRUD operation toolset
+- 🖼 Dedicated thumbnail download/upload tools
+- 🔄 Efficient connection pool management
+- 🔌 Direct ShotGrid API access through MCP tools
+- 📝 Enhanced note and playlist management
+- ✅ Comprehensive test coverage with pytest
+- 📦 Dependency management with UV
+- 🌐 Cross-platform support (Windows, macOS, Linux)
+
+## 🚀 Quick Start
+
+### Installation
+
+Install using UV:
+```bash
+uv pip install shotgrid-mcp-server
+```
+
+### Quick Usage
+
+Once installed, you can start the server directly with:
+```bash
+uvx --python 3.10 shotgrid-mcp-server
+```
+
+**Important**: The ShotGrid MCP server requires Python 3.10. When using `uvx`, you must specify the Python version with `--python 3.10` to ensure compatibility, as `uvx` may default to using the latest Python version (e.g., 3.13) which is not compatible with this package.
+
+Alternatively, you can set the Python version using an environment variable:
+```bash
+# Windows
+set UV_PYTHON=3.10
+uvx shotgrid-mcp-server
+
+# Linux/macOS
+export UV_PYTHON=3.10
+uvx shotgrid-mcp-server
+```
+
+Make sure you have set the required environment variables (SHOTGRID_URL, SHOTGRID_SCRIPT_NAME, SHOTGRID_SCRIPT_KEY) before starting the server.
+
+### Development Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/loonghao/shotgrid-mcp-server.git
+cd shotgrid-mcp-server
+```
+
+2. Install development dependencies:
+```bash
+pip install -r requirements-dev.txt
+```
+
+3. Development Commands
+All development commands are managed through nox. Check `noxfile.py` for available commands:
+```bash
+# Run tests
+nox -s tests
+
+# Run linting
+nox -s lint
+
+# Run type checking
+nox -s type_check
+
+# And more...
+```
+
+4. Development Server with Hot Reloading
+
+**Note: This requires Node.js to be installed on your system.**
+
+For a better development experience with hot reloading (server automatically restarts when code changes):
+```bash
+uv run fastmcp dev src/shotgrid_mcp_server/server.py:app
+```
+
+This will start the server in development mode, and any changes to the code will automatically reload the server.
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+The following environment variables are required:
+
+```bash
+SHOTGRID_URL=your_shotgrid_url
+SHOTGRID_SCRIPT_NAME=your_script_name
+SHOTGRID_SCRIPT_KEY=your_script_key
+```
+
+You can set them directly in your shell:
+
+```powershell
+# PowerShell
+$env:SHOTGRID_URL='your_shotgrid_url'
+$env:SHOTGRID_SCRIPT_NAME='your_script_name'
+$env:SHOTGRID_SCRIPT_KEY='your_script_key'
+```
+
+```bash
+# Bash
+export SHOTGRID_URL='your_shotgrid_url'
+export SHOTGRID_SCRIPT_NAME='your_script_name'
+export SHOTGRID_SCRIPT_KEY='your_script_key'
+```
+
+Or create a `.env` file in your project directory.
+
+## 🔧 Available Tools
+
+### Core Tools
+- `create_entity`: Create ShotGrid entities
+- `find_one_entity`: Find a single entity
+- `search_entities`: Search for entities with filters
+- `update_entity`: Update entity data
+- `delete_entity`: Delete entities
+
+### Media Tools
+- `download_thumbnail`: Download entity thumbnails
+- `upload_thumbnail`: Upload entity thumbnails
+
+### Note & Playlist Tools
+- `shotgrid.note.create`: Create notes
+- `shotgrid.note.read`: Read note information
+- `shotgrid.note.update`: Update note content
+- `create_playlist`: Create playlists
+- `find_playlists`: Find playlists with filters
+
+### Direct API Access
+- `sg.find`: Direct access to ShotGrid API find method
+- `sg.create`: Direct access to ShotGrid API create method
+- `sg.update`: Direct access to ShotGrid API update method
+- `sg.batch`: Direct access to ShotGrid API batch method
+- And many more...
+
+## 🤖 AI Prompt Examples
+
+Here are some examples of how to use ShotGrid MCP with AI assistants like Claude:
+
+### Basic Queries
+
+```
+Help me find all ShotGrid entities updated in the last 3 months.
+```
+
+```
+Show me all shots that were updated last week for the "Awesome Project".
+```
+
+### Creating and Managing Playlists
+
+```
+Create a playlist called "Daily Review - April 21" with all shots updated yesterday by the lighting department.
+```
+
+```
+Find all playlists created this week.
+```
+
+### Notes and Feedback
+
+```
+Add a note to SHOT_010 saying "Please adjust the lighting in the background to be more dramatic".
+```
+
+### Advanced Workflows
+
+```
+Help me summarize the time logs for the "Animation" department this month and generate a chart using echarts to visualize the hours spent.
+```
+
+```
+Find all shots that were updated yesterday by the lighting team, create a playlist called "Lighting Review - April 21", and notify the director via a note.
+```
+
+## 📚 Documentation
+
+For detailed documentation, please refer to the documentation files in the `/docs` directory.
+
+You can also explore the available tools and their parameters directly in Claude Desktop after installing the server.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please ensure:
+
+1. Follow Google Python Style Guide
+2. Write tests using pytest
+3. Update documentation
+4. Use absolute imports
+5. Follow the project's coding standards
+
+## 📝 Version History
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+
+## 📄 License
+
+MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🔌 MCP Client Configuration
+
+To use the ShotGrid MCP server in your MCP client, add the appropriate configuration to your client's settings.
+
+### Claude Desktop / Anthropic Claude
+
+```json
+{
+  "mcpServers": {
+    "shotgrid-server": {
+      "command": "uvx",
+      "args": [
+        "--python", "3.10",
+        "shotgrid-mcp-server"
+      ],
+      "env": {
+        "SHOTGRID_SCRIPT_NAME": "XXX",
+        "SHOTGRID_SCRIPT_KEY": "XX",
+        "SHOTGRID_URL": "XXXX"
+      },
+      "disabled": false,
+      "alwaysAllow": [
+        "search_entities",
+        "create_entity",
+        "batch_create",
+        "find_entity",
+        "get_entity_types",
+        "update_entity",
+        "download_thumbnail",
+        "batch_update",
+        "delete_entity",
+        "batch_delete"
+      ]
+    }
+  }
+}
+```
+
+### Cursor
+
+```json
+// .cursor/mcp.json
+{
+  "mcpServers": {
+    "shotgrid-server": {
+      "command": "uvx",
+      "args": [
+        "--python", "3.10",
+        "shotgrid-mcp-server"
+      ],
+      "env": {
+        "SHOTGRID_SCRIPT_NAME": "XXX",
+        "SHOTGRID_SCRIPT_KEY": "XX",
+        "SHOTGRID_URL": "XXXX"
+      }
+    }
+  }
+}
+```
+
+### Windsurf (Codeium)
+
+```json
+// MCP configuration
+{
+  "mcpServers": {
+    "shotgrid-server": {
+      "command": "uvx",
+      "args": [
+        "--python", "3.10",
+        "shotgrid-mcp-server"
+      ],
+      "env": {
+        "SHOTGRID_SCRIPT_NAME": "XXX",
+        "SHOTGRID_SCRIPT_KEY": "XX",
+        "SHOTGRID_URL": "XXXX"
+      }
+    }
+  }
+}
+```
+
+### Cline (VS Code Extension)
+
+```json
+// MCP configuration
+{
+  "mcpServers": {
+    "shotgrid-server": {
+      "command": "uvx",
+      "args": [
+        "--python", "3.10",
+        "shotgrid-mcp-server"
+      ],
+      "env": {
+        "SHOTGRID_SCRIPT_NAME": "XXX",
+        "SHOTGRID_SCRIPT_KEY": "XX",
+        "SHOTGRID_URL": "XXXX"
+      }
+    }
+  }
+}
+```
+
+### Visual Studio Code
+
+```json
+// .vscode/mcp.json
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "shotgrid-script-name",
+      "description": "ShotGrid Script Name",
+      "password": false
+    },
+    {
+      "type": "promptString",
+      "id": "shotgrid-script-key",
+      "description": "ShotGrid Script Key",
+      "password": true
+    },
+    {
+      "type": "promptString",
+      "id": "shotgrid-url",
+      "description": "ShotGrid URL",
+      "password": false
+    }
+  ],
+  "servers": {
+    "shotgrid-server": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["--python", "3.10", "shotgrid-mcp-server"],
+      "env": {
+        "SHOTGRID_SCRIPT_NAME": "${input:shotgrid-script-name}",
+        "SHOTGRID_SCRIPT_KEY": "${input:shotgrid-script-key}",
+        "SHOTGRID_URL": "${input:shotgrid-url}"
+      }
+    }
+  }
+}
+```
+
+### VS Code User Settings
+
+```json
+// settings.json
+{
+  "mcp": {
+    "shotgrid-server": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["--python", "3.10", "shotgrid-mcp-server"],
+      "env": {
+        "SHOTGRID_SCRIPT_NAME": "XXX",
+        "SHOTGRID_SCRIPT_KEY": "XX",
+        "SHOTGRID_URL": "XXXX"
+      }
+    }
+  },
+  "chat.mcp.discovery.enabled": true
+}
+```
+
+### 🔑 Credentials Setup
+
+In the configuration examples above, replace the following values with your ShotGrid credentials:
+- `SHOTGRID_SCRIPT_NAME`: Your ShotGrid script name
+- `SHOTGRID_SCRIPT_KEY`: Your ShotGrid script key
+- `SHOTGRID_URL`: Your ShotGrid server URL
+
+### 🛡️ Tool Permissions
+
+The `alwaysAllow` section lists the tools that can be executed without requiring user confirmation. These tools are carefully selected for safe operations. You can customize this list based on your security requirements.
