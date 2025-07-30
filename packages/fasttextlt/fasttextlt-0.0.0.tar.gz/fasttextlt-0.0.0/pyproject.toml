@@ -1,0 +1,47 @@
+[project]
+authors = [{ name = "Morgan Grobol", email = "morgan.grobol@tuta.com" }]
+dependencies = ["numpy >= 2, < 3"]
+description = "A pure Python FastText model reader"
+keywords = ["nlp", "embeddings", "fasttext"]
+license = "LGPL-2.1-only"
+name = "fasttextlt"
+requires-python = ">= 3.11"
+version = "0.0.0"
+
+[project.urls]
+"Bug Tracker" = "https://github.com/LoicGrobol/fasttextlt/issues"
+"Changes" = "https://github.com/LoicGrobol/fasttextlt/blob/main/CHANGELOG.md"
+"Source Code" = "https://github.com/LoicGrobol/fasttextlt"
+
+[dependency-groups]
+ci = ["pytest-github-actions-annotate-failures",]
+parity-tests = ["fasttext-numpy2",  {include-group = "tests"}]
+tests = ["hypothesis >= 6.0, < 7.0", "pytest >= 7.0 , < 9.0"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[tool.setuptools]
+packages = ["fasttextlt"]
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.mypy]
+check_untyped_defs = true
+warn_unreachable = true
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+ignore = ["PTH123"]
+select = ["A", "B", "C90", "E", "F", "N", "NPY", "PT", "PTH", "PYI", "S", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101", # asserts allowed in tests
+    "ARG",  # Unused function args -> fixtures nevertheless are functionally relevant
+]
