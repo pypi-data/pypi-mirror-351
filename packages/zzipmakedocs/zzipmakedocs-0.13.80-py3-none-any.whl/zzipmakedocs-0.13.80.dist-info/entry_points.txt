@@ -1,0 +1,4 @@
+[console_scripts]
+zzip-dbk2man = zzipdoctool.dbk2man:main
+zzip-htm2dbk = zzipdoc.htm2dbk:main
+zzip-md2dbk = zzipdoctool.md2dbk:main
