@@ -1,0 +1,17 @@
+LICENSE
+MANIFEST.in
+README.md
+requirements.txt
+setup.py
+cli/__init__.py
+cli/finops_cli.py
+cli/src/__init__.py
+cli/src/cost_calculator.py
+cli/src/ec2_inventory.py
+cli/src/pricing.py
+finops_cli.egg-info/PKG-INFO
+finops_cli.egg-info/SOURCES.txt
+finops_cli.egg-info/dependency_links.txt
+finops_cli.egg-info/entry_points.txt
+finops_cli.egg-info/requires.txt
+finops_cli.egg-info/top_level.txt
