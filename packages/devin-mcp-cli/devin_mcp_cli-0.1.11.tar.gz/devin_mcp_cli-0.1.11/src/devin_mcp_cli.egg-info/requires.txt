@@ -1,0 +1,13 @@
+typer>=0.15.2
+rich>=13.9.4
+python-dotenv>=1.1.0
+asyncio>=3.4.3
+mcp>=1.6.0
+
+[dev]
+pytest>=8.3.5
+pytest-asyncio>=0.25.3
+pytest-cov>=4.0.0
+pytest-mock>=3.14.0
+
+[wasm]
