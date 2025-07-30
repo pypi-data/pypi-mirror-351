@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: llm101
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: langchain-core>=0.3.35
+Requires-Dist: langchain-openai>=0.3.6
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: openpyxl>=3.1.5
+Requires-Dist: pandas>=2.2.3
+
+# LLM101
+Nybegynnerkurs i enkel bruk av språkmodeller.
+
+
+- Et mer relevant dataset, liknende et faktisk usecase
+- Ressoneringsmodell for laging av kategorier
+- Først gi noen kategorier ("hva bedriften tror") + other, be de kategorisere inn i de
+- Deretter be de finne kategoriene selv 
+- Fortell om data engineering 
+- SU: Begynn så enkelt som mulig, ikke overkompliser det. Utvid heller om det ikke funger, reiterer, burk feedbacken fra modellen til å gjøre dine prompts tydeligere 
+- Et poeng som er kult å få inn: Noe nesting av structured outputs 
+- Spør Arne om dato for mini-modellen 
