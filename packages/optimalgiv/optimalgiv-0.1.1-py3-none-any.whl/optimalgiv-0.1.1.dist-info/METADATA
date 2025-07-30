@@ -1,0 +1,101 @@
+Metadata-Version: 2.4
+Name: optimalgiv
+Version: 0.1.1
+Summary: Python ⇄ Julia bridge for the OptimalGIV package
+Author: Marco Zhang
+License: MIT License
+        
+        Copyright (c) 2025 Marco Zhang
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Source, https://github.com/mArc0v0mag1c/optimalgiv
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas>=1.5
+Requires-Dist: numpy>=1.22
+Requires-Dist: juliacall>=0.9
+Dynamic: license-file
+
+# optimalgiv
+
+A minimal Python wrapper for [OptimalGIV.jl](https://github.com/FuZhiyu/OptimalGIV.jl),
+a Julia package developed by Zhiyu Fu for estimating Generalized Instrumental Variable (GIV) models.
+
+This interface enables Python users to call GIV estimators directly on pandas DataFrames using JuliaCall.
+Julia is automatically installed and all dependencies are resolved without manual setup.
+
+---
+
+## Installation
+
+```bash
+pip install optimalgiv
+````
+
+On first use, `optimalgiv` will automatically:
+
+* Install Julia (if not already available)
+* Install `OptimalGIV.jl` and supporting packages
+* Precompile and create a self-contained Julia environment
+
+---
+
+## Quickstart
+
+```python
+import pandas as pd
+import numpy as np
+from optimalgiv import giv
+
+df = pd.DataFrame({
+    "id":  np.repeat([1, 2], 5),
+    "t":   list(range(1, 6)) * 2,
+    "q":   np.random.randn(10),
+    "p":   np.random.randn(10),
+    "η1":  np.random.randn(10),
+    "η2":  np.random.randn(10),
+    "absS": np.abs(np.random.randn(10)),
+})
+
+model = giv(
+    df,
+    "q + endog(p) ~ id & (η1 + η2)",
+    id="id", t="t", weight="absS",
+    algorithm="scalar_search",
+    guess={"Aggregate": 2.0}
+)
+
+print(model.coef)
+print(model.coefficient_table())
+```
+
+---
+
+## Credits
+
+This package wraps the core functionality of [`OptimalGIV.jl`](https://github.com/FuZhiyu/OptimalGIV.jl), authored by **Zhiyu Fu**.
+All modeling logic and algorithms originate from her original Julia implementation.
+
+---
+
+## License
+
+MIT License
