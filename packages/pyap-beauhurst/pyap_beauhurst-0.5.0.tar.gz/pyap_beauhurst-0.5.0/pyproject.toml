@@ -1,0 +1,114 @@
+[project]
+name = "pyap-beauhurst"
+version = "0.5.0"
+description = "Pyap is an MIT Licensed text processing library, written in Python, for detecting and parsing addresses. Currently it supports USA, Canadian and British addresses. This is a fork maintained by Beauhurst."
+repository = "https://github.com/Beauhurst/pyap"
+requires-python = ">=3.11,<3.14"
+authors = [{ name = "Vladimir Goncharov", email = "vladimarius@gmail.com" }, { name = "Beauhurst", email = "dev@beauhurst.com" }]
+license = "MIT"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+    "pydantic>=2",
+]
+readme = "README.md"
+
+[dependency-groups]
+dev = [
+    "ipython>=8",
+    "jupyter>=1,<2",
+    "jupyterlab>=4,<5",
+    "mypy>=1,<2",
+    "pytest-cov>=6,<7",
+    "pytest>=8,<9",
+    "ruff>=0,<1",
+    "types-requests>=2,<3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.sdist]
+include = ["pyap_beauhurst", "pyap_beauhurst/py.typed"]
+
+[tool.hatch.build.targets.wheel]
+include = ["pyap_beauhurst", "pyap_beauhurst/py.typed"]
+
+[tool.mypy]
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+show_error_codes = true
+warn_redundant_casts = true
+warn_unused_configs = true
+follow_imports = "normal"
+packages = ["pyap_beauhurst", "tests"]
+exclude = "venv"
+
+
+[tool.ruff]
+target-version = "py311"
+src = ["pyap_beauhurst", "tests"]
+extend-exclude = [".venv", ".git", "__pycache__", "venv"]
+
+[tool.ruff.lint]
+select = [
+    "B",
+    "COM819",
+    "C4",
+    "E",
+    "F",
+    "I",
+    "PT",
+    "Q",
+    "UP",
+    "W",
+    "NPY",
+    "PD",
+    "PTH",
+    "RUF",
+]
+ignore = ["E501"]
+# Avoid trying to fix flake8-bugbear (`B`) violations.
+unfixable = ["B"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "double"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+known-first-party = ["pyap_beauhurst"]
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore `W291` (trailing whitespace) in district_courts.py
+# https://docs.astral.sh/ruff/rules/trailing-whitespace/
+"tests/test_parser.py" = ["RUF001"]
+"pyap_beauhurst/parser.py" = ["RUF001"]
+"pyap_beauhurst/source_GB/data.py" = ["W291"]
+"pyap_beauhurst/source_CA/data.py" = ["W291"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov --strict-markers"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+omit = ["tests/*"]
+
+[tool.coverage.report]
+show_missing = true

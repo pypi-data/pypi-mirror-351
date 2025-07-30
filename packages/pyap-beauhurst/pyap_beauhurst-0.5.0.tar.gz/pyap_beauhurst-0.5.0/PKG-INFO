@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: pyap-beauhurst
+Version: 0.5.0
+Summary: Pyap is an MIT Licensed text processing library, written in Python, for detecting and parsing addresses. Currently it supports USA, Canadian and British addresses. This is a fork maintained by Beauhurst.
+Author-email: Vladimir Goncharov <vladimarius@gmail.com>, Beauhurst <dev@beauhurst.com>
+License-Expression: MIT
+License-File: AUTHORS.rst
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: <3.14,>=3.11
+Requires-Dist: pydantic>=2
+Description-Content-Type: text/markdown
+
+# Pyap: Python address parser
+
+Pyap is an MIT Licensed text processing library, written in Python, for detecting and parsing addresses. Currently it supports US 🇺🇸, Canadian 🇨🇦 and British 🇬🇧 addresses.
+
+This fork is maintained by [Beauhurst](https://github.com/Beauhurst).
+
+## Installation
+Install via pip:
+```commandline
+pip install pyap_beauhurst
+```
+
+## Usage
+```python
+import pyap_beauhurst
+
+# some text with an address in it
+test_address = """
+Lorem ipsum
+225 E. John Carpenter Freeway,
+Suite 1500 Irving, Texas 75062
+Dorem sit amet
+"""
+
+# Parse the text for US addresses
+addresses = pyap_beauhurst.parse(test_address, country='US')
+for address in addresses:
+    # shows found address
+    print(address)
+    # shows address parts
+    print(address.model_dump())
+```
