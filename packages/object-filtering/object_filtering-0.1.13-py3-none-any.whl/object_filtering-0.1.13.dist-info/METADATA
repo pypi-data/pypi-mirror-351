@@ -1,0 +1,60 @@
+Metadata-Version: 2.4
+Name: object_filtering
+Version: 0.1.13
+Summary: A module for determining whether arbitrary Python objects meet a set of defined criteria.
+Project-URL: Homepage, https://github.com/KyberCritter/Object-Filtering
+Project-URL: Issues, https://github.com/KyberCritter/Object-Filtering/issues
+Author-email: Scott Ratchford <object_filtering@scottratchford.com>
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: File Formats :: JSON
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Requires-Dist: build>=1.2.1
+Requires-Dist: colorama>=0.4.6
+Requires-Dist: iniconfig>=2.0.0
+Requires-Dist: numpy>=2.0.0
+Requires-Dist: packaging>=24.0
+Requires-Dist: pluggy>=1.5.0
+Requires-Dist: pyproject-hooks>=1.1.0
+Requires-Dist: pytest>=8.2.2
+Requires-Dist: setuptools>=71.0.0
+Requires-Dist: wheel>=0.43.0
+Description-Content-Type: text/markdown
+
+# Object Filtering
+
+![Build Status](https://github.com/KyberCritter/Object-Filtering/actions/workflows/python-package.yml/badge.svg?branch=main)
+![Python Versions](https://img.shields.io/badge/python-3.10--3.13-blue)
+
+A Python module for determining whether arbitrary Python objects meet a set of defined criteria. Filters use JSON to represent a set of criteria that objects must meet. Filters can be arbitrarily nested and can contain conditional logic.
+
+See `/docs/filter_specifications.md` for details on filter implementation.
+
+## Installation Options
+
+1. `pip install object_filtering`.
+2. Download the latest version of `object_filtering` from the Releases tab on GitHub and install the wheel (`.whl`).
+
+## Making Modifications
+
+1. Clone this repository.
+2. Make modifications to the source code.
+3. (Optional) Change the module version in `pyproject.toml`.
+4. Run `pytest` from the root of the repository to run unit tests. Only continue if all tests pass.
+5. Build the module by running `py -m build` from the root of the repository.
+6. Install the newly built wheel file.
+
+## License
+
+(c) 2025 Scott Ratchford.
+
+`object_filtering` is licensed under the MIT License. See `LICENSE.txt` for details.
