@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel>=0.37.0", "build>=0.10.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "guardian-mental-health"
+dynamic = ["version", "readme", "dependencies", "optional-dependencies", "scripts", "urls"]
+description = "Mental health monitoring system using transformer models with RTX optimization"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    {name = "Carlos Hernandez", email = "scorpioon1008@ai-withcarlos.com"}
+]
+keywords = [
+    "mental health", 
+    "nlp", 
+    "transformers", 
+    "pytorch", 
+    "discord", 
+    "machine learning", 
+    "bert",
+    "rtx",
+    "onnx"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Communications :: Chat",
+    "Topic :: Text Processing :: Linguistic",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = ["torch.*", "transformers.*", "streamlit.*", "plotly.*", "discord.*"]
+ignore_missing_imports = true
