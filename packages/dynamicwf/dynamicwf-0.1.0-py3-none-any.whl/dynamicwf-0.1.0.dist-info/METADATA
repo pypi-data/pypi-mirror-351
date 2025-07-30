@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: dynamicwf
+Version: 0.1.0
+Summary: Adobe Interns MCP Server
+Author-email: Abhijeet Ahluwalia <abhijeeta@adobe.com>
+Project-URL: Homepage, https://github.com/adobe/dynamicwf
+Project-URL: Bug Tracker, https://github.com/adobe/dynamicwf/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mcp[cli]>=1.9.2
+Requires-Dist: click>=8.2.1
+Requires-Dist: pydantic>=2.11.5
+Dynamic: license-file
+
+# DynamicWF
+
+A specialized MCP server for Adobe intern information with filtering capabilities.
+
+## Installation
+
+```bash
+pip install dynamicwf
+```
+
+## Usage
+
+After installation, you can run the server using either:
+
+```bash
+# Using the installed command
+dynamicwf
+
+# Or as a Python module
+python -m dynamicwf
+```
+
+### Command Line Options
+
+```bash
+# Run with verbose logging
+dynamicwf -v
+
+# Run with debug logging
+dynamicwf -vv
+```
+
+### API Usage
+
+You can also use the package programmatically:
+
+```python
+import asyncio
+from dynamicwf import serve
+
+# Run the server
+asyncio.run(serve())
+```
+
+## Features
+
+- Get a list of all Adobe interns
+- Filter interns by name
+- Simple CLI interface with logging options
+- REST API for integration with other services
+
+## API Endpoints
+
+- `GET /interns` - Get a list of all interns
+- `GET /interns?name=John` - Filter interns by name
+
+## Development
+
+To install in development mode:
+
+```bash
+pip install -e .
+```
+
+Running tests:
+
+```bash
+python -m unittest discover -s tests
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
