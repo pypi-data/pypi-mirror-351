@@ -1,0 +1,3 @@
+[console_scripts]
+modbus-sniffer = modbus_sniffer.cli:main
+modbus-sniffer-gui = modbus_sniffer.gui:main
