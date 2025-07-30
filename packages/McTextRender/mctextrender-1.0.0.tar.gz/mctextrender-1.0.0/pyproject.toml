@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "McTextRender"
+version = "1.0.0"
+description = "A Minecraft-style text rendering and image composition utility"
+authors = [
+    { name="Ventros", email="ventros.development@gmail.com" }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "Pillow>=9.0.0"
+]
+
+[tool.setuptools]
+packages = ["McTextRender"]
