@@ -1,0 +1,22 @@
+Metadata-Version: 2.3
+Name: postmark-models
+Version: 0.1.0
+Summary: Postmark Pydantic models
+License: GPLv3
+Author: Valentin Kivachuk Burda
+Author-email: vk18496@gmail.com
+Requires-Python: >=3.9
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: email-validator (>=2.2.0,<3.0.0)
+Requires-Dist: pydantic (>=2.11.4,<3.0.0)
+Description-Content-Type: text/markdown
+
+# postmark-models
+A python library to work with Postmark Messages
+
