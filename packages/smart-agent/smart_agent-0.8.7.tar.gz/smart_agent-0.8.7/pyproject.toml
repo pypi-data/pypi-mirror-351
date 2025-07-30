@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smart-agent"
+version = "0.8.7"
+description = "Smart AI agent with reasoning and tool use capabilities"
+readme = "README.md"
+authors = [
+    {name = "Don Kang", email = "donkang34@gmail.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "colorama",
+    "openai",
+    "asyncio",
+    "click",
+    "python-dotenv",
+    "pyyaml>=6.0",
+    "uv",
+    "openai-agents[litellm]==0.0.16",
+    "rich",
+    "fastmcp>=2.5.2",
+    "mcp[cli]>=1.6",
+    "backoff>=2.2.1",
+    "anyio>=3.7.0"
+]
+
+[project.optional-dependencies]
+web = [
+    "chainlit",
+]
+monitoring = [
+    "langfuse>=2.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/ddkang1/smart-agent"
+"Bug Tracker" = "https://github.com/ddkang1/smart-agent/issues"
+
+[project.scripts]
+smart-agent = "smart_agent.cli:main"
+
+[tool.setuptools]
+packages = {find = {}}
