@@ -1,0 +1,33 @@
+A list:
+
+  * Here is a list item with a code chunk:
+  
+    ```{r}
+    a = 1
+    a
+    ```
+
+A numbered list:
+
+  1. Here is a list item with a code chunk:
+  
+    ```{r}
+    b = 2
+    b
+    ```
+     The list continues, but this chunk has irregular indentation:
+
+    ```{r}
+c = 3
+  c
+    ```
+
+    More of the list, but this one doesn't close properly:
+    ```{r}
+    c
+  ```
+    So the block continues through the next code chunk
+    ```{r}
+    a
+    ```
+The end.
