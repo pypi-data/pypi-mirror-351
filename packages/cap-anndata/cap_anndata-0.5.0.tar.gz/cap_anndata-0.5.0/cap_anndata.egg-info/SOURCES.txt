@@ -1,0 +1,17 @@
+LICENSE
+README.md
+setup.py
+cap_anndata/__init__.py
+cap_anndata/backed_df.py
+cap_anndata/backed_dict.py
+cap_anndata/cap_anndata.py
+cap_anndata/reader.py
+cap_anndata.egg-info/PKG-INFO
+cap_anndata.egg-info/SOURCES.txt
+cap_anndata.egg-info/dependency_links.txt
+cap_anndata.egg-info/requires.txt
+cap_anndata.egg-info/top_level.txt
+test/test_backed_df.py
+test/test_backed_dict.py
+test/test_cap_anndata.py
+test/test_reader.py
