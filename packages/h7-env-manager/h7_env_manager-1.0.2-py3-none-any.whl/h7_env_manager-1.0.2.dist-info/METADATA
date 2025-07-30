@@ -1,0 +1,54 @@
+Metadata-Version: 2.4
+Name: h7-env-manager
+Version: 1.0.2
+Summary: Core utility classes for environment variable management in Python projects
+Author-email: Roger Mori <roger.mori@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/rogermori/h7-env-manager
+Project-URL: Bug Tracker, https://github.com/rogermori/h7-env-manager/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: python-dotenv>=0.19.0
+Requires-Dist: h7-file-finder>=1.0.1
+
+# h7-env-manager
+
+Core utility classes for environment variable management in Python projects.
+
+## Installation
+
+```bash
+pip install h7-env-manager
+```
+
+## Features
+
+- Centralized environment variable management
+- Support for required and optional environment variables
+- Automatic loading of .env files
+
+## Usage
+
+```python
+from h7_env_manager import EnvManager
+
+# Get required environment variable (raises ValueError if not found)
+api_key = EnvManager.get_required_env_var("API_KEY")
+
+# Get optional environment variable with default value
+debug_mode = EnvManager.get_optional_env_var("DEBUG_MODE", "false")
+
+```
+
+## Requirements
+
+- Python 3.7+
+- python-dotenv
+- h7-file-finder
+
+## License
+
+MIT License - Copyright (c) 2025 Roger Mori
