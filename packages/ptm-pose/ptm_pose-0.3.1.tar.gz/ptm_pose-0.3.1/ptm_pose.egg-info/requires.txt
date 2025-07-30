@@ -1,0 +1,17 @@
+pandas>=2.2
+numpy>=1.26
+biopython>=1.78
+tqdm>=4.66
+scipy>=1.13
+xlrd
+matplotlib
+seaborn
+requests
+
+[full_analysis]
+omnipath>=1.0.0
+pyliftover>=0.4
+nease>=1.3
+gseapy>=1.1
+kinase-library>=1.3
+networkx>=3.3
