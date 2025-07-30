@@ -1,0 +1,22 @@
+README.md
+pyproject.toml
+reperiods/__init__.py
+reperiods/datasets.py
+reperiods/export.py
+reperiods/plot.py
+reperiods/representative_periods.py
+reperiods/temporal_data.py
+reperiods/utils.py
+reperiods.egg-info/PKG-INFO
+reperiods.egg-info/SOURCES.txt
+reperiods.egg-info/dependency_links.txt
+reperiods.egg-info/requires.txt
+reperiods.egg-info/top_level.txt
+reperiods/find_RP/kmedoids.py
+reperiods/find_RP/poncelet.py
+reperiods/find_RP/random.py
+tests/test_find_RP_random.py
+tests/test_non_regression kmedoids.py
+tests/test_non_regression_poncelet.py
+tests/test_temporal_data.py
+tests/test_utils.py
