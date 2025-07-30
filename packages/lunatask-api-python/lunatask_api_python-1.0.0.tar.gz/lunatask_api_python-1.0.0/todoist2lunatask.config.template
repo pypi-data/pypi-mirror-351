@@ -1,0 +1,182 @@
+# todoist2lunatask Config
+#
+# This is TOML, if you need help see: https://toml.io/en/
+#
+# You **MUST** set the following settings:
+#
+# - `todoist_api_token`
+# - `lunatask_api_token`
+# - `todoist_default_area`
+
+###############################################################################
+# You **MUST** change these settings.
+#
+# todoist2lunatask can't work without these being changed.
+###############################################################################
+
+# You MUST change the todoist_api_token and lunatask_api_token values.
+#
+# To get your Todoist API token:
+# https://www.todoist.com/help/articles/find-your-api-token-Jpzx9IIlB
+#
+# To get your Lunatask API token:
+#
+#  1. Click the Settings icon ⚙️ in the top left of the app window.
+#  2. Click "Access tokens" in the Preferences list on the lef.
+#  3. Click the "Create access token" button. Rename it to something like
+#     "Todoist Import" so you don't forget what it's for. You should revoke the
+#     token when you're done importing from Todoist.
+#  4. Click the "Copy to clipboard" button and paste it here.
+#
+# **DO NOT** publish these tokens anywhere (a `git` repo, cloud storage, etc.);
+# if you do, anyone could manipulate your Todoist and Lunatask data!
+todoist_api_token = "TODOIST_API_TOKEN_GOES_HERE"
+lunatask_api_token = "LUNATASK_API_TOKEN_GOES_HERE"
+
+# You MUST set this to the Area ID of an existing Area of Life in Lunatask:
+#
+# 1. Under Tasks, select the Area of Life in the left panel.
+# 2. Click the Settings icon ⚙️ in the top right.
+# 3. Click Copy Area ID in the bottom-left of the dialog box.
+# 4. Past the ID over `LUNATASK_AREA_ID_GOES_HERE`; the line should look
+#    something like (your Area ID will be different):
+#
+#    todoist_default_area = "97b2b0ec-4d21-4b28-9510-962c103249f5"
+todoist_default_area = "LUNATASK_AREA_ID_GOES_HERE"
+
+###############################################################################
+# You *should* change these settings.
+#
+# These settings control the import process but aren't absolutely required.
+###############################################################################
+
+# Project to Area of Life mapping
+#
+# Lunatask doesn't currently have a public API for creating Areas of Life; you
+# must do this yourself **before** starting an import:
+#
+# 1. Create one or more Areas of Life. You can dump all of your Todoist tasks
+#    into one Area, or you can map each Todoist Project into a separate Area
+#    (recommended).
+# 2. Get the Area ID from the area settings by clicking the "Copy Area ID"
+#    button.
+# 4. Use the todoist_project_map to map your Todoist project names to Area IDs.
+#
+# If a task's project can't be found in the todoist_project_map, it will be
+# created in the todoist_default_area. If an Area ID is incorrect, the import
+# will warn you, and create the task in the todoist_default_area instead.
+#
+# Creating this mapping is the most work you'll have to do during the import!
+[todoist_project_map]
+"Example - 🏡 Project 1" = "LUNATASK_AREA_ID_GOES_HERE"
+"Example - Project 2 💡" = "LUNATASK_AREA_ID_GOES_HERE"
+"Example - 🧹 Chores" = "LUNATASK_AREA_ID_GOES_HERE"
+
+###############################################################################
+# You *can* change these settings.
+#
+# These settings have reasonable defaults and *probably* don't need to be
+# changed unless you have specific reasons to change them.
+###############################################################################
+
+# Tasks imported from Todoist are given this Source.
+[optional]
+todoist_task_source = "Todoist"
+
+# Tasks scheduled to be done soon get set to "Next" in Lunatask; this sets the
+# number of days for "soon" (default is 7).
+todoist_upcoming_days = 7
+
+# Tasks that have Labels in Todoist map to Goals in Lunatask. Goals are
+# specific to the task's Area. Labels are preserved in the task notes, but
+# we'll also create a task to remind you to recreate the Labels as Goals.
+# That task will have this name in each Area that has tasks needing Goals.
+todoist_label_reminder = "Create Goals for Todoist Labels"
+
+# There's currently no way to mark a task as recurring and set the schedule;
+# we'll create a task to remind you to set this up for the tasks that need it.
+# That task will have this name in the todoist_default_area.
+todoist_recurring_reminder = "Update recurring tasks"
+
+# Todoist has four Priority levels, P1 (highest) - P4 (lowest). Lunatask has
+# five levels, 2 (highest) - -2 (lowest). New Tasks use this mapping for the
+# priorities.
+#
+# Todoist numbers these from 1 (p4, lowest, the default) to 4 (highest)
+[todoist_priority]
+p1 = 2
+p2 = 1
+p3 = 0
+p4 = -1
+
+# Used to represent a task priority in text.
+[priority_glyph]
+p1 = "⏫"
+p2 = "🔼"
+p3 = "⏩"
+p4 = "🔽"
+
+# Markdown templates for controlling the format of task data.
+#
+# Dates are formatted in ISO-8601 format: year-month-day
+#
+# Lunatask Markdown reference: https://lunatask.app/docs/markdown-reference
+#
+# Things in braces will be replaced by the thing; they're optional, but each
+# template only supports certain replacements.
+#
+# The sections are arranged in the new task's notes in this order:
+#
+# - description
+# - section
+# - labels
+# - due
+# - deadline
+# - parent
+# - subtasks
+# - comments
+#
+# task-comments - Used to format the comments section. (*Replacements:*
+#                 {comment_list})
+#
+# task-comment-list - Used to format each comment. (*Replacements:* {comment},
+#                     {posted_at})
+#
+# task-deadline - Used to format the task deadline. (*Replacements:*
+#                 {deadline_date})
+#
+# task-due - Used to format the task due date. (*Replacements:* {arbitrary},
+#            {due_date}, {recurring})
+#
+# task-labels - Used to format the task's labels. (*Replacements: {label_list})
+#
+# task-label-list - Used format each label. (*Replacements: {colour},
+#                   {favourite}, {name})
+#
+# task-parent - Used to format a reference to the parent for sub-tasks.
+#               (*Replacements:* {area}, {name}, {priority_glyph})
+#
+# task-section - Used to format a task's section. (*Replacements:* {name})
+#
+# task-subtasks - Used to format the task's subtasks. (*Replacements:*
+#                 {subtask_list})
+#
+# task-subtask-list - Used to format each subtask. (*Replacements:* {area},
+#                     {name}, {priority_glyph})
+[markdown_templates]
+task-comments = """#### Comments
+
+{comment_list}
+"""
+task-comment-list = "> {comment}"
+task-deadline = "Deadline: {deadline_date}"
+task-due = "Due: {due_date}{recurring}{arbitrary}"
+task-labels = "Labels: {label_list}"
+task-label-list = "{favourite}{name} ({colour})"
+task-parent = "* Parent task: {priority_glyph} {area} 🠖 {name}"
+task-section = "**Section:** {name}"
+task-subtasks = """#### Sub-tasks
+
+{subtask_list}
+"""
+task-subtask-list = "- [ ] {priority_glyph} {area} 🠖 {name}"

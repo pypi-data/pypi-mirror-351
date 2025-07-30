@@ -1,0 +1,196 @@
+# Schema: https://json.schemastore.org/pyproject.json
+[project]
+name = "lunatask-api-python"
+version = "1.0.0"
+description = "A Python API for Lunatask"
+readme = "README.md"
+authors = [
+  {name = "Chris Herborth", email = "chrish@pobox.com"},
+]
+maintainers = [
+  {name = "Chris Herborth", email = "chrish@pobox.com"},
+]
+license = "CC-BY-NC-ND-4.0"
+license-files = [ "LICENSE" ]
+keywords = [
+  "api",
+  "import",
+  "lunatask",
+  "todoist",
+]
+
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Environment :: Web Environment",
+  "Intended Audience :: Developers",
+  "Intended Audience :: End Users/Desktop",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Other/Nonlisted Topic",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+requires-python = ">=3.11"
+dependencies = [
+    "dataclass-wizard[toml]>=0.35.0,<1",
+    "requests>=2.32.3,<3",
+    "todoist-api-python>=3.0,<4",
+]
+
+[dependency-groups]
+# TODO: Add pytest-codecov when running in CI? Or handle that in the CI?
+dev = [
+  "pytest",
+  "pytest-cov",
+  "ruff",
+]
+
+[project.urls]
+documentation = "https://codeberg.org/Taffer/todoist2lunatask/src/branch/main/README.md"
+homepage = "https://codeberg.org/Taffer/todoist2lunatask/"
+issues = "https://codeberg.org/Taffer/todoist2lunatask/issues"
+source = "https://codeberg.org/Taffer/todoist2lunatask/src/branch/main/src/lunatask"
+
+[project.scripts]
+todoist2lunatask = "main:main"
+
+# Build details
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "**/__pycache__",
+  "**/.gitignore",  # This seems to be ignored. Mildly ironic.
+  "**/*.code-workspace",
+  "**/*.config",
+  "**/*.egg-info",
+  "/.coverage*",
+  "/.git",
+  "/.pytest_cache",
+  "/.python-version",
+  "/.ruff_cache",
+  "/.venv",
+  "/dist",
+  "/uv.lock",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+  "src/lunatask",
+]
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
+
+# Testing and code quality
+
+[tool.pytest.ini_options]
+addopts = [
+  "--cov=.",
+  "--cov-report",
+  "term-missing"
+]
+
+[tool.ruff]
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+  "A",     # flake8-builtins
+  "ANN",   # flake8-annotations
+  "ASYNC", # flake8-async
+  "B",     # flake8-bugbear
+  "BLE",   # flake8-blind-except
+  "C4",    # flake8-comprehensions
+  "D",     # pydocstyle,
+  "DTZ",   # flake8-datetimez,
+  "E",     # pycodestyle errors
+  "F",     # pyflakes
+  "FA",    # flake8-future-annotations
+  "FIX",   # flake8-fixme
+  "FURB",  # refurb
+  "G",     # flake8-logging-format
+  "I",     # isort
+  "ICN",   # flake8-import-conventions
+  "INP",   # flake8-no-pep420
+  "ISC",   # flake8-implicit-str-concat
+  "LOG",   # flake8-logging
+  "N",     # pep8-naming
+  "PERF",  # perflint
+  "PGH",   # pygrep-hooks
+  "PIE",   # flake8-pie
+  "PL",    # pylint
+  "PT",    # flake8-pytest-style
+  "PTH",   # flake8-user-pathlib
+  "PYI",   # flake8-pyi
+  "RET",   # flake8-logging-return
+  "RUF",   # ruff
+  "S",     # flake8-bandit
+  "SIM",   # flake8-simplify
+  "T20",   # flake8-print
+  "TC",    # flake8-type-checking
+  "TID",   # flake8-tidy-imports
+  "TRY",   # tryceratops
+  "UP",    # pyupgrade
+  "W",     # pycodestyle warnings
+]
+
+ignore = [
+    "T201", # print is fine, this is a command-line tool
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+# Doc generation
+
+[tool.pydoc-markdown]
+processors = [
+  {type = "crossref"},
+  {type = "filter", "documented_only" = true},
+]
+
+[[tool.pydoc-markdown.loaders]]
+type = "python"
+search_path = ["./src"]
+
+[tool.pydoc-markdown.renderer]
+type = "mkdocs"
+output_directory = "wiki"
+content_directory_name = ""
+clean_render = true
+
+[tool.pydoc-markdown.renderer.markdown]
+encoding = "utf-8"
+#insert_header_anchors = false  # These are generated wrong.
+# Use perl to fix it:
+#
+# perl -pi -e 'BEGIN{undef $/;} s/(<a id="[^"]+"><\\/a>)\\n\\n(.*)/#\2 \1\n/mg;' wiki/docs/*.md
+code_headers = true
+render_page_title = true
+render_toc = true
+header_level_by_type = {"Module" = 2, "Class" = 3, "Method" = 4, "Function" = 3, "Variable" = 3}
+#source_linker = "git"  # There's no way to specify this?
+
+[[tool.pydoc-markdown.renderer.pages]]
+title = "Lunatask API Documentation"
+name = "API"
+contents = [ "lunatask", "lunatask.*" ]
+
+[[tool.pydoc-markdown.renderer.pages]]
+title = "Import Todoist Tasks to Lunatask"
+name = "todoist2lunatask"
+contents = [ "main" ]

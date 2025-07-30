@@ -1,0 +1,9 @@
+# Invalid todoist2lunatask Config
+todoist_api_token = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
+lunatask_api_token = "Not an API token"
+
+todoist_default_area = "1cf93550-8eb4-3c32-a229-826cf8c1be59"
+
+[todoist_project_map]
+
+[optional]

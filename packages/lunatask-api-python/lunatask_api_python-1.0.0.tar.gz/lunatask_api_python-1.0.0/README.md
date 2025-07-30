@@ -1,0 +1,191 @@
+# `lunatask-api-python` - Python API for Lunatask
+
+![Lunatask logo with Python's logo superimposed.](./lunatask-python.png)
+
+A Python version of [Lunatask](https://lunatask.app/)'s API, plus a script to
+pull task data from [Todoist](https://www.todoist.com/) and import it into
+Lunatask.
+
+I wanted to try out Lunatask without copying and pasting my existing Todoist
+tasks over; Todoist only lets you export to CSV, and Lunatask doesn't have any
+import abilities yet, so here we are.
+
+## Requirements
+
+- Python 3.11.x (the first version with
+  [`tomllib`](https://docs.python.org/3/library/tomllib.html) in the standard
+  library)
+- [`dataclass-wizard`](https://dataclass-wizard.readthedocs.io/en/latest/)
+- [`requests`](https://requests.readthedocs.io/en/latest/)
+- [`todoist-api-python`](https://github.com/Doist/todoist-api-python)
+
+### Installation
+
+- `pip install lunatask-api-python` from PyPI
+- `uv build` to build from source; this gives you:
+  - `dist/lunatask_api_python-0.1.0-py3-none-any.whl` - A Python wheel you can
+    install.
+  - `.venv/bin/todoist2lunatask` - The Todoist importer script.
+
+#### Generate Docs
+
+```sh
+# Generate documentation in wiki/*.md:
+uv tool install pydoc-markdown
+uv tool run pydoc-markdown
+
+# Optionally fix up invalid Markdown:
+perl -pi -e 'BEGIN{undef $/;} s/(<a id="[^"]+"><\\/a>)\\n\\n(.*)/#\2 \1\n/mg;' wiki/docs/*.md
+```
+
+## Before You Import
+
+Before using the `todoist2lunatask` script, you need to create a
+`todoist2lunatask.config` from the
+[`todoist2lunatask.config.template`](https://codeberg.org/Taffer/todoist2lunatask/src/branch/main/todoist2lunatask.config.template)
+(click to download a copy). This config file controls the import process.
+
+**NOTE:** Lunatask doesn't currently have public APIs for creating *Areas of
+Life* (aka *Projects*) or *Goals* (which I was going to use to replicate
+Todoist *Labels*).
+
+There are three items you need to specify in the config before you can begin:
+
+- `lunatask_api_token` - In the Luntask desktop application:
+  1. Click the Settings icon ⚙️ in the top left.
+  2. Click "Access tokens" in the Preferences list on the lef.
+  3. Click the "Create access token" button. Rename it to something like
+     "Todoist Import" so you don't forget what it's for. You should revoke the
+     token when you're done importing from Todoist.
+  4. Click the "Copy to clipboard" button and paste it into your config file.
+- `todoist_api_token` - Your [Todoist API token](https://www.todoist.com/help/articles/find-your-api-token-Jpzx9IIlB).
+- `todoist_default_area` - The default *Area of Life*; if you haven't set up a
+  mapping between your Todoist projects and Lunatask Areas of Life, imported
+  tasks will be created in here.
+
+To put imported tasks in specific Areas of Life, you must create one or more
+Areas to receive the imported Todoist tasks and list them in the
+`todoist2lunatask.config` file's `todoist_project_map`. It's tedious
+(especially if you have a lof of Projects in Todoist), but easy. Instructions
+are in the config file.
+
+## `todoist2lunatask` Usage
+
+To import your Todoist Tasks into Lunatask:
+
+1. Copy the
+   [`todoist2lunatask.config-template`](https://codeberg.org/Taffer/todoist2lunatask/raw/branch/main/todoist2lunatask.config.template)
+   to `todoist2lunatask.config`.
+2. Edit the `todoist2lunatask.config` file using your favourite text editor
+   (hopefully one that does syntax highlighting for TOML, but it's not required).
+3. Add your Todoist API token:
+   1. In Todoist's settings under *Integrations*, go to the
+      [Developer](https://app.todoist.com/app/settings/integrations/developer)
+      tab.
+   2. Click *Copy API Token*.
+   3. Paste your Todoist API token in `todoist2lunatask.config` so it replaces
+     `TODOIST_API_TOKEN_GOES_HERE`.
+4. Add your Lunatask API token:
+   1. In Lunatask's settings under *Access tokens*, click *Create access token*
+      and optionally rename it "Todoist Import" so you'll remember what it was
+      for.
+   2. Click *Copy to clipboard*.
+   3. Paste your Lunatask API token in `todoist2lunatask.config` so it replaces
+      `LUNATASK_API_TOKEN_GOES_HERE`.
+5. Paste the Area ID for your default Lunatask Area of Life in
+   `todoist_default_area`.
+6. Optionally create Areas of Life to duplicate your Todoist Projects, then
+   paste the Todoist Project names and Luntask Area IDs in the
+   `todoist_project_map`.
+
+Now you're ready to go:
+
+1. Run `todoist2lunatask --check` to make sure your API tokens are correct.
+   This will also warn you if there are Todoist Projects that don't have a
+   corresponding Lunatask Area of Life. Note that this *doesn't* verify your
+   Area of Life IDs. The `--check` doesn't make any changes to your Lunatask
+   data.
+2. Run `todoist2lunatask --import` to import all of your Todoist tasks.
+   Warnings will let you know about any problems.
+
+## Details
+
+Todoist's features don't map directly into Lunatask; here's how the import
+adjusts things:
+
+- Deadlines are prepended to the task title as [Deadline: *date*].
+- Todoist's Priority has four levels, be default these map to the following
+  Lunatask priorities (you can change this in the config file):
+  - P1 -> Highest
+  - P2 -> High
+  - P3 -> Normal
+  - P4 -> Low
+- Imported tasks will have `Todoist` as their source and (optionally) the
+  original Todoist task ID as the source_id. These are available in the API,
+  but not in the desktop apps.
+- Collaborators (Task creators, or assignees) are created as People in Lunatask
+  with the Relationship set by todoist_collaborator_relationship in the config.
+
+Todoist features not supported:
+
+- Assignee, Assigner, Creator - There's no way to get user info from Todoist
+  via the REST API.
+- Attachments - Added to the Note section as a link to the Todoist task.
+- Sections - Added to the Note section of the imported Lunatask Task.
+
+### Detailed Details
+
+Here's the detailed mapping between data in a
+[Todoist Task object](https://developer.todoist.com/rest/v2/?python#tasks) to a
+[Lunatask Task](https://lunatask.app/api/tasks-api/create).
+
+A 🙅 indicates that the Todoist field isn't replicated in Lunatask.
+
+|Todoist         |Lunatask   |Notes |
+|----------------|-----------|------|
+|`assignee_id`   |🙅         |      |
+|`assigner_id`   |🙅         |      |
+|`comment_count` |`note`     | 2    |
+|`content`       |`name`     | 1, 2 |
+|`created_at`    |`note`     | 2    |
+|`creator_id`    |🙅         |      |
+|`deadline`      |`note`     | 2, 4 |
+|`description`   |`note`     | 2    |
+|`due`           |`note`     | 2, 6 |
+|`duration`      |`estimate` |      |
+|`id`            |🙅         |      |
+|`is_completed`  |`status`   |      |
+|`labels`        |`goal_id`  | 2, 3 |
+|`order`         |🙅         |      |
+|`parent_id`     |           | 7    |
+|`priority`      |`priority` | 5    |
+|`project_id`    |`area_id`  |      |
+|`section_id`    |           | 2, 8 |
+|`url`           |`note`     | 2    |
+
+Notes:
+
+1. Todoist's Content field is a big free-form text area that supports Markdown;
+   Lunatask's Name field is a single line without formatting.
+2. This information gets formatted into the Lunatask Task's Note section.
+3. Areas that have imported Tasks that originally had Labels in Todoist get a
+   new Task listing those tasks and their labels, so you can recreate them via
+   Goals inside the Areas if you wish.
+4. Deadline format is controlled by the `todoist_deadline_*` settings in the
+   config file.
+5. Todoist priorities are mapped to Lunatask priorities according to the
+   `todoist_priority` setting in the config file.
+6. There's no way to set recurrence in the Lunatask API; you can by recreate
+   this after the import:
+   <https://lunatask.app/docs/features/tasks/recurring-tasks>
+7. Todoist Tasks with a parent_id are *Subtasks*; they'll be recreated as
+   Lunatask Tasks with notes referring to their parent. The parent will list
+   its sub-tasks.
+8. Project sections are ignored, Task sections are added to the task note.
+
+## License
+
+`todoist2lunatask` is currently licensed under a
+[Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en)
+by Chris Herborth. [Contact me](https://taffer.ca/) if that doesn't work for
+you.

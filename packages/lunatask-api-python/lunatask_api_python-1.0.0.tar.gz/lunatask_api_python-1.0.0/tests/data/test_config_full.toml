@@ -1,0 +1,47 @@
+# Full todoist2lunatask Config
+lunatask_api_token = ".-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_ABCDEFGHIJKL"
+todoist_api_token = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
+
+todoist_default_area = "1cf93550-8eb4-3c32-a229-826cf8c1be59"
+
+[todoist_project_map]
+"Example - 🏡 Project 1" = "1cf93550-8eb4-3c32-a229-826cf8c1be59"
+"Example - Project 2 💡" = "1cf93550-8eb4-3c32-a229-826cf8c1be59"
+"Example - 🧹 Chores" = "1cf93550-8eb4-3c32-a229-826cf8c1be59"
+
+[optional]
+todoist_task_source = "Todoist"
+
+todoist_label_reminder = "Create Goals for Todoist Labels"
+
+todoist_recurring_reminder = "Update recurring tasks"
+
+[todoist_priority]
+p1 = 2
+p2 = 1
+p3 = 0
+p4 = -1
+
+[priority_glyph]
+p1 = "⏫"
+p2 = "🔼"
+p3 = "⏩"
+p4 = "🔽"
+
+[markdown_templates]
+task-comments = """#### Comments
+
+{comment_list}
+"""
+task-comment-list = "> {comment}"
+task-deadline = "Deadline: {deadline_date}"
+task-due = "Due: {due_date}{recurring}{arbitrary}"
+task-labels = "Labels: {label_list}"
+task-label-list = "{favourite}{name} ({colour})"
+task-parent = "* Parent task: {priority_glyph} {area} 🠖 {name}"
+task-section = "**Section:** {name}"
+task-subtasks = """#### Sub-tasks
+
+{subtask_list}
+"""
+task-subtask-list = "[] Sub-task: {priority_glyph} {area} 🠖 {name}"
