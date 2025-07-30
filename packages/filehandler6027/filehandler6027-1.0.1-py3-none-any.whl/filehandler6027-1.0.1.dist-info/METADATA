@@ -1,0 +1,99 @@
+Metadata-Version: 2.4
+Name: filehandler6027
+Version: 1.0.1
+Summary: Flexible and beginner-friendly Python package for safe and cross-platform file operations.
+Author: Charlie Sky
+Author-email: Charlie Sky <charlie@example.com>
+License: MIT License
+        
+        Copyright (c) 2025 Charlie Sky
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/charlie6027/filehandler
+Project-URL: Issues, https://github.com/charlie6027/filehandler/issues
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: license-file
+Dynamic: requires-python
+
+# 📦 FileHandler
+
+![Build](https://github.com/charlie6027/filehandler/actions/workflows/python-package.yml/badge.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.8+-brightgreen)
+
+A flexible and beginner-friendly Python package for safe and cross-platform file operations.  
+Supports both **traditional** (Unix-style `~`) and **modern** (`pathlib`) path handling modes with built-in logging, error management, and content retrieval.
+
+---
+
+## ✨ Features
+
+- 🗂️ Read, write, and append to files with automatic encoding (`utf-8`)
+- 🔁 Switchable file handling modes: `Traditional` and `Modern`
+- 🧠 FullPathBuilder for safe home-relative paths
+- 🔐 Exception-safe file operations
+- 📄 License: MIT (free for all use)
+
+---
+
+## 📥 Installation
+
+```bash
+git clone https://github.com/charlie6027/filehandler.git
+cd filehandler
+pip install -e .
+```
+
+---
+
+## 🧪 Running Tests
+
+```bash
+python -m unittest discover -s tests
+```
+
+---
+
+## 🚀 Usage Example
+
+```python
+from filehandler import FileHandler, FileHandleMode
+
+handler = FileHandler()
+handler.write('~/Documents/test.txt', 'Hello, world!')
+print(handler.read('~/Documents/test.txt'))
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!  
+Feel free to check [issues page](https://github.com/charlie6027/filehandler/issues).
+
+---
+
+## 🧑 Author
+
+**Charlie Sky**  
+Feel free to ⭐ the repo if you find it useful!
