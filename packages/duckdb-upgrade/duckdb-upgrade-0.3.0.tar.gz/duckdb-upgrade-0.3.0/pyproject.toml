@@ -1,0 +1,58 @@
+[project]
+name = "duckdb-upgrade"
+version = "0.3.0"
+description = "A tool to upgrade DuckDB database files."
+authors = [
+    { name = "Nick Pleatsikas", email = "nick@pleatsikas.me" },
+]
+dependencies = [
+    "packaging>=23.1",
+    "requests>=2.31.0",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+
+[project.license]
+text = "MIT"
+
+[project.scripts]
+duckdb-upgrade = "duckdb_upgrade.__main__:main"
+
+[build-system]
+requires = [
+    "pdm-pep517",
+]
+build-backend = "pdm.pep517.api"
+
+[tool.pdm.dev-dependencies]
+lint = [
+    "black>=23.7.0",
+]
+test = [
+    "pytest>=7.4.3",
+]
+
+[tool.pdm.scripts.duckdb-upgrade]
+call = "src.duckdb_upgrade.__main__:main"
+
+[tool.pdm.scripts.pre_build]
+composite = [
+    "mkdir -p src/duckdb_upgrade/data",
+    "cp vendor/duckdb/src/storage/version_map.json src/duckdb_upgrade/data/version_map.json\n    ",
+]
+
+[tool.pdm.scripts.test_data_gen]
+shell = "jq -r '[ .storage.values | to_entries[].key | sub(\"v\"; \"\") | split(\".\") | map(tonumber) ] | sort | last | join(\".\")' vendor/duckdb/src/storage/version_map.json > tests/latest.txt\n    "
+
+[tool.pdm.scripts.test]
+composite = [
+    "pre_build",
+    "test_data_gen",
+    "pytest --ignore=vendor/",
+]
+
+[tool.pdm.build]
+includes = [
+    "src",
+    "src/duckdb_upgrade/data/version_map.json",
+]
