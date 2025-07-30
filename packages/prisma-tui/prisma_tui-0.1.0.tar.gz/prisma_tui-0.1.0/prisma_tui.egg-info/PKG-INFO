@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: prisma-tui
+Version: 0.1.0
+Summary: A TUI framework based on the idea of "multi-layered transparency" composition.
+Home-page: https://github.com/diegobarmor/prisma-tui
+Author: DiegoBarMor
+Author-email: diegobarmor42@gmail.com
+License: MIT
+Keywords: tui terminal user interface transparency layers layered curses
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary
+
+# PRISMA TUI
+
+Python teRminal graphIcS with Multilayered trAnsparency
+
+# TODO
+
+- Write this README
+- Add docstrings for `prisma/section.py`, `prisma/terminal.py`, `prisma/utils.py`
+- Make `utilities/image_formatter.py` into an actual utility
