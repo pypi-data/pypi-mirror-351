@@ -1,0 +1,108 @@
+Metadata-Version: 2.4
+Name: ArthimeticOp
+Version: 0.0.1
+Summary: A small example package for addition sub multiply divide
+Author-email: Example Author <author@example.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/postboxat18/ArthimeticOp.git
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Dynamic: license-file
+
+Here’s the finalized `README.md` for your **ArthimeticOp** Python package, tailored for GitHub and PyPI:
+
+---
+
+````markdown
+# ArthimeticOp
+
+**ArthimeticOp** is a lightweight Python package that provides basic arithmetic operations — addition, subtraction, multiplication, and division — via simple, reusable functions.
+
+## 📦 Features
+
+- `add(a, b)` – Returns the sum of `a` and `b`.
+- `subtract(a, b)` – Returns the result of `a - b`.
+- `multiply(a, b)` – Returns the product of `a` and `b`.
+- `divide(a, b)` – Returns the result of `a / b`. Raises `ValueError` on division by zero.
+
+## 🔧 Installation
+
+Install from [PyPI](https://pypi.org/project/ArthimeticOp/) using pip:
+
+```bash
+pip install ArthimeticOp
+````
+
+Or directly from GitHub:
+
+```bash
+pip install git+https://github.com/postboxat18/ArthimeticOp.git
+```
+
+## 🚀 Usage
+
+```python
+from ArthimeticOp.ArthimeticOp import add, subtract, multiply, divide
+
+print(add(4, 5))        # Output: 9
+print(subtract(10, 3))  # Output: 7
+print(multiply(6, 7))   # Output: 42
+print(divide(8, 2))     # Output: 4.0
+
+# Handle division by zero
+try:
+    divide(5, 0)
+except ValueError as e:
+    print(f"Error: {e}")  # Output: Error: Cannot divide by zero.
+```
+
+## ⚠️ Error Handling
+
+The `divide(a, b)` function checks for division by zero and raises a `ValueError` if `b == 0`. Always use try-except blocks when dividing.
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how:
+
+1. Fork the repo
+2. Create a new branch (`git checkout -b feature-name`)
+3. Make your changes
+4. Commit (`git commit -am 'Add new feature'`)
+5. Push to the branch (`git push origin feature-name`)
+6. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 🔗 Project Links
+
+* [📂 GitHub Repository](https://github.com/postboxat18/ArthimeticOp)
+* [📦 PyPI Package](https://pypi.org/project/ArthimeticOp/)
+
+```
+
+---
+
+### ✅ Notes:
+
+- Make sure the folder structure supports:  
+  `from ArthimeticOp.ArthimeticOp import ...`  
+  That means your package directory should be:
+```
+
+ArthimeticOp/
+
+└── ArthimeticOp.py
+
+└── **init**.py
+
+```
+
+- Adjust the PyPI package name in your `pyproject.toml` to match `ArthimeticOp`.
+
+If you need a matching `LICENSE` file or setup structure, just let me know.
+```
