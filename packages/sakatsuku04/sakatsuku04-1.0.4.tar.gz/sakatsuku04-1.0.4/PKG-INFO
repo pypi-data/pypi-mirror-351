@@ -1,0 +1,102 @@
+Metadata-Version: 2.4
+Name: sakatsuku04
+Version: 1.0.4
+Summary: Opensource game and save editor for J.League Pro Soccer Club o Tsukurou! 04 (PS2).
+Project-URL: Homepage, https://github.com/caol64/sakatsuku04
+Author-email: Lei <caol64@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: MacOS X :: Cocoa
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Environment :: X11 Applications :: GTK
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Multimedia :: Graphics
+Classifier: Topic :: Software Development :: User Interfaces
+Classifier: Topic :: Utilities
+Requires-Python: >=3.13
+Requires-Dist: numpy==2.2.2
+Requires-Dist: wxpython==4.2.2
+Provides-Extra: dev
+Requires-Dist: build==1.2.2; extra == 'dev'
+Requires-Dist: pyinstaller==6.11.1; extra == 'dev'
+Requires-Dist: tomli==2.2.1; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Sakatsuku04 save editor
+
+![](data/cover.jpg)
+
+Opensource game and save editor for J.League Pro Soccer Club o Tsukurou! 04 (PS2).
+
+## Quick Start
+
+The recommended way to run `sakatsuku04` is by using [`uv`](https://github.com/astral-sh/uv) to create and manage a virtual environment:
+
+```bash
+uv venv --python python3.13
+uv pip install sakatsuku04
+uv run sakatsuku04
+```
+
+Alternatively, you can download the latest prebuilt releases from GitHub:
+👉 [https://github.com/caol64/sakatsuku04/releases](https://github.com/caol64/sakatsuku04/releases)
+
+## Features
+
+Currently supported viewing features:
+
+- Club information
+  - Club name
+  - Funds
+  - Game year, month, date
+  - Manager name
+  - Game difficulty
+- My Team information
+  - Player basic information (name, age, birthplace, rank, growth types, cooperation types, tone types, play styles)
+  - Player abilities
+- Other team information
+  - Teams (name, friendliness) and players (name, age, rank, growth types, cooperation types, tone types)
+- Scout
+  - My Scout abilities
+
+Currently supported editing features:
+
+- Club information
+  - Funds
+  - Game year
+  - Game difficulty
+- My Team information
+  - Player basic information (age, birthplace, growth types, cooperation types, tone types, play styles)
+  - Player abilities
+- Other team information
+  - Teams (friendliness)
+
+## Screenshots
+
+![](data/1.png)
+
+![](data/2.png)
+
+![](data/3.png)
+
+![](data/4.png)
+
+## Hacker notes
+
+[Save File Format Analysis](docs/save_file_format_analysis.md)
+
+## Acknowledgements
+
+The data used in this project was obtained from [サカつく04緑本追補] and [サカつく04データ置き場]. I am grateful for their contribution to making this information publicly available.
+
+## References
+
+- [サカつく04緑本追補](https://sites.google.com/view/sakatsuku04/home)
+- [サカつく04データ置き場](https://www.potato.ne.jp/ando/sakatuku/index.html)

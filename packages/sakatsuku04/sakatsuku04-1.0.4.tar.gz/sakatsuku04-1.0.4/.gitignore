@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*$py.class
+/.idea/
+**/build/
+**/dist/
+.DS_STORE
+.vscode
+**/*.iml
+test/
+.pytest_cache
+.venv
+bin/
+Saka04SaveEditor.spec
+.env
