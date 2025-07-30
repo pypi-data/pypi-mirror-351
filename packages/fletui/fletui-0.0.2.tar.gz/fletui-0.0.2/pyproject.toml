@@ -1,0 +1,17 @@
+[project]
+name = "fletui"
+version = "0.0.2"
+description = "Test"
+readme = "README.md"
+authors = [
+    { name = "aigcst", email = "aigcst@outlook.com" }
+]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+fletui = "fletui:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
