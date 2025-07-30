@@ -1,0 +1,11 @@
+numpy
+nltk
+transformers
+sentence-transformers
+groq
+dotenv
+rouge-score
+bert-score
+
+[dev]
+pytest
