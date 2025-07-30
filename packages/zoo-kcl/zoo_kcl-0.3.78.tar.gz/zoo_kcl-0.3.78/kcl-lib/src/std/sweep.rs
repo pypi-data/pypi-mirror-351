@@ -1,0 +1,129 @@
+//! Standard library sweep.
+
+use anyhow::Result;
+use kcmc::{each_cmd as mcmd, length_unit::LengthUnit, ModelingCmd};
+use kittycad_modeling_cmds::{self as kcmc, shared::RelativeTo};
+use schemars::JsonSchema;
+use serde::Serialize;
+
+use super::{args::TyF64, DEFAULT_TOLERANCE};
+use crate::{
+    errors::KclError,
+    execution::{
+        types::{NumericType, RuntimeType},
+        ExecState, Helix, KclValue, Sketch, Solid,
+    },
+    parsing::ast::types::TagNode,
+    std::{extrude::do_post_extrude, Args},
+};
+
+/// A path to sweep along.
+#[derive(Debug, Clone, Serialize, PartialEq, ts_rs::TS, JsonSchema)]
+#[ts(export)]
+#[serde(untagged)]
+pub enum SweepPath {
+    Sketch(Sketch),
+    Helix(Box<Helix>),
+}
+
+/// Extrude a sketch along a path.
+pub async fn sweep(exec_state: &mut ExecState, args: Args) -> Result<KclValue, KclError> {
+    let sketches = args.get_unlabeled_kw_arg_typed("sketches", &RuntimeType::sketches(), exec_state)?;
+    let path: SweepPath = args.get_kw_arg_typed(
+        "path",
+        &RuntimeType::Union(vec![RuntimeType::sketch(), RuntimeType::helix()]),
+        exec_state,
+    )?;
+    let sectional = args.get_kw_arg_opt_typed("sectional", &RuntimeType::bool(), exec_state)?;
+    let tolerance: Option<TyF64> = args.get_kw_arg_opt_typed("tolerance", &RuntimeType::length(), exec_state)?;
+    let relative_to: Option<String> = args.get_kw_arg_opt_typed("relativeTo", &RuntimeType::string(), exec_state)?;
+    let tag_start = args.get_kw_arg_opt("tagStart")?;
+    let tag_end = args.get_kw_arg_opt("tagEnd")?;
+
+    let value = inner_sweep(
+        sketches,
+        path,
+        sectional,
+        tolerance,
+        relative_to,
+        tag_start,
+        tag_end,
+        exec_state,
+        args,
+    )
+    .await?;
+    Ok(value.into())
+}
+
+#[allow(clippy::too_many_arguments)]
+async fn inner_sweep(
+    sketches: Vec<Sketch>,
+    path: SweepPath,
+    sectional: Option<bool>,
+    tolerance: Option<TyF64>,
+    relative_to: Option<String>,
+    tag_start: Option<TagNode>,
+    tag_end: Option<TagNode>,
+    exec_state: &mut ExecState,
+    args: Args,
+) -> Result<Vec<Solid>, KclError> {
+    let trajectory = match path {
+        SweepPath::Sketch(sketch) => sketch.id.into(),
+        SweepPath::Helix(helix) => helix.value.into(),
+    };
+    let relative_to = match relative_to.as_deref() {
+        Some("sketchPlane") => RelativeTo::SketchPlane,
+        Some("trajectoryCurve") | None => RelativeTo::TrajectoryCurve,
+        Some(_) => {
+            return Err(KclError::Syntax(crate::errors::KclErrorDetails::new(
+                "If you provide relativeTo, it must either be 'sketchPlane' or 'trajectoryCurve'".to_owned(),
+                vec![args.source_range],
+            )))
+        }
+    };
+
+    let mut solids = Vec::new();
+    for sketch in &sketches {
+        let id = exec_state.next_uuid();
+        args.batch_modeling_cmd(
+            id,
+            ModelingCmd::from(mcmd::Sweep {
+                target: sketch.id.into(),
+                trajectory,
+                sectional: sectional.unwrap_or(false),
+                tolerance: LengthUnit(tolerance.as_ref().map(|t| t.to_mm()).unwrap_or(DEFAULT_TOLERANCE)),
+                relative_to,
+            }),
+        )
+        .await?;
+
+        solids.push(
+            do_post_extrude(
+                sketch,
+                id.into(),
+                TyF64::new(0.0, NumericType::mm()),
+                sectional.unwrap_or(false),
+                &super::extrude::NamedCapTags {
+                    start: tag_start.as_ref(),
+                    end: tag_end.as_ref(),
+                },
+                exec_state,
+                &args,
+                None,
+            )
+            .await?,
+        );
+    }
+
+    // Hide the artifact from the sketch or helix.
+    args.batch_modeling_cmd(
+        exec_state.next_uuid(),
+        ModelingCmd::from(mcmd::ObjectVisible {
+            object_id: trajectory.into(),
+            hidden: true,
+        }),
+    )
+    .await?;
+
+    Ok(solids)
+}
