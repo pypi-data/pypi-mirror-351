@@ -1,0 +1,947 @@
+{
+  "metadata": {
+    "apiVersion": "2010-12-01N2014-05-28",
+    "endpointPrefix": "ess",
+    "protocol": "ess",
+    "serviceAbbreviation": "ess",
+    "serviceFullName": "NIFCLOUD ESS",
+    "serviceId": "ess",
+    "signatureVersion": "v4",
+    "signingName": "email",
+    "uid": "ess-2010-12-01N2014-05-28",
+    "xmlNamespace": "https://ess.api.nifcloud.com/"
+  },
+  "operations": {
+    "DeleteIdentity": {
+      "documentation": "<p>登録してある送信元IDの中から指定したメールアドレスまたはドメインのIDを削除します。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "DeleteIdentityRequest"
+      },
+      "name": "DeleteIdentity",
+      "output": {
+        "shape": "DeleteIdentityResult"
+      }
+    },
+    "GetDeliveryLog": {
+      "documentation": "<p>配信ログを取得します。</p><p>条件を指定すると、その条件に一致するログだけを抽出することができます。</p><p>条件は配信期間と配信結果です。</p><p>取得できるログはメールの送信結果です。</p><p>メールの送信が完了した後、約10～20分後から取得できます。</p><p>取得するログの件数や混雑状況によって、ログが反映されるまでの時間は前後します。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "GetDeliveryLogRequest"
+      },
+      "name": "GetDeliveryLog",
+      "output": {
+        "resultWrapper": "GetDeliveryLogResult",
+        "shape": "GetDeliveryLogResult"
+      }
+    },
+    "GetIdentityDkimAttributes": {
+      "documentation": "<p>指定した送信元ID(メールアドレスまたはドメイン)のDKIM署名に関連する設定情報を返します。</p><p>IDがドメインもしくはドメインが設定済みのメールアドレスの場合には、追加情報としてEasy DKIM署名を行うために必要なDKIMトークン一式およびトークンの検証結果を返します。</p><p>このアクションは、IDのリストを受け取り、それぞれのIDに関する次の情報を返します。</p><p>・現在メール送信時にEasy DKIMで署名する設定になっているかどうか。</p><p>・そのIDの身元をあらわすDKIMトークン一式。</p><p>　- IDが電子メールアドレスの場合にはトークンはそのアドレスのドメインの身元をあらわしています。</p><p>・発行したDKIMトークンが、正しくDNSサーバに設定されていることをニフクラ ESSが検証できたかどうか。</p><p>　- IDがドメインもしくはドメインが設定済みのメールアドレスの場合のみ返します。</p> <h5 id=\"dkimトークンについて\">DKIMトークンについて</h5> <p>ドメインの身元をあらわす文字列です。</p><p>これらのトークンを使用して、DKIM公開鍵を置いてあるニフクラ ESSのホストに転送するようにDNS CNAMEレコードを定義する必要があります。</p><p>DNS更新後、72時間以内にDNSレコードが更新されたことを検出します。</p><p>検出に成功すると、ニフクラ ESSからDKIM署名メールを送信可能になります。</p><p>各ドメインにつき、トークンは3つ所持しているので、レスポンス（XML）では、常にmemberは3つ返却されます。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "GetIdentityDkimAttributesRequest"
+      },
+      "name": "GetIdentityDkimAttributes",
+      "output": {
+        "resultWrapper": "GetIdentityDkimAttributesResult",
+        "shape": "GetIdentityDkimAttributesResult"
+      }
+    },
+    "GetIdentityVerificationAttributes": {
+      "documentation": "<p>送信元ID(メールアドレスまたはドメイン。混在可)をリストで指定すると、それぞれに関する現在の検証状況および、ドメインの場合には検証トークンを返します。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "GetIdentityVerificationAttributesRequest"
+      },
+      "name": "GetIdentityVerificationAttributes",
+      "output": {
+        "resultWrapper": "GetIdentityVerificationAttributesResult",
+        "shape": "GetIdentityVerificationAttributesResult"
+      }
+    },
+    "GetSendQuota": {
+      "documentation": "<p>お客様の現在の送信上限値を返します。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "GetSendQuotaRequest"
+      },
+      "name": "GetSendQuota",
+      "output": {
+        "resultWrapper": "GetSendQuotaResult",
+        "shape": "GetSendQuotaResult"
+      }
+    },
+    "GetSendStatistics": {
+      "documentation": "<p>送信したメールの統計情報を返します。</p><p>過去2週間分の送信結果のデータ要素のリストとなります。</p><p>リスト内の各データ要素は、15分間隔の統計情報です 。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "GetSendStatisticsRequest"
+      },
+      "name": "GetSendStatistics",
+      "output": {
+        "resultWrapper": "GetSendStatisticsResult",
+        "shape": "GetSendStatisticsResult"
+      }
+    },
+    "ListIdentities": {
+      "documentation": "<p>お客様のアカウントに登録してある送信元ID（メールアドレスおよびドメイン）を返します。IDの検証状況は問いません。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "ListIdentitiesRequest"
+      },
+      "name": "ListIdentities",
+      "output": {
+        "resultWrapper": "ListIdentitiesResult",
+        "shape": "ListIdentitiesResult"
+      }
+    },
+    "SendEmail": {
+      "documentation": "<p>入力データを基にしてメールメッセージを組み立てて、即時に作成したメッセージを送信します。</p><p> 送信元のメールアドレスは、検証済みのメールアドレスもしくは検証済みのドメインのメールアドレスとしてください。 </p><p>メッセージの合計サイズ(Message.Body.Text.DataとMessage.Body.Html.Dataのデータ合計)は2MBを超えることはできません。</p><p>1通のメッセージにおける TO：、CC：、BCC：のメールアドレス合計数は 50 を超えることはできません。</p><p>より多くの人にメールメッセージを送信したい場合には、50個以下のグループに受信者リストを分割し、グループごとにそれぞれリクエストを出してメッセージを送信すれば可能です。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "SendEmailRequest"
+      },
+      "name": "SendEmail",
+      "output": {
+        "resultWrapper": "SendEmailResult",
+        "shape": "SendEmailResult"
+      }
+    },
+    "SendRawEmail": {
+      "documentation": "<p>メールヘッダーおよびボディからなるメールメッセージの生のテキストデータを指定してメールを送信します。</p><p>SendRawEmail アクションは、マルチパートMIMEメールを送信する場合に便利です。</p><p>メッセージの生のテキストは、インターネットのメールの規格に準拠している必要があり、そうでない場合メッセージは送信できません。</p><p> 送信元のメールアドレスは、検証済みのメールアドレスもしくは検証済みのドメイン下のメールアドレスとしてください。 </p><p>メッセージの合計サイズ(RawMessage.Dataのbase64デコード後のサイズ)は2MBを超えることはできません。</p><p>添付ファイル等メッセージを構成するすべてのデータを含みます。</p><p>1通のメッセージにおける TO：、CC：、BCC：のメールアドレス合計数は 50 を超えることはできません。</p><p>50個以下のグループに受信者リストを分割し、グループごとにそれぞれリクエストを出してメッセージを送信すれば可能です。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "SendRawEmailRequest"
+      },
+      "name": "SendRawEmail",
+      "output": {
+        "resultWrapper": "SendRawEmailResult",
+        "shape": "SendRawEmailResult"
+      }
+    },
+    "SetIdentityDkimEnabled": {
+      "documentation": "<p>指定した送信元IDに対して、そこから送信する電子メールにDKIM署名を行うか行わないかを設定する。</p><p>有効にするIDがドメイン（例：example.com）の場合、そのドメインのメールアドレス（例：user@example.com）から送るすべての電子メールに署名を行います。</p><p>有効にするIDがメールアドレスの場合、そのメールアドレスから送るすべての電子メールに署名を行います。</p><p>電子メールアドレスの場合には、あらかじめ、VerifyDomainDkimアクションを使用してアドレスが所属するドメインに対してDKIM認証の設定を済ませておく必要があります。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "SetIdentityDkimEnabledRequest"
+      },
+      "name": "SetIdentityDkimEnabled",
+      "output": {
+        "shape": "SetIdentityDkimEnabledResult"
+      }
+    },
+    "VerifyDomainDkim": {
+      "documentation": "<p>指定したドメインに対してDKIMトークン一式を生成して返すとともに、DKIM署名に必要な設定が完了したかどうかを検証する手続きを開始します。</p><p>DKIM署名メールが送信可能になったドメインに対してDKIM署名を有効化、無効化するには「SetIdentityDkimEnabled」を使用してください。</p> <h5 id=\"dkimトークンについて\">DKIMトークンについて</h5> <p>ドメインの身元をあらわす文字列です。</p><p>これらのトークンを使用して、DKIM公開鍵を置いてあるニフクラ ESSのホストに転送するようにDNS CNAMEレコードを定義する必要があります。</p><p>DNS更新後、72時間以内にDNSレコードが更新されたことを検出します。</p><p>検出に成功すると、ニフクラ ESSからDKIM署名メールを送信可能になります。</p><p>各ドメインにつき、トークンは3つ所持しているので、レスポンス（XML）では、常にmemberは3つ返却されます。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "VerifyDomainDkimRequest"
+      },
+      "name": "VerifyDomainDkim",
+      "output": {
+        "resultWrapper": "VerifyDomainDkimResult",
+        "shape": "VerifyDomainDkimResult"
+      }
+    },
+    "VerifyDomainIdentity": {
+      "documentation": "<p>指定したドメインを送信元IDとして登録し、ドメインを所有していることを確認するための検証手続きを開始します。</p><p>レスポンスの VerificationToken の値を、DNSサーバの TXT レコードに設定することで、検証手続きは完了します。</p><p>ドメインの所有が確認できると、個々にメールアドレスを検証しなくても、そのドメインに所属するすべてのメールアドレスからのメール送信が可能になります。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "VerifyDomainIdentityRequest"
+      },
+      "name": "VerifyDomainIdentity",
+      "output": {
+        "resultWrapper": "VerifyDomainIdentityResult",
+        "shape": "VerifyDomainIdentityResult"
+      }
+    },
+    "VerifyEmailIdentity": {
+      "documentation": "<p>指定したメールアドレスを送信元IDとして登録し、メールアドレスを所有していることを確認するための検証手続きを開始します。</p><p>レスポンスとは別に、指定したアドレスに確認メールが送られる。メールに記載されているURLにアクセスすることで検証手続きは完了します。</p><p>メールアドレスの所有が確認できると、このメールアドレスからのメール送信が可能になります。</p>",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "VerifyEmailIdentityRequest"
+      },
+      "name": "VerifyEmailIdentity",
+      "output": {
+        "resultWrapper": "VerifyEmailIdentityResult",
+        "shape": "VerifyEmailIdentityResult"
+      }
+    }
+  },
+  "shapes": {
+    "Blob": {
+      "name": "Blob",
+      "type": "blob"
+    },
+    "Boolean": {
+      "name": "Boolean",
+      "type": "boolean"
+    },
+    "DeleteIdentityRequest": {
+      "members": {
+        "Identity": {
+          "locationName": "Identity",
+          "shape": "String"
+        }
+      },
+      "name": "DeleteIdentityRequest",
+      "required": [
+        "Identity"
+      ],
+      "type": "structure"
+    },
+    "DeleteIdentityResult": {
+      "members": {
+        "DeleteIdentityResult": {
+          "locationName": "DeleteIdentityResult",
+          "shape": "String"
+        },
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        }
+      },
+      "name": "DeleteIdentityResult",
+      "type": "structure"
+    },
+    "DkimAttributes": {
+      "members": {
+        "Key": {
+          "locationName": "key",
+          "shape": "String"
+        },
+        "Value": {
+          "locationName": "value",
+          "shape": "ValueOfGetIdentityDkimAttributes"
+        }
+      },
+      "name": "DkimAttributes",
+      "type": "structure"
+    },
+    "DkimEnabledOfSetIdentityDkimEnabledRequest": {
+      "enum": [
+        "true",
+        "false"
+      ],
+      "name": "DkimEnabledOfSetIdentityDkimEnabledRequest",
+      "type": "string"
+    },
+    "Double": {
+      "name": "Double",
+      "type": "double"
+    },
+    "GetDeliveryLogRequest": {
+      "members": {
+        "EndDate": {
+          "locationName": "EndDate",
+          "shape": "TStamp"
+        },
+        "MaxItems": {
+          "locationName": "MaxItems",
+          "shape": "Integer"
+        },
+        "NextToken": {
+          "locationName": "NextToken",
+          "shape": "String"
+        },
+        "StartDate": {
+          "locationName": "StartDate",
+          "shape": "TStamp"
+        },
+        "Status": {
+          "locationName": "Status",
+          "shape": "Integer"
+        }
+      },
+      "name": "GetDeliveryLogRequest",
+      "required": [
+        "EndDate",
+        "StartDate"
+      ],
+      "type": "structure"
+    },
+    "GetDeliveryLogResult": {
+      "members": {
+        "Log": {
+          "locationName": "Log",
+          "shape": "String"
+        },
+        "LogCount": {
+          "locationName": "LogCount",
+          "shape": "String"
+        },
+        "NextToken": {
+          "locationName": "NextToken",
+          "shape": "String"
+        },
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        }
+      },
+      "name": "GetDeliveryLogResult",
+      "type": "structure"
+    },
+    "GetIdentityDkimAttributesRequest": {
+      "members": {
+        "Identities": {
+          "locationName": "Identities",
+          "shape": "ListOfRequestIdentities"
+        }
+      },
+      "name": "GetIdentityDkimAttributesRequest",
+      "required": [
+        "Identities"
+      ],
+      "type": "structure"
+    },
+    "GetIdentityDkimAttributesResult": {
+      "members": {
+        "DkimAttributes": {
+          "locationName": "DkimAttributes",
+          "shape": "ListOfDkimAttributes"
+        },
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        }
+      },
+      "name": "GetIdentityDkimAttributesResult",
+      "type": "structure"
+    },
+    "GetIdentityVerificationAttributesRequest": {
+      "members": {
+        "Identities": {
+          "locationName": "Identities",
+          "shape": "ListOfRequestIdentities"
+        }
+      },
+      "name": "GetIdentityVerificationAttributesRequest",
+      "required": [
+        "Identities"
+      ],
+      "type": "structure"
+    },
+    "GetIdentityVerificationAttributesResult": {
+      "members": {
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        },
+        "VerificationAttributes": {
+          "locationName": "VerificationAttributes",
+          "shape": "ListOfVerificationAttributes"
+        }
+      },
+      "name": "GetIdentityVerificationAttributesResult",
+      "type": "structure"
+    },
+    "GetSendQuotaRequest": {
+      "members": {},
+      "name": "GetSendQuotaRequest",
+      "type": "structure"
+    },
+    "GetSendQuotaResult": {
+      "members": {
+        "Max24HourSend": {
+          "locationName": "Max24HourSend",
+          "shape": "Double"
+        },
+        "MaxSendRate": {
+          "locationName": "MaxSendRate",
+          "shape": "Double"
+        },
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        },
+        "SentLast24Hours": {
+          "locationName": "SentLast24Hours",
+          "shape": "Double"
+        }
+      },
+      "name": "GetSendQuotaResult",
+      "type": "structure"
+    },
+    "GetSendStatisticsRequest": {
+      "members": {},
+      "name": "GetSendStatisticsRequest",
+      "type": "structure"
+    },
+    "GetSendStatisticsResult": {
+      "members": {
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        },
+        "SendDataPoints": {
+          "locationName": "SendDataPoints",
+          "shape": "ListOfSendDataPoints"
+        }
+      },
+      "name": "GetSendStatisticsResult",
+      "type": "structure"
+    },
+    "IdentityTypeOfListIdentitiesRequest": {
+      "enum": [
+        "EmailAddress",
+        "Domain"
+      ],
+      "name": "IdentityTypeOfListIdentitiesRequest",
+      "type": "string"
+    },
+    "Integer": {
+      "name": "Integer",
+      "type": "integer"
+    },
+    "ListIdentitiesRequest": {
+      "members": {
+        "IdentityType": {
+          "locationName": "IdentityType",
+          "shape": "IdentityTypeOfListIdentitiesRequest"
+        },
+        "MaxItems": {
+          "locationName": "MaxItems",
+          "shape": "Integer"
+        },
+        "NextToken": {
+          "locationName": "NextToken",
+          "shape": "String"
+        }
+      },
+      "name": "ListIdentitiesRequest",
+      "type": "structure"
+    },
+    "ListIdentitiesResult": {
+      "members": {
+        "Identities": {
+          "locationName": "Identities",
+          "shape": "ListOfIdentities"
+        },
+        "NextToken": {
+          "locationName": "NextToken",
+          "shape": "String"
+        },
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        }
+      },
+      "name": "ListIdentitiesResult",
+      "type": "structure"
+    },
+    "ListOfDkimAttributes": {
+      "member": {
+        "locationName": "entry",
+        "shape": "DkimAttributes"
+      },
+      "name": "ListOfDkimAttributes",
+      "type": "list"
+    },
+    "ListOfDkimTokens": {
+      "member": {
+        "locationName": "member",
+        "shape": "String"
+      },
+      "name": "ListOfDkimTokens",
+      "type": "list"
+    },
+    "ListOfIdentities": {
+      "member": {
+        "locationName": "member",
+        "shape": "String"
+      },
+      "name": "ListOfIdentities",
+      "type": "list"
+    },
+    "ListOfRequestBccAddresses": {
+      "member": {
+        "locationName": "member",
+        "shape": "String"
+      },
+      "name": "ListOfRequestBccAddresses",
+      "type": "list"
+    },
+    "ListOfRequestCcAddresses": {
+      "member": {
+        "locationName": "member",
+        "shape": "String"
+      },
+      "name": "ListOfRequestCcAddresses",
+      "type": "list"
+    },
+    "ListOfRequestDestinations": {
+      "member": {
+        "locationName": "member",
+        "shape": "String"
+      },
+      "name": "ListOfRequestDestinations",
+      "type": "list"
+    },
+    "ListOfRequestIdentities": {
+      "member": {
+        "locationName": "member",
+        "shape": "String"
+      },
+      "name": "ListOfRequestIdentities",
+      "type": "list"
+    },
+    "ListOfRequestReplyToAddresses": {
+      "member": {
+        "locationName": "member",
+        "shape": "String"
+      },
+      "name": "ListOfRequestReplyToAddresses",
+      "type": "list"
+    },
+    "ListOfRequestToAddresses": {
+      "member": {
+        "locationName": "member",
+        "shape": "String"
+      },
+      "name": "ListOfRequestToAddresses",
+      "type": "list"
+    },
+    "ListOfSendDataPoints": {
+      "member": {
+        "locationName": "member",
+        "shape": "SendDataPoints"
+      },
+      "name": "ListOfSendDataPoints",
+      "type": "list"
+    },
+    "ListOfVerificationAttributes": {
+      "member": {
+        "locationName": "entry",
+        "shape": "VerificationAttributes"
+      },
+      "name": "ListOfVerificationAttributes",
+      "type": "list"
+    },
+    "Long": {
+      "name": "Long",
+      "type": "long"
+    },
+    "RequestBody": {
+      "members": {
+        "RequestHtml": {
+          "locationName": "Html",
+          "shape": "RequestHtml"
+        },
+        "RequestText": {
+          "locationName": "Text",
+          "shape": "RequestText"
+        }
+      },
+      "name": "RequestBody",
+      "type": "structure"
+    },
+    "RequestDestination": {
+      "members": {
+        "ListOfRequestBccAddresses": {
+          "locationName": "BccAddresses",
+          "shape": "ListOfRequestBccAddresses"
+        },
+        "ListOfRequestCcAddresses": {
+          "locationName": "CcAddresses",
+          "shape": "ListOfRequestCcAddresses"
+        },
+        "ListOfRequestToAddresses": {
+          "locationName": "ToAddresses",
+          "shape": "ListOfRequestToAddresses"
+        }
+      },
+      "name": "RequestDestination",
+      "type": "structure"
+    },
+    "RequestHtml": {
+      "members": {
+        "Charset": {
+          "locationName": "Charset",
+          "shape": "String"
+        },
+        "Data": {
+          "locationName": "Data",
+          "shape": "String"
+        }
+      },
+      "name": "RequestHtml",
+      "type": "structure"
+    },
+    "RequestMessage": {
+      "members": {
+        "RequestBody": {
+          "locationName": "Body",
+          "shape": "RequestBody"
+        },
+        "RequestSubject": {
+          "locationName": "Subject",
+          "shape": "RequestSubject"
+        }
+      },
+      "name": "RequestMessage",
+      "type": "structure"
+    },
+    "RequestRawMessage": {
+      "members": {
+        "Data": {
+          "locationName": "Data",
+          "shape": "String"
+        }
+      },
+      "name": "RequestRawMessage",
+      "required": [
+        "Data"
+      ],
+      "type": "structure"
+    },
+    "RequestSubject": {
+      "members": {
+        "Charset": {
+          "locationName": "Charset",
+          "shape": "String"
+        },
+        "Data": {
+          "locationName": "Data",
+          "shape": "String"
+        }
+      },
+      "name": "RequestSubject",
+      "type": "structure"
+    },
+    "RequestText": {
+      "members": {
+        "Charset": {
+          "locationName": "Charset",
+          "shape": "String"
+        },
+        "Data": {
+          "locationName": "Data",
+          "shape": "String"
+        }
+      },
+      "name": "RequestText",
+      "type": "structure"
+    },
+    "ResponseMetadata": {
+      "members": {
+        "RequestId": {
+          "locationName": "RequestId",
+          "shape": "String"
+        }
+      },
+      "name": "ResponseMetadata",
+      "type": "structure"
+    },
+    "SendDataPoints": {
+      "members": {
+        "Bounces": {
+          "locationName": "Bounces",
+          "shape": "Integer"
+        },
+        "Complaints": {
+          "locationName": "Complaints",
+          "shape": "Integer"
+        },
+        "DeliveryAttempts": {
+          "locationName": "DeliveryAttempts",
+          "shape": "Integer"
+        },
+        "Rejects": {
+          "locationName": "Rejects",
+          "shape": "Integer"
+        },
+        "Timestamp": {
+          "locationName": "Timestamp",
+          "shape": "TStamp"
+        }
+      },
+      "name": "SendDataPoints",
+      "type": "structure"
+    },
+    "SendEmailRequest": {
+      "members": {
+        "Destination": {
+          "locationName": "Destination",
+          "shape": "RequestDestination"
+        },
+        "Message": {
+          "locationName": "Message",
+          "shape": "RequestMessage"
+        },
+        "ReplyToAddresses": {
+          "locationName": "ReplyToAddresses",
+          "shape": "ListOfRequestReplyToAddresses"
+        },
+        "ReturnPath": {
+          "locationName": "ReturnPath",
+          "shape": "String"
+        },
+        "Source": {
+          "locationName": "Source",
+          "shape": "String"
+        }
+      },
+      "name": "SendEmailRequest",
+      "required": [
+        "Source"
+      ],
+      "type": "structure"
+    },
+    "SendEmailResult": {
+      "members": {
+        "MessageId": {
+          "locationName": "MessageId",
+          "shape": "String"
+        },
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        }
+      },
+      "name": "SendEmailResult",
+      "type": "structure"
+    },
+    "SendRawEmailRequest": {
+      "members": {
+        "Destinations": {
+          "locationName": "Destinations",
+          "shape": "ListOfRequestDestinations"
+        },
+        "RawMessage": {
+          "locationName": "RawMessage",
+          "shape": "RequestRawMessage"
+        },
+        "Source": {
+          "locationName": "Source",
+          "shape": "String"
+        }
+      },
+      "name": "SendRawEmailRequest",
+      "required": [
+        "RawMessage"
+      ],
+      "type": "structure"
+    },
+    "SendRawEmailResult": {
+      "members": {
+        "MessageId": {
+          "locationName": "MessageId",
+          "shape": "String"
+        },
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        }
+      },
+      "name": "SendRawEmailResult",
+      "type": "structure"
+    },
+    "SetIdentityDkimEnabledRequest": {
+      "members": {
+        "DkimEnabled": {
+          "locationName": "DkimEnabled",
+          "shape": "DkimEnabledOfSetIdentityDkimEnabledRequest"
+        },
+        "Identity": {
+          "locationName": "Identity",
+          "shape": "String"
+        }
+      },
+      "name": "SetIdentityDkimEnabledRequest",
+      "required": [
+        "DkimEnabled",
+        "Identity"
+      ],
+      "type": "structure"
+    },
+    "SetIdentityDkimEnabledResult": {
+      "members": {
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        },
+        "SetIdentityDkimEnabledResult": {
+          "locationName": "SetIdentityDkimEnabledResult",
+          "shape": "String"
+        }
+      },
+      "name": "SetIdentityDkimEnabledResult",
+      "type": "structure"
+    },
+    "String": {
+      "name": "String",
+      "type": "string"
+    },
+    "TStamp": {
+      "name": "TStamp",
+      "type": "timestamp"
+    },
+    "Value": {
+      "members": {
+        "VerificationStatus": {
+          "locationName": "VerificationStatus",
+          "shape": "String"
+        },
+        "VerificationToken": {
+          "locationName": "VerificationToken",
+          "shape": "String"
+        }
+      },
+      "name": "Value",
+      "type": "structure"
+    },
+    "ValueOfGetIdentityDkimAttributes": {
+      "members": {
+        "DkimEnabled": {
+          "locationName": "DkimEnabled",
+          "shape": "Boolean"
+        },
+        "DkimTokens": {
+          "locationName": "DkimTokens",
+          "shape": "ListOfDkimTokens"
+        },
+        "DkimVerificationStatus": {
+          "locationName": "DkimVerificationStatus",
+          "shape": "String"
+        }
+      },
+      "name": "ValueOfGetIdentityDkimAttributes",
+      "type": "structure"
+    },
+    "VerificationAttributes": {
+      "members": {
+        "Key": {
+          "locationName": "key",
+          "shape": "String"
+        },
+        "Value": {
+          "locationName": "value",
+          "shape": "Value"
+        }
+      },
+      "name": "VerificationAttributes",
+      "type": "structure"
+    },
+    "VerifyDomainDkimRequest": {
+      "members": {
+        "Domain": {
+          "locationName": "Domain",
+          "shape": "String"
+        }
+      },
+      "name": "VerifyDomainDkimRequest",
+      "required": [
+        "Domain"
+      ],
+      "type": "structure"
+    },
+    "VerifyDomainDkimResult": {
+      "members": {
+        "DkimTokens": {
+          "locationName": "DkimTokens",
+          "shape": "ListOfDkimTokens"
+        },
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        }
+      },
+      "name": "VerifyDomainDkimResult",
+      "type": "structure"
+    },
+    "VerifyDomainIdentityRequest": {
+      "members": {
+        "Domain": {
+          "locationName": "Domain",
+          "shape": "String"
+        }
+      },
+      "name": "VerifyDomainIdentityRequest",
+      "required": [
+        "Domain"
+      ],
+      "type": "structure"
+    },
+    "VerifyDomainIdentityResult": {
+      "members": {
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        },
+        "VerificationToken": {
+          "locationName": "VerificationToken",
+          "shape": "String"
+        }
+      },
+      "name": "VerifyDomainIdentityResult",
+      "type": "structure"
+    },
+    "VerifyEmailIdentityRequest": {
+      "members": {
+        "EmailAddress": {
+          "locationName": "EmailAddress",
+          "shape": "String"
+        }
+      },
+      "name": "VerifyEmailIdentityRequest",
+      "required": [
+        "EmailAddress"
+      ],
+      "type": "structure"
+    },
+    "VerifyEmailIdentityResult": {
+      "members": {
+        "ResponseMetadata": {
+          "locationName": "ResponseMetadata",
+          "shape": "ResponseMetadata"
+        },
+        "VerifyEmailIdentityResult": {
+          "locationName": "VerifyEmailIdentityResult",
+          "shape": "String"
+        }
+      },
+      "name": "VerifyEmailIdentityResult",
+      "type": "structure"
+    }
+  },
+  "version": "2.0"
+}
