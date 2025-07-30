@@ -1,0 +1,43 @@
+[project]
+name = "pymyanlp"
+version = "0.1.1"
+description = "Python utilities for Myanmar language processing"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+authors = [
+    {name = "Pyae Sone Myo"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+    "numpy>=1.21.6",
+    "pandas>=1.1.5",
+    "pyenchant>=3.2.2",
+    "symspellpy>=6.7.7",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Rickaym/pymyanlp"
+"Bug Tracker" = "https://github.com/Rickaym/pymyanlp/issues"
+
+[tool.setuptools.packages.find]
+include = ["pymyanlp*"]
+
+[tool.setuptools.package-data]
+pymyanlp = ["lib/myword/models/bigram-word.bin", "lib/myword/models/unigram-word.bin", "lib/mypos/models/v3_train1.nopipe.DICT", "lib/mypos/models/v3_train1.nopipe.RDR"]
+
+[dependency-groups]
+dev = [
+    "matplotlib>=3.5.3",
+    "pytest>=7.4.4",
+]
