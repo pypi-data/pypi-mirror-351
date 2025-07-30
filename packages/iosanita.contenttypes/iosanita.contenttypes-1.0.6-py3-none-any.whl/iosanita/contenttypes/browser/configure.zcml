@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="iosanita.contenttypes"
+    >
+
+  <!-- Publish static files -->
+  <plone:static
+      directory="static"
+      name="iosanita.contenttypes"
+      type="plone"
+      />
+
+  <configure package="plone.app.dexterity.browser">
+    <browser:page
+        name="modulistica_view"
+        for="iosanita.contenttypes.interfaces.cartella_modulistica.ICartellaModulistica"
+        class="plone.app.dexterity.browser.folder_listing.FolderView"
+        template="folder_listing.pt"
+        permission="zope2.View"
+        layer="iosanita.contenttypes.interfaces.IIosanitaContenttypesLayer"
+        />
+  </configure>
+  <browser:page
+      name="iosanita-contenttypes-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.IoSanitaContenttypesControlPanel"
+      permission="cmf.ManagePortal"
+      layer="iosanita.contenttypes.interfaces.IIosanitaContenttypesLayer"
+      />
+</configure>
