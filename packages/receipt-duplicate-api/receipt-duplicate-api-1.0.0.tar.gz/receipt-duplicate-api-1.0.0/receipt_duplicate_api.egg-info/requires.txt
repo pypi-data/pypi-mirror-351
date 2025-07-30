@@ -1,0 +1,12 @@
+fastapi==0.110.0
+uvicorn==0.29.0
+sentence-transformers==2.2.2
+torch==2.1.2
+torchvision==0.16.2
+Pillow==10.2.0
+imagehash==4.3.1
+numpy==1.26.4
+pydantic==2.6.4
+typing-extensions==4.11.0
+python-multipart==0.0.9
+gunicorn==21.2.0
