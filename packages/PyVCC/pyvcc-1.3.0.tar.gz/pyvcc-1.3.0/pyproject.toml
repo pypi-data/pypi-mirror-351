@@ -1,0 +1,101 @@
+[project]
+name = "PyVCC"
+version = "1.3.0"
+description = "PyVCC python version controller using conventional commits"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pygit2>=1.18.0",
+    "structlog>=25.3.0",
+    "typing-extensions>=4.0.0; python_version < '3.11'",
+]
+
+[dependency-groups]
+dev = [
+    "coverage[toml]>=7.8.0",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "rich>=14.0.0",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.pyright]
+include = [
+    "pyvcc",
+    "tests",
+]
+exclude = [
+    "**/__pycache__",
+    "**/node_modules",
+    "**/.git",
+    ".venv",
+    "venv",
+]
+typeCheckingMode = "standard"
+pythonVersion = "3.13"
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+[tool.coverage.run]
+source = [
+    ".",
+]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    ".venv/*",
+    "setup.py",
+    "*/migrations/*",
+    "pyvcc/__main__.py",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "pass",
+    "except ImportError:",
+]
+
+[tool.coverage.html]
+directory = "coverage_html_report"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[tool.pytest.ini_options]
+addopts = "--cov=. --cov-report=xml --cov-report=html --cov-report=term-missing"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "test_*.py",
+    "*_test.py",
+]
+python_classes = [
+    "Test*",
+    "*Test",
+]
+python_functions = [
+    "test_*",
+]
