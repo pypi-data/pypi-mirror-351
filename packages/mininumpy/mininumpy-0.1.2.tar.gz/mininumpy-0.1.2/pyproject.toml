@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mininumpy"
+version = "0.1.2"
+description = "A minimal implementation of NumPy's core functionality for educational purposes and lightweight applications"
+readme = "README.md"
+license = "MIT"  # Simple SPDX expression instead of table
+authors = [
+    {name = "Fahad Haroon", email = "fahadharoon678@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    # Remove the "License :: OSI Approved :: MIT License" line
+]
+keywords = ["numpy", "array", "parallel", "computing", "threading", "multiprocessing", "educational"]
+requires-python = ">=3.8"
+
+[project.urls]
+"Bug Reports" = "https://github.com/fahad-678/mininumpy/issues"
+"Source" = "https://github.com/fahad-678/mininumpy"
+"Documentation" = "https://github.com/fahad-678/mininumpy/wiki"
+
+[project.scripts]
+mininumpy-demo = "examples.demo:run_all_demos"
+mininumpy-benchmark = "benchmark:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=6.0", "pytest-cov>=2.0", "black>=21.0", "flake8>=3.8"]
+plotting = ["matplotlib>=3.3.0"]
+benchmarking = ["matplotlib>=3.3.0", "numpy>=1.19.0"]
+
+[tool.setuptools.packages.find]
+# Add any additional setuptools configuration if needed

@@ -1,0 +1,3 @@
+[console_scripts]
+mininumpy-benchmark = benchmark:main
+mininumpy-demo = examples.demo:run_all_demos
