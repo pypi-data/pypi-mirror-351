@@ -1,0 +1,53 @@
+[tool.black]
+line-length = 120  # Максимальная длина строки для форматирования кода
+
+[tool.isort]
+profile = "black"  # Профиль для сортировки импортов, совместимый с Black
+
+[build-system]
+requires = [
+    "setuptools>=41",
+    "wheel",
+    "setuptools-git-versioning>=2.0,<3",
+]
+build-backend = "setuptools.build_meta"  # Бэкенд для сборки пакета
+
+[tool.setuptools-git-versioning]
+enabled = true  # Включение автоматического определения версии на основе Git
+
+[project]
+name = "django-tmmis"
+authors = [
+    { name = "Chmelyuk Vladislav", email = "neimp@yandex.ru" }
+]
+description = "A Django app provided ORM to TrustMed medical information system"
+dependencies = [
+    "mssql-django",
+]
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.8"
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
+]
+dynamic = ["version"]  # Динамическое определение версии
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tmmis*"]
