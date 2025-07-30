@@ -1,0 +1,171 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type (major, minor, patch)'
+        required: false
+        default: 'patch'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Upgrade pip, install build and twine
+        run: python -m pip install --upgrade pip build twine
+
+      - name: Build package
+        run: python -m build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/*
+
+  update-version:
+    needs: [build]
+    runs-on: ubuntu-latest
+    outputs:
+      next_version: ${{ steps.bump_version.outputs.next_version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Fetch all tags
+        run: git fetch --tags
+
+      - name: Get latest version tag
+        id: get_version
+        run: |
+          latest_tag=$(git tag --list '*.*.*' --sort=-v:refname | head -n 1)
+          if [ -z "$latest_tag" ]; then
+            latest_tag="0.0.0"
+          fi
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Calculate next version
+        id: bump_version
+        run: |
+          bump="${{ github.event.inputs.bump || 'patch' }}"
+          latest="${{ steps.get_version.outputs.latest_tag }}"
+          if [[ "$latest" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            patch="${BASH_REMATCH[3]}"
+          else
+            major=0; minor=0; patch=0
+          fi
+          case "$bump" in
+            major) major=$((major+1)); minor=0; patch=0 ;;
+            minor) minor=$((minor+1)); patch=0 ;;
+            patch|*) patch=$((patch+1)) ;;
+          esac
+          next="${major}.${minor}.${patch}"
+          echo "next_version=$next" >> $GITHUB_OUTPUT
+
+      - name: Update README.md and pyproject.toml version
+        if: github.event_name == 'pull_request'
+        run: |
+          next_version="${{ steps.bump_version.outputs.next_version }}"
+          sed -i "s/version: .*/version: $next_version/" README.md || true
+          sed -i "s/^version = \".*\"/version = \"$next_version\"/" pyproject.toml || true
+
+      - name: Commit and push changes
+        if: github.event_name == 'pull_request'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add README.md
+          git commit -m "docs: update README.md version for ${{ steps.bump_version.outputs.next_version }}" || echo "No changes to commit"
+          export GIT_EDITOR=true
+          git pull --rebase origin ${GITHUB_HEAD_REF} || {
+            git status
+            git checkout --ours README.md
+            git add README.md
+            git rebase --continue
+          }
+          git push origin HEAD:${GITHUB_HEAD_REF}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    needs: [build, update-version]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Fetch all tags
+        run: git fetch --tags
+
+      - name: Create Git Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          if git rev-parse ${{ needs.update-version.outputs.next_version }} >/dev/null 2>&1; then
+            echo "Tag ${{ needs.update-version.outputs.next_version }} already exists. Skipping tag creation."
+          else
+            git tag ${{ needs.update-version.outputs.next_version }}
+            git push origin ${{ needs.update-version.outputs.next_version }}
+          fi
+
+      - name: Check if release exists
+        id: check_release
+        run: |
+          if curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ needs.update-version.outputs.next_version }}" | grep -q '"id":'; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        if: steps.check_release.outputs.exists == 'false'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.update-version.outputs.next_version }}
+          release_name: Release ${{ needs.update-version.outputs.next_version }}
+          draft: false
+          prerelease: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Upgrade pip, install build and twine
+        run: python -m pip install --upgrade pip build twine
+
+      - name: Publish package to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: python -m twine upload dist/* 
