@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 120
+
+[tool.coverage.run]
+source = ["xferx"]
+
+[tool.coverage.report]
+exclude_lines = [ "# pragma: no cover", "if TYPE_CHECKING:" ]
+
+[tool.isort]
+profile = "black"
