@@ -1,0 +1,52 @@
+output_paused: |
+  ┌───────────────┬──────────────┐
+  │ Name          │ test shocker │
+  │ PiShock ID    │ 1000         │
+  │ Shocker ID    │ 1001         │
+  │ Paused        │ ⏸            │
+  │ Max intensity │ 100%         │
+  │ Max duration  │ 15s          │
+  └───────────────┴──────────────┘
+output_offline_paused: |
+  ┌───────────────┬──────────────┐
+  │ Name          │ test shocker │
+  │ PiShock ID    │ 1000         │
+  │ Shocker ID    │ 1001         │
+  │ Paused        │ ⏸            │
+  │ Max intensity │ 100%         │
+  │ Max duration  │ 15s          │
+  └───────────────┴──────────────┘
+output: |
+  ┌───────────────┬──────────────┐
+  │ Name          │ test shocker │
+  │ PiShock ID    │ 1000         │
+  │ Shocker ID    │ 1001         │
+  │ Paused        │ ▶            │
+  │ Max intensity │ 100%         │
+  │ Max duration  │ 15s          │
+  └───────────────┴──────────────┘
+output_offline: |
+  ┌───────────────┬──────────────┐
+  │ Name          │ test shocker │
+  │ PiShock ID    │ 1000         │
+  │ Shocker ID    │ 1001         │
+  │ Paused        │ ▶            │
+  │ Max intensity │ 100%         │
+  │ Max duration  │ 15s          │
+  └───────────────┴──────────────┘
+output_error: |
+  Error: Not JSON lol (UnknownError)
+output_paused_serial: |
+  ┌────────────┬────────────────────────────┐
+  │ Name       │ Serial shocker 1001 (FAKE) │
+  │ PiShock ID │ 1000                       │
+  │ Shocker ID │ 1001                       │
+  │ Paused     │ ⏸                          │
+  └────────────┴────────────────────────────┘
+output_serial: |
+  ┌────────────┬────────────────────────────┐
+  │ Name       │ Serial shocker 1001 (FAKE) │
+  │ PiShock ID │ 1000                       │
+  │ Shocker ID │ 1001                       │
+  │ Paused     │ ▶                          │
+  └────────────┴────────────────────────────┘

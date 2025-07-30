@@ -1,0 +1,7 @@
+output_ok: |
+  ✅ Credentials are valid.
+output_not_authorized: |
+  ❌ Credentials are invalid.
+output_http_error: |
+  Error: 500 Server Error: Internal Server Error for url: 
+  https://do.pishock.com/api/VerifyApiCredentials (HTTPError)
