@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: opttech
+Version: 1.0.0
+Summary: Biblioteca da OptTech.
+Author-email: Eduardo Anacleto <contato@opttech.com.br>
+License: MIT
+Project-URL: Homepage, https://github.com/seunome/opttech
+Project-URL: Documentação, https://github.com/seunome/opttech/wiki
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# OptTech
+
+Biblioteca Python desenvolvida para soluções otimizadas em dados, ETL e análise.
+
+## Instalação
+
+```bash
+pip install opttech
