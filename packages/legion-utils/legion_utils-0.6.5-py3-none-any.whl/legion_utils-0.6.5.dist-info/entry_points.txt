@@ -1,0 +1,4 @@
+[console_scripts]
+legion_publish=legion_utils.cli.cli:cli
+princeps=legion_utils.princeps.princeps:cli
+
