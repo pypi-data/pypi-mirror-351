@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: notletters
+Version: 0.1.1
+Summary: A lightweight NotLetters SDK based on stollen.
+Project-URL: Homepage, https://git.notletters.com/notletters/notletters-python.git
+Project-URL: Issues, https://git.notletters.com/notletters/notletters-python/issues
+Project-URL: Repository, https://git.notletters.com/notletters/notletters-python.git
+Author: LORES
+License-File: LICENSE
+Keywords: letters,mails,notletters,sdk
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.9
+Requires-Dist: stollen>=0.6.8
+Description-Content-Type: text/markdown
+
+# NotLetters API Client
+
+Asynchronous Python SDK for working with the [`https://api.notletters.com/v1`](https://api.notletters.com/v1) service API. Based on [stollen](https://github.com/py-stollen/stollen).
+
+## Installation
+
+```bash
+pip install notletters
+```
+
+# MRE
+
+```python
+from notletters import NotLetters, EmailType
+
+async with NotLetters(api_token="your_api_token") as api:
+    letters = await api.get_letters(
+        email="user@example.com",
+        password="secret",
+        search="example",
+        star=False,
+    )
+    for letter in letters:
+        print(letter.subject, letter.date)
+
+    purchase = await api.buy_emails(count=2, type_email=EmailType.UNLIMITED)
+    for email in purchase:
+        print(email.password)
+
+    change_result = await api.change_password(
+        email="user@example.com",
+        old_password="old",
+        new_password="new"
+    )
+    print(change_result)
+
+    me = await api.get_me()
+    print(me.username, me.balance)
+```
