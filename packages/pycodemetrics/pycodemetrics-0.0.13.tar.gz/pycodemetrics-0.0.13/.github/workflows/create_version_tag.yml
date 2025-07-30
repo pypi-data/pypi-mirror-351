@@ -1,0 +1,122 @@
+# このワークフローは、新しいバージョンタグを作成しリリースをテストするためのものです。
+# 手動でトリガーされ、バージョン番号を入力として受け取ります。
+# 実行するとDraftのリリースを作成します。
+name: Create Tag and Test Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  create-tag-and-release:
+    runs-on: ubuntu-latest
+    steps:
+
+    # リポジトリをチェックアウト
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    # Pythonのセットアップ
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+
+    # 依存関係のインストール
+    - name: Install dependencies
+      run: |
+        uv pip install --system toml requests
+
+    - name: Get current version
+      id: get-version
+      run: |
+        python - <<EOF > "${GITHUB_OUTPUT}"
+        import toml
+        import sys
+
+        try:
+            with open('pyproject.toml', 'r') as f:
+                data = toml.load(f)
+            current_version = data['project']['version']
+            print(f"current_version={current_version}")
+        except Exception as e:
+            print(f"Error: {str(e)}", file=sys.stderr)
+            sys.exit(1)
+        EOF
+
+    # 取得したバージョンのタグが存在するか確認
+    # タグが存在する場合はエラーを出力して終了
+    # タグが存在しない場合は次のステップに進む
+    - name: Check if tag exists
+      run: |
+        if git rev-parse "v${{ steps.get-version.outputs.current_version }}" >/dev/null 2>&1; then
+          echo "Error: Tag v${{ steps.get-version.outputs.current_version }} already exists."
+          exit 1
+        fi
+
+    # TestPyPIにバージョンが存在するか確認
+    # バージョンが存在する場合はエラーを出力して終了
+    # バージョンが存在しない場合は次のステップに進む
+    - name: Check if version exists on TestPyPI
+      run: |
+        python - <<EOF
+        import requests
+        import json
+
+        package_name = "pycodemetrics"  # Replace with your package name
+        version = "${{ steps.get-version.outputs.current_version }}"
+        url = f"https://test.pypi.org/pypi/{package_name}/{version}/json"
+        response = requests.get(url)
+
+        try:
+            response_data = response.json()
+            # レスポンスが200で、かつ"Not Found"メッセージでない場合はバージョンが存在する
+            if response.status_code == 200 and response_data.get("message") != "Not Found":
+                print(f"Error: Version {version} already exists on TestPyPI.")
+                exit(1)
+        except json.JSONDecodeError:
+            print(f"Error: Invalid JSON response from TestPyPI")
+            print(f"Response: {response.text}")
+            exit(1)
+
+        # バージョンが存在しない場合は正常終了
+        print(f"Version {version} does not exist on TestPyPI. Proceeding with release.")
+        exit(0)
+        EOF
+
+    # 新しいタグを作成
+    - name: Create new tag
+      run: |
+        git tag v${{ steps.get-version.outputs.current_version }}
+        git push origin v${{ steps.get-version.outputs.current_version }}
+
+    # パッケージをビルド
+    - name: Build package
+      run: uv build
+
+    # TestPyPIにアップロード
+    - name: Upload to TestPyPI
+      uses: pypa/gh-action-pypi-publish@v1.12.4
+      with:
+        user: __token__
+        verbose: true
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/
+
+    # リリースを作成
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release create v${{ steps.get-version.outputs.current_version }} \
+          --title "Release v${{ steps.get-version.outputs.current_version }}" \
+          --draft \
+          --generate-notes \
+          ./dist/*.whl \
+          ./dist/*.tar.gz
