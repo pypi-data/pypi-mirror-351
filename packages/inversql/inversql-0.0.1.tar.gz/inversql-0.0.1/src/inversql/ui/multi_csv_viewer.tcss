@@ -1,0 +1,40 @@
+# Copyright (c) The InverSQL Authors - All Rights Reserved
+
+Screen {
+    layout: horizontal;
+}
+
+#sidebar {
+    width: 20%;
+    border: solid $accent;
+    padding: 1;
+}
+
+#main {
+    width: 60%;
+    border: solid $surface;
+    padding: 1;
+}
+
+#right-panel {
+    width: 20%;
+    border: solid $accent;
+    padding: 1;
+}
+
+DataTable {
+    border: none;
+    padding: 0;
+}
+
+ListItem {
+    padding: 1;
+}
+
+ListItem:hover {
+    background: $accent 10%;
+}
+
+ListItem.-highlighted {
+    background: $accent 20%;
+}
