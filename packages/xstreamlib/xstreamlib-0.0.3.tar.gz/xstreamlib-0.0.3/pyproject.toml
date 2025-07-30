@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xstreamlib"
+version = "0.0.3"
+description = "Una librería para streaming de datos"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["requests"]
+authors = [{name = "KeimaSenpai", email = "KeimaSenpai@proton.me"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/KeimaSenpai"
+Documentation = "https://github.com/KeimaSenpai"
+Source = "https://github.com/KeimaSenpai"
+Issues = "https://github.com/KeimaSenpai"
+Community = "https://t.me/KeimaSenpai"
