@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "matjipyojeong"
+version = "0.1.0"
+description = "지역 기반 식당 검색을 위한 파이썬 라이브러리"
+authors = [
+  { name="Bonitabueno", email="admin@0331project.dooray.com" }
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+  "pandas",
+]
+
+[project.urls]
+Homepage = "https://github.com/Bonitabueno/matjipyojeong"
