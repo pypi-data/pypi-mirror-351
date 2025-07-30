@@ -1,0 +1,67 @@
+Metadata-Version: 2.4
+Name: breakout-garden-exporter
+Version: 2.0.0
+Summary: Exposes Prometheus metrics based on data collected from Pimoroni Breakout Garden sensors
+Home-page: https://github.com/andrewjw/breakout-garden-exporter
+Author: Andrew Wilkinson
+Author-email: andrewjwilkinson@gmail.com
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pycodestyle==2.12.1
+Requires-Dist: coveralls==4.0.1
+Requires-Dist: python-semantic-release==10.0.2
+Requires-Dist: mypy==1.14.1
+Requires-Dist: icp10125==1.0.0
+Requires-Dist: pimoroni-sgp30==0.0.2
+Requires-Dist: pimoroni-bme280==1.0.0
+Requires-Dist: smbus2==0.5.0
+Requires-Dist: wheel==0.45.1
+Requires-Dist: twine==6.1.0
+Requires-Dist: adafruit-circuitpython-pm25==2.1.20
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# breakout-garden-exporter
+
+[![Pipeline](https://github.com/andrewjw/breakout-garden-exporter/actions/workflows/build.yml/badge.svg)](https://github.com/andrewjw/breakout-garden-exporter/actions/workflows/build.yml)
+[![PyPI](https://img.shields.io/pypi/v/breakout-garden-exporter)](https://pypi.org/project/breakout-garden-exporter/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/glowprom)](https://pypi.org/project/breakout-garden-exporter/)
+[![Coverage Status](https://coveralls.io/repos/github/andrewjw/breakout-garden-exporter/badge.svg?branch=main)](https://coveralls.io/github/andrewjw/breakout-garden-exporter?branch=master)
+
+Exposes Prometheus metrics from sensors that are part of [Pimoroni's Breakout Garden family](https://shop.pimoroni.com/collections/breakout-garden).
+
+```
+usage: breakout-garden-exporter [-h] [-q] [--bind [BIND]]
+
+Exposes Prometheus metrics from sensors that are part of Pimoroni's Breakout Garden family
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -q, --quiet    don't log HTTP requests
+  --bind [BIND]  the ip address and port to bind to. Default: *:9101
+```
+
+Currently supported devices are:
+
+* ICP10125 temperature and pressure sensor (e.g. [this](https://shop.pimoroni.com/products/icp10125-air-pressure-breakout))
+* SGP30 CO2 and VOC air quality sensors (e.g. [this](https://shop.pimoroni.com/products/sgp30-air-quality-sensor-breakout))
+* BME280 temperature, pressure and humidity sensor (e.g. [this](https://shop.pimoroni.com/products/bme280-breakout))
+* PM25 air quality sensors (e.g. [this](https://shop.pimoroni.com/products/adafruit-pmsa003i-air-quality-breakout-stemma-qt-qwiic) connect via an [appropriate breakout board](https://shop.pimoroni.com/products/breakout-garden-to-qwiic-adaptor?))
+
+If you have any other breakout devices, please get in touch so we can add support for them!
+  
