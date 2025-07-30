@@ -1,0 +1,112 @@
+{
+    "model": {
+        "name": "w17x17",
+        "description": "Library Westinghouse 17x17 design",
+        "sources":{},
+        "revision": ["1.0"],
+        "notes":[]
+    },
+    "generate": {
+        "_type": "scale.olm.generate.root:jt_expander",
+        "template": "model.jt.inp",
+        "comp": {
+            "_type": "scale.olm.generate.comp:uo2_simple",
+            "density": 10.4
+        },
+        "static": {
+            "_type": "scale.olm.generate.static:pass_through",
+            "addnux": 4,
+            "xslib": "xn252"
+        },
+        "states": {
+            "_type": "scale.olm.generate.states:full_hypercube",
+            "coolant_density": [
+                0.723
+            ],
+            "enrichment": [
+                0.5,
+                1.5,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                8.5
+            ],
+            "ppm_boron": [
+                630
+            ],
+            "specific_power": [
+                40
+            ]
+        },
+        "time": {
+            "_type": "scale.olm.generate.time:constpower_burndata",
+            "gwd_burnups": [
+                0.0,
+                0.04,
+                1.04,
+                3.0,
+                5.0,
+                7.5,
+                10.5,
+                13.5,
+                16.5,
+                19.5,
+                22.5,
+                25.5,
+                28.5,
+                31.5,
+                34.5,
+                37.5,
+                40.5,
+                43.5,
+                46.5,
+                49.5,
+                52.5,
+                55.5,
+                58.5,
+                61.5,
+                64.5,
+                67.5,
+                70.5,
+                73.5,
+                76.5,
+                79.5,
+                82.5
+            ]
+        }
+    },
+    "run": {
+        "_type": "scale.olm.run:makefile",
+        "dry_run": false
+    },
+    "assemble": {
+        "_type": "scale.olm.assemble:arpdata_txt",
+        "fuel_type": "UOX",
+        "dim_map": {"mod_dens": "coolant_density", "enrichment": "enrichment"},
+        "keep_every": 1
+    },
+    "check": {
+        "_type": "scale.olm.check:sequencer",
+        "sequence": [
+        {
+            "_type": "scale.olm.check:LowOrderConsistency",
+            "name": "loc",
+            "template": "model/origami/system-uox.jt.inp",
+            "target_q1": 0.70,
+            "target_q2": 0.95,
+            "eps0": 1e-12,
+            "epsa": 1e-6,
+            "epsr": 1e-3,
+            "nuclide_compare": ["0092235","0094239","0094240","0094241","0094242"]
+        }
+        ]
+    },
+    "report": {
+        "_type": "scale.olm.report:rst2pdf",
+        "template": "report.jt.rst"
+    }
+}
