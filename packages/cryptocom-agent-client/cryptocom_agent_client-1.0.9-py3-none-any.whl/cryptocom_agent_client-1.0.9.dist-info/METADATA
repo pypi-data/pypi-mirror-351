@@ -1,0 +1,460 @@
+Metadata-Version: 2.3
+Name: cryptocom-agent-client
+Version: 1.0.9
+Summary: A Python client to interact with @cryptocom/agent
+License: MIT
+Keywords: blockchain,crypto.com,AI,tool,SDK
+Author: Ric Arcifa
+Author-email: ricardo.arcifa@crypto.com
+Requires-Python: >=3.12,<4.0.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: crypto-com-developer-platform-client (==1.0.9)
+Requires-Dist: discord.py (>=2.5.2,<3.0.0)
+Requires-Dist: google-cloud-aiplatform (==1.93.0)
+Requires-Dist: langchain (==0.3.23)
+Requires-Dist: langchain-anthropic (==0.3.1)
+Requires-Dist: langchain-core (==0.3.55)
+Requires-Dist: langchain-fireworks (==0.2.6)
+Requires-Dist: langchain-google-genai (==2.0.8)
+Requires-Dist: langchain-google-vertexai (==2.0.24)
+Requires-Dist: langchain-groq (==0.3.2)
+Requires-Dist: langchain-mistralai (==0.2.4)
+Requires-Dist: langchain-openai (==0.3.12)
+Requires-Dist: langchain-xai (==0.2.3)
+Requires-Dist: langfuse (==2.57.5)
+Requires-Dist: langgraph (==0.2.61)
+Requires-Dist: pydantic (==2.10.4)
+Requires-Dist: python-dotenv (==1.0.1)
+Requires-Dist: python-telegram-bot (>=21.10,<22.0)
+Requires-Dist: web3 (>=7.10.0,<8.0.0)
+Project-URL: Documentation, https://github.com/crypto-com/agent-client-py#readme
+Project-URL: Homepage, https://github.com/crypto-com/agent-client-py
+Project-URL: Repository, https://github.com/crypto-com/agent-client-py
+Description-Content-Type: text/markdown
+
+# Crypto.com Agent Client
+
+**Crypto.com Agent Client** is a Python library designed to integrate advanced conversational AI capabilities with blockchain functionality. It provides tools, plugins, and utilities to build robust and extensible agent workflows with graphs and Crypto.com blockchain integrations.
+
+---
+
+## Features
+
+1. **Conversational AI Integration**:
+
+   - Build conversational agents with state-of-the-art Large Language Models (LLMs) like OpenAI's GPT series, Anthropic's Claude, and Meta's Llama 4.
+   - Customize the behavior using plugins for personality and instructions.
+
+2. **Blockchain Integration**:
+
+   - Perform blockchain-specific operations with pre-built functions:
+     - Create wallets.
+     - Retrieve native and ERC20 token balances.
+     - Fetch transactions by hash.
+     - Transfer tokens.
+
+3. **Extensible Tools**:
+
+   - Extend agent functionality with custom user-defined tools.
+   - Simple decorator-based implementation using `@tool`.
+
+4. **Persistent Storage**:
+
+   - Use `SQLitePlugin` for local state persistence.
+   - Seamlessly store and retrieve agent states.
+
+5. **LangFuse Monitoring**:
+
+   - Integrate with LangFuse for real-time telemetry and interaction monitoring.
+   - Enable detailed analytics for agent performance and usage.
+
+6. **Plugin System**:
+
+   - Flexible plugin configuration for tools, storage, personality, and telemetry.
+   - Easily swap or extend functionality without modifying core logic.
+
+7. **Custom Instructions**:
+
+   - Tailor agent responses using flexible instructions.
+   - Combine personality settings for tone, verbosity, and language.
+
+8. **Easy Initialization**:
+   - Initialize with a few lines of code, including blockchain, LLM, and plugin configurations.
+   - Minimal setup for out-of-the-box functionality.
+
+---
+
+## Installation
+
+Install the package from PyPI:
+
+```bash
+pip install cryptocom-agent-client
+```
+
+---
+
+## Getting Started
+
+### Importing the Library
+
+The library exposes key components at the top level for ease of use.
+
+```python
+from cryptocom_agent_client import Agent, tool, SQLitePlugin
+```
+
+---
+
+## Core Components
+
+### Agent
+
+The `Agent` class is the central component that orchestrates interactions, tools, and plugins. It is initialized with configurations for LLM, blockchain, and optional plugins.
+
+#### Example Initialization
+
+```python
+from cryptocom_agent_client import Agent, tool
+
+# Define a custom tool
+@tool
+def get_weather(location: str) -> str:
+    """
+    Provide the current weather for a given location.
+
+    Args:
+        location (str): The name of the location for which to retrieve weather information.
+
+    Returns:
+        str: A message describing the weather in the specified location.
+    """
+    return f"The weather in {location} is sunny."
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
+explorer_api_key = os.getenv("EXPLORER_API_KEY")
+private_key = os.getenv("PRIVATE_KEY")
+
+# Initialize the agent
+agent = Agent.init(
+    llm_config={
+        "provider": "OpenAI",
+        "model": "gpt-4",
+        "provider-api-key": openai_api_key,
+    },
+    blockchain_config={
+        "chainId": "240",
+        "explorer-api-key": explorer_api_key,
+        "private-key": private_key,
+    },
+    plugins={
+        "personality": {
+            "tone": "friendly",
+            "language": "English",
+            "verbosity": "high",
+        },
+        "instructions": "You are a humorous assistant that always includes a joke in your responses.",
+        "tools": [get_weather],
+        "storage": SQLitePlugin(db_path="agent_state.db"), # (OPTIONAL)
+        "langfuse": {
+            "public-key": "user-public-key",
+            "secret-key": "user-secret-key",
+            "host": "https://langfuse.example.com",
+        }, # (OPTIONAL)
+    },
+)
+
+# Interaction
+response = agent.interact("What's the weather in Berlin?")
+print(response)
+```
+
+### Using Llama 4 with Groq Provider
+
+You can use Meta's Llama 4 models through the Groq provider by specifying the provider as "Groq" in the configuration:
+
+```python
+from cryptocom_agent_client import Agent
+
+# Get API key from environment variables
+groq_api_key = os.getenv("GROQ_API_KEY")
+explorer_api_key = os.getenv("EXPLORER_API_KEY")
+
+# Initialize the agent with Llama 4
+agent = Agent.init(
+    llm_config={
+        "provider": "Groq",
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",  # Llama 4 Scout (17B parameters)
+        "provider-api-key": groq_api_key,
+        "temperature": 0.7,
+    },
+    blockchain_config={
+        "chainId": "240",
+        "explorer-api-key": explorer_api_key,
+    },
+    plugins={
+        "personality": {
+            "tone": "friendly",
+            "language": "English",
+            "verbosity": "medium",
+        },
+        "instructions": "You are a helpful blockchain assistant powered by Llama 4."
+    },
+)
+
+# Interaction
+response = agent.interact("How can I create a wallet on Cronos?")
+print(response)
+```
+
+---
+
+## Plugins
+
+Plugins allow you to extend the functionality of the agent. Below are the available plugins and examples of their usage.
+
+### Storage Plugin
+
+The `SQLitePlugin` provides a mechanism for state persistence using SQLite.
+
+#### Example Usage
+
+```python
+from cryptocom_agent_client import Agent, SQLitePlugin
+
+agent = Agent.init(
+    llm_config={
+        "provider": "OpenAI",
+        "model": "gpt-4",
+        "provider-api-key": "sk-proj-example-key",
+    },
+    blockchain_config={
+        "chainId": "240",
+        "explorer-api-key": "blockchain-example-key",
+    },
+    plugins={
+        "storage": SQLitePlugin(db_path="agent_state.db")
+    },
+)
+```
+
+### LangFuse Plugin
+
+The `LangFusePlugin` integrates telemetry for monitoring interactions. Provide the required keys as a dictionary:
+
+#### Example Usage
+
+```python
+from cryptocom_agent_client import Agent
+
+agent = Agent.init(
+    llm_config={
+        "provider": "OpenAI",
+        "model": "gpt-4",
+        "provider-api-key": "sk-proj-example-key",
+    },
+    blockchain_config={
+        "chainId": "240",
+        "explorer-api-key": "blockchain-example-key",
+    },
+    plugins={
+        "langfuse": {
+            "public-key": "user-public-key",
+            "secret-key": "user-secret-key",
+            "host": "https://langfuse.example.com",
+        }
+    },
+)
+```
+
+### Personality Plugin
+
+Customize the agent's personality and instructions.
+
+#### Example Usage
+
+```python
+from cryptocom_agent_client import Agent
+
+agent = Agent.init(
+    llm_config={
+        "provider": "OpenAI",
+        "model": "gpt-4",
+        "provider-api-key": "sk-proj-example-key",
+    },
+    blockchain_config={
+        "chainId": "240",
+        "explorer-api-key": "blockchain-example-key",
+    },
+    plugins={
+        "personality": {
+            "tone": "friendly",
+            "language": "English",
+            "verbosity": "high",
+        },
+    },
+)
+```
+
+---
+
+## Tools
+
+Tools are user-defined functions that extend the agent's capabilities. They must be decorated with `@tool`.
+
+### Example Tools
+
+#### 1. Weather Tool
+
+```python
+@tool
+def get_weather(location: str) -> str:
+    """
+    Provide the current weather for a given location.
+
+    Args:
+        location (str): The name of the location for which to retrieve weather information.
+
+    Returns:
+        str: A message describing the weather in the specified location.
+    """
+    return f"The weather in {location} is sunny."
+```
+
+#### 2. Custom Greeting Tool
+
+```python
+@tool
+def greet_user(name: str) -> str:
+    """
+    Generate a personalized greeting message.
+
+    Args:
+        name (str): The name of the user to greet.
+
+    Returns:
+        str: A greeting message addressed to the user.
+    """
+    return f"Hello, {name}! How can I assist you today?"
+```
+
+#### 3. Arithmetic Tool
+
+```python
+@tool
+def calculate_sum(a: int, b: int) -> int:
+    """
+    Calculate the sum of two integers.
+
+    Args:
+        a (int): The first number to add.
+        b (int): The second number to add.
+
+    Returns:
+        int: The sum of the two numbers.
+    """
+    return a + b
+
+```
+
+### Using Tools in the Agent
+
+```python
+from cryptocom_agent_client import Agent
+
+agent = Agent.init(
+    llm_config={
+        "provider": "OpenAI",
+        "model": "gpt-4",
+        "provider-api-key": "sk-proj-example-key",
+    },
+    blockchain_config={
+        "chainId": "240",
+        "explorer-api-key": "blockchain-example-key",
+    },
+    plugins={
+        "tools": [get_weather, greet_user, calculate_sum],
+    },
+)
+
+response = agent.interact("What's the weather in Berlin?")
+print(response)
+```
+
+---
+
+## Blockchain Functions
+
+The library includes several pre-built blockchain-related functions:
+
+### Pre-Built Functions
+
+1. **Create Wallet**: `create_wallet()`
+2. **Get Native Balance**: `get_native_balance(address: str)`
+3. **Get ERC20 Balance**: `get_erc20_balance(address: str, token: str)`
+4. **Get Transaction by Hash**: `get_transaction_by_hash(tx_hash: str)`
+5. **Transfer Token**: `transfer_token(from_address: str, to_address: str, amount: int, token: str)`
+
+### Example Usage
+
+```python
+from cryptocom_agent_client import Agent
+
+agent = Agent.init(
+    llm_config={
+        "provider": "OpenAI",
+        "model": "gpt-4",
+        "provider-api-key": "sk-proj-example-key",
+    },
+    blockchain_config={
+        "chainId": "240",
+        "explorer-api-key": "blockchain-example-key",
+    },
+)
+
+response = agent.interact("Create 2 Wallets")
+print(response)
+```
+
+---
+
+## Advanced Usage
+
+### Custom Instructions
+
+Customize agent behavior by modifying instructions:
+
+```python
+from cryptocom_agent_client import Agent
+
+agent = Agent.init(
+    llm_config={
+        "provider": "OpenAI",
+        "model": "gpt-4",
+        "provider-api-key": "sk-proj-example-key",
+    },
+    blockchain_config={
+        "chainId": "240",
+        "explorer-api-key": "blockchain-example-key",
+    },
+    plugins={
+        "instructions": "Be concise and professional."
+    },
+)
+```
+
+---
+
+## Contributing
+
+We welcome contributions! Please follow the guidelines in the repository.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
