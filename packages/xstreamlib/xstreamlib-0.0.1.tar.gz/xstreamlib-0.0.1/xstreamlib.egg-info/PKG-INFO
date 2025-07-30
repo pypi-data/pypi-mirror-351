@@ -1,0 +1,89 @@
+Metadata-Version: 2.1
+Name: xstreamlib
+Version: 0.0.1
+Author: KeimaSenpai
+Author-email: KeimaSenpai@proton.me
+License-File: LICENSE
+
+# XStreamLib
+
+[![PyPI version](https://badge.fury.io/py/xstreamlib.svg)](https://badge.fury.io/py/xstreamlib)
+[![Python Support](https://img.shields.io/pypi/pyversions/xstreamlib.svg)](https://pypi.org/project/xstreamlib/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+Una biblioteca Python moderna y fácil de usar para interactuar con la API de Udyat. Diseñada para ser flexible, robusta y permitir configuración personalizada de la URL de la API.
+
+## ✨ Características
+
+- 🚀 **Fácil de usar**: API intuitiva y bien documentada
+- 🔒 **Manejo robusto de errores**: Excepciones personalizadas con información detallada
+- 📁 **Subida de archivos**: Soporte nativo para multimedia
+- 📦 **Context managers**: Gestión automática de recursos
+- 🎯 **Type hints**: Completamente tipado para mejor experiencia de desarrollo
+- 🔧 **Endpoints personalizados**: Flexibilidad total para cualquier API
+
+## 🚀 Instalación
+
+### Instalación básica
+
+```bash
+pip install xstreamlib
+```
+
+## 📖 Guía de inicio rápido
+
+### Ejemplo básico
+
+
+## 📚 Documentación
+
+
+### Tipos de errores comunes
+
+- **400 Bad Request**: Parámetros inválidos
+- **500 Internal Server Error**: Error del servidor
+
+## 🤝 Contribución
+
+¡Las contribuciones son bienvenidas! Por favor:
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/amazing-feature`)
+3. Commit tus cambios (`git commit -m 'Add amazing feature'`)
+4. Push a la rama (`git push origin feature/amazing-feature`)
+5. Abre un Pull Request
+
+### Guías de contribución
+
+- Añadir nuevas funcionalidades
+- Actualizar documentación
+- Verificar que pasen todas las pruebas
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## 🆘 Soporte
+
+- 📖 [Documentación](https://xstreamlib.readthedocs.io/)
+- 🐛 [Issues](https://github.com/yourusername/xstreamlib/issues)
+- 💬 [Discusiones](https://github.com/yourusername/xstreamlib/discussions)
+
+### Próximas versiones
+
+- [ ] **v0.0.2**: Mejoras
+
+### Características futuras
+
+- [ ] Métricas y monitoréo para limitar las peticiones 
+
+## 🏆 Reconocimientos
+
+- Agradecimientos al creador de la api mi grandioso padre
+- Facilidad para obtener enlaces directos de telegram.
+- Construido con amor para la comunidad de desarrolladores Python.
+
+---
+
+**¿Te gusta xstreamlib?** ¡Dale una ⭐ en GitHub y compártelo con otros desarrolladores!
