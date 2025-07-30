@@ -1,0 +1,26 @@
+[project]
+dependencies = [
+  "litellm>=1.71.2",
+  "pydantic>=2.11.5",
+  "pymupdf>=1.26.0",
+]
+dynamic = ["version"]
+name = "pah-core"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling", "uv-dynamic-versioning"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pah_core"]
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+bump = true
+latest-tag = true
+pattern = '(?P<base>\d+\.\d+\.\d+)'
+strict = true
+style = "pep440"
+vcs = "git"
