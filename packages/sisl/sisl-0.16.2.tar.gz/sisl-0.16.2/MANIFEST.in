@@ -1,0 +1,31 @@
+include MANIFEST.in
+include LICENSE
+include README.md
+
+include pyproject.toml
+exclude DEPLOY.md
+
+prune .git
+prune .github
+prune benchmarks
+prune deprecated
+prune developments
+prune ci
+prune files
+prune build
+prune _skbuild
+
+# forcefully add this one, not really needed
+graft docs
+prune docs/build
+prune docs/**/generated
+graft src
+include src/sisl/_version.py
+include src/sisl/_debug_info.py
+include data
+
+prune __pycache__
+
+# lastly, remove all these files
+global-exclude *.py[cod] __pycache__ *.so *.sh
+global-exclude *.html .git* CMakeLists.txt

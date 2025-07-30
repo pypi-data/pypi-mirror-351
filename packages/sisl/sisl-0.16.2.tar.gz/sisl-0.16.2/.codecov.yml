@@ -1,0 +1,15 @@
+ignore:
+  - benchmarks
+  - data
+  - developments
+
+codecov:
+  notify:
+    after_n_builds: 6
+
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        base: auto

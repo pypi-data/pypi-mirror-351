@@ -1,0 +1,407 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# Regarding pyproject.toml see
+# - PEP 517 project metadata https://www.python.org/dev/peps/pep-0517
+# - PEP 518 project metadata https://www.python.org/dev/peps/pep-0518
+# - PEP 621 project metadata https://www.python.org/dev/peps/pep-0621
+
+[tool.setuptools_scm]
+write_to = "src/sisl/_version.py"
+version_file = "src/sisl/_version.py"
+fallback_version = "0.16.2"
+
+# First we define the build-system which we will probably alter the most
+[build-system]
+requires = [
+    "setuptools_scm[toml]>=8",
+    "scikit-build-core[pyproject]>=0.8",
+    "Cython>=3.0.8",
+    "numpy>=2.0.0rc1"
+]
+build-backend = "scikit_build_core.build"
+
+# Top most items are probably changed the most
+[project]
+requires-python = ">=3.9"
+
+name = "sisl"
+description = "Manipulation and post-processing of DFT output and creating tight-binding models for NEGF transport"
+readme = "README.md"
+license = {text = "MPL-2.0"}
+keywords = [
+    "tight-binding",
+    "DFT",
+    "LCAO",
+    "NEGF",
+    "physics",
+    "bandstructure",
+    "solid-state",
+]
+
+# Our dependencies should pretty much follow EOL python releases
+# However, the exception is currently that numpy.typing.NDArray
+# is currently (as of August 2024) required in some dependency
+# packages (PIL).
+# So this time around we will be taking a bit more recent one.
+# Otherwise, the chosen versions should be something like:
+# See when the currently oldest LIVE Python version was first released.
+# E.g. 3.9 was released 2020-10-05.
+# Now all dependencies that were released around the same time should be the
+# lower bound of dependencies.
+dependencies = [
+    # We need npt.NDArray
+    "numpy>=1.21",
+    "scipy>=1.6",
+    # I can't get it to work on py311 with older versions
+    "pyparsing>=2.2.1",
+    # xarray fixes get_loc in 0.21
+    "xarray>=0.21",
+]
+
+authors = [
+    {name = "Nick Papior", email = "nickpapior@gmail.com"},
+    {name = "Pol Febrer"}
+]
+maintainers = [{name="sisl developers"}]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Programming Language :: C",
+    "Programming Language :: Fortran",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Operating System :: OS Independent",
+]
+
+# We purposefully get the version dynamically
+dynamic = ["version"]
+
+
+
+[tool.scikit-build]
+# Consider adding
+# minimum-version to choose the fallback mechanism in scikit-build-core
+wheel.packages = ["src/sisl", "src/sisl_toolbox"]
+
+# required for dynamic metadata
+experimental = true
+
+metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
+
+# define a consistent build directory
+build-dir = "build/{wheel_tag}"
+
+# cmake and ninja stuff
+cmake.verbose = true
+cmake.version = ">=3.20"
+
+# source configuration
+sdist.reproducible = true
+sdist.include = [
+    "src/sisl/_version.py",
+    "src/sisl/_debug_info.py",
+    "*/CMakeLists.txt"
+]
+
+wheel.expand-macos-universal-tags = true
+
+
+[project.scripts]
+sgeom = "sisl._core.geometry:sgeom"
+sgrid = "sisl._core.grid:sgrid"
+sdata = "sisl.utils._sisl_cmd:sisl_cmd"
+stoolbox = "sisl_toolbox.cli:stoolbox_cli"
+
+
+[project.urls]
+# See here for which are allowed:
+#  https://github.com/pypi/warehouse/blob/main/warehouse/templates/packaging/detail.html
+Homepage = "https://zerothi.github.io/sisl"
+Releases = "https://github.com/zerothi/sisl/releases"
+Documentation = "https://zerothi.github.io/sisl"
+Source = "https://github.com/zerothi/sisl"
+Tracker = "https://github.com/zerothi/sisl/issues"
+Discussions = "https://github.com/zerothi/sisl/discussions"
+Changelog = "https://zerothi.github.io/sisl/release.html"
+Chat = "https://discord.gg/5XnFXFdkv2"
+
+
+[project.optional-dependencies]
+
+analysis = [
+    "netCDF4",
+    "tqdm>=4.36.0",
+]
+
+viz = [
+    "nodify",
+    "netCDF4",
+    "dill >= 0.3.2",
+    "pathos",
+    "scikit-image",
+    "plotly",
+    "matplotlib",
+    "ase",
+]
+
+viz-plotly = [
+    "nodify",
+    "netCDF4",
+    "dill >= 0.3.2",
+    "pathos",
+    "scikit-image",
+    "plotly",
+]
+
+viz-matplotlib = [
+    "nodify",
+    "netCDF4",
+    "dill >= 0.3.2",
+    "pathos",
+    "scikit-image",
+    "matplotlib",
+]
+
+viz-blender = [
+    "nodify",
+    "netCDF4",
+    "dill >= 0.3.2",
+    "pathos",
+    "scikit-image",
+]
+
+viz-ase = [
+    "netCDF4",
+    "dill >= 0.3.2",
+    "pathos",
+    "scikit-image",
+    "ase",
+]
+
+test = [
+    "pytest>=7",
+    "coverage[toml]",
+    "pytest-cov",
+    "pytest-env",
+    "pytest-faulthandler",
+]
+
+docs = [
+    "sphinx<8",
+    "plotly<6",
+    "nbsphinx",
+    "sphinx-rtd-theme",
+    "sphinx-design",
+    "sphinx-gallery",
+    "sphinx-copybutton",
+    "sphinx-togglebutton",
+    "sphinx-inline-tabs",
+    "sphinxcontrib-bibtex",
+    "sphinxext-rediraffe",
+    "importlib-metadata",
+    "ipykernel",
+    "ipywidgets",
+    "jupyterlab-widgets",
+    "kaleido",
+    "pytz",
+    # Visualizing nodes
+    "networkx",
+    "pyvis",
+    "pybtex",
+    "pandoc",
+]
+
+
+[tool.pytest.ini_options]
+testpaths = [
+    "src"
+]
+markers = [
+    "slow: mark a test as slow",
+]
+
+addopts = "-rXs --durations=20"
+
+[tool.coverage.run]
+source_pkgs = [
+    "sisl",
+    "sisl_toolbox",
+]
+omit = [
+    "*/conftest.py",
+]
+
+[tool.coverage.report]
+include_namespace_packages = true
+exclude_also = [
+    "raise NotImplementedError",
+]
+exclude_lines = [
+  "@overload",
+  'if __name__ == "__main":',
+  "if TYPE_CHECKING:",
+]
+
+[tool.pylint]
+[tool.pylint.master]
+jobs = 6
+ignore-paths = [
+   ".*/tests/.*.py"
+]
+
+ignore-patterns = [
+   "conftest.py",
+   # This is autogenerated, but may be present
+   "_version.py"
+]
+
+# Do not create false-positives for Cython extensions
+extension-pkg-allow-list = [
+   "sisl._math_small",
+   "sisl._indices",
+   "sisl._core._lattice",
+   "sisl.io.siesta._siesta",
+   "sisl.physics._bloch",
+   "sisl.physics._matrix_k",
+   "sisl.physics._matrix_dk",
+   "sisl.physics._matrix_ddk",
+
+   # external packages required
+   "numpy",
+   "scipy"
+]
+
+
+[tool.pylint.format]
+# Currently no formatting rules
+
+[tool.pylint.messages_control]
+max-line-length = 110
+
+disable = [
+    "invalid-name",
+    "missing-module-docstring",
+    "redefined-builtin"
+]
+
+
+
+[tool.tox]
+
+legacy_tox_ini = """
+[tox]
+minversion = 3.3.0
+envlist = py39,py310,py311,py312
+isolated_build = True
+
+[testenv]
+setenv =
+    SISL_NUM_PROCS=1
+deps = -rdocs/requirements.txt
+commands = pytest -s -rXs {posargs}
+"""
+
+
+[tool.isort]
+# how should sorting be done
+profile = "black"
+sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
+known_first_party = ["sisl_toolbox", "sisl"]
+line_length = 88
+overwrite_in_place = true
+extend_skip = ["src/sisl/__init__.py", "src/sisl/_version.py"]
+extend_skip_glob = ["files/*", "*/.*"]
+multi_line_output = "VERTICAL_HANGING_INDENT"
+
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310", "py311", "py312"]
+extend-exclude = """
+(
+ ^/files/*
+ | /\\..*
+ | .*/\\..*
+)
+"""
+
+
+[tool.numpydoc_validation]
+checks = ["all", "EX01", "SA01", "ES01"]
+exclude = [
+    '^conf\.',
+]
+
+
+[tool.towncrier]
+# currently casing is inconsistent when using package
+# see https://github.com/twisted/towncrier/issues/686
+#package = "sisl"
+name = "sisl"
+single_file = false
+package_dir = "src"
+directory = "changes/"
+template = "docs/release/template.rst"
+filename = "docs/release/{version}-notes.rst"
+issue_format = ":pull:`{issue}`"
+title_format = "{name} {version} Release Notes"
+underlines = "*=-"
+all_bullets = true
+orphan_prefix = "orphan."
+
+
+    [[tool.towncrier.section]]
+    name = ""
+    # In top-level changes directory
+    path = ""
+
+    [[tool.towncrier.section]]
+    name = "Toolboxes"
+    # Nested in changes/toolbox
+    path = "toolbox"
+
+
+    [[tool.towncrier.type]]
+    directory = "highlight"
+    name = "Highlights"
+    showcontent = true
+
+    [[tool.towncrier.type]]
+    directory = "feat"
+    name = "New features"
+    showcontent = true
+
+    [[tool.towncrier.type]]
+    directory = "change"
+    name = "Changes and improvements"
+    showcontent = true
+
+    [[tool.towncrier.type]]
+    directory = "fix"
+    name = "Bugfixes"
+    showcontent = true
+
+[tool.rstcheck]
+ignore_directives = [
+    "autosummary",
+    "module",
+    "toctree",
+]
+ignore_roles = [
+    "download",
+    "ref",
+]

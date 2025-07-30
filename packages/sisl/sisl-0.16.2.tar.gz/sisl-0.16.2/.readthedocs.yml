@@ -1,0 +1,35 @@
+version: 2
+
+submodules:
+  include:
+    - files
+
+build:
+  os: "ubuntu-lts-latest"
+  apt_packages:
+    - cmake
+    - build-essential
+    - gcc
+    - gfortran
+    - pandoc
+  tools:
+    python: "latest"
+  jobs:
+    pre_install:
+      - ./.readthedocs-pre_install.sh
+
+sphinx:
+  configuration: docs/conf.py
+  fail_on_warning: false
+
+python:
+  install:
+    - method: pip
+      path: .
+      extra_requirements:
+        - analysis
+        - viz
+        - test
+        - docs
+
+formats: []
