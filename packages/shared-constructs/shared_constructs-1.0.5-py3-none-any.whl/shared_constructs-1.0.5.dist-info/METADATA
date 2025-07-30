@@ -1,0 +1,24 @@
+Metadata-Version: 2.3
+Name: shared-constructs
+Version: 1.0.5
+Summary: AWS Solutions Architecture
+License: Open Source
+Author: Ahsin Shabbir
+Author-email: ashabbi00@gmail.com
+Requires-Python: >=3.12
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: deeplearning
+Provides-Extra: videoprocessing
+Requires-Dist: boto3 (>=1.38.23)
+Requires-Dist: ffmpeg-python (>=0.2.0,<0.3.0) ; extra == "videoprocessing"
+Requires-Dist: openai-whisper (>=20240930,<20240931) ; extra == "deeplearning"
+Requires-Dist: pydantic (>=2.11.5,<3.0.0)
+Requires-Dist: requests (>=2.32.2)
+Requires-Dist: torch (>=2.7.0,<3.0.0) ; extra == "deeplearning"
+Project-URL: Repository, https://github.com/ahsin-s/awesome-aws
+Description-Content-Type: text/markdown
+
+# awesome-aws
