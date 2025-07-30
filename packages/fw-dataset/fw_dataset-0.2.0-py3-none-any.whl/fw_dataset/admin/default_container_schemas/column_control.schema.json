@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "control-schema",
+  "type": "object",
+  "properties": {
+    "acquisitions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Properties to retain from the acquisitions schema."
+    },
+    "analyses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Properties to retain from the analyses schema."
+    },
+    "files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Properties to retain from the files schema."
+    },
+    "sessions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Properties to retain from the sessions schema."
+    },
+    "subjects": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Properties to retain from the subjects schema."
+    }
+  }
+}

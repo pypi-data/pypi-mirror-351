@@ -1,0 +1,244 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "files",
+  "description": "Represents a file within a Flywheel project, including metadata, provenance, and associated attributes.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the file.",
+      "pattern": "^[0-9a-f]{24}$",
+      "title": "File ID"
+    },
+    "version": {
+      "type": "integer",
+      "description": "The version number of the file.",
+      "title": "File Version"
+    },
+    "file_id": {
+      "type": "string",
+      "description": "The unique identifier (uuid) for the file.",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+      "title": "File ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the file.",
+      "title": "File Name"
+    },
+    "parents.group": {
+      "type": "string",
+      "pattern": "^[0-9a-z][0-9a-z.@_-]{0,62}[0-9a-z]$",
+      "description": "The group associated with the file.",
+      "title": "Parent Group"
+    },
+    "parents.project": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The project associated with the file.",
+      "title": "Parent Project"
+    },
+    "parents.subject": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The subject associated with the file.",
+      "title": "Parent Subject"
+    },
+    "parents.session": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The session associated with the file.",
+      "title": "Parent Session"
+    },
+    "parents.acquisition": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The acquisition associated with the file.",
+      "title": "Parent Acquisition"
+    },
+    "parents.analysis": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The analysis associated with the file.",
+      "title": "Parent Analysis"
+    },
+    "parent_ref.id": {
+      "type": "string",
+      "description": "The unique identifier for the parent entity associated with this file.",
+      "title": "Parent ID"
+    },
+    "parent_ref.type": {
+      "type": "string",
+      "description": "The type of the parent entity associated with this file.",
+      "title": "Parent Type"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of the file (e.g., DICOM, JSON).",
+      "title": "File Type"
+    },
+    "size": {
+      "type": "integer",
+      "description": "The size of the file in bytes.",
+      "title": "File Size"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the file was created.",
+      "title": "Creation Timestamp"
+    },
+    "modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the file was last modified.",
+      "title": "Last Modified Timestamp"
+    },
+    "modality": {
+      "type": "string",
+      "description": "The modality of the file (e.g., MRI, CT).",
+      "title": "File Modality"
+    },
+    "classification.type": {
+      "type": "array",
+      "description": "The classification type of the file.",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "title": "Classification Type"
+    },
+    "classification.Custom": {
+      "type": "array",
+      "description": "Custom classification fields for the file.",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "title": "Custom Classification"
+    },
+    "hash": {
+      "type": "string",
+      "description": "The hash of the file contents, used for integrity verification.",
+      "title": "File Hash"
+    },
+    "provider_id": {
+      "type": "string",
+      "description": "The ID of the provider responsible for storing or managing the file.",
+      "title": "Provider ID"
+    },
+    "restored_from": {
+      "type": "string",
+      "description": "The identifier of the storage location or snapshot from which the file was restored.",
+      "title": "Restored From"
+    },
+    "zip_member_count": {
+      "type": "integer",
+      "description": "The number of files contained within the zip file, if applicable.",
+      "title": "Zip Member Count"
+    },
+    "path": {
+      "type": "string",
+      "description": "The file system path or logical path to the file.",
+      "title": "File Path"
+    },
+    "restored_by": {
+      "type": "string",
+      "description": "The identifier of the user or process that restored the file.",
+      "title": "Restored By"
+    },
+    "client_hash": {
+      "type": "string",
+      "description": "The hash provided by the client during file upload for integrity verification.",
+      "title": "Client Hash"
+    },
+    "deid_log_id": {
+      "type": "string",
+      "description": "The unique identifier for the de-identification log entry associated with the file.",
+      "title": "De-Identification Log ID"
+    },
+    "gear_info.name": {
+      "type": "string",
+      "description": "The name of the gear.",
+      "title": "Gear Name"
+    },
+    "gear_info.version": {
+      "type": "string",
+      "description": "The version of the gear.",
+      "title": "Gear Version"
+    },
+    "gear_info.id": {
+      "type": "string",
+      "description": "The ID of the gear.",
+      "title": "Gear ID"
+    },
+    "origin.id": {
+      "type": "string",
+      "description": "The unique identifier for the origin entity associated with this file.",
+      "title": "Origin ID"
+    },
+    "origin.type": {
+      "type": "string",
+      "description": "The type of the origin entity associated with this file.",
+      "title": "Origin Type"
+    },
+    "source.type": {
+      "type": "string",
+      "enum": ["device", "user", "import"],
+      "title": "Type"
+    },
+    "source.id": {
+      "type": "string",
+      "description": "The ID of the source object for the file.",
+      "title": "Source ID"
+    },
+    "deid_log_skip_reason": {
+      "type": "string",
+      "description": "The reason why the file was skipped during de-identification.",
+      "title": "De-Identification Skip Reason"
+    },
+    "deleted": {
+      "type": "boolean",
+      "description": "Indicates whether the file has been marked as deleted.",
+      "title": "Deleted Status"
+    },
+    "reference": {
+      "type": "boolean",
+      "description": "Indicates whether the file is a reference file.",
+      "title": "Reference File"
+    },
+    "original_copy_of": {
+      "type": "string",
+      "description": "The identifier of the original file from which this file is derived.",
+      "title": "Original Copy Of"
+    },
+    "replaced": {
+      "type": "boolean",
+      "description": "Indicates whether the file has been replaced.",
+      "title": "Replaced Status"
+    },
+    "tags": {
+      "type": "array",
+      "description": "A list of tags associated with the file.",
+      "items": {
+        "type": "string",
+        "title": "Tag"
+      }
+    },
+    "mimetype": {
+      "type": "string",
+      "description": "The MIME type of the file.",
+      "title": "MIME Type"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "size",
+    "hash",
+    "created",
+    "modified",
+    "origin.type"
+  ]
+}

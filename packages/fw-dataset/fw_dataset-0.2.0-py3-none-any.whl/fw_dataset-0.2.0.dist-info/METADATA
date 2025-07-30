@@ -1,0 +1,480 @@
+Metadata-Version: 2.3
+Name: fw-dataset
+Version: 0.2.0
+Summary: A library for working with Flywheel datasets
+Author: joshicola
+Author-email: joshuajacobs@flywheel.io
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: adlfs (>=2024.7.0,<2025.0.0)
+Requires-Dist: deepdiff (>=8.4,<9.0)
+Requires-Dist: duckdb (>=1.1.1,<2.0.0)
+Requires-Dist: flywheel-sdk (>=20,<21)
+Requires-Dist: fsspec (>=2024.9.0,<2025.0.0)
+Requires-Dist: fw-client (>=0.8.6,<0.9.0)
+Requires-Dist: gcsfs (>=2024.9.0.post1,<2025.0.0)
+Requires-Dist: h11 (>=0.16.0,<0.17.0)
+Requires-Dist: httpcore (>=1.0.0,<2.0.0)
+Requires-Dist: httpx (>=0.28.1,<0.29.0)
+Requires-Dist: jinja2 (>=3.1.4,<4.0.0)
+Requires-Dist: orjson (>=3.10.7,<4.0.0)
+Requires-Dist: pandas (>=2.2.3,<3.0.0)
+Requires-Dist: pyarrow (>=20.0,<21.0)
+Requires-Dist: pydantic (>=2.9.2,<3.0.0)
+Requires-Dist: pyopenssl (>=24.2.1,<25.0.0)
+Requires-Dist: s3fs (>=2024.9.0,<2025.0.0)
+Description-Content-Type: text/markdown
+
+# fw-dataset <!-- omit in toc -->
+
+This repository contains classes and functions for creating, managing, and serving
+Flywheel Datasets. Flywheel Datasets are a way to organize, share, and query data from
+the Flywheel Data Model.
+
+- [Work In Progress](#work-in-progress)
+- [Getting started](#getting-started)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Accessing Datasets](#accessing-datasets)
+    - [Rendering Datasets](#rendering-datasets)
+      - [Default Tables](#default-tables)
+      - [Controlling the Container Columns](#controlling-the-container-columns)
+      - [Rendering Tabular Data Files](#rendering-tabular-data-files)
+      - [Rendering Custom Information](#rendering-custom-information)
+      - [Custom Rendering (TODO)](#custom-rendering-todo)
+    - [Unassociated Datasets](#unassociated-datasets)
+    - [Merging Related Datasets](#merging-related-datasets)
+      - [Requirements](#requirements)
+- [Flywheel Project Requirements](#flywheel-project-requirements)
+  - [Flywheel Project Structure](#flywheel-project-structure)
+    - [type](#type)
+    - [bucket](#bucket)
+    - [prefix](#prefix)
+    - [storage\_id](#storage_id)
+  - [Dataset Structure](#dataset-structure)
+    - [Schema Files](#schema-files)
+- [Appendix](#appendix)
+  - [Flywheel Data Model](#flywheel-data-model)
+- [Future Development](#future-development)
+
+## Work In Progress
+
+This is a work in progress. All functionality is not yet implemented.
+
+## Getting started
+
+### Installation
+
+The `fw-dataset` package has been built for use with Python 3.10 and above. It can be
+installed with pip:
+
+```bash
+pip install fw-dataset
+```
+
+or poetry:
+
+```bash
+poetry add fw-dataset
+```
+
+### Usage
+
+#### Accessing Datasets
+
+The `fw-dataset` package provides a `FWDatasetClient` class that can be used to access
+existing Flywheel datasets defined on a Flywheel instance. The dataset is
+[defined](docs/Dataset_Definition.md) with cloud storage or local filesystems.
+
+```python
+from fw_dataset import FWDatasetClient
+
+# Create a client with a Flywheel API-Key
+api_key = "your-api-key"
+dataset_client = FWClient(api_key=api_key)
+
+# If you are in a Flywheel Jupyter Workspace with the environment variables 
+# FW_HOSTNAME and FW_WS_API_KEY set, the following will connect to the implicit
+# Flywheel instance:
+# dataset_client = FWClient()
+
+# list existing datasets defined on instance(see below for Flywheel Project Requirements)
+datasets = dataset_client.datasets()
+
+# link to a specific project-associated dataset
+# by project id
+project_id = "your-project-id"
+dataset = dataset_client.dataset(project_id=project_id)
+
+# or by project path
+group = "your-group"
+project_label = "your-project-label"
+dataset = dataset_client.dataset(project_path=f"fw://{group}/{project_label}")
+
+# connect the dataset to all underlying data on the cloud storage or local filesystem
+conn = dataset.connect()
+
+# query the dataset
+SQL = "SELECT * FROM acquisitions"
+
+# get the results
+results = conn.execute(SQL)
+result_df = results.df()
+result_df.head()
+```
+
+#### Rendering Datasets
+
+The `fw-dataset` package provides a `DatasetBuilder` class that is used to convert the
+[Flywheel Data Model](#flywheel-data-model) to a dataset from a Flywheel project. The
+`DatasetBuilder` leverages the Flywheel Snapshot API to create an SQLite snapshot of the
+Flywheel project. The `DatasetBuilder` then converts the project snapshot to a dataset
+structure on a local or cloud filesystem.
+
+```python
+from fw_dataset.admin.dataset_builder import DatasetBuilder
+
+# Create a client with a Flywheel API-Key
+api_key = "your-api-key"
+project_id = "your-project-id"
+storage_id = "your-storage-id"
+
+# Initialize the dataset builder with an api-key, project-id, and Flywheel storage-id
+dataset_builder =  DatasetBuilder(api_key=api_key, project_id=project_id, storage_id=storage_id)
+
+# Local Alternative
+# dataset_builder =  DatasetBuilder(api_key=api_key, project_id=project_id, root_path="path/to/dataset")
+
+# Render the dataset structure and metadata
+dataset = dataset_builder.render_dataset()
+
+# Connect to the dataset
+conn = dataset.connect()
+
+# Query the dataset
+SQL = "SELECT * FROM subjects LIMIT 10"
+conn.execute(SQL).df()
+```
+
+The [Dataset Structure](#dataset-structure) will be rendered in the storage bucket or
+local storage on specified paths in the following priority order:
+
+1. If the `project.info.dataset` has a valid `storage_id`, `fs_type`, `bucket`, and
+   `prefix`, the dataset is populated on the path:
+
+   `{fs_type}://{bucket}/{prefix}`
+
+   Here, `{prefix}` is typically the path to the dataset within the bucket or container
+   e.g. `datasets/{instance}/{group}/{project_id}`
+2. If a valid `storage_id` or `storage_label` are provided, the configured external
+   storage will be used and stored in `project.info.dataset` for future use.
+   1. If the `prefix` of the external storage is empty, the following path will be used:
+      `{fs_type}://{bucket}/datasets/{instance}/{group}/{project_id}`
+   2. If the `prefix` of the external storage ends in either `dataset` or `datasets`,
+      the following path will be used:
+      `{fs_type}://{bucket}/{prefix}/{instance}/{group}/{project_id}`
+   3. Else, to prevent any dataset collisions, the following path will be used:
+      `{fs_type}://{bucket}/{prefix}/datasets/{instance}/{group}/{project_id}`
+3. If valid cloud `credentials` are provided then the dataset is populated on the path:
+
+   `{fs_type}://{bucket}/datasets/{instance}/{group}/{project_id}`
+
+   Where `fs_type` and `bucket` are derived from the `credentials` dictionary.
+4. If a `root_path` is provided, the dataset is populated on the path:
+   `{root_path}/datasets/{instance}/{group}/{project_id}`
+
+If the `latest` directory already exists, and is the version you are trying to render,
+the Dataset object is returned. If the `latest` directory does not exist, the `latest`
+directory is created and the Dataset object is returned. If you are creating a new
+dataset from project with and existing snapshot, use the `force_new` parameter:
+
+```python
+dataset = dataset_builder.render_dataset(force_new=True)
+```
+
+Additionally, if you want to render a projects tabular data files and custom information
+into dataset tables and schemas, you must use the following flags:
+
+```python
+dataset = dataset_builder.render_dataset(parse_tabular_data=True, parse_custom_info=True)
+```
+
+##### Default Tables
+
+The default tables that are rendered from the Flywheel Data Model are:
+
+- `subjects`
+- `sessions`
+- `acquisitions`
+- `files`
+- `analyses`
+
+If custom information exists in any of the above containers, it is extracted and stored
+in a hidden table named `custom_info`. The reason for this is that the parquet format
+cannot store JSON with variable value types. This table is not accessible by default.
+The data in the `custom_info` table can be accessed by registering the table with the
+dataset and querying it as a normal table. The results will contain the full parent
+information of the Flywheel Data Model (e.g. `parents.project`, `parents.subject`,
+`parents.session`,...) as well as a binary string of the custom information.
+
+```python
+from fw_dataset.admin.admin_helpers import validate_dataset_table
+
+# with an existing and fully connected dataset object
+
+# validate that the custom_info table is accessible and non-empty
+is_valid = validate_dataset_table(dataset.conn, dataset._fs, dataset, "custom_info")
+
+if is_valid:
+    # query the custom_info table
+    SQL = "SELECT * FROM custom_info LIMIT 10;"
+    dataset.conn.execute(SQL).df()
+```
+
+##### Controlling the Container Columns
+
+The default columns for the container tables may be more than you need. You can control
+the columns that are included in the container tables by providing a list of columns to
+the DatasetBuilder class:
+
+```python
+control_columns = {
+  "subjects": ["sex", "race", "ethnicity"]
+}
+
+# Initialize the dataset builder with an api-key, project-id, and Flywheel storage-id
+dataset_builder =  DatasetBuilder(
+    api_key=api_key,
+    project_id=project_id,
+    root_path="path/to/dataset_root",
+    control_columns=control_columns
+)
+
+# Render the dataset structure and metadata
+dataset = dataset_builder.render_dataset()
+```
+
+##### Rendering Tabular Data Files
+
+The `parse_tabular_data` flag will render the tabular data files from all containers in
+the Flywheel project into "schema-matched" tables in the dataset. The schema of each
+tabular data file is inferred from the names and types of the columns. Each new inferred
+schema is matched to an existing schema from the tabular-derived tables in dataset and
+the data is appended to that table. If no matching schema is found, a new schema is
+created and the data is inserted into a new table. The name of the table is derived from
+the name of the tabular data file without the file extension (e.g. `conditions.csv` ->
+`conditions`).
+
+##### Rendering Custom Information
+
+The `parse_custom_info` flag will render the custom information from all containers in
+the Flywheel project into "schema-matched" tables in the dataset. The current schema is
+derived from the first two levels of the custom information keys (e.g.
+`file.info.header.dicom` becomes `header_dicom`). All keys and values are stored as
+column names and row values respectively. If the schema already exists, the data is
+appended to the existing table. If there are new keys in the custom information, new
+columns are added to the existing schema and the data is appended to the existing table.
+Existing partitions are updated with `Null` columns for the new keys.
+
+##### Custom Rendering (TODO)
+
+Custom transformation of the rendered [Flywheel Data Model](#flywheel-data-model) to a
+modified dataset is possible with custom functions. Proposed is a `custom_render`
+function that takes a custom function as a parameter and applies the function to the
+rendered dataset. The custom function should take the rendered dataset as input and
+return a modified dataset.
+
+#### Unassociated Datasets
+
+If you have a valid dataset that is not associated with a Flywheel project, you can still
+use the `FWDatasetClient` to access the dataset. You will need to provide the
+`type`,`bucket`, `prefix`, and `credentials` of cloud or local filesystem to instantiate
+and query the dataset.
+
+```python
+from fw_dataset import FWDatasetClient
+
+# There is no need to provide an API-Key or instantiate the dataset client
+
+fs_type = "s3" # or "gcs", "azure", "fs", "local"
+bucket = "your-bucket"
+prefix = "your-prefix"
+credentials = {"url": "{bucket-specific-credential-string}"}
+
+dataset = FWDatasetClient.get_dataset_from_filesystem(fs_type, bucket, prefix, credentials)
+```
+
+#### Merging Related Datasets
+
+If you have multiple datasets that have related tables you want to query together, you
+can merge the datasets into a single dataset.
+
+NOTE: Federated Querying is not yet enabled across datasets. This is a work in progress.
+
+##### Requirements
+
+1. The `source` dataset must have a valid `tables` directory structure.
+2. The `source` dataset must have a valid `schemas` directory structure.
+    - Every table in the `tables` directory must have a valid corresponding schema file
+      in the `schemas` directory.
+    - The schema file must be named `{table_name}.schema.json` where `{table_name}` is
+      the name of the table that the schema describes.
+    - The schema file must be a valid JSON file with the minimum structure:
+
+        ```json
+        {
+            "schema": "http://json-schema.org/draft-07/schema#",
+            "id": "{table_name}",
+            "description": "",
+            "properties": {},
+            "required": [],
+            "type": "object"
+        }
+        ```
+
+3. The `destination` dataset must have the same requirements as the `source` dataset.
+4. Tables and schemas selected from the `source` MUST NOT have the same names as
+   existing ones in the `destination`
+
+Once the above requirements have been met, you may merge the datasets by copying or
+moving the selected tables and schemas from the `source` dataset to the `destination`
+dataset.
+
+## Flywheel Project Requirements
+
+For the Flywheel Dataset Client and the Dataset objects to function, the following
+requirements must be met:
+
+### Flywheel Project Structure
+
+The Flywheel Project must have the following valid custom information metadata:
+
+```json
+{
+    "dataset": {
+        "type": "s3",
+        "bucket": "{bucket-name}",
+        "prefix": "{path/to/dataset}",
+        "storage_id": "storage-id-of-fw-storage-object"
+    }
+}
+```
+
+#### type
+
+The `type` field must be one of the following:
+
+- `s3`: The dataset is stored in an S3 bucket.
+- `gcs`: The dataset is stored in a Google Cloud Storage bucket.
+- `azure`: The dataset is stored in an Azure Blob Storage container.
+- `fs`,`local`: The dataset is stored on a local filesystem.
+
+#### bucket
+
+The `bucket` field is the name of the bucket or container where the dataset is stored.
+
+#### prefix
+
+The `prefix` field is the path to the dataset within the bucket or container.
+
+The directory structure beneath the `prefix` should be as described in the
+[Dataset Structure](#dataset-structure) section.
+
+#### storage_id
+
+The `storage_id` field is the Flywheel ID of the cloud storage record that describes the
+filesystem or cloud storage bucket that the dataset is stored in. This should be a valid
+storage object in the Flywheel database.
+
+### Dataset Structure
+
+The dataset should be stored in the bucket or container with the following structure:
+
+```bash
+{bucket}/{prefix}/
+├── latest/
+|   └── latest/
+|       ├── provenance/
+|       │   └── dataset_description.json
+|       ├── tables/
+|       │   └── {table_name}/ (a directory structure of partitioned parquet files)
+|       │       └── /{partitions}/{hash}.parquet
+|       └── schemas/
+|          └── {table_name}.schema.json
+└── versions/          
+  ├── latest_version.json (provenance/dataset_description.json of versions/latest)
+  └── {version}/
+      ├── provenance/
+      │   └── dataset_description.json
+      ├── tables/
+      │   └── {table_name}/ (a directory structure of partitioned parquet files)
+      │       └── /{partitions}/{hash}.parquet
+      └── schemas/
+         └── {table_name}.schema.json
+```
+
+The `latest_version.json` file is a copy of the `provenance/dataset_description.json`.
+Both of these are minimal descriptions of a dataset version. The `latest` directory
+represents the latest version of the dataset. Archived versions of the dataset are also
+stored in the `versions` directory for archival purposes. They can be deleted once they
+are no longer needed.
+
+The above structure is more completely described in the
+[Dataset Definition](docs/Dataset_Definition.md#dataset-components) Document in the
+`docs` directory.
+
+#### Schema Files
+
+The schema files are JSON files that describe the schema of the tables in the dataset.
+The schema files are stored in the `schemas` directory. The schema files are named
+`{table_name}.schema.json` where `{table_name}` is the name of the table that the schema
+describes.
+
+Ideally, the schema files should be fully descriptive. However, if a minimal schema is
+desired merely to allow the dataset to be queried, the schema file can be as simple as:
+
+```json
+{
+    "schema": "http://json-schema.org/draft-07/schema#",
+    "id": "{table_name}",
+    "description": "Table derived from Tabular Data File: conditions.csv",
+    "properties": {},
+    "required": [],
+    "type": "object"
+}
+```
+
+## Appendix
+
+### Flywheel Data Model
+
+The Flywheel Data Model is a hierarchical structure that organizes data in a Flywheel
+Project. The Flywheel Data Model is organized as follows:
+
+- `Project` (has `files` and `analyses`)
+- `Subject` (has `files` and `analyses`)
+- `Session` (has `files` and `analyses`)
+- `Acquisition` (has `files` and `analyses`)
+- `File`
+- `Analysis`
+
+The SQLite snapshot of the Flywheel Data Model has each of the above entities as tables.
+The tables consist of an `id` column and a `data` column. The `data` column is a binary
+string containing the JSON representation of each entity.
+
+## Future Development
+
+Future development will include:
+
+- [ ] Dataset creation and management from library
+  - Create a new dataset from a Flywheel project
+  - Dataset will be structured on local or cloud storage
+  - Dataset essentials will be stored in the Flywheel project metadata
+  - Dataset versions can be deleted from the storage structure
+  - Dataset versions can be archived
+  - Dataset can be removed from a Flywheel project
+

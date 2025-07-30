@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "sessions",
+  "description": "Represents a session within a Flywheel project, including comprehensive metadata and relationships between associated entities.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the session.",
+      "pattern": "^[0-9a-f]{24}$",
+      "title": "Session ID"
+    },
+    "label": {
+      "type": "string",
+      "description": "A human-readable label for the session.",
+      "title": "Session Label",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "parents.group": {
+      "type": "string",
+      "description": "The group associated with the session.",
+      "title": "Parent Group"
+    },
+    "parents.project": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The project associated with the session.",
+      "title": "Parent Project"
+    },
+    "parents.subject": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The subject associated with the session.",
+      "title": "Parent Subject"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the session was created.",
+      "title": "Creation Timestamp"
+    },
+    "modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the session was last modified.",
+      "title": "Last Modified Timestamp"
+    },
+    "deleted": {
+      "type": "boolean",
+      "description": "Indicates whether the subject has been deleted.",
+      "title": "Deleted"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "The timezone associated with the session's timestamp, formatted as a standard timezone string (e.g., 'UTC', 'America/New_York').",
+      "title": "Session Timezone"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or comments about the session, providing context or information about its purpose or details.",
+      "title": "Session Notes"
+    },
+    "operator": {
+      "type": "string",
+      "description": "The name or identifier of the operator responsible for the session.",
+      "title": "Session Operator"
+    },
+    "uid": {
+      "type": "string",
+      "description": "A unique identifier for the session, typically used for tracking purposes across systems.",
+      "title": "Session UID"
+    },
+    "uid_scope": {
+      "type": "string",
+      "description": "The scope or context for the session's unique identifier, providing additional context for its use or meaning.",
+      "title": "Session UID Scope"
+    },
+    "satisfies_template": {
+      "type": "boolean",
+      "description": "Indicates whether the session satisfies the requirements of a defined template.",
+      "title": "Satisfies Template"
+    },
+    "project_has_template": {
+      "type": "boolean",
+      "description": "Indicates whether the project associated with this session has a defined template.",
+      "title": "Project Has Template"
+    },
+    "copy_of": {
+      "type": "string",
+      "description": "The unique identifier of the session that this session is a copy of.",
+      "title": "Copy Of"
+    },
+    "age": {
+      "type": "integer",
+      "description": "The age of the subject at the time of this session, typically measured in seconds.",
+      "title": "Subject Age"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp for when the session occurred, formatted in ISO 8601 (e.g., 'YYYY-MM-DDTHH:mm:ssZ').",
+      "title": "Session Timestamp"
+    },
+    "original_copy_of": {
+      "type": "string",
+      "description": "The unique identifier of the original session that this session is a copy of.",
+      "title": "Original Copy Of"
+    },
+    "source.id": {
+      "type": "string",
+      "description": "The ID of the source object for the subject.",
+      "title": "Source ID"
+    },
+    "source.type": {
+      "type": "string",
+      "description": "The type of the source object for the subject.",
+      "title": "Source Type"
+    },
+    "weight": {
+      "type": "number",
+      "description": "The weight of the subject at the time of this session, typically measured in kilograms.",
+      "title": "Subject Weight"
+    },
+    "tags": {
+      "type": "array",
+      "description": "A list of tags associated with the session.",
+      "items": {
+        "type": "string",
+        "title": "Tag"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "label",
+    "group",
+    "project",
+    "subject.id",
+    "parents.group",
+    "parents.project",
+    "parents.subject",
+    "tags",
+    "notes",
+    "permissions",
+    "created",
+    "modified",
+    "revision",
+    "copy_of",
+    "original_copy_of"
+  ]
+}

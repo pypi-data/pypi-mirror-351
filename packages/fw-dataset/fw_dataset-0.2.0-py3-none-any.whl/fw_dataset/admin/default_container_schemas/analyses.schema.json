@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "analyses",
+  "description": "Represents an analysis within a Flywheel project, including metadata, inputs, outputs, and provenance.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the analysis.",
+      "title": "Analysis ID"
+    },
+    "label": {
+      "type": "string",
+      "description": "A human-readable label for the analysis.",
+      "title": "Analysis Label",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the analysis.",
+      "title": "Analysis Description"
+    },
+    "parents.group": {
+      "type": "string",
+      "pattern": "^[0-9a-z][0-9a-z.@_-]{0,62}[0-9a-z]$",
+      "description": "The group associated with the file.",
+      "title": "Parent Group"
+    },
+    "parents.project": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The project associated with the file.",
+      "title": "Parent Project"
+    },
+    "parents.subject": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The subject associated with the file.",
+      "title": "Parent Subject"
+    },
+    "parents.session": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The session associated with the file.",
+      "title": "Parent Session"
+    },
+    "parents.acquisition": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The acquisition associated with the file.",
+      "title": "Parent Acquisition"
+    },
+    "parent.id": {
+      "type": "string",
+      "description": "The ID of the parent container.",
+      "title": "Parent ID"
+    },
+    "parent.type": {
+      "type": "string",
+      "description": "The type of the parent container.",
+      "title": "Parent Type"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the analysis was created.",
+      "title": "Creation Timestamp"
+    },
+    "modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the analysis was last modified.",
+      "title": "Last Modified Timestamp"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp for the analysis event.",
+      "title": "Analysis Timestamp"
+    },
+    "notes": {
+      "type": "array",
+      "description": "Additional notes about the subject.",
+      "items": {
+        "type": "string",
+        "title": "Notes"
+      },
+      "title": "Notes"
+    },
+    "tags": {
+      "type": "array",
+      "description": "A list of tags associated with the subject.",
+      "items": {
+        "type": "string",
+        "title": "Tag"
+      }
+    },
+    "gear_info.name": {
+      "type": "string",
+      "description": "The name of the gear.",
+      "title": "Gear Name"
+    },
+    "gear_info.category": {
+      "type": "string",
+      "enum": ["analysis", "converter", "utility", "classifier", "qa"],
+      "description": "The category of the gear.",
+      "title": "Gear Category"
+    },
+    "gear_info.version": {
+      "type": "string",
+      "description": "The version of the gear.",
+      "title": "Gear Version"
+    },
+    "gear_info.id": {
+      "type": "string",
+      "description": "The ID of the gear.",
+      "title": "Gear ID"
+    },
+    "job_id": {
+      "type": "string",
+      "description": "The ID of the job associated with the analysis.",
+      "title": "Job ID"
+    },
+    "job": {
+      "type": "string",
+      "description": "The ID of the job associated with the analysis.",
+      "title": "Job"
+    },
+    "compute_provider_id": {
+      "type": "string",
+      "description": "The ID of the compute provider used to run the analysis.",
+      "title": "Compute Provider ID"
+    }
+  },
+  "required": [
+    "id",
+    "parents.group",
+    "parents.project",
+    "parent.id",
+    "parent.type",
+    "created",
+    "modified",
+    "label",
+    "notes",
+    "tags"
+  ]
+}

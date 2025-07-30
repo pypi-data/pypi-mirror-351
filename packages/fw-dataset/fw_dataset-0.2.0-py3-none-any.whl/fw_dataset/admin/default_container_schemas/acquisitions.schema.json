@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "acquisitions",
+  "description": "Represents an acquisition within a Flywheel project, including metadata, relationships, and identifiers.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the acquisition.",
+      "title": "Acquisition ID"
+    },
+    "label": {
+      "type": "string",
+      "description": "A human-readable label for the acquisition.",
+      "title": "Acquisition Label",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "parents.group": {
+      "type": "string",
+      "pattern": "^[0-9a-z][0-9a-z.@_-]{0,62}[0-9a-z]$",
+      "description": "The group associated with the acquisition.",
+      "title": "Parent Group"
+    },
+    "parents.project": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The project associated with the acquisition.",
+      "title": "Parent Project"
+    },
+    "parents.subject": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The subject associated with the acquisition.",
+      "title": "Parent Subject"
+    },
+    "parents.session": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "description": "The session associated with the acquisition.",
+      "title": "Parent Session"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the acquisition was created.",
+      "title": "Creation Timestamp"
+    },
+    "modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the acquisition was last modified.",
+      "title": "Last Modified Timestamp"
+    },
+    "deleted": {
+      "type": "boolean",
+      "description": "Indicates whether the subject has been deleted.",
+      "title": "Deleted"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp for the acquisition event.",
+      "title": "Acquisition Timestamp"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "The timezone associated with the acquisition's timestamp, formatted as a standard timezone string (e.g., 'UTC', 'America/New_York').",
+      "title": "Acquisition Timezone"
+    },
+    "tags": {
+      "type": "array",
+      "description": "A list of tags associated with the acquisition.",
+      "items": {
+        "type": "string",
+        "title": "Tag"
+      }
+    },
+    "uid": {
+      "type": "string",
+      "description": "A unique identifier for the session, typically used for tracking purposes across systems.",
+      "title": "Session UID"
+    },
+    "uid_scope": {
+      "type": "string",
+      "description": "The scope or context for the session's unique identifier, providing additional context for its use or meaning.",
+      "title": "Session UID Scope"
+    },
+    "source.id": {
+      "type": "string",
+      "description": "The ID of the source object for the subject.",
+      "title": "Source ID"
+    },
+    "source.type": {
+      "type": "string",
+      "description": "The type of the source object for the subject.",
+      "title": "Source Type"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the acquisition.",
+      "title": "Notes"
+    },
+    "copy_of": {
+      "type": "string",
+      "description": "The ID of the acquisition this is a copy of.",
+      "title": "Copy Of"
+    }
+  },
+  "required": [
+    "id",
+    "parents.group",
+    "parents.project",
+    "parents.session",
+    "session",
+    "info_exists",
+    "created",
+    "modified",
+    "permissions",
+    "tags",
+    "notes"
+  ]
+}

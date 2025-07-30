@@ -1,0 +1,45 @@
+# "{{ dataset.name }}" Dataset Version "{{ dataset.version }}"
+
+This dataset version contains the rendered data for the Flywheel project
+"{{ dataset.name }}" from the "{{ dataset.version }}" snapshot created on
+"{{ dataset.created }}". The dataset is organized into the
+following directories:
+
+## `provenance/`
+
+This directory contains the provenance metadata for the dataset version. The provenance
+includes the following files:
+
+- `README.md`: A description of this version of the dataset in a human-readable format.
+- `dataset_description.json`: A JSON file containing the dataset description metadata.
+    - This file is a JSON representation of the `Dataset` object from the `fw_dataset`
+      package.
+- `snapshot.db.gz`: A gzipped-compressed snapshot of the dataset in a SQLite database
+file.
+- `snapshot.json`: A JSON file containing the dataset snapshot in JSON format.
+- `project.json`: A JSON file containing the project metadata for the dataset.
+- `rendering.log`: A log file containing the output of the dataset rendering process.
+
+## `tables/`
+
+This directory contains the partitioned parquet files that represent the table data for
+a specific version of the dataset.
+
+### Available Tables
+
+The following tables are available in this dataset version:
+{% for table_name, table_obj in dataset.tables.items() %}
+- **{{ table_name }}**: {{ table_obj.description }}{% endfor %}
+
+## `schemas/`
+
+This directory contains the JSON schema files that describe the structure of the tables
+in the dataset. The schema files follow the 
+[GA4GH Data Connect Table](https://github.com/ga4gh-discovery/data-connect/blob/develop/TABLE.md#table)
+schema format.
+
+## `profiles/`
+
+This directory contains the JSON profile files that describe statistical profiles of the
+tables in the dataset.
+

@@ -1,0 +1,43 @@
+# Dataset Versions
+
+This directory represents the archived versions of the dataset. Each version is
+contained in a separate subdirectory named with the BSON version identifier (e.g.
+"66cf6701af1c6f3855f1ee61"). 
+
+The structure described below is more fully described in the
+[Dataset Definition](../../docs/Dataset_Definition.md)
+Document.
+
+The version subdirectories contain the following files:
+
+## `provenance/`
+
+This directory contains the provenance metadata for the dataset version. The provenance
+includes the following files:
+
+- `README.md`: A description of this version of the dataset in a human-readable format.
+- `dataset_description.json`: A JSON file containing the dataset description metadata.
+    - This file is a JSON representation of the `Dataset` object from the `fw_dataset`
+      package.
+- `snapshot.db.gz`: A gzipped-compressed snapshot of the dataset in a SQLite database
+file.
+- `snapshot.json`: A JSON file containing the dataset snapshot in JSON format.
+- `project.json`: A JSON file containing the project metadata for the dataset.
+- `rendering.log`: A log file containing the output of the dataset rendering process.
+
+## `tables/`
+
+This directory contains the partitioned parquet files that represent the table data for
+a specific version of the dataset.
+
+## `schemas/`
+
+This directory contains the JSON schema files that describe the structure of the tables
+in the dataset. The schema files follow the 
+[GA4GH Data Connect Table](https://github.com/ga4gh-discovery/data-connect/blob/develop/TABLE.md#table)
+schema format.
+
+## `profiles/`
+
+This directory contains the JSON profile files that describe statistical profiles of the
+tables in the dataset.
