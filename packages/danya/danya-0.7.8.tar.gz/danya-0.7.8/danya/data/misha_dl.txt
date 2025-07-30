@@ -1,0 +1,2311 @@
+# RCI.ipynb
+!pip install torchvision
+!pip install torchmetrics
+import zipfile
+
+with zipfile.ZipFile('sign_language.zip', 'r') as archive:
+    archive.extractall()
+
+with zipfile.ZipFile('eng_handwritten.zip', 'r') as archive:
+    archive.extractall()
+
+with zipfile.ZipFile('clothes_multi.zip', 'r') as archive:
+    archive.extractall()
+
+with zipfile.ZipFile('chars.zip', 'r') as archive:
+    archive.extractall()
+# Общий импорт
+import torch as th
+import torch.nn as nn
+import torch.optim as optim
+import torchmetrics as M
+from torch.utils.data import DataLoader, TensorDataset, random_split, ConcatDataset, Dataset
+from sklearn.metrics import r2_score, classification_report, confusion_matrix
+import torchvision
+import torchvision.transforms.v2 as T
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.decomposition import PCA
+from random import randint
+import os
+from PIL import Image
+# Markdown:
+# 2. Набор данных: regression/gold.csv. Оптимизаторы
+# Markdown:
+Используя библиотеку PyTorch, решите задачу одновременного предсказания столбцов Gold_T-7, Gold_T-14, Gold_T-22 и Gold_T+22 (задача регрессии). Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (корректно обработайте случаи категориальных и нечисловых столбцов, при наличии). Сравните несколько различных оптимизаторов и графически продемонстрируйте, как выбор оптимизатора влияет на процесс обучения и результаты на тестовом множестве. (20 баллов)
+data = pd.read_csv('gold.csv')
+data.select_dtypes(include = ['object', 'category']).dtypes
+X = data.drop(columns = ['Gold_T-7', 'Gold_T-14', 'Gold_T-22', 'Gold_T+22']).to_numpy().astype(float)
+X = th.tensor(X, dtype = th.float32)
+
+y = data[['Gold_T-7', 'Gold_T-14', 'Gold_T-22', 'Gold_T+22']].to_numpy().astype(float)
+y = th.tensor(y, dtype = th.float32)
+
+th.manual_seed(42)
+train, test = random_split(TensorDataset(X, y), [0.8, 0.2])
+
+X.shape, y.shape
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 64)
+test_loader = DataLoader(test, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 117, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 4),
+)
+criterion = nn.MSELoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01) # AdamW
+
+epoch_losses = []
+test_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_AdamW = epoch_losses
+test_r2_scores_AdamW = test_r2_scores
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 64)
+test_loader = DataLoader(test, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 117, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 4),
+)
+criterion = nn.MSELoss()
+optimizer = optim.SGD(model.parameters(), lr = 0.01) # SGD
+
+epoch_losses = []
+test_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_SGD = epoch_losses
+test_r2_scores_SGD = test_r2_scores
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 64)
+test_loader = DataLoader(test, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 117, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 4),
+)
+criterion = nn.MSELoss()
+optimizer = optim.RMSprop(model.parameters(), lr = 0.01) # RMSprop
+
+epoch_losses = []
+test_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_RMSprop = epoch_losses
+test_r2_scores_RMSprop = test_r2_scores
+plt.title('MSELoss')
+plt.plot(epoch_losses_AdamW, label = 'AdamW')
+plt.plot(epoch_losses_SGD, label = 'SGD')
+plt.plot(epoch_losses_RMSprop, label = 'RMSprop')
+plt.legend()
+plt.grid(True)
+plt.show()
+plt.title('R2')
+plt.plot(test_r2_scores_AdamW, label = 'AdamW')
+plt.plot(test_r2_scores_SGD, label = 'SGD')
+plt.plot(test_r2_scores_RMSprop, label = 'RMSprop')
+plt.ylim(-0.1, 1)
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# 2. Набор данных: regression/gold.csv. Гиперпараметры
+# Markdown:
+Используя библиотеку PyTorch, решите задачу одновременного предсказания столбцов Gold_T-7, Gold_T-14, Gold_T-22 и Gold_T+22 (задача регрессии). Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (корректно обработайте случаи категориальных и нечисловых столбцов, при наличии). Продемонстрируйте несколько (не менее 2) наборов гиперпараметров модели и сравните качество моделей на тестовом множестве. (20 баллов)
+data = pd.read_csv('gold.csv')
+data.select_dtypes(include = ['object', 'category']).dtypes
+X = data.drop(columns = ['Gold_T-7', 'Gold_T-14', 'Gold_T-22', 'Gold_T+22']).to_numpy().astype(float)
+X = th.tensor(X, dtype = th.float32)
+
+y = data[['Gold_T-7', 'Gold_T-14', 'Gold_T-22', 'Gold_T+22']].to_numpy().astype(float)
+y = th.tensor(y, dtype = th.float32)
+
+th.manual_seed(42)
+train, test = random_split(TensorDataset(X, y), [0.8, 0.2])
+
+X.shape, y.shape
+# lr = 0.01; batch_size = 64
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 64)
+test_loader = DataLoader(test, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 117, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 4),
+)
+criterion = nn.MSELoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+
+epoch_losses = []
+test_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_first = epoch_losses
+test_r2_scores_first = test_r2_scores
+# lr = 0.001; batch_size = 128
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 128)
+test_loader = DataLoader(test, batch_size = 128)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 117, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 4),
+)
+criterion = nn.MSELoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.001)
+
+epoch_losses = []
+test_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_second = epoch_losses
+test_r2_scores_second = test_r2_scores
+plt.title('MSELoss')
+plt.plot(epoch_losses_first, label = 'lr = 0.01; batch_size = 64')
+plt.plot(epoch_losses_second, label = 'lr = 0.001; batch_size = 128')
+plt.legend()
+plt.grid(True)
+plt.show()
+plt.title('R2')
+plt.plot(test_r2_scores_first, label = 'lr = 0.01; batch_size = 64')
+plt.plot(test_r2_scores_second, label = 'lr = 0.001; batch_size = 128')
+plt.legend()
+plt.ylim(-0.1, 1)
+plt.grid(True)
+plt.show()
+# Markdown:
+#2. Набор данных: regression/bike_cnt.csv. BatchNorm1d
+# Markdown:
+Используя библиотеку PyTorch, решите задачу предсказания столбца cnt (задача регрессии). Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (корректно обработайте случаи категориальных и нечисловых столбцов, при наличии). Отобразите графики значений функции потерь и метрики R^2 на обучающем множестве по эпохам. Рассчитайте значение метрики R^2 на тестовом множестве. Добавьте в модель слои BatchNorm1d и графически продемонстрируйте, как это влияет на процесс обучения и результаты на тестовом множестве. (20 баллов)
+data = pd.read_csv('bike_cnt.csv', index_col = 'instant')
+data.select_dtypes(include = ['object', 'category']).dtypes
+categorical_cols = ['dteday']
+
+data_processed = pd.get_dummies(data, columns = categorical_cols, drop_first = True)
+data_processed.head()
+X = data_processed.drop(columns = ['cnt']).to_numpy().astype(float)
+X = th.tensor(X, dtype = th.float32)
+
+y = data_processed[['cnt']].to_numpy().astype(float)
+y = th.tensor(y, dtype = th.float32)
+
+th.manual_seed(42)
+train, test = random_split(TensorDataset(X, y), [0.8, 0.2])
+
+X.shape, y.shape
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 256)
+test_loader = DataLoader(test, batch_size = 256)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 742, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 1),
+)
+criterion = nn.MSELoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.001)
+
+epoch_losses = []
+test_r2_scores = []
+train_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in train_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        train_r2_scores.append(r2_score(y_true, y_pred))
+
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_1model = epoch_losses
+test_r2_scores_1model = test_r2_scores
+train_r2_scores_1model = train_r2_scores
+plt.title('MSELoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+plt.title('R2')
+plt.plot(train_r2_scores, label = 'train')
+plt.plot(test_r2_scores, label = 'test')
+plt.legend()
+plt.grid(True)
+plt.show()
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 256)
+test_loader = DataLoader(test, batch_size = 256)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 742, out_features = 64),
+    nn.BatchNorm1d(num_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.BatchNorm1d(num_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.BatchNorm1d(num_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 1),
+)
+criterion = nn.MSELoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.001)
+
+epoch_losses = []
+test_r2_scores = []
+train_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in train_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        train_r2_scores.append(r2_score(y_true, y_pred))
+
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+plt.title('MSELoss')
+plt.plot(epoch_losses_1model, label = '1model')
+plt.plot(epoch_losses, label = 'BatchNorm1d')
+plt.legend()
+plt.grid(True)
+plt.show()
+plt.title('R2_test')
+plt.plot(test_r2_scores_1model, label = '1model')
+plt.plot(test_r2_scores, label = 'BatchNorm1d')
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# 2. Набор данных: regression/bike_cnt.csv. Dropout
+# Markdown:
+Используя библиотеку PyTorch, решите задачу предсказания столбца cnt (задача регрессии). Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (корректно обработайте случаи категориальных и нечисловых столбцов, при наличии). Отобразите графики значений функции потерь и метрики R^2 на обучающем множестве по эпохам. Рассчитайте значение метрики R^2 на тестовом множестве. Добавьте в модель слой Dropout и графически продемонстрируйте, как это влияет на процесс обучения и результаты на тестовом множестве. (20 баллов)
+data = pd.read_csv('bike_cnt.csv', index_col = 'instant')
+data.select_dtypes(include = ['object', 'category']).dtypes
+categorical_cols = ['dteday']
+
+data_processed = pd.get_dummies(data, columns = categorical_cols, drop_first = True)
+data_processed.head()
+X = data_processed.drop(columns = ['cnt']).to_numpy().astype(float)
+X = th.tensor(X, dtype = th.float32)
+
+y = data_processed[['cnt']].to_numpy().astype(float)
+y = th.tensor(y, dtype = th.float32)
+
+th.manual_seed(42)
+train, test = random_split(TensorDataset(X, y), [0.8, 0.2])
+
+X.shape, y.shape
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 256)
+test_loader = DataLoader(test, batch_size = 256)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 742, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 1),
+)
+criterion = nn.MSELoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.001)
+
+epoch_losses = []
+test_r2_scores = []
+train_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in train_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        train_r2_scores.append(r2_score(y_true, y_pred))
+
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_1model = epoch_losses
+test_r2_scores_1model = test_r2_scores
+train_r2_scores_1model = train_r2_scores
+plt.title('MSELoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+plt.title('R2')
+plt.plot(train_r2_scores, label = 'train')
+plt.plot(test_r2_scores, label = 'test')
+plt.legend()
+plt.grid(True)
+plt.show()
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 256)
+test_loader = DataLoader(test, batch_size = 256)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 742, out_features = 64),
+    nn.ReLU(),
+    nn.Dropout(p = 0.3),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 1),
+)
+criterion = nn.MSELoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.001)
+
+epoch_losses = []
+test_r2_scores = []
+train_r2_scores = []
+
+for epoch in range(50+1):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in train_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        train_r2_scores.append(r2_score(y_true, y_pred))
+
+    with th.no_grad():
+        y_true, y_pred = [], []
+        for X_batch, y_batch in test_loader:
+            y_predict = model(X_batch)
+            y_true.extend(y_batch.detach().numpy())
+            y_pred.extend(y_predict.detach().numpy())
+        test_r2_scores.append(r2_score(y_true, y_pred))
+
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+plt.title('MSELoss')
+plt.plot(epoch_losses_1model, label = 'no Dropout')
+plt.plot(epoch_losses, label = 'with Dropout')
+plt.legend()
+plt.grid(True)
+plt.show()
+plt.title('R2_test')
+plt.plot(test_r2_scores_1model, label = 'no Dropout')
+plt.plot(test_r2_scores, label = 'with Dropout')
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# 2. Набор данных: classification/bank.csv. Оптимизаторы
+# Markdown:
+Используя библиотеку PyTorch, решите задачу классификации (столбец deposit). Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (корректно обработайте случаи категориальных и нечисловых столбцов, при наличии). Отобразите график значений функции потерь на обучающем множестве по эпохам. Отобразите confusion matrix и classification report, рассчитанные на основе тестового множества. Сравните несколько различных оптимизаторов и графически продемонстрируйте, как выбор оптимизатора влияет на процесс обучения и результаты на тестовом множестве. (20 баллов)
+data = pd.read_csv('bank.csv')
+data.select_dtypes(include = ['object', 'category']).dtypes
+categorical_cols = ['job', 'marital', 'education', 'default', 'housing',
+                    'loan', 'contact', 'month', 'poutcome', 'deposit']
+
+data_processed = pd.get_dummies(data, columns = categorical_cols, drop_first = True)
+data_processed.head()
+X = data_processed.drop(columns = ['deposit_yes']).to_numpy().astype(float)
+X = th.tensor(X, dtype = th.float32)
+
+y = data_processed['deposit_yes'].to_numpy().astype(float)
+y = th.tensor(y, dtype = th.long)
+
+th.manual_seed(42)
+train, test = random_split(TensorDataset(X, y), [0.8, 0.2])
+
+X.shape, y.shape
+sum(y), len(y)
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 42, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 2),
+)
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.AdamW(model.parameters(), lr = 0.01) # AdamW
+
+epoch_losses = []
+for epoch in range(50+1):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_AdamW = epoch_losses
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+y_pred_test = model(test[:][0]).argmax(dim = 1)
+y_test = test[:][1]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 42, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 2),
+)
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.SGD(model.parameters(), lr = 0.01) # SGD
+
+epoch_losses = []
+for epoch in range(50+1):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_SGD = epoch_losses
+y_pred_test = model(test[:][0]).argmax(dim = 1)
+y_test = test[:][1]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 42, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 2),
+)
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.RMSprop(model.parameters(), lr = 0.01) # RMSprop
+
+epoch_losses = []
+for epoch in range(50+1):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_RMSprop = epoch_losses
+y_pred_test = model(test[:][0]).argmax(dim = 1)
+y_test = test[:][1]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses_AdamW, label = 'AdamW')
+plt.plot(epoch_losses_SGD, label = 'SGD')
+plt.plot(epoch_losses_RMSprop, label = 'RMSprop')
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# 2. Набор данных: classification/bank.csv. Dropout
+# Markdown:
+Используя библиотеку PyTorch, решите задачу классификации (столбец deposit). Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (корректно обработайте случаи категориальных и нечисловых столбцов, при наличии). Отобразите график значений функции потерь на обучающем множестве по эпохам. Отобразите confusion matrix и classification report, рассчитанные на основе тестового множества. Добавьте в модель слои Dropout и графически продемонстрируйте, как это влияет на процесс обучения и результаты на тестовом множестве. (20 баллов)
+data = pd.read_csv('bank.csv')
+data.select_dtypes(include = ['object', 'category']).dtypes
+categorical_cols = ['job', 'marital', 'education', 'default', 'housing',
+                    'loan', 'contact', 'month', 'poutcome', 'deposit']
+
+data_processed = pd.get_dummies(data, columns = categorical_cols, drop_first = True)
+data_processed.head()
+X = data_processed.drop(columns = ['deposit_yes']).to_numpy().astype(float)
+X = th.tensor(X, dtype = th.float32)
+
+y = data_processed['deposit_yes'].to_numpy().astype(float)
+y = th.tensor(y, dtype = th.long)
+
+th.manual_seed(42)
+train, test = random_split(TensorDataset(X, y), [0.8, 0.2])
+
+X.shape, y.shape
+sum(y), len(y)
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 42, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 2),
+)
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+
+epoch_losses = []
+for epoch in range(50+1):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_no_dropout = epoch_losses
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+y_pred_test = model(test[:][0]).argmax(dim = 1)
+y_test = test[:][1]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 42, out_features = 64),
+    nn.ReLU(),
+    nn.Dropout(p = 0.3),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 2),
+)
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+
+epoch_losses = []
+for epoch in range(50+1):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_with_dropout = epoch_losses
+y_pred_test = model(test[:][0]).argmax(dim = 1)
+y_test = test[:][1]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses_with_dropout, label = 'with dropout')
+plt.plot(epoch_losses_no_dropout, label = 'no dropout')
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# 2. Набор данных: classification/bank.csv. Несбалансированность
+# Markdown:
+Используя библиотеку PyTorch, решите задачу классификации (столбец deposit). Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (корректно обработайте случаи категориальных и нечисловых столбцов, при наличии). Отобразите график значений функции потерь на обучающем множестве по эпохам. Отобразите confusion matrix и classification report, рассчитанные на основе тестового множества. Модифицируйте функцию потерь с учетом несбалансированности классов и продемонстрируйте, как это влияет на результаты на тестовом множестве. (20 баллов)
+data = pd.read_csv('bank.csv')
+data.select_dtypes(include = ['object', 'category']).dtypes
+categorical_cols = ['job', 'marital', 'education', 'default', 'housing',
+                    'loan', 'contact', 'month', 'poutcome', 'deposit']
+
+data_processed = pd.get_dummies(data, columns = categorical_cols, drop_first = True)
+data_processed.head()
+X = data_processed.drop(columns = ['deposit_yes']).to_numpy().astype(float)
+X = th.tensor(X, dtype = th.float32)
+
+y = data_processed['deposit_yes'].to_numpy().astype(float)
+y = th.tensor(y, dtype = th.long)
+
+th.manual_seed(42)
+train, test = random_split(TensorDataset(X, y), [0.8, 0.2])
+
+X.shape, y.shape
+sum(y), len(y)
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 42, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 2),
+)
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+
+epoch_losses = []
+for epoch in range(50+1):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_no_weight = epoch_losses
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+y_pred_test = model(test[:][0]).argmax(dim = 1)
+y_test = test[:][1]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 64)
+
+model = nn.Sequential(
+    nn.Linear(in_features = 42, out_features = 64),
+    nn.ReLU(),
+    nn.Linear(in_features = 64, out_features = 32),
+    nn.ReLU(),
+    nn.Linear(in_features = 32, out_features = 16),
+    nn.ReLU(),
+    nn.Linear(in_features = 16, out_features = 2),
+)
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+
+epoch_losses = []
+for epoch in range(50+1):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    if (epoch) % 5 == 0:
+        print(epoch, epoch_loss.item())
+
+epoch_losses_with_weight = epoch_losses
+y_pred_test = model(test[:][0]).argmax(dim = 1)
+y_test = test[:][1]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses_with_weight, label = 'with weight')
+plt.plot(epoch_losses_no_weight, label = 'no weight')
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# 3. Набор данных: images/sign_language.zip. Скрытые представления
+# Markdown:
+Реализовав сверточную нейронную сеть при помощи библиотеки PyTorch, решите задачу классификации изображений. Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (приведите изображения к одному размеру, нормализуйте и преобразуйте изображения в тензоры). Отобразите confusion matrix и classification report, рассчитанные на основе тестового множества. Выберите один пример из тестового множества, для которого модель ошиблась. Найдите несколько наиболее похожих на данное изображений на основе векторов скрытых представлений, полученных сетью. Визуализируйте оригинальное изображение и найденные похожие изображения. (20 баллов)
+transform = T.Compose([
+    T.Resize((32, 32)),
+    T.ToTensor()
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'sign_language', transform = transform)
+
+dataset_loader = DataLoader(dataset, batch_size = 8)
+n = len(dataset) * 32 * 32
+
+mu = th.zeros((3,), dtype=th.float)
+sig = th.zeros((3,), dtype=th.float)
+
+for batch, _ in dataset_loader:
+    for data in batch:
+        mu += data.sum(dim = 1).sum(dim = 1)
+        sig += (data**2).sum(dim = 1).sum(dim = 1)
+
+mu = mu / n
+sig = th.sqrt(sig / n - mu**2)
+
+mu, sig
+transform_new = T.Compose([
+    T.Resize((32, 32)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'sign_language', transform = transform_new)
+
+print(f'Картинок в датасете: {len(dataset)}')
+print(f'Количество классов: {len(dataset.classes)}')
+print(f'Размер картинки: {dataset[0][0].shape}')
+
+th.manual_seed(42)
+train, test = random_split(dataset, [0.8, 0.2])
+class CNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv_block1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 3,
+                out_channels = 6,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.conv_block2 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 6,
+                out_channels = 12,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.classifier = nn.Linear(432, 10)
+
+    def forward(self, X, return_features = False):
+        out = self.conv_block1(X)
+        out = self.conv_block2(out)
+        out = out.flatten(start_dim = 1)
+        if return_features:
+            return out
+        out = self.classifier(out)
+        return out
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+
+model = CNN()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+
+epoch_losses = []
+for epoch in range(5):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    print(epoch, epoch_loss.item())
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+y_pred_test = [model(test[i][0].unsqueeze(0)).argmax(dim = 1) for i in range(len(test))]
+y_test = [test[i][1] for i in range(len(test))]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+for i in range(len(test)):
+    if model(test[i][0].unsqueeze(0)).argmax(dim = 1).item() != test[i][1]:
+        print(f'Номер картинки: {i}')
+        print(f'Предположительный класс: {model(test[i][0].unsqueeze(0)).argmax(dim = 1).item()}')
+        print(f'Реальный класс: {test[i][1]}')
+        break
+target = model(test[i][0].unsqueeze(0), return_features = True)
+similarity = []
+for i in range(len(test)):
+    sim = th.cosine_similarity(target, model(test[i][0].unsqueeze(0), return_features = True)).item()
+    similarity.append((sim, i))
+similarity = sorted(similarity, key = lambda x: x[0], reverse = True)
+similarity[:5]
+def show_image(image, mean = mu, std = sig, model = model):
+    true = image[1]
+    image = image[0]
+    pred = model(image.unsqueeze(0)).argmax(dim = 1).item()
+
+    image = image.numpy().transpose((1, 2, 0))
+    image = std * image + mean
+
+    plt.title(f'Predict: {pred} | True: {true}')
+    plt.imshow(image)
+    plt.axis('off')
+    plt.show()
+show_image(test[2])
+show_image(test[110])
+# Markdown:
+# 3. Набор данных: images/sign_language.zip. PCA
+# Markdown:
+Реализовав сверточную нейронную сеть при помощи библиотеки PyTorch, решите задачу классификации изображений. Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (приведите изображения к одному размеру, нормализуйте и преобразуйте изображения в тензоры). Отобразите графики значений функции потерь по эпохам на обучающем множестве. Отобразите confusion matrix и classification report, рассчитанные на основе тестового множества. Уменьшите размерность скрытых представлений изображений с помощью PCA и визуализируйте полученные представления, раскрасив точки в соответствии с классами. (20 баллов)
+transform = T.Compose([
+    T.Resize((32, 32)),
+    T.ToTensor()
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'sign_language', transform = transform)
+
+dataset_loader = DataLoader(dataset, batch_size = 8)
+n = len(dataset) * 32 * 32
+
+mu = th.zeros((3,), dtype=th.float)
+sig = th.zeros((3,), dtype=th.float)
+
+for batch, _ in dataset_loader:
+    for data in batch:
+        mu += data.sum(dim = 1).sum(dim = 1)
+        sig += (data**2).sum(dim = 1).sum(dim = 1)
+
+mu = mu / n
+sig = th.sqrt(sig / n - mu**2)
+
+mu, sig
+transform_new = T.Compose([
+    T.Resize((32, 32)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'sign_language', transform = transform_new)
+
+print(f'Картинок в датасете: {len(dataset)}')
+print(f'Количество классов: {len(dataset.classes)}')
+print(f'Размер картинки: {dataset[0][0].shape}')
+
+th.manual_seed(42)
+train, test = random_split(dataset, [0.8, 0.2])
+class CNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv_block1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 3,
+                out_channels = 6,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.conv_block2 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 6,
+                out_channels = 12,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.classifier = nn.Linear(432, 10)
+
+    def forward(self, X, return_features = False):
+        out = self.conv_block1(X)
+        out = self.conv_block2(out)
+        out = out.flatten(start_dim = 1)
+        if return_features:
+            return out
+        out = self.classifier(out)
+        return out
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+
+model = CNN()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+
+epoch_losses = []
+for epoch in range(5):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(loader)
+    epoch_losses.append(epoch_loss.item())
+    print(epoch, epoch_loss.item())
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+y_pred_test = [model(test[i][0].unsqueeze(0)).argmax(dim = 1) for i in range(len(test))]
+y_test = [test[i][1] for i in range(len(test))]
+
+confusion_matrix(y_test, y_pred_test)
+print(classification_report(y_test, y_pred_test))
+features = []
+labels = []
+for X, y in test:
+    feature_vector = model(X, return_features = True).detach()
+    features.append(feature_vector)
+    labels.append(y)
+
+features = th.cat(features).numpy()
+labels = th.tensor(labels)
+
+pca = PCA(n_components = 2)
+reduced_features = pca.fit_transform(features)
+for class_idx in range(len(dataset.classes)):
+    idxs = [i for i, label in enumerate(labels) if label == class_idx]
+    plt.scatter(reduced_features[idxs, 0], reduced_features[idxs, 1],
+                label = dataset.classes[class_idx])
+
+plt.title('Визуализация скрытых представлений (PCA)')
+plt.xlabel('Главная компонента 1')
+plt.ylabel('Главная компонента 2')
+plt.legend(title = 'Классы')
+plt.grid(True)
+plt.show()
+# Markdown:
+# 3. Набор данных: images/sign_language.zip. Число сверточных блоков
+# Markdown:
+Реализовав сверточную нейронную сеть при помощи библиотеки PyTorch, решите задачу классификации изображений. Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (приведите изображения к одному размеру, нормализуйте и преобразуйте изображения в тензоры). Графически отобразите, как качество на тестовом множестве (micro F1) зависит от количества сверточных блоков (свертка, активация, пуллинг). (20 баллов)
+transform = T.Compose([
+    T.Resize((32, 32)),
+    T.ToTensor()
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'sign_language', transform = transform)
+
+dataset_loader = DataLoader(dataset, batch_size = 8)
+n = len(dataset) * 32 * 32
+
+mu = th.zeros((3,), dtype=th.float)
+sig = th.zeros((3,), dtype=th.float)
+
+for batch, _ in dataset_loader:
+    for data in batch:
+        mu += data.sum(dim = 1).sum(dim = 1)
+        sig += (data**2).sum(dim = 1).sum(dim = 1)
+
+mu = mu / n
+sig = th.sqrt(sig / n - mu**2)
+
+mu, sig
+transform_new = T.Compose([
+    T.Resize((32, 32)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'sign_language', transform = transform_new)
+
+print(f'Картинок в датасете: {len(dataset)}')
+print(f'Количество классов: {len(dataset.classes)}')
+print(f'Размер картинки: {dataset[0][0].shape}')
+
+th.manual_seed(42)
+train, test = random_split(dataset, [0.8, 0.2])
+class CNN_1block(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv_block1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 3,
+                out_channels = 6,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.classifier = nn.Linear(1350, 10)
+
+    def forward(self, X):
+        out = self.conv_block1(X)
+        out = out.flatten(start_dim = 1)
+        out = self.classifier(out)
+        return out
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+loader_test = DataLoader(test, batch_size = 8)
+
+model = CNN_1block()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1 = M.F1Score(task = 'multiclass', num_classes = 10, average = 'micro')
+f1_test = []
+
+for epoch in range(5):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred.squeeze(0), y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train)
+    epoch_losses.append(epoch_loss.item())
+
+    test_pred = []
+    test_true = []
+
+    for batch in loader_test:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            test_pred.append(model(X).argmax())
+
+    f1_test.append(f1(th.tensor(test_pred), th.tensor(test_true)))
+    print(epoch, epoch_loss.item())
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+plt.title('F1_Score')
+plt.plot(f1_test)
+plt.grid(True)
+plt.show()
+class CNN_2blocks(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv_block1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 3,
+                out_channels = 6,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.conv_block2 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 6,
+                out_channels = 12,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.classifier = nn.Linear(432, 10)
+
+    def forward(self, X):
+        out = self.conv_block1(X)
+        out = self.conv_block2(out)
+        out = out.flatten(start_dim = 1)
+        out = self.classifier(out)
+        return out
+class CNN_3blocks(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv_block1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 3,
+                out_channels = 6,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.conv_block2 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 6,
+                out_channels = 12,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.conv_block3 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 12,
+                out_channels = 24,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.classifier = nn.Linear(96, 10)
+
+    def forward(self, X):
+        out = self.conv_block1(X)
+        out = self.conv_block2(out)
+        out = self.conv_block3(out)
+        out = out.flatten(start_dim = 1)
+        out = self.classifier(out)
+        return out
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+loader_test = DataLoader(test, batch_size = 8)
+
+model = CNN_2blocks()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1 = M.F1Score(task = 'multiclass', num_classes = 10, average = 'micro')
+f1_test_2 = []
+
+for epoch in range(5):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred.squeeze(0), y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train)
+    epoch_losses.append(epoch_loss.item())
+
+    test_pred = []
+    test_true = []
+
+    for batch in loader_test:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            test_pred.append(model(X).argmax())
+
+    f1_test_2.append(f1(th.tensor(test_pred), th.tensor(test_true)))
+    print(epoch, epoch_loss.item())
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+loader_test = DataLoader(test, batch_size = 8)
+
+model = CNN_3blocks()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1 = M.F1Score(task = 'multiclass', num_classes = 10, average = 'micro')
+f1_test_3 = []
+
+for epoch in range(5):
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred.squeeze(0), y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train)
+    epoch_losses.append(epoch_loss.item())
+
+    test_pred = []
+    test_true = []
+
+    for batch in loader_test:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            test_pred.append(model(X).argmax())
+
+    f1_test_3.append(f1(th.tensor(test_pred), th.tensor(test_true)))
+    print(epoch, epoch_loss.item())
+plt.title('F1_Score')
+plt.plot(f1_test, label = '1 block')
+plt.plot(f1_test_2, label = '2 blocks')
+plt.plot(f1_test_3, label = '3 blocks')
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# 3. Набор данных: images/eng_handwritten.zip. val, ранняя остановка
+# Markdown:
+Реализовав сверточную нейронную сеть при помощи библиотеки PyTorch, решите задачу классификации изображений. Разделите набор данных на обучающее, валидационное и тестовое множество. Выполните предобработку данных (вырежьте центральную область изображений одинакового размера и преобразуйте изображения в тензоры). Реализуйте логику ранней остановки (на основе метрики micro F1 на валидационном множестве). Выведите значение micro F1 на тестовом множестве. (20 баллов)
+transform = T.Compose([
+    T.Resize((40, 40)),
+    T.ToTensor()
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'eng_handwritten', transform = transform)
+
+dataset_loader = DataLoader(dataset, batch_size = 8)
+n = len(dataset) * 40 * 40
+
+mu = th.zeros((3,), dtype=th.float)
+sig = th.zeros((3,), dtype=th.float)
+
+for batch, _ in dataset_loader:
+    for data in batch:
+        mu += data.sum(dim = 1).sum(dim = 1)
+        sig += (data**2).sum(dim = 1).sum(dim = 1)
+
+mu = mu / n
+sig = th.sqrt(sig / n - mu**2)
+
+mu, sig
+transform_new = T.Compose([
+    T.Resize((40, 40)),
+    T.CenterCrop((32, 32)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'eng_handwritten', transform = transform_new)
+
+print(f'Картинок в датасете: {len(dataset)}')
+print(f'Количество классов: {len(dataset.classes)}')
+print(f'Размер картинки: {dataset[0][0].shape}')
+
+th.manual_seed(42)
+train, val, test = random_split(dataset, [0.7, 0.15, 0.15])
+class CNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels=3, out_channels=4, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(in_channels=4, out_channels=8, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2)
+        )
+        self.classifier = nn.Linear(8 * 8 * 8, 26)
+
+    def forward(self, x):
+        x = self.features(x)
+        x = x.view(x.size(0), -1)
+        x = self.classifier(x)
+        return x
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+loader_val = DataLoader(val, batch_size = 8)
+loader_test = DataLoader(test, batch_size = 8)
+
+model = CNN()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1 = M.F1Score(task = 'multiclass', num_classes = 26, average = 'micro')
+f1_test = []
+f1_val_max = 0
+counter = 0
+
+for epoch in range(10):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    test_pred = []
+    test_true = []
+    for batch in loader_test:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            test_pred.append(model(X).argmax())
+    f1_test.append(f1(th.tensor(test_pred), th.tensor(test_true)))
+
+    test_pred = []
+    test_true = []
+    for batch in loader_val:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            test_pred.append(model(X).argmax())
+    f1_val = f1(th.tensor(test_pred), th.tensor(test_true))
+    if f1_val > f1_val_max:
+        f1_val_max = f1_val
+        counter = 0
+    else:
+        counter += 1
+
+    if counter == 3:
+        print('Ранняя остановка')
+        print(epoch, epoch_loss.item(), f1_val_max.item())
+        break
+
+    print(epoch, epoch_loss.item(), f1_val_max.item())
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+plt.title('F1_Score')
+plt.plot(f1_test)
+plt.grid(True)
+plt.show()
+# Markdown:
+# 3. Набор данных: images/eng_handwritten.zip. 3 модификации изображения
+# Markdown:
+Реализовав сверточную нейронную сеть при помощи библиотеки PyTorch, решите задачу классификации изображений. Разделите набор данных на обучающее, валидационное и тестовое множество. Выполните предобработку данных (вырежьте центральную область изображений одинакового размера и преобразуйте изображения в тензоры). Выведите значение micro F1 на тестовом множестве. Выберите случайным образом одно изображение из тестового множества и сделайте три любые случайные модификации. Визуализируйте измененные изображения и продемонстрируйте, как эти изменения влияют на предсказания модели. (20 баллов)
+transform = T.Compose([
+    T.Resize((40, 40)),
+    T.ToTensor()
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'eng_handwritten', transform = transform)
+
+dataset_loader = DataLoader(dataset, batch_size = 8)
+n = len(dataset) * 40 * 40
+
+mu = th.zeros((3,), dtype=th.float)
+sig = th.zeros((3,), dtype=th.float)
+
+for batch, _ in dataset_loader:
+    for data in batch:
+        mu += data.sum(dim = 1).sum(dim = 1)
+        sig += (data**2).sum(dim = 1).sum(dim = 1)
+
+mu = mu / n
+sig = th.sqrt(sig / n - mu**2)
+
+mu, sig
+transform_new = T.Compose([
+    T.Resize((40, 40)),
+    T.CenterCrop((32, 32)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'eng_handwritten', transform = transform_new)
+
+print(f'Картинок в датасете: {len(dataset)}')
+print(f'Количество классов: {len(dataset.classes)}')
+print(f'Размер картинки: {dataset[0][0].shape}')
+
+th.manual_seed(42)
+train, test = random_split(dataset, [0.8, 0.2])
+class CNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels=3, out_channels=4, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(in_channels=4, out_channels=8, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2)
+        )
+        self.classifier = nn.Linear(8 * 8 * 8, 26)
+
+    def forward(self, x):
+        x = self.features(x)
+        x = x.view(x.size(0), -1)
+        x = self.classifier(x)
+        return x
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+loader_test = DataLoader(test, batch_size = 8)
+
+model = CNN()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1 = M.F1Score(task = 'multiclass', num_classes = 26, average = 'micro')
+f1_test = []
+
+for epoch in range(5):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    test_pred = []
+    test_true = []
+    for batch in loader_test:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            test_pred.append(model(X).argmax())
+    f1_test.append(f1(th.tensor(test_pred), th.tensor(test_true)))
+
+    print(epoch, epoch_loss.item())
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+plt.title('F1_Score')
+plt.plot(f1_test)
+plt.grid(True)
+plt.show()
+def show_image(image, mean = mu, std = sig, model = model):
+    true = image[1]
+    image = image[0]
+    pred = model(image.unsqueeze(0)).argmax(dim = 1).item()
+
+    image = image.numpy().transpose((1, 2, 0))
+    image = std * image + mean
+
+    plt.title(f'Predict: {pred} | True: {true}')
+    plt.imshow(image)
+    plt.show()
+choice = randint(0, len(test))
+show_image(test[choice]) # 262
+transform_new = T.Compose([
+    T.Resize((40, 40)),
+    T.CenterCrop((32, 32)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig),
+    T.ColorJitter(hue = 0.2)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'eng_handwritten', transform = transform_new)
+
+th.manual_seed(42)
+_, test_1 = random_split(dataset, [0.8, 0.2])
+
+show_image(test_1[choice])
+transform_new = T.Compose([
+    T.Resize((40, 40)),
+    T.CenterCrop((32, 32)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig),
+    T.RandomHorizontalFlip(p = 1.0)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'eng_handwritten', transform = transform_new)
+
+th.manual_seed(42)
+_, test_2 = random_split(dataset, [0.8, 0.2])
+
+show_image(test_2[choice])
+transform_new = T.Compose([
+    T.Resize((40, 40)),
+    T.CenterCrop((32, 32)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig),
+    T.RandomVerticalFlip(p = 1.0)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'eng_handwritten', transform = transform_new)
+
+th.manual_seed(42)
+_, test_3 = random_split(dataset, [0.8, 0.2])
+
+show_image(test_3[choice])
+# Markdown:
+# 3. Набор данных: images/chars.zip. Обычный и расширенный датасеты
+# Markdown:
+Реализовав сверточную нейронную сеть при помощи библиотеки PyTorch, решите задачу классификации изображений. Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (приведите изображения к одному размеру, нормализуйте и преобразуйте в тензоры). Выведите значение F1 на тестовом множестве. Повторите решение задачи, применяя к обучающему множеству преобразования, случайным образом изменяющие изображения. Выведите значение F1 на тестовом множестве для модели, которая обучалась на расширенном датасете. (20 баллов)
+transform = T.Compose([
+    T.Resize((64, 64)),
+    T.ToTensor()
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'chars', transform = transform)
+
+dataset_loader = DataLoader(dataset, batch_size = 8)
+n = len(dataset) * 64 * 64
+
+mu = th.zeros((3,), dtype=th.float)
+sig = th.zeros((3,), dtype=th.float)
+
+for batch, _ in dataset_loader:
+    for data in batch:
+        mu += data.sum(dim = 1).sum(dim = 1)
+        sig += (data**2).sum(dim = 1).sum(dim = 1)
+
+mu = mu / n
+sig = th.sqrt(sig / n - mu**2)
+
+mu, sig
+transform_new = T.Compose([
+    T.Resize((64, 64)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'chars', transform = transform_new)
+
+print(f'Картинок в датасете: {len(dataset)}')
+print(f'Количество классов: {len(dataset.classes)}')
+print(f'Размер картинки: {dataset[0][0].shape}')
+
+th.manual_seed(42)
+train, test = random_split(dataset, [0.8, 0.2])
+sum([dataset[i][1] for i in range(len(dataset))]), len(dataset)
+class CNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv_block1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 3,
+                out_channels = 6,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.classifier = nn.Linear(5766, 2)
+
+    def forward(self, X):
+        out = self.conv_block1(X)
+        out = out.flatten(start_dim = 1)
+        out = self.classifier(out)
+        return out
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+loader_test = DataLoader(test, batch_size = 8)
+
+model = CNN()
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1 = M.F1Score(task = 'binary')
+f1_test = []
+
+for epoch in range(5):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    test_pred = []
+    test_true = []
+    for batch in loader_test:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            test_pred.append(model(X).argmax())
+    f1_test.append(f1(th.tensor(test_pred), th.tensor(test_true)))
+
+    print(epoch, epoch_loss.item())
+
+epoch_losses_mini = epoch_losses
+f1_test_mini = f1_test
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+plt.title('F1_Score')
+plt.plot(f1_test)
+plt.grid(True)
+plt.show()
+transform_new = T.Compose([
+    T.Resize((64, 64)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig),
+    T.RandomRotation(degrees = 10),
+    T.RandomHorizontalFlip(p = 0.1)
+])
+
+dataset_2 = torchvision.datasets.ImageFolder(root = 'chars', transform = transform_new)
+
+th.manual_seed(42)
+train_2, _ = random_split(dataset_2, [0.8, 0.2])
+
+train = ConcatDataset([train, train_2])
+len(train)
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+loader_test = DataLoader(test, batch_size = 8)
+
+model = CNN()
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1 = M.F1Score(task = 'binary')
+f1_test = []
+
+for epoch in range(5):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    test_pred = []
+    test_true = []
+    for batch in loader_test:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            test_pred.append(model(X).argmax())
+    f1_test.append(f1(th.tensor(test_pred), th.tensor(test_true)))
+
+    print(epoch, epoch_loss.item())
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses, label = 'Расширенный датасет')
+plt.plot(epoch_losses_mini, label = 'Начальный датасет')
+plt.legend()
+plt.grid(True)
+plt.show()
+plt.title('F1_Score')
+plt.plot(f1_test, label = 'Расширенный датасет')
+plt.plot(f1_test_mini, label = 'Начальный датасет')
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# 3. Набор данных: images/chars.zip. Неопределенные классы
+# Markdown:
+Реализовав сверточную нейронную сеть при помощи библиотеки PyTorch, решите задачу классификации изображений. Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (приведите изображения к одному размеру, нормализуйте и преобразуйте в тензоры). Добавьте следующую логику постобработки прогнозов: если сеть не уверена в предсказании (максимальная вероятность ниже некоторого заданного порога), классифицируйте изображение как "неопределенный" класс. Оцените, как этот порог отсечения влияет на метрики и количество "неопределенных" изображений. (20 баллов)
+transform = T.Compose([
+    T.Resize((64, 64)),
+    T.ToTensor()
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'chars', transform = transform)
+
+dataset_loader = DataLoader(dataset, batch_size = 8)
+n = len(dataset) * 64 * 64
+
+mu = th.zeros((3,), dtype=th.float)
+sig = th.zeros((3,), dtype=th.float)
+
+for batch, _ in dataset_loader:
+    for data in batch:
+        mu += data.sum(dim = 1).sum(dim = 1)
+        sig += (data**2).sum(dim = 1).sum(dim = 1)
+
+mu = mu / n
+sig = th.sqrt(sig / n - mu**2)
+
+mu, sig
+transform_new = T.Compose([
+    T.Resize((64, 64)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig)
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'chars', transform = transform_new)
+
+print(f'Картинок в датасете: {len(dataset)}')
+print(f'Количество классов: {len(dataset.classes)}')
+print(f'Размер картинки: {dataset[0][0].shape}')
+
+th.manual_seed(42)
+train, test = random_split(dataset, [0.8, 0.2])
+sum([dataset[i][1] for i in range(len(dataset))]), len(dataset)
+class CNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv_block1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 3,
+                out_channels = 6,
+                kernel_size = 3,
+            ),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+        )
+
+        self.classifier = nn.Linear(5766, 2)
+
+    def forward(self, X):
+        out = self.conv_block1(X)
+        out = out.flatten(start_dim = 1)
+        out = self.classifier(out)
+        return out
+th.manual_seed(42)
+
+loader = DataLoader(train, batch_size = 8)
+loader_test = DataLoader(test, batch_size = 8)
+
+model = CNN()
+criterion = nn.CrossEntropyLoss(weight = th.tensor([0.3, 0.7]))
+optimizer = optim.AdamW(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1 = M.F1Score(task = 'multiclass', num_classes = 3)
+f1_test_60 = []
+f1_test_70 = []
+f1_test_80 = []
+count_2_60 = []
+count_2_70 = []
+count_2_80 = []
+
+for epoch in range(5):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in loader:
+        y_pred = model(X_batch)
+        loss = criterion(y_pred, y_batch)
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    test_pred_60 = []
+    test_pred_70 = []
+    test_pred_80 = []
+    test_true = []
+    for batch in loader_test:
+        for i in range(len(batch)):
+            X = batch[0][i].unsqueeze(0)
+            y = batch[1][i]
+            test_true.append(y)
+            prob = model(X).softmax(dim = 1)
+
+            if prob.max() < 0.6:
+                test_pred_60.append(2)
+            else:
+                test_pred_60.append(prob.argmax())
+
+            if prob.max() < 0.7:
+                test_pred_70.append(2)
+            else:
+                test_pred_70.append(prob.argmax())
+
+            if prob.max() < 0.8:
+                test_pred_80.append(2)
+            else:
+                test_pred_80.append(prob.argmax())
+
+    f1_test_60.append(f1(th.tensor(test_pred_60), th.tensor(test_true)))
+    count_2_60.append(test_pred_60.count(2))
+    f1_test_70.append(f1(th.tensor(test_pred_70), th.tensor(test_true)))
+    count_2_70.append(test_pred_70.count(2))
+    f1_test_80.append(f1(th.tensor(test_pred_80), th.tensor(test_true)))
+    count_2_80.append(test_pred_80.count(2))
+
+    print(epoch, epoch_loss.item())
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+plt.title('F1_Score')
+plt.plot(f1_test_60, label = 'Порог отсечения 0.6')
+plt.plot(f1_test_70, label = 'Порог отсечения 0.7')
+plt.plot(f1_test_80, label = 'Порог отсечения 0.8')
+plt.legend()
+plt.grid(True)
+plt.show()
+plt.title('Число неопределённых классов')
+plt.plot(count_2_60, label = 'Порог отсечения 0.6')
+plt.plot(count_2_70, label = 'Порог отсечения 0.7')
+plt.plot(count_2_80, label = 'Порог отсечения 0.8')
+plt.legend()
+plt.grid(True)
+plt.show()
+# Markdown:
+# **3. Набор данных: images/clothes_multi.zip. Задача множественной классификации**
+# Markdown:
+Реализовав сверточную нейронную сеть при помощи библиотеки PyTorch, решите задачу множественной (multi-label) классификации изображений. Для каждого изображения модель должна предсказывать два класса: цвет и предмет одежды. Разделите набор данных на обучающее и тестовое множество. Выполните предобработку данных (приведите изображения к одному размеру, нормализуйте и преобразуйте в тензоры). Выведите итоговое значение F1 обучающем множестве и F1 на тестовом множестве. (20 баллов)
+class ClothesMultiDataset(Dataset):
+    def __init__(self, root_directory, transform = None):
+        folder_names = [f for f in os.listdir(root_directory)
+                        if os.path.isdir(os.path.join(root_directory, f))]
+        color_set, item_set = set(), set()
+        for folder in folder_names:
+            color_str, item_str = folder.split("_")
+            color_set.add(color_str)
+            item_set.add(item_str)
+        self.color_map = {c: i for i, c in enumerate(sorted(color_set))}
+        self.item_map  = {i: j for j, i in enumerate(sorted(item_set))}
+        self.samples = []
+        for folder in folder_names:
+            folder_path = os.path.join(root_directory, folder)
+            color_str, item_str = folder.split("_")
+            color_label = self.color_map[color_str]
+            item_label  = self.item_map[item_str]
+            for image_name in os.listdir(folder_path):
+                img_path = os.path.join(folder_path, image_name)
+                self.samples.append((img_path, color_label, item_label))
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, index):
+        path, color_label, item_label = self.samples[index]
+        image = Image.open(path).convert("RGB")
+        if self.transform:
+            image = self.transform(image)
+        labels = th.tensor([color_label, item_label], dtype = th.long)
+        return image, labels
+transform = T.Compose([
+    T.Resize((64, 64)),
+    T.ToTensor()
+])
+
+dataset = torchvision.datasets.ImageFolder(root = 'clothes_multi', transform = transform)
+
+dataset_loader = DataLoader(dataset, batch_size = 8)
+n = len(dataset) * 64 * 64
+
+mu = th.zeros((3,), dtype=th.float)
+sig = th.zeros((3,), dtype=th.float)
+
+for batch, _ in dataset_loader:
+    for data in batch:
+        mu += data.sum(dim = 1).sum(dim = 1)
+        sig += (data**2).sum(dim = 1).sum(dim = 1)
+
+mu = mu / n
+sig = th.sqrt(sig / n - mu**2)
+
+mu, sig
+transform_new = T.Compose([
+    T.Resize((64, 64)),
+    T.ToTensor(),
+    T.Normalize(mean = mu, std = sig)
+])
+
+dataset = ClothesMultiDataset(root_directory = 'clothes_multi', transform = transform_new)
+
+print(f'Картинок в датасете: {len(dataset)}')
+print(f'Цветов в датасете: {len(dataset.color_map)}')
+print(f'Предметов в датасете: {len(dataset.item_map)}')
+print(f'Размер картинки: {dataset[0][0].shape}')
+
+th.manual_seed(42)
+train, test = random_split(dataset, [0.8, 0.2])
+class CNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels=3, out_channels=4, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(in_channels=4, out_channels=8, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2)
+        )
+        self.classifier_color = nn.Linear(2048, 9)
+        self.classifier_item  = nn.Linear(2048, 8)
+
+    def forward(self, x):
+        out = self.features(x)
+        out = out.view(out.size(0), -1)
+        out_color = self.classifier_color(out)
+        out_item  = self.classifier_item(out)
+        return out_color, out_item
+th.manual_seed(42)
+
+train_loader = DataLoader(train, batch_size = 8)
+test_loader  = DataLoader(test,  batch_size = 8)
+
+model = CNN()
+criterion_color = nn.CrossEntropyLoss()
+criterion_item  = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr = 0.01)
+epoch_losses = []
+
+f1_color = M.F1Score(task = 'multiclass', num_classes = 9, average = 'micro')
+f1_item = M.F1Score(task = 'multiclass', num_classes = 8, average = 'micro')
+f1_train = []
+f1_test = []
+
+for epoch in range(5):
+    model.train()
+    epoch_loss = 0
+    for X_batch, y_batch in train_loader:
+        X_batch = X_batch
+        y_color = y_batch[:, 0]
+        y_item  = y_batch[:, 1]
+        out_color, out_item = model(X_batch)
+        loss_c = criterion_color(out_color, y_color)
+        loss_i = criterion_item(out_item, y_item)
+        loss = loss_c + loss_i
+        epoch_loss += loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    epoch_loss = epoch_loss / len(train_loader)
+    epoch_losses.append(epoch_loss.item())
+
+    model.eval()
+    color_preds = []
+    color_true = []
+    item_preds = []
+    item_true = []
+    with th.no_grad():
+        for X_batch, y_batch in train_loader:
+            X_batch = X_batch
+            y_color = y_batch[:, 0]
+            y_item  = y_batch[:, 1]
+            out_color, out_item = model(X_batch)
+            pred_color = out_color.argmax(dim = 1)
+            pred_item  = out_item.argmax(dim = 1)
+            color_preds.append(pred_color)
+            color_true.append(y_color)
+            item_preds.append(pred_item)
+            item_true.append(y_item)
+    color_preds = th.cat(color_preds)
+    color_true = th.cat(color_true)
+    item_preds = th.cat(item_preds)
+    item_true = th.cat(item_true)
+    f1_color_ = f1_color(color_preds, color_true)
+    f1_item_  = f1_item(item_preds, item_true)
+    f1_train.append(0.5 * (f1_color_ + f1_item_))
+
+    color_preds = []
+    color_true = []
+    item_preds = []
+    item_true = []
+    with th.no_grad():
+        for X_batch, y_batch in test_loader:
+            X_batch = X_batch
+            y_color = y_batch[:, 0]
+            y_item  = y_batch[:, 1]
+            out_color, out_item = model(X_batch)
+            pred_color = out_color.argmax(dim = 1)
+            pred_item  = out_item.argmax(dim = 1)
+            color_preds.append(pred_color)
+            color_true.append(y_color)
+            item_preds.append(pred_item)
+            item_true.append(y_item)
+    color_preds = th.cat(color_preds)
+    color_true = th.cat(color_true)
+    item_preds = th.cat(item_preds)
+    item_true = th.cat(item_true)
+    f1_color_ = f1_color(color_preds, color_true)
+    f1_item_  = f1_item(item_preds, item_true)
+    f1_test.append(0.5 * (f1_color_ + f1_item_))
+
+    print(epoch, epoch_loss.item())
+plt.title('CrossEntropyLoss')
+plt.plot(epoch_losses)
+plt.grid(True)
+plt.show()
+plt.title('F1_Score')
+plt.plot(f1_test, label = 'test')
+plt.plot(f1_train, label = 'train')
+plt.legend()
+plt.grid(True)
+plt.show()
+f1_test[-1], f1_train[-1]
