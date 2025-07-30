@@ -1,0 +1,18 @@
+load("@fbcode_macros//build_defs:python_library.bzl", "python_library")
+
+oncall("llamafirewall")
+
+python_library(
+    name = "cli",
+    srcs = [
+        "__init__.py",
+        "configure.py",
+    ],
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.cli",
+    deps = [
+        "fbsource//third-party/pypi/huggingface-hub:huggingface-hub",
+        "fbsource//third-party/pypi/transformers:transformers",
+        "fbsource//third-party/pypi/typer:typer",
+    ],
+)

@@ -1,0 +1,71 @@
+load("@fbcode_macros//build_defs:python_library.bzl", "python_library")
+
+oncall("llamafirewall")
+
+python_library(
+    # @autodeps-skip
+    name = "llamafirewall_scanners",
+    srcs = glob(
+        ["*.py"],
+        exclude = [
+            "promptguard_utils.py",
+        ],
+    ),
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.scanners",
+    deps = [
+        "fbsource//third-party/pypi/openai:openai",
+        "fbsource//third-party/pypi/pydantic:pydantic",
+        ":promptguard_utils",
+        "//security/genai/CodeShield/insecure_code_detector:insecure_code_detector",
+        "//security/genai/LlamaFirewall/src/llamafirewall:llamafirewall_data_types",
+        "//security/genai/LlamaFirewall/src/llamafirewall/scanners/experimental:experimental_scanners",
+        "//security/genai/LlamaFirewall/src/llamafirewall/utils:base_llm",
+    ],
+)
+
+python_library(
+    name = "promptguard_utils",
+    srcs = ["promptguard_utils.py"],
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.scanners",
+    deps = [
+        "fbsource//third-party/pypi/huggingface-hub:huggingface-hub",
+        "fbsource//third-party/pypi/transformers:transformers",
+        "//caffe2:torch",
+    ],
+)
+
+python_library(
+    name = "base_scanner",
+    srcs = ["base_scanner.py"],
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.scanners",
+    deps = [
+        "//security/genai/LlamaFirewall/src/llamafirewall:llamafirewall_data_types",
+    ],
+)
+
+python_library(
+    name = "custom_check_scanner",
+    srcs = ["custom_check_scanner.py"],
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.scanners",
+    deps = [
+        "fbsource//third-party/pypi/pydantic:pydantic",
+        ":base_scanner",
+        "//security/genai/LlamaFirewall/src/llamafirewall:llamafirewall_data_types",
+        "//security/genai/LlamaFirewall/src/llamafirewall/utils:base_llm",
+    ],
+)
+
+python_library(
+    name = "regex_scanner",
+    srcs = ["regex_scanner.py"],
+    # @lint-ignore BUCKLINT needed for OSS
+    base_module = "llamafirewall.scanners",
+    deps = [
+        ":base_scanner",
+        "//security/genai/LlamaFirewall/src/llamafirewall:llamafirewall_data_types",
+    ],
+)
