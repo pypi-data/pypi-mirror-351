@@ -1,0 +1,6 @@
+
+[:platform_system == "Linux"]
+evdev
+
+[:platform_system == "Windows" or platform_system == "Darwin"]
+pynput
