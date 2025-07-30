@@ -1,0 +1,6 @@
+[console_scripts]
+estimate_ram_usage = scripts:estimate_ram_usage.main
+match_template = scripts:match_template.main
+postprocess = scripts:postprocess.main
+preprocess = scripts:preprocess.main
+preprocessor_gui = scripts:preprocessor_gui.main
