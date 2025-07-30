@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ queue_name }} - XQ Queue Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 2rem;
+        }
+        .message-card {
+            margin-bottom: 1rem;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 4px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .add-message-form {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ queue_name }}</li>
+            </ol>
+        </nav>
+        
+        <h1 class="mb-4">Queue: {{ queue_name }}</h1>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2>Messages</h2>
+                    <div>
+                        <button id="refresh-btn" class="btn btn-outline-primary me-2">Refresh</button>
+                        <button id="poll-btn" class="btn btn-warning">Poll Messages</button>
+                    </div>
+                </div>
+                
+                <div id="message-list" class="mb-4">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="add-message-form">
+                    <h3>Add New Message</h3>
+                    <form id="add-message-form">
+                        <div class="mb-3">
+                            <label for="message-body" class="form-label">Message Body</label>
+                            <textarea class="form-control" id="message-body" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cron-expression" class="form-label">Cron Expression (Optional)</label>
+                            <input type="text" class="form-control" id="cron-expression" placeholder="e.g. */5 * * * *">
+                            <div class="form-text">Leave empty to run immediately and only once</div>
+                            <div id="cron-explanation" class="mt-2 alert alert-info d-none"></div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const queueName = "{{ queue_name }}";
+        
+        // Load messages
+        function loadMessages() {
+            fetch(`/api/queues/${queueName}/messages`)
+                .then(response => response.json())
+                .then(messages => {
+                    const messageList = document.getElementById('message-list');
+                    
+                    if (messages.length === 0) {
+                        messageList.innerHTML = '<div class="alert alert-info">No messages in queue</div>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    messages.forEach(message => {
+                        html += `
+                            <div class="card message-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span>ID: ${message.id}</span>
+                                    <button class="btn btn-sm btn-danger delete-btn" data-id="${message.id}">Delete</button>
+                                </div>
+                                <div class="card-body">
+                                    <h6>Scheduled Time: ${message.scheduled_time}</h6>
+                                    ${message.cron_expression ? `
+                        <p class="text-muted">Cron: ${message.cron_expression}</p>
+                        <p class="text-info cron-meaning" data-cron="${message.cron_expression}"></p>
+                    ` : ''}
+                                    <h6>Body:</h6>
+                                    <pre>${message.body}</pre>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    messageList.innerHTML = html;
+                    
+                    // Add event listeners to delete buttons
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const messageId = this.getAttribute('data-id');
+                            deleteMessage(messageId);
+                        });
+                    });
+                    
+                    // Add cron explanations to displayed messages
+                    document.querySelectorAll('.cron-meaning').forEach(element => {
+                        const cronExpression = element.getAttribute('data-cron');
+                        if (cronExpression) {
+                            element.textContent = interpretCronExpression(cronExpression);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('message-list').innerHTML = '<div class="alert alert-danger">Failed to load messages</div>';
+                });
+        }
+        
+        // Delete message
+        function deleteMessage(messageId) {
+            if (confirm('Are you sure you want to delete this message?')) {
+                fetch(`/api/queues/${queueName}/messages/${messageId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loadMessages();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete message');
+                });
+            }
+        }
+        
+        // Poll messages
+        document.getElementById('poll-btn').addEventListener('click', function() {
+            fetch(`/api/queues/${queueName}/poll`, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(`Polled ${data.length} messages`);
+                loadMessages();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to poll messages');
+            });
+        });
+        
+        // Interpret cron expression
+        function interpretCronExpression(cronExpression) {
+            if (!cronExpression || cronExpression.trim() === '') {
+                return '';
+            }
+            
+            try {
+                const parts = cronExpression.trim().split(' ');
+                if (parts.length !== 5) {
+                    return 'Invalid cron expression format. Expected 5 parts: minute hour day-of-month month day-of-week';
+                }
+                
+                let explanation = 'This job will run ';
+                const [minute, hour, dayOfMonth, month, dayOfWeek] = parts;
+                
+                // Minute
+                if (minute === '*') {
+                    explanation += 'every minute';
+                } else if (minute.includes('/')) {
+                    const interval = minute.split('/')[1];
+                    explanation += `every ${interval} minutes`;
+                } else {
+                    explanation += `at minute ${minute}`;
+                }
+                
+                // Hour
+                if (hour === '*') {
+                    explanation += ' of every hour';
+                } else if (hour.includes('/')) {
+                    const interval = hour.split('/')[1];
+                    explanation += ` every ${interval} hours`;
+                } else {
+                    explanation += ` at hour ${hour}`;
+                }
+                
+                // Day of month
+                if (dayOfMonth !== '*') {
+                    explanation += ` on day ${dayOfMonth} of the month`;
+                }
+                
+                // Month
+                if (month !== '*') {
+                    const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June', 
+                                       'July', 'August', 'September', 'October', 'November', 'December'];
+                    explanation += ` in ${monthNames[parseInt(month)] || month}`;
+                }
+                
+                // Day of week
+                if (dayOfWeek !== '*') {
+                    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    if (dayOfWeek.includes(',')) {
+                        const days = dayOfWeek.split(',').map(d => dayNames[parseInt(d)] || d).join(', ');
+                        explanation += ` on ${days}`;
+                    } else {
+                        explanation += ` on ${dayNames[parseInt(dayOfWeek)] || dayOfWeek}`;
+                    }
+                }
+                
+                // Common patterns
+                if (cronExpression === '* * * * *') {
+                    explanation = 'This job will run every minute';
+                } else if (cronExpression === '0 * * * *') {
+                    explanation = 'This job will run at the start of every hour';
+                } else if (cronExpression === '0 0 * * *') {
+                    explanation = 'This job will run once a day at midnight';
+                } else if (cronExpression === '0 0 * * 0') {
+                    explanation = 'This job will run once a week on Sunday at midnight';
+                } else if (cronExpression === '0 0 1 * *') {
+                    explanation = 'This job will run once a month on the 1st at midnight';
+                } else if (cronExpression === '0 0 1 1 *') {
+                    explanation = 'This job will run once a year on January 1st at midnight';
+                }
+                
+                return explanation;
+            } catch (error) {
+                console.error('Error interpreting cron:', error);
+                return 'Invalid cron expression';
+            }
+        }
+        
+        // Update cron explanation when input changes
+        document.getElementById('cron-expression').addEventListener('input', function() {
+            const cronExpression = this.value.trim();
+            const explanationDiv = document.getElementById('cron-explanation');
+            
+            if (cronExpression) {
+                const explanation = interpretCronExpression(cronExpression);
+                explanationDiv.textContent = explanation;
+                explanationDiv.classList.remove('d-none');
+            } else {
+                explanationDiv.classList.add('d-none');
+            }
+        });
+        
+        // Add message
+        document.getElementById('add-message-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const body = document.getElementById('message-body').value;
+            const cronExpression = document.getElementById('cron-expression').value;
+            
+            fetch(`/api/queues/${queueName}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    body: body,
+                    cron_expression: cronExpression
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message-body').value = '';
+                document.getElementById('cron-expression').value = '';
+                document.getElementById('cron-explanation').classList.add('d-none');
+                loadMessages();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add message');
+            });
+        });
+        
+        // Refresh button
+        document.getElementById('refresh-btn').addEventListener('click', loadMessages);
+        
+        // Initial load
+        loadMessages();
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XQ Queue Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 2rem;
+        }
+        .queue-card {
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+        }
+        .queue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .create-queue-form {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">XQ Queue Manager</h1>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Available Queues</h2>
+                <div class="row" id="queue-list">
+                    {% if queues %}
+                        {% for queue in queues %}
+                            <div class="col-md-6">
+                                <div class="card queue-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ queue }}</h5>
+                                        <a href="/queues/{{ queue }}" class="btn btn-primary">View Messages</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-info">No queues available. Create one below.</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="create-queue-form">
+                    <h3>Create New Queue</h3>
+                    <form id="create-queue-form">
+                        <div class="mb-3">
+                            <label for="queue-name" class="form-label">Queue Name</label>
+                            <input type="text" class="form-control" id="queue-name" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Create Queue</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('create-queue-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const queueName = document.getElementById('queue-name').value;
+            
+            // Create a new queue by adding a message to it
+            fetch(`/api/queues/${queueName}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    body: 'Queue initialization',
+                    cron_expression: ''
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = `/queues/${queueName}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to create queue');
+            });
+        });
+    </script>
+</body>
+</html>
