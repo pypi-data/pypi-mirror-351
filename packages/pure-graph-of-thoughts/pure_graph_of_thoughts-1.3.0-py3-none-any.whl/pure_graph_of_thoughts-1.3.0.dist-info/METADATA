@@ -1,0 +1,84 @@
+Metadata-Version: 2.4
+Name: pure-graph-of-thoughts
+Version: 1.3.0
+Summary: Pure Graph of Thoughts
+Project-URL: Repository, https://github.com/mriesen/pure-graph-of-thoughts.git
+Author-email: Manuel Riesen <manuel.riesen0@gmail.com>
+Maintainer-email: Manuel Riesen <manuel.riesen0@gmail.com>
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.11
+Requires-Dist: backoff<3.0.0,>=2.2.1
+Requires-Dist: openai<2.0.0,>=1.12.0
+Provides-Extra: notebooks
+Requires-Dist: jupyter<2.0.0,>=1.0.0; extra == 'notebooks'
+Provides-Extra: visualization
+Requires-Dist: matplotlib<4.0.0,>=3.8.3; extra == 'visualization'
+Requires-Dist: networkx<4.0.0,>=3.2.1; extra == 'visualization'
+Requires-Dist: types-networkx<4.0.0,>=3.2.1; extra == 'visualization'
+Provides-Extra: visualization-dot
+Requires-Dist: pygraphviz<2.0,>=1.12; extra == 'visualization-dot'
+Description-Content-Type: text/markdown
+
+# Pure Graph of Thoughts
+This is the official implementation of Pure Graph of Thoughts, a new implementation of the Graph of Thoughts concepts.
+
+Graph of Thoughts was originally introduced in the paper
+[Graph of Thoughts: Solving Elaborate Problems with Large Language Models](https://arxiv.org/pdf/2308.09687.pdf).
+The official implementation of the paper's proposed API can be found here: https://github.com/spcl/graph-of-thoughts.
+
+The `pure_graph_of_thoughts` package does not conform the API proposed by the original paper nor is it a fork of it.
+It aims for a more automation-friendly implementation of the general concept of Graph of Thoughts,
+where both construction and traversal of a graph can be handled iteratively.
+
+Some key differences and restrictions:
+- Operations and thoughts are represented independently of their graph structure.
+- As a user-facing API, operations can be defined in a declarative way over a typed and validated data structure (DSL).
+- There is a strict distinction between a prompt operation executed by a language model and a code execution operation.
+- To simplify parsing logic and to ensure consistent results, the JSON format is used for communication with the language model.
+- The scoring is now part of an operation involving a prompt, rather than being a standalone operation that can be added arbitrarily.
+  While this simplifies the automation process, it restricts the user's possibility of adding a validation operation.
+
+## Setup Guide
+To run this code, Python `3.11` or newer is required.
+The latest version of the package can be installed from [PyPI](https://pypi.org/project/pure-graph-of-thoughts/):
+```shell
+pip install pure-graph-of-thoughts
+```
+Alternatively, the package can be installed from source.
+
+### Optional Dependencies
+The project comes with optional dependencies which are required for some features.
+
+#### Graph Visualization
+To visualize the graphs by using `pure_graph_of_thoughts.visualization`, 
+the optional `visualization` dependencies are required.
+```shell
+pip install pure-graph-of-thoughts[visualization]
+```
+For a cleaner, hierarchical visualization, add `dot-visualization`.
+```shell
+pip install pure-graph-of-thoughts[visualization,dot-visualization]
+```
+Be aware that `dot-visualization` requires the [GraphViz](https://graphviz.org/) library to be installed.
+
+##### pygraphviz on Windows
+The Python package `pygraphviz` (included in `dot-visualization`) may cause installation problems on Windows.
+Installing it separately with the following options (including the GraphViz headers) resolves the problem:
+```shell
+python -m pip install --config-settings="--global-option=build_ext" --config-settings="--global-option=-IC:\Program Files\Graphviz\include" --config-settings="--global-option=-LC:\Program Files\Graphviz\lib" pygraphviz
+```
+
+#### Examples
+An example task definition is provided together with a notebook 
+that shows the graph construction and execution.
+To run the notebook, the optional `notebooks` dependencies are required.
+```shell
+pip install pure-graph-of-thoughts[notebooks]
+```
+Be aware that the examples are not part of the distributed package on PyPI.
+
