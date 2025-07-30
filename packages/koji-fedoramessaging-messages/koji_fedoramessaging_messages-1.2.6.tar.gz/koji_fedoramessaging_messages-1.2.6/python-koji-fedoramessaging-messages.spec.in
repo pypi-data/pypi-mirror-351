@@ -1,0 +1,51 @@
+%global rpm_name koji-fedoramessaging-messages
+%global pypi_name koji_fedoramessaging_messages
+%global pypi_version @@VERSION@@
+
+Name:           python-%{rpm_name}
+Version:        %{pypi_version}
+Release:        1%{?dist}
+Summary:        A schema package for messages sent by the koji-fedoramessaging plugin
+
+License:        GPL-3.0-or-later
+URL:            https://github.com/fedora-infra/koji-fedoramessaging-messages
+Source0:        %{pypi_source}
+BuildArch:      noarch
+
+BuildRequires:  python3-devel
+BuildRequires:  python3dist(fedora-messaging) >= 3.0.1
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(pytest)
+
+%description
+Schema package for koji-fedoramessaging.
+
+%package -n     python3-%{rpm_name}
+Summary:        %{summary}
+%{?python_provide:%python_provide python3-%{rpm_name}}
+
+Requires:       python3dist(fedora-messaging) >= 3.0.1
+Requires:       python3dist(setuptools)
+%description -n python3-%{rpm_name}
+Schema package for koji-fedoramessaging.
+
+
+%prep
+%autosetup -n %{pypi_name}-%{pypi_version}
+
+%build
+%py3_build
+
+%install
+%py3_install
+
+%check
+%{__python3} -m pytest -v tests/
+
+%files -n python3-%{rpm_name}
+%license LICENSES/GPL-3.0-or-later.txt
+%doc README.md
+%{python3_sitelib}/%{pypi_name}
+%{python3_sitelib}/%{pypi_name}-%{pypi_version}-py%{python3_version}.egg-info
+
+%changelog
