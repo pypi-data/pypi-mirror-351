@@ -1,0 +1,17 @@
+numpy>=1.23
+pandas<3,>=2.1.1
+scikit-learn<2,>=1.5
+faker>=17.0.0
+
+[dev]
+pre-commit
+pyright
+pandas-stubs
+ruff==0.11.5
+gitlint==0.19.1
+reuse==5.0.2
+
+[test]
+pytest~=8.3.3
+scipy~=1.14.1
+coverage
