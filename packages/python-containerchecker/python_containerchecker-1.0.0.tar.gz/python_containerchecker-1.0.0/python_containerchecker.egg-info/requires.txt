@@ -1,0 +1,9 @@
+paramiko
+PyYAML
+rich
+
+[dev]
+pre-commit
+pytest
+python-semantic-release
+black
