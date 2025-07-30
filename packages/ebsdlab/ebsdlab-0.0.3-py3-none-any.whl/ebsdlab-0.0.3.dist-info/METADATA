@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: ebsdlab
+Version: 0.0.3
+Summary: The EBSD Lab for Python
+Home-page: https://github.com/micromechanics/ebsdlab.git
+Author: Steffen Brinckmann, Alexander Hartmaier
+Author-email: sbrinckm@gmail.com
+License: MIT
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown; charset=UTF-8
+License-File: LICENSE
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pillow
+Requires-Dist: scipy
+Provides-Extra: devel
+Requires-Dist: isort ; extra == 'devel'
+Requires-Dist: jupyter-sphinx ; extra == 'devel'
+Requires-Dist: mypy ; extra == 'devel'
+Requires-Dist: pip-tools ; extra == 'devel'
+Requires-Dist: pre-commit ; extra == 'devel'
+Requires-Dist: pylint ; extra == 'devel'
+Requires-Dist: pytest ; extra == 'devel'
+Requires-Dist: requests ; extra == 'devel'
+Requires-Dist: sphinx ; extra == 'devel'
+Requires-Dist: sphinx-tabs ; extra == 'devel'
+
