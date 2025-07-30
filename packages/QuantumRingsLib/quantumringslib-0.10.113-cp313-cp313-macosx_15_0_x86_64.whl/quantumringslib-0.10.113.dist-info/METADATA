@@ -1,0 +1,273 @@
+Metadata-Version: 2.4
+Name: QuantumRingsLib
+Version: 0.10.113
+Summary: A Quantum Development Library
+Author-email: "Quantum Rings Inc." <contact@quantumrings.com>
+Project-URL: Homepage, https://www.quantumrings.com/docs
+Project-URL: Documentation, https://www.quantumrings.com/docs
+Project-URL: API Reference, https://quantumrings.com/doc/modules.html
+Keywords: quantum,quantum circuit,quantum computing,quantum programming language,quantum register,quantum tools,tools,sdk
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: Scientific/Engineering
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Operating System :: MacOS :: MacOS X
+Requires-Python: ==3.13.*
+Description-Content-Type: text/x-rst
+License-File: LICENSE.rst
+Dynamic: license-file
+Dynamic: requires-python
+
+
+.. _minimum-system-requirements:
+
+Minimum System Requirements
+---------------------------
+
+A system with a configuration better than the minimum requirements is advised. 
+Lower configurations may affect the number of qubits that can be supported and
+may perform poorly.
+
+-  Operating systems supported:
+
+   -  Windows 11 Pro
+   -  Debian GNU/Linux 12 (bookworm)
+   -  OpenSUSE Tumbleweed - Version 20240415
+   -  Oracle Linux 9.3
+   -  Ubuntu 22.04.4 LTS
+   -  macOS Sequoia 
+
+-  64-bit Intel i9 x86 CPU (14 cores 20 logical processors recommended) on Windows or Linux platforms
+-  x86_64 or ARM_64 (that is, Intel or Apple Silicon CPUs) on Apple PCs
+
+-  32 GB Installed physical memory
+-  18 GB Available physical memory
+
+-  64-bit Python version 3.11 on Windows
+-  Python 3.6, 3.10, 3.11, and 3.12 on various Linux versions
+-  Python 3.12 on macOS
+
+
+=========================
+Installation - Windows 11
+=========================
+
+The Quantum Rings SDK can be installed directly using pip. 
+Many users find Anaconda (https://www.anaconda.com/) a good way to install the Quantum Rings SDK and use the Python environment efficiently.
+From Anaconda, select a Python 3.11 channel and launch `CMD.exe Prompt` to go to the
+command prompt and execute the following command.
+
+.. code-block:: console
+
+    pip install QuantumRingsLib
+
+
+If you do not have a Python 3.11 channel, select `Environments` from the left panel, `+ Create` button from the menu bar
+at the bottom and select Python 3.11 from the `Create New Environment` dialog.
+
+Quantum Rings SDK requires a 64-bit version of Python 3.11.
+
+After installation of the SDK, launch Python 3.11 environment by selecting the installed channel, before running your code.
+
+============================
+Installation - macOS Sequoia
+============================
+
+Install Python 3.12 by downloading it from the Python Organization (https://www.python.org/downloads/macos/).
+From the terminal, create a Python 3.12 virtual environment by executing the following command.
+Activate the environment.
+
+.. code-block:: console
+
+    python3.12 -m venv myenv
+    source myenv/bin/activate
+
+Then execute the following command to install the SDK.
+
+.. code-block:: console
+
+    pip install QuantumRingsLib
+
+You may also refer to https://docs.python.org/3/using/mac.html for further help. If you have a Python version that came with a previous version of macOS and 
+if you uninstalled it, you may have broken symlinks. Refer to section 5.5.1 on this webpage for hints, how to fix the symlinks.
+
+====================
+Installation - Linux
+====================
+
+Checking whether your Linux platform is supported
+-------------------------------------------------
+
+There are several variants of the Linux OS, with varying levels of inbuilt libraries. At present, we are supporting `manylinux_2_34_x86_64` platforms 
+based on 64 bit x86 processors. 
+Older platforms and other CPUs are not supported at the moment. If you have a specific requirement, please contact our technical support.
+
+To check whether your platform is supported, execute the following command from Python command line:
+
+.. code-block:: console
+
+    import platform
+    platform.platform()
+
+Watch for the `glibc` signature at the end. glibc2.34 and above are only supported.
+
+Installing Python 3.11 and creating the virtual environment
+-----------------------------------------------------------
+    
+Update all packages in your system using the following commands. Note that, this may cause incompatibilities in some installations due to variances 
+in packages and their mutual dependencies. Besides, this step might break existing software packages and make your system unusable. 
+You may refer to your operating system's manual or seek help from your system adminstrator. Alternatively, you can also use the Software Updater GUI tool,
+if that was packaged along with your system distribution.
+
+.. code-block:: console
+
+    sudo apt update        # Fetches the list of available updates
+    sudo apt upgrade       # Installs some updates; does not remove packages
+
+Note that `apt` command is not available in some Linux variants. You may have to use `dnf` on Oracle Linux distributions and `zypper` on Open SUSE distributions.
+
+
+Check whether your system has Python 3.11 installed by executing `python` from the terminal. If not, you can install Python 3.11 using the following command.
+
+.. code-block:: console
+
+    sudo apt install python3.11
+
+Create a virtual Python 3.11 environment and activate the environment using the following steps.
+
+.. code-block:: console
+
+    virtualenv --python=/usr/bin/python3.11 myenv
+    source myenv/bin/activate
+
+You may have to install `virtualenv` package if it is not already installed. When not required, you can deactivate the environment using `deactivate` command.
+
+Note that, `virtualenv` package is not available on Oracle Linux and Open SUSE Linux. You can use the following command equivalently on these distributions:
+
+.. code-block:: console
+
+    python3.11 -m venv myenv
+    source myenv/bin/activate
+
+
+Installing Jupyter notebook
+---------------------------
+
+Now, launch the virtual environment, and execute the following command:
+
+.. code-block:: console
+
+    sudo su
+    source myenv/bin/activate
+    pip install notebook
+
+
+Ensuring that jupyter notebook launches the correct python version
+------------------------------------------------------------------
+
+Check whether your virtual environment launches the correct python version (3.11) my executing the command `python --version`. On some installations you may
+have to execute the following commands to ensure that the Jupyter notebook launches the correct python version. 
+
+.. code-block:: console
+
+    python -m pip install ipykernel
+    python -m ipykernel install --user
+
+Now, you can launch the Jupyter notebook using the command `jupyter-notebook` or `jupyter notebook`.  If you are logged in as `root`, then you may have to
+append `--allow-root`. Once the notebook server starts, you can click the local-host link to launch the notebook on the browser.
+
+
+Installing Curl
+---------------
+
+On some installations, we found that curl was not installed. You can check whether curl is installed on your system by executing the command `curl` from the terminal. 
+If `curl` is not installed, you may use the following command:
+
+.. code-block:: console
+
+    sudo apt install curl
+
+Installing gcc
+--------------
+
+On some installations, we got `libgomp.so` not found error and it required installation of gcc, as follows:
+
+.. code-block:: console
+
+    zypper install gcc
+
+
+Finally, installing the QuantumRingsLibrary
+-------------------------------------------
+
+Now, you can install the QuantumRingsLibrary as follows:
+
+.. code-block:: console
+
+    pip install QuantumRingsLib
+
+
+
+
+=====
+Usage
+=====
+
+Obtain your account name and token from the Quantum Rings team. You can then use them to create the backend for execution.
+You can follow the reference code below for further information:
+
+
+.. code-block:: python
+        
+    import QuantumRingsLib
+    from QuantumRingsLib import QuantumRegister, AncillaRegister, ClassicalRegister, QuantumCircuit
+    from QuantumRingsLib import QuantumRingsProvider
+    from QuantumRingsLib import job_monitor
+    from QuantumRingsLib import JobStatus
+    from matplotlib import pyplot as plt
+    import numpy as np
+
+    provider = QuantumRingsProvider(token =<YOUR_TOKEN_HERE>, name=<YOUR_ACCOUNT_NAME_HERE>)
+    backend = provider.get_backend("scarlet_quantum_rings")
+    shots = 100
+
+    provider.active_account()
+
+
+
+==================
+Executing the Code
+==================
+
+You can execute the code in the backend as illustrated below and setup a job monitor to watch for completion. The code is executed in a background thread so
+you can use your system normally.
+
+*Using job_monitor function*
+
+.. code-block:: python
+
+    job = backend.run(qc, shots)
+    job_monitor(job)
+    result = job.result()
+    counts = result.get_counts()
+    print (counts)
+
+
+*Using wait_for_final_state function*
+
+.. code-block:: python
+
+    def jobCallback(job_id, state, job):
+        #print("Job Status: ", state)
+        pass
+
+    # Execute the circuit
+    job = backend.run(qc, shots)
+    job.wait_for_final_state(0, 5, jobCallback)
+    counts = job.result().get_counts() 
+
+
+
