@@ -1,0 +1,255 @@
+#!python
+# coding: utf-8
+import argparse
+import os
+import sys
+import traceback
+import subprocess
+import re
+import shutil
+import cmd
+
+
+unit_test_folder = "./unitary_tests/"
+all_tests = sorted(os.listdir(unit_test_folder), reverse=True)
+digits = [str(k) for k in range(10)]
+all_tests [:] = (value for value in all_tests if value[0] in digits)
+all_tests.reverse()
+unit_test_figures = "./unitary_tests/figures/"
+unit_test_results = "./unitary_tests/results/"
+out_file = "log_NRV_test.txt"
+
+
+## ARGUMENT PARSER ##
+parser = argparse.ArgumentParser(description="NeuRon Virtualizer automated test module")
+parser.add_argument("-d", "--dependances", action="store_true", dest="DEP_TEST",help="Check NEURON and COMSOL installation")
+parser.add_argument("-l", "--list", dest="LIST_TEST",type=int, nargs="?",default=-1, help="Print the name of all unitary tests")
+parser.add_argument("-u", "--unitary_tests", action="store_true", dest="UNIT_TEST",help="Launch all unitary tests, test result figures are saved in ./unitary_test/figures folder, all thest should be True, numerical values for debug only")
+parser.add_argument("-s", "--syntax", action="store_true", dest="SYNTAX_TEST",help="Lint nvr syntax source code")
+parser.add_argument("-a", "--all", action="store_true", dest="ALL_TESTS",help="launches even potentially failing tests due to third party softwares such as COMSOL")
+parser.add_argument("-t", "--target", dest="TARGET", type=str, nargs="+" ,default='0', help="ID of the tests to simulate, if a digit is replaced by '_' all the tests")
+parser.add_argument("-F", "--fenics", action="store_true", dest="FENICS_TESTS",help="Launch all and only FEniCS related tests")
+parser.add_argument("-C", "--comsol", action="store_true", dest="COMSOL_TESTS",help="Launch all and only COMSOL related tests")
+parser.add_argument("-p", "--python", action="store_true", dest="FORCE_PYTHON",help="Forces Python as interpreted instead of nrv2calm")
+
+
+if __name__ == "__main__":
+    # Parsing arguments
+    args = parser.parse_args()
+    exclude_test_keys = ["COMSOL", "FENxCOM"]
+    included_test_keys = []
+    if args.FENICS_TESTS:
+        included_test_keys += ["FENICS"]
+    if args.COMSOL_TESTS:
+        included_test_keys += ["COMSOL"]
+    if args.FENICS_TESTS and args.COMSOL_TESTS:
+        included_test_keys += ["FENxCOM"]
+
+    nrv_cmd = "nrv2calm "
+    if sys.platform == "darwin":
+        python_cmd = "python "
+    else:
+        python_cmd = "python3 "
+
+    launcher = nrv_cmd
+    if args.FORCE_PYTHON:
+        launcher = python_cmd
+
+    if args.DEP_TEST:
+        ###############################
+        ## test neurnon installation ##
+        ###############################
+        print("Testing NEURON installation")
+        try:
+            import neuron
+        except Error:
+            print("--- Please install neuron (https://www.neuron.yale.edu/neuron/)")
+        else:
+            version = neuron.__version__
+            v_number = int(version[0])*10+int(version[2])
+            if v_number<77:
+                print("--- Critical Warning: consider update your neuron version to 7.7 or more recent, following tests may fail")
+            else:
+                print("--- Neuron version up to date for NRV")
+        ##############################
+        ## test comsol installation ##
+        ##############################
+        print("Testing COMSOL acces...")
+        try:
+            import mph
+            client = mph.start()
+            client.disconnect()
+        except Exception as e:
+            err_message = str(e)
+            if "License error:" in err_message:
+                print("No comsol licence found or accessible, please get a valid access or disable COMSOL in NRV to prevent errors")
+            else:
+                print("Error launching COMSOL: " + err_message)
+        else:
+            print("--- found access to a COMSOL server")
+    if not args.LIST_TEST == -1:
+        if args.LIST_TEST is None:
+            N_col = 2
+        else:
+            N_col = int(args.LIST_TEST)
+        tests = []
+        tests[:] = all_tests[:]
+        i=0
+        i_break = 5000
+        while i < len(tests) and i_break > 0:
+            i_break -= 1
+            test = tests[i]
+            if ".py" in test:
+                tests[i] = test[:3]+ "-" +test[4:-3]
+                i += 1
+        cli = cmd.Cmd()
+        cli.columnize(tests, displaywidth=N_col*47)
+        args.LIST_TEST = True
+    else:
+        args.LIST_TEST = False
+
+    if args.TARGET != '0':
+        N = len(args.TARGET)
+        offset = 0
+        ########################################
+        ## add the corresponding tests if "_" ##
+        ########################################
+        for i in range(N):
+            argt = args.TARGET[i+offset]
+            if "_" in argt:
+                arg_offset = 1
+                new_argt = [argt]
+                if argt[-1] == "_":
+                    new_argt = [argt[:-1]+str(i) for i in range(10)]
+                    arg_offset *= 10
+                if len(new_argt[0]) > 2:
+                    if new_argt[0][-2] == "_":
+                        old_argt = new_argt
+                        new_argt = []
+                        for arg in old_argt:
+                            new_argt += [arg[:-2]+str(i)+arg[-1] for i in range(10)]
+                        arg_offset *= 10
+                if len(new_argt[0]) > 3:
+                    if new_argt[0][-3] == "_":
+                        old_argt = new_argt
+                        new_argt = []
+                        for arg in old_argt:
+                            new_argt += [arg[:-3]+str(i)+arg[-2:] for i in range(10)]
+                        arg_offset *= 10
+                args.TARGET = args.TARGET[:i+offset] + new_argt + args.TARGET[i+offset+1:]
+                offset += arg_offset
+        args.TARGET.sort()
+        print("TARGETED:", *args.TARGET)
+        for argt in args.TARGET:
+            target_script_key = f"{int(argt):03}"
+            ###################################
+            ## clean the test/figures folder ##
+            ###################################
+            if os.path.exists(unit_test_figures):
+                f_fig = [unit_test_figures+f for f in os.listdir(unit_test_figures) if\
+                    "00"+f[:1]==target_script_key or "0"+f[:2]==target_script_key or f[:3]==target_script_key]
+                for f in f_fig:
+                    if os.path.isdir(f):
+                        shutil.rmtree(unit_test_figures)
+                    else:
+                        os.remove(f)
+            if not os.path.exists(unit_test_figures):
+                os.makedirs(unit_test_figures)
+            if os.path.exists(unit_test_results):
+                f_fig = [unit_test_results+f for f in os.listdir(unit_test_results) if\
+                    "00"+f[:1]==target_script_key or "0"+f[:2]==target_script_key or f[:3]==target_script_key]
+                for f in f_fig:
+                    os.remove(f)
+            if not os.path.exists(unit_test_results):
+                os.makedirs(unit_test_results)
+            if not os.path.exists(unit_test_results+"json/"):
+                os.makedirs(unit_test_results+"json/")
+            if not os.path.exists(unit_test_results+"mesh/"):
+                os.makedirs(unit_test_results+"mesh/")
+            if not os.path.exists(unit_test_results+"outputs/"):
+                os.makedirs(unit_test_results+"outputs/") 
+
+            ###############################
+            ## launch the targated tests ##
+            ###############################
+            nrv_cmd = "nrv2calm "
+            if sys.platform == "darwin":
+                python_cmd = "python "
+            else:
+                python_cmd = "python3 "
+
+            for test in all_tests:
+                if str(target_script_key) in test:
+                    print(test)
+                    test_out = os.system(launcher+unit_test_folder+test)
+                    print("test exited with value ", test_out)
+                    break
+    else:
+        args.TARGET = False
+    
+    if args.UNIT_TEST or (not args.DEP_TEST and not args.LIST_TEST and not args.UNIT_TEST and not args.SYNTAX_TEST and not args.TARGET):
+        ###################################
+        ## clean the test/figures folder ##
+        ###################################
+        if os.path.exists(unit_test_figures):
+            shutil.rmtree(unit_test_figures)
+        if not os.path.exists(unit_test_figures):
+            os.makedirs(unit_test_figures)
+
+        if os.path.exists(unit_test_results):
+            shutil.rmtree(unit_test_results)
+        if not os.path.exists(unit_test_results):
+            os.makedirs(unit_test_results)
+
+        if not os.path.exists(unit_test_results+"json/"):
+            os.makedirs(unit_test_results+"json/")
+        if not os.path.exists(unit_test_results+"mesh/"):
+            os.makedirs(unit_test_results+"mesh/")
+        if not os.path.exists(unit_test_results+"outputs/"):
+            os.makedirs(unit_test_results+"outputs/")
+            
+
+        success_flag = True
+        test_nb = 0
+        failed_test = []
+
+        for test in all_tests:
+            launch_test = True
+            if not args.ALL_TESTS:
+                if args.FENICS_TESTS or args.COMSOL_TESTS:
+                    for test_key in included_test_keys:
+                        if not test_key in test:
+                            launch_test = False
+                else:
+                    for test_key in exclude_test_keys:
+                        if test_key in test:
+                            launch_test = False  
+            if ".py" in test and launch_test:
+                test_nb += 1
+                print(test)
+                #test_out = os.system(python_cmd+unit_test_folder+test)
+                test_out = os.system(launcher+unit_test_folder+test)
+                if test_out != 0:
+                    success_flag = False
+                    failed_test.append(test)
+
+        if success_flag == True:
+            line = "--- All tests passed without errors, check that all tests are true"
+
+        else:
+            line = "--- Bugs in NRV, please consider reported errors before simulations\n"
+            line += "--- list of failed tests : ["
+            for t in failed_test:
+                line += t + ", "
+            line = line[:-2] +"]\n"
+        
+        print(line)
+        file_object = open(out_file, "a")
+        file_object.write(line)
+        file_object.close()
+
+
+    if args.SYNTAX_TEST:
+        print("Applying pylint to nrv package")
+        test_out = os.system("pylint nrv --disable=C > ./code_review/nrv_lint.txt")
+        print("--- result saved in ./code_review/")
