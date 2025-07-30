@@ -1,0 +1,64 @@
+Metadata-Version: 2.4
+Name: audioprep
+Version: 1.0.8
+Summary: AI audio preparation tools, including audio trimming, duration calculation, and subtitle correction.
+Author: abo123456789
+Author-email: abcdef123456chen@sohu.com
+Maintainer: abo123456789
+Maintainer-email: abcdef123456chen@sohu.com
+License: MIT License
+Keywords: audio,audio processing,audio trimming,audio duration,subtitle correction,AI tools
+Platform: all
+Classifier: Development Status :: 4 - Beta
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: Implementation
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries
+Description-Content-Type: text/markdown
+Requires-Dist: pydub>=0.25.1
+Requires-Dist: librosa>=0.10.2
+Requires-Dist: wave>=0.0.2
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: keywords
+Dynamic: license
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: platform
+Dynamic: requires-dist
+Dynamic: summary
+
+### AI 音频预处理工具
+#### 功能描述
+* 包含常见的AI音频预处理功能，如音频重采样、音频去空白、音频时长获取等。
+                 
+#### pip安装
+```shell
+pip install audioprep
+```
+
+##### 移除静音
+```
+    from audioprep import silence
+    res = silence.trim_silence("530.mp3", "530_after.mp3")
+    print(res)
+```
+
+##### 音频重采样
+```
+    from audioprep import resample
+    res = resample.resample_audio("530.mp3", 16000)
+    print(res)
+```
+
