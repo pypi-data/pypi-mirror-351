@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dssm_python"
+version = "0.0.3"
+authors = [
+  { name="Louis Schraeder", email="z524037@shibaura-it.ac.jp" },
+  { name="Hiroaki Fukuda", email="hiroaki@shibaura-it.ac.jp" },
+]
+description = "Python interface for DSSM"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+]
+dependencies = [
+  "sysv-ipc",
+]
+
+[project.urls]
+Homepage = "https://github.com/DSSS-Lab/dssm-python.git"
+Issues = "https://github.com/DSSS-Lab/dssm-python/issues"
