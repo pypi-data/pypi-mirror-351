@@ -1,0 +1,26 @@
+Metadata-Version: 2.1
+Name: paddlepaddle-gpu-installer
+Version: 3.0.0
+Summary: PaddlePaddle GPU Installer with Automatic CUDA Source Selection
+Home-page: https://www.paddlepaddle.org.cn/
+Author: PaddlePaddle
+Author-email: paddle-better@baidu.com
+Maintainer: PaddlePaddle
+Maintainer-email: paddle-better@baidu.com
+License: Apache Software License
+Download-URL: https://github.com/PaddlePaddle/Paddle
+Keywords: paddlepaddle gpu installer cuda deep learning
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9,<=3.13
+Description-Content-Type: text/markdown
+
+This installer automatically selects the correct paddlepaddle-gpu package source based on the detected CUDA version on your system.
+
