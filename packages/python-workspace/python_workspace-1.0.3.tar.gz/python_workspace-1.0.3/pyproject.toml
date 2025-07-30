@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "python-workspace"
+version = "v1.0.3"
+description = "Python CLI script to help execute operations on multi-project Python monorepos"
+authors = ["BrandonLWhite <brandonlwhite@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+pyworks = "python_workspace.main:main"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pipx-install]
+poetry = "==2.1.3"
+poethepoet = "==0.34.0"
+
+[tool.poe.tasks]
+test = "pytest"
