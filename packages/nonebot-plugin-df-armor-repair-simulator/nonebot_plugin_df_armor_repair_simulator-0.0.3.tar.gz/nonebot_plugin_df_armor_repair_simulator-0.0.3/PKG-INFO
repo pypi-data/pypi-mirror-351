@@ -1,0 +1,21 @@
+Metadata-Version: 2.3
+Name: nonebot-plugin-df-armor-repair-simulator
+Version: 0.0.3
+Summary: 《三角洲行动》护甲维修模拟器
+Keywords: nonebot,nonebot2,Delta Force,Tools
+Author: BG4JEC
+Author-email: BG4JEC@hotmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: nonebot-adapter-onebot (>=2.4.6,<3.0.0)
+Requires-Dist: nonebot2 (>=2.4.0,<3.0.0)
+Requires-Dist: nonebot_plugin_localstore (>=0.7.3,<1)
+Project-URL: Repository, https://github.com/2580m/nonebot-plugin-df-armor-repair-simulator
+Description-Content-Type: text/markdown
+
+# nonebot_plugin_df_armor_repair_simulator
+>《三角洲行动》护甲维修模拟器
