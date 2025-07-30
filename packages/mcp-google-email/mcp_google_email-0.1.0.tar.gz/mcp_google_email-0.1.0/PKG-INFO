@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: mcp-google-email
+Version: 0.1.0
+Summary: Add your description here
+Home-page: https://github.com/yourusername/mcp-gmail
+Author: Your Name
+Author-email: your.email@example.com
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.68.0
+Requires-Dist: google-api-python-client>=2.0.0
+Requires-Dist: google-auth-httplib2>=0.1.0
+Requires-Dist: google-auth-oauthlib>=0.4.6
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: pydantic>=1.8.0
+Requires-Dist: python-dotenv>=0.19.0
+Requires-Dist: uvicorn>=0.15.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: requires-python
+
+# MCP Gmail Service
+
+A Gmail service implementation using MCP (Model Control Protocol) that provides functionality for sending, receiving, and managing emails through Gmail's API.
+
+## Features
+
+- Email sending and receiving
+- Message listing with search capabilities
+- Reply to existing messages
+- Today's message retrieval
+- Multiple authentication methods support
+
+## Installation
+
+```bash
+pip install mcp-gmail
+```
+
+## Usage
+
+```python
+from mcp_gmail import FastMCP
+
+# Initialize the Gmail service
+gmail_service = FastMCP("GMail")
+
+# List unread messages
+messages = gmail_service.list_message(query='is:unread', max_results=10)
+
+# Send an email
+gmail_service.send_message(
+    to='recipient@example.com',
+    subject='Test Email',
+    message_text='Hello, this is a test email'
+)
+
+# Get today's messages
+todays_messages = gmail_service.get_todays_messages(max_results=20)
+
+# Reply to a message
+gmail_service.reply_to_message(
+    message_id='message_id_here',
+    reply_text='Thank you for your email'
+)
+```
+
+## Authentication
+
+The package supports multiple authentication methods:
+1. Service Account (via GOOGLE_APPLICATION_CREDENTIALS or GOOGLE_CREDENTIALS_CONFIG)
+2. OAuth 2.0 (via credentials.json and token.json)
+3. Application Default Credentials (ADC)
+
+## Requirements
+
+- Python 3.10+
+- google-auth
+- google-auth-oauthlib
+- google-api-python-client
+- mcp-server
+
+## License
+
+MIT License 
