@@ -1,0 +1,31 @@
+Metadata-Version: 2.4
+Name: ensembleswarm
+Version: 1.0a3
+Summary: Ensemble of ensembles regression utility
+Project-URL: Homepage, https://github.com/gperdrizet/ensembleswarm
+Project-URL: Issues, https://github.com/gperdrizet/ensembleswarm/issues
+Author-email: George Perdrizet <george@perdrizet.org>
+License-File: LICENSE
+Requires-Python: >=3.10
+Requires-Dist: catboost
+Requires-Dist: h5py
+Requires-Dist: lightgbm
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: xgboost
+Description-Content-Type: text/markdown
+
+# EnsembleSwarm
+
+[![PyPI release](https://github.com/gperdrizet/ensembleswarm/actions/workflows/publish_pypi.yml/badge.svg)](https://github.com/gperdrizet/ensembleswarm/actions/workflows/publish_pypi.yml) [![Python CI](https://github.com/gperdrizet/ensembleswarm/actions/workflows/python_ci.yml/badge.svg)](https://github.com/gperdrizet/ensembleswarm/actions/workflows/python_ci.yml)[![Devcontainer](https://github.com/gperdrizet/ensembleswarm/actions/workflows/codespaces/create_codespaces_prebuilds/badge.svg)](https://github.com/gperdrizet/ensembleswarm/actions/workflows/codespaces/create_codespaces_prebuilds)
+
+Utility for regression on tabular data, implementing ensembles of ensembles with various SciKit-learn estimators.
+
+## 1. Installation
+
+Install the pre-release alpha from PyPI with:
+
+```bash
+pip install ensembleswarm
+```
