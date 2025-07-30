@@ -1,0 +1,64 @@
+Metadata-Version: 2.4
+Name: mcp-server-beehiiv
+Version: 0.1.0
+Summary: Beehiiv Newsletter Subscription MCP Server using FastMCP.
+Author-email: Your Name <your@email.com>
+Project-URL: Homepage, https://github.com/yourusername/mcp-server-beehiiv
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: fastmcp
+Requires-Dist: python-dotenv
+Requires-Dist: requests
+
+# Beehiiv Newsletter MCP Server
+
+This is a Model Context Protocol (MCP) server that provides a tool for subscribing users to a Beehiiv newsletter using FastMCP.
+
+## Installation
+
+You can install the package and its dependencies using pip (or uv/uvx):
+
+```bash
+pip install .
+# or
+uv pip install .
+```
+
+Or, if published to PyPI:
+
+```bash
+pip install mcp-server-beehiiv
+# or
+uv pip install mcp-server-beehiiv
+```
+
+## Setup
+
+1. Create a `.env` file in the project root with your Beehiiv credentials:
+
+```
+BEEHIIV_PUBLICATION_ID=your_publication_id
+BEEHIIV_API_KEY=your_api_key
+```
+
+## Running the Server
+
+To start the MCP server, run:
+
+```bash
+python -m mcp_server_beehiiv
+```
+
+## Using the Tool
+
+The server exposes a tool called `subscribe_to_newsletter` with the following parameters:
+
+- `email` (required): The email address of the subscriber
+- `first_name` (optional): The subscriber's first name
+- `last_name` (optional): The subscriber's last name
+
+The tool will return the response from the Beehiiv API upon successful subscription.
+
+## Security Note
+
+Never commit your `.env` file or expose your API keys. The `.gitignore` file is configured to prevent accidental commits of sensitive information. 
