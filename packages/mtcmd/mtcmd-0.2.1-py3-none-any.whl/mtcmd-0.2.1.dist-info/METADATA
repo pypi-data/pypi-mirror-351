@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: mtcmd
+Version: 0.2.1
+Summary: Minh-Tri Pham's common Linux scripts
+Home-page: https://github.com/inteplus/mtcmd
+Author: ['Minh-Tri Pham']
+Project-URL: Documentation, https://mtdoc.readthedocs.io/en/latest/mt.cmd/mt.cmd.html
+Project-URL: Source Code, https://github.com/inteplus/mtcmd
+License-File: LICENSE
+Requires-Dist: mtbase>=4.32.20
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: summary
