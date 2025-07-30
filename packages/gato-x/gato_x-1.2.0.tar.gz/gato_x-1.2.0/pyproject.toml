@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gato-x"
+version = "1.2.0"
+description = "GitHub Actions Enumeration and Attack Framework"
+readme = "README.md"
+authors = [
+    {name = "Adnan Khan", email = "adnanthekhan@proton.me"}
+]
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12"
+]
+dependencies = [
+    "colorama",
+    "httpx[socks,http2]",
+    "pyyaml",
+    "cryptography",
+    "networkx"
+]
+
+[project.optional-dependencies]
+test = [
+    "flake8",
+    "pytest",
+    "pytest-cov",
+    "black",
+    "pytest-asyncio",
+    "ruff"
+]
+docs = [
+    "mkdocs",
+    "mkdocs-material"
+]
+mcp = [
+    "fastmcp"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "gatox"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["unit_test"]
+python_files = ["test_*.py"]
+addopts = "--cov=gatox"
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["gatox"]
+
+[tool.coverage.html]
+directory = "cov_html"
+
+[project.scripts]
+gato-x = "gatox.main:entry"
+gatox = "gatox.main:entry"
+gato-x-mcp = "gatox.mcp.mcp_server:entry"
