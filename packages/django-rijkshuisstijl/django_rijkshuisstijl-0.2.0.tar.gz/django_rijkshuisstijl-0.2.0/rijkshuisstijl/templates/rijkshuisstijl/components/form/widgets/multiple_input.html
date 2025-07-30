@@ -1,0 +1,9 @@
+<div class="form-control__choices">
+    {% for group, options, index in widget.optgroups %}
+        {% if group %}<label class="label">{{ group }}</label>{% endif %}
+
+        {% for option in options %}
+            {% include option.template_name with widget=option %}
+        {% endfor %}
+    {% endfor %}
+</div>

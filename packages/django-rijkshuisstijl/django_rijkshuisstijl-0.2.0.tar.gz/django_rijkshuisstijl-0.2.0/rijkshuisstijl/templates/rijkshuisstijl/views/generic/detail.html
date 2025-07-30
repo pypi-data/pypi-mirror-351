@@ -1,0 +1,33 @@
+{% extends template_base|default:'rijkshuisstijl/views/abstract/base.html' %}{% spaceless %}{% load rijkshuisstijl %}
+    {% block content %}
+        <div class="layout">
+            {% block layout %}
+
+
+                {# Toolbar. #}
+                {% block toolbar %}
+                    {% if toolbar_config %}
+                        {% toolbar config=toolbar_config %}
+                    {% endif %}
+                {% endblock %}
+
+
+                {# Title. #}
+                {% block content_title %}
+                    <div class="layout__section layout__section--justify layout__section--pad layout__section--margin">
+                        {% title_header class='title-header--no-margin-bottom' title=object %}
+                        {% block content_title_inner %}{% endblock %}
+                    </div>
+                {% endblock %}
+
+
+                {# Key value table. #}
+                {% block content_body %}
+                    {% key_value_table config=key_value_table_config %}
+                {% endblock %}
+
+
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endspaceless %}

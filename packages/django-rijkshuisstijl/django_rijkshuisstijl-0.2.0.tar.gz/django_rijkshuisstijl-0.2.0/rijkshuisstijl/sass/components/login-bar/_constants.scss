@@ -1,0 +1,9 @@
+@import '../../settings/color';
+@import '../../settings/grid';
+@import '~microscope-sass/lib/grid';
+
+
+$login-bar-color-background: map_get($shades, gray-1)!default;
+$login-bar-color-link-secondary: map_get($shades, gray-6)!default;
+$login-bar-min-height: 32px!default;
+$login-bar-spacing: $grid-margin-2!default;

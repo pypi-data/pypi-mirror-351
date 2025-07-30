@@ -1,0 +1,169 @@
+@import '../../settings/all';
+@import '../../settings/lib/_ro-shade.scss';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import '~microscope-sass/lib/animation';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import '../datagrid/constants';
+@import '../form/input';
+
+.summary {
+  @include border($size: 2px);
+  position: relative;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__title {
+    @include h2(true, padding);
+    @include shade-color('dark-blue');
+    font-weight: normal;
+  }
+
+  .toggle:focus {
+    @include shade-color(heaven-blue, 1, outline-color, $force: true);
+    outline: 2px solid;
+  }
+
+  &__summary > .toggle {
+    @include anchor(true);
+    @include body;
+    @include body--small;
+    @include gutter(top);
+    @include shade(4, color);
+    position: absolute;
+    right: 0;
+  }
+
+  &__summary > &__title + .toggle {
+    @include h2(true, margin);
+  }
+
+  &__arrow {
+    @include animate(transform);
+  }
+
+  &--open &__summary > .toggle &__arrow {
+    @include rotate(180);
+  }
+
+
+  &__summary &__list,
+  &__details &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__summary &__list {
+    @include gutter(padding-top);
+  }
+
+  &__details {
+    height: 0;
+    overflow: hidden;
+  }
+
+  &--open &__details,
+  &__list-item--open &__details {
+    height: auto;
+  }
+
+  &__key-value {
+    @include columns-responsive(4, 4.5, 6, 6);
+    @include gutter(margin-bottom);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__key-value:not(#{&}__key-value--full-width) + &__key-value:not(#{&}__key-value--full-width) {
+    @include omega;
+  }
+
+  &__key-value--full-width {
+    width: 100%;
+    @include omega;
+  }
+
+  &__key,
+  &__value {
+    @include body;
+
+    &:first-letter {
+      text-transform: capitalize;
+    }
+  }
+
+  &__key {
+    @include ellipsis;
+    @include body--small;
+    @include shade(4, color);
+  }
+
+  &__value {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__value a,
+  &__link {
+    @include anchor(true);
+  }
+
+  &__value a {
+    display: contents;
+  }
+
+  &__value .input,
+  &__value .select,
+  &__value .textarea {
+    width: 100%;
+  }
+
+  &__key-value:not(#{&}__key-value--edit) &__value .checkbox,
+  &__key-value:not(#{&}__key-value--edit) &__value .radio,
+  &__key-value:not(#{&}__key-value--edit) &__value .input,
+  &__key-value:not(#{&}__key-value--edit) &__value .select,
+  &__key-value:not(#{&}__key-value--edit) &__value .textarea,
+  &__key-value:not(#{&}__key-value--edit) &__value .help-text,
+  &__key-value:not(#{&}__key-value--edit) ~ &__key-value--actions {
+    display: none;
+    visibility: hidden;
+  }
+
+  &__key-value--edit ~ &__key-value#{&}__key-value--actions {
+    display: table-row;
+    visibility: visible;
+  }
+
+  &__key-value--edit &__value > .toggle:not(.button) {
+    display: none;
+    visibility: hidden;
+  }
+
+  .input,
+  .select {
+    @extend .input--bordered;
+  }
+
+  &__key-value--actions &__value {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  &__key-value--actions [type=reset] {
+    margin-right: $datagrid-spacing-row-h / 2;
+  }
+
+  .toolbar {
+    @include gutter(margin-bottom);
+  }
+}

@@ -1,0 +1,11 @@
+@import '../../settings/all';
+@import "~microscope-sass/lib/typography";
+
+.link {
+  @include body;
+  @include anchor;
+
+  &--big {
+    @include body--big;
+  }
+}

@@ -1,0 +1,8 @@
+{% spaceless %}
+    <header class="title-header{% if class %} {{ class }}{% endif %}">
+        <h1 class="title-header__title">{{ title }}</h1>
+        {% if body %}
+            <p class="title-header__text">{{ body }}</p>
+        {% endif %}
+    </header>
+{% endspaceless %}

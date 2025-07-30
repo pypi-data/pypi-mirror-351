@@ -1,0 +1,46 @@
+{% spaceless %}{% load i18n static rijkshuisstijl %}
+    <div class="summary-list" id="{{ id }}">
+        {# Render inline form #}
+        {% if formset %}
+            <form class="form summary-list__inline-form" id="summary-list-inline-form-{{ id }}" method="post">
+                {% csrf_token %}
+                {{ formset.management_form }}
+            </form>
+        {% endif %}
+
+
+        <header class="summary-list__header">
+            {% if title %}
+                <h2 class="summary-list__title">{{ title }}</h2>
+            {% endif %}
+
+            {% if show_toggle %}
+                <a class="toggle" href="#" data-toggle-modifier="open" data-toggle-target="#{{ id }}">
+                    <span class="summary-list__toggle-label">{% trans 'Alles uitklappen' %}</span>
+                    <span class="summary-list__arrow" />
+                </a>
+            {% endif %}
+        </header>
+
+        <div class="summary-list__body">
+            {% for object in object_list %}
+                {% firstof forloop.counter0|capfirst as index %}
+                {% firstof id|add:'-summary-'|add:index as summary_id %}
+
+                {% if formset %}
+                    {% for formset_form in formset.forms %}
+                        {% if formset_form.instance == object %}
+                            {% firstof 'summary-list-inline-form-'|add:id as form_id %}
+                            {% summary config=config forloop_counter=forloop.counter formset=formset formset_form=formset_form form_id=form_id id=summary_id object=object help_text_position=help_text_position %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% summary config=config id=summary_id object=object help_text_position=help_text_position %}
+                {% endif %}
+
+
+                {% firstof '' as summary_id %}
+            {% endfor %}
+        </div>
+    </div>
+{% endspaceless %}

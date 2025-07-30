@@ -1,0 +1,253 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/animation';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/typography';
+@import '~microscope-sass/lib/transform';
+@import '../../settings/lib/ro-shade';
+@import '../header/constants';
+@import '../login-bar/constants';
+@import 'constants';
+
+
+.navigation-bar {
+  $this: &;
+
+  @media print {
+    display: none;
+  }
+
+  @include mobile-only {
+    @include animate;
+    @include overlay;
+    @include shadow;
+    @include translate(105%);
+    left: auto;
+    right: 0;
+    width: 90%;
+    max-width: 320px;
+    position: fixed;
+    z-index: 1000;
+
+    &:after {
+      @include color-background();
+      @include overlay;
+      content: '';
+      height: 110%;
+      z-index: -1;
+    }
+
+    .view--menu-open & {
+      @include translate(0%);
+    }
+
+    .login-bar {
+      flex-shrink: 0;
+    }
+
+    &__actions {
+      display: flex;
+      flex-shrink: 0;
+    }
+
+    &__actions .menu {
+      width: $navigation-bar-height-search !important;
+      height: $navigation-bar-height-search !important;
+    }
+
+    &__actions .menu .menu {
+      display: none;
+      visibility: hidden;
+    }
+
+    &__body {
+      display: flex;
+      flex-direction: column-reverse;
+      height: 100%;
+    }
+
+    .menu,
+    &__body > ul { // Fixme: ul doesn't get class on empty menu.
+      width: 100%;
+      height: 100%;
+    }
+
+    &__body > .menu {
+      overflow-y: auto;
+    }
+
+
+    .menu__link,
+    .login-bar__link {
+      @include rows(1);
+      display: flex;
+      align-items: center;
+    }
+
+    .menu__link {
+      @include color-primary(color, true);
+    }
+
+    .login-bar {
+      text-align: left;
+      display: block !important;
+    }
+  }
+
+  @include tablet {
+    @include color-primary(background-color);
+    @include container(flex, false);
+    @include container--big(false);
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 10000;
+
+    &--sticky {
+      position: sticky;
+      top: 0;
+    }
+
+    .login-bar {
+      display: none !important;
+    }
+
+    &__body {
+      @include container(flex);
+      justify-content: space-between;
+      align-items: center;
+      min-height: $navigation-bar-min-height-tablet;
+      position: relative;
+    }
+
+    &--compact &__body,
+    &--sticky#{&}--stuck &__body {
+      min-height: $navigation-bar-min-height-tablet-stuck;
+    }
+
+    &--sticky#{&}--stuck &__body {
+      padding-right: 0;
+    }
+
+    &__actions {
+      @include container-padding(normal, padding-left);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 32.5%;
+      height: 100%;
+    }
+
+    .search {
+      max-width: 380px;
+    }
+
+    .search--open {
+      width: 100%;
+    }
+
+    &__profile {
+      height: 100%;
+    }
+
+    &__profile .icon:before {
+      @include color-background;
+    }
+
+    &__actions .menu .menu {
+      right: 0;
+    }
+
+
+    &--compact .menu__link,
+    &--compact .menu__label,
+    &--sticky#{&}--stuck .menu__link,
+    &--sticky#{&}--stuck .menu__label {
+      @include body;
+      @include color-background(color);
+    }
+
+    &--compact .menu__list-item--active .menu__link,
+    &--sticky#{&}--stuck .menu__list-item--active .menu__link {
+      @include color-primary(color);
+    }
+
+    &--dropdown {
+      .menu .menu {
+        @include rows(1, padding-bottom);
+        @include rows(1, padding-top);
+        @include rows(1, padding-bottom);
+        @include rows(1, top);
+        flex-direction: column;
+        height: auto;
+        z-index: -1;
+        visibility: hidden;
+        display: none;
+      }
+
+      #{$this}__body > .menu > .menu__list-item--open > .menu__link:before {
+        @include center-hv;
+        content: "";
+        display: block;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 10px solid;
+        @include color-background(border-bottom-color);
+        top: calc(100% - 5px);
+      }
+
+      #{$this}__body > .menu > .menu__list-item > .menu {
+        @include color-background;
+        @include shadow;
+        width: 100%;
+      }
+
+      .menu .menu .menu__list-item {
+        @include ellipsis;
+        position: static;
+        width: 275px;
+      }
+
+      .menu .menu .menu {
+        $left-tablet: calc(275px + #{$grid-gutter-tablet});
+        $left-laptop: calc(275px + #{$grid-gutter-laptop});
+        $left-desktop: calc(275px + #{$grid-gutter-desktop});
+        @include responsive(left, 0, $left-tablet, $left-laptop, $left-desktop);
+        top: 0;
+      }
+
+      #{$this}__body > .menu > .menu__list-item--open > .menu,
+      #{$this}__body > .menu > .menu__list-item--open .menu__list-item--open > .menu {
+        visibility: visible;
+        display: flex;
+      }
+
+      .menu .menu .menu__link {
+        @include border(bottom);
+        @include shade(2, border-color);
+        @include rows(1, min-height);
+        color: inherit !important;
+        display: flex;
+        align-items: center;
+      }
+
+      .menu .menu .menu__list-item .menu__link:hover,
+      .menu .menu .menu__list-item .menu__link--open {
+        @include color-info(background-color);
+      }
+
+      .menu .menu .menu__list-item:first-child .menu__link {
+        @include border(top);
+        @include shade(2, border-color);
+      }
+
+      .menu .menu .menu__list-item--active .menu__link {
+        background-color: transparent;
+        font-weight: bold;
+      }
+
+      .search .input {
+        height: $grid-row-height - $typography-size-border * 2;
+      }
+    }
+  }
+}

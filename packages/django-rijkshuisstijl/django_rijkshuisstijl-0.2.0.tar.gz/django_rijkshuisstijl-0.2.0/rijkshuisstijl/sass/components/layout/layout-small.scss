@@ -1,0 +1,8 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+
+.layout {
+  &--small {
+    @include container--small;
+  }
+}

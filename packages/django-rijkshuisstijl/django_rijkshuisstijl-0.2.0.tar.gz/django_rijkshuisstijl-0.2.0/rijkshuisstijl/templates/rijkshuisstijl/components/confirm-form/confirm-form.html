@@ -1,0 +1,20 @@
+{% spaceless %}{% load rijkshuisstijl %}
+    <form class="confirm-form{% if class %} {{ class }}{% endif %}" id="{{ id }}" method="{{ method }}">
+        {% textbox title=title text=text status=status %}
+        {% stacked_list object_list %}
+        {% csrf_token %}
+
+        {% for object in object_list %}
+            <input id="{{ id }}_{{ forloop.counter0 }}" name="{{ name_object }}" value="{{ object.pk }}" type="hidden" />
+        {% endfor %}
+
+
+        <div class="toolbar">
+            <ul class="toolbar__list">
+                <li class="toolbar__list-item">
+                    {% button class='button--danger button--small' label=label_confirm name=name_confirm value='true' type='submit' %}
+                </li>
+            </ul>
+        </div>
+    </form>
+{% endspaceless %}

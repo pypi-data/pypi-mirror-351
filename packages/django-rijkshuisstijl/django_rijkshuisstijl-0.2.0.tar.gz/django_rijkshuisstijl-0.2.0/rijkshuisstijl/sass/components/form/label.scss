@@ -1,0 +1,11 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/typography';
+
+.label {
+  @include body;
+  font-weight: bold;
+
+  &:first-letter {
+    text-transform: capitalize;
+  }
+}

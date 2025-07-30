@@ -1,0 +1,94 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/responsive';
+@import '~microscope-sass/lib/grid';
+@import 'constants';
+
+.view {
+  @media print {
+    font-size: 10pt !important;
+  }
+
+  &__body {
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  &__content,
+  .layout {
+    @include responsive(min-height, $view-min-height-content-mobile, $view-min-height-content-tablet);
+  }
+
+  .header + &__content:last-child,
+  .header + &__content:last-child .layout {
+    @include responsive(min-height, $view-min-height-content-no-nav-no-footer-mobile, $view-min-height-content-no-nav-no-footer-tablet)
+  }
+
+  .layout {
+    position: relative;
+  }
+
+
+  .navigation-bar--compact + &__content .layout {
+    min-height: $view-min-height-content-tablet-compact;
+  }
+
+  &--vcenter &__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  &--small .article__body,
+  &--small .layout,
+  &--small .login-bar__body,
+  &--small .navigation-bar__body {
+    @include container--small;
+  }
+
+  &--big .article__body,
+  &--big .layout,
+  &--big .login-bar__body,
+  &--big .navigation-bar__body {
+    @include container--big;
+  }
+
+  &--full-width .article__body,
+  &--full-width .layout:not(.layout--small),
+  &--full-width .login-bar__body,
+  &--full-width .navigation-bar__body {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  &--full-width .navigation-bar--dropdown .menu .menu {
+    @include tablet {
+      @include container-padding;
+    }
+  }
+
+  &--full-width .layout > .form,
+  &--full-width .layout > .key-value-table,
+  &--full-width .layout > .title-header {
+    @include container-padding;
+  }
+
+  &--full-width .navigation-bar__body,
+  &--full-width .menu {
+    padding-left: 0;
+  }
+
+  &--full-width .navigation-bar__body {
+    padding-right: 0;
+  }
+
+  .header {
+    @include mobile-only(screen) {
+      position: sticky;
+      top: 0;
+    }
+  }
+
+  .login-bar {
+    @include hide-on-mobile;
+  }
+}

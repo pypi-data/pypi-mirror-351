@@ -1,0 +1,10 @@
+{% spaceless %}
+{% if href %}<a class="image-link" href="{{ href }}">{% endif %}
+    <picture class="image{% if class %} {{ class }}{% endif %}">
+        {% if mobile_src %}<source media="(max-width: 767px)" srcset="{{ mobile_src }}">{% endif %}
+        {% if tablet_src %}<source media="(max-width: 991px)" srcset="{{ tablet_src }}">{% endif %}
+        {% if laptop_src %}<source media="(max-width: 1199pxpx)" srcset="{{ laptop_src }}">{% endif %}
+        <img class="image__image{% if object_fit == True %} object-fit{% endif %}" src="{{ src }}" alt="{{ alt }}"{% if width %} width="{{ width }}"{% endif %}{% if height %} height="{{ height }}"{% endif %}{% if hide_on_error %} onerror="this.style.visibility='hidden';" {% endif %} />
+    </picture>
+{% if href %}</a>{% endif %}
+{% endspaceless %}

@@ -1,0 +1,5 @@
+<div class="checkbox">
+    <input class="input" type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "rijkshuisstijl/components/form/widgets/attrs.html" %}>
+    <div class="checkbox__checkmark"></div>
+    {% if widget.wrap_label %}{% include 'rijkshuisstijl/components/form/label.html' with for=widget.attrs.id label=widget.label only %}{% endif %}
+</div>

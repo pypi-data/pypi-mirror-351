@@ -1,0 +1,4 @@
+<div class="checkbox">
+    <input class="input{% if widget.attrs.class %} {{ widget.attrs.class }}{% endif %}" type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "rijkshuisstijl/components/form/widgets/attrs.html" %}>
+    <div class="checkbox__checkmark"></div>
+</div>

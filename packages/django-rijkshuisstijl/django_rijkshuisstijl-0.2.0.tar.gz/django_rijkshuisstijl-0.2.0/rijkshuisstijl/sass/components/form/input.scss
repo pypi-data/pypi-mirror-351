@@ -1,0 +1,69 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/transform';
+@import 'constants';
+@import 'mixins';
+
+.input {
+  @include input;
+
+  &:not([type=checkbox]):not([type=radio]) {
+    appearance: none;
+    line-height: 1.5 !important;
+  }
+
+  &--date,
+  &[type*=date] {
+    @include rows(1, padding-right, $force: true);
+    background: $input-background-date, $input-background-button;
+    @include color-background;
+  }
+
+  &--light#{&}--date,
+  &--light#{&}[type*=date] {
+    background: $input-background-date-gray;
+    @include color-background;
+  }
+
+  &[type=file],
+  &--light#{&}[type=file] + &__filepicker {
+    @include rows(1, padding-right, $force: true);
+    background: $input-background-file, $input-background-button;
+    @include color-background;
+  }
+
+  &--light#{&}[type=file],
+  &--light#{&}[type=file] + &__filepicker {
+    background: $input-background-file-gray;
+    @include color-background;
+  }
+
+  &[type=search] {
+    @include rows(1, padding-right, $force: true);
+    background: $input-background-search, $input-background-button;
+    @include color-background;
+  }
+
+  &--light#{&}[type=search] {
+    background: $input-background-search-gray;
+    @include color-background;
+  }
+
+  &--hidden {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  &__filepicker {
+    @include input;
+    background: $input-background-file, $input-background-button, $input-background-input;
+    @include color-background;
+    content: attr(value);
+  }
+
+  &__filepicker--light {
+    @include input;
+    background: $input-background-file-gray, $input-background-input;
+    content: attr(value);
+  }
+}

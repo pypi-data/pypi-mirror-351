@@ -1,0 +1,21 @@
+{% load rijkshuisstijl sitetree %}{% singleline %}
+    {% sitetree_url for item as href %}
+
+    <li class="menu__list-item{% if item.is_current or item.in_current_branch %} menu__list-item--active{% endif %}" id="menu-list-item-{{ item.pk }}">
+        <a class="menu__link{% if item.has_children %} toggle{% endif %}" href="{{ href }}"{% if item.hint %} title="{{ item.hint }}"{% endif %}{% if item.has_children %} data-toggle-target="#menu-list-item-{{ item.pk }}" data-toggle-modifier="open" data-toggle-link-mode="prevent"{% if not item.parent %} data-toggle-exclusive=".menu__list-item"{% endif %}{% endif %}>
+            {% if not item.parent and item.has_children %}
+                {% icon 'fa-bars' %}
+            {% elif href == '/' %}
+                {% icon 'fa-home' %}
+            {% endif %}
+
+            {{ item.title_resolved }}
+
+            {% if item.has_children and item.parent %}{% icon 'fa-chevron-right' %}{% endif %}
+        </a>
+
+        {% if item.has_children %}
+            {% sitetree_children of item for menu template 'rijkshuisstijl/components/navigation-bar/menu.html' %}
+        {% endif %}
+    </li>
+{% endsingleline %}

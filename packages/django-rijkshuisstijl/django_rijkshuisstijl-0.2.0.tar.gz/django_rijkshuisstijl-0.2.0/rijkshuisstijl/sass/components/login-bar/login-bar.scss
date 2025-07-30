@@ -1,0 +1,33 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/typography';
+@import 'constants';
+
+
+.login-bar {
+  @include container(flex, false);
+  @include container--big(false);
+  align-items: center;
+  background-color: $login-bar-color-background;
+  text-align: right;
+
+  @media print {
+    display: none;
+  }
+
+  &__body {
+    @include body;
+    @include container;
+    margin: 0 auto;
+    min-height: 32px;
+  }
+
+  &__link {
+    @include anchor;
+    margin-left: $login-bar-spacing;
+  }
+
+  &__link--secondary {
+    color: $login-bar-color-link-secondary;
+  }
+}

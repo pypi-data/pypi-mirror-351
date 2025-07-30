@@ -1,0 +1,9 @@
+@import "rijkshuisstijl";
+
+
+@media print {
+  @page {
+    size: landscape;
+  }
+}
+

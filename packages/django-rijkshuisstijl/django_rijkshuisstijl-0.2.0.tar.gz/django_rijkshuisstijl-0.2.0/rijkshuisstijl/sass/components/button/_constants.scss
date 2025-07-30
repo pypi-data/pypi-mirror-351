@@ -1,0 +1,12 @@
+@import '../../settings/color';
+@import '../../settings/grid';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+
+$button-color-danger: $color-danger-dark;
+$button-color-info: $color-info-dark;
+$button-color-success: $color-success-dark;
+$button-color-warning: $color-warning-dark;
+$button-height-small: $grid-margin-4;
+$button-padding: 0 $grid-margin-3;
+$button-spacing: $grid-margin-0;

@@ -1,0 +1,19 @@
+@import '../../settings/all';
+@import '../../settings/lib/_sticky.scss';
+@import '../toolbar/constants';
+@import '../view/constants';
+
+.confirm-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .stacked-list {
+    @include responsive(min-height, $view-min-height-content-mobile, $view-min-height-content-tablet);
+  }
+
+  .toolbar {
+    @include sticky(0, 'bottom');
+    padding: 0 $toolbar-spacing;
+  }
+}

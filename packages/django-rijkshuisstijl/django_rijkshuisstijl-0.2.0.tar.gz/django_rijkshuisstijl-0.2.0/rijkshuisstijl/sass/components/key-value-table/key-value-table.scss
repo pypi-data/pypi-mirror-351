@@ -1,0 +1,82 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/typography';
+@import '../../settings/lib/ro-shade';
+@import '../form/constants';
+
+.key-value-table {
+  &__table {
+    border-spacing: 0;
+    width: 100%;
+  }
+
+  &__caption {
+    @include h2(true, padding);
+    @include shade-color('dark-blue');
+    font-weight: normal;
+    text-align: left;
+  }
+
+  &__key,
+  &__value {
+    text-align: left;
+    vertical-align: top;
+    word-break: break-all;
+  }
+
+  &--justify &__key,
+  &--justify &__value {
+    width: 50%;
+  }
+
+  &:not(#{&}--justify) &__key {
+    width: calc(#{$label-width} + #{$form-control-spacing});
+  }
+
+  &__key,
+  &__value {
+    @include body;
+  }
+
+  &__key {
+    @include ellipsis;
+    @include shade(4, color);
+  }
+
+  &__value a {
+    @include anchor(true);
+  }
+
+  &__value .input,
+  &__value .select,
+  &__value .textarea {
+    width: 100%;
+  }
+
+  &__row:not(#{&}__row--edit) &__value .checkbox,
+  &__row:not(#{&}__row--edit) &__value .radio,
+  &__row:not(#{&}__row--edit) &__value .input,
+  &__row:not(#{&}__row--edit) &__value .select,
+  &__row:not(#{&}__row--edit) &__value .textarea,
+  &__row:not(#{&}__row--edit) ~ &__row--actions {
+    display: none;
+    visibility: hidden;
+  }
+
+  &__row--edit ~ &__row#{&}__row--actions {
+    display: table-row;
+    visibility: visible;
+  }
+
+  &__row--edit &__value .toggle {
+    display: none;
+    visibility: hidden;
+  }
+
+  .input,
+  .select {
+    @include border(all);
+    @include color-primary(border-color);
+  }
+}

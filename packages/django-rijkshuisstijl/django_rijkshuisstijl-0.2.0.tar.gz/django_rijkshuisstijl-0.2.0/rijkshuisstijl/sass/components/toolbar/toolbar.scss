@@ -1,0 +1,121 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/responsive';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import '../../settings/lib/sticky';
+@import 'constants';
+
+.toolbar {
+  @include body;
+  @include rows(1, min-height);
+  @include sticky(null, top, true);
+  background-color: $toolbar-color-background;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  z-index: 100;
+
+  @media print {
+    display: none;
+  }
+
+  @include mobile-only {
+    width: 100%;
+  }
+
+  &--align-right {
+    justify-content: flex-end;
+  }
+
+  &--justify {
+    justify-content: space-between;
+  }
+
+  &--compact {
+    height: auto;
+  }
+
+  &--dark {
+    background-color: darken($toolbar-color-background, 4);
+  }
+
+  &--transparent {
+    background-color: transparent;
+  }
+
+  &--pad {
+    padding: 0 $toolbar-spacing;
+  }
+
+  &__list,
+  &__list-item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__list:not(:last-child) {
+    @include laptop {
+      @include responsive(margin-right, $toolbar-spacing, $toolbar-spacing * 2, $toolbar-spacing * 4);
+    }
+  }
+
+  &--spaced &__list-item:not(:last-child) {
+    @include tablet {
+      margin-right: $toolbar-spacing;
+    }
+  }
+
+
+  &--responsive &__list,
+  &--responsive &__list-item {
+    @include mobile-only {
+      align-self: flex-start;
+      width: 100%;
+    }
+  }
+
+  &--responsive &__list {
+    @include responsive(flex-direction, column, row);
+  }
+
+  &--responsive#{&}--spaced &__list-item {
+    margin-bottom: $toolbar-spacing;
+  }
+
+  &--responsive .button,
+  &--responsive .input:not([type=checkbox]):not([type=radio]),
+  &--responsive .select {
+    @include mobile-only {
+      width: 100%;
+    }
+  }
+
+  .select {
+    @include laptop {
+      max-width: 300px;
+    }
+  }
+
+
+  &__label,
+  + .datagrid {
+    border-top: none;
+  }
+
+  + .key-value-table {
+    @include margin(true, margin-top);
+  }
+
+  ~ .tabs--sticky .tabs__navigation {
+    @include laptop {
+      @include sticky($grid-row-height);
+    }
+  }
+}

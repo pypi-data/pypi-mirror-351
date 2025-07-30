@@ -1,0 +1,372 @@
+@import '../../settings/all';
+@import '../../settings/color';
+@import '../../settings/lib/ro-shade';
+@import '../../settings/lib/sticky';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/responsive';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import '../button/constants';
+@import '../button/mixins';
+@import '../form/constants';
+@import '../header/constants';
+@import '../form/mixins';
+@import '../icon/mixins';
+@import '../toolbar/constants';
+@import './constants';
+
+
+.datagrid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  @media print {
+    &__row--filters {
+      display: none;
+    }
+
+    &__caption,
+    &__cell {
+      border-width: 1px !important;
+    }
+
+    &__cell--checkbox {
+      width: 0 !important;
+
+      * {
+        display: none;
+      }
+    }
+  }
+
+  &--fit {
+    width: 100%;
+  }
+
+  // FIXME
+  &--scroll {
+    max-height: 50vh;
+  }
+
+  &__header,
+  &__footer {
+    flex-shrink: 0;
+  }
+
+  &__header {
+    z-index: 10;
+  }
+
+  &__footer {
+    @include tablet {
+      @include sticky(0, 'bottom');
+    }
+  }
+
+  &__footer .toolbar__list-item {
+    margin-bottom: 0 !important;
+  }
+
+  .toolbar:empty {
+    display: none;
+  }
+
+  &--fit &__form {
+    height: 100%;
+  }
+
+  &--fit &__body {
+    height: calc(100% - #{2* $grid-row-height});
+  }
+
+  &--overflow &__body {
+    overflow: auto;
+  }
+
+  &--overflow-mobile &__body {
+    @include mobile-only {
+      overflow: auto;
+    }
+  }
+
+  &__title {
+    @include h4;
+  }
+
+  &__table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  &--fixed &__table {
+    table-layout: fixed;
+  }
+
+  &__row--cells:not(&__row--placeholder):hover {
+    @include color-info(background-color);
+  }
+
+  @each $color-name, $color in $colors {
+    &__row--#{$color-name}:not(:hover) {
+      background-color: rgba($color, 0.2);
+    }
+
+    &__row--#{$color-name} &__cell:first-child:before {
+      @include overlay;
+      content: '';
+      width: 4px;
+      background-color: $color;
+    }
+
+    &__row--#{$color-name} &__cell--modifier &__label {
+      color: $color;
+    }
+  }
+
+  &__caption,
+  &__filter,
+  &__cell {
+    @include body;
+    box-sizing: border-box;
+    position: relative;
+    text-align: left;
+
+    &--checkbox {
+      text-overflow: clip;
+      width: calc(#{$checkbox-size} + 2 * #{$datagrid-spacing});
+    }
+  }
+
+  &--ellipsis &__caption,
+  &--ellipsis &__cell {
+    @include ellipsis;
+  }
+
+  &--nowrap &__caption,
+  &--nowrap &__cell {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &__caption,
+  &__filter {
+    background-color: $toolbar-color-background;
+    z-index: 10;
+  }
+
+  &__caption {
+    @include body--small;
+    @include shade(3, color);
+    padding: 0 $datagrid-spacing-row-h / 2;
+
+    &:first-child {
+      padding-left: $datagrid-spacing-row-h;
+    }
+
+    &:last-child {
+      padding-right: $datagrid-spacing-row-h;
+    }
+  }
+
+  &__caption#{&}__caption--checkbox {
+    padding-left: $datagrid-spacing-row-h * 2;
+  }
+
+  &__caption--ordered-asc,
+  &__caption--ordered-desc {
+    @include anchor(true);
+  }
+
+  &__caption--group {
+    z-index: -10;
+  }
+
+  &__filter {
+    @include shade(1, background-color);
+    padding: $datagrid-spacing-row-v $datagrid-spacing-row-h / 2;
+
+    @include tablet {
+      @include sticky;
+    }
+
+    @include desktop {
+      @include sticky;
+    }
+
+    &:first-child {
+      padding-left: $datagrid-spacing-row-h;
+    }
+
+    &:last-child {
+      padding-right: $datagrid-spacing-row-h;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      height: $datagrid-filter-height;
+      padding: 0 $datagrid-spacing-row-h;
+
+      &[select],
+      &[value] {
+        @include color-info(background-color);
+      }
+    }
+  }
+
+  &--overflow-mobile &__filter {
+    @include mobile-only {
+      position: static;
+    }
+  }
+
+  &__caption--orderable &__icon {
+    @extend .fas;
+    @extend .fa-sort;
+    @include center-v;
+    right: $datagrid-spacing-row-h;
+  }
+
+  &__caption--ordered-asc &__icon {
+    @extend .fa-sort-up;
+  }
+
+  &__caption--ordered-desc &__icon:before {
+    @extend .fa-sort-down;
+  }
+
+  &__caption--orderable &__link {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &--overflow &__caption {
+    position: static;
+  }
+
+  &--overflow-mobile &__caption {
+    @include mobile-only {
+      position: static;
+    }
+  }
+
+  &__subtitle {
+    @include h2($datagrid-spacing);
+    @include rows(1, margin-top);
+  }
+
+  &__cell {
+    @include border;
+    padding: $datagrid-spacing-row-v $datagrid-spacing-cell-h;
+    position: relative;
+
+    &:first-child:not(#{&}--checkbox) {
+      padding-left: $datagrid-spacing-row-h * 2;
+    }
+
+    &:last-child {
+      padding-right: $datagrid-spacing-row-h * 2;
+    }
+  }
+
+  &__table-head--group + &__table-body &__row:first-child &__cell {
+    @include border(top);
+  }
+
+  &__row--edit {
+    @include color-info(background-color);
+    vertical-align: top;
+  }
+
+  &__row--nomatch:not(&__row--placeholder) &__cell {
+    opacity: 0.5;
+  }
+
+  &__row--placeholder &__cell {
+    @include shade(3, color);
+    text-align: center;
+  }
+
+  &__cell a:not(.button),
+  &__link,
+  &__link &__label {
+    @include anchor(true);
+  }
+
+  &__caption &__link {
+    @include ellipsis;
+    color: inherit;
+    margin-right: $datagrid-spacing-cell-h;
+  }
+
+  &__label {
+    @include body;
+  }
+
+  &__row--edit &__cell--editable &__label {
+    display: none;
+    visibility: hidden;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    width: 100%;
+    z-index: 1;
+  }
+
+  .textarea {
+    $height-mobile: calc(#{2 * $input-padding-h} + #{2 * $typography-line-height-text-mobile * $typography-font-size-text-mobile});
+    $height-tablet: calc(#{2 * $input-padding-h} + #{2 * $typography-line-height-text-tablet * $typography-font-size-text-tablet});
+    $height-laptop: calc(#{2 * $input-padding-h} + #{2 * $typography-line-height-text-laptop * $typography-font-size-text-laptop});
+    $height-desktop: calc(#{2 * $input-padding-h} + #{2 * $typography-line-height-text-desktop * $typography-font-size-text-desktop});
+    @include responsive(height, $height-mobile, $height-tablet, $height-laptop, $height-desktop);
+    min-height: 0;
+  }
+
+  &__row:not(#{&}__row--edit) &__cell--editable .checkbox,
+  &__row:not(#{&}__row--edit) &__cell--editable .radio,
+  &__row:not(#{&}__row--edit) &__cell--editable .input,
+  &__row:not(#{&}__row--edit) &__cell--editable .select,
+  &__row:not(#{&}__row--edit) &__cell--editable .textarea {
+    display: none;
+    visibility: hidden;
+  }
+
+  &:not(#{&}--edit) &__button--reset,
+  &:not(#{&}--edit) &__button--save {
+    display: none;
+    visibility: hidden;
+  }
+
+  &__button--reset {
+    margin-right: $datagrid-spacing-row-h / 2;
+  }
+
+  .toolbar .checkbox {
+    margin-left: calc(#{$datagrid-spacing-cell-h} - #{$datagrid-spacing-row-h});
+    margin-right: $datagrid-spacing-row-h;
+  }
+
+  .toolbar__list-item:not(:last-child) {
+    margin-right: $datagrid-spacing-row-h;
+  }
+
+  .toolbar .select {
+    @extend .select--bordered !optional;
+    @extend .select--big !optional;
+  }
+
+  .toolbar &__result-count {
+    @include body;
+    @include hide-on-mobile;
+    @include shade(3, color);
+  }
+}

@@ -1,0 +1,12 @@
+{% spaceless %}{% load rijkshuisstijl %}
+<aside class="card{% if class %} {{ class }}{% endif %}">
+    {% if title %}<h2 class="card__title">{{ title }}</h2>{% endif %}
+    {% if text %}<p class="card__text">{% if urlize %}{{ text|rh_urlize:urlize_target }}{% else %}{{ text }}{% endif %}</p>{% endif %}
+    {% if wysiwyg %}<div class="wysiwyg">{{ wysiwyg }}</div>{% endif %}
+
+    {% if button_config %}
+        {% button_link config=button_config %}
+    {% endif %}
+</aside>
+{% endspaceless %}
+

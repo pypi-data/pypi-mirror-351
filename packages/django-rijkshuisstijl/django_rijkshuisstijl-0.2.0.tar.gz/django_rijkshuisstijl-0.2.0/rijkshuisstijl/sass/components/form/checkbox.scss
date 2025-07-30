@@ -1,0 +1,11 @@
+@import '../../settings/all';
+@import 'mixins';
+
+
+.checkbox {
+  @include checkbox;
+
+  .input:checked + &__checkmark {
+    border-color: transparent;
+  }
+}

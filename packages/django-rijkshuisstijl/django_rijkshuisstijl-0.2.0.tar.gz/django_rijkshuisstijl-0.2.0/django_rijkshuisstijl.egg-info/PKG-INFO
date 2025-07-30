@@ -1,0 +1,129 @@
+Metadata-Version: 2.4
+Name: django-rijkshuisstijl
+Version: 0.2.0
+Summary: Rijkshuisstijl boilerplate for Django.
+Home-page: https://github.com/maykinmedia/django-rijkshuisstijl
+Author: Maykin Media
+Author-email: support@maykinmedia.nl
+License: MIT
+Keywords: Rijkshuisstijl
+Classifier: Development Status :: 3 - Alpha
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4.2
+Classifier: Framework :: Django :: 5.2
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+License-File: LICENSE
+Requires-Dist: beautifulsoup4
+Requires-Dist: django
+Requires-Dist: django-sitetree
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-django; extra == "tests"
+Requires-Dist: tox; extra == "tests"
+Requires-Dist: isort; extra == "tests"
+Provides-Extra: pep8
+Requires-Dist: flake8; extra == "pep8"
+Provides-Extra: coverage
+Requires-Dist: pytest-cov; extra == "coverage"
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinx-rtd-theme; extra == "docs"
+Provides-Extra: release
+Requires-Dist: bumpversion; extra == "release"
+Dynamic: license-file
+
+=====================
+django-rijkshuisstijl
+=====================
+
+Rijkshuisstijl boilerplate for Django.
+
+:Version: 0.2.0
+:Source: https://github.com/maykinmedia/django-rijkshuisstijl
+:Keywords: ``Django, rijkshuisstijl``
+:PythonVersion: 3.11
+
+
+.. contents::
+
+.. section-numbering::
+
+Features
+========
+
+* Basic rijkshuisstijl (Dutch government branding) layout including headers, footer, buttons, forms and more.
+* Modular setup using inclusion tags.
+* Responsive
+
+Installation
+============
+
+Requirements
+------------
+
+* Python 3.6 or above
+* setuptools 30.3.0 or above
+* Django 1.11 or above
+
+
+Install
+-------
+
+Install from PyPI with pip:
+
+.. code-block:: bash
+
+    pip install django-rijkshuisstijl
+
+
+Then add "rijkshuisstijl" and "sitetree" to INSTALLED_APPS.
+
+Usage
+=====
+
+Add CSS/JS/icons to your main template:
+
+.. code-block:: html
+
+    {% load rijkshuisstijl %}
+    <!DOCTYPE html>
+    <html lang="nl" class="views">
+    <head>
+        {% meta_css %}
+        {% meta_icons %}
+    </head>
+    <body class="view__body">
+        {% meta_js %}
+    </body>
+
+Then add the basic structure, supply the current urls for various urls (depending on your project):
+
+.. code-block:: html
+
+    {% load rijkshuisstijl %}
+    <!DOCTYPE html>
+    <html lang="nl" class="views">
+    <head>
+        {% meta_css %}
+        {% meta_icons %}
+    </head>
+    <body class="view__body">
+        {% skiplink %}
+        {% login_bar details_url='#' logout_url='#' login_url='#' registration_url='#' %}
+        {% header %}
+        {% navigation_bar details_url='#' logout_url='#' login_url='#' registration_url='#' %}
+
+        <main class="view__content">
+            {% skiplink_target %}
+        </main>
+
+        {% footer %}
+        {% meta_js %}
+    </body>
+
+See the documentation for further information about logos, navigation, forms and datagrids.

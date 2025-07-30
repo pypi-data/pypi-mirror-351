@@ -1,0 +1,27 @@
+{% extends template_base|default:'rijkshuisstijl/views/abstract/base.html' %}{% spaceless %}{% load rijkshuisstijl %}
+    {% block content %}
+        <div class="layout">
+            {% block layout %}
+
+
+                {# Title. #}
+                {% block content_title %}
+                    {% if title_header_config.title %}
+                        <div class="layout__section layout__section--justify layout__section--pad layout__section--margin">
+                            {% title_header class='title-header--no-margin-bottom' config=title_header_config %}
+                            {% block content_title_inner %}{% endblock %}
+                        </div>
+                    {% endif %}
+                {% endblock %}
+
+
+                {# Datagrid. #}
+                {% block content_body %}
+                    {% datagrid config=datagrid_config %}
+                {% endblock %}
+
+
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endspaceless %}

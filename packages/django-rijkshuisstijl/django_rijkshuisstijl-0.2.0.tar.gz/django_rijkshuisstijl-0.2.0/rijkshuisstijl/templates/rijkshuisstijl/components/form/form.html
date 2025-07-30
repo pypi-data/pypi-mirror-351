@@ -1,0 +1,78 @@
+{% spaceless %}{% load i18n rijkshuisstijl %}
+    <{{ tag }} class="form{% if compact %} form--compact{% endif %}{% if class %} {{ class }}{% endif %}"{% if id %} id="{{ id }}"{% endif %}{% if tag == 'form' %}{% if action %} action="{{ action }}"{% endif %} method="{{ method|default:'post' }}" enctype="{{ enctype|default:'multipart/form-data' }}"{% endif %}>
+        {{ form.media }}
+
+        {#  Form header. #}
+        {% if title or subtitle or intro or wysiwyg or text %}
+            <header class="form__header">
+                {% if title %}<h1 class="form__title">{{ title }}</h1>{% endif %}
+                {% if subtitle %}<h2 class="form__subtitle">{{ subtitle }}</h2>{% endif %}
+                {% if intro or wysiwyg %}{% intro text=intro urlize=urlize wysiwyg=wysiwyg status=intro_status %}{% endif %}
+                {% if text %}{% textbox text=text urlize=urlize status=status %}{% endif %}
+            </header>
+        {% endif %}
+
+        {# Form body. #}
+        <div class="form__body">
+            {% csrf_token %}
+
+            {#  Non field errors. #}
+            {% for error in form.non_field_errors %}
+                {% include 'rijkshuisstijl/components/form/errors.html' with class='errors--non-field' errors=error only %}
+            {% endfor %}
+
+            {# Fielsets (define fieldsets on form using admin fieldset syntax). #}
+            {% if form.fieldsets %}
+                {% for fieldset in form.fieldsets %}
+
+                    {# First fieldset gets actions appended to it if actions_postion equals top or both. #}
+                    {% if forloop.first and actions_position in 'top,both' %}
+                        <div class="form__body form__body--transparent">
+                            {% include 'rijkshuisstijl/components/form/form_actions.html' with actions=actions align=actions_align button_class=button_class disabled=disabled label=label form_id=id %}
+                        </div>
+                        <br>
+                    {% endif %}
+
+                    {# Fieldset legend gets replaced by caption. #}
+                    {% if fieldset.0 %}<h2 class="form__caption" id="{{ fieldset.0|slugify }}" aria-hidden="true">{{ fieldset.0 }}</h2>{% endif %}
+                    {% if forloop.first %}<p class="form__required-label">* {{ _('verplichte velden') }}</p>{% endif %}
+
+                    <fieldset class="form__fieldset{% if fieldset.1.classes %} {{ fieldset.1.classes|join:' ' }}{% endif %}">
+                        {% if fieldset.0 %}<legend class="form__legend">{{ fieldset.0 }}</legend>{% endif %}
+                        {% if fieldset.1.description %}<p class="form__description">{{ fieldset.1.description }}</p>{% endif %}
+
+                        {# Render the field in form controls. #}
+                        {% for field in form %}
+                            {% if field.name in fieldset.1.fields %}
+                                {% form_control form field class='form-control--choices-stacked' disabled=disabled help_text_position=help_text_position %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {# Last fieldset gets actions appended to it if actions_postion equals bottom. #}
+                        {% if forloop.last and actions_position == 'auto' %}
+                            {% include 'rijkshuisstijl/components/form/form_actions.html' with actions=actions align=actions_align button_class=button_class disabled=disabled label=label form_id=id %}
+                        {% endif %}
+                    </fieldset>
+
+                    {# Last fieldset gets actions appended to it if actions_postion equals auto, bottom or both. #}
+                    {% if forloop.last and actions_position in 'bottom,both' %}
+                        <br>
+                        <div class="form__body">
+                            {% include 'rijkshuisstijl/components/form/form_actions.html' with actions=actions align=actions_align button_class=button_class disabled=disabled label=label form_id=id %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            {#  No fieldsets.#}
+            {% else %}
+                <fieldset class="form__fieldset">
+                    {% for field in form %}
+                        {% form_control form field class='form-control--choices-stacked' disabled=disabled help_text_position=help_text_position %}
+                    {% endfor %}
+
+                    {% include 'rijkshuisstijl/components/form/form_actions.html' with actions=actions align=actions_align button_class=button_class disabled=disabled label=label form_id=id %}
+                </fieldset>
+            {% endif %}
+        </div>
+    </{{ tag }}>
+{% endspaceless %}

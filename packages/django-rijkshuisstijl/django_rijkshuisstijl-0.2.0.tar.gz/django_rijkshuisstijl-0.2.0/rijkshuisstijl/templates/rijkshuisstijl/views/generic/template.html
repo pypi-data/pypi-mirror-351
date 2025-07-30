@@ -1,0 +1,22 @@
+{% extends template_base|default:'rijkshuisstijl/views/abstract/base.html' %}{% spaceless %}{% load rijkshuisstijl %}
+    {# Centered body. #}
+    {% block body-class %}{{ block.super }} view--vcenter{% endblock %}
+
+
+    {# Content. #}
+    {% block content %}
+        <div class="layout layout--small">
+            {% block layout %}
+
+
+                {# Textbox. #}
+                {% block content_body %}
+                    {% textbox config=textbox_config %}
+                {% endblock %}
+
+
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endspaceless %}
+

@@ -1,0 +1,134 @@
+@import '../../settings/all';
+@import '../../settings/lib/ro-shade';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/responsive';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+
+.menu {
+  @include clearfix;
+  @include responsive(flex-direction, column, row);
+  align-self: stretch;
+  display: flex;
+  align-items: stretch;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & & {
+    @include tablet {
+      @include absolute(100%, 0);
+      @include gutter(padding-left);
+      @include rows(1);
+      visibility: hidden;
+
+      &:before {
+        @include rows(1);
+        content: '';
+        position: absolute;
+        left: -100vw;
+        width: 200vw;
+        z-index: 1;
+      }
+    }
+  }
+
+  //&__list-item:hover &,
+  &__list-item--open &,
+  &__list-item--active & {
+    visibility: visible;
+  }
+
+  & & &__list-item {
+    position: relative;
+    z-index: 1;
+  }
+
+  & & &__link {
+    @include mobile-only {
+      @include gutter(padding-left, 2);
+    }
+
+    @include tablet {
+      @include body;
+      @include color-primary(color, true);
+      position: relative;
+      white-space: nowrap;
+    }
+  }
+
+  &__list-item {
+    @include responsive(flex-wrap, wrap, nowrap);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    float: left;
+    padding: 0;
+  }
+
+  &__list-item:hover,
+  &__list-item--open,
+  &__list-item--active {
+    @include color-secondary(background-color);
+  }
+
+  &__list-item:hover &__link,
+  &__list-item--open &__link,
+  &__list-item--active &__link {
+    @include color-primary(color, $force: true);
+    text-decoration: none;
+  }
+
+  & & &__list-item--active {
+    background-color: transparent;
+  }
+
+  .fas {
+    @include gutter(padding-right);
+    color: inherit;
+  }
+
+  .fas:not(.fa-home) {
+    @include hide-on-mobile;
+  }
+
+  .menu .fas {
+    padding-right: 0;
+  }
+
+  &__link,
+  &__label {
+    @include body;
+    @include responsive(font-size, 20px, 22px, 22px, 26px);
+    @include responsive(line-height, 28px, 32px, 32px, 32);
+  }
+
+  &__link {
+    @include anchor(true);
+    @include gutter(padding-left);
+    @include gutter(padding-right);
+    @include responsive(justify-content, flex-start, space-between);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: relative;
+  }
+
+  .fas + &__link {
+    width: 75%;
+  }
+
+  &__list-item:not(&__list-item--active) &__link {
+    @include color-background(color);
+  }
+
+  &__label {
+    @include color-background(color);
+  }
+
+  &__label {
+    font-weight: bold;
+  }
+}

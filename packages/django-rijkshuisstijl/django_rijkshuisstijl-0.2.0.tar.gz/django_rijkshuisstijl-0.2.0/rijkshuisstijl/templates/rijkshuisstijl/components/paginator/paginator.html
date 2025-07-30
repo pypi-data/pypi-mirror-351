@@ -1,0 +1,25 @@
+{% spaceless %}{% load l10n rijkshuisstijl_form %}
+    {% if is_paginated %}
+        <{{ tag }} class="paginator{% if class %} {{ class }}{% endif %}"{% if form %} method="get"{% endif %}>
+            <div class="paginator__section">
+                {% if page_obj.has_previous %}
+                    <a class="paginator__link paginator__link--first" href="?{{ page_key }}={{ 1 }}" data-page="1">{{ label_first }}</a>
+                    <a class="paginator__link paginator__link--previous" href="?{{ page_key }}={{ page_obj.previous_page_number|unlocalize }}" data-page="{{ page_obj.previous_page_number|unlocalize }}">{{ label_previous }}</a>
+                {% endif %}
+            </div>
+
+            <div class="paginator__section">
+                <span class="paginator__label">{{ label_page }}</span>
+                {% form_input class="input--contrast" type='number' name=page_key min=page_min|unlocalize max=page_max|unlocalize value=page_number|unlocalize form=form_id %}
+                <span class="paginator__label">{{ label_from }} {{ page_max|unlocalize }}</span>
+            </div>
+
+            <div class="paginator__section">
+                {% if page_obj.has_next %}
+                    <a class="paginator__link paginator__link--next" href="?{{ page_key }}={{ page_obj.next_page_number|unlocalize }}" data-page="{{ page_obj.next_page_number|unlocalize }}">{{ label_next }}</a>
+                    <a class="paginator__link paginator__link--last" href="?{{ page_key }}=last" data-page="last">{{ label_last }}</a>
+                {% endif %}
+            </div>
+        </{{ tag }}>
+    {% endif %}
+{% endspaceless %}

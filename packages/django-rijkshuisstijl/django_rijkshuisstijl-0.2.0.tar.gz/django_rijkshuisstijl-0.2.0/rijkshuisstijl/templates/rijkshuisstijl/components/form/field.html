@@ -1,0 +1,12 @@
+{% spaceless %}
+    {% if bound_field.help_text and help_text_position|default:'bottom' == 'top' %}
+        {% include 'rijkshuisstijl/components/form/help-text.html' with for=bound_field.id_for_label help_text=bound_field.help_text only %}
+    {% endif %}
+
+    {{ bound_field }}
+    {{ bound_field.errors }}
+
+    {% if bound_field.help_text and help_text_position|default:'bottom' == 'bottom' %}
+        {% include 'rijkshuisstijl/components/form/help-text.html' with for=bound_field.id_for_label help_text=bound_field.help_text only %}
+    {% endif %}
+{% endspaceless %}

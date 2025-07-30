@@ -1,0 +1,50 @@
+@import '../../settings/all';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import '~microscope-sass/lib/animation';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import "../../settings/lib/ro-shade";
+
+$summary-list-spacing: $grid-margin-1;
+
+.summary-list {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  &__title {
+    @include h2(true, padding);
+    @include shade-color('dark-blue');
+    font-weight: normal;
+  }
+
+  &__header .toggle {
+    @include anchor(true);
+    @include body;
+    @include body--small;
+    @include shade(4, color);
+  }
+
+  &__toggle-label {
+    margin-right: $summary-list-spacing;
+  }
+
+  &__header &__arrow,
+  .summary .summary__arrow  {
+    @extend .fas;
+    @extend .fa-chevron-down;
+  }
+
+  &--open &__header &__arrow,
+  &--open .summary .summary__arrow {
+    @include rotate(180);
+  }
+
+  &--open .summary__details {
+    height: auto;
+  }
+}

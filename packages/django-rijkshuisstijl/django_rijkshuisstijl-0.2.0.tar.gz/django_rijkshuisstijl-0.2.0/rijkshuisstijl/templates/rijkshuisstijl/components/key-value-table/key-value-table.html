@@ -1,0 +1,117 @@
+{% load rijkshuisstijl %}{% singleline %}
+    <aside class="key-value-table{% if class %} {{ class }}{% endif %}" id="{{ id|slugify }}">
+
+
+        {# Render a form for performing actions on the queryset. #}
+        {% if form and not form_id %}
+            <form class="form"
+                {% if form_action %} action="{{ form_action }}"{% endif %} method="{{ form_method }}" enctype="{{ form_enctype }}">
+                {% csrf_token %}
+        {% endif %}
+
+        {% for error in form.non_field_errors %}
+            {% include 'rijkshuisstijl/components/form/errors.html' with class='errors--non-field' errors=error only %}
+        {% endfor %}
+
+
+        {% for title, fields in data %}
+            <table class="key-value-table__table">
+
+
+                {#  Render the header. #}
+                {% if title %}
+                    <thead class="key-value-table__header">
+                    <tr class="key-value-table__row">
+                        <th class="key-value-table__caption" colspan="2">{{ title }}</th>
+                    </tr>
+                    </thead>
+                {% endif %}
+
+
+                {# Render the body.  #}
+                <tbody class="key-value-table__body">
+                {% for field in fields %}
+                    <tr class="key-value-table__row{% if field.edit and not field.full_width_field %} key-value-table__row--edit{% endif %}" {% if not field.full_width_field %} id="{{ field.id }}"{% endif %}>
+
+
+                        {# Key. #}
+                        <th class="key-value-table__key{% if field.toggle %} toggle{% endif %}"{% if field.toggle %} data-toggle-target="#{{ field.id }}" data-toggle-modifier="edit"{% endif %}{% if field.full_width_field %} colspan="2"{% endif %}>
+                            {{ field.label }}
+                        </th>
+
+
+                        {# Full width field. #}
+                        {% if field.full_width_field %}
+                            </tr>
+                            <tr class="key-value-table__row{% if field.edit %} key-value-table__row--edit{% endif %}" id="{{ field.id }}">
+                        {% endif %}
+
+
+                        {# Value. #}
+                        <td class="key-value-table__value"{% if field.full_width_field %} colspan="2"{% endif %}>{% spaceless %}
+
+
+                            {# Form field and no toggle, always renders as input. #}
+                            {% if field.form_field and not field.toggle %}
+                                {{ field.name }}
+
+                                {% if form_id %}
+                                    {% form_field form field.form_field.name attrs='form:'|add:form_id %}
+                                {% else %}
+                                    {% form_field form field.form_field.name %}
+                                {% endif %}
+
+
+                            {# Form field and toggle, render both label as input. #}
+                            {% elif field.toggle %}
+                                {% if form_id %}
+                                    {% form_field form field.form_field.name attrs='form:'|add:form_id %}
+                                {% else %}
+                                    {% form_field form field.form_field.name %}
+                                {% endif %}
+
+                                <span class="toggle" data-toggle-target="#{{ field.id }}" data-toggle-modifier="edit">
+                                    {% firstof object|format_value:field.key as value %}
+
+                                    {% if urlize %}
+                                        {{ value|linebreaksbr|rh_urlize:urlize_target }}
+                                    {% else %}
+                                        {{ value|linebreaksbr }}
+                                    {% endif %}
+                                </span>
+
+
+                            {# No form field, render as label. #}
+                            {% else %}
+                                {% firstof object|format_value:field.key as value %}
+
+                                {% if urlize %}
+                                    {{ value|linebreaksbr|rh_urlize:urlize_target }}
+                                {% else %}
+                                    {{ value|linebreaksbr }}
+                                {% endif %}
+                            {% endif %}
+                        {% endspaceless %}</td>
+
+
+                    </tr>
+
+
+                    {# Render the footer. #}
+                    {% if forloop.last and form %}
+                        <tr class="key-value-table__row key-value-table__row--actions">
+                            <td class="key-value-table__value" colspan="2">
+                                {% button class='button--small button--primary' type="submit" label=_('Opslaan') form=form_id %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+
+        {% if form and not form_id %}
+            </form>
+        {% endif %}
+    </aside>
+{% endsingleline %}

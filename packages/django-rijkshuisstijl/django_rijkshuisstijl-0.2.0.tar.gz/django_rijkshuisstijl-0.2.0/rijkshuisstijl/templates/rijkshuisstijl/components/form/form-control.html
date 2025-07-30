@@ -1,0 +1,35 @@
+{% spaceless %}{% load i18n rijkshuisstijl_filters %}
+    {% if bound_field.field.widget.input_type == 'hidden' %}
+
+        {% if disabled %}
+            {% form_field form bound_field attrs='disabled:True' help_text_position=help_text_position %}
+        {% else %}
+            {% form_field form bound_field help_text_position=help_text_position %}
+        {% endif %}
+
+    {% elif bound_field %}
+
+        <div class="form-control{% if compact %} form-control--compact{% endif %}{% if bound_field.errors %} form-control--error{% endif %}{% if class %} {{ class }}{% endif %}">
+            {# Form control header. #}
+            <header class="form-control__header">
+                {% if bound_field.label %}
+                    {% if bound_field.field.required or bound_field.field.mark_required %}
+                        {% include 'rijkshuisstijl/components/form/label.html' with label=bound_field.label|add:'&nbsp;*'|safe for=bound_field.id_for_label only %}
+                    {% else %}
+                        {% include 'rijkshuisstijl/components/form/label.html' with label=bound_field.label for=bound_field.id_for_label only %}
+                    {% endif %}
+                {% endif %}
+            </header>
+
+            {#  Form control body. #}
+            <div class="form-control__body">
+                {% if disabled %}
+                    {% form_field form bound_field attrs='disabled:True' help_text_position=help_text_position %}
+                {% else %}
+                    {% form_field form bound_field help_text_position=help_text_position %}
+                {% endif %}
+            </div>
+        </div>
+
+    {% endif %}
+{% endspaceless %}

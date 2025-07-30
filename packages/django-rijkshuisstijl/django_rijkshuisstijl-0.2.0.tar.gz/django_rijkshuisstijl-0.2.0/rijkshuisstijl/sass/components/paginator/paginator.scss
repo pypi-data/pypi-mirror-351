@@ -1,0 +1,67 @@
+@import '../../settings/all';
+@import '../../settings/lib/ro-shade';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import '~microscope-sass/lib/responsive';
+@import '~microscope-sass/lib/typography';
+@import '~microscope-sass/lib/grid';
+
+$paginator-spacing: $grid-margin-0;
+
+.paginator {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+
+  &__label,
+  &__link,
+  .input {
+    margin: 0 $paginator-spacing!important;
+  }
+
+  &__section {
+    @include body;
+    @include shade(3, color);
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__label {
+    @include hide-on-mobile;
+  }
+
+  &__link {
+    @include anchor(true);
+    @extend .fa;
+    font-size: 0;
+    font-weight: bold;
+
+    &:before {
+      @include body--big;
+    }
+  }
+
+  &__link--first {
+    @extend .fa-angle-double-left;
+  }
+
+  &__link--previous {
+    @extend .fa-angle-left;
+  }
+
+  &__link--next {
+    @extend .fa-angle-right;
+  }
+
+  &__link--last {
+    @extend .fas;
+    @extend .fa-angle-double-right;
+  }
+
+  .input {
+    @include color-primary;
+    font-weight: bold;
+    width: 3em;
+  }
+}

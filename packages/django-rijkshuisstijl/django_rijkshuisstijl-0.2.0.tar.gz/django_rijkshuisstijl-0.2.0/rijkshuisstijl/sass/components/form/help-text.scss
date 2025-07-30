@@ -1,0 +1,23 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/typography';
+@import './constants';
+
+.help-text {
+  @include body;
+  @include body--small;
+  padding-top: $help-text-padding-v;
+  padding-bottom: $help-text-padding-v;
+
+  &__body {
+    display: block;
+    padding: 0 $input-padding-h;
+  }
+
+  .checkbox {
+    float: right;
+  }
+
+  a {
+    @include anchor;
+  }
+}

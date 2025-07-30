@@ -1,0 +1,62 @@
+{% spaceless %}{% load i18n l10n static rijkshuisstijl %}
+
+    <div class="summary" id="{{ id|slugify }}">
+        {% if form and not form_id %}
+            <form class="form"{% if form_action %} action="{{ form_action }}"{% endif %} method="{{ form_method }}" enctype="{{ form_enctype }}">
+            {% csrf_token %}
+        {% endif %}
+
+        {% if formset_form %}
+            <input type="hidden" name="{{ formset_form.id.html_name }}" value="{{ formset_form.id.value|unlocalize }}" form="{{ form_id }}">
+        {% endif %}
+
+        {% for error in form.non_field_errors %}
+            {% include 'rijkshuisstijl/components/form/errors.html' with class='errors--non-field' errors=error only %}
+        {% endfor %}
+
+        <header class="summary__summary">
+
+            {% for title, fields in data %}
+                {% if title %}
+                    <h2 class="summary__title">{{ title }}</h2>
+                {% endif %}
+
+                {% if forloop.first and detail_data or forloop.first and toolbar_config %}
+                    <a class="toggle" href="#{{ id|slugify }}" data-toggle-target="#{{ id|slugify }}" data-toggle-modifier="open" data-link-mode="prevent">
+                        <span class="summary__arrow" />
+                    </a>
+                {% endif %}
+
+                <ul class="summary__list">
+                    {% for field in fields %}
+                        {% include './summary-key-value.html' with id=id field=field href_field=href_field field_toggle_edit=field_toggle_edit form=form formset_form=formset_form form_id=form_id object=object forloop=forloop help_text_position=help_text_position urlize=urlize urlize_target=urlize_target only %}
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </header>
+
+        {% if detail_data or toolbar_config %}
+            <section class="summary__details">
+                {% for title, fields in detail_data %}
+                    {% if title %}
+                        <h2 class="summary__title">{{ title }}</h2>
+                    {% endif %}
+
+                    <ul class="summary__list">
+                        {% for field in fields %}
+                            {% include './summary-key-value.html' with id=id field=field href_field=href_field field_toggle_edit=field_toggle_edit form=form formset_form=formset_form form_id=form_id object=object forloop=forloop help_text_position=help_text_position urlize=urlize urlize_target=urlize_target only %}
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+
+                {% if toolbar_config %}
+                    {% toolbar config=toolbar_config %}
+                {% endif %}
+            </section>
+        {% endif %}
+
+        {% if form and not form_id %}
+            </form>
+        {% endif %}
+    </div>
+{% endspaceless %}

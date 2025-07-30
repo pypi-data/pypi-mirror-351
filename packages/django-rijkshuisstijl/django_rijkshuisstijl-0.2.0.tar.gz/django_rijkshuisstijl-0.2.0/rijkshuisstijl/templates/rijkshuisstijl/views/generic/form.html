@@ -1,0 +1,18 @@
+{% extends template_base|default:'rijkshuisstijl/views/abstract/base.html' %}{% spaceless %}{% load rijkshuisstijl %}
+    {# Content. #}
+    {% block content %}
+        <div class="layout">
+            {% block layout %}
+
+
+                {# Form. #}
+                {% block content_body %}
+                    {% form config=form_config %}
+                    <br/>
+                {% endblock %}
+
+
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endspaceless %}

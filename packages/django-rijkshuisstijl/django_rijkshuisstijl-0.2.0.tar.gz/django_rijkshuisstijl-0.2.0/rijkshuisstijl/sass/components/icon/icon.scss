@@ -1,0 +1,26 @@
+@import '../../settings/all';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import '~microscope-sass/lib/transform';
+@import 'constants';
+@import 'mixins';
+
+.icon {
+  display: block;
+
+  &:not(#{&}--image) {
+    font-size: 0;
+  }
+
+  &--image {
+    width: 1em;
+    height: 1em;
+    object-fit: contain;
+  }
+
+  @each $key, $value in $icons {
+    &--#{$key} {
+      @include ro-icon-before($key)
+    }
+  }
+}

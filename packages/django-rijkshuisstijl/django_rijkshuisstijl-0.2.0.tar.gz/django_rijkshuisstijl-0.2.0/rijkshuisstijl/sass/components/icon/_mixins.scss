@@ -1,0 +1,49 @@
+@import '~microscope-sass/lib/responsive';
+@import 'constants';
+
+@mixin ro-icon-before($icon, $color: null, $size: (18px, 22px)) {
+  @include ro-icon(before, $icon, $color, $size);
+}
+
+@mixin ro-icon-after($icon, $color: null, $size: (18px, 22px)) {
+  @include ro-icon(after, $icon, $color, $size);
+}
+
+@mixin ro-icon($position, $icon, $color: null, $size: (18px, 22px)) {
+  &:#{$position} {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: map-get($icons, $icon);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "ro-icons-1.11";
+    line-height: 1em;
+    speak: none;
+    text-decoration: none;
+    vertical-align: middle;
+
+    @if $color {
+      color: $color;
+    }
+
+    @if type_of($size) == list {
+      $size_mobile: nth($size, 1);
+      $size_tablet: nth($size, 2);
+
+      @if length($size) <= 2 {
+        @include responsive(font-size, $size_mobile, $size_tablet);
+      }
+      @else if length($size) > 2 {
+        $size_laptop: nth($size, 3);
+        @include responsive(font-size, $size_mobile, $size_tablet, $size_laptop);
+      }
+      @else if length($size) > 3 {
+        $size_desktop: nth($size, 4);
+        @include responsive(font-size, $size_mobile, $size_tablet, $size_laptop, $size_desktop);
+      }
+    } @else {
+      font-size: $size;
+    }
+  }
+}

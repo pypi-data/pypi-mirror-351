@@ -1,0 +1,41 @@
+@import '../../settings/color';
+@import '../../settings/grid';
+@import '../../settings/lib/ro-shade';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+
+$checkbox-size: 20px!default;
+$radio-size: 22px!default;
+$checkbox-spacing: $grid-margin-0!default;
+
+$errorlist-color-error: #d52b1e!default;
+$errorlist-color-icon: $color-background!default;
+$errorlist-height-error: 70px!default;
+$errorlist-size-icon: 34px!default;
+
+$form-title-margin: 60px!default;
+
+$form-control-margin-top: 14px!default;
+$form-control-spacing: 30px!default;
+$form-description-padding-h: 20px!default;
+
+$help-text-padding-v: $grid-margin-1!default;
+
+$input-size-icon: 16px!default;
+$input-background-button: linear-gradient($color-primary, $color-primary) no-repeat right / $grid-row-height $grid-row-height!default;
+$input-background-date: url('../components/form/date.svg') no-repeat center right #{($grid-row-height - $input-size-icon) / 2} / $input-size-icon!default;
+$input-background-date-gray: url('../components/form/date-gray.svg') no-repeat center right #{($grid-row-height - $input-size-icon) / 2} / $input-size-icon!default;
+$input-background-file: url('../components/form/file.svg') no-repeat center right #{($grid-row-height - $input-size-icon) / 2} / $input-size-icon!default;
+$input-background-file-gray: url('../components/form/file-gray.svg') no-repeat center right #{($grid-row-height - $input-size-icon) / 2} / $input-size-icon!default;
+$input-background-search: url('../components/form/search.svg') no-repeat center right #{($grid-row-height - $input-size-icon) / 2} / $input-size-icon!default;
+$input-background-search-gray: url('../components/form/search-gray.svg') no-repeat center right #{($grid-row-height - $input-size-icon) / 2} / $input-size-icon!default;
+$input-background-input: linear-gradient(transparent)!default;
+$input-color-placeholder: shade('4')!default;
+$input-height-small: $grid-margin-4!default;
+$input-padding-h: 12px!default;
+
+$select-size-icon: 10px!default;
+$select-background-dropdown: url('../components/form/dropdown.svg') no-repeat center right #{($grid-row-height - $select-size-icon) / 2} / $select-size-icon!default;
+$select-background-dropdown-gray: url('../components/form/dropdown-gray.svg') no-repeat center right #{($grid-row-height - $select-size-icon) / 2} / $select-size-icon!default;
+
+$label-width: 144px!default;

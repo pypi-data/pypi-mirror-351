@@ -1,0 +1,7 @@
+{% spaceless %}{% load sitetree %}
+<footer class="footer{% if class %} {{ class }}{% endif %}">
+    <div class="footer__body">
+        {% sitetree_menu from 'footer' include 'trunk,topmenu' template 'rijkshuisstijl/components/footer/menu.html' %}
+    </div>
+</footer>
+{% endspaceless %}

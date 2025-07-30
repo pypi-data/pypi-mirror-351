@@ -1,0 +1,33 @@
+include *.rst
+include LICENSE
+
+# Templates
+recursive-include rijkshuisstijl *.html
+
+# Styles
+recursive-include rijkshuisstijl *.css
+recursive-include rijkshuisstijl *.css.map
+recursive-include rijkshuisstijl *.scss
+
+# Scripts
+recursive-include rijkshuisstijl *.js
+recursive-include rijkshuisstijl *.js.map
+
+# Fonts
+recursive-include rijkshuisstijl *.eot
+recursive-include rijkshuisstijl *.ttf
+recursive-include rijkshuisstijl *.woff
+recursive-include rijkshuisstijl *.woff2
+
+# Assets
+recursive-include rijkshuisstijl *.txt
+recursive-include rijkshuisstijl *.png
+recursive-include rijkshuisstijl *.svg
+
+# Translations
+recursive-include rijkshuisstijl *.po
+recursive-include rijkshuisstijl *.py
+
+global-exclude __pycache__
+global-exclude *.py[co]
+

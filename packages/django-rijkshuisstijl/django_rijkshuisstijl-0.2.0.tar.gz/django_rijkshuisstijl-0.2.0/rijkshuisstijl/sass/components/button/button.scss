@@ -1,0 +1,210 @@
+@import '../../settings/all';
+@import '../../settings/lib/ro-shade';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/responsive';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import 'constants';
+@import 'mixins';
+
+
+.button {
+  @include body;
+  @include rows(1);
+  @include color-background;
+  @include ellipsis;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px !important;
+  padding: $button-padding;
+  position: relative;
+  text-decoration: none;
+
+  @media print {
+    display: none;
+  }
+
+  &:before,
+  &:after {
+    @include border(all, transparent);
+    @include overlay;
+    content: '';
+  }
+
+  &:after {
+    background-color: $color-black;
+    opacity: 0;
+  }
+
+  &[disabled]:before {
+    opacity: 0.2;
+  }
+
+  &[disabled]:after {
+    opacity: 0 !important;
+  }
+
+  &:active:after,
+  &:focus:after,
+  &:hover:after {
+    opacity: 0.2;
+  }
+
+  &--big {
+    @include rows(1, min-height);
+  }
+
+  &--big-responsive {
+    @include laptop {
+      @include rows(1, min-height);
+    }
+  }
+
+  &--icon:not(#{&}--icon-right) {
+    padding-left: 0;
+  }
+
+  &--icon#{&}--icon-right {
+    padding-right: 0;
+  }
+
+  &--no-pad,
+  &--no-text {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &--small {
+    @include button--small;
+  }
+
+  &--small#{&}--no-text {
+    @include button--small(true);
+  }
+
+  &--small &__label {
+    @include body--small;
+  }
+
+  &--transparent {
+    @include color-primary;
+    @include border($position: all);
+    border-color: inherit;
+  }
+
+
+  &__label,
+  .far,
+  .fas,
+  &__icon {
+    position: relative;
+    z-index: 20;
+  }
+
+  .far,
+  .fas {}
+
+  .far,
+  .fas,
+  &__icon {
+    @include rows(1, min-width);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &--light:not(:focus):not(:hover) {
+    @include shade(3);
+  }
+  &--light:hover:after {
+    opacity: 0;
+  }
+
+  [type=submit],
+  &--primary,
+  &--active {
+    @include color-background(color);
+
+    &:before {
+      @include color-primary(border-color);
+      @include color-primary(background-color);
+    }
+  }
+
+  &--secondary {
+    @include color-primary(color);
+
+    &:before {
+      @include color-secondary(border-color);
+      @include color-secondary(background-color);
+    }
+  }
+
+  &--secondary[disabled]:before {
+    opacity: 1;
+  }
+
+  &--secondary[disabled] &__label,
+  &--secondary[disabled] &__icon {
+    opacity: 0.2;
+  }
+
+  &--transparent:before {
+    background-color: transparent;
+  }
+
+
+  &--success {
+    @include color-background(color);
+
+    &:before {
+      background-color: $button-color-success;
+      border-color: $button-color-success;
+    }
+  }
+
+  &--info {
+    @include color-background(color);
+
+    &:before {
+      background-color: $button-color-info;
+      border-color: $button-color-info;
+    }
+  }
+
+  &--warning {
+    @include color-background(color);
+
+    &:before {
+      background-color: $button-color-warning;
+      border-color: $button-color-warning;
+    }
+  }
+
+  &--danger {
+    @include color-background(color);
+
+    &:before {
+      background-color: $button-color-danger;
+      border-color: $button-color-danger;
+    }
+  }
+
+  @each $color-name, $color in $colors {
+    &--#{$color-name} {
+      @include color-background(color);
+
+      &:before {
+        background-color: $color;
+        border-color: $color;
+      }
+    }
+  }
+}

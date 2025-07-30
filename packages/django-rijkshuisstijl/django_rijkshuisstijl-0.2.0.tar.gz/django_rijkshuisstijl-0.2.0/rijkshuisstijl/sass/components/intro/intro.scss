@@ -1,0 +1,54 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/typography';
+@import '../form/constants';
+
+.intro {
+  box-sizing: border-box;
+
+  // Big means bigger title, not container size.
+  &--big {
+    @include container;
+    @include container--small;
+  }
+
+  &--error,
+  &--danger {
+    @include color-danger(background-color);
+  }
+
+  &--debug,
+  &--info {
+    @include color-info(background-color);
+  }
+
+  &--success {
+    @include color-success(background-color);
+  }
+
+  &--warning {
+    @include color-warning(background-color);
+  }
+
+  &__title {
+    @include h2;
+  }
+
+  &--big &__title {
+    @include h1(auto);
+    margin-top: $form-title-margin !important;
+  }
+
+  &__text {
+    @include body;
+    @include body--big;
+  }
+
+  &--big &__text {
+    @include margin(true);
+  }
+
+  a {
+    @include anchor;
+  }
+}

@@ -1,0 +1,21 @@
+{% spaceless %}
+    {% for name, value in widget.attrs.items %}
+        {% if name == 'data-placeholder' %}
+            <div class="select-wrapper">
+        {% endif %}
+    {% endfor %}
+
+<select name="{{ widget.name }}"{% include "rijkshuisstijl/components/form/widgets/attrs.html" with class="select" %}>
+    {% for group_name, group_choices, group_index in widget.optgroups %}{% if group_name %}
+        <optgroup label="{{ group_name }}">{% endif %}{% for option in group_choices %}
+        {% include option.template_name with widget=option %}{% endfor %}{% if group_name %}
+        </optgroup>{% endif %}{% endfor %}
+</select>
+
+{% for name, value in widget.attrs.items %}
+    {% if name == 'data-placeholder' %}
+        <label class="select__placeholder" for="{{ widget.attrs.id }}">{{ value }}</label>
+        </div>
+    {% endif %}
+{% endfor %}
+{% endspaceless %}

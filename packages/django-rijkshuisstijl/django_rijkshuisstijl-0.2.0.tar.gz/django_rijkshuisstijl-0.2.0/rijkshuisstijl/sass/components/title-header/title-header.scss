@@ -1,0 +1,18 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/typography';
+
+.title-header {
+  &__title {
+    @include h1;
+    @include rows(1);
+    display: flex;
+    align-items: center;
+  }
+
+  &__text {
+    @include body;
+    @include body--big;
+    @include margin(true, margin-top);
+  }
+}
