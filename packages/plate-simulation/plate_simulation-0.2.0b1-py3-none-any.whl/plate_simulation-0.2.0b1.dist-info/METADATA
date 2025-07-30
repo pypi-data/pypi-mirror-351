@@ -1,0 +1,105 @@
+Metadata-Version: 2.3
+Name: plate-simulation
+Version: 0.2.0b1
+Summary:     Specialized mesh, model, and simulation for a parameterization of the halfspace + overburden and plate geological setting
+License: MIT
+Keywords: geology,geophysics,modelling,simulation
+Author: Mira Geoscience
+Author-email: support@mirageoscience.com
+Maintainer: Benjamin Kary
+Maintainer-email: benjamink@mirageoscience.com
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Scientific/Engineering :: Physics
+Requires-Dist: Rtree (>=1.2.0,<1.3.0)
+Requires-Dist: geoapps-utils (>=0.5.0a3,<0.6.dev)
+Requires-Dist: geoh5py (>=0.11.0a3,<0.12.dev)
+Requires-Dist: numpy (>=1.26.0,<1.27.0)
+Requires-Dist: octree-creation-app (>=0.3.0a1,<0.4.dev)
+Requires-Dist: param-sweeps (>=0.2.1a1,<0.3.dev)
+Requires-Dist: pydantic (>=2.5.2,<3.0.0)
+Requires-Dist: scipy (>=1.14.0,<1.15.0)
+Requires-Dist: simpeg-drivers (>=0.3.0b1,<0.4.dev)
+Requires-Dist: threadpoolctl (>=3.3.0,<3.4.0)
+Requires-Dist: trimesh (>=4.1.3,<4.2.0)
+Project-URL: Documentation, https://mirageoscience-plate-simulation.readthedocs-hosted.com/
+Project-URL: Homepage, https://www.mirageoscience.com/mining-industry-software/python-integration/
+Project-URL: Repository, https://github.com/MiraGeoscience/plate-simulation
+Description-Content-Type: text/x-rst
+
+Plate Simulation
+================
+
+**Plate Simulation** is a package for creating a specialized mesh, model and simulation for
+a particular parameterization of tabular bodies in a layered geological setting.
+
+
+Installation
+^^^^^^^^^^^^
+**Plate Simulation** is currently written for Python 3.10 or higher.
+
+Install **plate-simulation** from PyPI::
+
+    $ pip install plate-simulation
+
+
+Feedback
+^^^^^^^^
+Have comments or suggestions? Submit feedback through `Mira Geoscience Support portal <https://www.mirageoscience.com/technical-support>`_.
+
+Visit `Mira Geoscience website <https://mirageoscience.com/>`_ to learn more about our products
+and services.
+
+
+License
+^^^^^^^
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Third Party Software
+^^^^^^^^^^^^^^^^^^^^
+The plate-simulation Software may provide links to third party libraries or code (collectively “Third Party Software”)
+to implement various functions. Third Party Software does not comprise part of the Software.
+The use of Third Party Software is governed by the terms of such software license(s).
+Third Party Software notices and/or additional terms and conditions are located in the
+`THIRD_PARTY_SOFTWARE.rst`_ file.
+
+.. _THIRD_PARTY_SOFTWARE.rst: docs/THIRD_PARTY_SOFTWARE.rst
+
+
+Copyright
+^^^^^^^^^
+Copyright (c) 2024-2025 Mira Geoscience Ltd.
+
