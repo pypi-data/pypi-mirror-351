@@ -1,0 +1,108 @@
+Metadata-Version: 2.1
+Name: formantic
+Version: 0.1.0
+Summary: WTForm generator for Pydantic
+Author-Email: Wojciech Nowicki <wnowicki@me.com>
+License: # MIT License
+         
+         Copyright (c) 2025 Wojciech Nowicki <wnowicki@me.com>
+         
+         Permission is hereby granted, free of charge, to any person obtaining a copy
+         of this software and associated documentation files (the "Software"), to deal
+         in the Software without restriction, including without limitation the rights
+         to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+         copies of the Software, and to permit persons to whom the Software is
+         furnished to do so, subject to the following conditions:
+         
+         The above copyright notice and this permission notice shall be included in all
+         copies or substantial portions of the Software.
+         
+         THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+         IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+         FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+         AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+         LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+         SOFTWARE.
+         
+Project-URL: Homepage, https://github.com/wnowicki/formantic
+Project-URL: Source, https://github.com/wnowicki/formantic
+Requires-Python: >=3.10
+Requires-Dist: pydantic>=2.11.5
+Requires-Dist: wtforms<3.2,>=3.1
+Description-Content-Type: text/markdown
+
+# ![FormAntic](resources/logo.svg)
+
+[![python](https://img.shields.io/badge/Python-3.10-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org)
+[![ruff](https://github.com/wnowicki/formantic/workflows/Ruff/badge.svg)](https://github.com/wnowicki/formantic/actions?query=branch%3Amain)
+[![pytest](https://github.com/wnowicki/formantic/workflows/Pytest/badge.svg)](https://github.com/wnowicki/formantic/actions?query=branch%3Amain)
+[![markdown](https://github.com/wnowicki/formantic/workflows/Markdown%20Lint/badge.svg)](https://github.com/wnowicki/formantic/actions?query=branch%3Amain)
+[![License: GPLv3](https://img.shields.io/badge/License-MIT-blue.svg)](https://license.md/licenses/mit-license/)
+
+## Overview
+
+**Form Generator**  
+It is designed to work with [Pydantic](https://docs.pydantic.dev/latest/) and [WTForms](https://wtforms.readthedocs.io/en/). Especially useful with [SQL Admin](https://aminalaee.github.io/sqladmin/)
+
+## Usage
+
+Simple way:
+
+```python
+from pydantic import BaseModel, Field
+from formantic import Former
+
+class User(BaseModel):
+    id: int = Field(..., description="The unique identifier for the user")
+    name: str = Field(..., description="The name of the user")
+    email: str = Field(..., description="The email address of the user")
+
+# WTForm based on Pydantic model
+form = Former(User).gen_form()
+
+form.process()
+```
+
+or with some additional modifications:
+
+```python
+from pydantic import BaseModel, Field
+from wtforms import StringField
+from wtforms.form import BaseForm
+from formantic import Former
+
+class User(BaseModel):
+    id: int = Field(..., description="The unique identifier for the user")
+    name: str = Field(..., description="The name of the user")
+    email: str = Field(..., description="The email address of the user")
+
+# Form schema for BAseModel based on Pydantic model
+form_schema = Former(User).gen_form_schema()
+
+# Some additional field
+form_schema["extra_field"] = StringField(
+    "extra_field",
+    description="An additional field not in the Pydantic model",
+    default="Default Value"
+)
+
+form = BaseForm(form_schema)
+
+form.process()
+```
+
+Then work with the form as with normal WTForms
+
+## Test
+
+```shell
+uv run pytest
+```
+
+## Security
+
+If you discover any security-related issues, please email [email](mailto:wnowicki@me.com) instead of using the issue tracker.
+
+---
+Copyright (c) 2025 Wojciech Nowicki
