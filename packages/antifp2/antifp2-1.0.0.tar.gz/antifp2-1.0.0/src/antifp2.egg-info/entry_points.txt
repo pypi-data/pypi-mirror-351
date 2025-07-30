@@ -1,0 +1,3 @@
+[console_scripts]
+antifp2_blast = antifp2.python_scripts.antifp2_BLAST:main
+antifp2_esm = antifp2.python_scripts.antifp2_ESM2:main
