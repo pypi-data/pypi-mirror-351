@@ -1,0 +1,35 @@
+# Core deep learning libraries with CUDA 12.1 support
+torch==2.1.2+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
+torchvision==0.16.2+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
+torchaudio==2.1.2+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
+transformers==4.36.2
+
+# Data processing and analysis
+pandas>=2.0.0
+numpy==1.26.4  # Specific version for PyTorch compatibility
+scikit-learn>=1.3.0
+
+# Visualization and dashboard
+streamlit>=1.25.0
+plotly>=5.15.0
+matplotlib>=3.7.0
+
+# Discord integration
+discord.py>=2.3.0
+
+# Utilities
+tqdm>=4.65.0
+requests>=2.30.0
+python-dotenv>=1.0.0
+
+# CUDA acceleration already configured with cu121
+# Additional CUDA-specific packages
+ninja  # For faster custom CUDA kernel compilation
+accelerate>=0.20.0  # For HuggingFace model acceleration
+
+# Model optimization packages
+# Note: TensorRT should be installed following NVIDIA's instructions as it depends on driver version
+onnx>=1.14.0
+onnxruntime-gpu>=1.15.0  # GPU version for CUDA acceleration
+# tensorrt  # Uncomment and install appropriate version from NVIDIA
+# pycuda  # Uncomment and install after CUDA environment is properly set up

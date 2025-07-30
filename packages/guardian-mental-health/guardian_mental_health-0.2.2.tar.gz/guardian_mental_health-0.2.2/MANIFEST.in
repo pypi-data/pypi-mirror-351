@@ -1,0 +1,42 @@
+include README.md
+include LICENSE
+include requirements.txt
+include requirements-dev.txt
+include .env.example
+include OPTIMIZATION.md
+include INSTALLATION.md
+include SETUP_AND_USAGE.md
+include CONTRIBUTING.md
+include training_guide.md
+include discord_bot_setup.md
+
+# Include only necessary data and model stubs (no large model files)
+recursive-include mental_monitoring/data *.json README.md
+recursive-include mental_monitoring/models/checkpoints .gitkeep
+
+# Exclude large model files from PyPI package
+global-exclude *.pt
+global-exclude *.pth
+global-exclude *.onnx
+global-exclude *.pkl
+global-exclude *.csv
+
+# Include config files
+recursive-include mental_monitoring/config *.py
+
+# Exclude all logs, scripts, and temp files
+global-exclude *.log
+global-exclude cuda*.log
+global-exclude *.sh
+global-exclude *.bat
+global-exclude *.ps1
+global-exclude *.tmp
+global-exclude .env
+global-exclude .venv
+global-exclude __pycache__
+global-exclude *.pyc
+global-exclude .DS_Store
+
+# Optionally include examples and tests for source distribution (not wheel)
+prune examples
+prune tests
