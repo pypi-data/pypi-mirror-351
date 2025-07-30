@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: demo-0.0.1
+Version: 0.0.1
+Summary: A Python package for intelligent information bagging system
+Home-page: https://github.com/lqxnjk/demo-0.0.1
+Author: lqxnjk
+Author-email: lqxnjk@qq.com
+License: MIT
+Project-URL: Bug Reports, https://github.com/lqxnjk/demo-0.0.1/issues
+Project-URL: Source, https://github.com/lqxnjk/demo-0.0.1
+Keywords: ii,etls,lqxnjk,data
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3.7
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: typing-extensions ; python_version < "3.8"
+Provides-Extra: all
+Requires-Dist: demo-0.0.1[dev] ; extra == 'all'
+Requires-Dist: demo-0.0.1[plot] ; extra == 'all'
+Provides-Extra: dev
+Requires-Dist: pytest >=6.0 ; extra == 'dev'
+Requires-Dist: pytest-cov >=2.0 ; extra == 'dev'
+Requires-Dist: flake8 >=3.9 ; extra == 'dev'
+Requires-Dist: mypy >=0.910 ; extra == 'dev'
+Requires-Dist: sphinx >=4.0 ; extra == 'dev'
+Provides-Extra: gpu
+Requires-Dist: cupy >=10.0 ; extra == 'gpu'
+Provides-Extra: plot
+Requires-Dist: matplotlib >=3.0 ; extra == 'plot'
+Requires-Dist: seaborn >=0.11 ; extra == 'plot'
+
+##构建
+```shell
+python setup.py sdist bdist_wheel
+python -m build
+pip install -e .[dev]
+```
+
+```shell
+rm -rf './dist'
+python -m build
+twine upload dist/*
+```
+
+iiapis 接口
+iiconf 配置
+iifunc 工具
+iirule 逻辑
+iietls 框架
