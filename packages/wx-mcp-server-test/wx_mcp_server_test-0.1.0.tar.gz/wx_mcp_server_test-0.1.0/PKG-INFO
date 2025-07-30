@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: wx-mcp-server-test
+Version: 0.1.0
+Summary: Add your description here
+Author-email: 望夕 <crush.lh@cainiao.com>
+Requires-Python: >=3.10
+Requires-Dist: bs4>=0.0.2
+Requires-Dist: dashscope>=1.23.3
+Requires-Dist: dotenv>=0.9.9
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: mcp[cli]>=1.9.1
