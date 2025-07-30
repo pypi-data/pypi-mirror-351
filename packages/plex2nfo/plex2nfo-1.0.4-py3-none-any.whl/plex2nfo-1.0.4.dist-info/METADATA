@@ -1,0 +1,75 @@
+Metadata-Version: 2.3
+Name: plex2nfo
+Version: 1.0.4
+Summary: Write .NFO files and download poster/backdrop images from a Plex movie library.
+License: CECILL-B
+Author: Matthieu Gallet
+Author-email: github@19pouces.net
+Maintainer: Matthieu Gallet
+Maintainer-email: github@19pouces.net
+Requires-Python: >=3.11,<4.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: CeCILL-B Free Software License Agreement (CECILL-B)
+Classifier: License :: OSI Approved :: CEA CNRS Inria Logiciel Libre License, version 2.1 (CeCILL-2.1)
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: POSIX :: BSD
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.14
+Requires-Dist: plexapi (>=4.16.1,<5.0.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Requires-Dist: systemlogger (>=0.2.2,<0.3.0)
+Requires-Dist: termcolor (>=3.0.1,<4.0.0)
+Requires-Dist: tqdm (>=4.67.1,<5.0.0)
+Project-URL: Documentation, https://github.com/d9pouces/plex2nfo
+Project-URL: Repository, https://github.com/d9pouces/plex2nfo
+Description-Content-Type: text/markdown
+
+Plex2NFO
+========
+
+Given a Plex **movie** library, this tool will generate NFO files for each movie in the library.
+The NFO files are compatible with Kodi and Jellyfin and can be used to import the movie library into Kodi or Jellyfin.
+
+I assume that the library is already scanned into Plex, that the metadata is already downloaded and that each movie is in a separate folder.
+Please see the [Plex documentation](https://support.plex.tv/articles/naming-and-organizing-your-movie-media-files/), especially the section "Movies in Their Own Folders" for more information.
+
+Existing pictures are not overwritten, but NFO files are always overwritten.
+
+installation
+------------
+
+```bash
+python3 -m pip install --user plex2nfo
+```
+You should also consider to use pipx to install plex2nfo, so that it does not interfere with your system Python installation.
+
+```bash
+sudo apt install pipx
+pipx install plex2nfo
+```
+
+Another option is to use the Docker image:
+
+```bash
+docker run --rm d9pouces/plex2nfo:latest --help
+```
+
+Usage
+-----
+
+```bash
+python3 -m plex2nfo http://localhost:32400/ <plex-token> --section <Section> [--dry-run] --volume /local/volume/Movies:/data/Movies
+```
+
+The `--volume` argument is required when the Plex server is running in a Docker container and the NFO files should be written to the host system.
+The path `/local/volume/Movies` should be replaced with the path to the movie library on the host system.
+The path `/data/Movies` should be replaced with the path to the movie library in the Docker container.
+
+Only Movies are supported, not TV shows.
+
