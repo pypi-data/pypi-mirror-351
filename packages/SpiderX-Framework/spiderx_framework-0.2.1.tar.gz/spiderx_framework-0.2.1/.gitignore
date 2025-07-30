@@ -1,0 +1,13 @@
+# Ignore the IDE's configuration directory
+.idea/
+/dist/
+/pyinstaller/build
+/pyinstaller/dist
+/pyinstaller/*.spec
+/__pycache__
+/src/spiderx_demo/config.py
+/src/spiderx_demo/log/
+/src/spiderx_demo/data
+/tests/config.py
+/tests/log/
+*egg-info*
