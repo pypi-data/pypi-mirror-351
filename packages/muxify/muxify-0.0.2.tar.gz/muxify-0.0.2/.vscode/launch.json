@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "mux",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "muxify/muxify.py",
+            "console": "integratedTerminal"
+        }
+    ]
+}
