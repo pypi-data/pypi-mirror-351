@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: spdx_checker
+Version: 0.1.0
+Summary: Fast SPDX License Checker for Source Code
+Author-email: Tobias Stach <tobias.stach@gmail.com>
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: setuptools
+Dynamic: license-file
+Dynamic: requires-python
+
+
+# SPDX License Checker
+
+`spdx-checker` is a fast Python package for validating and analyzing SPDX license headers in your projects. It leverages Zig for exceptional speed and efficiency.
+
+## License
+
+[MIT](LICENSE)
