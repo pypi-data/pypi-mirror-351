@@ -1,0 +1,222 @@
+[tool.poetry]
+name = "ecocycle"
+version = "3.4.0"
+description = "Cycle into a greener tomorrow"
+authors = ["Shirish Pothi <shirish.pothi.27@gmail.com>"]
+license = "Apache 2.0"
+readme = "README.md"
+homepage = "https://github.com/shirishpothi/ecocycle"
+repository = "https://github.com/shirishpothi/ecocycle"
+keywords = ["cycling", "sustainability", "eco-friendly", "route-planning", "carbon-footprint"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Utilities"
+]
+packages = [
+    {include = "ecocycle"},
+    {include = "core"},
+    {include = "utils"},
+    {include = "apps"},
+    {include = "services"},
+    {include = "auth"}
+]
+
+[tool.poetry.scripts]
+ecocycle = "cli:main"
+eco = "cli:main"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+# Core dependencies
+colorama = "^0.4.6"
+python-dotenv = "^1.0.1"
+tqdm = "^4.66.1"
+rich = "^14.0.0"
+termcolor = "^2.3.0"
+blessed = "^1.20.0"
+yaspin = "^3.0.1"
+packaging = "^23.0.0"
+setuptools = "^78.1.0"
+requests = "^2.32.3"
+cryptography = "44.0.1"
+bcrypt = "^4.1.3"
+psutil = "^5.9.0"
+
+# Optional dependency groups
+[tool.poetry.group.visualization]
+optional = true
+
+[tool.poetry.group.visualization.dependencies]
+matplotlib = "^3.7.0"
+numpy = "^2.2.4"
+plotly = "^5.14.0"
+
+[tool.poetry.group.route_planning]
+optional = true
+
+[tool.poetry.group.route_planning.dependencies]
+folium = "^0.14.0"
+requests = "^2.32.3"
+
+[tool.poetry.group.data_export]
+optional = true
+
+[tool.poetry.group.data_export.dependencies]
+fpdf = "^1.7.2"
+tabulate = "^0.9.0"
+
+[tool.poetry.group.social_sharing]
+optional = true
+
+[tool.poetry.group.social_sharing.dependencies]
+pillow = "^10.0.0"
+qrcode = "^7.4.0"
+
+[tool.poetry.group.notifications]
+optional = true
+
+[tool.poetry.group.notifications.dependencies]
+sendgrid = "^6.10.0"
+twilio = "^8.5.0"
+yagmail = "^0.15.293"
+
+[tool.poetry.group.sheets_integration]
+optional = true
+
+[tool.poetry.group.sheets_integration.dependencies]
+google-api-python-client = "^2.149.0"
+google-auth-httplib2 = "^0.2.0"
+google-auth-oauthlib = "^1.0.0"
+google-auth = "^2.35.0"
+oauthlib = "^3.2.2"
+
+[tool.poetry.group.ai_features]
+optional = true
+
+[tool.poetry.group.ai_features.dependencies]
+openai = "^1.74.0"
+google-generativeai = "^0.8.4"
+
+[tool.poetry.group.weather]
+optional = true
+
+[tool.poetry.group.weather.dependencies]
+weatherapi = "^0.0.4"
+
+[tool.poetry.group.web]
+optional = true
+
+[tool.poetry.group.web.dependencies]
+flask = "^3.1.0"
+flask-cors = "^5.0.0"
+werkzeug = "^3.0.0"
+gunicorn = "^21.0.0"
+eventlet = "^0.33.0"
+flask-socketio = "^5.3.0"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+# Testing
+pytest = "^7.4.0"
+pytest-mock = "^3.11.1"
+pytest-cov = "^4.1.0"
+pytest-benchmark = "^4.0.0"
+pytest-xdist = "^3.5.0"
+
+# Code quality
+black = "^23.7.0"
+mypy = "^1.5.1"
+flake8 = "^6.1.0"
+isort = "^5.13.2"
+pre-commit = "^3.6.0"
+bandit = "^1.7.7"
+ruff = "^0.1.6"
+
+[tool.pyright]
+useLibraryCodeForTypes = true
+exclude = [".cache"]
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+[tool.ruff]
+select = ['E', 'W', 'F', 'I', 'B', 'C4', 'ARG', 'SIM']
+ignore = ['W291', 'W292', 'W293']
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.isort]
+known-first-party = ["ecocycle", "core", "utils", "apps", "services", "auth"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+filterwarnings = [
+    "ignore::DeprecationWarning"
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests that require external services",
+    "ui: marks tests that test the user interface"
+]
+addopts = "--cov=. --cov-report=term-missing --cov-report=xml"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+strict_optional = true
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "tests/*",
+    "setup.py",
+    "venv/*",
+    "*/site-packages/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "setuptools>=42", "wheel"]
+build-backend = "poetry.core.masonry.api"

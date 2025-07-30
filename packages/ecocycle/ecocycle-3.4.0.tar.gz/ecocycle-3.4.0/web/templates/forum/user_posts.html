@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}'s Posts - EcoCycle Forum{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forum.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="forum-container">
+    <div class="breadcrumb">
+        <a href="{{ url_for('forum.index') }}">Forum Home</a> &raquo;
+        User Profile: {{ user.username }}
+    </div>
+
+    <div class="user-profile-header">
+        <div class="user-avatar">
+            <img src="{{ user.profile_image or url_for('static', filename='img/default-avatar.png') }}" 
+                 alt="{{ user.username }}" class="avatar-lg">
+        </div>
+        <div class="user-info">
+            <h1>{{ user.username }}</h1>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i class="fas fa-calendar-alt"></i> Joined: {{ user.joined_at|date }}
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-comments"></i> Posts: {{ pagination.total_count }}
+                </div>
+                {% if user.total_likes %}
+                <div class="stat-item">
+                    <i class="fas fa-thumbs-up"></i> Received Likes: {{ user.total_likes }}
+                </div>
+                {% endif %}
+                {% if user.total_topics %}
+                <div class="stat-item">
+                    <i class="fas fa-clipboard-list"></i> Topics Created: {{ user.total_topics }}
+                </div>
+                {% endif %}
+            </div>
+            {% if user.bio %}
+            <div class="user-bio">
+                <h3>About</h3>
+                <p>{{ user.bio }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="activity-nav">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#posts" data-toggle="tab">Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#topics" data-toggle="tab">Topics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#likes" data-toggle="tab">Likes</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <!-- Posts Tab -->
+        <div class="tab-pane fade show active" id="posts">
+            {% if posts %}
+            <div class="user-posts-list">
+                {% for post in posts %}
+                <div class="user-post-item">
+                    <div class="post-meta">
+                        <div class="post-topic">
+                            <a href="{{ url_for('forum.topic', topic_id=post.topic_id) }}">{{ post.topic_title }}</a>
+                        </div>
+                        <div class="post-date" title="{{ post.created_at }}">
+                            {{ post.created_at|timeago }}
+                            {% if post.edited %}
+                            <span class="edited-indicator">(edited)</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        {{ post.content|safe }}
+                    </div>
+                    <div class="post-actions">
+                        <a href="{{ url_for('forum.topic', topic_id=post.topic_id) }}#post-{{ post.id }}" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-external-link-alt"></i> View in Topic
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if pagination.total_pages > 1 %}
+            <div class="pagination-container">
+                <nav aria-label="User posts pagination">
+                    <ul class="pagination">
+                        {% if pagination.page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, page=pagination.page-1) }}">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        {% endif %}
+                        
+                        {% for p in range(1, pagination.total_pages + 1) %}
+                        <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, page=p) }}">{{ p }}</a>
+                        </li>
+                        {% endfor %}
+                        
+                        {% if pagination.page < pagination.total_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, page=pagination.page+1) }}">Next</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Next</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+            
+            {% else %}
+            <div class="no-content">
+                <p>{{ user.username }} hasn't posted anything yet.</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Topics Tab -->
+        <div class="tab-pane fade" id="topics">
+            {% if topics %}
+            <div class="user-topics-list">
+                {% for topic in topics %}
+                <div class="user-topic-item">
+                    <div class="topic-header">
+                        <h3><a href="{{ url_for('forum.topic', topic_id=topic.id) }}">{{ topic.title }}</a></h3>
+                        <div class="topic-meta">
+                            <span class="topic-category">
+                                <i class="fas fa-folder"></i> 
+                                <a href="{{ url_for('forum.category', category_id=topic.category_id) }}">{{ topic.category_name }}</a>
+                            </span>
+                            <span class="topic-date" title="{{ topic.created_at }}">
+                                <i class="fas fa-calendar-alt"></i> {{ topic.created_at|timeago }}
+                            </span>
+                            <span class="topic-stats">
+                                <i class="fas fa-eye"></i> {{ topic.views }} views
+                                <i class="fas fa-comments"></i> {{ topic.reply_count }} replies
+                            </span>
+                        </div>
+                    </div>
+                    <div class="topic-preview">
+                        {{ topic.content|striptags|truncate(200) }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Topics Pagination -->
+            {% if topic_pagination.total_pages > 1 %}
+            <div class="pagination-container">
+                <nav aria-label="User topics pagination">
+                    <ul class="pagination">
+                        {% if topic_pagination.page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, tab='topics', page=topic_pagination.page-1) }}">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        {% endif %}
+                        
+                        {% for p in range(1, topic_pagination.total_pages + 1) %}
+                        <li class="page-item {% if p == topic_pagination.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, tab='topics', page=p) }}">{{ p }}</a>
+                        </li>
+                        {% endfor %}
+                        
+                        {% if topic_pagination.page < topic_pagination.total_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, tab='topics', page=topic_pagination.page+1) }}">Next</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Next</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+            
+            {% else %}
+            <div class="no-content">
+                <p>{{ user.username }} hasn't created any topics yet.</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Likes Tab -->
+        <div class="tab-pane fade" id="likes">
+            {% if liked_posts %}
+            <div class="user-likes-list">
+                {% for post in liked_posts %}
+                <div class="liked-post-item">
+                    <div class="post-meta">
+                        <div class="post-author">
+                            <img src="{{ post.profile_image or url_for('static', filename='img/default-avatar.png') }}" 
+                                 alt="{{ post.username }}" class="avatar-sm">
+                            <a href="{{ url_for('forum.user_posts', user_id=post.author_id) }}">{{ post.username }}</a>
+                        </div>
+                        <div class="post-topic">
+                            <span>in</span>
+                            <a href="{{ url_for('forum.topic', topic_id=post.topic_id) }}">{{ post.topic_title }}</a>
+                        </div>
+                        <div class="post-date" title="{{ post.created_at }}">
+                            {{ post.created_at|timeago }}
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        {{ post.content|safe }}
+                    </div>
+                    <div class="post-actions">
+                        <a href="{{ url_for('forum.topic', topic_id=post.topic_id) }}#post-{{ post.id }}" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-external-link-alt"></i> View in Topic
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Likes Pagination -->
+            {% if likes_pagination.total_pages > 1 %}
+            <div class="pagination-container">
+                <nav aria-label="User liked posts pagination">
+                    <ul class="pagination">
+                        {% if likes_pagination.page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, tab='likes', page=likes_pagination.page-1) }}">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        {% endif %}
+                        
+                        {% for p in range(1, likes_pagination.total_pages + 1) %}
+                        <li class="page-item {% if p == likes_pagination.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, tab='likes', page=p) }}">{{ p }}</a>
+                        </li>
+                        {% endfor %}
+                        
+                        {% if likes_pagination.page < likes_pagination.total_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('forum.user_posts', user_id=user.id, tab='likes', page=likes_pagination.page+1) }}">Next</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Next</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+            
+            {% else %}
+            <div class="no-content">
+                <p>{{ user.username }} hasn't liked any posts yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/forum.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle tab navigation with URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        
+        if (tab) {
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        }
+        
+        // Update URL when tab changes
+        $('.nav-tabs a').on('shown.bs.tab', function(e) {
+            const id = $(e.target).attr('href').substr(1);
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('tab', id);
+            window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
+        });
+    });
+</script>
+{% endblock %}

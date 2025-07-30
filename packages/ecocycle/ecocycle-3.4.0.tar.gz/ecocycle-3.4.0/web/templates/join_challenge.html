@@ -1,0 +1,533 @@
+{% extends "base.html" %}
+
+{% block title %}Join New Challenge{% endblock %}
+
+{% block head %}
+<style>
+    .challenge-card {
+        transition: transform 0.3s;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+    .challenge-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .challenge-banner {
+        height: 120px;
+        position: relative;
+        overflow: hidden;
+    }
+    .challenge-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .challenge-badge {
+        position: absolute;
+        bottom: -25px;
+        left: 20px;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border: 3px solid #28a745;
+    }
+    .challenge-badge i {
+        font-size: 2rem;
+        color: #28a745;
+    }
+    .challenge-body {
+        padding-top: 30px;
+    }
+    .filter-section {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .filter-title {
+        font-weight: bold;
+        margin-bottom: 1rem;
+        color: #343a40;
+    }
+    .filter-group {
+        margin-bottom: 1.5rem;
+    }
+    .filter-group:last-child {
+        margin-bottom: 0;
+    }
+    .challenge-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    .challenge-participants {
+        display: flex;
+        align-items: center;
+    }
+    .participant-avatars {
+        display: flex;
+        margin-right: 0.5rem;
+    }
+    .participant-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid white;
+        margin-left: -8px;
+        background-color: #e9ecef;
+    }
+    .participant-avatar:first-child {
+        margin-left: 0;
+    }
+    .challenge-difficulty {
+        padding: 0.25rem 0.5rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    .difficulty-easy {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+    .difficulty-medium {
+        background-color: #fff3cd;
+        color: #664d03;
+    }
+    .difficulty-hard {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+    .search-box {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+    .search-box .form-control {
+        padding-left: 2.5rem;
+        border-radius: 50px;
+    }
+    .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+    }
+    .category-filter {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    .category-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        background-color: #e9ecef;
+        color: #495057;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .category-badge:hover {
+        background-color: #dee2e6;
+    }
+    .category-badge.active {
+        background-color: #28a745;
+        color: white;
+    }
+    .reward-badge {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    .reward-badge i {
+        font-size: 1.2rem;
+        color: #28a745;
+    }
+    .challenge-rewards {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .reward-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .reward-value {
+        font-weight: bold;
+        color: #28a745;
+        margin-top: 0.25rem;
+    }
+    .featured-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(255, 193, 7, 0.9);
+        color: #212529;
+        padding: 0.25rem 0.5rem;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    .community-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(13, 110, 253, 0.9);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1><i class="fas fa-handshake me-2"></i>Join New Challenge</h1>
+            <p class="text-muted">Browse and join sustainability challenges to reduce your environmental impact and earn rewards.</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="filter-section">
+                <h5 class="filter-title">
+                    <i class="fas fa-filter me-2"></i>Filter Challenges
+                </h5>
+                
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="form-control" id="challenge-search" placeholder="Search challenges...">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="form-label">Categories</label>
+                    <div class="category-filter">
+                        <span class="category-badge active" data-category="all">All</span>
+                        <span class="category-badge" data-category="waste">Waste</span>
+                        <span class="category-badge" data-category="energy">Energy</span>
+                        <span class="category-badge" data-category="transport">Transport</span>
+                        <span class="category-badge" data-category="food">Food</span>
+                        <span class="category-badge" data-category="water">Water</span>
+                        <span class="category-badge" data-category="community">Community</span>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="form-label">Difficulty</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="difficulty-easy" checked>
+                        <label class="form-check-label" for="difficulty-easy">
+                            Easy
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="difficulty-medium" checked>
+                        <label class="form-check-label" for="difficulty-medium">
+                            Medium
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="difficulty-hard" checked>
+                        <label class="form-check-label" for="difficulty-hard">
+                            Hard
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="form-label">Duration</label>
+                    <select class="form-select" id="duration-filter">
+                        <option value="all" selected>Any duration</option>
+                        <option value="short">Short (1-7 days)</option>
+                        <option value="medium">Medium (8-14 days)</option>
+                        <option value="long">Long (15+ days)</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="form-label">Challenge Type</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="type-featured" checked>
+                        <label class="form-check-label" for="type-featured">
+                            Featured Challenges
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="type-community" checked>
+                        <label class="form-check-label" for="type-community">
+                            Community Challenges
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="type-personal" checked>
+                        <label class="form-check-label" for="type-personal">
+                            Personal Challenges
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success w-100 mt-3" id="apply-filters">
+                    <i class="fas fa-filter me-2"></i>Apply Filters
+                </button>
+            </div>
+        </div>
+        
+        <div class="col-lg-9">
+            <div class="row" id="challenges-container">
+                <!-- Featured Challenge -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card challenge-card">
+                        <div class="challenge-banner">
+                            <img src="{{ url_for('static', filename='img/challenges/zero-waste.jpg') }}" 
+                                 alt="Zero Waste Challenge" 
+                                 onerror="this.src='{{ url_for('static', filename='img/challenge-default.jpg') }}'">
+                            <div class="challenge-badge">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                            <div class="featured-badge">
+                                <i class="fas fa-star me-1"></i>Featured
+                            </div>
+                        </div>
+                        <div class="card-body challenge-body">
+                            <div class="challenge-meta">
+                                <span class="challenge-difficulty difficulty-medium">Medium</span>
+                                <div class="challenge-participants">
+                                    <div class="participant-avatars">
+                                        <div class="participant-avatar"></div>
+                                        <div class="participant-avatar"></div>
+                                        <div class="participant-avatar"></div>
+                                    </div>
+                                    <span>128 participants</span>
+                                </div>
+                            </div>
+                            
+                            <h5 class="card-title">Zero Waste Challenge</h5>
+                            <p class="card-text text-muted small">Reduce your waste by avoiding single-use plastics and packaging for one week.</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-success">Waste Reduction</span>
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>7 days
+                                </small>
+                            </div>
+                            
+                            <div class="challenge-rewards">
+                                <div class="reward-item">
+                                    <div class="reward-badge">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="reward-value">75 pts</span>
+                                </div>
+                                <div class="reward-item">
+                                    <div class="reward-badge">
+                                        <i class="fas fa-leaf"></i>
+                                    </div>
+                                    <span class="reward-value">3.5 kg CO2</span>
+                                </div>
+                                <div class="reward-item">
+                                    <div class="reward-badge">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <span class="reward-value">Badge</span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-success w-100 mt-3 join-challenge-btn" data-challenge-id="1">
+                                <i class="fas fa-plus-circle me-2"></i>Join Challenge
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Community Challenge -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card challenge-card">
+                        <div class="challenge-banner">
+                            <img src="{{ url_for('static', filename='img/challenges/bike-commute.jpg') }}" 
+                                 alt="Bike Commute Challenge" 
+                                 onerror="this.src='{{ url_for('static', filename='img/challenge-default.jpg') }}'">
+                            <div class="challenge-badge">
+                                <i class="fas fa-bicycle"></i>
+                            </div>
+                            <div class="community-badge">
+                                <i class="fas fa-users me-1"></i>Community
+                            </div>
+                        </div>
+                        <div class="card-body challenge-body">
+                            <div class="challenge-meta">
+                                <span class="challenge-difficulty difficulty-hard">Hard</span>
+                                <div class="challenge-participants">
+                                    <div class="participant-avatars">
+                                        <div class="participant-avatar"></div>
+                                        <div class="participant-avatar"></div>
+                                    </div>
+                                    <span>42 participants</span>
+                                </div>
+                            </div>
+                            
+                            <h5 class="card-title">Bike Commute Challenge</h5>
+                            <p class="card-text text-muted small">Replace car trips with bicycle commuting for two weeks to reduce emissions.</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-success">Transport</span>
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>14 days
+                                </small>
+                            </div>
+                            
+                            <div class="challenge-rewards">
+                                <div class="reward-item">
+                                    <div class="reward-badge">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="reward-value">120 pts</span>
+                                </div>
+                                <div class="reward-item">
+                                    <div class="reward-badge">
+                                        <i class="fas fa-leaf"></i>
+                                    </div>
+                                    <span class="reward-value">8.2 kg CO2</span>
+                                </div>
+                                <div class="reward-item">
+                                    <div class="reward-badge">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <span class="reward-value">Badge</span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-success w-100 mt-3 join-challenge-btn" data-challenge-id="2">
+                                <i class="fas fa-plus-circle me-2"></i>Join Challenge
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- More challenges would be dynamically loaded here -->
+            </div>
+            
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-success" id="load-more-btn">
+                    <i class="fas fa-sync-alt me-2"></i>Load More Challenges
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Challenge Details Modal -->
+<div class="modal fade" id="challengeDetailsModal" tabindex="-1" aria-labelledby="challengeDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="challengeDetailsModalLabel">Challenge Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="challenge-details-content">
+                    <!-- Challenge details will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="modal-join-btn">
+                    <i class="fas fa-plus-circle me-2"></i>Join Challenge
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Category filter
+        const categoryBadges = document.querySelectorAll('.category-badge');
+        categoryBadges.forEach(badge => {
+            badge.addEventListener('click', function() {
+                // Remove active class from all badges
+                categoryBadges.forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked badge
+                this.classList.add('active');
+                
+                // Here you would filter the challenges based on the selected category
+                console.log('Selected category:', this.dataset.category);
+            });
+        });
+        
+        // Join challenge buttons
+        const joinButtons = document.querySelectorAll('.join-challenge-btn');
+        joinButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const challengeId = this.dataset.challengeId;
+                
+                // Here you would normally send a request to join the challenge
+                console.log('Joining challenge:', challengeId);
+                
+                // Show confirmation
+                alert(`You've successfully joined the challenge!`);
+                
+                // Disable the button
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-check-circle me-2"></i>Joined';
+                this.classList.replace('btn-success', 'btn-outline-success');
+            });
+        });
+        
+        // Load more button
+        document.getElementById('load-more-btn').addEventListener('click', function() {
+            // Here you would load more challenges
+            console.log('Loading more challenges...');
+            
+            // For demo purposes, just show a message
+            this.innerHTML = '<i class="fas fa-check-circle me-2"></i>All Challenges Loaded';
+            this.disabled = true;
+        });
+        
+        // Apply filters button
+        document.getElementById('apply-filters').addEventListener('click', function() {
+            // Get filter values
+            const searchTerm = document.getElementById('challenge-search').value;
+            const selectedCategory = document.querySelector('.category-badge.active').dataset.category;
+            const easyChecked = document.getElementById('difficulty-easy').checked;
+            const mediumChecked = document.getElementById('difficulty-medium').checked;
+            const hardChecked = document.getElementById('difficulty-hard').checked;
+            const durationFilter = document.getElementById('duration-filter').value;
+            const featuredChecked = document.getElementById('type-featured').checked;
+            const communityChecked = document.getElementById('type-community').checked;
+            const personalChecked = document.getElementById('type-personal').checked;
+            
+            // Here you would filter the challenges based on the selected filters
+            console.log('Applying filters:', {
+                searchTerm,
+                selectedCategory,
+                difficulty: { easy: easyChecked, medium: mediumChecked, hard: hardChecked },
+                duration: durationFilter,
+                type: { featured: featuredChecked, community: communityChecked, personal: personalChecked }
+            });
+            
+            // For demo purposes, just show a message
+            alert('Filters applied!');
+        });
+    });
+</script>
+{% endblock %}

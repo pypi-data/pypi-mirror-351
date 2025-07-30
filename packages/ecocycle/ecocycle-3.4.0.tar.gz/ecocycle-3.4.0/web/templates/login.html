@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Login - EcoCycle{% endblock %}
+
+{% block head %}
+<style>
+    .login-container {
+        max-width: 450px;
+        margin: 3rem auto;
+    }
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    .card-header {
+        background-color: #28a745;
+        color: white;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    .login-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    .social-login-button {
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+    .social-login-button i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0;
+    }
+    .divider::before, .divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid #ddd;
+    }
+    .divider-text {
+        padding: 0 1rem;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="card">
+        <div class="card-header">
+            <div class="login-icon">
+                <i class="fas fa-bicycle"></i>
+            </div>
+            <h3>Welcome to EcoCycle</h3>
+            <p class="mb-0">Sign in to access your dashboard</p>
+        </div>
+        <div class="card-body p-4">
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endif %}
+            
+            <!-- Social Login Buttons -->
+            <div class="social-login mb-3">
+                <a href="{{ url_for('google_auth') }}" class="btn btn-outline-danger social-login-button">
+                    <i class="fab fa-google"></i> Continue with Google
+                </a>
+                <!-- More social login options can be added here -->
+            </div>
+            
+            <div class="divider">
+                <span class="divider-text">or</span>
+            </div>
+            
+            <!-- Traditional Login Form -->
+            <form method="post" action="{{ url_for('login') }}">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                    <label class="form-check-label" for="remember-me">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Sign In</button>
+            </form>
+            
+            <div class="text-center mt-3">
+                <a href="#" class="text-decoration-none">Forgot password?</a>
+            </div>
+        </div>
+        <div class="card-footer bg-light p-3 text-center">
+            <p class="mb-0">Don't have an account? <a href="{{ url_for('signup') }}" class="text-decoration-none">Sign up</a></p>
+            <p class="mt-2 mb-0">Or <a href="{{ url_for('guest_login') }}" class="text-decoration-none">continue as guest</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+[
+    {
+        "id": "week_challenge_1",
+        "name": "Weekly Distance Challenge",
+        "description": "Cycle at least 20km this week",
+        "requirement": {
+            "weekly_distance": 20
+        },
+        "points": 30,
+        "duration": 7,
+        "icon": "\ud83d\udeb2"
+    },
+    {
+        "id": "week_challenge_2",
+        "name": "Weekly CO2 Challenge",
+        "description": "Save at least 2kg of CO2 this week",
+        "requirement": {
+            "weekly_co2_saved": 2
+        },
+        "points": 25,
+        "duration": 7,
+        "icon": "\ud83c\udf0d"
+    },
+    {
+        "id": "week_challenge_3",
+        "name": "Weekly Trips Challenge",
+        "description": "Complete at least 3 cycling trips this week",
+        "requirement": {
+            "weekly_trips": 3
+        },
+        "points": 20,
+        "duration": 7,
+        "icon": "\ud83c\udfc6"
+    },
+    {
+        "id": "month_challenge_1",
+        "name": "Monthly Cycling Streak",
+        "description": "Cycle at least 15 times this month",
+        "requirement": {
+            "monthly_trips": 15
+        },
+        "points": 100,
+        "duration": 30,
+        "icon": "\ud83d\udcc5"
+    }
+]

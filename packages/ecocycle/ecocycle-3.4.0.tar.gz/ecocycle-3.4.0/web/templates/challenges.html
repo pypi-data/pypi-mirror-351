@@ -1,0 +1,1739 @@
+{% extends "base.html" %}
+
+{% block title %}EcoCycle - Challenges{% endblock %}
+
+{% block head %}
+<style>
+    /* Challenge Cards */
+    .challenge-card {
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        position: relative;
+    }
+    .challenge-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    .challenge-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #28a745, #20c997);
+        z-index: 1;
+    }
+    .challenge-card.energy::before {
+        background: linear-gradient(90deg, #ffc107, #ffda6a);
+    }
+    .challenge-card.water::before {
+        background: linear-gradient(90deg, #17a2b8, #7bdcf2);
+    }
+    .challenge-card.transport::before {
+        background: linear-gradient(90deg, #007bff, #80bdff);
+    }
+    .challenge-card.food::before {
+        background: linear-gradient(90deg, #fd7e14, #ffb74d);
+    }
+    .challenge-card.community::before {
+        background: linear-gradient(90deg, #6f42c1, #b794f4);
+    }
+
+    /* Challenge Banner */
+    .challenge-banner {
+        height: 140px;
+        position: relative;
+        overflow: hidden;
+    }
+    .challenge-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .challenge-card:hover .challenge-banner img {
+        transform: scale(1.05);
+    }
+    .challenge-banner::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+    }
+
+    /* Challenge Badge */
+    .challenge-badge {
+        position: absolute;
+        bottom: -30px;
+        left: 20px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border: 4px solid #28a745;
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+    .challenge-card:hover .challenge-badge {
+        transform: scale(1.1) rotate(5deg);
+    }
+    .challenge-badge i {
+        font-size: 2.2rem;
+        color: #28a745;
+        transition: transform 0.3s ease;
+    }
+    .challenge-card:hover .challenge-badge i {
+        transform: rotate(-5deg);
+    }
+
+    /* Challenge Body */
+    .challenge-body {
+        padding-top: 35px;
+        transition: all 0.3s ease;
+    }
+
+    /* Progress Bars */
+    .progress {
+        height: 10px;
+        border-radius: 6px;
+        overflow: hidden;
+        background-color: #e9ecef;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .progress-bar {
+        transition: width 1s ease;
+        background: linear-gradient(90deg, #28a745, #20c997);
+    }
+    .progress-thin {
+        height: 6px;
+    }
+
+    /* Reward Badges */
+    .reward-badge {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        margin: 0 auto 0.75rem;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(40, 167, 69, 0.2);
+    }
+    .reward-badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .reward-badge i {
+        font-size: 1.8rem;
+        color: #28a745;
+    }
+
+    /* Tab Panes */
+    .tab-pane {
+        padding: 1.5rem 0;
+    }
+
+    /* Completion Date */
+    .completion-date {
+        font-size: 0.85rem;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+    }
+    .completion-date i {
+        margin-right: 0.5rem;
+    }
+
+    /* Challenge Filters */
+    .challenge-filters {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    /* Stats Cards */
+    .stats-card-mini {
+        text-align: center;
+        padding: 1.25rem;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+    .stats-card-mini:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .stats-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #28a745;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+    .stats-label {
+        font-size: 0.85rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.25rem;
+    }
+
+    /* Nav Tabs */
+    .nav-tabs {
+        border-bottom: none;
+        margin-bottom: 1rem;
+    }
+    .nav-tabs .nav-link {
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        margin-right: 0.5rem;
+        font-weight: 500;
+        color: #495057;
+        transition: all 0.3s ease;
+    }
+    .nav-tabs .nav-link:hover:not(.active) {
+        background-color: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+    }
+    .nav-tabs .nav-link.active {
+        background-color: #28a745;
+        color: white;
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+    }
+
+    /* Filter Buttons */
+    .filter-btn-group .btn {
+        border-radius: 50px;
+        padding: 0.375rem 1rem;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+    }
+    .filter-btn-group .btn:hover {
+        transform: translateY(-2px);
+    }
+    .filter-btn-group .btn.active {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+        box-shadow: 0 3px 10px rgba(40, 167, 69, 0.2);
+    }
+
+    /* Category Sidebar */
+    .category-sidebar {
+        position: sticky;
+        top: 2rem;
+    }
+    .category-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .category-item {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+    }
+    .category-item:hover {
+        background-color: rgba(40, 167, 69, 0.1);
+        transform: translateX(5px);
+    }
+    .category-item.active {
+        background-color: rgba(40, 167, 69, 0.1);
+        font-weight: 500;
+        color: #28a745;
+    }
+    .category-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75rem;
+    }
+    .category-item.active .category-icon {
+        background-color: #28a745;
+        color: white;
+    }
+    .category-count {
+        margin-left: auto;
+        background-color: #f8f9fa;
+        border-radius: 50px;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+
+    /* Difficulty Stars */
+    .difficulty-stars {
+        display: flex;
+        align-items: center;
+    }
+    .difficulty-stars i {
+        margin-right: 2px;
+        font-size: 1rem;
+    }
+
+    /* Join Button */
+    .join-challenge-btn {
+        border-radius: 50px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+    }
+    .join-challenge-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+    }
+    .join-challenge-btn:active {
+        transform: translateY(-1px);
+    }
+
+    /* Challenge Tags */
+    .challenge-tags {
+        margin-bottom: 0.75rem;
+    }
+    .challenge-tag {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        background-color: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Search Box */
+    .search-box {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+    .search-box input {
+        padding-left: 2.5rem;
+        border-radius: 50px;
+        border: 1px solid #ced4da;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+        transition: all 0.2s ease;
+    }
+    .search-box input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+        border-color: #28a745;
+    }
+    .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+    }
+
+    /* Achievement badges */
+    .achievement-badge {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        color: white;
+        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+    }
+
+    .achievement-badge.gold {
+        background: linear-gradient(135deg, #ffd700, #ffaa00);
+    }
+
+    .achievement-badge.silver {
+        background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+    }
+
+    .achievement-badge.bronze {
+        background: linear-gradient(135deg, #cd7f32, #a05a2c);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .challenge-filters {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .filter-btn-group {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 0.5rem;
+        }
+        .category-sidebar {
+            margin-bottom: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="fas fa-trophy me-2 text-success"></i>Challenges</h1>
+            <p class="text-muted">Complete eco-challenges to earn rewards and track your environmental impact.</p>
+
+            <div class="d-flex align-items-center mt-3">
+                <button class="btn btn-success me-3" data-bs-toggle="modal" data-bs-target="#createChallengeModal">
+                    <i class="fas fa-plus-circle me-2"></i>Create Challenge
+                </button>
+                <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inviteModal">
+                    <i class="fas fa-user-plus me-2"></i>Invite Friends
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-6">
+                    <div class="stats-card-mini">
+                        <div class="stats-value">{{ user.challenges_completed|default(0) }}</div>
+                        <div class="stats-label">COMPLETED</div>
+                        <div class="progress progress-thin mt-2">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ (user.challenges_completed|default(0) / 10) * 100 }}%"
+                                 aria-valuenow="{{ user.challenges_completed|default(0) }}" aria-valuemin="0" aria-valuemax="10"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="stats-card-mini">
+                        <div class="stats-value">{{ user.total_points|default(0) }}</div>
+                        <div class="stats-label">POINTS</div>
+                        <div class="progress progress-thin mt-2">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ (user.total_points|default(0) / 1000) * 100 }}%"
+                                 aria-valuenow="{{ user.total_points|default(0) }}" aria-valuemin="0" aria-valuemax="1000"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3 text-center">
+                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#achievementsModal">
+                    <i class="fas fa-medal me-1"></i> View All Achievements
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="challengeTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab" aria-controls="active" aria-selected="true">
+                        <i class="fas fa-play-circle me-2"></i>Active Challenges
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="available-tab" data-bs-toggle="tab" data-bs-target="#available" type="button" role="tab" aria-controls="available" aria-selected="false">
+                        <i class="fas fa-compass me-2"></i>Discover Challenges
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="false">
+                        <i class="fas fa-check-circle me-2"></i>Completed
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="trending-tab" data-bs-toggle="tab" data-bs-target="#trending" type="button" role="tab" aria-controls="trending" aria-selected="false">
+                        <i class="fas fa-fire me-2"></i>Trending
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="challengeTabContent">
+                <!-- Active Challenges Tab -->
+                <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active-tab">
+                    <div class="challenge-filters d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="fw-bold me-2">Filter:</span>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary active">All</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Almost Complete</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Recently Added</button>
+                            </div>
+                        </div>
+                        <div>
+                            <select class="form-select form-select-sm" aria-label="Sort challenges">
+                                <option selected>Sort by: Progress</option>
+                                <option>Sort by: Newest</option>
+                                <option>Sort by: Points</option>
+                                <option>Sort by: Difficulty</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        {% if active_challenges %}
+                            {% for challenge in active_challenges %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card challenge-card">
+                                    <div class="challenge-banner">
+                                        <img src="{{ url_for('static', filename='img/challenges/' + challenge.image) }}"
+                                             alt="{{ challenge.name }}"
+                                             onerror="this.src='{{ url_for('static', filename='img/challenge-default.jpg') }}'">
+                                        <div class="challenge-badge">
+                                            <i class="{{ challenge.icon|default('fas fa-leaf') }}"></i>
+                                        </div>
+                                    </div>
+                                    <div class="card-body challenge-body">
+                                        <h5 class="card-title">{{ challenge.name }}</h5>
+                                        <p class="card-text text-muted small">{{ challenge.description }}</p>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <small class="text-muted">Progress</small>
+                                            <small class="text-muted">{{ challenge.progress|default(0) }}%</small>
+                                        </div>
+                                        <div class="progress mb-3">
+                                            <div class="progress-bar bg-success" role="progressbar"
+                                                 style="width: {{ challenge.progress|default(0) }}%"
+                                                 aria-valuenow="{{ challenge.progress|default(0) }}"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-success">{{ challenge.points }} points</span>
+                                            <button class="btn btn-sm btn-outline-success update-progress-btn"
+                                                    data-challenge-id="{{ challenge.id }}">Update Progress</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-white">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar-alt me-1"></i>
+                                                Ends: {{ challenge.end_date|default('No deadline') }}
+                                            </small>
+                                            <small class="text-muted">
+                                                <i class="fas fa-users me-1"></i>
+                                                {{ challenge.participants|default(0) }} participants
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-12 text-center py-5">
+                                <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+                                <h4>No Active Challenges</h4>
+                                <p class="text-muted">You don't have any active challenges. Join some from the Available tab!</p>
+                                <button class="btn btn-success" id="browse-challenges-btn">Browse Challenges</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Available Challenges Tab (Join New Challenge) -->
+                <div class="tab-pane fade" id="available" role="tabpanel" aria-labelledby="available-tab">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="category-sidebar">
+                                <!-- Search Box -->
+                                <div class="search-box">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" class="form-control" id="challenge-search" placeholder="Search challenges...">
+                                </div>
+
+                                <h5 class="mb-3">Categories</h5>
+                                <ul class="category-list">
+                                    <li class="category-item active" data-category="all">
+                                        <div class="category-icon">
+                                            <i class="fas fa-globe-americas"></i>
+                                        </div>
+                                        <span>All Categories</span>
+                                        <span class="category-count">{{ available_challenges|default([])|length }}</span>
+                                    </li>
+                                    <li class="category-item" data-category="waste">
+                                        <div class="category-icon">
+                                            <i class="fas fa-recycle"></i>
+                                        </div>
+                                        <span>Waste Reduction</span>
+                                        <span class="category-count">8</span>
+                                    </li>
+                                    <li class="category-item" data-category="energy">
+                                        <div class="category-icon">
+                                            <i class="fas fa-bolt"></i>
+                                        </div>
+                                        <span>Energy Conservation</span>
+                                        <span class="category-count">6</span>
+                                    </li>
+                                    <li class="category-item" data-category="transport">
+                                        <div class="category-icon">
+                                            <i class="fas fa-bicycle"></i>
+                                        </div>
+                                        <span>Sustainable Transport</span>
+                                        <span class="category-count">5</span>
+                                    </li>
+                                    <li class="category-item" data-category="food">
+                                        <div class="category-icon">
+                                            <i class="fas fa-carrot"></i>
+                                        </div>
+                                        <span>Sustainable Food</span>
+                                        <span class="category-count">4</span>
+                                    </li>
+                                    <li class="category-item" data-category="water">
+                                        <div class="category-icon">
+                                            <i class="fas fa-tint"></i>
+                                        </div>
+                                        <span>Water Conservation</span>
+                                        <span class="category-count">3</span>
+                                    </li>
+                                    <li class="category-item" data-category="community">
+                                        <div class="category-icon">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                        <span>Community Action</span>
+                                        <span class="category-count">7</span>
+                                    </li>
+                                </ul>
+
+                                <h5 class="mb-3 mt-4">Difficulty</h5>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="difficulty-beginner" checked>
+                                    <label class="form-check-label" for="difficulty-beginner">
+                                        <i class="fas fa-seedling text-success me-1"></i> Beginner
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="difficulty-intermediate" checked>
+                                    <label class="form-check-label" for="difficulty-intermediate">
+                                        <i class="fas fa-leaf text-success me-1"></i> Intermediate
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="difficulty-advanced" checked>
+                                    <label class="form-check-label" for="difficulty-advanced">
+                                        <i class="fas fa-tree text-success me-1"></i> Advanced
+                                    </label>
+                                </div>
+
+                                <h5 class="mb-3 mt-4">Duration</h5>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="duration-short" checked>
+                                    <label class="form-check-label" for="duration-short">
+                                        Short (1-7 days)
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="duration-medium" checked>
+                                    <label class="form-check-label" for="duration-medium">
+                                        Medium (1-4 weeks)
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="duration-long" checked>
+                                    <label class="form-check-label" for="duration-long">
+                                        Long (1+ months)
+                                    </label>
+                                </div>
+
+                                <button class="btn btn-outline-success w-100 mt-4" id="reset-filters-btn">
+                                    <i class="fas fa-redo-alt me-2"></i>Reset Filters
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-9">
+                            <div class="challenge-filters d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="fw-bold me-2">Filter:</span>
+                                    <div class="btn-group filter-btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-success active" data-filter="all">All</button>
+                                        <button type="button" class="btn btn-outline-success" data-filter="individual">Individual</button>
+                                        <button type="button" class="btn btn-outline-success" data-filter="team">Team</button>
+                                        <button type="button" class="btn btn-outline-success" data-filter="community">Community</button>
+                                        <button type="button" class="btn btn-outline-success" data-filter="featured">Featured</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <select class="form-select" id="challenge-sort" aria-label="Sort challenges">
+                                        <option value="newest" selected>Sort by: Newest</option>
+                                        <option value="points">Sort by: Points</option>
+                                        <option value="popularity">Sort by: Popularity</option>
+                                        <option value="difficulty">Sort by: Difficulty</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row" id="available-challenges-container">
+                                {% if available_challenges %}
+                                    {% for challenge in available_challenges %}
+                                    <div class="col-md-6 col-lg-6 challenge-item fade-in"
+                                         data-category="{{ challenge.category|default('waste') }}"
+                                         data-difficulty="{{ challenge.difficulty|default(1) }}"
+                                         data-type="{{ challenge.type|default('individual') }}">
+                                        <div class="card challenge-card {{ challenge.category|default('waste') }}">
+                                            <div class="challenge-banner">
+                                                <img src="{{ url_for('static', filename='img/challenges/' + challenge.image) }}"
+                                                     alt="{{ challenge.name }}"
+                                                     onerror="this.src='{{ url_for('static', filename='img/challenge-default.jpg') }}'">
+                                                <div class="challenge-badge">
+                                                    <i class="{{ challenge.icon|default('fas fa-leaf') }}"></i>
+                                                </div>
+                                            </div>
+                                            <div class="card-body challenge-body">
+                                                <h5 class="card-title">{{ challenge.name }}</h5>
+
+                                                <div class="challenge-tags">
+                                                    <span class="challenge-tag">{{ challenge.category|default('Waste')|title }}</span>
+                                                    {% if challenge.tags is defined %}
+                                                        {% for tag in challenge.tags %}
+                                                            <span class="challenge-tag">{{ tag }}</span>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+
+                                                <p class="card-text text-muted small">{{ challenge.description }}</p>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-6">
+                                                        <small class="text-muted d-block mb-1">Difficulty</small>
+                                                        <div class="difficulty-stars">
+                                                            {% set difficulty = challenge.difficulty|default(1) %}
+                                                            {% for i in range(1, 6) %}
+                                                                {% if i <= difficulty %}
+                                                                    <i class="fas fa-leaf text-success"></i>
+                                                                {% else %}
+                                                                    <i class="far fa-leaf text-muted"></i>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        <small class="text-muted d-block mb-1">Reward</small>
+                                                        <span class="badge bg-success">{{ challenge.points }} points</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-grid">
+                                                    <button class="btn btn-success join-challenge-btn"
+                                                            data-challenge-id="{{ challenge.id }}">
+                                                        <i class="fas fa-plus-circle me-2"></i>Join Challenge
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer bg-white">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-clock me-1"></i>
+                                                        {{ challenge.duration|default('4 weeks') }}
+                                                    </small>
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-users me-1"></i>
+                                                        {{ challenge.participants|default(0) }} participants
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="col-12 text-center py-5">
+                                        <i class="fas fa-calendar-alt fa-3x text-muted mb-3"></i>
+                                        <h4>No Available Challenges</h4>
+                                        <p class="text-muted">Check back soon for new challenges!</p>
+                                        <button class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#createChallengeModal">
+                                            <i class="fas fa-plus-circle me-2"></i>Create Your Own Challenge
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <nav aria-label="Challenge pagination">
+                                    <ul class="pagination">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Challenges Tab -->
+                <div class="tab-pane fade" id="trending" role="tabpanel" aria-labelledby="trending-tab">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-body p-4">
+                                    <h5 class="mb-3"><i class="fas fa-fire text-danger me-2"></i>Trending This Week</h5>
+                                    <p class="text-muted">Join the most popular challenges that are making a difference right now!</p>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card challenge-card water mb-3">
+                                                <div class="position-absolute top-0 end-0 p-2 z-index-1">
+                                                    <span class="badge bg-danger">
+                                                        <i class="fas fa-fire me-1"></i> Hot
+                                                    </span>
+                                                </div>
+                                                <div class="challenge-banner">
+                                                    <img src="{{ url_for('static', filename='img/challenge-default.jpg') }}" alt="Challenge">
+                                                    <div class="challenge-badge">
+                                                        <i class="fas fa-tint"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body challenge-body">
+                                                    <h5 class="card-title">Water Saving Challenge</h5>
+                                                    <p class="card-text text-muted small">Reduce your water usage by 20% for two weeks.</p>
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <span class="badge bg-info">1,245 participants</span>
+                                                        <span class="badge bg-success">75 points</span>
+                                                    </div>
+                                                    <button class="btn btn-success w-100 join-challenge-btn">Join Now</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="card challenge-card food mb-3">
+                                                <div class="position-absolute top-0 end-0 p-2 z-index-1">
+                                                    <span class="badge bg-danger">
+                                                        <i class="fas fa-fire me-1"></i> Hot
+                                                    </span>
+                                                </div>
+                                                <div class="challenge-banner">
+                                                    <img src="{{ url_for('static', filename='img/challenge-default.jpg') }}" alt="Challenge">
+                                                    <div class="challenge-badge">
+                                                        <i class="fas fa-carrot"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body challenge-body">
+                                                    <h5 class="card-title">Plant-Based Week</h5>
+                                                    <p class="card-text text-muted small">Try eating plant-based meals for one week.</p>
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <span class="badge bg-info">987 participants</span>
+                                                        <span class="badge bg-success">100 points</span>
+                                                    </div>
+                                                    <button class="btn btn-success w-100 join-challenge-btn">Join Now</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="card challenge-card energy mb-3">
+                                                <div class="position-absolute top-0 end-0 p-2 z-index-1">
+                                                    <span class="badge bg-danger">
+                                                        <i class="fas fa-fire me-1"></i> Hot
+                                                    </span>
+                                                </div>
+                                                <div class="challenge-banner">
+                                                    <img src="{{ url_for('static', filename='img/challenge-default.jpg') }}" alt="Challenge">
+                                                    <div class="challenge-badge">
+                                                        <i class="fas fa-bolt"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body challenge-body">
+                                                    <h5 class="card-title">Energy Saver</h5>
+                                                    <p class="card-text text-muted small">Reduce your home energy usage by 15% for one month.</p>
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <span class="badge bg-info">756 participants</span>
+                                                        <span class="badge bg-success">120 points</span>
+                                                    </div>
+                                                    <button class="btn btn-success w-100 join-challenge-btn">Join Now</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Challenges Tab -->
+                <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                    <div class="challenge-filters d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="fw-bold me-2">Filter:</span>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary active">All</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">This Month</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">This Year</button>
+                            </div>
+                        </div>
+                        <div>
+                            <select class="form-select form-select-sm" aria-label="Sort challenges">
+                                <option selected>Sort by: Recently Completed</option>
+                                <option>Sort by: Points</option>
+                                <option>Sort by: Name</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        {% if completed_challenges %}
+                            {% for challenge in completed_challenges %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card challenge-card">
+                                    <div class="challenge-banner">
+                                        <img src="{{ url_for('static', filename='img/challenges/' + challenge.image) }}"
+                                             alt="{{ challenge.name }}"
+                                             onerror="this.src='{{ url_for('static', filename='img/challenge-default.jpg') }}'">
+                                        <div class="challenge-badge">
+                                            <i class="{{ challenge.icon|default('fas fa-leaf') }}"></i>
+                                        </div>
+                                    </div>
+                                    <div class="card-body challenge-body">
+                                        <div class="position-absolute top-0 end-0 p-2">
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i> Completed
+                                            </span>
+                                        </div>
+
+                                        <h5 class="card-title">{{ challenge.name }}</h5>
+                                        <p class="card-text text-muted small">{{ challenge.description }}</p>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span class="badge bg-success">{{ challenge.points }} points earned</span>
+                                            <span class="completion-date">
+                                                <i class="fas fa-calendar-check me-1"></i>
+                                                {{ challenge.completed_date }}
+                                            </span>
+                                        </div>
+
+                                        <div class="text-center">
+                                            <button class="btn btn-sm btn-outline-success">View Certificate</button>
+                                            <button class="btn btn-sm btn-outline-primary ms-2">Share</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-12 text-center py-5">
+                                <i class="fas fa-award fa-3x text-muted mb-3"></i>
+                                <h4>No Completed Challenges Yet</h4>
+                                <p class="text-muted">Complete challenges to see them here!</p>
+                                <button class="btn btn-success" id="view-active-challenges-btn">View Active Challenges</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Rewards Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-gift me-2"></i>Challenge Rewards</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 col-6 text-center mb-4">
+                            <div class="reward-badge">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <h6>Tree Planter</h6>
+                            <p class="text-muted small">Plant 5 trees</p>
+                            <div class="progress progress-thin mb-1">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 40%"
+                                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <small class="text-muted">2/5 trees planted</small>
+                        </div>
+
+                        <div class="col-md-3 col-6 text-center mb-4">
+                            <div class="reward-badge">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h6>Water Saver</h6>
+                            <p class="text-muted small">Save 1000 liters of water</p>
+                            <div class="progress progress-thin mb-1">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 65%"
+                                     aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <small class="text-muted">650/1000 liters saved</small>
+                        </div>
+
+                        <div class="col-md-3 col-6 text-center mb-4">
+                            <div class="reward-badge">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h6>Energy Guru</h6>
+                            <p class="text-muted small">Reduce energy by 100 kWh</p>
+                            <div class="progress progress-thin mb-1">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 80%"
+                                     aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <small class="text-muted">80/100 kWh reduced</small>
+                        </div>
+
+                        <div class="col-md-3 col-6 text-center mb-4">
+                            <div class="reward-badge">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                            <h6>Recycling Pro</h6>
+                            <p class="text-muted small">Recycle 50 items</p>
+                            <div class="progress progress-thin mb-1">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
+                                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <small class="text-success">Completed!</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Progress Modal -->
+<div class="modal fade" id="updateProgressModal" tabindex="-1" aria-labelledby="updateProgressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateProgressModalLabel">Update Challenge Progress</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="update-progress-form">
+                    <input type="hidden" id="challenge-id" value="">
+
+                    <div class="mb-3">
+                        <label for="challenge-name" class="form-label">Challenge</label>
+                        <input type="text" class="form-control" id="challenge-name" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="current-progress" class="form-label">Current Progress</label>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-success" id="current-progress-bar" role="progressbar"
+                                 style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <input type="text" class="form-control" id="current-progress" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="new-progress" class="form-label">New Progress</label>
+                        <input type="range" class="form-range" id="new-progress" min="0" max="100" step="5">
+                        <div class="d-flex justify-content-between">
+                            <span>0%</span>
+                            <span id="new-progress-value">0%</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="progress-notes" class="form-label">Notes (optional)</label>
+                        <textarea class="form-control" id="progress-notes" rows="3" placeholder="Describe your progress..."></textarea>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="share-progress">
+                        <label class="form-check-label" for="share-progress">
+                            Share this progress update with the community
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="save-progress-btn">Save Progress</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize toast notifications
+        function showToast(message, type = 'success') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.querySelector('.toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                document.body.appendChild(toastContainer);
+            }
+
+            // Create toast element
+            const toastId = 'toast-' + Date.now();
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type} border-0`;
+            toast.id = toastId;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Initialize and show the toast
+            const bsToast = new bootstrap.Toast(toast, {
+                autohide: true,
+                delay: 3000
+            });
+            bsToast.show();
+
+            // Remove toast after it's hidden
+            toast.addEventListener('hidden.bs.toast', function() {
+                toast.remove();
+            });
+        }
+
+        // Browse challenges button
+        const browseBtn = document.getElementById('browse-challenges-btn');
+        if (browseBtn) {
+            browseBtn.addEventListener('click', function() {
+                document.getElementById('available-tab').click();
+            });
+        }
+
+        // View active challenges button
+        const viewActiveBtn = document.getElementById('view-active-challenges-btn');
+        if (viewActiveBtn) {
+            viewActiveBtn.addEventListener('click', function() {
+                document.getElementById('active-tab').click();
+            });
+        }
+
+        // Join challenge buttons
+        const joinBtns = document.querySelectorAll('.join-challenge-btn');
+        joinBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const challengeId = this.getAttribute('data-challenge-id') || 'sample-id';
+                const challengeCard = this.closest('.challenge-card');
+                const challengeName = challengeCard ? challengeCard.querySelector('.card-title').textContent : 'Challenge';
+
+                // Disable button and show loading state
+                this.disabled = true;
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Joining...';
+
+                // Simulate API call (in a real app, this would be a fetch to your server)
+                setTimeout(() => {
+                    // Re-enable button and restore text
+                    this.disabled = false;
+                    this.innerHTML = originalText;
+
+                    // Show success message
+                    showToast(`Successfully joined "${challengeName}"!`, 'success');
+
+                    // In a real app, you'd reload or update the UI
+                    // For demo, we'll just update the button
+                    this.innerHTML = '<i class="fas fa-check-circle me-2"></i>Joined';
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-outline-success');
+                    this.disabled = true;
+
+                    // Increment the active challenges count
+                    const completedCount = document.querySelector('.stats-value');
+                    if (completedCount) {
+                        const currentCount = parseInt(completedCount.textContent) || 0;
+                        completedCount.textContent = currentCount + 1;
+                    }
+                }, 1500);
+            });
+        });
+
+        // Category sidebar items
+        const categoryItems = document.querySelectorAll('.category-item');
+        categoryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                categoryItems.forEach(i => i.classList.remove('active'));
+
+                // Add active class to clicked item
+                this.classList.add('active');
+
+                // Get selected category
+                const category = this.getAttribute('data-category');
+
+                // Filter challenges
+                filterChallenges();
+            });
+        });
+
+        // Filter buttons
+        const filterButtons = document.querySelectorAll('.filter-btn-group .btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterButtons.forEach(b => b.classList.remove('active'));
+
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                // Filter challenges
+                filterChallenges();
+            });
+        });
+
+        // Sort select
+        const sortSelect = document.getElementById('challenge-sort');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                sortChallenges(this.value);
+            });
+        }
+
+        // Search input
+        const searchInput = document.getElementById('challenge-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                filterChallenges();
+            });
+        }
+
+        // Difficulty checkboxes
+        const difficultyCheckboxes = document.querySelectorAll('input[id^="difficulty-"]');
+        difficultyCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                filterChallenges();
+            });
+        });
+
+        // Duration checkboxes
+        const durationCheckboxes = document.querySelectorAll('input[id^="duration-"]');
+        durationCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                filterChallenges();
+            });
+        });
+
+        // Reset filters button
+        const resetFiltersBtn = document.getElementById('reset-filters-btn');
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', function() {
+                // Reset category
+                categoryItems.forEach(item => {
+                    if (item.getAttribute('data-category') === 'all') {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+
+                // Reset filter buttons
+                filterButtons.forEach(btn => {
+                    if (btn.getAttribute('data-filter') === 'all') {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                // Reset sort select
+                if (sortSelect) {
+                    sortSelect.value = 'newest';
+                }
+
+                // Reset search input
+                if (searchInput) {
+                    searchInput.value = '';
+                }
+
+                // Reset difficulty checkboxes
+                difficultyCheckboxes.forEach(checkbox => {
+                    checkbox.checked = true;
+                });
+
+                // Reset duration checkboxes
+                durationCheckboxes.forEach(checkbox => {
+                    checkbox.checked = true;
+                });
+
+                // Apply filters
+                filterChallenges();
+
+                // Show toast
+                showToast('Filters reset to default', 'info');
+            });
+        }
+
+        // Filter challenges function
+        function filterChallenges() {
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+            const selectedCategory = document.querySelector('.category-item.active').getAttribute('data-category');
+            const selectedType = document.querySelector('.filter-btn-group .btn.active').getAttribute('data-filter');
+
+            // Get selected difficulties
+            const selectedDifficulties = [];
+            difficultyCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const difficulty = checkbox.id.replace('difficulty-', '');
+                    selectedDifficulties.push(difficulty);
+                }
+            });
+
+            // Get selected durations
+            const selectedDurations = [];
+            durationCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const duration = checkbox.id.replace('duration-', '');
+                    selectedDurations.push(duration);
+                }
+            });
+
+            // Get all challenge items
+            const challengeItems = document.querySelectorAll('.challenge-item');
+
+            // Filter challenges
+            let visibleCount = 0;
+            challengeItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                const type = item.getAttribute('data-type');
+                const difficulty = parseInt(item.getAttribute('data-difficulty')) || 1;
+
+                // Map difficulty value to name
+                let difficultyName = 'beginner';
+                if (difficulty >= 4) {
+                    difficultyName = 'advanced';
+                } else if (difficulty >= 2) {
+                    difficultyName = 'intermediate';
+                }
+
+                // Get challenge title and description
+                const title = item.querySelector('.card-title').textContent.toLowerCase();
+                const description = item.querySelector('.card-text').textContent.toLowerCase();
+
+                // Check if challenge matches filters
+                const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+                const matchesType = selectedType === 'all' || type === selectedType;
+                const matchesDifficulty = selectedDifficulties.includes(difficultyName);
+                const matchesSearch = searchTerm === '' || title.includes(searchTerm) || description.includes(searchTerm);
+
+                // Show or hide challenge
+                if (matchesCategory && matchesType && matchesDifficulty && matchesSearch) {
+                    item.style.display = '';
+                    visibleCount++;
+
+                    // Add fade-in animation
+                    item.classList.add('fade-in');
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show "no results" message if no challenges match filters
+            const noResultsMessage = document.getElementById('no-results-message');
+            if (visibleCount === 0) {
+                if (!noResultsMessage) {
+                    const container = document.getElementById('available-challenges-container');
+                    const message = document.createElement('div');
+                    message.id = 'no-results-message';
+                    message.className = 'col-12 text-center py-5';
+                    message.innerHTML = `
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4>No Challenges Found</h4>
+                        <p class="text-muted">Try adjusting your filters or search terms.</p>
+                        <button class="btn btn-outline-success mt-2" id="clear-filters-btn">
+                            <i class="fas fa-redo-alt me-2"></i>Clear Filters
+                        </button>
+                    `;
+                    container.appendChild(message);
+
+                    // Add event listener to clear filters button
+                    document.getElementById('clear-filters-btn').addEventListener('click', function() {
+                        resetFiltersBtn.click();
+                    });
+                }
+            } else if (noResultsMessage) {
+                noResultsMessage.remove();
+            }
+
+            // Update category counts
+            updateCategoryCounts();
+        }
+
+        // Sort challenges function
+        function sortChallenges(sortBy) {
+            const container = document.getElementById('available-challenges-container');
+            const items = Array.from(container.querySelectorAll('.challenge-item'));
+
+            // Sort items
+            items.sort((a, b) => {
+                if (sortBy === 'newest') {
+                    // Sort by newest (assuming newer items are at the top by default)
+                    return 0;
+                } else if (sortBy === 'points') {
+                    // Sort by points (higher first)
+                    const pointsA = parseInt(a.querySelector('.badge.bg-success').textContent) || 0;
+                    const pointsB = parseInt(b.querySelector('.badge.bg-success').textContent) || 0;
+                    return pointsB - pointsA;
+                } else if (sortBy === 'popularity') {
+                    // Sort by participants (higher first)
+                    const participantsA = parseInt(a.querySelector('.card-footer small:last-child').textContent.match(/\d+/)[0]) || 0;
+                    const participantsB = parseInt(b.querySelector('.card-footer small:last-child').textContent.match(/\d+/)[0]) || 0;
+                    return participantsB - participantsA;
+                } else if (sortBy === 'difficulty') {
+                    // Sort by difficulty (higher first)
+                    const difficultyA = parseInt(a.getAttribute('data-difficulty')) || 1;
+                    const difficultyB = parseInt(b.getAttribute('data-difficulty')) || 1;
+                    return difficultyB - difficultyA;
+                }
+                return 0;
+            });
+
+            // Reorder items in the DOM
+            items.forEach(item => {
+                container.appendChild(item);
+            });
+
+            // Show toast
+            showToast(`Challenges sorted by ${sortBy}`, 'info');
+        }
+
+        // Update category counts
+        function updateCategoryCounts() {
+            const challengeItems = document.querySelectorAll('.challenge-item');
+            const categoryCounts = {
+                all: 0,
+                waste: 0,
+                energy: 0,
+                transport: 0,
+                food: 0,
+                water: 0,
+                community: 0
+            };
+
+            // Count visible challenges by category
+            challengeItems.forEach(item => {
+                if (item.style.display !== 'none') {
+                    categoryCounts.all++;
+                    const category = item.getAttribute('data-category');
+                    if (categoryCounts[category] !== undefined) {
+                        categoryCounts[category]++;
+                    }
+                }
+            });
+
+            // Update category count badges
+            categoryItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                const countBadge = item.querySelector('.category-count');
+                if (countBadge && categoryCounts[category] !== undefined) {
+                    countBadge.textContent = categoryCounts[category];
+                }
+            });
+        }
+
+        // Update progress buttons
+        const updateBtns = document.querySelectorAll('.update-progress-btn');
+        updateBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const challengeId = this.getAttribute('data-challenge-id');
+
+                // Find challenge data
+                const challengeCard = this.closest('.challenge-card');
+                const challengeName = challengeCard.querySelector('.card-title').textContent;
+                const currentProgress = challengeCard.querySelector('.progress-bar').getAttribute('aria-valuenow');
+
+                // Populate modal
+                document.getElementById('challenge-id').value = challengeId;
+                document.getElementById('challenge-name').value = challengeName;
+                document.getElementById('current-progress').value = currentProgress + '%';
+                document.getElementById('current-progress-bar').style.width = currentProgress + '%';
+                document.getElementById('current-progress-bar').setAttribute('aria-valuenow', currentProgress);
+
+                // Set range input to current progress
+                const newProgressRange = document.getElementById('new-progress');
+                newProgressRange.value = currentProgress;
+                document.getElementById('new-progress-value').textContent = currentProgress + '%';
+
+                // Add event listener for range input
+                newProgressRange.addEventListener('input', function() {
+                    document.getElementById('new-progress-value').textContent = this.value + '%';
+                });
+
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('updateProgressModal'));
+                modal.show();
+            });
+        });
+
+        // Save progress button
+        const saveProgressBtn = document.getElementById('save-progress-btn');
+        if (saveProgressBtn) {
+            saveProgressBtn.addEventListener('click', function() {
+                const challengeId = document.getElementById('challenge-id').value;
+                const progress = document.getElementById('new-progress').value;
+                const notes = document.getElementById('progress-notes').value;
+                const shareProgress = document.getElementById('share-progress').checked;
+
+                // Disable button and show loading state
+                this.disabled = true;
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
+
+                // Simulate API call (in a real app, this would be a fetch to your server)
+                setTimeout(() => {
+                    // Re-enable button and restore text
+                    this.disabled = false;
+                    this.innerHTML = originalText;
+
+                    // Close modal
+                    bootstrap.Modal.getInstance(document.getElementById('updateProgressModal')).hide();
+
+                    // Show success message
+                    showToast('Progress updated successfully!', 'success');
+
+                    // In a real app, you'd update the UI
+                    // For demo, we'll update the progress bar
+                    const challengeId = document.getElementById('challenge-id').value;
+                    const progressBar = document.querySelector(`.update-progress-btn[data-challenge-id="${challengeId}"]`)
+                        .closest('.challenge-card')
+                        .querySelector('.progress-bar');
+
+                    if (progressBar) {
+                        progressBar.style.width = progress + '%';
+                        progressBar.setAttribute('aria-valuenow', progress);
+
+                        // Update progress text
+                        const progressText = progressBar.closest('.card-body').querySelector('small:nth-child(2)');
+                        if (progressText) {
+                            progressText.textContent = progress + '%';
+                        }
+
+                        // If progress is 100%, show completed message
+                        if (progress == 100) {
+                            const challengeCard = progressBar.closest('.challenge-card');
+                            const updateBtn = challengeCard.querySelector('.update-progress-btn');
+
+                            // Replace button with completed badge
+                            if (updateBtn) {
+                                const btnContainer = updateBtn.parentElement;
+                                btnContainer.innerHTML = `
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle me-1"></i> Completed
+                                    </span>
+                                `;
+                            }
+
+                            // Increment completed challenges count
+                            const completedCount = document.querySelector('.stats-value');
+                            if (completedCount) {
+                                const currentCount = parseInt(completedCount.textContent) || 0;
+                                completedCount.textContent = currentCount + 1;
+                            }
+                        }
+                    }
+                }, 1500);
+            });
+        }
+
+        // Add invite modal
+        const inviteModal = `
+            <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="inviteModalLabel"><i class="fas fa-user-plus me-2"></i>Invite Friends</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Invite friends to join challenges with you and make a bigger impact together!</p>
+
+                            <div class="mb-3">
+                                <label for="invite-email" class="form-label">Email Addresses</label>
+                                <textarea class="form-control" id="invite-email" rows="3" placeholder="Enter email addresses separated by commas"></textarea>
+                                <div class="form-text">We'll send them an invitation to join EcoCycle.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="invite-message" class="form-label">Personal Message (Optional)</label>
+                                <textarea class="form-control" id="invite-message" rows="3" placeholder="Add a personal message to your invitation"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Or share via:</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></button>
+                                    <button class="btn btn-outline-info"><i class="fab fa-twitter"></i></button>
+                                    <button class="btn btn-outline-success"><i class="fab fa-whatsapp"></i></button>
+                                    <button class="btn btn-outline-secondary"><i class="fas fa-envelope"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-success" id="send-invite-btn">Send Invitations</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add invite modal to the page
+        document.body.insertAdjacentHTML('beforeend', inviteModal);
+
+        // Send invite button
+        const sendInviteBtn = document.getElementById('send-invite-btn');
+        if (sendInviteBtn) {
+            sendInviteBtn.addEventListener('click', function() {
+                const emails = document.getElementById('invite-email').value;
+                const message = document.getElementById('invite-message').value;
+
+                if (!emails) {
+                    showToast('Please enter at least one email address', 'danger');
+                    return;
+                }
+
+                // Disable button and show loading state
+                this.disabled = true;
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Sending...';
+
+                // Simulate API call
+                setTimeout(() => {
+                    // Re-enable button and restore text
+                    this.disabled = false;
+                    this.innerHTML = originalText;
+
+                    // Close modal
+                    bootstrap.Modal.getInstance(document.getElementById('inviteModal')).hide();
+
+                    // Show success message
+                    showToast('Invitations sent successfully!', 'success');
+
+                    // Clear form
+                    document.getElementById('invite-email').value = '';
+                    document.getElementById('invite-message').value = '';
+                }, 1500);
+            });
+        }
+
+        // Initialize filters on page load
+        filterChallenges();
+    });
+</script>
+
+<!-- Achievements Modal -->
+<div class="modal fade" id="achievementsModal" tabindex="-1" aria-labelledby="achievementsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="achievementsModalLabel"><i class="fas fa-medal me-2"></i>Your Achievements</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center mb-4">
+                        <div class="achievement-badge gold">
+                            <i class="fas fa-award fa-3x"></i>
+                        </div>
+                        <h5 class="mt-2">Eco Warrior</h5>
+                        <p class="text-muted small">Complete 10 challenges</p>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">6/10</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center mb-4">
+                        <div class="achievement-badge silver">
+                            <i class="fas fa-leaf fa-3x"></i>
+                        </div>
+                        <h5 class="mt-2">Carbon Reducer</h5>
+                        <p class="text-muted small">Save 100kg of CO2</p>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45/100</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center mb-4">
+                        <div class="achievement-badge bronze">
+                            <i class="fas fa-bicycle fa-3x"></i>
+                        </div>
+                        <h5 class="mt-2">Cycling Enthusiast</h5>
+                        <p class="text-muted small">Cycle 500km total</p>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">150/500</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center py-3">
+                    <p class="text-muted">Complete more challenges to unlock additional achievements!</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Challenge Modal -->
+<div class="modal fade" id="createChallengeModal" tabindex="-1" aria-labelledby="createChallengeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="createChallengeModalLabel"><i class="fas fa-plus-circle me-2"></i>Create New Challenge</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Coming Soon!</strong> The ability to create custom challenges will be available in a future update.
+                </div>
+                <p>In the meantime, you can join existing challenges or contact an administrator to suggest a new challenge.</p>
+                <div class="text-center py-3">
+                    <button class="btn btn-outline-success" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#inviteModal">
+                        <i class="fas fa-user-plus me-2"></i>Invite Friends to Existing Challenges
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

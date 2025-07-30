@@ -1,0 +1,1116 @@
+{% extends "base.html" %}
+
+{% block title %}Challenge History & Achievements{% endblock %}
+
+{% block head %}
+<style>
+    /* Achievement Cards */
+    .achievement-card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        border: none;
+        position: relative;
+    }
+    .achievement-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    .achievement-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #28a745, #20c997);
+    }
+    .achievement-card.bronze::before {
+        background: linear-gradient(90deg, #cd7f32, #e9be7e);
+    }
+    .achievement-card.silver::before {
+        background: linear-gradient(90deg, #a0a0a0, #e0e0e0);
+    }
+    .achievement-card.gold::before {
+        background: linear-gradient(90deg, #ffd700, #ffec80);
+    }
+    .achievement-card.platinum::before {
+        background: linear-gradient(90deg, #a0a0a0, #e5e5e5, #a0a0a0);
+    }
+
+    /* Achievement Icons */
+    .achievement-icon {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.2rem;
+        font-size: 2.8rem;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .achievement-card:hover .achievement-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+    .achievement-icon::after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-radius: 50%;
+        background: transparent;
+        border: 2px dashed rgba(255,255,255,0.5);
+        z-index: -1;
+        animation: spin 30s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .achievement-icon.bronze {
+        background: linear-gradient(135deg, #cd7f32, #e9be7e);
+        color: white;
+    }
+    .achievement-icon.silver {
+        background: linear-gradient(135deg, #a0a0a0, #e0e0e0);
+        color: #333;
+    }
+    .achievement-icon.gold {
+        background: linear-gradient(135deg, #ffd700, #ffec80);
+        color: #333;
+    }
+    .achievement-icon.platinum {
+        background: linear-gradient(135deg, #a0a0a0, #e5e5e5, #a0a0a0);
+        color: #333;
+    }
+
+    /* Achievement Details */
+    .achievement-date {
+        font-size: 0.85rem;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+    .achievement-date i {
+        margin-right: 0.5rem;
+    }
+    .achievement-points {
+        font-weight: bold;
+        color: #28a745;
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background-color: rgba(40, 167, 69, 0.1);
+        border-radius: 20px;
+        margin-top: 0.5rem;
+    }
+
+    /* Level Progress Section */
+    .level-progress {
+        height: 12px;
+        border-radius: 6px;
+        margin-bottom: 0.75rem;
+        background-color: #e9ecef;
+        overflow: hidden;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .level-progress .progress-bar {
+        transition: width 1.5s ease;
+        background: linear-gradient(90deg, #28a745, #20c997);
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+    }
+    .level-indicator {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+    .level-badge {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.2rem;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        font-size: 2.5rem;
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+    .level-badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+    }
+    .level-badge::after {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border-radius: 50%;
+        border: 2px dashed rgba(255,255,255,0.5);
+        z-index: -1;
+    }
+    .level-number {
+        font-size: 3.5rem;
+        font-weight: bold;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Stats Card */
+    .stats-card {
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-left: 5px solid #17a2b8;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+    .stats-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .stats-value {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #17a2b8;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+    .stats-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Timeline Improvements */
+    .history-timeline {
+        position: relative;
+        padding-left: 2.5rem;
+        margin-bottom: 2rem;
+    }
+    .history-timeline::before {
+        content: '';
+        position: absolute;
+        left: 0.5rem;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(to bottom, #28a745, #20c997);
+        border-radius: 3px;
+    }
+    .timeline-item {
+        position: relative;
+        padding-bottom: 2rem;
+        opacity: 0;
+        transform: translateX(-20px);
+        animation: fadeInRight 0.5s ease forwards;
+    }
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+    .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+    .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInRight {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -2.5rem;
+        top: 0.5rem;
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 50%;
+        background-color: #28a745;
+        border: 3px solid white;
+        box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+    .timeline-item:hover::before {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 5px rgba(40, 167, 69, 0.2);
+    }
+    .timeline-item.completed::before {
+        background-color: #17a2b8;
+        box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.2);
+    }
+    .timeline-item.completed:hover::before {
+        box-shadow: 0 0 0 5px rgba(23, 162, 184, 0.2);
+    }
+    .timeline-date {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+    .timeline-date i {
+        margin-right: 0.5rem;
+        color: #6c757d;
+    }
+    .timeline-content {
+        background-color: white;
+        border-radius: 12px;
+        padding: 1.25rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border-left: 3px solid #28a745;
+    }
+    .timeline-item.completed .timeline-content {
+        border-left-color: #17a2b8;
+    }
+    .timeline-content:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    /* Tab Navigation Improvements */
+    .nav-pills {
+        background-color: #f8f9fa;
+        border-radius: 50px;
+        padding: 0.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        display: inline-flex;
+        margin-bottom: 2rem;
+    }
+    .nav-pills .nav-link {
+        border-radius: 50px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        color: #495057;
+        transition: all 0.3s ease;
+    }
+    .nav-pills .nav-link:hover:not(.active) {
+        background-color: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+    }
+    .nav-pills .nav-link.active {
+        background-color: #28a745;
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    /* Filter Controls */
+    .filter-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .filter-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #495057;
+    }
+    .filter-select {
+        border-radius: 20px;
+        border: 1px solid #ced4da;
+        padding: 0.375rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Empty State Improvements */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        margin: 2rem 0;
+    }
+    .empty-state-icon {
+        font-size: 4rem;
+        color: #adb5bd;
+        margin-bottom: 1.5rem;
+    }
+    .empty-state-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        color: #495057;
+    }
+    .empty-state-text {
+        color: #6c757d;
+        max-width: 500px;
+        margin: 0 auto 1.5rem;
+    }
+
+    /* Animations */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .achievement-card.new {
+        animation: pulse 2s infinite;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .level-badge {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1rem;
+        }
+        .level-number {
+            font-size: 2.5rem;
+        }
+        .filter-controls {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .nav-pills {
+            width: 100%;
+            justify-content: center;
+        }
+        .nav-pills .nav-link {
+            padding: 0.5rem 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="fas fa-trophy me-2"></i>Challenge History & Achievements</h1>
+            <p class="text-muted">Track your sustainability journey and celebrate your eco-friendly accomplishments.</p>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="stats-value">{{ total_points|default(0) }}</div>
+                        <div class="stats-label">Total Points</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stats-value">{{ achievements_count|default(0) }}</div>
+                        <div class="stats-label">Achievements</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Level Section -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center">
+                    <div class="level-badge">
+                        <span class="level-number">{{ user_level|default(1) }}</span>
+                    </div>
+                    <h4 class="mb-1">Level {{ user_level|default(1) }}</h4>
+                    <p class="text-muted mb-2">{{ level_title|default('Eco Novice') }}</p>
+                    <div class="badge bg-success mb-2">
+                        <i class="fas fa-leaf me-1"></i> Sustainability Rank
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="mb-0">Level Progress</h5>
+                        <span class="badge bg-light text-dark">
+                            <i class="fas fa-bolt me-1"></i> {{ current_points|default(0) }}/{{ next_level_points|default(100) }} XP
+                        </span>
+                    </div>
+                    <div class="progress level-progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ level_progress|default(0) }}%"
+                             aria-valuenow="{{ level_progress|default(0) }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="level-indicator">
+                        <span>Level {{ user_level|default(1) }}</span>
+                        <span>Level {{ next_level|default(2) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <p class="mb-0">
+                            <i class="fas fa-info-circle me-2 text-info"></i>
+                            <span class="text-muted">{{ points_to_next_level|default(100) }} points to reach Level {{ next_level|default(2) }}</span>
+                        </p>
+                        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#levelRewardsModal">
+                            <i class="fas fa-gift me-1"></i> Level Rewards
+                        </button>
+                    </div>
+                    <div class="mt-3 p-3 bg-light rounded-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-lightbulb text-warning me-3 fa-2x"></i>
+                            <div>
+                                <h6 class="mb-1">Level Up Tip</h6>
+                                <p class="mb-0 small">Complete challenges and earn achievements to gain points and level up faster! Focus on weekly goals for consistent progress.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs for Achievements and History -->
+    <div class="d-flex justify-content-center mb-4">
+        <ul class="nav nav-pills" id="achievementsTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="achievements-tab" data-bs-toggle="pill" data-bs-target="#achievements"
+                        type="button" role="tab" aria-controls="achievements" aria-selected="true">
+                    <i class="fas fa-medal me-2"></i>Achievements
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="history-tab" data-bs-toggle="pill" data-bs-target="#history"
+                        type="button" role="tab" aria-controls="history" aria-selected="false">
+                    <i class="fas fa-history me-2"></i>Challenge History
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="stats-tab" data-bs-toggle="pill" data-bs-target="#stats"
+                        type="button" role="tab" aria-controls="stats" aria-selected="false">
+                    <i class="fas fa-chart-line me-2"></i>Stats
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Filter Controls for Achievements -->
+    <div class="filter-controls" id="achievements-filters">
+        <div class="filter-group">
+            <span class="filter-label">Filter by:</span>
+            <select class="filter-select" id="achievement-category-filter">
+                <option value="all">All Categories</option>
+                <option value="waste">Waste Reduction</option>
+                <option value="energy">Energy Conservation</option>
+                <option value="transport">Sustainable Transport</option>
+                <option value="food">Sustainable Food</option>
+                <option value="water">Water Conservation</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">Sort by:</span>
+            <select class="filter-select" id="achievement-sort">
+                <option value="recent">Most Recent</option>
+                <option value="oldest">Oldest First</option>
+                <option value="points-high">Highest Points</option>
+                <option value="points-low">Lowest Points</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <button class="btn btn-sm btn-outline-success" id="toggle-achievement-view">
+                <i class="fas fa-th-large me-1"></i> Grid View
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Controls for History -->
+    <div class="filter-controls" id="history-filters" style="display: none;">
+        <div class="filter-group">
+            <span class="filter-label">Filter by:</span>
+            <select class="filter-select" id="history-status-filter">
+                <option value="all">All Challenges</option>
+                <option value="completed">Completed</option>
+                <option value="in-progress">In Progress</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">Time period:</span>
+            <select class="filter-select" id="history-time-filter">
+                <option value="all">All Time</option>
+                <option value="month">This Month</option>
+                <option value="quarter">Last 3 Months</option>
+                <option value="year">This Year</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <button class="btn btn-sm btn-outline-success" id="export-history">
+                <i class="fas fa-download me-1"></i> Export
+            </button>
+        </div>
+    </div>
+
+    <div class="tab-content" id="achievementsTabContent">
+        <!-- Achievements Tab -->
+        <div class="tab-pane fade show active" id="achievements" role="tabpanel" aria-labelledby="achievements-tab">
+            <div class="row">
+                {% if achievements %}
+                    {% for achievement in achievements %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card achievement-card {{ achievement.tier|default('bronze') }} {% if achievement.is_new %}new{% endif %}">
+                            <div class="card-body text-center">
+                                <div class="achievement-icon {{ achievement.tier|default('bronze') }}">
+                                    <i class="{{ achievement.icon|default('fas fa-award') }}"></i>
+                                </div>
+                                <h5 class="card-title">{{ achievement.name }}</h5>
+                                <div class="mb-2">
+                                    <span class="badge bg-light text-dark">
+                                        <i class="fas fa-tag me-1"></i> {{ achievement.category|default('General')|title }}
+                                    </span>
+                                </div>
+                                <p class="card-text">{{ achievement.description }}</p>
+                                <p class="achievement-date">
+                                    <i class="fas fa-calendar-check me-1"></i> Earned on {{ achievement.date_earned }}
+                                </p>
+                                <p class="achievement-points">
+                                    <i class="fas fa-star me-1"></i> +{{ achievement.points }} points
+                                </p>
+                                <button class="btn btn-sm btn-outline-success mt-2 share-achievement-btn" data-achievement-id="{{ achievement.id }}">
+                                    <i class="fas fa-share-alt me-1"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h3 class="empty-state-title">No Achievements Yet</h3>
+                            <p class="empty-state-text">Complete challenges and sustainability goals to earn achievements and unlock rewards!</p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{{ url_for('challenges') }}" class="btn btn-success">
+                                    <i class="fas fa-tasks me-2"></i>Browse Challenges
+                                </a>
+                                <a href="{{ url_for('weekly_goals') }}" class="btn btn-outline-success">
+                                    <i class="fas fa-leaf me-2"></i>Weekly Goals
+                                </a>
+                            </div>
+                            <div class="mt-4">
+                                <h6 class="mb-3">Achievements you can earn:</h6>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-4">
+                                        <div class="card mb-3">
+                                            <div class="card-body p-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-3">
+                                                        <i class="fas fa-seedling text-success fa-2x"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-1">First Steps</h6>
+                                                        <p class="mb-0 small text-muted">Complete your first challenge</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card mb-3">
+                                            <div class="card-body p-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-3">
+                                                        <i class="fas fa-calendar-check text-primary fa-2x"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-1">Weekly Warrior</h6>
+                                                        <p class="mb-0 small text-muted">Complete all weekly goals</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Challenge History Tab -->
+        <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+            <div class="history-timeline">
+                {% if challenge_history %}
+                    {% for challenge in challenge_history %}
+                    <div class="timeline-item {{ 'completed' if challenge.completed else '' }}">
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> {{ challenge.date }}
+                        </div>
+                        <div class="timeline-content">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="mb-0">{{ challenge.name }}</h5>
+                                <span class="badge {{ 'bg-success' if challenge.completed else 'bg-warning' }}">
+                                    {% if challenge.completed %}
+                                    <i class="fas fa-check-circle me-1"></i> Completed
+                                    {% else %}
+                                    <i class="fas fa-clock me-1"></i> In Progress
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <div class="mb-3">
+                                <span class="badge bg-light text-dark me-1">
+                                    <i class="fas fa-tag me-1"></i> {{ challenge.category|default('General')|title }}
+                                </span>
+                                {% if challenge.difficulty %}
+                                <span class="badge bg-light text-dark">
+                                    <i class="fas fa-signal me-1"></i> {{ challenge.difficulty|title }} Difficulty
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            <p>{{ challenge.description }}</p>
+
+                            {% if challenge.progress is defined and not challenge.completed %}
+                            <div class="mb-3">
+                                <label class="form-label d-flex justify-content-between mb-1">
+                                    <small>Progress</small>
+                                    <small>{{ challenge.progress|default(0) }}%</small>
+                                </label>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ challenge.progress|default(0) }}%"
+                                         aria-valuenow="{{ challenge.progress|default(0) }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    {% if challenge.completed %}
+                                    <small class="text-muted">
+                                        <i class="fas fa-check me-1"></i> Completed on {{ challenge.completion_date|default(challenge.date) }}
+                                    </small>
+                                    {% else %}
+                                    <small class="text-muted">
+                                        <i class="fas fa-hourglass-half me-1"></i> Started on {{ challenge.start_date|default(challenge.date) }}
+                                    </small>
+                                    {% endif %}
+                                </div>
+                                <span class="achievement-points">
+                                    <i class="fas fa-star me-1"></i> {{ challenge.points }} points
+                                </span>
+                            </div>
+
+                            {% if not challenge.completed %}
+                            <div class="mt-3">
+                                <button class="btn btn-sm btn-outline-success update-progress-btn" data-challenge-id="{{ challenge.id }}">
+                                    <i class="fas fa-sync-alt me-1"></i> Update Progress
+                                </button>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3 class="empty-state-title">No Challenge History</h3>
+                        <p class="empty-state-text">Join challenges to start building your sustainability journey history!</p>
+                        <a href="{{ url_for('challenges') }}" class="btn btn-success mt-2">
+                            <i class="fas fa-tasks me-2"></i>Browse Challenges
+                        </a>
+                        <div class="mt-4">
+                            <div class="card bg-light border-0">
+                                <div class="card-body">
+                                    <h6 class="card-title"><i class="fas fa-lightbulb text-warning me-2"></i>Did you know?</h6>
+                                    <p class="card-text small">Completing challenges not only helps the environment but also earns you points and unlocks special achievements!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Stats Tab -->
+        <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="fas fa-chart-line me-2 text-success"></i>Your Sustainability Impact</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="impactChart" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="fas fa-leaf me-2 text-success"></i>Impact Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span>CO₂ Saved</span>
+                                <span class="badge bg-success">{{ co2_saved|default('12.5') }} kg</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span>Water Saved</span>
+                                <span class="badge bg-info">{{ water_saved|default('320') }} L</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span>Waste Reduced</span>
+                                <span class="badge bg-warning text-dark">{{ waste_reduced|default('5.2') }} kg</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span>Energy Saved</span>
+                                <span class="badge bg-danger">{{ energy_saved|default('45') }} kWh</span>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <p class="mb-2">Your impact is equivalent to:</p>
+                                <div class="d-flex justify-content-around">
+                                    <div class="text-center">
+                                        <i class="fas fa-tree fa-2x text-success mb-2"></i>
+                                        <p class="mb-0 small">{{ trees_equivalent|default('2.5') }} trees</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fas fa-car fa-2x text-secondary mb-2"></i>
+                                        <p class="mb-0 small">{{ car_km_equivalent|default('50') }} km not driven</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="fas fa-tasks me-2 text-success"></i>Challenge Completion</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="challengeChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="fas fa-medal me-2 text-success"></i>Achievement Breakdown</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="achievementChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        // Handle tab changes
+        const achievementsTab = document.getElementById('achievements-tab');
+        const historyTab = document.getElementById('history-tab');
+        const statsTab = document.getElementById('stats-tab');
+
+        const achievementsFilters = document.getElementById('achievements-filters');
+        const historyFilters = document.getElementById('history-filters');
+
+        achievementsTab.addEventListener('shown.bs.tab', function() {
+            achievementsFilters.style.display = 'flex';
+            historyFilters.style.display = 'none';
+
+            // Animate achievement cards
+            document.querySelectorAll('.achievement-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 + (index * 50));
+            });
+        });
+
+        historyTab.addEventListener('shown.bs.tab', function() {
+            achievementsFilters.style.display = 'none';
+            historyFilters.style.display = 'flex';
+        });
+
+        statsTab.addEventListener('shown.bs.tab', function() {
+            achievementsFilters.style.display = 'none';
+            historyFilters.style.display = 'none';
+
+            // Initialize charts when stats tab is shown
+            initializeCharts();
+        });
+
+        // Filter achievements
+        const categoryFilter = document.getElementById('achievement-category-filter');
+        const sortFilter = document.getElementById('achievement-sort');
+        const viewToggle = document.getElementById('toggle-achievement-view');
+
+        categoryFilter.addEventListener('change', filterAchievements);
+        sortFilter.addEventListener('change', filterAchievements);
+
+        function filterAchievements() {
+            const category = categoryFilter.value;
+            const sort = sortFilter.value;
+
+            // In a real app, you'd fetch filtered data from the server
+            // For demo, we'll just show a toast notification
+            showToast(`Filtered achievements: ${category}, sorted by: ${sort}`, 'info');
+        }
+
+        // Toggle view (grid/list)
+        let isGridView = true;
+        viewToggle.addEventListener('click', function() {
+            isGridView = !isGridView;
+
+            const achievementsContainer = document.querySelector('#achievements .row');
+            const cards = document.querySelectorAll('.achievement-card');
+
+            if (isGridView) {
+                viewToggle.innerHTML = '<i class="fas fa-th-large me-1"></i> Grid View';
+                cards.forEach(card => {
+                    card.closest('.col-md-6').className = 'col-md-6 col-lg-4';
+                });
+            } else {
+                viewToggle.innerHTML = '<i class="fas fa-list me-1"></i> List View';
+                cards.forEach(card => {
+                    card.closest('.col-md-6').className = 'col-12 mb-3';
+                });
+            }
+        });
+
+        // Share achievement buttons
+        document.querySelectorAll('.share-achievement-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const achievementId = this.dataset.achievementId;
+                const achievementName = this.closest('.card-body').querySelector('.card-title').textContent;
+
+                // In a real app, you'd implement social sharing
+                showToast(`Sharing achievement: ${achievementName}`, 'success');
+            });
+        });
+
+        // Update progress buttons
+        document.querySelectorAll('.update-progress-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const challengeId = this.dataset.challengeId;
+                const challengeName = this.closest('.timeline-content').querySelector('h5').textContent;
+
+                // Show a modal to update progress (in a real app)
+                showToast(`Updating progress for: ${challengeName}`, 'info');
+            });
+        });
+
+        // Level rewards button
+        const levelRewardsBtn = document.querySelector('[data-bs-target="#levelRewardsModal"]');
+        if (levelRewardsBtn) {
+            levelRewardsBtn.addEventListener('click', function() {
+                // In a real app, you'd show a modal with level rewards
+                showToast('Level rewards feature coming soon!', 'info');
+            });
+        }
+
+        // Export history button
+        const exportHistoryBtn = document.getElementById('export-history');
+        if (exportHistoryBtn) {
+            exportHistoryBtn.addEventListener('click', function() {
+                // In a real app, you'd generate and download a CSV/PDF
+                showToast('Exporting challenge history...', 'info');
+
+                // Simulate download after delay
+                setTimeout(() => {
+                    showToast('Challenge history exported successfully!', 'success');
+                }, 1500);
+            });
+        }
+
+        // Initialize charts for stats tab
+        function initializeCharts() {
+            // Impact chart
+            const impactCtx = document.getElementById('impactChart');
+            if (impactCtx) {
+                const impactChart = new Chart(impactCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'CO₂ Saved (kg)',
+                            data: [2.1, 3.5, 5.2, 7.8, 10.3, 12.5],
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Challenge completion chart
+            const challengeCtx = document.getElementById('challengeChart');
+            if (challengeCtx) {
+                const challengeChart = new Chart(challengeCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Completed', 'In Progress', 'Not Started'],
+                        datasets: [{
+                            data: [8, 3, 5],
+                            backgroundColor: [
+                                '#28a745',
+                                '#ffc107',
+                                '#e9ecef'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            }
+                        },
+                        cutout: '70%'
+                    }
+                });
+            }
+
+            // Achievement breakdown chart
+            const achievementCtx = document.getElementById('achievementChart');
+            if (achievementCtx) {
+                const achievementChart = new Chart(achievementCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Waste', 'Energy', 'Transport', 'Food', 'Water'],
+                        datasets: [{
+                            label: 'Achievements Earned',
+                            data: [3, 2, 4, 1, 2],
+                            backgroundColor: [
+                                'rgba(40, 167, 69, 0.7)',
+                                'rgba(23, 162, 184, 0.7)',
+                                'rgba(255, 193, 7, 0.7)',
+                                'rgba(220, 53, 69, 0.7)',
+                                'rgba(13, 110, 253, 0.7)'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.querySelector('.toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                document.body.appendChild(toastContainer);
+            }
+
+            // Create toast element
+            const toastId = 'toast-' + Date.now();
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type} border-0`;
+            toast.id = toastId;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Initialize and show the toast
+            const bsToast = new bootstrap.Toast(toast, {
+                autohide: true,
+                delay: 3000
+            });
+            bsToast.show();
+
+            // Remove toast after it's hidden
+            toast.addEventListener('hidden.bs.toast', function() {
+                toast.remove();
+            });
+        }
+
+        // Animate level progress bar on load
+        const levelProgressBar = document.querySelector('.level-progress .progress-bar');
+        if (levelProgressBar) {
+            const finalWidth = levelProgressBar.style.width;
+            levelProgressBar.style.width = '0%';
+
+            setTimeout(() => {
+                levelProgressBar.style.width = finalWidth;
+            }, 500);
+        }
+    });
+</script>
+{% endblock %}

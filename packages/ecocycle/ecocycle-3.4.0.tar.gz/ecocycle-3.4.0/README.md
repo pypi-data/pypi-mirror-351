@@ -1,0 +1,292 @@
+<p align="center">
+    <img src="https://i.postimg.cc/T2qM7Z1T/Eco-Cycle-Logo-Rounded.png" width="300" />
+</p>
+
+<p align="center">
+    <a href="https://github.com/shirishpothi/ecocycle/raw/main/DMG%20Files/EcoCycle%20Version%202.5.dmg" download>
+        <img alt="Download Source Code" src="https://img.shields.io/badge/Download%20Source%20Code-243542?style=for-the-badge&logo=microsoftedge&logoColor=white">
+    </a>
+    <a href="https://rebrand.ly/ecocycle">
+        <img alt="Documentation" src="https://img.shields.io/badge/Documentation-0088CC?style=for-the-badge&logo=bookstack&logoColor=white">
+    </a>
+    <br>
+    <a href="https://colab.research.google.com/drive/1RzraMhybgZHFUTL3HoQrAXEwq6j6H-xs?usp=sharing">
+        <img alt="Try it out!" src="https://img.shields.io/badge/Try%20it%20out!-6A0DAD?style=for-the-badge&logo=google-colab&logoColor=white">
+    </a>
+    <a href="https://mail.google.com/mail/u/0/?fs=1&to=shirish.pothi.27@gmail.com&su=Immediate+GitHub+Security+Vulnerability&body=Dear+Dev,%0A%0AI+hope+this+email+finds+you+well.%0A%0AThis+email+serves+as+notification+of+a+critical+security+vulnerability+affecting+your+GitHub+EcoCycle+repository.+Specifically,+the+vulnerability+in+question+is+%5Bdescribe+vulnerability+and+what+you+were+doing+when+you+noticed+it,+what+effect+it+had+on+your+system+or+the+way+the+program+was+run+and+what-if+any+remediation+steps+were+taken%5D.%0APlease+take+immediate+action+to+mitigate+the+risk.+Feel+free+to+contact+me+at+my+email:+%5Binsert+your+email+address%5D.%0A%0ASincerely,%0A%5Byour+name+and+as+many+contact+details+as+possible%5D&tf=cm">
+        <img src="https://img.shields.io/badge/Contact-Email-red?style=for-the-badge&logo=gmail" alt="Contact The Developer">
+    </a>
+    <a href="https://docs.google.com/presentation/d/1V0sD7ZGWMJudS2l8zrOAOJ6m7OpsP_9EuI9vWEAfRe8/edit?usp=sharing">
+        <img alt="Context" src="https://img.shields.io/badge/Context-Google%20Slides-FFD500?style=for-the-badge&logo=google-slides&logoColor=yellow">
+    </a>
+</p>
+
+> [!WARNING]
+> **The software and files provided in this repository by Shirish Pothi and the EcoCycle team are provided "as is" and without warranties of any kind, express or implied. We disclaim all liability for any direct, indirect, incidental, special, or consequential damages arising out of the use or inability to use the software or any files in this repository. Use at your sole discretion and risk.**
+
+---
+
+# 📂 Directory
+
+## 📌 Quick Navigation
+- [🏡 Home](#ecocycle---cycle-into-a-greener-tomorrow)
+- [📁 EcoCycle Repo Structure](#eco-cycle-repo-structure)
+- [💡 Installation Guide](https://github.com/shirishpothi/ecocycle/blob/main/GUIDE.md)
+- [📜 About EcoCycle](#the-ecocycle-program)
+- [📚 Documentation](https://rebrand.ly/ecocycle)
+- [🚀 Live Demo](https://colab.research.google.com/drive/1RzraMhybgZHFUTL3HoQrAXEwq6j6H-xs?usp=sharing)
+- [📜 License](#ecocycles-use-of-the-apache-2-license)
+- [🤝 Contributing](#contributing)
+- [📞 Contact](#contact-us)
+
+## 📁 EcoCycle Repo Structure
+
+<details>
+  <summary><strong>Click to expand</strong> 📂</summary>
+
+```
+├── Main Python Modules
+│   ├── main.py                  # Application entry point
+│   ├── mini.py                  # Minimal version of the application
+│   ├── cli.py                   # Command-line interface
+│   ├── admin_panel.py           # Administrator controls
+│   ├── ai_route_planner.py      # AI-based route planning
+│   ├── ascii_art.py             # ASCII art for CLI interface
+│   ├── carbon_footprint.py      # Carbon footprint calculations
+│   ├── check_sheets_config.py   # Google Sheets config checker
+│   ├── dashboard.py             # User dashboard interface
+│   ├── data_visualization.py    # Data visualization tools
+│   ├── database_manager.py      # Database operations
+│   ├── dependency_manager.py    # Package dependency management
+│   ├── eco_challenges.py        # Environmental challenges
+│   ├── eco_tips.py              # Environmental tips
+│   ├── enhanced_ascii_art.py    # Enhanced ASCII graphics
+│   ├── notification_system.py   # User notifications
+│   ├── sheets_manager.py        # Google Sheets integration
+│   ├── social_gamification.py   # Social features and gamification
+│   ├── user_manager.py          # User account management
+│   ├── utils.py                 # Utility functions
+│   └── weather_route_planner.py # Weather-based route planning
+│
+├── Tests
+│   ├── test_cli.py
+│   ├── test_eco_tips.py
+│   ├── test_enhanced_ui.py
+│   ├── test_user_manager.py
+│   ├── test_utils.py
+│   └── test_weather_route_planner.py
+│
+├── Demo Modules
+│   ├── demo_animations.py       # Animation demonstrations
+│   └── demo_enhanced_ui.py      # Enhanced UI demonstrations
+│
+├── Logs
+│   ├── ecocycle.log             # Main application logs
+│   ├── ecocycle_cli.log         # CLI-specific logs
+│   └── ecocycle_debug.log       # Debug information
+│
+├── visualizations               # Generated data visualizations
+│
+├── Configuration Files
+│   ├── pyproject.toml           # Project dependencies and metadata
+│   ├── poetry.lock              # Poetry lock file
+│   ├── requirements.txt         # Package requirements
+│   └── template.env             # Environment variables template
+│
+└── Documentation
+    ├── README.md                # Project overview
+    ├── GUIDE.md                 # User guide
+    ├── LICENSE.md               # License information
+    ├── SECURITY.md              # Security guidelines
+    └── Code of Conduct.md       # Project code of conduct
+```
+</details>
+
+---
+
+# _🌱 EcoCycle_ - Cycle Into A Greener Tomorrow
+
+Our program was originally developed for the Lenovo and Intel's EDUtech ASIA hackathon, under the sustainable campus theme.
+
+Through deliberation, we decided to create a functional program for proof of concept. Thus, the _EcoCycle_ program was born.
+
+EcoCycle is a command-line application that helps cyclists track their cycling activities, calculate their environmental impact, and engage with a community of environmentally conscious cyclists.
+
+It is designed to promote cycling as a sustainable mode of transportation and encourage users to reduce their carbon footprint.
+
+## Features
+
+- 🚴 **Trip Logging**: Record your cycling trips with distance, duration, and date
+- 📊 **Statistics Dashboard**: View comprehensive stats on your cycling activities
+- 📈 **Data Visualization**: Analyze your cycling data with charts and graphs
+- 🌍 **Carbon Footprint Calculator**: Calculate your carbon savings from cycling
+- 🌦️ **Weather & Route Planning**: Check weather conditions and plan optimal routes
+- 🏆 **Social Features**: Earn achievements, join challenges, and share your progress
+- 🔔 **Notification System**: Get reminders, weekly summaries, and eco tips
+- ⛁  **SQLite Database Integration**: Store and manage user data, preferences, trips, and stats
+
+## Preview
+
+```
+ ______     ______     ______     ______     __  __     ______     __         ______    
+/\  ___\   /\  ___\   /\  __ \   /\  ___\   /\ \_\ \   /\  ___\   /\ \       /\  ___\   
+\ \  __\   \ \ \____  \ \ \/\ \  \ \ \____  \ \____ \  \ \ \____  \ \ \____  \ \  __\   
+ \ \_____\  \ \_____\  \ \_____\  \ \_____\  \/\_____\  \ \_____\  \ \_____\  \ \_____\ 
+  \/_____/   \/_____/   \/_____/   \/_____/   \/_____/   \/_____/   \/_____/   \/_____/ 
+
+Cycle into a greener tomorrow
+----------------------------------------------------------------------------------------------
+╭──────────╮
+│ EcoCycle │
+╰──────────╯
+╭────────────────────────────────────────── Daily Tip ───────────────────────────────────────╮
+│ Sunday: Explore new areas by bike and discover your community.                             │
+╰────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────── User Profile ─────────────────────────────────────╮
+│ Logged in as: Guest User                                                                   │
+│ Stats: 5 trips, 11.7 km, 1.52 kg CO2 saved, 4530 kcal burned                               │
+╰────────────────────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────────────── Main Menu ───────────────────────────────────────╮
+│ ╭───┬─────────────────────────────────╮                                                    │
+│ │ 0 │ Exit Program                    │                                                    │
+│ │ 1 │ Log a cycling trip              │                                                    │
+│ │ 2 │ View statistics                 │                                                    │
+│ │ 3 │ Calculate carbon footprint      │                                                    │
+│ │ 4 │ Weather and route planning      │                                                    │
+│ │ 5 │ Eco-challenges                  │                                                    │
+│ │ 6 │ Settings and preferences        │                                                    │
+│ │ 7 │ Social sharing and achievements │                                                    │
+│ │ 8 │ Logout                          │                                                    │
+│ ╰───┴─────────────────────────────────╯                                                    │
+╰────────────────────────────────────────────────────────────────────────────────────────────╯
+Select an option: 
+```
+
+## SQLite Database Setup
+
+EcoCycle now uses an SQLite database to store user data, preferences, trips, and stats. Follow these steps to set up the database:
+
+1. Ensure you have SQLite installed on your system. Most systems come with SQLite pre-installed. You can check by running:
+   ```bash
+   sqlite3 --version
+   ```
+
+2. Initialize the database by running the following command:
+   ```bash
+   python main.py --init-db
+   ```
+
+3. The database file `ecocycle.db` will be created in the project directory. This file will store all user data, preferences, trips, and stats.
+
+4. You can manage the database using standard SQLite tools or the provided `database_manager.py` module.
+
+---
+
+# Pip Library Compatibility
+
+We are thrilled to announce that with _EcoCycle_ _Version 2.0_, not only is this program available on the releases to download and run locally - it has just been added to the PyPI package installation library!
+
+## Installation
+
+### Using pip (recommended)
+
+```bash
+pip install ecocycle
+```
+
+### Manual Installation
+
+```bash
+git clone https://github.com/shirishpothi/ecocycle
+cd ecocycle
+pip install ecocycle
+```
+
+## Quick Start
+
+```bash
+# Start the application
+python main.py
+
+# Log a cycling trip
+python main.py log --distance 10.5 --duration 45
+
+# View statistics
+python main.py stats
+
+# Check weather for cycling
+python main.py weather --location "New York"
+```
+
+## Dependencies
+
+- **Required**:
+  - colorama
+  - python-dotenv
+
+- **Recommended**:
+  - matplotlib, numpy, plotly (for data visualization)
+  - requests, folium (for weather and route planning)
+  - tabulate, qrcode, pillow (for social features)
+  - fpdf (for PDF reports)
+
+---
+
+# _EcoCycle_'s use of the Apache 2 License
+
+At _EcoCycle_, we're not just building software; we're cultivating a regenerative ecosystem of technological solutions for a sustainable future. Our choice of the Apache 2.0 license wasn't a matter of convenience – it's core to our mission. We see the Apache 2.0 license not as a restriction, but as a powerful catalyst for collaborative growth.
+
+---
+
+# Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## CI/CD Pipeline
+
+EcoCycle uses a comprehensive CI/CD pipeline to ensure code quality and automate deployment:
+
+- **Continuous Integration**: Automated testing, linting, and code quality checks run on every push and pull request
+- **Continuous Deployment**: Automatic deployment to PyPI when a new release tag is created
+- **Docker Support**: Containerized deployment for consistent environments
+- **Code Coverage**: Tracking of test coverage to maintain code quality
+
+### Running Tests Locally
+
+```bash
+# Install dev dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Run tests with coverage
+pytest --cov=.
+
+# Run linting
+flake8 .
+black --check .
+isort --check .
+```
+
+## Documentation
+
+For detailed information, please refer to the [User Guide](GUIDE.md).
+
+---
+
+# Contact Us
+
+**There is 1 active developer on this project: Shirish Pothi**
+- His contact is: _shirish.pothi.27@nexus.edu.sg_
+- Alternatively, use [this link](https://mail.google.com/mail/u/0/?fs=1&to=shirish.pothi.27@gmail.com&su=Immediate+GitHub+Security+Vulnerability&body=Dear+Dev,%0A%0AI+hope+this+email+finds+you+well.%0A%0AThis+email+serves+as+notification+of+a+critical+security+vulnerability+affecting+your+GitHub+EcoCycle+repository.+Specifically,+the+vulnerability+in+question+is+%5Bdescribe+vulnerability+and+what+you+were+doing+when+you+noticed+it,+what+effect+it+had+on+your+system+or+the+way+the+program+was+run+and+what-if+any+remediation+steps+were+taken%5D.%0APlease+take+immediate+action+to+mitigate+the+risk.+Feel+free+to+contact+me+at+my+email:+%5Binsert+your+email+address%5D.%0A%0ASincerely,%0A%5Byour+name+and+as+many+contact+details+as+possible%5D&tf=cm) with a pre-written Gmail format to email him with.
+
+[⬆ Back to Top](#readme)
+
+> The _EcoCycle_ team consists of: **Shirish Pothi, Ryan Eng, Ashlesha Sahoo and Rochelle Joseph** - _all from Nexus International School._

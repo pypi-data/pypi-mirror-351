@@ -1,0 +1,35 @@
+[
+  {
+    "timestamp": 1747989569.3023639,
+    "message": "EOF when reading a line",
+    "severity": "ERROR",
+    "category": "APPLICATION",
+    "recovery_strategy": "ABORT",
+    "details": {
+      "original_error_type": "EOFError"
+    },
+    "traceback": "Traceback (most recent call last):\n  File \"/Users/shirishpothi/PycharmProjects/eco/apps/menu.py\", line 158, in show_main_menu\n    choice = int(choice)\nValueError: invalid literal for int() with base 10: 'guest'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/Users/shirishpothi/PycharmProjects/eco/main.py\", line 1385, in main\n    handle_cli_arguments()\n    ~~~~~~~~~~~~~~~~~~~~^^\n  File \"/Users/shirishpothi/PycharmProjects/eco/main.py\", line 1206, in handle_cli_arguments\n    show_main_menu(user_manager_instance)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/shirishpothi/PycharmProjects/eco/apps/menu.py\", line 205, in show_main_menu\n    input(\"Press Enter to continue...\")\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nEOFError: EOF when reading a line\n"
+  },
+  {
+    "timestamp": 1748052298.199716,
+    "message": "EOF when reading a line",
+    "severity": "ERROR",
+    "category": "APPLICATION",
+    "recovery_strategy": "ABORT",
+    "details": {
+      "original_error_type": "EOFError"
+    },
+    "traceback": "Traceback (most recent call last):\n  File \"/Users/shirishpothi/PycharmProjects/eco/apps/menu.py\", line 182, in show_main_menu\n    choice = int(choice)\nValueError: invalid literal for int() with base 10: '1\\\\nsam\\\\ntest123\\\\n2\\\\n2.5\\\\n25\\\\ny\\\\n6'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/Users/shirishpothi/PycharmProjects/eco/main.py\", line 1476, in main\n    handle_cli_arguments()\n    ~~~~~~~~~~~~~~~~~~~~^^\n  File \"/Users/shirishpothi/PycharmProjects/eco/main.py\", line 1293, in handle_cli_arguments\n    show_main_menu(user_manager_instance)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/shirishpothi/PycharmProjects/eco/apps/menu.py\", line 230, in show_main_menu\n    input(\"Press Enter to continue...\")\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nEOFError: EOF when reading a line\n"
+  },
+  {
+    "timestamp": 1748063840.3711512,
+    "message": "'UserManager' object has no attribute '_get_session_secret'",
+    "severity": "ERROR",
+    "category": "APPLICATION",
+    "recovery_strategy": "ABORT",
+    "details": {
+      "original_error_type": "AttributeError"
+    },
+    "traceback": "Traceback (most recent call last):\n  File \"/Users/shirishpothi/PycharmProjects/eco/main.py\", line 1480, in main\n    handle_cli_arguments()\n    ~~~~~~~~~~~~~~~~~~~~^^\n  File \"/Users/shirishpothi/PycharmProjects/eco/main.py\", line 1068, in handle_cli_arguments\n    if not user_manager_instance._get_session_secret():\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'UserManager' object has no attribute '_get_session_secret'\n"
+  }
+]

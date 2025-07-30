@@ -1,0 +1,914 @@
+{% extends "base.html" %}
+
+{% block title %}Weekly Sustainability Goals{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    /* Enhanced Goal Cards */
+    .goal-card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        border-left: 5px solid #28a745;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        position: relative;
+    }
+    .goal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+    .goal-card.completed {
+        border-left-color: #17a2b8;
+        background-color: #f8f9fa;
+    }
+    .goal-card.continued {
+        border-left-color: #ffc107;
+    }
+    .goal-card.completed::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 40px 40px 0;
+        border-color: transparent #17a2b8 transparent transparent;
+    }
+    .goal-icon {
+        font-size: 2.2rem;
+        color: #28a745;
+        transition: transform 0.3s ease;
+    }
+    .goal-card:hover .goal-icon {
+        transform: scale(1.1);
+    }
+    .goal-icon.completed {
+        color: #17a2b8;
+    }
+    .goal-icon.continued {
+        color: #ffc107;
+    }
+
+    /* Improved Progress Circle */
+    .progress-circle {
+        width: 70px;
+        height: 70px;
+        position: relative;
+    }
+    .progress-circle-bg {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        position: absolute;
+        overflow: hidden;
+    }
+    .progress-circle-fill {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #28a745;
+        transition: height 0.5s ease-out;
+    }
+    .progress-circle-value {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        font-weight: bold;
+        color: #28a745;
+        font-size: 1.1rem;
+        z-index: 1;
+    }
+
+    /* Goal Actions */
+    .goal-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    .goal-actions .btn {
+        transition: all 0.2s ease;
+        border-radius: 20px;
+        padding: 0.375rem 1rem;
+    }
+    .goal-actions .btn:hover {
+        transform: translateY(-2px);
+    }
+    .goal-date {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+    .goal-date i {
+        margin-right: 0.5rem;
+    }
+
+    /* Add Goal Card */
+    .add-goal-card {
+        border: 2px dashed #dee2e6;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2.5rem 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: 100%;
+        background-color: rgba(40, 167, 69, 0.03);
+    }
+    .add-goal-card:hover {
+        border-color: #28a745;
+        background-color: rgba(40, 167, 69, 0.08);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+    .add-goal-icon {
+        font-size: 3rem;
+        color: #28a745;
+        margin-bottom: 1.2rem;
+        transition: transform 0.3s ease;
+    }
+    .add-goal-card:hover .add-goal-icon {
+        transform: rotate(90deg);
+    }
+
+    /* Stats Card */
+    .stats-card {
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-left: 5px solid #17a2b8;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+    .stats-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .stats-value {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #17a2b8;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+    .stats-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Week Selector */
+    .week-selector {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2.5rem;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .week-display {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #343a40;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        display: flex;
+        align-items: center;
+    }
+    .week-display:hover {
+        color: #28a745;
+    }
+    .week-display i {
+        margin-left: 0.5rem;
+        font-size: 0.9rem;
+    }
+    .week-nav {
+        display: flex;
+        gap: 0.75rem;
+    }
+    .week-nav button {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+    .week-nav button:hover {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .goal-card.new-goal {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .goal-card.just-completed {
+        animation: pulse 0.5s ease-in-out;
+    }
+
+    /* Modal Improvements */
+    .modal-content {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .modal-header {
+        border-bottom: none;
+        padding: 1.5rem 1.5rem 0.5rem;
+    }
+    .modal-footer {
+        border-top: none;
+        padding: 0.5rem 1.5rem 1.5rem;
+    }
+    .modal-body {
+        padding: 1rem 1.5rem;
+    }
+
+    /* Form Improvements */
+    .form-control, .form-select {
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        border: 1px solid #ced4da;
+        transition: all 0.2s ease;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+    }
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .week-selector {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .stats-card {
+            margin-top: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="fas fa-leaf me-2"></i>Weekly Sustainability Goals</h1>
+            <p class="text-muted">Track your personal sustainability goals and measure your environmental impact.</p>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="stats-value">{{ completed_goals|default(0) }}</div>
+                        <div class="stats-label">Completed</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stats-value">{{ active_goals|default(0) }}</div>
+                        <div class="stats-label">Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="week-selector">
+        <div class="week-nav">
+            <button class="btn btn-outline-secondary" id="prev-week">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="week-display px-3" id="week-date-picker">
+                Week {{ current_week|default('1') }}, {{ current_year|default('2025') }}
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <button class="btn btn-outline-secondary" id="next-week">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generateGoalsModal">
+                <i class="fas fa-sync-alt me-2"></i>Generate New Goals
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if weekly_goals %}
+            {% for goal in weekly_goals %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card goal-card {% if goal.completed %}completed{% endif %} {% if goal.continued %}continued{% endif %}" data-goal-id="{{ goal.id }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <i class="fas {% if goal.completed %}fa-check-circle completed{% elif goal.continued %}fa-history continued{% else %}fa-leaf{% endif %} goal-icon"></i>
+                            </div>
+                            <div class="progress-circle" data-progress="{{ goal.progress|default(0) }}">
+                                <div class="progress-circle-bg"></div>
+                                <div class="progress-circle-fill"></div>
+                                <div class="progress-circle-value">{{ goal.progress|default(0) }}%</div>
+                            </div>
+                        </div>
+                        <h5 class="card-title">{{ goal.description }}</h5>
+
+                        {% if goal.category is defined %}
+                        <div class="goal-category mb-2">
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-tag me-1"></i> {{ goal.category|title }}
+                            </span>
+                        </div>
+                        {% endif %}
+
+                        <p class="goal-date">
+                            {% if goal.continued %}
+                                <i class="fas fa-history me-1"></i> Continued from previous week
+                            {% else %}
+                                <i class="fas fa-calendar-alt me-1"></i> Added {{ goal.date_added }}
+                            {% endif %}
+                        </p>
+
+                        <div class="goal-actions">
+                            {% if not goal.completed %}
+                            <button class="btn btn-outline-success update-goal-btn" data-goal-id="{{ goal.id }}">
+                                <i class="fas fa-edit me-1"></i> Update
+                            </button>
+                            <button class="btn btn-outline-primary complete-goal-btn" data-goal-id="{{ goal.id }}">
+                                <i class="fas fa-check me-1"></i> Complete
+                            </button>
+                            {% else %}
+                            <div class="completed-badge">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-circle me-1"></i> Completed
+                                </span>
+                                {% if goal.completed_date is defined %}
+                                <small class="text-muted d-block mt-1">{{ goal.completed_date }}</small>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Add New Goal Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="add-goal-card" data-bs-toggle="modal" data-bs-target="#addGoalModal">
+                <i class="fas fa-plus-circle add-goal-icon"></i>
+                <h5>Add New Goal</h5>
+                <p class="text-muted text-center">Create a custom sustainability goal to track your environmental impact</p>
+                <div class="mt-2">
+                    <span class="badge bg-light text-dark me-1">Waste</span>
+                    <span class="badge bg-light text-dark me-1">Energy</span>
+                    <span class="badge bg-light text-dark">Water</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Goal Modal -->
+<div class="modal fade" id="addGoalModal" tabindex="-1" aria-labelledby="addGoalModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGoalModalLabel"><i class="fas fa-leaf me-2"></i>Add New Sustainability Goal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-goal-form">
+                    <div class="mb-3">
+                        <label for="goal-description" class="form-label">Goal Description</label>
+                        <input type="text" class="form-control" id="goal-description" placeholder="e.g., Reduce plastic waste by using reusable containers">
+                        <div class="form-text">Be specific about what you want to achieve</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="goal-category" class="form-label">Category</label>
+                        <select class="form-select" id="goal-category">
+                            <option value="waste">Waste Reduction</option>
+                            <option value="energy">Energy Conservation</option>
+                            <option value="transport">Sustainable Transport</option>
+                            <option value="food">Sustainable Food</option>
+                            <option value="water">Water Conservation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Difficulty Level</label>
+                        <div class="difficulty-selector d-flex justify-content-between">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="difficulty" id="difficulty-easy" value="easy" checked>
+                                <label class="form-check-label" for="difficulty-easy">
+                                    <i class="fas fa-seedling text-success me-1"></i> Easy
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="difficulty" id="difficulty-medium" value="medium">
+                                <label class="form-check-label" for="difficulty-medium">
+                                    <i class="fas fa-tree text-success me-1"></i> Medium
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="difficulty" id="difficulty-hard" value="hard">
+                                <label class="form-check-label" for="difficulty-hard">
+                                    <i class="fas fa-mountain text-success me-1"></i> Hard
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="goal-target-date" class="form-label">Target Completion Date</label>
+                        <input type="date" class="form-control" id="goal-target-date">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="goal-notes" class="form-label">Additional Notes (Optional)</label>
+                        <textarea class="form-control" id="goal-notes" rows="2" placeholder="Any additional details or notes about your goal"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="save-goal-btn">
+                    <i class="fas fa-save me-1"></i> Save Goal
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Generate Goals Modal -->
+<div class="modal fade" id="generateGoalsModal" tabindex="-1" aria-labelledby="generateGoalsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="generateGoalsModalLabel"><i class="fas fa-sync-alt me-2"></i>Generate New Goals</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Our AI will generate personalized sustainability goals based on your profile and previous activities.
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-muted">Goal Generation Options</h6>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="keep-old-goals" checked>
+                            <label class="form-check-label" for="keep-old-goals">
+                                <i class="fas fa-history text-muted me-1"></i> Keep my current incomplete goals
+                            </label>
+                            <div class="form-text ms-4">Any incomplete goals from the current week will be kept</div>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="personalize-goals" checked>
+                            <label class="form-check-label" for="personalize-goals">
+                                <i class="fas fa-user-circle text-muted me-1"></i> Personalize goals based on my activity
+                            </label>
+                            <div class="form-text ms-4">Goals will be tailored to your sustainability preferences</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Focus Areas (Optional)</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="focus-waste" value="waste">
+                                    <label class="form-check-label" for="focus-waste">Waste</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="focus-energy" value="energy">
+                                    <label class="form-check-label" for="focus-energy">Energy</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="focus-transport" value="transport">
+                                    <label class="form-check-label" for="focus-transport">Transport</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="focus-food" value="food">
+                                    <label class="form-check-label" for="focus-food">Food</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="focus-water" value="water">
+                                    <label class="form-check-label" for="focus-water">Water</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="goal-count" class="form-label">Number of Goals to Generate</label>
+                            <select class="form-select" id="goal-count">
+                                <option value="3" selected>3 goals (recommended)</option>
+                                <option value="5">5 goals</option>
+                                <option value="7">7 goals</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="generate-goals-btn">
+                    <i class="fas fa-magic me-1"></i> Generate Goals
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize date picker for week selection
+        const weekPicker = document.getElementById('week-date-picker');
+        if (weekPicker) {
+            weekPicker.addEventListener('click', function() {
+                flatpickr(this, {
+                    mode: "single",
+                    dateFormat: "\\W\\e\\e\\k W, Y",
+                    weekNumbers: true,
+                    altInput: true,
+                    altFormat: "\\W\\e\\e\\k W, Y",
+                    onClose: function(selectedDates, dateStr) {
+                        console.log('Selected week:', dateStr);
+                        // Here you would normally fetch goals for the selected week
+                    }
+                }).open();
+            });
+        }
+
+        // Initialize circular progress indicators
+        document.querySelectorAll('.progress-circle').forEach(function(circle) {
+            const value = parseInt(circle.dataset.progress || circle.querySelector('.progress-circle-value').textContent);
+            updateCircleProgress(circle, value);
+        });
+
+        // Initialize date picker for target date
+        flatpickr("#goal-target-date", {
+            minDate: "today",
+            dateFormat: "Y-m-d",
+        });
+
+        // Add event listeners for buttons
+        document.getElementById('save-goal-btn').addEventListener('click', function() {
+            // Get form values
+            const description = document.getElementById('goal-description').value;
+            const category = document.getElementById('goal-category').value;
+            const difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+            const targetDate = document.getElementById('goal-target-date').value;
+            const notes = document.getElementById('goal-notes').value;
+
+            if (!description) {
+                // Show validation error with better UI
+                const descriptionInput = document.getElementById('goal-description');
+                descriptionInput.classList.add('is-invalid');
+
+                // Add error message if it doesn't exist
+                if (!document.querySelector('.description-error')) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'invalid-feedback description-error';
+                    errorDiv.textContent = 'Please enter a goal description';
+                    descriptionInput.parentNode.appendChild(errorDiv);
+                }
+
+                return;
+            }
+
+            // Remove any validation errors
+            document.getElementById('goal-description').classList.remove('is-invalid');
+
+            // Here you would normally send this data to the server
+            console.log('Saving goal:', {
+                description,
+                category,
+                difficulty,
+                targetDate,
+                notes
+            });
+
+            // Show success toast notification
+            showToast('Goal saved successfully!', 'success');
+
+            // Close the modal
+            bootstrap.Modal.getInstance(document.getElementById('addGoalModal')).hide();
+
+            // Add a new goal card to the UI (in a real app, you'd use data from the server)
+            addNewGoalToUI({
+                id: 'new-' + Date.now(),
+                description: description,
+                category: category,
+                progress: 0,
+                date_added: new Date().toLocaleDateString(),
+                completed: false,
+                continued: false
+            });
+        });
+
+        // Generate goals button
+        document.getElementById('generate-goals-btn').addEventListener('click', function() {
+            const keepOldGoals = document.getElementById('keep-old-goals').checked;
+            const personalizeGoals = document.getElementById('personalize-goals').checked;
+            const goalCount = document.getElementById('goal-count').value;
+
+            // Get selected focus areas
+            const focusAreas = [];
+            document.querySelectorAll('input[id^="focus-"]:checked').forEach(checkbox => {
+                focusAreas.push(checkbox.value);
+            });
+
+            // Here you would normally send this data to the server
+            console.log('Generating goals:', {
+                keepOldGoals,
+                personalizeGoals,
+                goalCount,
+                focusAreas
+            });
+
+            // Show loading indicator
+            const generateBtn = document.getElementById('generate-goals-btn');
+            const originalBtnText = generateBtn.innerHTML;
+            generateBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Generating...';
+            generateBtn.disabled = true;
+
+            // Simulate API call delay
+            setTimeout(function() {
+                // Close the modal
+                bootstrap.Modal.getInstance(document.getElementById('generateGoalsModal')).hide();
+
+                // Reset button
+                generateBtn.innerHTML = originalBtnText;
+                generateBtn.disabled = false;
+
+                // Show success message
+                showToast('New goals generated successfully!', 'success');
+
+                // In a real app, you'd reload the goals from the server
+                // For demo, we'll add some sample goals
+                if (!keepOldGoals) {
+                    // Clear existing goals
+                    const goalsContainer = document.querySelector('.row');
+                    const addGoalCard = document.querySelector('.add-goal-card').closest('.col-md-6');
+
+                    // Remove all goal cards except the "Add New Goal" card
+                    Array.from(goalsContainer.children).forEach(child => {
+                        if (!child.contains(addGoalCard)) {
+                            child.remove();
+                        }
+                    });
+                }
+
+                // Add sample generated goals
+                const sampleGoals = [
+                    {
+                        id: 'gen-' + Date.now(),
+                        description: 'Reduce water usage by 10% this week',
+                        category: 'water',
+                        progress: 0,
+                        date_added: new Date().toLocaleDateString(),
+                        completed: false,
+                        continued: false
+                    },
+                    {
+                        id: 'gen-' + (Date.now() + 1),
+                        description: 'Use public transportation at least twice this week',
+                        category: 'transport',
+                        progress: 0,
+                        date_added: new Date().toLocaleDateString(),
+                        completed: false,
+                        continued: false
+                    },
+                    {
+                        id: 'gen-' + (Date.now() + 2),
+                        description: 'Eliminate single-use plastics from your daily routine',
+                        category: 'waste',
+                        progress: 0,
+                        date_added: new Date().toLocaleDateString(),
+                        completed: false,
+                        continued: false
+                    }
+                ];
+
+                // Add the sample goals to the UI
+                sampleGoals.forEach(goal => {
+                    addNewGoalToUI(goal);
+                });
+            }, 1500);
+        });
+
+        // Add event listeners for week navigation
+        document.getElementById('prev-week').addEventListener('click', function() {
+            console.log('Navigate to previous week');
+            // Here you would normally fetch goals for the previous week
+            showToast('Navigated to previous week', 'info');
+        });
+
+        document.getElementById('next-week').addEventListener('click', function() {
+            console.log('Navigate to next week');
+            // Here you would normally fetch goals for the next week
+            showToast('Navigated to next week', 'info');
+        });
+
+        // Add event listeners for goal actions
+        document.addEventListener('click', function(e) {
+            // Update goal button
+            if (e.target.closest('.update-goal-btn')) {
+                const btn = e.target.closest('.update-goal-btn');
+                const goalId = btn.dataset.goalId;
+                console.log('Update goal:', goalId);
+
+                // Here you would normally open a modal to edit the goal
+                showToast('Goal update feature coming soon!', 'info');
+            }
+
+            // Complete goal button
+            if (e.target.closest('.complete-goal-btn')) {
+                const btn = e.target.closest('.complete-goal-btn');
+                const goalId = btn.dataset.goalId;
+                const goalCard = btn.closest('.goal-card');
+
+                console.log('Complete goal:', goalId);
+
+                // Add completion animation
+                goalCard.classList.add('just-completed');
+
+                // Here you would normally send this to the server
+                setTimeout(function() {
+                    // Update UI to show completed state
+                    goalCard.classList.add('completed');
+
+                    // Replace buttons with completed badge
+                    const actionsDiv = goalCard.querySelector('.goal-actions');
+                    actionsDiv.innerHTML = `
+                        <div class="completed-badge">
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle me-1"></i> Completed
+                            </span>
+                            <small class="text-muted d-block mt-1">${new Date().toLocaleDateString()}</small>
+                        </div>
+                    `;
+
+                    // Show success message
+                    showToast('Goal completed! Great job!', 'success');
+                }, 600);
+            }
+        });
+    });
+
+    function updateCircleProgress(circle, percent) {
+        // Update the fill height based on the percentage
+        const fill = circle.querySelector('.progress-circle-fill');
+        const value = circle.querySelector('.progress-circle-value');
+
+        if (fill) {
+            fill.style.height = percent + '%';
+        }
+
+        // Update colors based on progress
+        if (percent >= 100) {
+            if (fill) fill.style.backgroundColor = '#28a745';
+            value.style.color = '#fff';
+            value.style.textShadow = '0 0 2px rgba(0,0,0,0.5)';
+        } else if (percent >= 50) {
+            if (fill) fill.style.backgroundColor = '#ffc107';
+            value.style.color = '#212529';
+        } else {
+            if (fill) fill.style.backgroundColor = '#28a745';
+            value.style.color = '#28a745';
+        }
+    }
+
+    function addNewGoalToUI(goal) {
+        // Create a new goal card and add it to the UI
+        const goalsContainer = document.querySelector('.row');
+        const addGoalCard = document.querySelector('.add-goal-card').closest('.col-md-6');
+
+        const newGoalCol = document.createElement('div');
+        newGoalCol.className = 'col-md-6 col-lg-4';
+
+        newGoalCol.innerHTML = `
+            <div class="card goal-card new-goal" data-goal-id="${goal.id}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <i class="fas fa-leaf goal-icon"></i>
+                        </div>
+                        <div class="progress-circle" data-progress="0">
+                            <div class="progress-circle-bg"></div>
+                            <div class="progress-circle-fill"></div>
+                            <div class="progress-circle-value">0%</div>
+                        </div>
+                    </div>
+                    <h5 class="card-title">${goal.description}</h5>
+
+                    ${goal.category ? `
+                    <div class="goal-category mb-2">
+                        <span class="badge bg-light text-dark">
+                            <i class="fas fa-tag me-1"></i> ${goal.category.charAt(0).toUpperCase() + goal.category.slice(1)}
+                        </span>
+                    </div>
+                    ` : ''}
+
+                    <p class="goal-date">
+                        <i class="fas fa-calendar-alt me-1"></i> Added ${goal.date_added}
+                    </p>
+
+                    <div class="goal-actions">
+                        <button class="btn btn-outline-success update-goal-btn" data-goal-id="${goal.id}">
+                            <i class="fas fa-edit me-1"></i> Update
+                        </button>
+                        <button class="btn btn-outline-primary complete-goal-btn" data-goal-id="${goal.id}">
+                            <i class="fas fa-check me-1"></i> Complete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Insert before the "Add New Goal" card
+        goalsContainer.insertBefore(newGoalCol, addGoalCard);
+    }
+
+    function showToast(message, type = 'info') {
+        // Create toast container if it doesn't exist
+        let toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+            document.body.appendChild(toastContainer);
+        }
+
+        // Create toast element
+        const toastId = 'toast-' + Date.now();
+        const toast = document.createElement('div');
+        toast.className = `toast align-items-center text-white bg-${type} border-0`;
+        toast.id = toastId;
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+
+        toastContainer.appendChild(toast);
+
+        // Initialize and show the toast
+        const bsToast = new bootstrap.Toast(toast, {
+            autohide: true,
+            delay: 3000
+        });
+        bsToast.show();
+
+        // Remove toast after it's hidden
+        toast.addEventListener('hidden.bs.toast', function() {
+            toast.remove();
+        });
+    }
+</script>
+{% endblock %}

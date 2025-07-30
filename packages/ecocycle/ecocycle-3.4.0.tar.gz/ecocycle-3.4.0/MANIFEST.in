@@ -1,0 +1,127 @@
+# Include documentation files
+include README.md
+include LICENSE.md
+include GUIDE.md
+include SECURITY.md
+include Code\ of\ Conduct.md
+include WEBREADME.md
+
+# Include configuration files
+include requirements.txt
+include pyproject.toml
+include template.env
+# SECURITY: Exclude actual credential files
+exclude client_secrets.json
+exclude google-credentials.json
+
+# Include data directories (but exclude sensitive files)
+recursive-include data *
+recursive-include config *
+recursive-include email_templates *
+recursive-include docs *
+
+# SECURITY: Exclude sensitive data files
+exclude data/sync/sync.db
+exclude data/user/users.json
+exclude data/user/users.json.bak
+exclude *.db
+exclude *.sqlite
+exclude *.sqlite3
+recursive-exclude data *.db
+recursive-exclude data *.sqlite
+recursive-exclude data *.sqlite3
+recursive-exclude data users.json
+recursive-exclude data users.json.bak
+
+# Include test files
+recursive-include Tests *
+
+# Include demo modules
+recursive-include Demo\ Modules *
+
+# Include logs directory structure (but not log files)
+include Logs/.gitkeep
+
+# Include cache directory structure
+include cache/.gitkeep
+
+# Include backup directory structure
+include backups/.gitkeep
+include database_backups/.gitkeep
+
+# Include web assets
+recursive-include web/static *
+recursive-include web/templates *
+
+# Include visualization assets
+recursive-include visualizations *
+
+# Include plugin system
+recursive-include plugins *
+
+# Include migration files
+recursive-include migrations *
+
+# Include scripts
+recursive-include scripts *
+
+# Exclude unnecessary files
+exclude *.pyc
+exclude *.pyo
+exclude *.pyd
+exclude __pycache__
+exclude .DS_Store
+exclude .env
+exclude *.log
+
+# SECURITY: Exclude all credential and sensitive files
+exclude *.key
+exclude *.pem
+exclude *.p12
+exclude *.pfx
+exclude *secret*
+exclude *credential*
+exclude *token*
+exclude *password*
+exclude client_secrets.json
+exclude google-credentials.json
+exclude service-account*.json
+exclude .env.*
+exclude config.ini
+exclude settings.ini
+
+# Exclude virtual environments
+exclude venv
+exclude eco_venv
+recursive-exclude venv *
+recursive-exclude eco_venv *
+
+# Exclude IDE files
+exclude .vscode
+exclude .idea
+recursive-exclude .vscode *
+recursive-exclude .idea *
+
+# Exclude build artifacts
+exclude build
+exclude dist
+exclude *.egg-info
+recursive-exclude build *
+recursive-exclude dist *
+recursive-exclude *.egg-info *
+
+# Exclude temporary files
+exclude temp
+recursive-exclude temp *
+exclude *.tmp
+exclude *.bak
+exclude *~
+
+# Exclude system files
+exclude .gitignore
+exclude .gitattributes
+exclude qodana.yaml
+exclude docker-compose.yml
+exclude Dockerfile
+exclude uv.lock
+exclude poetry.lock

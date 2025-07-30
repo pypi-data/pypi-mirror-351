@@ -1,0 +1,1664 @@
+{% extends "base.html" %}
+
+{% block title %}EcoCycle Dashboard{% endblock %}
+
+{% block head %}
+<style>
+    .stat-card {
+        transition: transform 0.3s;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .eco-badge {
+        background-color: #28a745;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8em;
+    }
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 2rem;
+    }
+    .activity-feed {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .activity-item {
+        border-left: 3px solid #28a745;
+        padding-left: 15px;
+        margin-bottom: 15px;
+    }
+    .map-container {
+        height: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h1>
+        <p class="text-muted">Welcome back, {{ username }}! Here's your cycling impact.</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#logTripModal">
+            <i class="fas fa-bicycle me-2"></i>Log New Trip
+        </button>
+    </div>
+</div>
+
+<!-- Stats Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-bicycle me-2"></i>Total Trips</h5>
+                <h2 class="display-4 fw-bold" id="total-trips">--</h2>
+                <p class="card-text">Cycling journeys recorded</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-route me-2"></i>Distance</h5>
+                <h2 class="display-4 fw-bold" id="total-distance">--</h2>
+                <p class="card-text">Total kilometers cycled</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-leaf me-2"></i>CO2 Saved</h5>
+                <h2 class="display-4 fw-bold" id="co2-saved">--</h2>
+                <p class="card-text">Kilograms of CO2 emissions avoided</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-fire-alt me-2"></i>Calories</h5>
+                <h2 class="display-4 fw-bold" id="calories-burned">--</h2>
+                <p class="card-text">Total calories burned</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="row mb-4">
+    <div class="col-md-8 mb-3">
+        <div class="card stat-card">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Your Cycling Activity</h5>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-outline-success active" id="weekly-view-btn">Weekly</button>
+                    <button type="button" class="btn btn-outline-success" id="monthly-view-btn">Monthly</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="activity-chart"></canvas>
+                </div>
+                <div class="text-center mt-3">
+                    <div class="row">
+                        <div class="col-4">
+                            <h6 class="text-muted">Avg. Distance</h6>
+                            <p class="mb-0 fw-bold" id="avg-distance">--</p>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-muted">Avg. Duration</h6>
+                            <p class="mb-0 fw-bold" id="avg-duration">--</p>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-muted">Avg. Speed</h6>
+                            <p class="mb-0 fw-bold" id="avg-speed">--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card stat-card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Environmental Impact</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="impact-chart"></canvas>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted">Trees Equivalent:</span>
+                        <span class="fw-bold" id="trees-equivalent">--</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted">Car Trips Avoided:</span>
+                        <span class="fw-bold" id="car-trips-avoided">--</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted">Gasoline Saved:</span>
+                        <span class="fw-bold" id="gasoline-saved">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity and Map -->
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="card stat-card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                <div class="activity-feed" id="activity-feed">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3 text-muted">Loading your activity...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card stat-card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-map-marked-alt me-2"></i>Your Cycling Map</h5>
+            </div>
+            <div class="card-body">
+                <div class="map-container" id="cycling-map">
+                    <p class="text-center text-muted py-5">
+                        <i class="fas fa-map fa-3x mb-3"></i><br>
+                        Map visualization will appear here
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Route Analysis Section -->
+<div class="row mt-4">
+    <div class="col-12 mb-3">
+        <div class="card stat-card">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-route me-2"></i>Route Analysis</h5>
+                <button class="btn btn-sm btn-success" id="compare-routes-btn">
+                    <i class="fas fa-exchange-alt me-1"></i> Compare Routes
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row" id="routes-container">
+                    <div class="col-12 text-center py-4" id="routes-loading">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3 text-muted">Loading your routes...</p>
+                    </div>
+                    <div class="col-12 text-center py-4 d-none" id="no-routes-message">
+                        <i class="fas fa-map-signs fa-3x text-muted mb-3"></i>
+                        <p>You haven't created any routes yet.</p>
+                        <a href="/route-planner" class="btn btn-success mt-2">
+                            <i class="fas fa-plus-circle me-1"></i> Create Your First Route
+                        </a>
+                    </div>
+                    <div class="row" id="routes-list">
+                        <!-- Routes will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Offline Sync Status & Upcoming Events -->
+<div class="row mt-4">
+    <div class="col-md-6 mb-3">
+        <div class="card stat-card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-sync me-2"></i>Sync Status</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div id="sync-status-icon" class="me-3">
+                        <i class="fas fa-circle-notch fa-spin text-primary fa-2x"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0" id="sync-status-text">Checking sync status...</h6>
+                        <small class="text-muted" id="last-sync-time">Last synced: Unknown</small>
+                        <div id="sheets-status" class="mt-1">
+                            <span class="badge bg-secondary"><i class="fas fa-spinner fa-spin me-1"></i> Checking Sheets Connection</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline-primary ms-auto" id="sync-button">
+                        <i class="fas fa-sync-alt me-1"></i> Sync Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card stat-card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Upcoming Events</h5>
+            </div>
+            <div class="card-body">
+                <div id="events-container">
+                    <p class="text-center text-muted py-3">
+                        No upcoming events found.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trip Logging Modal -->
+<div class="modal fade" id="logTripModal" tabindex="-1" aria-labelledby="logTripModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="logTripModalLabel"><i class="fas fa-bicycle me-2"></i>Log Cycling Trip</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="log-trip-form">
+                    <div class="mb-3">
+                        <label for="trip-name" class="form-label">Trip Name</label>
+                        <input type="text" class="form-control" id="trip-name" placeholder="Morning Commute">
+                    </div>
+                    <div class="mb-3">
+                        <label for="trip-date" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="trip-date" value="{{ now.strftime('%Y-%m-%d') }}">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="trip-distance" class="form-label">Distance (km)</label>
+                            <input type="number" class="form-control" id="trip-distance" min="0.1" step="0.1" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="trip-duration" class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="trip-duration" min="1" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="trip-route" class="form-label">Route (optional)</label>
+                        <select class="form-select" id="trip-route">
+                            <option value="">-- Select a route --</option>
+                            <!-- Routes will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="trip-notes" class="form-label">Notes (optional)</label>
+                        <textarea class="form-control" id="trip-notes" rows="2" placeholder="Any notes about your trip"></textarea>
+                    </div>
+                    <div id="trip-calculation-results" class="alert alert-success d-none">
+                        <h6 class="alert-heading">Trip Impact:</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="d-block">CO2 Saved:</small>
+                                <span id="trip-co2-saved">0.0</span> kg
+                            </div>
+                            <div class="col-6">
+                                <small class="d-block">Calories Burned:</small>
+                                <span id="trip-calories">0</span> kcal
+                            </div>
+                        </div>
+                    </div>
+                    <div id="trip-logging-error" class="alert alert-danger d-none" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <span id="trip-error-message">Error logging trip.</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="calculate-trip-btn">Calculate Impact</button>
+                <button type="button" class="btn btn-primary" id="save-trip-btn">Save Trip</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Route Comparison Modal -->
+<div class="modal fade" id="routeComparisonModal" tabindex="-1" aria-labelledby="routeComparisonModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="routeComparisonModalLabel">Compare Routes</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Select routes to compare:</label>
+                    <div id="route-selection-checkboxes" class="mb-3">
+                        <!-- Route checkboxes will be added here -->
+                    </div>
+                </div>
+                <div id="comparison-results" class="d-none">
+                    <h6 class="border-bottom pb-2 mb-3">Comparison Results</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Route</th>
+                                    <th>Distance</th>
+                                    <th>Elevation</th>
+                                    <th>Est. Time</th>
+                                    <th>Difficulty</th>
+                                    <th>CO2 Saved</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparison-table-body">
+                                <!-- Comparison data will be added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3">
+                        <h6>Recommendation</h6>
+                        <p id="comparison-recommendation"></p>
+                    </div>
+                </div>
+                <div id="comparison-loading" class="text-center py-4 d-none">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-muted">Comparing routes...</p>
+                </div>
+                <div id="comparison-error" class="alert alert-danger d-none" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span id="comparison-error-message">Error comparing routes.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="compare-selected-routes-btn">Compare Selected</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Define username from template for use in JavaScript
+    const username = '{{ username }}';
+
+    // Load user stats when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadUserStats();
+        checkSyncStatus();
+        initCharts();
+        loadRecentActivity();
+        setupEventHandlers();
+        // Initialize map would go here
+    });
+
+    // Set up event handlers for interactive elements
+    function setupEventHandlers() {
+        // Weekly/Monthly view toggle
+        const weeklyBtn = document.getElementById('weekly-view-btn');
+        const monthlyBtn = document.getElementById('monthly-view-btn');
+
+        weeklyBtn.addEventListener('click', function() {
+            if (this.classList.contains('active')) return;
+
+            // Update active state
+            this.classList.add('active');
+            monthlyBtn.classList.remove('active');
+
+            // Switch to weekly view
+            switchToWeeklyView();
+        });
+
+        monthlyBtn.addEventListener('click', function() {
+            if (this.classList.contains('active')) return;
+
+            // Update active state
+            this.classList.add('active');
+            weeklyBtn.classList.remove('active');
+
+            // Switch to monthly view
+            switchToMonthlyView();
+        });
+
+        // Route comparison button
+        const compareRoutesBtn = document.getElementById('compare-routes-btn');
+        if (compareRoutesBtn) {
+            compareRoutesBtn.addEventListener('click', function() {
+                openRouteComparisonModal();
+            });
+        }
+
+        // Compare selected routes button
+        const compareSelectedRoutesBtn = document.getElementById('compare-selected-routes-btn');
+        if (compareSelectedRoutesBtn) {
+            compareSelectedRoutesBtn.addEventListener('click', function() {
+                compareSelectedRoutes();
+            });
+        }
+
+        // Trip logging handlers
+        const calculateTripBtn = document.getElementById('calculate-trip-btn');
+        if (calculateTripBtn) {
+            calculateTripBtn.addEventListener('click', function() {
+                calculateTripImpact();
+            });
+        }
+
+        const saveTripBtn = document.getElementById('save-trip-btn');
+        if (saveTripBtn) {
+            saveTripBtn.addEventListener('click', function() {
+                saveTrip();
+            });
+        }
+
+        // Trip distance and duration inputs for real-time calculation
+        const tripDistanceInput = document.getElementById('trip-distance');
+        const tripDurationInput = document.getElementById('trip-duration');
+
+        if (tripDistanceInput && tripDurationInput) {
+            tripDistanceInput.addEventListener('input', function() {
+                if (this.value && tripDurationInput.value) {
+                    calculateTripImpact();
+                }
+            });
+
+            tripDurationInput.addEventListener('input', function() {
+                if (this.value && tripDistanceInput.value) {
+                    calculateTripImpact();
+                }
+            });
+        }
+
+        // Initialize trip date with current date
+        const tripDateInput = document.getElementById('trip-date');
+        if (tripDateInput && !tripDateInput.value) {
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            tripDateInput.value = formattedDate;
+        }
+
+        // Load user routes
+        loadUserRoutes();
+
+        // Populate route dropdown in trip logging form
+        populateRouteDropdown();
+    }
+
+    // Populate route dropdown in trip logging form
+    function populateRouteDropdown() {
+        const routeSelect = document.getElementById('trip-route');
+
+        // Clear existing options except the first one
+        while (routeSelect.options.length > 1) {
+            routeSelect.remove(1);
+        }
+
+        // If we have routes, add them to the dropdown
+        if (window.userRoutes && window.userRoutes.length > 0) {
+            window.userRoutes.forEach(route => {
+                const option = document.createElement('option');
+                option.value = route.id;
+                option.textContent = route.name || 'Unnamed Route';
+                routeSelect.appendChild(option);
+            });
+        }
+    }
+
+    // Calculate trip impact (CO2 saved, calories burned)
+    function calculateTripImpact() {
+        const distance = parseFloat(document.getElementById('trip-distance').value) || 0;
+        const duration = parseFloat(document.getElementById('trip-duration').value) || 0;
+
+        if (distance <= 0 || duration <= 0) {
+            document.getElementById('trip-calculation-results').classList.add('d-none');
+            return;
+        }
+
+        // Calculate CO2 saved (kg) - assuming 0.12 kg per km
+        const co2Saved = distance * 0.12;
+
+        // Calculate calories burned - assuming 50 calories per km
+        const caloriesBurned = Math.round(distance * 50);
+
+        // Update the UI
+        document.getElementById('trip-co2-saved').textContent = co2Saved.toFixed(2);
+        document.getElementById('trip-calories').textContent = caloriesBurned;
+
+        // Show the results
+        document.getElementById('trip-calculation-results').classList.remove('d-none');
+    }
+
+    // Save trip to the database
+    function saveTrip() {
+        // Get form values
+        const tripName = document.getElementById('trip-name').value || 'Cycling Trip';
+        const tripDate = document.getElementById('trip-date').value;
+        const tripDistance = parseFloat(document.getElementById('trip-distance').value);
+        const tripDuration = parseFloat(document.getElementById('trip-duration').value);
+        const tripRouteId = document.getElementById('trip-route').value;
+        const tripNotes = document.getElementById('trip-notes').value;
+
+        // Validate required fields
+        if (!tripDate || !tripDistance || !tripDuration) {
+            document.getElementById('trip-error-message').textContent = 'Please fill in all required fields.';
+            document.getElementById('trip-logging-error').classList.remove('d-none');
+            return;
+        }
+
+        // Calculate impact
+        const co2Saved = tripDistance * 0.12;
+        const caloriesBurned = Math.round(tripDistance * 50);
+
+        // Prepare trip data
+        const tripData = {
+            name: tripName,
+            date: tripDate,
+            distance: tripDistance,
+            duration: tripDuration,
+            co2_saved: co2Saved,
+            calories: caloriesBurned,
+            notes: tripNotes,
+            route_id: tripRouteId || null
+        };
+
+        // Disable save button and show loading state
+        const saveButton = document.getElementById('save-trip-btn');
+        saveButton.disabled = true;
+        saveButton.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+
+        // Hide any previous errors
+        document.getElementById('trip-logging-error').classList.add('d-none');
+
+        // Send data to the server
+        fetch('/api/trips/log', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tripData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to save trip');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Reset form
+            document.getElementById('log-trip-form').reset();
+
+            // Set today's date
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('trip-date').value = formattedDate;
+
+            // Hide results
+            document.getElementById('trip-calculation-results').classList.add('d-none');
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('logTripModal'));
+            modal.hide();
+
+            // Show success toast
+            showToast('Success', 'Trip logged successfully!', 'success');
+
+            // Reload user stats and activity
+            loadUserStats();
+            loadRecentActivity();
+
+            // Reset button
+            saveButton.disabled = false;
+            saveButton.innerHTML = 'Save Trip';
+        })
+        .catch(error => {
+            console.error('Error saving trip:', error);
+
+            // Show error message
+            document.getElementById('trip-error-message').textContent = 'Failed to save trip. Please try again.';
+            document.getElementById('trip-logging-error').classList.remove('d-none');
+
+            // Reset button
+            saveButton.disabled = false;
+            saveButton.innerHTML = 'Save Trip';
+        });
+    }
+
+    // Load user routes for analysis
+    function loadUserRoutes() {
+        const routesContainer = document.getElementById('routes-container');
+        const routesList = document.getElementById('routes-list');
+        const routesLoading = document.getElementById('routes-loading');
+        const noRoutesMessage = document.getElementById('no-routes-message');
+
+        // Fetch user routes from API
+        fetch(`/api/routes/${username}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load routes');
+                }
+                return response.json();
+            })
+            .then(routes => {
+                // Hide loading indicator
+                routesLoading.classList.add('d-none');
+
+                if (!routes || routes.length === 0) {
+                    // Show no routes message
+                    noRoutesMessage.classList.remove('d-none');
+                    return;
+                }
+
+                // Store routes for later use
+                window.userRoutes = routes;
+
+                // Generate route cards
+                let html = '';
+                routes.forEach(route => {
+                    const routeName = route.name || 'Unnamed Route';
+                    const routeDistance = (route.distance || 0).toFixed(1);
+                    const routeElevation = route.elevation_gain || 0;
+
+                    // Determine difficulty class
+                    let difficultyClass = 'bg-success';
+                    let difficultyText = 'Easy';
+
+                    if (route.distance > 20 || routeElevation > 300) {
+                        difficultyClass = 'bg-danger';
+                        difficultyText = 'Hard';
+                    } else if (route.distance > 10 || routeElevation > 150) {
+                        difficultyClass = 'bg-warning text-dark';
+                        difficultyText = 'Medium';
+                    }
+
+                    html += `
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">${routeName}</h6>
+                                    <span class="badge ${difficultyClass}">${difficultyText}</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Distance:</span>
+                                        <span>${routeDistance} km</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Elevation:</span>
+                                        <span>${routeElevation} m</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Est. Time:</span>
+                                        <span>${Math.round((route.distance / 15) * 60)} min</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-sm btn-outline-success w-100" onclick="viewRouteAnalysis('${route.id}')">
+                                        <i class="fas fa-chart-line me-1"></i> View Analysis
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                routesList.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading routes:', error);
+                routesLoading.classList.add('d-none');
+                routesList.innerHTML = `
+                    <div class="col-12 text-center py-4">
+                        <i class="fas fa-exclamation-triangle fa-2x text-warning mb-3"></i>
+                        <p>Could not load your routes.</p>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="loadUserRoutes()">
+                            <i class="fas fa-sync-alt me-1"></i> Try Again
+                        </button>
+                    </div>
+                `;
+            });
+    }
+
+    // View detailed route analysis
+    function viewRouteAnalysis(routeId) {
+        // Show loading indicator
+        const loadingHtml = `
+            <div class="modal fade" id="routeAnalysisModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title">Route Analysis</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center py-5">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-3 text-muted">Analyzing route...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', loadingHtml);
+        const modal = new bootstrap.Modal(document.getElementById('routeAnalysisModal'));
+        modal.show();
+
+        // Fetch route analysis from API
+        fetch(`/api/routes/analysis/${routeId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load route analysis');
+                }
+                return response.json();
+            })
+            .then(analysis => {
+                // Update modal with analysis data
+                const modalBody = document.querySelector('#routeAnalysisModal .modal-body');
+
+                // Find route name
+                const route = window.userRoutes.find(r => r.id === routeId);
+                const routeName = route ? route.name : 'Route Analysis';
+
+                // Update modal title
+                document.querySelector('#routeAnalysisModal .modal-title').textContent = routeName;
+
+                // Generate analysis HTML
+                let html = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">Route Details</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Distance:</span>
+                                        <span>${analysis.distance.toFixed(1)} km</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Elevation Gain:</span>
+                                        <span>${analysis.elevation_gain} m</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Estimated Time:</span>
+                                        <span>${Math.round(analysis.estimated_time_minutes)} min</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Difficulty:</span>
+                                        <span class="badge ${getDifficultyClass(analysis.difficulty)}">${analysis.difficulty}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Calories:</span>
+                                        <span>${Math.round(analysis.calories)} kcal</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">CO2 Saved:</span>
+                                        <span>${analysis.co2_saved.toFixed(1)} kg</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">Conditions</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h6>Weather</h6>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Temperature:</span>
+                                        <span>${analysis.weather.temperature}°C</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Conditions:</span>
+                                        <span>${analysis.weather.conditions}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span class="text-muted">Wind Speed:</span>
+                                        <span>${analysis.weather.wind_speed} km/h</span>
+                                    </div>
+
+                                    <h6>Traffic</h6>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Congestion Level:</span>
+                                        <span>${analysis.traffic.congestion_level}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">Safety & Scenic Scores</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Safety Score</h6>
+                                            <div class="progress mb-2" style="height: 25px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: ${analysis.safety_score}%;" aria-valuenow="${analysis.safety_score}" aria-valuemin="0" aria-valuemax="100">${analysis.safety_score}/100</div>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-success mt-2" onclick="viewRouteSafety('${routeId}')">
+                                                <i class="fas fa-shield-alt me-1"></i> View Safety Details
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>Scenic Score</h6>
+                                            <div class="progress mb-2" style="height: 25px;">
+                                                <div class="progress-bar bg-info" role="progressbar" style="width: ${analysis.scenic_score}%;" aria-valuenow="${analysis.scenic_score}" aria-valuemin="0" aria-valuemax="100">${analysis.scenic_score}/100</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                modalBody.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading route analysis:', error);
+                const modalBody = document.querySelector('#routeAnalysisModal .modal-body');
+                modalBody.innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                        <p>Could not load route analysis.</p>
+                        <button class="btn btn-outline-primary mt-2" onclick="viewRouteAnalysis('${routeId}')">
+                            <i class="fas fa-sync-alt me-1"></i> Try Again
+                        </button>
+                    </div>
+                `;
+            });
+    }
+
+    // View route safety details
+    function viewRouteSafety(routeId) {
+        // Fetch route safety from API
+        fetch(`/api/routes/safety/${routeId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load route safety');
+                }
+                return response.json();
+            })
+            .then(safety => {
+                // Create and show modal
+                const safetyHtml = `
+                    <div class="modal fade" id="routeSafetyModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title">Route Safety Assessment</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row mb-4">
+                                        <div class="col-12">
+                                            <h6>Overall Safety Score</h6>
+                                            <div class="progress mb-2" style="height: 25px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: ${safety.safety_score}%;" aria-valuenow="${safety.safety_score}" aria-valuemin="0" aria-valuemax="100">${safety.safety_score}/100</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h6>Safety Factors</h6>
+                                    <div class="row mb-4">
+                                        ${safety.safety_factors.map(factor => `
+                                            <div class="col-md-6 mb-3">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6>${factor.name}</h6>
+                                                        <div class="progress mb-2">
+                                                            <div class="progress-bar ${getScoreColorClass(factor.score)}" role="progressbar" style="width: ${factor.score}%;" aria-valuenow="${factor.score}" aria-valuemin="0" aria-valuemax="100">${factor.score}/100</div>
+                                                        </div>
+                                                        <small class="text-muted">${factor.description}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+
+                                    <h6>Safety Concerns</h6>
+                                    <div class="row mb-4">
+                                        ${safety.safety_concerns.map(concern => `
+                                            <div class="col-md-6 mb-3">
+                                                <div class="alert ${concern.severity === 'high' ? 'alert-danger' : 'alert-warning'}">
+                                                    <h6><i class="fas fa-exclamation-triangle me-2"></i>${concern.description}</h6>
+                                                    <small>Severity: ${concern.severity}</small>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+
+                                    <h6>Recommendations</h6>
+                                    <ul class="list-group mb-3">
+                                        ${safety.recommendations.map(rec => `
+                                            <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>${rec}</li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.insertAdjacentHTML('beforeend', safetyHtml);
+                const modal = new bootstrap.Modal(document.getElementById('routeSafetyModal'));
+                modal.show();
+
+                // Remove modal from DOM when hidden
+                document.getElementById('routeSafetyModal').addEventListener('hidden.bs.modal', function() {
+                    this.remove();
+                });
+            })
+            .catch(error => {
+                console.error('Error loading route safety:', error);
+                alert('Could not load route safety details. Please try again later.');
+            });
+    }
+
+    // Open route comparison modal
+    function openRouteComparisonModal() {
+        // Check if we have routes
+        if (!window.userRoutes || window.userRoutes.length < 2) {
+            alert('You need at least two routes to compare.');
+            return;
+        }
+
+        // Generate checkboxes for route selection
+        const checkboxesContainer = document.getElementById('route-selection-checkboxes');
+        let html = '';
+
+        window.userRoutes.forEach(route => {
+            html += `
+                <div class="form-check">
+                    <input class="form-check-input route-checkbox" type="checkbox" value="${route.id}" id="route-${route.id}">
+                    <label class="form-check-label" for="route-${route.id}">
+                        ${route.name || 'Unnamed Route'} (${route.distance ? route.distance.toFixed(1) : '0'} km)
+                    </label>
+                </div>
+            `;
+        });
+
+        checkboxesContainer.innerHTML = html;
+
+        // Reset comparison results
+        document.getElementById('comparison-results').classList.add('d-none');
+        document.getElementById('comparison-loading').classList.add('d-none');
+        document.getElementById('comparison-error').classList.add('d-none');
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('routeComparisonModal'));
+        modal.show();
+    }
+
+    // Compare selected routes
+    function compareSelectedRoutes() {
+        // Get selected route IDs
+        const checkboxes = document.querySelectorAll('.route-checkbox:checked');
+        const routeIds = Array.from(checkboxes).map(cb => cb.value);
+
+        // Check if we have at least 2 routes selected
+        if (routeIds.length < 2) {
+            alert('Please select at least two routes to compare.');
+            return;
+        }
+
+        // Show loading, hide results and error
+        document.getElementById('comparison-results').classList.add('d-none');
+        document.getElementById('comparison-loading').classList.remove('d-none');
+        document.getElementById('comparison-error').classList.add('d-none');
+
+        // Call API to compare routes
+        fetch('/api/routes/compare', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ route_ids: routeIds })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to compare routes');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Hide loading
+            document.getElementById('comparison-loading').classList.add('d-none');
+
+            // Generate comparison table
+            const tableBody = document.getElementById('comparison-table-body');
+            let html = '';
+
+            data.routes.forEach(route => {
+                html += `
+                    <tr>
+                        <td>${route.name}</td>
+                        <td>${route.distance.toFixed(1)} km</td>
+                        <td>${route.elevation_gain} m</td>
+                        <td>${Math.round(route.estimated_time_minutes)} min</td>
+                        <td><span class="badge ${getDifficultyClass(route.difficulty)}">${route.difficulty}</span></td>
+                        <td>${route.co2_saved.toFixed(1)} kg</td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = html;
+
+            // Set recommendation
+            const recommendedRoute = data.routes.find(r => r.route_id === data.recommendation);
+            if (recommendedRoute) {
+                document.getElementById('comparison-recommendation').innerHTML = `
+                    Based on your preferences, we recommend <strong>${recommendedRoute.name}</strong> as the best route.
+                `;
+            } else {
+                document.getElementById('comparison-recommendation').textContent = 'All routes are good options.';
+            }
+
+            // Show results
+            document.getElementById('comparison-results').classList.remove('d-none');
+        })
+        .catch(error => {
+            console.error('Error comparing routes:', error);
+            document.getElementById('comparison-loading').classList.add('d-none');
+            document.getElementById('comparison-error').classList.remove('d-none');
+            document.getElementById('comparison-error-message').textContent = 'Error comparing routes. Please try again.';
+        });
+    }
+
+    // Helper function to get difficulty class
+    function getDifficultyClass(difficulty) {
+        switch(difficulty.toLowerCase()) {
+            case 'easy': return 'bg-success';
+            case 'medium': return 'bg-warning text-dark';
+            case 'hard': return 'bg-danger';
+            default: return 'bg-secondary';
+        }
+    }
+
+    // Helper function to get score color class
+    function getScoreColorClass(score) {
+        if (score >= 80) return 'bg-success';
+        if (score >= 60) return 'bg-info';
+        if (score >= 40) return 'bg-warning';
+        return 'bg-danger';
+    }
+
+    // Switch chart to weekly view
+    function switchToWeeklyView() {
+        if (!window.activityChart) return;
+
+        window.activityChart.data.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        window.activityChart.data.datasets[0].data = window.weeklyData || Array(7).fill(0);
+        window.activityChart.update();
+    }
+
+    // Switch chart to monthly view
+    function switchToMonthlyView() {
+        if (!window.activityChart || !window.monthlyData) return;
+
+        // Extract labels and data from monthly breakdown
+        const labels = window.monthlyData.map(item => item.month);
+        const distances = window.monthlyData.map(item => item.distance);
+
+        window.activityChart.data.labels = labels;
+        window.activityChart.data.datasets[0].data = distances;
+        window.activityChart.update();
+    }
+
+    // Function to load user statistics
+    function loadUserStats() {
+        // Show loading indicators
+        setLoadingState(true);
+
+        // Fetch detailed user stats from API
+        fetch(`/api/stats/${username}?detailed=1`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load user stats');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update dashboard stats
+                document.getElementById('total-trips').textContent = data.total_trips || 0;
+                document.getElementById('total-distance').textContent = data.total_distance ? data.total_distance.toFixed(1) : '0.0';
+                document.getElementById('co2-saved').textContent = data.total_co2_saved ? data.total_co2_saved.toFixed(1) : '0.0';
+                document.getElementById('calories-burned').textContent = data.total_calories || 0;
+
+                // Update charts with real data
+                updateCharts(data);
+
+                // Update environmental impact details
+                if (data.environmental_impact) {
+                    document.getElementById('trees-equivalent').textContent =
+                        data.environmental_impact.trees_equivalent ?
+                        data.environmental_impact.trees_equivalent.toFixed(1) + ' trees' : '0 trees';
+
+                    document.getElementById('car-trips-avoided').textContent =
+                        data.environmental_impact.car_trips_avoided ?
+                        Math.round(data.environmental_impact.car_trips_avoided) + ' trips' : '0 trips';
+
+                    // Calculate gasoline saved (rough estimate)
+                    const gasolineSaved = data.total_distance * 0.08; // 0.08 liters per km
+                    document.getElementById('gasoline-saved').textContent =
+                        gasolineSaved ? gasolineSaved.toFixed(1) + ' liters' : '0 liters';
+                }
+
+                // Calculate and update averages
+                if (data.trips && data.trips.length > 0) {
+                    // Average distance
+                    const totalDistance = data.trips.reduce((sum, trip) => sum + (trip.distance || 0), 0);
+                    const avgDistance = totalDistance / data.trips.length;
+                    document.getElementById('avg-distance').textContent = avgDistance.toFixed(1) + ' km';
+
+                    // Average duration
+                    const totalDuration = data.trips.reduce((sum, trip) => sum + (trip.duration || 0), 0);
+                    const avgDuration = totalDuration / data.trips.length;
+                    document.getElementById('avg-duration').textContent = Math.round(avgDuration) + ' min';
+
+                    // Average speed
+                    const avgSpeed = avgDistance / (avgDuration / 60); // km/h
+                    document.getElementById('avg-speed').textContent = avgSpeed.toFixed(1) + ' km/h';
+                } else {
+                    document.getElementById('avg-distance').textContent = '0 km';
+                    document.getElementById('avg-duration').textContent = '0 min';
+                    document.getElementById('avg-speed').textContent = '0 km/h';
+                }
+
+                // Hide loading indicators
+                setLoadingState(false);
+
+                // Load environmental impact data for more detailed information
+                loadEnvironmentalImpact();
+            })
+            .catch(error => {
+                console.error('Error loading user stats:', error);
+                // Set default values on error
+                document.getElementById('total-trips').textContent = '0';
+                document.getElementById('total-distance').textContent = '0.0';
+                document.getElementById('co2-saved').textContent = '0.0';
+                document.getElementById('calories-burned').textContent = '0';
+                document.getElementById('trees-equivalent').textContent = '0 trees';
+                document.getElementById('car-trips-avoided').textContent = '0 trips';
+                document.getElementById('gasoline-saved').textContent = '0 liters';
+                document.getElementById('avg-distance').textContent = '0 km';
+                document.getElementById('avg-duration').textContent = '0 min';
+                document.getElementById('avg-speed').textContent = '0 km/h';
+
+                // Hide loading indicators
+                setLoadingState(false);
+
+                // Show error toast
+                showToast('Error', 'Failed to load user statistics', 'error');
+            });
+    }
+
+    // Initialize charts with placeholder data
+    function initCharts() {
+        // Activity chart
+        const activityCtx = document.getElementById('activity-chart').getContext('2d');
+        window.activityChart = new Chart(activityCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Distance (km)',
+                    data: [0, 0, 0, 0, 0, 0, 0],
+                    backgroundColor: 'rgba(40, 167, 69, 0.5)',
+                    borderColor: '#28a745',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Impact chart
+        const impactCtx = document.getElementById('impact-chart').getContext('2d');
+        window.impactChart = new Chart(impactCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['CO2 Saved', 'Trees Equivalent', 'Car Trips Avoided'],
+                datasets: [{
+                    data: [0, 0, 0],
+                    backgroundColor: [
+                        'rgba(40, 167, 69, 0.8)',
+                        'rgba(23, 162, 184, 0.8)',
+                        'rgba(255, 193, 7, 0.8)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+
+    // Load detailed environmental impact data
+    function loadEnvironmentalImpact() {
+        fetch(`/api/environmental-impact/${username}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load environmental impact data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update environmental impact details with more accurate data
+                document.getElementById('trees-equivalent').textContent =
+                    data.trees_equivalent ? data.trees_equivalent.toFixed(1) + ' trees' : '0 trees';
+
+                document.getElementById('car-trips-avoided').textContent =
+                    data.car_trips_avoided ? Math.round(data.car_trips_avoided) + ' trips' : '0 trips';
+
+                document.getElementById('gasoline-saved').textContent =
+                    data.gasoline_saved ? data.gasoline_saved.toFixed(1) + ' liters' : '0 liters';
+
+                // Update the impact chart with more detailed data
+                updateImpactChart(data);
+
+                // If we have monthly data, add a monthly chart option
+                if (data.monthly_breakdown && data.monthly_breakdown.length > 0) {
+                    // Store monthly data for later use
+                    window.monthlyData = data.monthly_breakdown;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading environmental impact:', error);
+            });
+    }
+
+    // Update charts with real data
+    function updateCharts(data) {
+        // Extract actual user data from the API response
+
+        // Update activity chart with weekly data if available
+        if (data.weekly_distances && Array.isArray(data.weekly_distances)) {
+            // Use real weekly distance data
+            window.activityChart.data.datasets[0].data = data.weekly_distances;
+            window.activityChart.data.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        } else {
+            // Extract last 7 days from trips if available
+            if (data.trips && Array.isArray(data.trips)) {
+                const lastSevenDays = [];
+                const today = new Date();
+
+                // Initialize array with zeros for the last 7 days
+                for (let i = 0; i < 7; i++) {
+                    lastSevenDays.push(0);
+                }
+
+                // Fill in actual data from trips
+                data.trips.forEach(trip => {
+                    const tripDate = new Date(trip.date);
+                    const daysDiff = Math.floor((today - tripDate) / (1000 * 60 * 60 * 24));
+
+                    if (daysDiff >= 0 && daysDiff < 7) {
+                        lastSevenDays[6 - daysDiff] += trip.distance || 0;
+                    }
+                });
+
+                window.activityChart.data.datasets[0].data = lastSevenDays;
+                window.activityChart.data.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            } else {
+                // Fall back to zeros if no data available
+                window.activityChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0, 0];
+                window.activityChart.data.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            }
+        }
+        window.activityChart.update();
+
+        // Update impact chart with real environmental impact data
+        const co2Saved = data.total_co2_saved || 0;
+        const treesEquivalent = data.environmental_impact?.trees_equivalent || (co2Saved / 21); // Rough estimate: 1 tree absorbs ~21kg CO2 per year
+        const carTripsAvoided = data.environmental_impact?.car_trips_avoided || (data.total_distance / 10); // Rough estimate: 10km per car trip
+
+        window.impactChart.data.datasets[0].data = [co2Saved, treesEquivalent, carTripsAvoided];
+        window.impactChart.update();
+
+        // Store the data for view switching
+        window.weeklyData = data.weekly_distances || Array(7).fill(0);
+    }
+
+    // Update impact chart with more detailed data
+    function updateImpactChart(data) {
+        if (!window.impactChart) return;
+
+        window.impactChart.data.datasets[0].data = [
+            data.total_co2_saved || 0,
+            data.trees_equivalent || 0,
+            data.car_trips_avoided || 0
+        ];
+        window.impactChart.update();
+    }
+
+    // Load recent activity from real user data
+    function loadRecentActivity() {
+        const activityFeed = document.getElementById('activity-feed');
+        activityFeed.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-3 text-muted">Loading your activity...</p></div>';
+
+        // Fetch user's recent trips from the API
+        fetch(`/api/trips/${username}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load trip data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && Array.isArray(data) && data.length > 0) {
+                    // Sort trips by date (newest first)
+                    data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                    // Take the 5 most recent trips
+                    const recentTrips = data.slice(0, 5);
+
+                    // Format the date and time nicely
+                    const formatDate = (dateString) => {
+                        if (!dateString) {
+                            return 'Unknown time';
+                        }
+
+                        try {
+                            // Try to parse the date string
+                            let date = new Date(dateString);
+
+                            // Check if the date is valid
+                            if (isNaN(date.getTime())) {
+                                // Try parsing ISO format if direct parsing failed
+                                if (typeof dateString === 'string' && dateString.includes('T')) {
+                                    date = new Date(dateString);
+                                }
+
+                                // If still invalid, return a fallback
+                                if (isNaN(date.getTime())) {
+                                    console.warn('Invalid date string:', dateString);
+                                    return 'Unknown time';
+                                }
+                            }
+
+                            // Check if the date is too old (before year 2000) - likely an invalid timestamp
+                            if (date.getFullYear() < 2000) {
+                                console.warn('Date too old, likely invalid:', dateString);
+                                return 'Unknown time';
+                            }
+
+                            const now = new Date();
+                            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                            const yesterday = new Date(today);
+                            yesterday.setDate(yesterday.getDate() - 1);
+
+                            const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+                            // Check if the date is today or yesterday
+                            if (dateOnly.getTime() === today.getTime()) {
+                                return 'Today, ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                            } else if (dateOnly.getTime() === yesterday.getTime()) {
+                                return 'Yesterday, ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                            } else {
+                                return date.toLocaleDateString() + ', ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                            }
+                        } catch (e) {
+                            console.error('Error formatting date:', e, 'Date string:', dateString);
+                            return 'Unknown time';
+                        }
+                    };
+
+                    // Generate HTML for each trip
+                    let html = '';
+                    recentTrips.forEach(trip => {
+                        const tripName = trip.name || 'Cycling Trip';
+                        const tripDate = formatDate(trip.date);
+                        const tripDistance = (trip.distance || 0).toFixed(1);
+                        const tripDuration = trip.duration || 0;
+                        const tripCO2 = (trip.co2_saved || 0).toFixed(1);
+
+                        html += `
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-1">${tripName}</h6>
+                                    <small class="text-muted">${tripDate}</small>
+                                </div>
+                                <p class="mb-1">${tripDistance} km in ${tripDuration} minutes</p>
+                                <div>
+                                    <span class="eco-badge"><i class="fas fa-leaf me-1"></i> ${tripCO2} kg CO2 saved</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    activityFeed.innerHTML = html;
+                } else {
+                    activityFeed.innerHTML = `
+                        <div class="text-center py-4">
+                            <i class="fas fa-bicycle fa-2x text-muted mb-3"></i>
+                            <p>No recent cycling activity found.</p>
+                            <p class="small text-muted">Your recent trips will appear here once you start recording them.</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading trip data:', error);
+                activityFeed.innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="fas fa-exclamation-triangle fa-2x text-warning mb-3"></i>
+                        <p>Could not load your recent activity.</p>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="loadRecentActivity()">
+                            <i class="fas fa-sync-alt me-1"></i> Try Again
+                        </button>
+                    </div>
+                `;
+                showToast('Error', 'Failed to load recent activity', 'error');
+            });
+    }
+
+    // Helper function for showing loading state
+    function setLoadingState(isLoading) {
+        const statElements = ['total-trips', 'total-distance', 'co2-saved', 'calories-burned'];
+        statElements.forEach(id => {
+            const el = document.getElementById(id);
+            if (isLoading) {
+                el.innerHTML = '<small><i class="fas fa-circle-notch fa-spin"></i></small>';
+            }
+        });
+    }
+
+    // Check synchronization status
+    function checkSyncStatus() {
+        fetch('/api/sync/status')
+            .then(response => response.json())
+            .then(data => {
+                const syncStatusIcon = document.getElementById('sync-status-icon');
+                const syncStatusText = document.getElementById('sync-status-text');
+                const lastSyncTime = document.getElementById('last-sync-time');
+
+                if (data.success) {
+                    // Update sync status UI
+                    syncStatusIcon.innerHTML = '<i class="fas fa-check-circle text-success fa-2x"></i>';
+                    syncStatusText.textContent = 'Data synchronized';
+                    lastSyncTime.textContent = `Last synced: ${formatSyncTime(data.last_sync)}`;
+
+                    // Update Google Sheets status
+                    if (data.sheets_available) {
+                        document.getElementById('sheets-status').innerHTML =
+                            '<span class="badge bg-success"><i class="fas fa-check me-1"></i> Google Sheets Connected</span>';
+                    } else {
+                        document.getElementById('sheets-status').innerHTML =
+                            '<span class="badge bg-warning text-dark"><i class="fas fa-exclamation-triangle me-1"></i> Google Sheets Unavailable</span>';
+                    }
+                } else {
+                    syncStatusIcon.innerHTML = '<i class="fas fa-exclamation-triangle text-warning fa-2x"></i>';
+                    syncStatusText.textContent = 'Sync status unavailable';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking sync status:', error);
+                const syncStatusIcon = document.getElementById('sync-status-icon');
+                syncStatusIcon.innerHTML = '<i class="fas fa-exclamation-triangle text-warning fa-2x"></i>';
+                document.getElementById('sync-status-text').textContent = 'Sync status unavailable';
+            });
+    }
+
+    // Format sync time for display
+    function formatSyncTime(timestamp) {
+        if (timestamp === 'Never' || !timestamp) return 'Never';
+
+        try {
+            const syncDate = new Date(timestamp);
+            const now = new Date();
+
+            // Check if the date is valid
+            if (isNaN(syncDate.getTime())) {
+                return 'Never';
+            }
+
+            // Check if the date is too old (before year 2000) - likely an invalid timestamp
+            if (syncDate.getFullYear() < 2000) {
+                return 'Never';
+            }
+
+            const diffMs = now - syncDate;
+            const diffMins = Math.floor(diffMs / 60000);
+
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} minutes ago`;
+
+            const diffHours = Math.floor(diffMins / 60);
+            if (diffHours < 24) return `${diffHours} hours ago`;
+
+            const diffDays = Math.floor(diffHours / 24);
+            if (diffDays < 7) return `${diffDays} days ago`;
+
+            return syncDate.toLocaleString();
+        } catch (e) {
+            console.warn('Error formatting sync time:', e);
+            return 'Never';
+        }
+    }
+
+    // Show toast notification
+    function showToast(title, message, type) {
+        const toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            const container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'position-fixed bottom-0 end-0 p-3';
+            document.body.appendChild(container);
+        }
+
+        const toastId = 'toast-' + Date.now();
+        const bgClass = type === 'error' ? 'bg-danger' :
+                       type === 'warning' ? 'bg-warning text-dark' : 'bg-success';
+
+        const toastHtml = `
+            <div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header ${bgClass} text-white">
+                    <strong class="me-auto">${title}</strong>
+                    <small>${new Date().toLocaleTimeString()}</small>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            </div>
+        `;
+
+        document.getElementById('toast-container').innerHTML += toastHtml;
+        const toastElement = document.getElementById(toastId);
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
+
+    // Sync button functionality - real implementation
+    document.getElementById('sync-button').addEventListener('click', function() {
+        this.disabled = true;
+        this.innerHTML = '<i class="fas fa-sync-alt fa-spin me-1"></i> Syncing...';
+
+        const syncStatusIcon = document.getElementById('sync-status-icon');
+        syncStatusIcon.innerHTML = '<i class="fas fa-sync-alt fa-spin text-primary fa-2x"></i>';
+        document.getElementById('sync-status-text').textContent = 'Synchronizing...';
+
+        // Call the real sync API
+        fetch('/api/sync/refresh', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Synchronization failed');
+            }
+            return response.json();
+        })
+        .then(data => {
+            this.disabled = false;
+            this.innerHTML = '<i class="fas fa-sync-alt me-1"></i> Sync Now';
+
+            syncStatusIcon.innerHTML = '<i class="fas fa-check-circle text-success fa-2x"></i>';
+            document.getElementById('sync-status-text').textContent = 'Data synchronized';
+            document.getElementById('last-sync-time').textContent = 'Last synced: Just now';
+
+            // Reload user data to show updated stats
+            loadUserStats();
+            loadRecentActivity();
+
+            // Show success toast
+            showToast('Success', 'Data synchronized successfully!', 'success');
+        })
+        .catch(error => {
+            console.error('Sync error:', error);
+            this.disabled = false;
+            this.innerHTML = '<i class="fas fa-sync-alt me-1"></i> Sync Now';
+
+            syncStatusIcon.innerHTML = '<i class="fas fa-exclamation-triangle text-danger fa-2x"></i>';
+            document.getElementById('sync-status-text').textContent = 'Synchronization failed';
+
+            // Show error toast
+            showToast('Error', 'Failed to synchronize data. Please try again.', 'error');
+        });
+    });
+</script>
+{% endblock %}

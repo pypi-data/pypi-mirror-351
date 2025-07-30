@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} - EcoCycle Forum{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forum.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="forum-container">
+    <div class="breadcrumb">
+        <a href="{{ url_for('forum.index') }}">Forum Home</a> &raquo; {{ category.name }}
+    </div>
+
+    <div class="category-header">
+        <div class="category-info">
+            <h1>{{ category.name }}</h1>
+            <p>{{ category.description }}</p>
+        </div>
+        {% if current_user.is_authenticated %}
+        <div class="category-actions">
+            <a href="{{ url_for('forum.create_topic', category_id=category.id) }}" class="btn btn-success">
+                <i class="fas fa-plus"></i> New Topic
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="topics-container">
+        {% if topics %}
+        <div class="topics-table">
+            <div class="topics-header">
+                <div class="topic-title">Topic</div>
+                <div class="topic-replies">Replies</div>
+                <div class="topic-views">Views</div>
+                <div class="topic-activity">Last Activity</div>
+            </div>
+            
+            {% for topic in topics %}
+            <div class="topic-row {% if topic.pinned %}pinned{% endif %}">
+                <div class="topic-main">
+                    {% if topic.pinned %}
+                    <span class="pinned-icon" title="Pinned Topic"><i class="fas fa-thumbtack"></i></span>
+                    {% endif %}
+                    <div class="topic-title">
+                        <a href="{{ url_for('forum.topic', topic_id=topic.id) }}">{{ topic.title }}</a>
+                        {% if topic.created_at|age_days < 3 %}
+                        <span class="badge badge-new">New</span>
+                        {% endif %}
+                    </div>
+                    <div class="topic-author">
+                        <span class="author-info">
+                            <img src="{{ topic.profile_image or url_for('static', filename='img/default-avatar.png') }}" class="avatar-sm" alt="{{ topic.username }}">
+                            {{ topic.username }}
+                        </span>
+                        <span class="topic-date" title="{{ topic.created_at }}">{{ topic.created_at|timeago }}</span>
+                    </div>
+                </div>
+                <div class="topic-replies">{{ topic.reply_count }}</div>
+                <div class="topic-views">{{ topic.views }}</div>
+                <div class="topic-activity">
+                    {% if topic.last_activity %}
+                    <span title="{{ topic.last_activity }}">{{ topic.last_activity|timeago }}</span>
+                    {% else %}
+                    <span>No replies yet</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if pagination.total_pages > 1 %}
+        <div class="pagination-container">
+            <nav aria-label="Topics pagination">
+                <ul class="pagination">
+                    {% if pagination.page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('forum.category', category_id=category.id, page=pagination.page-1) }}">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                    {% endif %}
+                    
+                    {% for p in range(1, pagination.total_pages + 1) %}
+                    <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('forum.category', category_id=category.id, page=p) }}">{{ p }}</a>
+                    </li>
+                    {% endfor %}
+                    
+                    {% if pagination.page < pagination.total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('forum.category', category_id=category.id, page=pagination.page+1) }}">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Next</span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="no-topics">
+            <p>No topics have been created in this category yet.</p>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('forum.create_topic', category_id=category.id) }}" class="btn btn-primary">
+                Create the first topic
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/forum.js') }}"></script>
+{% endblock %}

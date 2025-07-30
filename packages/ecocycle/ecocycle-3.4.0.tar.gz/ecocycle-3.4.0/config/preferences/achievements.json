@@ -1,0 +1,102 @@
+[
+    {
+        "id": "first_ride",
+        "name": "First Pedal",
+        "description": "Complete your first cycling trip",
+        "requirement": {
+            "total_trips": 1
+        },
+        "points": 10,
+        "icon": "\ud83d\udeb2"
+    },
+    {
+        "id": "eco_warrior",
+        "name": "Eco Warrior",
+        "description": "Save 10kg of CO2 through cycling",
+        "requirement": {
+            "total_co2_saved": 10
+        },
+        "points": 25,
+        "icon": "\ud83c\udf3f"
+    },
+    {
+        "id": "distance_10",
+        "name": "Road Explorer",
+        "description": "Cycle a total of 10km",
+        "requirement": {
+            "total_distance": 10
+        },
+        "points": 15,
+        "icon": "\ud83d\uddfa\ufe0f"
+    },
+    {
+        "id": "distance_50",
+        "name": "Distance Champion",
+        "description": "Cycle a total of 50km",
+        "requirement": {
+            "total_distance": 50
+        },
+        "points": 30,
+        "icon": "\ud83c\udfc6"
+    },
+    {
+        "id": "distance_100",
+        "name": "Century Rider",
+        "description": "Cycle a total of 100km",
+        "requirement": {
+            "total_distance": 100
+        },
+        "points": 50,
+        "icon": "\ud83d\udcaf"
+    },
+    {
+        "id": "calories_1000",
+        "name": "Calorie Burner",
+        "description": "Burn 1000 calories through cycling",
+        "requirement": {
+            "total_calories": 1000
+        },
+        "points": 20,
+        "icon": "\ud83d\udd25"
+    },
+    {
+        "id": "co2_saved_50",
+        "name": "Climate Guardian",
+        "description": "Save 50kg of CO2 through cycling",
+        "requirement": {
+            "total_co2_saved": 50
+        },
+        "points": 40,
+        "icon": "\ud83c\udf0d"
+    },
+    {
+        "id": "co2_saved_100",
+        "name": "Carbon Crusher",
+        "description": "Save 100kg of CO2 through cycling",
+        "requirement": {
+            "total_co2_saved": 100
+        },
+        "points": 75,
+        "icon": "\u267b\ufe0f"
+    },
+    {
+        "id": "trips_10",
+        "name": "Regular Rider",
+        "description": "Complete 10 cycling trips",
+        "requirement": {
+            "total_trips": 10
+        },
+        "points": 25,
+        "icon": "\ud83d\udeb4"
+    },
+    {
+        "id": "trips_50",
+        "name": "Devoted Cyclist",
+        "description": "Complete 50 cycling trips",
+        "requirement": {
+            "total_trips": 50
+        },
+        "points": 100,
+        "icon": "\ud83d\udc51"
+    }
+]

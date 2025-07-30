@@ -1,0 +1,2506 @@
+{% extends "base.html" %}
+
+{% block title %}EcoCycle - Route Planner{% endblock %}
+
+{% block head %}
+<style>
+    #map {
+        height: 600px;
+        width: 100%;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        transition: all 0.3s ease;
+    }
+
+    .map-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--border-radius);
+    }
+
+    .map-overlay {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(5px);
+        padding: 15px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        max-width: 300px;
+        transition: all 0.3s ease;
+    }
+
+    .map-overlay.collapsed {
+        transform: translateX(-280px);
+    }
+
+    .map-overlay-toggle {
+        position: absolute;
+        right: -15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--box-shadow);
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .route-card {
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        border: 1px solid var(--gray-200);
+        margin-bottom: 1rem;
+    }
+
+    .route-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--box-shadow-md);
+        border-color: var(--primary-color);
+    }
+
+    .route-card-header {
+        padding: 1rem;
+        background-color: var(--gray-50);
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .route-card-body {
+        padding: 1rem;
+    }
+
+    .route-card-footer {
+        padding: 0.75rem 1rem;
+        background-color: var(--gray-50);
+        border-top: 1px solid var(--gray-200);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .directions-panel {
+        height: 400px;
+        overflow-y: auto;
+        padding: 1.25rem;
+        background-color: var(--gray-50);
+        border-radius: var(--border-radius);
+        font-size: 0.9rem;
+    }
+
+    .directions-panel .adp-placemark {
+        background-color: var(--primary-color);
+        border: none;
+        color: white;
+        margin: 0 0 10px 0;
+        border-radius: var(--border-radius-sm);
+        padding: 10px 15px;
+    }
+
+    .directions-panel .adp-summary {
+        padding: 0.75rem;
+        background-color: var(--gray-100);
+        border-radius: var(--border-radius-sm);
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+
+    .directions-panel .adp-legal {
+        font-size: 0.75rem;
+        color: var(--gray-500);
+    }
+
+    .directions-panel .adp-substep {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        align-items: center;
+    }
+
+    .directions-panel .adp-substep:last-child {
+        border-bottom: none;
+    }
+
+    .directions-panel .adp-substep .adp-stepicon {
+        margin-right: 0.75rem;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+        border-radius: 50%;
+    }
+
+    .route-stats {
+        background-color: var(--gray-50);
+        padding: 1.25rem;
+        border-radius: var(--border-radius);
+        margin-top: 1.25rem;
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--box-shadow-sm);
+    }
+
+    .stat-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        box-shadow: var(--box-shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-circle::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
+        border-radius: 50%;
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        opacity: 0.9;
+    }
+
+    .route-alternative {
+        border: 1px solid var(--gray-200);
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: white;
+    }
+
+    .route-alternative:hover {
+        background-color: var(--gray-50);
+        transform: translateX(5px);
+        border-color: var(--gray-300);
+    }
+
+    .route-alternative.active {
+        border-color: var(--primary-color);
+        background-color: rgba(34, 197, 94, 0.05);
+    }
+
+    .route-alternative-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .route-alternative-name {
+        font-weight: 600;
+        color: var(--gray-800);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .route-alternative-stats {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .route-alternative-stat {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.875rem;
+        color: var(--gray-600);
+    }
+
+    .route-type-selector {
+        display: flex;
+        background-color: var(--gray-100);
+        border-radius: var(--border-radius);
+        padding: 0.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .route-type-option {
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius-sm);
+        font-weight: 500;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex: 1;
+        text-align: center;
+    }
+
+    .route-type-option.active {
+        background-color: white;
+        color: var(--primary-color);
+        box-shadow: var(--box-shadow-sm);
+    }
+
+    .elevation-profile {
+        height: 150px;
+        width: 100%;
+        background-color: var(--gray-50);
+        border-radius: var(--border-radius);
+        margin-top: 1rem;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .elevation-chart {
+        width: 100%;
+        height: 100%;
+    }
+
+    .safety-score {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .safety-score-bar {
+        flex: 1;
+        height: 8px;
+        background-color: var(--gray-200);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .safety-score-fill {
+        height: 100%;
+        background-color: var(--success-color);
+        border-radius: 4px;
+    }
+
+    .safety-score-value {
+        font-weight: 600;
+        min-width: 40px;
+        text-align: right;
+    }
+
+    .weather-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        background-color: var(--gray-50);
+        border-radius: var(--border-radius-sm);
+    }
+
+    .weather-icon {
+        font-size: 1.5rem;
+        color: var(--info-color);
+    }
+
+    .tab-content {
+        padding: 1.25rem;
+        background-color: white;
+        border: 1px solid var(--gray-200);
+        border-top: none;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+    }
+
+    .nav-tabs .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+        padding: 0.75rem 1.25rem;
+        font-weight: 500;
+    }
+
+    .nav-tabs .nav-link.active {
+        border-color: var(--gray-200) var(--gray-200) #fff;
+        background-color: white;
+        color: var(--primary-color);
+    }
+
+    .route-action-btn {
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .route-action-btn:hover {
+        background-color: var(--gray-100);
+    }
+
+    .saved-route-item {
+        border-left: 3px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+    .saved-route-item:hover {
+        border-left-color: var(--primary-color);
+        background-color: var(--gray-50);
+    }
+
+    .saved-route-item.active {
+        border-left-color: var(--primary-color);
+        background-color: rgba(34, 197, 94, 0.05);
+    }
+
+    .route-comparison-table th,
+    .route-comparison-table td {
+        padding: 0.75rem;
+        vertical-align: middle;
+    }
+
+    .route-comparison-table th {
+        background-color: var(--gray-50);
+        font-weight: 600;
+    }
+
+    .route-comparison-table tr:nth-child(even) {
+        background-color: var(--gray-50);
+    }
+
+    .route-comparison-table tr:hover {
+        background-color: rgba(34, 197, 94, 0.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="fas fa-route me-2"></i>Route Planner</h1>
+            <p class="text-muted">Plan, save and track your cycling routes to maximize your eco-impact.</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="btn-group">
+                <button id="clear-route-btn" class="btn btn-outline-secondary">
+                    <i class="fas fa-trash-alt me-1"></i> Clear
+                </button>
+                <button id="save-route-btn" class="btn btn-success">
+                    <i class="fas fa-save me-1"></i> Save Route
+                </button>
+                <button id="share-route-btn" class="btn btn-outline-primary">
+                    <i class="fas fa-share-alt me-1"></i> Share
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="map-container">
+                        <div id="map"></div>
+                        <div class="map-overlay" id="map-overlay">
+                            <div class="map-overlay-toggle" id="map-overlay-toggle">
+                                <i class="fas fa-chevron-right" id="map-overlay-icon"></i>
+                            </div>
+                            <div class="mb-2">
+                                <h6 class="mb-2"><i class="fas fa-info-circle me-2"></i>Route Information</h6>
+                                <div id="map-overlay-info">
+                                    <p class="text-muted small">No route selected. Use the form to calculate a route.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elevation Profile Card -->
+            <div class="card shadow-sm mt-3 d-none" id="elevation-card">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-mountain me-2"></i>Elevation Profile</h5>
+                    <button class="btn btn-sm btn-outline-secondary" id="toggle-elevation-btn">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                </div>
+                <div class="card-body" id="elevation-body">
+                    <div class="elevation-profile">
+                        <div id="elevation-chart" class="elevation-chart"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2 text-muted small">
+                        <div>Start</div>
+                        <div>Distance (km)</div>
+                        <div>End</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-search-location me-2"></i>Plan Your Route</h5>
+                </div>
+                <div class="card-body">
+                    <form id="route-form">
+                        <div class="mb-3">
+                            <label for="route-name" class="form-label">Route Name</label>
+                            <input type="text" class="form-control" id="route-name" placeholder="My Cycling Route">
+                        </div>
+                        <div class="mb-3">
+                            <label for="start-point" class="form-label">Start Point</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="start-point" placeholder="Enter a location">
+                                <button class="btn btn-outline-secondary" type="button" id="current-location-btn" title="Use current location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="end-point" class="form-label">End Point</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="end-point" placeholder="Enter a destination">
+                                <button class="btn btn-outline-secondary" type="button" id="swap-locations-btn" title="Swap start and end">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Route Type</label>
+                            <div class="route-type-selector">
+                                <div class="route-type-option active" data-value="fastest" id="route-type-fastest">
+                                    <i class="fas fa-tachometer-alt me-1"></i> Fastest
+                                </div>
+                                <div class="route-type-option" data-value="scenic" id="route-type-scenic">
+                                    <i class="fas fa-mountain me-1"></i> Scenic
+                                </div>
+                                <div class="route-type-option" data-value="safe" id="route-type-safe">
+                                    <i class="fas fa-shield-alt me-1"></i> Safest
+                                </div>
+                                <div class="route-type-option" data-value="flat" id="route-type-flat">
+                                    <i class="fas fa-road me-1"></i> Flattest
+                                </div>
+                            </div>
+                            <input type="hidden" name="route-type" id="route-type-input" value="fastest">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Options</label>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="show-alternatives" checked>
+                                <label class="form-check-label" for="show-alternatives">
+                                    Show alternative routes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="avoid-hills">
+                                <label class="form-check-label" for="avoid-hills">
+                                    Avoid hills when possible
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-map-signs me-1"></i> Calculate Route
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow-sm d-none" id="route-info-card">
+                <div class="card-header bg-light">
+                    <ul class="nav nav-tabs card-header-tabs" id="route-info-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="analysis-tab" data-bs-toggle="tab" href="#analysis">Analysis</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="safety-tab" data-bs-toggle="tab" href="#safety">Safety</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="overview">
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <div class="stat-circle mb-2">
+                                        <span class="stat-value" id="route-distance">0</span>
+                                        <span class="stat-label">KM</span>
+                                    </div>
+                                    <p class="mb-0">Distance</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="stat-circle mb-2">
+                                        <span class="stat-value" id="route-duration">0</span>
+                                        <span class="stat-label">MIN</span>
+                                    </div>
+                                    <p class="mb-0">Duration</p>
+                                </div>
+                            </div>
+                            <div class="route-stats mt-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="mb-1"><i class="fas fa-fire me-1"></i> Calories: <span id="calories-value">0</span></p>
+                                        <p class="mb-1"><i class="fas fa-leaf me-1"></i> CO2 Saved: <span id="co2-value">0</span> kg</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="mb-1"><i class="fas fa-gas-pump me-1"></i> Fuel Saved: <span id="fuel-value">0</span> L</p>
+                                        <p class="mb-1"><i class="fas fa-money-bill-wave me-1"></i> Money Saved: <span id="money-value">0</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weather-info mt-3">
+                                <div class="weather-icon">
+                                    <i class="fas fa-sun"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-0"><strong>Weather:</strong> <span id="weather-condition">Sunny</span>, <span id="weather-temp">22°C</span></p>
+                                    <p class="mb-0 small text-muted">Wind: <span id="weather-wind">10 km/h</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="analysis">
+                            <h6 class="mb-3">Route Analysis</h6>
+                            <div class="mb-3">
+                                <p class="mb-1"><strong>Difficulty:</strong> <span id="route-difficulty">Medium</span></p>
+                                <p class="mb-1"><strong>Elevation Gain:</strong> <span id="elevation-gain">120</span> m</p>
+                                <p class="mb-1"><strong>Surface Type:</strong> <span id="surface-type">Mixed (80% paved)</span></p>
+                                <p class="mb-1"><strong>Traffic Level:</strong> <span id="traffic-level">Low to Medium</span></p>
+                            </div>
+                            <h6 class="mb-2 mt-4">Fitness Benefits</h6>
+                            <div class="mb-3">
+                                <p class="mb-1"><strong>Calories:</strong> <span id="calories-detail">0</span> kcal</p>
+                                <p class="mb-1"><strong>Workout Intensity:</strong> <span id="workout-intensity">Moderate</span></p>
+                                <p class="mb-1"><strong>Training Effect:</strong> <span id="training-effect">Aerobic</span></p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="safety">
+                            <h6 class="mb-2">Safety Assessment</h6>
+                            <div class="safety-score mb-3">
+                                <div class="safety-score-bar">
+                                    <div class="safety-score-fill" id="safety-score-fill" style="width: 85%;"></div>
+                                </div>
+                                <div class="safety-score-value" id="safety-score-value">85%</div>
+                            </div>
+                            <div class="mb-3">
+                                <h6 class="mb-2">Safety Factors</h6>
+                                <div id="safety-factors">
+                                    <p class="mb-1"><i class="fas fa-check-circle text-success me-1"></i> 90% of route has dedicated bike lanes</p>
+                                    <p class="mb-1"><i class="fas fa-exclamation-triangle text-warning me-1"></i> Moderate traffic in some segments</p>
+                                    <p class="mb-1"><i class="fas fa-check-circle text-success me-1"></i> Good road surface quality</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <h6 class="mb-2">Safety Tips</h6>
+                                <ul class="mb-0 ps-3" id="safety-tips">
+                                    <li>Use front and rear lights during evening rides</li>
+                                    <li>Exercise caution at the Main St. intersection</li>
+                                    <li>Consider alternative route during rush hour (4-6 PM)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mt-4 d-none" id="alternative-routes-card">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Alternative Routes</h5>
+                    <button class="btn btn-sm btn-outline-success" id="compare-alternatives-btn">
+                        <i class="fas fa-chart-bar me-1"></i> Compare
+                    </button>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-3">Select a route to view details:</p>
+                    <div id="alternative-routes-container">
+                        <!-- Alternative routes will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4 d-none" id="directions-card">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-directions me-2"></i>Turn-by-turn Directions</h5>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary me-1" id="print-directions-btn" title="Print directions">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" id="toggle-directions-btn" title="Collapse panel">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="directions-panel" id="directions-panel"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-bookmark me-2"></i>Saved Routes</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="savedRoutesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-sort"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="savedRoutesDropdown">
+                            <li><a class="dropdown-item" href="#" id="sort-name">Sort by Name</a></li>
+                            <li><a class="dropdown-item" href="#" id="sort-date">Sort by Date</a></li>
+                            <li><a class="dropdown-item" href="#" id="sort-distance">Sort by Distance</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="filter-favorites">Show Favorites Only</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group" id="saved-routes-list">
+                        {% if saved_routes %}
+                            {% for route in saved_routes %}
+                                <div class="list-group-item saved-route-item" data-route-id="{{ route.id }}">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1">{{ route.name }}</h6>
+                                            <p class="mb-1 text-muted small">{{ route.start_point }} to {{ route.end_point }}</p>
+                                            <div class="d-flex align-items-center gap-2 small text-muted">
+                                                <span><i class="fas fa-ruler me-1"></i>{{ route.distance }} km</span>
+                                                <span><i class="fas fa-clock me-1"></i>{{ route.duration }} min</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <button class="route-action-btn mb-1 favorite-btn" data-route-id="{{ route.id }}" title="Add to favorites">
+                                                <i class="far fa-star"></i>
+                                            </button>
+                                            <button class="route-action-btn load-route-btn" data-route-id="{{ route.id }}" title="Load route">
+                                                <i class="fas fa-map-marked-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-route fa-2x text-muted mb-2"></i>
+                                <p class="text-muted">No saved routes yet. Plan and save your first route!</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Route Modal -->
+    <div class="modal fade" id="save-route-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="fas fa-save me-2"></i>Save Route</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="save-route-form">
+                        <div class="mb-3">
+                            <label for="save-route-name" class="form-label">Route Name</label>
+                            <input type="text" class="form-control" id="save-route-name" required>
+                        </div>
+                        <div class="mb-3 p-3 bg-light rounded">
+                            <label class="form-label fw-bold">Route Details</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="mb-1"><i class="fas fa-play-circle text-success me-1"></i> <strong>From:</strong> <span id="save-start-point"></span></p>
+                                    <p class="mb-1"><i class="fas fa-flag-checkered text-danger me-1"></i> <strong>To:</strong> <span id="save-end-point"></span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-1"><i class="fas fa-ruler me-1"></i> <strong>Distance:</strong> <span id="save-distance"></span> km</p>
+                                    <p class="mb-0"><i class="fas fa-clock me-1"></i> <strong>Duration:</strong> <span id="save-duration"></span> min</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="save-notes" class="form-label">Notes (optional)</label>
+                            <textarea class="form-control" id="save-notes" rows="3" placeholder="Add any notes about this route..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="save-favorite">
+                                <label class="form-check-label" for="save-favorite">
+                                    <i class="fas fa-star text-warning me-1"></i> Add to favorites
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="confirm-save-route-btn">
+                        <i class="fas fa-save me-1"></i> Save Route
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Route Comparison Modal -->
+    <div class="modal fade" id="route-comparison-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-exchange-alt me-2"></i>Route Comparison</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover route-comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Route</th>
+                                    <th>Distance</th>
+                                    <th>Time</th>
+                                    <th>Elevation</th>
+                                    <th>Safety</th>
+                                    <th>CO2 Saved</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparison-table-body">
+                                <!-- Comparison data will be added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="mb-2">Recommendation</h6>
+                        <div class="alert alert-success" id="comparison-recommendation">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            <span>Based on your preferences, we recommend the Fastest Route as it provides the best balance of time and safety.</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="mb-2">Comparison Chart</h6>
+                        <div id="comparison-chart" style="height: 250px;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="select-recommended-route-btn">
+                        <i class="fas fa-check me-1"></i> Select Recommended Route
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Safety Assessment Modal -->
+    <div class="modal fade" id="safety-assessment-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title"><i class="fas fa-shield-alt me-2"></i>Safety Assessment</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <h6 class="mb-2">Overall Safety Score</h6>
+                        <div class="d-flex align-items-center">
+                            <div class="safety-score-bar flex-grow-1 me-3">
+                                <div class="safety-score-fill" id="modal-safety-score-fill" style="width: 85%;"></div>
+                            </div>
+                            <div class="safety-score-value fs-4" id="modal-safety-score-value">85%</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="mb-2">Safety Factors</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Factor</th>
+                                        <th>Rating</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="safety-factors-table">
+                                    <tr>
+                                        <td>Bike Lanes</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-success" style="width: 90%"></div>
+                                            </div>
+                                        </td>
+                                        <td>90% of route has dedicated bike lanes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Traffic Volume</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-warning" style="width: 70%"></div>
+                                            </div>
+                                        </td>
+                                        <td>Moderate traffic in some segments</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Road Conditions</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-success" style="width: 85%"></div>
+                                            </div>
+                                        </td>
+                                        <td>Good road surface with some minor issues</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="mb-2">Safety Concerns</h6>
+                        <div id="safety-concerns-map" style="height: 200px; border-radius: var(--border-radius);"></div>
+                        <ul class="list-group mt-2" id="safety-concerns-list">
+                            <li class="list-group-item list-group-item-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Busy intersection with limited visibility at Main St.
+                            </li>
+                            <li class="list-group-item list-group-item-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                Road narrows with no bike lane at Oak Ave.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="mb-2">Safety Recommendations</h6>
+                        <ul class="list-group" id="safety-recommendations-list">
+                            <li class="list-group-item">
+                                <i class="fas fa-lightbulb me-2 text-warning"></i>
+                                Use front and rear lights during evening rides
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-lightbulb me-2 text-warning"></i>
+                                Exercise caution at the Main St. intersection
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-lightbulb me-2 text-warning"></i>
+                                Consider alternative route during rush hour (4-6 PM)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" id="find-safer-route-btn">
+                        <i class="fas fa-shield-alt me-1"></i> Find Safer Route
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Route Modal -->
+    <div class="modal fade" id="share-route-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-share-alt me-2"></i>Share Route</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Route Link</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="share-route-link" readonly>
+                            <button class="btn btn-outline-primary" type="button" id="copy-link-btn">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted">Share this link with others to show them your route</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Share on Social Media</label>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary" id="share-facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                            <button class="btn btn-outline-info" id="share-twitter">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+                            <button class="btn btn-outline-success" id="share-whatsapp">
+                                <i class="fab fa-whatsapp"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary" id="share-email">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Export Route</label>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-secondary" id="export-gpx">
+                                <i class="fas fa-file-export me-1"></i> GPX
+                            </button>
+                            <button class="btn btn-outline-secondary" id="export-kml">
+                                <i class="fas fa-file-export me-1"></i> KML
+                            </button>
+                            <button class="btn btn-outline-secondary" id="export-pdf">
+                                <i class="fas fa-file-pdf me-1"></i> PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmKhYt-6hCx_sSGJlhrfgPMCzNYMKpLeo&libraries=places&callback=initMap" async defer></script>
+<script>
+    // Global variables
+    let map;
+    let directionsService;
+    let directionsRenderer;
+    let elevationService;
+    let markers = [];
+    let currentRoute = null;
+    let alternativeRoutes = [];
+    let elevationChart = null;
+    let comparisonChart = null;
+    let safetyMap = null;
+
+    // Initialize the map
+    function initMap() {
+        // Create map centered on a default location
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 37.7749, lng: -122.4194 }, // Default to San Francisco
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.TOP_RIGHT,
+            },
+            fullscreenControl: true,
+            streetViewControl: true,
+            zoomControl: true,
+            styles: [
+                {
+                    "featureType": "poi.park",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#c8e6c9"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#e0e0e0"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#ffe0b2"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#bbdefb"
+                        }
+                    ]
+                }
+            ]
+        });
+
+        // Initialize the directions service and renderer
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            panel: document.getElementById("directions-panel"),
+            suppressMarkers: true,
+            polylineOptions: {
+                strokeColor: '#22c55e',
+                strokeWeight: 5,
+                strokeOpacity: 0.7
+            }
+        });
+
+        // Initialize elevation service
+        elevationService = new google.maps.ElevationService();
+
+        // Add map controls
+        const mapControls = document.createElement('div');
+        mapControls.className = 'route-controls';
+        mapControls.innerHTML = `
+            <button class="btn btn-sm btn-light" id="zoom-in-btn">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button class="btn btn-sm btn-light" id="zoom-out-btn">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button class="btn btn-sm btn-light" id="center-map-btn">
+                <i class="fas fa-crosshairs"></i>
+            </button>
+        `;
+        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(mapControls);
+
+        // Initialize autocomplete for start and end fields
+        const startInput = document.getElementById("start-point");
+        const endInput = document.getElementById("end-point");
+
+        new google.maps.places.Autocomplete(startInput);
+        new google.maps.places.Autocomplete(endInput);
+
+        // Add event listeners for route planning
+        document.getElementById("route-form").addEventListener("submit", calculateRoute);
+        document.getElementById("current-location-btn").addEventListener("click", useCurrentLocation);
+        document.getElementById("swap-locations-btn").addEventListener("click", swapLocations);
+        document.getElementById("clear-route-btn").addEventListener("click", clearRoute);
+        document.getElementById("save-route-btn").addEventListener("click", showSaveRouteModal);
+        document.getElementById("share-route-btn").addEventListener("click", showShareRouteModal);
+        document.getElementById("confirm-save-route-btn").addEventListener("click", saveRoute);
+        document.getElementById("compare-alternatives-btn").addEventListener("click", showRouteComparisonModal);
+
+        // Add event listeners for map overlay
+        document.getElementById("map-overlay-toggle").addEventListener("click", toggleMapOverlay);
+
+        // Add event listeners for elevation profile
+        document.getElementById("toggle-elevation-btn").addEventListener("click", toggleElevationProfile);
+
+        // Add event listeners for directions panel
+        document.getElementById("toggle-directions-btn").addEventListener("click", toggleDirectionsPanel);
+        document.getElementById("print-directions-btn").addEventListener("click", printDirections);
+
+        // Add event listeners to saved routes
+        document.querySelectorAll(".load-route-btn").forEach(btn => {
+            btn.addEventListener("click", function(e) {
+                e.preventDefault();
+                const routeId = this.dataset.routeId;
+                loadSavedRoute(routeId);
+            });
+        });
+
+        // Add event listeners to favorite buttons
+        document.querySelectorAll(".favorite-btn").forEach(btn => {
+            btn.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleFavorite(this);
+            });
+        });
+
+        // Add event listeners for sorting and filtering
+        document.getElementById("sort-name").addEventListener("click", function(e) {
+            e.preventDefault();
+            sortSavedRoutes("name");
+        });
+
+        document.getElementById("sort-date").addEventListener("click", function(e) {
+            e.preventDefault();
+            sortSavedRoutes("date");
+        });
+
+        document.getElementById("sort-distance").addEventListener("click", function(e) {
+            e.preventDefault();
+            sortSavedRoutes("distance");
+        });
+
+        document.getElementById("filter-favorites").addEventListener("click", function(e) {
+            e.preventDefault();
+            toggleFavoritesFilter();
+        });
+
+        // Add event listeners to route type options
+        document.querySelectorAll(".route-type-option").forEach(option => {
+            option.addEventListener("click", function() {
+                // Remove active class from all options
+                document.querySelectorAll(".route-type-option").forEach(opt => {
+                    opt.classList.remove("active");
+                });
+
+                // Add active class to clicked option
+                this.classList.add("active");
+
+                // Update hidden input value
+                document.getElementById("route-type-input").value = this.dataset.value;
+            });
+        });
+
+        // Add event listeners to map control buttons
+        document.getElementById("zoom-in-btn").addEventListener("click", function() {
+            map.setZoom(map.getZoom() + 1);
+        });
+
+        document.getElementById("zoom-out-btn").addEventListener("click", function() {
+            map.setZoom(map.getZoom() - 1);
+        });
+
+        document.getElementById("center-map-btn").addEventListener("click", function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    map.setCenter(pos);
+                    map.setZoom(15);
+                });
+            }
+        });
+    }
+
+    // Calculate route based on form inputs
+    function calculateRoute(e) {
+        e.preventDefault();
+
+        const start = document.getElementById("start-point").value;
+        const end = document.getElementById("end-point").value;
+        const routeType = document.getElementById("route-type-input").value;
+        const showAlternatives = document.getElementById("show-alternatives").checked;
+        const avoidHills = document.getElementById("avoid-hills").checked;
+
+        if (!start || !end) {
+            alert("Please enter both start and end points");
+            return;
+        }
+
+        // Show loading indicator
+        const loadingHtml = `
+            <div class="d-flex justify-content-center align-items-center py-4">
+                <div class="spinner-border text-success me-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span>Calculating ${routeType} route...</span>
+            </div>
+        `;
+        document.getElementById("directions-panel").innerHTML = loadingHtml;
+        document.getElementById("directions-card").classList.remove("d-none");
+
+        // Clear existing markers
+        clearMarkers();
+
+        // If we're showing alternatives, use the Google Maps API
+        if (!showAlternatives) {
+            // Set up route request for Google Maps API
+            const request = {
+                origin: start,
+                destination: end,
+                travelMode: google.maps.TravelMode.BICYCLING,
+                provideRouteAlternatives: true
+            };
+
+            // Add route preferences based on route type
+            if (routeType === "scenic") {
+                // For scenic routes, we might want to avoid highways and prefer parks
+                request.avoidHighways = true;
+            } else if (routeType === "safe") {
+                // For safe routes, we might want to avoid highways and high traffic areas
+                request.avoidHighways = true;
+            } else if (routeType === "flat") {
+                // For flat routes, we would ideally avoid hills, but this requires custom implementation
+                // This would be handled in the backend
+            }
+
+            // Calculate route using Google Maps API
+            directionsService.route(request, function(result, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    // Display the route
+                    directionsRenderer.setDirections(result);
+
+                    // Save current route data
+                    currentRoute = {
+                        name: document.getElementById("route-name").value || `${start} to ${end}`,
+                        start_point: start,
+                        end_point: end,
+                        route_type: routeType,
+                        distance: Math.round(result.routes[0].legs[0].distance.value / 100) / 10, // km rounded to 1 decimal
+                        duration: Math.round(result.routes[0].legs[0].duration.value / 60), // minutes
+                        coordinates: encodePolyline(result.routes[0].overview_path)
+                    };
+
+                    // Update route info card
+                    updateRouteInfo(currentRoute);
+
+                    // Add markers for start and end
+                    addMarkers(result.routes[0].legs[0]);
+
+                    // Hide alternative routes card
+                    document.getElementById("alternative-routes-card").classList.add("d-none");
+
+                    // Get elevation data for the route
+                    getElevationData(result.routes[0].overview_path);
+
+                    // Update map overlay with route info
+                    updateMapOverlay(result.routes[0]);
+
+                    // Get safety assessment for the route
+                    getSafetyAssessment(result.routes[0]);
+
+                    // Get weather data for the route
+                    getWeatherData(result.routes[0].legs[0].start_location);
+                } else {
+                    document.getElementById("directions-panel").innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Could not calculate route: ${status}
+                        </div>
+                    `;
+                }
+            });
+        } else {
+            // Use our custom API for alternative routes
+            const startCoords = { lat: 0, lng: 0 };
+            const endCoords = { lat: 0, lng: 0 };
+
+            // Get coordinates from addresses
+            const geocoder = new google.maps.Geocoder();
+
+            // Geocode start address
+            geocoder.geocode({ address: start }, function(startResults, startStatus) {
+                if (startStatus === google.maps.GeocoderStatus.OK) {
+                    startCoords.lat = startResults[0].geometry.location.lat();
+                    startCoords.lng = startResults[0].geometry.location.lng();
+
+                    // Geocode end address
+                    geocoder.geocode({ address: end }, function(endResults, endStatus) {
+                        if (endStatus === google.maps.GeocoderStatus.OK) {
+                            endCoords.lat = endResults[0].geometry.location.lat();
+                            endCoords.lng = endResults[0].geometry.location.lng();
+
+                            // Call our API for alternative routes
+                            fetch('/api/routes/alternatives', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-Token': '{{ csrf_token }}',  // Add CSRF token if using CSRF protection
+                                },
+                                credentials: 'same-origin',  // Include cookies for session-based auth
+                                body: JSON.stringify({
+                                    start: startCoords,
+                                    end: endCoords,
+                                    options: {
+                                        type: routeType,
+                                        avoid_hills: avoidHills
+                                    }
+                                })
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to get alternative routes');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.routes && data.routes.length > 0) {
+                                    // Display the first route
+                                    displayRoute(data.routes[0], start, end);
+
+                                    // Save current route data
+                                    currentRoute = {
+                                        name: document.getElementById("route-name").value || `${start} to ${end}`,
+                                        start_point: start,
+                                        end_point: end,
+                                        route_type: routeType,
+                                        distance: data.routes[0].distance,
+                                        duration: data.routes[0].estimated_time_minutes,
+                                        coordinates: JSON.stringify(data.routes[0].path)
+                                    };
+
+                                    // Update route info card
+                                    updateRouteInfo(currentRoute);
+
+                                    // Display alternative routes
+                                    displayAlternativeRoutes(data.routes, start, end);
+
+                                    // Get elevation data for the route
+                                    getElevationData(data.routes[0].path.map(point => new google.maps.LatLng(point.lat, point.lng)));
+
+                                    // Get safety assessment for the route
+                                    getSafetyAssessment({
+                                        legs: [{
+                                            start_address: start,
+                                            end_address: end,
+                                            distance: { value: data.routes[0].distance * 1000 },
+                                            duration: { value: data.routes[0].estimated_time_minutes * 60 }
+                                        }]
+                                    });
+
+                                    // Get weather data for the route
+                                    getWeatherData(new google.maps.LatLng(data.routes[0].path[0].lat, data.routes[0].path[0].lng));
+                                } else {
+                                    document.getElementById("directions-panel").innerHTML = `
+                                        <div class="alert alert-warning">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            No routes found for the given locations.
+                                        </div>
+                                    `;
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error getting alternative routes:', error);
+                                document.getElementById("directions-panel").innerHTML = `
+                                    <div class="alert alert-danger">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        Error calculating routes. Please try again.
+                                    </div>
+                                `;
+                            });
+                        } else {
+                            document.getElementById("directions-panel").innerHTML = `
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Could not geocode destination address: ${endStatus}
+                                </div>
+                            `;
+                        }
+                    });
+                } else {
+                    document.getElementById("directions-panel").innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Could not geocode starting address: ${startStatus}
+                        </div>
+                    `;
+                }
+            });
+        }
+    }
+
+    // Display a route on the map
+    function displayRoute(route, startAddress, endAddress) {
+        // Create a path from the route coordinates
+        const path = route.path.map(point => new google.maps.LatLng(point.lat, point.lng));
+
+        // Create a DirectionsResult object
+        const directionsResult = {
+            routes: [{
+                legs: [{
+                    start_address: startAddress,
+                    end_address: endAddress,
+                    start_location: new google.maps.LatLng(path[0].lat(), path[0].lng()),
+                    end_location: new google.maps.LatLng(path[path.length - 1].lat(), path[path.length - 1].lng()),
+                    distance: { text: route.distance + ' km', value: route.distance * 1000 },
+                    duration: { text: route.estimated_time_minutes + ' mins', value: route.estimated_time_minutes * 60 },
+                    steps: [{
+                        instructions: `Take this route from ${startAddress} to ${endAddress}`,
+                        distance: { text: route.distance + ' km', value: route.distance * 1000 },
+                        duration: { text: route.estimated_time_minutes + ' mins', value: route.estimated_time_minutes * 60 },
+                        path: path
+                    }]
+                }],
+                overview_path: path
+            }]
+        };
+
+        // Display the route
+        directionsRenderer.setDirections(directionsResult);
+
+        // Add markers for start and end
+        addMarkers({
+            start_location: path[0],
+            end_location: path[path.length - 1]
+        });
+
+        // Generate directions panel content
+        const directionsHtml = `
+            <div class="adp">
+                <div class="adp-summary">
+                    <span>${route.distance} km</span> • <span>${route.estimated_time_minutes} mins</span>
+                </div>
+                <div class="adp-directions">
+                    <div class="adp-placemark">
+                        <div><i class="fas fa-map-marker-alt me-2"></i> ${startAddress}</div>
+                    </div>
+                    <div class="adp-substep">
+                        <div class="adp-stepicon"><i class="fas fa-bicycle"></i></div>
+                        <div>Follow the route for ${route.distance} km (about ${route.estimated_time_minutes} mins)</div>
+                    </div>
+                    <div class="adp-placemark">
+                        <div><i class="fas fa-flag-checkered me-2"></i> ${endAddress}</div>
+                    </div>
+                </div>
+                <div class="adp-legal mt-3 text-center">
+                    Route data provided by EcoCycle Route Planner
+                </div>
+            </div>
+        `;
+
+        document.getElementById("directions-panel").innerHTML = directionsHtml;
+
+        // Update map overlay
+        const overlayInfo = document.getElementById("map-overlay-info");
+        overlayInfo.innerHTML = `
+            <div class="mb-2">
+                <strong>${currentRoute.name}</strong>
+            </div>
+            <p class="mb-1 small"><i class="fas fa-map-marker-alt text-danger me-1"></i> ${startAddress}</p>
+            <p class="mb-1 small"><i class="fas fa-flag-checkered text-success me-1"></i> ${endAddress}</p>
+            <div class="d-flex justify-content-between mt-2">
+                <span class="small"><i class="fas fa-ruler me-1"></i> ${route.distance} km</span>
+                <span class="small"><i class="fas fa-clock me-1"></i> ${route.estimated_time_minutes} min</span>
+            </div>
+        `;
+    }
+
+    // Display alternative routes
+    function displayAlternativeRoutes(routes, startAddress, endAddress) {
+        // Show the alternative routes card
+        document.getElementById("alternative-routes-card").classList.remove("d-none");
+
+        // Generate HTML for alternative routes
+        let html = '';
+
+        routes.forEach((route, index) => {
+            const isActive = index === 0;
+            const routeTypeIcon = getRouteTypeIcon(route.name);
+
+            html += `
+                <div class="route-alternative ${isActive ? 'active' : ''}" data-route-index="${index}">
+                    <div class="route-alternative-header">
+                        <div class="route-alternative-name">
+                            ${routeTypeIcon} ${route.name}
+                        </div>
+                        <div class="route-alternative-stats">
+                            <div class="route-alternative-stat">
+                                <i class="fas fa-ruler me-1"></i> ${route.distance} km
+                            </div>
+                            <div class="route-alternative-stat">
+                                <i class="fas fa-clock me-1"></i> ${route.estimated_time_minutes} min
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress mt-2" style="height: 4px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: ${getRouteEfficiencyPercentage(route, routes)}%"></div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Update the container
+        document.getElementById("alternative-routes-container").innerHTML = html;
+
+        // Add event listeners to alternative routes
+        document.querySelectorAll(".route-alternative").forEach(element => {
+            element.addEventListener("click", function() {
+                const routeIndex = parseInt(this.dataset.routeIndex);
+                const route = routes[routeIndex];
+
+                // Update active state
+                document.querySelectorAll(".route-alternative").forEach(el => {
+                    el.classList.remove("active");
+                });
+                this.classList.add("active");
+
+                // Display the selected route
+                displayRoute(route, startAddress, endAddress);
+
+                // Update current route data
+                currentRoute = {
+                    name: document.getElementById("route-name").value || `${startAddress} to ${endAddress}`,
+                    start_point: startAddress,
+                    end_point: endAddress,
+                    route_type: route.name.toLowerCase(),
+                    distance: route.distance,
+                    duration: route.estimated_time_minutes,
+                    coordinates: JSON.stringify(route.path)
+                };
+
+                // Update route info card
+                updateRouteInfo(currentRoute);
+            });
+        });
+    }
+
+    // Get icon for route type
+    function getRouteTypeIcon(routeType) {
+        switch(routeType.toLowerCase()) {
+            case 'fastest route':
+                return '<i class="fas fa-tachometer-alt"></i>';
+            case 'scenic route':
+                return '<i class="fas fa-mountain"></i>';
+            case 'safest route':
+                return '<i class="fas fa-shield-alt"></i>';
+            case 'flattest route':
+                return '<i class="fas fa-road"></i>';
+            default:
+                return '<i class="fas fa-route"></i>';
+        }
+    }
+
+    // Calculate route efficiency percentage for progress bar
+    function getRouteEfficiencyPercentage(route, allRoutes) {
+        // Find the shortest and longest routes
+        const distances = allRoutes.map(r => r.distance);
+        const minDistance = Math.min(...distances);
+        const maxDistance = Math.max(...distances);
+
+        // Calculate percentage (shorter is better)
+        if (maxDistance === minDistance) return 100;
+        return 100 - ((route.distance - minDistance) / (maxDistance - minDistance) * 50);
+    }
+
+    // Toggle map overlay
+    function toggleMapOverlay() {
+        const overlay = document.getElementById("map-overlay");
+        const icon = document.getElementById("map-overlay-icon");
+
+        overlay.classList.toggle("collapsed");
+
+        if (overlay.classList.contains("collapsed")) {
+            icon.classList.remove("fa-chevron-right");
+            icon.classList.add("fa-chevron-left");
+        } else {
+            icon.classList.remove("fa-chevron-left");
+            icon.classList.add("fa-chevron-right");
+        }
+    }
+
+    // Toggle elevation profile
+    function toggleElevationProfile() {
+        const elevationBody = document.getElementById("elevation-body");
+        const toggleBtn = document.getElementById("toggle-elevation-btn");
+        const toggleIcon = toggleBtn.querySelector("i");
+
+        if (elevationBody.style.display === "none") {
+            elevationBody.style.display = "block";
+            toggleIcon.classList.remove("fa-chevron-down");
+            toggleIcon.classList.add("fa-chevron-up");
+        } else {
+            elevationBody.style.display = "none";
+            toggleIcon.classList.remove("fa-chevron-up");
+            toggleIcon.classList.add("fa-chevron-down");
+        }
+    }
+
+    // Toggle directions panel
+    function toggleDirectionsPanel() {
+        const directionsPanel = document.getElementById("directions-panel");
+        const toggleBtn = document.getElementById("toggle-directions-btn");
+        const toggleIcon = toggleBtn.querySelector("i");
+
+        if (directionsPanel.style.display === "none") {
+            directionsPanel.style.display = "block";
+            toggleIcon.classList.remove("fa-chevron-down");
+            toggleIcon.classList.add("fa-chevron-up");
+        } else {
+            directionsPanel.style.display = "none";
+            toggleIcon.classList.remove("fa-chevron-up");
+            toggleIcon.classList.add("fa-chevron-down");
+        }
+    }
+
+    // Print directions
+    function printDirections() {
+        const directionsContent = document.getElementById("directions-panel").innerHTML;
+        const routeName = currentRoute ? currentRoute.name : "Cycling Route";
+
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>${routeName} - Directions</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+                <style>
+                    body { padding: 20px; font-family: Arial, sans-serif; }
+                    .header { text-align: center; margin-bottom: 20px; }
+                    .directions-panel { padding: 15px; }
+                    .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #666; }
+                    @media print {
+                        .no-print { display: none; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <h2>${routeName}</h2>
+                    <p>${currentRoute ? currentRoute.start_point + ' to ' + currentRoute.end_point : ''}</p>
+                </div>
+                <div class="directions-panel">
+                    ${directionsContent}
+                </div>
+                <div class="footer">
+                    <p>Generated by EcoCycle Route Planner</p>
+                </div>
+                <div class="no-print text-center mt-4">
+                    <button class="btn btn-primary" onclick="window.print()">Print</button>
+                    <button class="btn btn-secondary" onclick="window.close()">Close</button>
+                </div>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
+
+    // Swap start and end locations
+    function swapLocations() {
+        const startInput = document.getElementById("start-point");
+        const endInput = document.getElementById("end-point");
+
+        const temp = startInput.value;
+        startInput.value = endInput.value;
+        endInput.value = temp;
+    }
+
+    // Toggle favorite status
+    function toggleFavorite(button) {
+        const routeId = button.dataset.routeId;
+        const icon = button.querySelector("i");
+
+        if (icon.classList.contains("far")) {
+            // Add to favorites
+            icon.classList.remove("far");
+            icon.classList.add("fas");
+            icon.classList.add("text-warning");
+
+            // Send request to server to add to favorites
+            fetch(`/api/routes/${routeId}/favorite`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .catch(error => {
+                console.error('Error adding to favorites:', error);
+                // Revert UI change on error
+                icon.classList.remove("fas", "text-warning");
+                icon.classList.add("far");
+            });
+        } else {
+            // Remove from favorites
+            icon.classList.remove("fas", "text-warning");
+            icon.classList.add("far");
+
+            // Send request to server to remove from favorites
+            fetch(`/api/routes/${routeId}/favorite`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .catch(error => {
+                console.error('Error removing from favorites:', error);
+                // Revert UI change on error
+                icon.classList.remove("far");
+                icon.classList.add("fas", "text-warning");
+            });
+        }
+    }
+
+    // Sort saved routes
+    function sortSavedRoutes(sortBy) {
+        const routesList = document.getElementById("saved-routes-list");
+        const routes = Array.from(routesList.querySelectorAll(".saved-route-item"));
+
+        if (routes.length <= 1) return;
+
+        routes.sort((a, b) => {
+            if (sortBy === "name") {
+                const nameA = a.querySelector("h6").textContent.toLowerCase();
+                const nameB = b.querySelector("h6").textContent.toLowerCase();
+                return nameA.localeCompare(nameB);
+            } else if (sortBy === "date") {
+                // Assuming there's a data attribute for date
+                const dateA = a.dataset.date || "0";
+                const dateB = b.dataset.date || "0";
+                return dateB.localeCompare(dateA); // Newest first
+            } else if (sortBy === "distance") {
+                const distanceA = parseFloat(a.querySelector(".fa-ruler").parentNode.textContent.match(/[\d.]+/)[0]);
+                const distanceB = parseFloat(b.querySelector(".fa-ruler").parentNode.textContent.match(/[\d.]+/)[0]);
+                return distanceA - distanceB; // Shortest first
+            }
+            return 0;
+        });
+
+        // Reorder the DOM elements
+        routes.forEach(route => routesList.appendChild(route));
+    }
+
+    // Toggle favorites filter
+    function toggleFavoritesFilter() {
+        const routesList = document.getElementById("saved-routes-list");
+        const routes = routesList.querySelectorAll(".saved-route-item");
+        const filterBtn = document.getElementById("filter-favorites");
+
+        // Check if filter is already active
+        const isActive = filterBtn.classList.contains("active");
+
+        if (isActive) {
+            // Remove filter
+            filterBtn.classList.remove("active");
+            routes.forEach(route => {
+                route.style.display = "block";
+            });
+        } else {
+            // Apply filter
+            filterBtn.classList.add("active");
+            routes.forEach(route => {
+                const starIcon = route.querySelector(".favorite-btn i");
+                if (starIcon.classList.contains("fas")) {
+                    route.style.display = "block";
+                } else {
+                    route.style.display = "none";
+                }
+            });
+        }
+    }
+
+    // Show route comparison modal
+    function showRouteComparisonModal() {
+        // Check if we have alternative routes
+        const alternativesContainer = document.getElementById("alternative-routes-container");
+        if (!alternativesContainer.children.length) {
+            alert("No alternative routes to compare");
+            return;
+        }
+
+        // Get routes data
+        const routes = [];
+        document.querySelectorAll(".route-alternative").forEach(el => {
+            const routeIndex = parseInt(el.dataset.routeIndex);
+            const routeName = el.querySelector(".route-alternative-name").textContent.trim();
+            const routeDistance = parseFloat(el.querySelector(".route-alternative-stat:first-child").textContent.match(/[\d.]+/)[0]);
+            const routeDuration = parseInt(el.querySelector(".route-alternative-stat:last-child").textContent.match(/\d+/)[0]);
+
+            routes.push({
+                index: routeIndex,
+                name: routeName,
+                distance: routeDistance,
+                duration: routeDuration,
+                elevation: Math.round(Math.random() * 200), // Placeholder for demo
+                safety: Math.round(70 + Math.random() * 20), // Placeholder for demo
+                co2_saved: Math.round(routeDistance * 0.12 * 100) / 100
+            });
+        });
+
+        // Generate comparison table
+        let tableHtml = '';
+        routes.forEach(route => {
+            tableHtml += `
+                <tr>
+                    <td>${route.name}</td>
+                    <td>${route.distance} km</td>
+                    <td>${route.duration} min</td>
+                    <td>${route.elevation} m</td>
+                    <td>${route.safety}%</td>
+                    <td>${route.co2_saved} kg</td>
+                </tr>
+            `;
+        });
+
+        document.getElementById("comparison-table-body").innerHTML = tableHtml;
+
+        // Generate recommendation
+        const fastestRoute = routes.reduce((prev, current) =>
+            (prev.duration < current.duration) ? prev : current
+        );
+
+        const shortestRoute = routes.reduce((prev, current) =>
+            (prev.distance < current.distance) ? prev : current
+        );
+
+        const safestRoute = routes.reduce((prev, current) =>
+            (prev.safety > current.safety) ? prev : current
+        );
+
+        let recommendationText = '';
+        if (fastestRoute.index === shortestRoute.index && fastestRoute.index === safestRoute.index) {
+            recommendationText = `<strong>${fastestRoute.name}</strong> is the optimal choice, being the fastest, shortest, and safest route.`;
+        } else {
+            recommendationText = `Based on your preferences, we recommend the <strong>${fastestRoute.name}</strong> as it provides the best balance of time, distance, and safety.`;
+        }
+
+        document.getElementById("comparison-recommendation").querySelector("span").textContent = recommendationText;
+
+        // Create comparison chart
+        if (comparisonChart) {
+            comparisonChart.destroy();
+        }
+
+        const ctx = document.getElementById("comparison-chart").getContext("2d");
+        comparisonChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Speed', 'Distance', 'Safety', 'Scenery', 'Elevation'],
+                datasets: routes.map((route, index) => {
+                    const colors = [
+                        'rgba(34, 197, 94, 0.7)',  // Green
+                        'rgba(14, 165, 233, 0.7)', // Blue
+                        'rgba(234, 179, 8, 0.7)',  // Yellow
+                        'rgba(239, 68, 68, 0.7)'   // Red
+                    ];
+
+                    return {
+                        label: route.name,
+                        data: [
+                            100 - (route.duration / routes[0].duration * 100), // Speed (inverse of duration)
+                            100 - (route.distance / routes[0].distance * 100), // Distance (inverse)
+                            route.safety,
+                            70 + Math.random() * 30, // Random scenery score
+                            100 - (route.elevation / (routes[0].elevation || 1) * 100) // Elevation (inverse)
+                        ],
+                        backgroundColor: colors[index % colors.length],
+                        borderColor: colors[index % colors.length].replace('0.7', '1'),
+                        borderWidth: 1
+                    };
+                })
+            },
+            options: {
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById("route-comparison-modal"));
+        modal.show();
+
+        // Add event listener to select recommended route button
+        document.getElementById("select-recommended-route-btn").addEventListener("click", function() {
+            // Find the recommended route element and click it
+            const recommendedRouteEl = document.querySelector(`.route-alternative[data-route-index="${fastestRoute.index}"]`);
+            if (recommendedRouteEl) {
+                recommendedRouteEl.click();
+                modal.hide();
+            }
+        });
+    }
+
+    // Update route information display
+    function updateRouteInfo(route) {
+        // Show the route info card
+        document.getElementById("route-info-card").classList.remove("d-none");
+
+        // Update values
+        document.getElementById("route-distance").textContent = route.distance;
+        document.getElementById("route-duration").textContent = route.duration;
+
+        // Calculate environmental impact
+        const calories = Math.round(route.distance * {{ config.CALORIES_PER_KM }});
+        const co2Saved = Math.round(route.distance * {{ config.CO2_PER_KM }} * 100) / 100;
+        const fuelSaved = Math.round(route.distance * {{ config.FUEL_EFFICIENCY }} * 100) / 100;
+        const moneySaved = Math.round(fuelSaved * {{ config.FUEL_PRICE }} * 100) / 100;
+
+        // Update environmental impact values
+        document.getElementById("calories-value").textContent = calories;
+        document.getElementById("co2-value").textContent = co2Saved;
+        document.getElementById("fuel-value").textContent = fuelSaved;
+        document.getElementById("money-value").textContent = "$" + moneySaved;
+
+        // Update detailed calories in the analysis tab
+        document.getElementById("calories-detail").textContent = calories;
+
+        // Set route difficulty based on distance and elevation
+        let difficulty = "Easy";
+        if (route.distance > 15) {
+            difficulty = "Hard";
+        } else if (route.distance > 7) {
+            difficulty = "Medium";
+        }
+        document.getElementById("route-difficulty").textContent = difficulty;
+
+        // Set workout intensity based on route difficulty
+        let intensity = "Light";
+        if (difficulty === "Hard") {
+            intensity = "Intense";
+        } else if (difficulty === "Medium") {
+            intensity = "Moderate";
+        }
+        document.getElementById("workout-intensity").textContent = intensity;
+
+        // Set training effect based on intensity
+        let trainingEffect = "Recovery";
+        if (intensity === "Intense") {
+            trainingEffect = "Aerobic + Anaerobic";
+        } else if (intensity === "Moderate") {
+            trainingEffect = "Aerobic";
+        }
+        document.getElementById("training-effect").textContent = trainingEffect;
+    }
+
+    // Add markers for start and end points
+    function addMarkers(leg) {
+        // Start marker
+        const startMarker = new google.maps.Marker({
+            position: leg.start_location,
+            map: map,
+            icon: {
+                url: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
+                labelOrigin: new google.maps.Point(15, -10)
+            },
+            label: {
+                text: "Start",
+                color: "#28a745"
+            }
+        });
+
+        // End marker
+        const endMarker = new google.maps.Marker({
+            position: leg.end_location,
+            map: map,
+            icon: {
+                url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                labelOrigin: new google.maps.Point(15, -10)
+            },
+            label: {
+                text: "End",
+                color: "#dc3545"
+            }
+        });
+
+        // Add to markers array
+        markers.push(startMarker);
+        markers.push(endMarker);
+    }
+
+    // Get elevation data for the route
+    function getElevationData(path) {
+        if (!path || path.length === 0) return;
+
+        // Create a path for the elevation service
+        const pathRequest = {
+            path: path,
+            samples: 256 // Number of sample points
+        };
+
+        // Get the elevation data
+        elevationService.getElevationAlongPath(pathRequest, function(results, status) {
+            if (status === google.maps.ElevationStatus.OK && results.length > 0) {
+                // Show the elevation card
+                document.getElementById("elevation-card").classList.remove("d-none");
+
+                // Calculate elevation gain
+                let elevationGain = 0;
+                for (let i = 1; i < results.length; i++) {
+                    const diff = results[i].elevation - results[i-1].elevation;
+                    if (diff > 0) elevationGain += diff;
+                }
+
+                // Update elevation gain in the UI
+                document.getElementById("elevation-gain").textContent = Math.round(elevationGain);
+
+                // Create elevation chart
+                createElevationChart(results);
+            }
+        });
+    }
+
+    // Create elevation chart
+    function createElevationChart(elevationData) {
+        const ctx = document.getElementById("elevation-chart").getContext("2d");
+
+        // Destroy existing chart if it exists
+        if (elevationChart) {
+            elevationChart.destroy();
+        }
+
+        // Extract data for the chart
+        const labels = Array.from({length: elevationData.length}, (_, i) => i);
+        const data = elevationData.map(point => point.elevation);
+
+        // Create gradient for the area under the line
+        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.5)');
+        gradient.addColorStop(1, 'rgba(34, 197, 94, 0.1)');
+
+        // Create the chart
+        elevationChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Elevation (m)',
+                    data: data,
+                    borderColor: '#22c55e',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: gradient
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Elevation: ${context.raw.toFixed(1)}m`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        display: false
+                    },
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+    }
+
+    // Get safety assessment for the route
+    function getSafetyAssessment(route) {
+        // In a real implementation, this would call an API to get safety data
+        // For now, we'll generate some placeholder data
+
+        // Generate a safety score between 70 and 95
+        const safetyScore = Math.floor(70 + Math.random() * 25);
+
+        // Update safety score in the UI
+        document.getElementById("safety-score-value").textContent = safetyScore + "%";
+        document.getElementById("safety-score-fill").style.width = safetyScore + "%";
+
+        // Set the color based on the score
+        let safetyColor = "#22c55e"; // Green for high safety
+        if (safetyScore < 80) {
+            safetyColor = "#eab308"; // Yellow for medium safety
+        } else if (safetyScore < 70) {
+            safetyColor = "#ef4444"; // Red for low safety
+        }
+        document.getElementById("safety-score-fill").style.backgroundColor = safetyColor;
+
+        // Update safety factors
+        const safetyFactors = [
+            {
+                factor: "Bike Lanes",
+                percentage: Math.floor(60 + Math.random() * 40),
+                details: `${Math.floor(60 + Math.random() * 40)}% of route has dedicated bike lanes`
+            },
+            {
+                factor: "Traffic Volume",
+                percentage: Math.floor(50 + Math.random() * 40),
+                details: `${Math.random() > 0.5 ? "Moderate" : "Low to moderate"} traffic in some segments`
+            },
+            {
+                factor: "Road Conditions",
+                percentage: Math.floor(70 + Math.random() * 30),
+                details: `${Math.random() > 0.7 ? "Good" : "Fair to good"} road surface quality`
+            }
+        ];
+
+        // Generate safety tips based on the factors
+        const safetyTips = [];
+        if (safetyFactors[0].percentage < 80) {
+            safetyTips.push("Use extra caution in areas without bike lanes");
+        }
+        if (safetyFactors[1].percentage < 70) {
+            safetyTips.push("Consider riding during off-peak hours to avoid heavy traffic");
+        }
+        if (safetyFactors[2].percentage < 80) {
+            safetyTips.push("Watch for potholes and uneven surfaces in some areas");
+        }
+
+        // Add general safety tips
+        safetyTips.push("Always wear a helmet and use lights during low visibility");
+        safetyTips.push("Signal your turns and follow traffic rules");
+
+        // Update safety tips in the UI
+        const safetyTipsList = document.getElementById("safety-tips");
+        safetyTipsList.innerHTML = safetyTips.map(tip => `<li>${tip}</li>`).join('');
+
+        // Update safety factors in the UI
+        const safetyFactorsList = document.getElementById("safety-factors");
+        safetyFactorsList.innerHTML = safetyFactors.map(factor => {
+            const icon = factor.percentage >= 80 ?
+                '<i class="fas fa-check-circle text-success me-1"></i>' :
+                '<i class="fas fa-exclamation-triangle text-warning me-1"></i>';
+            return `<p class="mb-1">${icon} ${factor.details}</p>`;
+        }).join('');
+    }
+
+    // Get weather data for the route
+    function getWeatherData(location) {
+        // In a real implementation, this would call a weather API
+        // For now, we'll generate some placeholder data
+
+        const weatherConditions = ["Sunny", "Partly Cloudy", "Cloudy", "Light Rain", "Clear"];
+        const weatherIcons = {
+            "Sunny": "fa-sun",
+            "Partly Cloudy": "fa-cloud-sun",
+            "Cloudy": "fa-cloud",
+            "Light Rain": "fa-cloud-rain",
+            "Clear": "fa-sun"
+        };
+
+        const condition = weatherConditions[Math.floor(Math.random() * weatherConditions.length)];
+        const temperature = Math.floor(15 + Math.random() * 15); // 15-30°C
+        const windSpeed = Math.floor(5 + Math.random() * 15); // 5-20 km/h
+
+        // Update weather info in the UI
+        document.getElementById("weather-condition").textContent = condition;
+        document.getElementById("weather-temp").textContent = `${temperature}°C`;
+        document.getElementById("weather-wind").textContent = `${windSpeed} km/h`;
+
+        // Update weather icon
+        const weatherIcon = document.querySelector(".weather-icon i");
+        weatherIcon.className = `fas ${weatherIcons[condition]}`;
+    }
+
+    // Update map overlay with route info
+    function updateMapOverlay(route) {
+        const overlayInfo = document.getElementById("map-overlay-info");
+
+        const distance = (route.legs[0].distance.value / 1000).toFixed(2);
+        const duration = Math.round(route.legs[0].duration.value / 60);
+
+        overlayInfo.innerHTML = `
+            <div class="mb-2">
+                <strong>${currentRoute.name}</strong>
+            </div>
+            <p class="mb-1 small"><i class="fas fa-map-marker-alt text-danger me-1"></i> ${route.legs[0].start_address.split(',')[0]}</p>
+            <p class="mb-1 small"><i class="fas fa-flag-checkered text-success me-1"></i> ${route.legs[0].end_address.split(',')[0]}</p>
+            <div class="d-flex justify-content-between mt-2">
+                <span class="small"><i class="fas fa-ruler me-1"></i> ${distance} km</span>
+                <span class="small"><i class="fas fa-clock me-1"></i> ${duration} min</span>
+            </div>
+        `;
+    }
+
+    // Show share route modal
+    function showShareRouteModal() {
+        if (!currentRoute) {
+            alert("Please calculate a route first");
+            return;
+        }
+
+        // Generate a shareable link
+        const shareLink = `${window.location.origin}${window.location.pathname}?start=${encodeURIComponent(currentRoute.start_point)}&end=${encodeURIComponent(currentRoute.end_point)}&type=${currentRoute.route_type}`;
+
+        // Update the share link in the modal
+        document.getElementById("share-route-link").value = shareLink;
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById("share-route-modal"));
+        modal.show();
+
+        // Add event listener to copy button
+        document.getElementById("copy-link-btn").addEventListener("click", function() {
+            const linkInput = document.getElementById("share-route-link");
+            linkInput.select();
+            document.execCommand("copy");
+
+            // Show feedback
+            this.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-copy"></i>';
+            }, 2000);
+        });
+
+        // Add event listeners to social share buttons
+        document.getElementById("share-facebook").addEventListener("click", function() {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`, '_blank');
+        });
+
+        document.getElementById("share-twitter").addEventListener("click", function() {
+            window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent('Check out this cycling route I created with EcoCycle!')}`, '_blank');
+        });
+
+        document.getElementById("share-whatsapp").addEventListener("click", function() {
+            window.open(`https://wa.me/?text=${encodeURIComponent('Check out this cycling route I created with EcoCycle: ' + shareLink)}`, '_blank');
+        });
+
+        document.getElementById("share-email").addEventListener("click", function() {
+            window.open(`mailto:?subject=${encodeURIComponent('EcoCycle Route')}&body=${encodeURIComponent('Check out this cycling route I created with EcoCycle: ' + shareLink)}`, '_blank');
+        });
+    }
+
+    // Clear all markers from the map
+    function clearMarkers() {
+        for (let marker of markers) {
+            marker.setMap(null);
+        }
+        markers = [];
+    }
+
+    // Use current location as start point
+    function useCurrentLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+
+                // Get address from coordinates
+                const geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+                    if (status === "OK" && results[0]) {
+                        document.getElementById("start-point").value = results[0].formatted_address;
+                    } else {
+                        document.getElementById("start-point").value = `${lat}, ${lng}`;
+                    }
+                });
+            }, () => {
+                alert("Could not get your current location. Please check permissions.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Clear the current route
+    function clearRoute() {
+        // Clear directions
+        directionsRenderer.setDirections({ routes: [] });
+
+        // Clear markers
+        clearMarkers();
+
+        // Hide info cards
+        document.getElementById("route-info-card").classList.add("d-none");
+        document.getElementById("directions-card").classList.add("d-none");
+
+        // Reset form
+        document.getElementById("route-form").reset();
+
+        // Reset current route
+        currentRoute = null;
+    }
+
+    // Show save route modal
+    function showSaveRouteModal() {
+        if (!currentRoute) {
+            alert("Please calculate a route first");
+            return;
+        }
+
+        // Populate modal with route data
+        document.getElementById("save-route-name").value = currentRoute.name;
+        document.getElementById("save-start-point").textContent = currentRoute.start_point;
+        document.getElementById("save-end-point").textContent = currentRoute.end_point;
+        document.getElementById("save-distance").textContent = currentRoute.distance;
+        document.getElementById("save-duration").textContent = currentRoute.duration;
+
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById("save-route-modal"));
+        modal.show();
+    }
+
+    // Save the current route
+    function saveRoute() {
+        if (!currentRoute) {
+            alert("No route to save");
+            return;
+        }
+
+        // Update route name from modal
+        currentRoute.name = document.getElementById("save-route-name").value;
+        currentRoute.notes = document.getElementById("save-notes").value;
+
+        // Send route data to server
+        fetch('/api/routes/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(currentRoute)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close modal
+                bootstrap.Modal.getInstance(document.getElementById("save-route-modal")).hide();
+
+                // Show success message
+                alert("Route saved successfully!");
+
+                // Reload page to update saved routes list
+                location.reload();
+            } else {
+                alert("Error saving route: " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Failed to save route. Please try again.");
+        });
+    }
+
+    // Load a saved route
+    function loadSavedRoute(routeId) {
+        // Show loading indicator
+        const loadingHtml = `
+            <div class="d-flex justify-content-center align-items-center py-4">
+                <div class="spinner-border text-success me-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span>Loading saved route...</span>
+            </div>
+        `;
+        document.getElementById("directions-panel").innerHTML = loadingHtml;
+        document.getElementById("directions-card").classList.remove("d-none");
+
+        fetch(`/api/routes/${routeId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load route');
+            }
+            return response.json();
+        })
+        .then(routeData => {
+            if (routeData) {
+                // Set form values
+                document.getElementById("route-name").value = routeData.name;
+                document.getElementById("start-point").value = routeData.start_point;
+                document.getElementById("end-point").value = routeData.end_point;
+
+                // Set route type
+                const routeType = routeData.route_type || 'fastest';
+                document.getElementById("route-type-input").value = routeType;
+
+                // Update route type selector UI
+                document.querySelectorAll(".route-type-option").forEach(option => {
+                    option.classList.remove("active");
+                });
+                const activeOption = document.querySelector(`.route-type-option[data-value="${routeType}"]`);
+                if (activeOption) {
+                    activeOption.classList.add("active");
+                }
+
+                // If we have coordinates, display the route directly
+                if (routeData.coordinates) {
+                    try {
+                        let path;
+                        if (typeof routeData.coordinates === 'string') {
+                            path = JSON.parse(routeData.coordinates);
+                        } else {
+                            path = routeData.coordinates;
+                        }
+
+                        // Create route object
+                        const route = {
+                            name: routeData.name,
+                            distance: routeData.distance,
+                            estimated_time_minutes: routeData.duration,
+                            path: path
+                        };
+
+                        // Display the route
+                        displayRoute(route, routeData.start_point, routeData.end_point);
+
+                        // Save current route data
+                        currentRoute = {
+                            id: routeData.id,
+                            name: routeData.name,
+                            start_point: routeData.start_point,
+                            end_point: routeData.end_point,
+                            route_type: routeType,
+                            distance: routeData.distance,
+                            duration: routeData.duration,
+                            coordinates: routeData.coordinates
+                        };
+
+                        // Update route info card
+                        updateRouteInfo(currentRoute);
+
+                        // Hide alternative routes card
+                        document.getElementById("alternative-routes-card").classList.add("d-none");
+                    } catch (e) {
+                        console.error('Error parsing route coordinates:', e);
+                        // Fall back to calculating the route
+                        document.getElementById("route-form").dispatchEvent(new Event("submit"));
+                    }
+                } else {
+                    // Calculate route
+                    document.getElementById("route-form").dispatchEvent(new Event("submit"));
+                }
+            } else {
+                document.getElementById("directions-panel").innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Could not load route data
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("directions-panel").innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Failed to load route. Please try again.
+                </div>
+            `;
+        });
+    }
+
+    // Encode polyline for route coordinates
+    function encodePolyline(path) {
+        if (!path || !path.length) return [];
+
+        // Check if path is already in the right format
+        if (typeof path[0].lat === 'function') {
+            // Convert Google Maps LatLng objects to simple objects
+            return path.map(point => {
+                return {
+                    lat: point.lat(),
+                    lng: point.lng()
+                };
+            });
+        } else {
+            // Path is already in the right format
+            return path;
+        }
+    }
+</script>
+{% endblock %}

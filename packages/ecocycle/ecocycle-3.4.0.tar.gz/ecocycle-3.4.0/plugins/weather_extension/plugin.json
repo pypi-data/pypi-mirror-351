@@ -1,0 +1,8 @@
+{
+    "name": "weather_extension",
+    "version": "0.1.0",
+    "description": "Extended weather information for EcoCycle",
+    "author": "EcoCycle Team",
+    "main": "plugin.py",
+    "dependencies": ["requests"]
+}

@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}EcoCycle Feedback{% endblock %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .feedback-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .feedback-form {
+        background: #f7f9fc;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .feedback-history {
+        margin-top: 30px;
+    }
+    .feedback-card {
+        background: white;
+        border-left: 4px solid #3498db;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .feedback-card.resolved {
+        border-left-color: #2ecc71;
+    }
+    .feedback-card.in-progress {
+        border-left-color: #f39c12;
+    }
+    .feedback-response {
+        background: #f0f8ff;
+        padding: 10px 15px;
+        margin-top: 10px;
+        border-radius: 4px;
+    }
+    .star-rating {
+        display: inline-block;
+    }
+    .star-rating input {
+        display: none;
+    }
+    .star-rating label {
+        float: right;
+        color: #ddd;
+        font-size: 24px;
+    }
+    .star-rating label:before {
+        content: '★';
+    }
+    .star-rating input:checked ~ label {
+        color: #ffca08;
+    }
+    .star-rating:not(:checked) label:hover,
+    .star-rating:not(:checked) label:hover ~ label {
+        color: #ffca08;
+    }
+    .feedback-meta {
+        font-size: 12px;
+        color: #777;
+        margin-bottom: 5px;
+    }
+    .status-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+    }
+    .status-new { background-color: #3498db; }
+    .status-in-progress { background-color: #f39c12; }
+    .status-resolved { background-color: #2ecc71; }
+    .status-closed { background-color: #95a5a6; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="feedback-container">
+    <h1>Share Your Feedback</h1>
+    <p class="lead">Your feedback helps us improve EcoCycle for everyone. Let us know what you think or suggest new features.</p>
+    
+    {% if message %}
+    <div class="alert alert-{{ message_type }}">
+        {{ message }}
+    </div>
+    {% endif %}
+    
+    <div class="feedback-form">
+        <form method="POST" action="/feedback/submit">
+            <div class="form-group">
+                <label for="category">Feedback Type</label>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="general">General Feedback</option>
+                    <option value="bug">Report a Bug</option>
+                    <option value="feature_request">Feature Request</option>
+                    <option value="improvement">Suggestion for Improvement</option>
+                    <option value="question">Question</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="feature">Related Feature (Optional)</label>
+                <select class="form-control" id="feature" name="feature">
+                    <option value="">Select a feature (optional)</option>
+                    <option value="route_planning">Route Planning</option>
+                    <option value="activity_tracking">Activity Tracking</option>
+                    <option value="environmental_impact">Environmental Impact</option>
+                    <option value="challenges">Challenges & Goals</option>
+                    <option value="social">Social Features</option>
+                    <option value="visualizations">Data Visualizations</option>
+                    <option value="weather">Weather Integration</option>
+                    <option value="sync">Cross-Platform Sync</option>
+                    <option value="account">Account Management</option>
+                    <option value="ui">User Interface</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="content">Your Feedback</label>
+                <textarea class="form-control" id="content" name="content" rows="5" required placeholder="Please provide details about your experience, suggestion, or the issue you encountered..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Rate Your Experience (Optional)</label>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" />
+                    <label for="star5" title="Excellent"></label>
+                    <input type="radio" id="star4" name="rating" value="4" />
+                    <label for="star4" title="Very Good"></label>
+                    <input type="radio" id="star3" name="rating" value="3" />
+                    <label for="star3" title="Good"></label>
+                    <input type="radio" id="star2" name="rating" value="2" />
+                    <label for="star2" title="Poor"></label>
+                    <input type="radio" id="star1" name="rating" value="1" />
+                    <label for="star1" title="Very Poor"></label>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="includeSystemInfo" name="includeSystemInfo" checked>
+                <label class="form-check-label" for="includeSystemInfo">Include system information (helps us diagnose issues)</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        </form>
+    </div>
+    
+    {% if user_feedback %}
+    <div class="feedback-history">
+        <h2>Your Previous Feedback</h2>
+        
+        {% for item in user_feedback %}
+        <div class="feedback-card {% if item.status == 'resolved' %}resolved{% elif item.status == 'in_progress' %}in-progress{% endif %}">
+            <div class="feedback-meta">
+                <span class="status-badge status-{{ item.status }}">{{ item.status|replace('_', ' ')|title }}</span>
+                <span>{{ item.timestamp|date }}</span>
+                {% if item.rating %}
+                <span class="float-right">
+                    {% for i in range(5) %}
+                        {% if i < item.rating %}
+                        <span style="color: #ffca08">★</span>
+                        {% else %}
+                        <span style="color: #ddd">★</span>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                {% endif %}
+            </div>
+            
+            <h5>{{ item.category|replace('_', ' ')|title }}{% if item.feature %} - {{ item.feature|replace('_', ' ')|title }}{% endif %}</h5>
+            <p>{{ item.content }}</p>
+            
+            {% if item.responses %}
+            <div class="feedback-responses">
+                {% for response in item.responses %}
+                <div class="feedback-response">
+                    <div class="feedback-meta">
+                        <strong>{{ response.responder }}</strong> responded on {{ response.timestamp|date }}
+                    </div>
+                    <p>{{ response.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    $(document).ready(function() {
+        // Show appropriate fields based on feedback type
+        $('#category').change(function() {
+            if ($(this).val() === 'bug') {
+                $('#includeSystemInfo').prop('checked', true);
+            }
+        });
+        
+        // Capture context information when submitting
+        $('form').submit(function() {
+            if ($('#includeSystemInfo').is(':checked')) {
+                var contextInfo = {
+                    'userAgent': navigator.userAgent,
+                    'screenSize': window.innerWidth + 'x' + window.innerHeight,
+                    'url': window.location.href,
+                    'timestamp': new Date().toISOString()
+                };
+                
+                // Add hidden field with context information
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'context',
+                    value: JSON.stringify(contextInfo)
+                }).appendTo('form');
+            }
+        });
+    });
+</script>
+{% endblock %}
