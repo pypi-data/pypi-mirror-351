@@ -1,0 +1,5 @@
+[console_scripts]
+dumbwebsearch-index = dumbwebsearch.index:main
+
+[wsgi]
+dumbwebsearch = dumbwebsearch.browse:APP
