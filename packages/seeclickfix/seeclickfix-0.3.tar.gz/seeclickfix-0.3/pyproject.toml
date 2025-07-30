@@ -1,0 +1,23 @@
+[project]
+name = "seeclickfix"
+version = "0.3"
+description = ""
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Nate Shoffner", email = "nate.shoffner@gmail.com" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = ["aiohttp >=3.9.1", "pydantic (>=2.11.5,<3.0.0)"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.urls]
+"Homepage" = "https://github.com/NateShoffner/py-seeclickfix"
+"Bug Tracker" = "https://github.com/NateShoffner/py-seeclickfix/issues"
