@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "enrichment_tools"
+version = "0.2.3"
+description = "MCP Server for catering to Enrichment APIs of Apollo.io"
+readme = "README.md"
+authors = [
+    {name = "Kavya-24", email = "kavya.goyal@apollo.io"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "fastmcp==2.5.2",
+    "PyYAML==6.0.2",
+    "mcp>=1.2.0",
+    "requests",
+    "httpx",
+    "beautifulsoup4",
+    "pyyaml"
+]
+requires-python = ">=3.9"
+
+[project.scripts]
+enrichment_tools = "enrichment_tools:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+enrichment_tools_data = ["enrichment.yaml"]
