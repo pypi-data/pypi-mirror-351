@@ -1,0 +1,219 @@
+# Aeryl SDK
+
+A Python SDK for training and deploying machine learning models to detect and analyze chaos in production systems.
+
+## Installation
+
+```bash
+pip install aeryl-sdk
+```
+
+## Quick Start
+
+```python
+from aeryl_sdk import AerylModel
+
+# Initialize and train a new model
+model = AerylModel(
+    dev_path='data/company_research_dev.csv',
+    prod_path='data/company_research_prod.csv',
+    models_dir='models'
+)
+model_id = model.train()
+
+# Or load an existing model by ID
+model = AerylModel(
+    dev_path='data/company_research_dev.csv',
+    prod_path='data/company_research_prod.csv',
+    models_dir='models',
+    model_id='your-model-id'
+)
+
+# Make predictions
+predictions = model.predict()
+```
+
+## AerylModel Class
+
+The `AerylModel` class provides a high-level interface for training and inference using the chaos classifier.
+
+### Initialization
+
+```python
+model = AerylModel(
+    dev_path='path/to/dev/data.csv',    # Path to development dataset
+    prod_path='path/to/prod/data.csv',  # Path to production dataset
+    models_dir='models',                # Directory to save/load models
+    model_id=None                       # Optional: ID of existing model to load
+)
+```
+
+### Key Methods
+
+#### Training
+
+```python
+# Train the model on the development dataset
+model_id = model.train()
+```
+
+Returns a dictionary containing the model ID.
+
+#### Loading a Model
+
+```python
+# Load an existing model by ID
+model.load_model(model_id)
+```
+
+This method is automatically called during initialization if a `model_id` is provided.
+
+#### Prediction
+
+```python
+# Make predictions on the production dataset
+predictions = model.predict(model_id=None)  # Optional: specify model_id
+```
+
+Returns a dictionary containing predictions for each run and step:
+```python
+{
+    'model_id': 'uuid-123',
+    'predictions': {
+        'run_1': {
+            'step_1': {'prediction': True, 'probability': 0.85},
+            'step_2': {'prediction': False, 'probability': 0.12},
+            'step_3': {'prediction': True, 'probability': 0.92}
+        },
+        'run_2': {
+            'step_1': {'prediction': False, 'probability': 0.08},
+            'step_2': {'prediction': False, 'probability': 0.15},
+            'step_3': {'prediction': False, 'probability': 0.23}
+        }
+    }
+}
+```
+
+#### Model Management
+
+```python
+# List all available trained models
+models = model.list_models()
+
+# Get detailed information about a specific model
+model_info = model.get_model_info(model_id)
+
+# Delete a specific model
+success = model.delete_model(model_id)
+```
+
+#### Performance Analysis
+
+```python
+# Get performance metrics for all steps or a specific step
+metrics = model.get_performance_metrics(step=None)
+
+# Get detailed information about a specific step model
+step_info = model.get_step_model_info(step)
+
+# Get dataset statistics
+stats = model.describe_datasets()
+```
+
+### Dataset Statistics Format
+
+The `describe_datasets()` method returns statistics for both development and production datasets:
+
+```python
+{
+    'development': {
+        'num_runs': int,          # Total number of runs
+        'num_steps': int,         # Number of steps per run
+        'error_free_runs': int,   # Number of runs without errors
+        'error_runs': int,        # Number of runs with errors
+        'training_rows': int,     # Number of training data points
+        'unique_runs': int,       # Number of unique runs
+        'error_free_pairs': int,  # Number of error-free pairs
+        'error_pairs': int        # Number of error pairs
+    },
+    'production': {
+        'num_runs': int,          # Total number of runs
+        'num_steps': int          # Number of steps per run
+    }
+}
+```
+
+### Model Serialization
+
+```python
+# Convert model state to JSON
+json_str = model.to_json()
+
+# Create model instance from JSON
+model = AerylModel.from_json(json_str)
+```
+
+## Example Usage
+
+Here's a complete example showing how to train a model and save the results:
+
+```python
+from aeryl_sdk import AerylModel
+import json
+import os
+from datetime import datetime
+
+def main():
+    # Initialize the model
+    model = AerylModel(
+        dev_path='data/company_research_dev.csv',
+        prod_path='data/company_research_prod.csv',
+        models_dir='models'
+    )
+    
+    # Train the model
+    model_id = model.train()
+    
+    # Get dataset statistics and performance metrics
+    dataset_stats = model.describe_datasets()
+    performance_metrics = model.get_performance_metrics()
+    predictions = model.predict()
+    
+    # Create output dictionary
+    output = {
+        'timestamp': datetime.now().isoformat(),
+        'model_id': model_id,
+        'dataset_statistics': dataset_stats,
+        'performance_metrics': performance_metrics,
+        'predictions': predictions
+    }
+    
+    # Save results to JSON file
+    os.makedirs('output', exist_ok=True)
+    output_file = f'output/model_run_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
+    with open(output_file, 'w') as f:
+        json.dump(output, f, indent=2)
+
+if __name__ == '__main__':
+    main()
+```
+
+## Requirements
+
+- Python 3.7+
+- XGBoost
+- NumPy
+- Polars
+- scikit-learn
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## Contact
+
+For any questions or concerns, please contact us at info@aeryl.ai. 
