@@ -1,0 +1,8 @@
+# Мutual dependencies
+setuptools
+
+# Only install this on Windows
+windows-curses; platform_system == "Windows"
+
+# Only install this on non-Windows systems
+curses; platform_system != "Windows"
