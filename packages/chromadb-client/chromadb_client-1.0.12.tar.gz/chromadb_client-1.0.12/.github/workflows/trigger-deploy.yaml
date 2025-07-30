@@ -1,0 +1,35 @@
+name: Trigger deploy
+run-name: Trigger deploy from ${{ github.ref_name }}
+
+on:
+  push:
+    branches:
+      # main is not included here because it is handled by the release-chromadb.yaml workflow
+      # production deploys (release branches) are also not here because they are currently
+      # meant to be handled manually.
+      - rc/**-**-**
+
+jobs:
+  deploy:
+    name: Dispatch deploy workflow
+    runs-on: blacksmith-4vcpu-ubuntu-2204
+    steps:
+      - name: Dispatch deploy
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.HOSTED_CHROMA_WORKFLOW_DISPATCH_TOKEN}}
+          script: |
+            const result = await github.rest.actions.createWorkflowDispatch({
+              owner: 'chroma-core',
+              repo: 'hosted-chroma',
+              workflow_id: 'deploy.yaml',
+              ref: 'main',
+              inputs: {
+                'planes': 'control,data',
+                 environment: 'staging',
+                'ignore-lock': true,
+                'oss-ref': '${{ github.ref_name }}',
+                'hosted-ref': '${{ github.ref_name }}'
+              }
+            })
+            console.log(result)
