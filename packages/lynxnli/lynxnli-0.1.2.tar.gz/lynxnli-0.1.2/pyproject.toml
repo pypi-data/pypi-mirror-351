@@ -1,0 +1,28 @@
+[project]
+name = "lynxnli"
+version = "0.1.2"
+description = "A tool for analyzing and visualizing natural language inference (NLI) data"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.10.1",
+    "openai>=1.79.0",
+    "requests==2.32.3",
+    "dotenv==0.9.9",
+    "paramiko==3.5.1"
+]
+
+[build-system]
+requires = ["setuptools>=61.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+package-data = {"toolset.tools" = ["**/*.ini"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
+[project.scripts]
+lynxnli = "cli.main:main"
