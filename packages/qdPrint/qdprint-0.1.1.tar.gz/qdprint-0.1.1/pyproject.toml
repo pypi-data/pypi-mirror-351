@@ -1,0 +1,9 @@
+[project]
+name = "qdPrint"
+version = "0.1.1"
+description = "A simple library for colored printing in Python"
+readme = "README.md"
+requires-python = ">=3.6"
+dependencies = []
+[project.scripts]
+qdprint = "ClPrint:main"
