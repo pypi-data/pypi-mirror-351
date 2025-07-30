@@ -1,0 +1,261 @@
+Metadata-Version: 2.4
+Name: autopysta
+Version: 0.0.40.0
+Summary: 2D traffic modeling.
+Home-page: https://bitbucket.org/rdelpiano/autopysta/
+Author: Rafael Delpiano
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Autopysta
+
+Autopysta is a Python library for simulating 2D traffic flow on highways. It is written in C++ for high performance and wrapped using SWIG for Python compatibility. The library allows users to create realistic highway traffic scenarios with customizable vehicle behaviors, lane-changing logic, and road configurations.
+
+## Table of Contents
+
+- [Autopysta](#autopysta)
+  - [Table of Contents](#table-of-contents)
+  - [Platform Support](#platform-support)
+  - [Key Features](#key-features)
+  - [Installing Autopysta from PyPI](#installing-autopysta-from-pypi)
+  - [Compiling Autopysta from Source](#compiling-autopysta-from-source)
+    - [Prerequisites](#prerequisites)
+    - [Steps to Compile Autopysta](#steps-to-compile-autopysta)
+  - [Running an Example](#running-an-example)
+    - [Example: Running the Different Vehicle Creators Example](#example-running-the-different-vehicle-creators-example)
+  - [Quick Start Example: Using Autopysta to Simulate Different Vehicle Creators](#quick-start-example-using-autopysta-to-simulate-different-vehicle-creators)
+  - [Explanation of the Simulation Example](#explanation-of-the-simulation-example)
+  - [Additional Features](#additional-features)
+  - [Documentation](#documentation)
+
+## Platform Support
+
+Autopysta supports **Windows**, **Linux**, and **macOS**. However, the specific Python versions supported on each platform are still under testing and validation. Currently:
+
+- **Windows**: Tentatively supports **Python 3.8**, pending further compatibility testing.
+- **Linux and macOS**: Compatible with **Python 3.8 and later**, though compatibility with other versions is being evaluated.
+
+## Key Features
+
+1. **Flexible Vehicle Behavior**  
+   Autopysta provides a variety of vehicle models that dictate acceleration, deceleration, and lane-changing dynamics. Examples include:
+   - **Intelligent Driver Model (IDM)**
+   - **Gipps Model**
+   - **Newell Random Acceleration Model**
+
+2. **Vehicle Creation Options**  
+   Users can choose different vehicle creation strategies for each lane, defining how vehicles are added to the simulation.
+
+3. **Customizable Highway Geometry**  
+   Configure highways with parameters such as road length, number of lanes, and merge/diverge points for ramps.
+
+---
+
+## Installing Autopysta from PyPI
+
+If you don’t want to compile from source, you can install Autopysta directly from PyPI (precompiled binaries are available for supported platforms):
+
+```bash
+pip install autopysta
+```
+
+This will install the latest version of Autopysta and its dependencies, allowing you to skip the manual build process.
+
+---
+
+## Compiling Autopysta from Source
+
+To compile Autopysta from source, you will need to build the C++ components, generate the Python wrappers, and copy the necessary binaries to the appropriate directories.
+
+### Prerequisites
+
+Before building from source, ensure you have the following installed:
+- **Python** (version 3.8 on Windows, 3.8 or higher on Linux/macOS)
+- **CMake** (for building the C++ components)
+- **setuptools** and **wheel** (`pip install setuptools wheel`)
+- **SWIG** (for generating Python wrappers)
+
+### Steps to Compile Autopysta
+
+1. **Clone the Repository**  
+   Run the following commands to clone the repository and navigate to its directory:
+   ```bash
+   git clone https://bitbucket.org/rdelpiano/autopysta.git
+   cd autopysta
+   ```
+
+2. **Build the Extension**  
+   Use the following command to build the C++ extension:
+   ```bash
+   python setup.py build_ext
+   ```
+
+   This will:
+   1. Use `CMake` to compile the C++ code.
+   2. Generate the `autopysta.py` wrapper and the platform-specific   `_autopysta.*` shared library.
+   3. Copy the generated binaries to:
+      1. The root `autopysta` directory.
+      2. The `examples/autopysta` directory.
+
+3. **Verify the Build**  
+   After building, check the `autopysta` directory (both in the `tests/` and inside `examples/`) for:
+   1. `autopysta.py`: Python wrapper.
+   2. `_autopysta.*`: Shared library file specific to your platform (e.g., `_autopysta.so` on Linux/macOS or `_autopysta.pyd` on Windows).
+
+---
+
+## Running an Example
+
+Once the build is complete, you can run any example provided in the `examples` directory.
+
+### Example: Running the Different Vehicle Creators Example
+
+Navigate to the `examples/` directory:
+```bash
+cd examples
+```
+
+Run the `different_creators.py` (or any other example script):
+```bash
+python different_creators.py
+```
+
+This script simulates traffic with different vehicle creation strategies, as shown in the "Quick Start Example" below.
+
+---
+
+## Quick Start Example: Using Autopysta to Simulate Different Vehicle Creators
+
+Autopysta offers various ways to populate lanes with vehicles, each governed by different driving models and behaviors. Here’s an example of setting up a simulation with different vehicle creators to model distinct traffic conditions.
+
+```python
+# ------------------------------------------------------------------------------
+# Case Study: Using Different Vehicle Creators
+#
+# This example demonstrates the use of different vehicle creators to populate 
+# lanes with vehicles using distinct driving models. The creators used are:
+# 1. `FixedStateCreator`: Generates vehicles with specified spacing and speed.
+# 2. `FixedDemandCreator`: Generates vehicles based on a fixed traffic flow rate.
+# ------------------------------------------------------------------------------
+
+# Import the library
+import autopysta as ap
+
+# Display the current version of autopysta
+print(ap.version())
+
+# Define the highway geometry for the simulation. The Geometry object takes:
+# 1. `length`: The length of the highway (meters).
+# 2. `lanes`: Number of lanes.
+# 3. `merge_pos`: Position where a merge ramp ends (0 for no merge ramp).
+# 4. `diverge_pos`: Position where a diverge ramp starts (highway length for no diverge ramp).
+length = 1000
+initial_lanes = 4
+merge_position = 300
+diverge_position = 700
+highway_geometry = ap.Geometry(length, initial_lanes, merge_position, diverge_position)
+
+# Define the driving models for acceleration/deceleration.
+# Default parameters are used for both models.
+idm_model = ap.idm()
+gipps_model = ap.gipps()
+
+# Specify the types of vehicle creators for each lane. The creators define the
+# conditions under which vehicles are added to the lanes:
+# - `FixedStateCreator`: Generates vehicles based on specified spacing and speed.
+# - `FixedDemandCreator`: Generates vehicles based on a fixed flow rate.
+# If only one creator is given, it will apply to all lanes. The final parameter 
+# is optional, specifying a maximum number of vehicles (default is unlimited).
+spacing = 15
+speed = 10
+flow_rate = 0.5
+lane_creators = [
+    ap.FixedStateCreator(gipps_model, spacing, speed),  # Lane 1
+    ap.FixedDemandCreator(idm_model, flow_rate),        # Lane 2
+    ap.FixedStateCreator(idm_model, spacing, speed),    # Lane 3
+    ap.FixedDemandCreator(gipps_model, flow_rate),      # Lane 4 (if present)
+]
+
+
+# Define the lane-changing model. To disable lane changing, use `no_lch`.
+lane_change_model = ap.lcm_gipps()
+
+# Initialize the Simulation object with the defined settings. The simulation is
+# set to run for 80 seconds with a timestep of 0.1 seconds.
+# No vehicles are predefined, so we use an empty list.
+# We set verbose mode to get some extra output and see the shape of the geometry
+total_time = 80
+vehicles=[]
+time_step = 0.1
+verbose = True
+simulation = ap.Simulation(
+    lane_change_model,
+    total_time,
+    highway_geometry,
+    lane_creators,
+    vehicles,
+    time_step
+)
+
+
+# Run the simulation. The `run()` method returns a `Results` object containing
+# trajectory data from the simulation.
+simulation_results = simulation.run()
+
+# The `plot_x_vs_t` method generates trajectory plots. It can be used to plot
+# all lanes or specific lanes, as shown below.
+plotting = True
+if plotting:
+    simulation_results.plot_x_vs_t()       # Plot all lanes
+    simulation_results.plot_x_vs_t(lane=1) # Plot only lane 1
+    simulation_results.plot_x_vs_t(lane=2) # Plot only lane 2
+    simulation_results.plot_x_vs_t(lane=3) # Plot only lane 3
+    simulation_results.plot_x_vs_t(lane=4) # Plot only lane 4 (if applicable)
+```
+
+---
+
+## Explanation of the Simulation Example
+
+- **Geometry Setup**: Creates a highway with a length of 1000 meters and 4 lanes. The highway includes a merge ramp at 300 meters and a diverge ramp at 700.
+- **Vehicle Models**: The IDM, Gipps, and Newell Random Acceleration models are assigned to control vehicle dynamics. Different models can represent various driving styles or traffic conditions.
+- **Lane Creators**: Vehicles are added based on either a fixed spacing (`FixedStateCreator`) or a flow rate (`FixedDemandCreator`). This allows the simulation of both congested and free-flowing traffic conditions.
+- **Lane-Changing Logic**: The lane-change model (`lcm_gipps`) handles vehicle lane changes based on the surrounding traffic conditions, with optional parameters for enabling or disabling lane changes.
+- **Simulation Execution**: The simulation runs for a set period, returning vehicle trajectories for analysis.
+
+## Additional Features
+
+- **Verbose Mode**: Enables detailed output during the simulation, useful for understanding and troubleshooting the behavior of individual vehicles.
+- **Plotting**: The `plot_x_vs_t()` method generates time-space plots for vehicle trajectories, providing a visual representation of the simulation results.
+
+
+## Documentation
+
+For more detailed information on various aspects of Autopysta, please refer to the following documentation files:
+
+- **[Bindings Documentation](docs/BINDINGS.md):**  
+  Details on how the C++ classes and functions are exposed to Python.
+
+- **[Build System Documentation](docs/BUILD.md):**  
+  Information about the CMake build process, integration with SWIG, and the usage of `pybind11_mkdoc`.
+
+- **[Publishing Instructions](docs/PUBLISH.md):**  
+  Guidelines for publishing new versions of Autopysta.
+
+- **[TODO List](docs/TODO.md):**  
+  A list of planned features and improvements.
+
