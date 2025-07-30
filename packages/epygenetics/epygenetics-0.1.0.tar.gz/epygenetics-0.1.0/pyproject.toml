@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "epygenetics"
+version = "0.1.0"
+description = "A library to optimize functions"
+authors = [{ name = "Alejandro Mielgo", email = "alejandro.mielgo.barba@gmail.com" }]
+dependencies = ["numpy==2.2.5"]
+
+[tool.setuptools.packages.find]
+where = ["."]
