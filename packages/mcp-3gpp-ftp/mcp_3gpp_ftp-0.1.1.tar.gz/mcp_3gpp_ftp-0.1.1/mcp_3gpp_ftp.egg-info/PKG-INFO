@@ -1,0 +1,67 @@
+Metadata-Version: 2.4
+Name: mcp-3gpp-ftp
+Version: 0.1.1
+Summary: A FastMCP-based server for browsing 3GPP FTP website
+Author-email: Hanwen Cao <hanwen.cao@gmail.com>
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: beautifulsoup4>=4.13.4
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: mcp[cli,clis]>=1.7.0
+Requires-Dist: openpyxl>=3.1.5
+Requires-Dist: optional>=0.0.1
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: python-docx>=1.1.2
+Requires-Dist: requests>=2.32.3
+Requires-Dist: twine>=6.1.0
+
+MCP 3GPP FTP Explorer
+======================
+
+A FastMCP-based server exposing tools to browse, download, and extract files from the 3GPP FTP site, plus utilities for Excel and Word documents.
+
+
+Installation
+------------
+
+Install the package from PyPI:
+
+```bash
+pip install mcp-3gpp-ftp
+```
+
+Usage
+-----
+
+Start the MCP server and expose its tools on localhost:
+
+```bash
+mcp-3gpp-ftp
+```
+
+By default, the server listens on `http://localhost:8000/mcp`.  
+Clients can then introspect and invoke tools via the MCP protocol:
+
+- **list_directories(path: str) → List[str]**  
+- **list_directories_files(path: str, file_pattern: str) → List[str]**  
+- **crawl_ftp(path: str, depth: int, delay: float) → List[str]**  
+- **list_files(path: str) → List[str]**  
+- **list_excel_columns(file_url: str) → List[str]**  
+- **filter_excel_columns_from_url(file_url: str, columns: List[str], filters: Dict[str,Any]) → List[Dict[str,Any]]**  
+- **download_and_extract(file_url: str) → Dict[str,Any]**  
+- **read_word_doc(doc_path: str) → Dict[str,Any]**  
+
+Configuration
+-------------
+
+- Base FTP URL: `https://www.3gpp.org/ftp/`  
+- Cache directory: created at runtime under `download_cache/`  
+- Proxy settings: modify the `proxies` dict in `server.py` if necessary  
+
+Author & License
+----------------
+
+**Author:** Hanwen Cao
+**Email:** hanwen.cao@gmail.com
+**License:** MIT  
+
