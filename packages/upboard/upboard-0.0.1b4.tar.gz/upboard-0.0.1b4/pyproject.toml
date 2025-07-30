@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "upboard"
+authors = [{ name = "Zero Kwok", email = "zero.kwok@foxmail.com" }]
+description = "Update-Board is a lightweight CLI tool for managing and delivering updated versions of applications during testing."
+keywords = ["autoupdate", "tools"]
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT License"}
+classifiers = [
+    # How mature is this project? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 4 - Beta",
+
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "Flask",
+    "Flask-Reuploaded",
+    "waitress",
+]
+dynamic = ["version"]
+
+[tool.setuptools]
+package-dir = {"upboard" = "src/upboard"}
+packages = ["upboard"]
+
+[tool.setuptools.package-data]
+upboard = ["etc/systemd/*.service"]
+
+[tool.setuptools.dynamic]
+version = {attr = "upboard.projectVersion"}
+
+[project.urls]
+Homepage = "https://github.com/ZeroKwok/upboard"
+Issues = "https://github.com/ZeroKwok/upboard/issues"
+
+[project.scripts]
+upboard_server = "upboard.upboard_server:main"
+upboard_publish = "upboard.upboard_publish:main"
