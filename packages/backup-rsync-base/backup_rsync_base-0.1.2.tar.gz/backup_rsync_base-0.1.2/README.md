@@ -1,0 +1,195 @@
+* website: <https://arrizza.com/python-backup-rsync-base.html>
+* installation: see <https://arrizza.com/setup-common.html>
+
+## Summary
+
+This project is python module for running rsync sessions, typically for backups.
+
+The intent is to use it as a base class and then have specific directories and other extensions as you need
+for your backups.
+
+## Sample
+
+An example of using it is in sample/app.py.
+That sample depends on a home directory called tmp-backups.
+
+```bash
+mkdir -p ~/tmp-backups
+./doit
+ls -al ~/tmp-backups
+# there should be a directory with your PC's hostname in there.
+# and within that there should be a couple directories:
+# inventory and sample
+```
+
+Typical output:
+
+```text
+<snip>
+00.000      sample: this pc    your-hostname
+00.000      sample: bkp host   None                                       <== shows local backup
+00.000      sample: bkp root   /home/yourid/tmp-backups/your-hostname     <== destination of backups
+00.000      sample: inc dir    /home/yourid/tmp-backups/your-hostname/inc_backup_2025-05-16_21-23-23
+00.000 ---> sample: dobackup starting: /home/yourid/projects/path/to/backup-rsync-base/sample/ extra_opts=...
+00.003  --    1] sending incremental file list
+00.003  --    2] created 1 directory for /home/arrizza/tmp-backups/john26/sample
+00.003  --    3] ./
+00.003  --    4] __init__.py                                              <== rsync files that were backed up
+00.003  --    5] app.py
+00.003  --    6] main.py
+00.044  --    7] 
+00.044  --    8] Number of files: 4 (reg: 3, dir: 1)
+00.044  --    9] Number of created files: 3 (reg: 3)
+00.044  --   10] Number of deleted files: 0
+00.044  --   11] Number of regular files transferred: 3
+00.044  --   12] Total file size: 2.50K bytes
+00.044  --   13] Total transferred file size: 2.50K bytes
+00.044  --   14] Literal data: 2.50K bytes
+00.044  --   15] Matched data: 0 bytes
+00.044  --   16] File list size: 0
+00.044  --   17] File list generation time: 0.001 seconds
+00.044  --   18] File list transfer time: 0.000 seconds
+00.044  --   19] Total bytes sent: 2.76K
+00.044  --   20] Total bytes received: 151
+00.044  --   21] 
+00.044  --   22] sent 2.76K bytes  received 151 bytes  5.82K bytes/sec
+00.044  --   23] total size is 2.50K  speedup is 0.86
+00.044 OK   do_backup path:/home/yourid/projects/path/to/backup-rsync-base/sample/   <== successful backup occurred
+00.044 ---> sample: ubuntu get_packages
+00.044      sample: get_os_packages
+00.205 OK    - get pkg list            <== getting list of apt packages
+00.248 OK    - get snap list           <== getting list of snap packages 
+00.344 OK    - get gem list            <== getting list of ruby gems
+00.580 OK    - get pip list            <== getting list of python pip modules 
+00.583 OK   Overall rc: 0
+00.583 ---> notification:
+00.583         source: your-hostname
+00.583         event : base sample
+00.583         status: ok
+00.583         desc  : 00:00:00 overallrc=0; done:1 warns:0 failed:0; all done
+<snip>
+```
+
+## How to use
+
+See sample/app.py for an example.
+
+* inherit from BackupBase
+
+```text
+class App(BackupBase):
+```
+
+* tag: set logging tag, also used in notifications
+* print_cb: call back to use for logging. This should save the output where you can review it later as needed
+
+```text
+def run(self):
+    # set logging and notification tag
+    self.tag = 'sample'
+
+    # add callback to cmd_runner to print lines to the logger
+    self.print_cb = self._print
+    <skip>
+
+# prints output lines to stdout    
+def _print(self, lineno, line):
+    self.log.output(lineno, line)
+```
+
+* bkp_host: set the hostname of the PC that holds the backup directory destination.
+    * This host name will need to be accessed via SSH.
+    * Use the name you have in .ssh/config to make this more secure using ssh ed25519 keys (for example)
+    * should not require you to enter a password
+    * if you use None, then the host is the current PC
+
+* bkp_root: the full path name inside the bkp_host to directory that will hold the backups
+    * if you use None for bkp_host, then you can use "~" here, otherwise an absolute path name is required
+
+```text
+    # does a local rsync (no ssh) to a local directory
+    self.bkp_host = None
+    self.bkp_root = os.path.expanduser(os.path.join('~', 'tmp-backups', self.this))
+```
+
+* opts: a list of rsync options you can extend.
+    * typically these set directories for rsync to exclude (i.e. not back up)
+
+```text
+    # skip some common directories
+    self.opts = ''
+    self.opts_set_base()
+    self.opts += '--exclude venv '
+    <snip>
+```
+
+* do initialization and some logging to show the current state
+
+```text
+    # do initialization for the base class
+    self.init_base()
+
+    # report current state
+    self.report_base()
+```
+
+* do the backups. The parameters are:
+    * root - the path to the root directory e.g. ~/projects/you/want/to/backup
+    * bkp_dir - the directory within root you want to back up now
+    * extra_opts - additional rsync options you want to use for this particular run
+
+```text
+    root = os.getcwd()   <== set the root directory.
+
+    # do a backup
+    self.do_backup(root, 'sample')
+    self.do_backup(root, 'ut')
+    self.do_backup(root, 'ver')
+    <etc.>
+```
+
+* add additional information to the notification description.
+  This can be done as needed.
+
+```
+   # add extra text to notification
+   self.add_to_desc('all done')
+```
+
+* if you wish to capture inventories of that PC use the following
+* these will that are currently installed:
+    * Ubuntu apt packages, macOS Brew packages, or MSYS2 pacman packages on windows
+    * Ubuntu snap packages
+    * ruby gems
+    * python pip modules
+
+```text
+    inventory_path = os.path.join(self.bkp_root, 'inventory')   <== where to back up the files
+    if not os.path.exists(inventory_path):                      <== make sure it exists  
+        os.makedirs(inventory_path)
+    self.get_packages(inventory_path)                           <== gather the inventory lists
+```
+
+* send or report a notification indicating the status of the backup.
+
+```
+    self.send_overall_status()
+    <snip>
+```
+
+The default notify() function uses my notify_client_server module to send the notification to a local web page.
+See [Notify Client Server](/python-notify-client-server)
+
+For other scenarios, use this function as a template:
+
+```
+# ---------------------
+def notify(self, status, desc):
+    source = self.this
+    event = f'base {self.tag}'
+    self.log.highlight('notification:')
+    self.log.line(f'   source: {source}')
+    self.log.line(f'   event : {event}')
+    self.log.line(f'   status: {status}')
+    self.log.line(f'   desc  : {desc}')
+```
