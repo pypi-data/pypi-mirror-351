@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: balinese_textpreprocessor
+Version: 1.0.5
+Summary: A Python package for Balinese Text Preprocessing
+Author: I Made Satria Bimantara
+Author-email: satriabimantara.md@gmail.com
+Keywords: Balinese,NLP,Text Preprocessing,Text Analysis
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Operating System :: OS Independent
+Classifier: Natural Language :: Indonesian
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas==1.5.3
+Requires-Dist: numpy==1.24.2
+Requires-Dist: balinese-library==0.0.7
+Requires-Dist: nltk==3.9.1
+Requires-Dist: openpyxl==3.1.0
+
+# Package for Balinese Text Preprocessing
+
+This is the first package to preprocess your Balinese raw texts. This package provides several functions that you can use for prepare and convert your raw text into clean version.
+
+# Installation
+
+`pip install balinese_textpreprocessor`
+
+# Usage
+
+```
+from balinese_textpreprocessor import TextPreprocessor
+sentence = "I Budi ngalahin **& I Lutunge 12354!!"
+preprocessor = TextPreprocessor()
+preprocessed_sentence = preprocessor.case_folding(sentence)
+preprocessed_sentence = preprocessor.remove_number(preprocessed_sentence)
+preprocessed_sentence = preprocessor.remove_punctuation(
+    preprocessed_sentence)
+preprocessed_sentence = preprocessor.normalize_words(
+    preprocessed_sentence)
+preprocessed_sentence = preprocessor.lemmatize_text(
+    preprocessed_sentence)
+print(preprocessed_sentence)
+```
+
+# Acknowledgement
+
+Please cite this paper if you think this package is useful:
+
+[1] Arimbawaa, I. G. A. P., & ERa, N. A. S. (2017). Lemmatization in Balinese language. Jurnal Elektronik Ilmu Komputer Udayana p-ISSN, 2301, 5373.
+
+[2] Pradipthaa, I. G. M. H., & ERa, N. A. S. (2020). Building balinese part-of-speech tagger using hidden markov model (HMM). Jurnal Elektronik Ilmu Komputer Udayana p-ISSN, 2301, 5373.
