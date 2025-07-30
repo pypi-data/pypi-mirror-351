@@ -1,0 +1,3533 @@
+# Таратин_Артём_ПМ22-1-ДЗ6.html
+In [1]:
+    
+    
+    from sklearn.linear_model import LinearRegression
+    from sklearn.preprocessing import StandardScaler, MaxAbsScaler
+    from sklearn.metrics import r2_score
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import pandas as pd
+    
+
+In [2]:
+    
+    
+    # Считываем CSV
+    df_energy = pd.read_csv('/Users/admin/Downloads/Electricity_consumption.csv', sep=';', decimal=',', index_col=0)
+    
+    # Добавим признак час
+    df_energy.drop(columns=['timestamp'], inplace=True)
+    df_energy['hour'] = df_energy.index % 24
+    
+
+In [3]:
+    
+    
+    # Проверяем, что типы данных корректны и пропусков нет.
+    print(df_energy.info())
+    
+    
+    
+    <class 'pandas.core.frame.DataFrame'>
+    Index: 30627 entries, 1 to 30627
+    Data columns (total 7 columns):
+     #   Column                 Non-Null Count  Dtype  
+    ---  ------                 --------------  -----  
+     0   demand_kW              30627 non-null  float64
+     1   apparent_temperature   30627 non-null  float64
+     2   air_temperature        30627 non-null  float64
+     3   dew_point_temperature  30627 non-null  float64
+     4   relative_humidity      30627 non-null  float64
+     5   wind_speed             30627 non-null  float64
+     6   hour                   30627 non-null  int64  
+    dtypes: float64(6), int64(1)
+    memory usage: 1.9 MB
+    None
+    
+
+In [4]:
+    
+    
+    df_energy.describe()
+    
+
+Out[4]:
+
+| demand_kW | apparent_temperature | air_temperature | dew_point_temperature | relative_humidity | wind_speed | hour  
+---|---|---|---|---|---|---|---  
+count | 30627.000000 | 30627.000000 | 30627.000000 | 30627.000000 | 30627.000000 | 30627.000000 | 30627.000000  
+mean | 476.970524 | 13.304545 | 15.158396 | 9.356622 | 72.692134 | 9.955203 | 11.499069  
+std | 137.785983 | 6.692956 | 6.319345 | 4.003914 | 21.969966 | 7.241984 | 6.922604  
+min | 51.730667 | -5.200000 | -2.300000 | -5.300000 | 8.000000 | 0.000000 | 0.000000  
+25% | 390.645944 | 8.500000 | 10.900000 | 6.500000 | 57.000000 | 5.400000 | 5.000000  
+50% | 447.497571 | 12.400000 | 14.300000 | 9.000000 | 73.000000 | 9.400000 | 11.000000  
+75% | 527.536286 | 17.500000 | 18.700000 | 11.900000 | 95.000000 | 14.800000 | 17.000000  
+max | 1886.905000 | 41.600000 | 44.000000 | 23.600000 | 100.000000 | 59.400000 | 23.000000  
+  
+In [5]:
+    
+    
+    # Проводим кодирование one-hot
+    df_energy = pd.get_dummies(df_energy, columns=['hour'])
+    
+
+In [6]:
+    
+    
+    # Выделяем целевую переменную и факторы
+    power_consumption = df_energy['demand_kW'].values
+    predictors = df_energy.drop(columns=['demand_kW']).values
+    
+
+In [7]:
+    
+    
+    # Масштабируем факторы
+    scaler_mod = MaxAbsScaler()
+    predictors_scaled = scaler_mod.fit_transform(predictors)
+    
+
+In [8]:
+    
+    
+    # Исходный ряд потребления электроэнергии
+    plt.figure(figsize=(10, 4))
+    plt.plot(power_consumption)
+    plt.title('Исходный ряд потребления')
+    plt.xlabel('Время')
+    plt.ylabel('Потребление')
+    plt.grid(True)
+    plt.show()
+    
+
+In [9]:
+    
+    
+    # Применяем FFT к исходному ряду.
+    fft_power = np.fft.fft(power_consumption)
+    freq_bins = np.fft.fftfreq(len(fft_power))
+    
+
+In [10]:
+    
+    
+    # Визуализируем спектр.
+    plt.figure(figsize=(10, 4))
+    plt.plot(np.abs(freq_bins), np.abs(fft_power))
+    plt.title('Частотный спектр исходного ряда')
+    plt.xlabel('Частота')
+    plt.ylabel('Амплитуда')
+    plt.grid(True)
+    plt.show()
+    
+
+In [11]:
+    
+    
+    # Определяем порог для мелких амплитуд
+    threshold_amp = np.quantile(np.abs(fft_power), 0.90)
+    print(f'Порог амплитуды (90-й перцентиль): {threshold_amp:.2f}')
+    
+    
+    
+    Порог амплитуды (90-й перцентиль): 18007.75
+    
+
+In [12]:
+    
+    
+    # Список частот, соответствующих сезонным колебаниям сутки, неделя, месяц, год
+    freqs_to_remove = [1 / 24, 1 / 24 / 7, 1 / 24 / 30, 1 / 24 / 365]
+    
+
+In [13]:
+    
+    
+    keep_mask = np.ones(len(fft_power), dtype=bool)
+    
+    # Глушим частоты, которые соответствуют сезонным пикам
+    for fval in freqs_to_remove:
+        idx_remove = np.where((np.abs(freq_bins - fval) < 0.0005) | (np.abs(freq_bins + fval) < 0.0005))[0]
+        keep_mask[idx_remove] = False
+    cleaned_fft = fft_power.copy()
+    
+
+In [14]:
+    
+    
+    # Убираем сезонные частоты
+    cleaned_fft[~keep_mask] = 0
+    cleaned_fft[np.abs(cleaned_fft) < threshold_amp] = 0
+    
+
+In [15]:
+    
+    
+    # Выполним обратное БПФ
+    adjusted_series = np.real(np.fft.ifft(cleaned_fft))
+    shift_mean = np.mean(power_consumption)
+    adjusted_series = adjusted_series + shift_mean
+    adjusted_series = np.maximum(adjusted_series, 0)
+    
+
+In [16]:
+    
+    
+    plt.figure(figsize=(10, 4))
+    plt.plot(power_consumption, label='Исходный')
+    plt.plot(adjusted_series, label='Десезонированный', alpha=0.7)
+    plt.title('Исходный vs Десезонированный')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+    
+
+In [17]:
+    
+    
+    # Обучаем регрессию
+    regression_model = LinearRegression()
+    regression_model.fit(predictors_scaled, adjusted_series)
+    
+    # Делаем предсказание
+    fitted_values = regression_model.predict(predictors_scaled)
+    
+
+In [18]:
+    
+    
+    # Остатки между очищенным рядом и моделью.
+    residuals_data = adjusted_series - fitted_values
+    
+    # Сглаживание методом скользящего среднего
+    rolled_residuals = pd.Series(residuals_data).rolling(window=7).mean()
+    
+    # Вычислим R^2
+    score_r2 = r2_score(adjusted_series, fitted_values)
+    print(f'R^2 по десезонированному ряду: {score_r2:.4f}')
+    
+    
+    
+    R^2 по десезонированному ряду: 0.0394
+    
+
+In [19]:
+    
+    
+    # Десезонированный ряд vs предсказание модели
+    plt.figure(figsize=(10, 4))
+    plt.plot(adjusted_series, label='Десезонированный ряд')
+    plt.plot(fitted_values, label='Предсказания модели', alpha=0.7)
+    plt.title('Десезонированный ряд и предсказания модели')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+    
+
+In [20]:
+    
+    
+    # Остатки и их сглаженная версия
+    plt.figure(figsize=(10, 4))
+    plt.plot(residuals_data, label='Остатки')
+    plt.plot(rolled_residuals, label='Сглаженное', alpha=0.7)
+    plt.title('Остатки и их сглаженное значение')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+    
+
+In [21]:
+    
+    
+    # Масштабируем исходный ряд
+    scaled_initial = power_consumption / np.max(power_consumption)
+    
+    # Масштабируем сглаженные остатки
+    min_val = rolled_residuals.min()
+    range_val = rolled_residuals.max() - rolled_residuals.min()
+    scaled_residuals = (rolled_residuals - min_val) / range_val
+    
+
+In [22]:
+    
+    
+    plt.figure(figsize=(10, 4))
+    plt.plot(scaled_initial, label='Исходные')
+    plt.plot(scaled_residuals, label='Десезонированный', alpha=0.7)
+    plt.title('Сравнение в одном масштабе')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+    
+
+Вывод:
+
+  * Модель показала крайне низкое качество (R^2=0.0394), что свидетельствует о неспособности учитывать существенную часть изменений в данных.
+
+
+
+Остатки подтверждают, что модель не отражает реальные закономерности в ряде.
+
+  * Из-за высокого уровня шума сложно выделить какой-то глобальный тренд, однако прослеживается суточная сезонность - ночью потребление электричества снижается, а днём возрастает. Краткосрочный прогноз можно строить на основе суточных и недельных паттернов, но для долгосрочных прогнозов возможно потребуются дополнительные сведения.
+
+
+
+In [ ]:
+    
+    
+     
+    
+
+
+# Таратин_Артём_ПМ22-1_ДЗ4.html
+In [1]:
+    
+    
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from matplotlib.animation import FuncAnimation
+    from scipy.ndimage import gaussian_filter
+    
+    N = 100  # Размер сетки
+    L = 100.0  # Размер области
+    dx = L / (N - 1)  # Шаг по пространству
+    
+    # Координаты пространства
+    x = np.linspace(0, L, N)
+    y = np.linspace(0, L, N)
+    X, Y = np.meshgrid(x, y)
+    
+    dt = 0.85  # Шаг времени
+    T = 320  # Общее время
+    Nt = int(T / dt)  # Количество шагов
+    
+    # Параметры популяции V
+    b_V = 0.45  # Коэффициент рождаемости
+    d_V = 0.05  # Коэффициент смертности
+    c_U = 0.095  # Коэффициент конкуренции
+    D_V = 0.8  # Диффузионный коэффициент
+    
+    # Параметры популяции U
+    b_U = 0.6
+    d_U = 0.1
+    c_V = 0.09
+    D_U = 1.0
+    
+    # Начальные условия
+    U0 = 50.0
+    V0 = 50.0
+    R = 10.0
+    
+    # Координаты пиков роста
+    x_kv, y_kv = L * 0.25, L * 0.75
+    x_ku, y_ku = L * 0.75, L * 0.25
+    
+    # Функции K_V и K_U
+    def K_V(x, y):
+        return np.exp(-((x - x_kv)**2 + (y - y_kv)**2) / (2 * (L / 10)**2))
+    
+    def K_U(x, y):
+        return np.exp(-((x - x_ku)**2 + (y - y_ku)**2) / (2 * (L / 10)**2))
+    
+    # Инициализация популяций
+    U = np.zeros((N, N))
+    V = np.zeros((N, N))
+    
+    U_center = (15.0, 85.0)
+    V_center = (85.0, 15.0)
+    
+    # Инициализация популяции U
+    distance_U = np.sqrt((X - U_center[0])**2 + (Y - U_center[1])**2)
+    U_initial_region = distance_U <= R
+    U[U_initial_region] = U0
+    
+    # Инициализация популяции V
+    distance_V = np.sqrt((X - V_center[0])**2 + (Y - V_center[1])**2)
+    V_initial_region = distance_V <= R
+    V[V_initial_region] = V0
+    
+    # Функция Рунге-Кутта 4-го порядка
+    def rk4(U, V, dt):
+        def dUdt(U, V):
+            growth = b_U * U - d_U * U**2 - c_V * U * V
+            diffusion = D_U * gaussian_filter(U, sigma=1, mode='constant', truncate=2.0)
+            KU = K_U(X, Y) * U
+            return growth + diffusion + KU
+    
+        def dVdt(U, V):
+            growth = b_V * V - d_V * V**2 - c_U * U * V
+            diffusion = D_V * gaussian_filter(V, sigma=1, mode='constant', truncate=2.0)
+            KV = K_V(X, Y) * V
+            return growth + diffusion + KV
+    
+        k1_U = dUdt(U, V)
+        k1_V = dVdt(U, V)
+    
+        k2_U = dUdt(U + dt * k1_U / 2, V + dt * k1_V / 2)
+        k2_V = dVdt(U + dt * k1_U / 2, V + dt * k1_V / 2)
+    
+        k3_U = dUdt(U + dt * k2_U / 2, V + dt * k2_V / 2)
+        k3_V = dVdt(U + dt * k2_U / 2, V + dt * k2_V / 2)
+    
+        k4_U = dUdt(U + dt * k3_U, V + dt * k3_V)
+        k4_V = dVdt(U + dt * k3_U, V + dt * k3_V)
+    
+        U_new = U + (dt / 6) * (k1_U + 2 * k2_U + 2 * k3_U + k4_U)
+        V_new = V + (dt / 6) * (k1_V + 2 * k2_V + 2 * k3_V + k4_V)
+    
+        U_new = np.maximum(U_new, 0)
+        V_new = np.maximum(V_new, 0)
+    
+        return U_new, V_new
+    
+    fig, ax = plt.subplots()
+    plt.xticks([])
+    plt.yticks([])
+    plt.close()
+    
+    # Цветовые карты
+    cmap_U = plt.cm.Blues
+    cmap_V = plt.cm.Greens
+    
+    # Инициализация изображений
+    im_U = None
+    im_V = None
+    
+    def init():
+        global im_U, im_V
+        im_U = ax.imshow(U, cmap=cmap_U, interpolation='nearest', origin='lower', extent=[0, L, 0, L])
+        im_V = ax.imshow(V, cmap=cmap_V, interpolation='nearest', origin='lower', extent=[0, L, 0, L], alpha=0.6)
+        ax.set_title('Время: 0.0')
+        return [im_U, im_V]
+    
+    def update(frame):
+        global U, V
+        U, V = rk4(U, V, dt)
+        im_U.set_data(U)
+        im_V.set_data(V)
+        ax.set_title(f'Время: {frame * dt:.1f}')
+        return [im_U, im_V]
+    
+    anim = FuncAnimation(fig, update, frames=Nt, init_func=init, blit=True)
+    anim.save('population.gif', fps=30)
+    
+
+In [ ]:
+    
+    
+     
+    
+
+
+# Таратин_Артём_ПМ22-1_ДЗ5.html
+In [1]:
+    
+    
+    import scipy.io.wavfile as siowav
+    import numpy as np
+    import IPython.display as ipd
+    import matplotlib.pyplot as plt
+    
+
+In [2]:
+    
+    
+    sr, sound = siowav.read("./test_sound.wav")
+    print(sr, sound.shape, type(sound[0]))
+    
+    
+    
+    44100 (7636608,) <class 'numpy.int16'>
+    
+
+In [3]:
+    
+    
+    sr, sound = siowav.read("./test_sound.wav")
+    print(sr, sound.shape, type(sound[0]))
+    start = 500000
+    fin = 985100
+    sound = sound.astype("float32")
+    
+    # Вырезаем аудиофрагмент и нормализуем его
+    sound = sound[start:fin] / np.max(sound[start:fin])
+    n = sound.shape[0]
+    print("Дискретизация = {}".format(n))
+    
+    duration = len(sound) / sr
+    print("Продолжительность аудиофрагмента = {} секунд".format(duration))
+    
+    plt.plot(sound)
+    plt.show()
+    
+    
+    
+    44100 (7636608,) <class 'numpy.int16'>
+    Дискретизация = 485100
+    Продолжительность аудиофрагмента = 11.0 секунд
+    
+
+In [4]:
+    
+    
+    ipd.Audio(sound, rate=sr)
+    
+
+Out[4]:
+
+Your browser does not support the audio element. 
+
+In [5]:
+    
+    
+    # Добавляем шум
+    corrupt_sound1 = sound + 0.1 * np.random.randn(sound.shape[0])
+    corrupt_sound1 = corrupt_sound1 / np.max(np.abs(corrupt_sound1))
+    plt.plot(corrupt_sound1)
+    plt.show()
+    
+
+In [6]:
+    
+    
+    ipd.Audio(corrupt_sound1, rate=sr)
+    
+
+Out[6]:
+
+Your browser does not support the audio element. 
+
+In [7]:
+    
+    
+    def generate_sine_wave(freq, n, duration):
+        x = np.linspace(0, duration, n, endpoint=False)
+        frequencies = x * freq
+        y = np.sin((2 * np.pi) * frequencies)
+        return x, y
+    
+
+In [8]:
+    
+    
+    _, noise_tone = generate_sine_wave(int(400*np.random.randn()), n, int(duration))
+    corrupt_sound2 = sound + 0.1 * noise_tone
+    
+    _, noise_tone = generate_sine_wave(int(3000*np.random.randn()), n, int(duration))
+    corrupt_sound2 = corrupt_sound2 + 0.15 * noise_tone
+    corrupt_sound2 = corrupt_sound2 / np.max(np.abs(corrupt_sound2))
+    plt.plot(corrupt_sound2)
+    
+
+Out[8]:
+    
+    
+    [<matplotlib.lines.Line2D at 0x10fe7a510>]
+
+In [9]:
+    
+    
+    ipd.Audio(corrupt_sound2, rate=sr)
+    
+
+Out[9]:
+
+Your browser does not support the audio element. 
+
+In [10]:
+    
+    
+    # При помощи разложения Фурье, разбивая исходный corrupt_sound на небольшие части,
+    # удалите шум для каждого из сигналов corrupt_sound1 и corrupt_sound2.
+    
+
+In [11]:
+    
+    
+    def denoise_signal(signal, sr, frame_size, overlap, cutoff_freq):
+        hop_size = frame_size - overlap
+        freq_bins = np.fft.rfftfreq(frame_size, d=1/sr)
+    
+        # Индекс частоты среза
+        cutoff_idx = np.where(freq_bins > cutoff_freq)[0]
+        if len(cutoff_idx) > 0:
+            cutoff_idx = cutoff_idx[0]
+        else:
+            cutoff_idx = len(freq_bins)
+        
+        # Кол-во фреймов
+        num_frames = (len(signal) - frame_size) // hop_size + 1
+        
+        window = np.hanning(frame_size)
+        
+        denoised = np.zeros(len(signal))
+        window_sum = np.zeros(len(signal))
+        
+        for i in range(num_frames):
+            start_idx = i * hop_size
+            end_idx = start_idx + frame_size
+            frame = signal[start_idx:end_idx]
+            
+            # Применяем окно
+            frame_windowed = frame * window
+            
+            # Прямое преобразование Фурье
+            spectrum = np.fft.rfft(frame_windowed)
+            
+            # Обнуляем частоты выше cutoff_idx
+            spectrum[cutoff_idx:] = 0
+            
+            # Обратное преобразование
+            frame_reconstructed = np.fft.irfft(spectrum)
+            
+            denoised[start_idx:end_idx] += frame_reconstructed * window
+            window_sum[start_idx:end_idx] += window**2
+        
+        nonzero_indices = window_sum > 1e-8
+        denoised[nonzero_indices] /= window_sum[nonzero_indices]
+        
+        # Нормируем результат
+        max_val = np.max(np.abs(denoised))
+        if max_val > 0:
+            denoised = denoised / max_val
+    
+        return denoised
+    
+
+In [12]:
+    
+    
+    # Очищаем corrupt_sound1
+    clean_sound1 = denoise_signal(corrupt_sound1, sr, frame_size=8192, overlap=4096, cutoff_freq=1000)
+    plt.figure(figsize=(10, 3))
+    plt.title("Очищенный сигнал 1")
+    plt.plot(clean_sound1)
+    plt.show()
+    ipd.display(ipd.Audio(clean_sound1, rate=sr))
+    
+
+Your browser does not support the audio element. 
+
+In [13]:
+    
+    
+    # Очищаем corrupt_sound2
+    clean_sound2 = denoise_signal(corrupt_sound2, sr, frame_size=8192, overlap=4096, cutoff_freq=2000)
+    plt.figure(figsize=(10, 3))
+    plt.title("Очищенный сигнал 2")
+    plt.plot(clean_sound2)
+    plt.show()
+    ipd.display(ipd.Audio(clean_sound2, rate=sr))
+    
+
+Your browser does not support the audio element. 
+
+In [ ]:
+    
+    
+     
+    
+
+
+# Таратин_Артём_ПМ22-1_ДЗ-1.html
+In [3]:
+    
+    
+    import math
+    import numpy as np
+    
+
+In [12]:
+    
+    
+    # Метод вращений
+    def rotation_method(A, eps=1e-10, max_iterations=100):
+        n = A.shape[0]
+        # Инициализация матрицы собственных векторов
+        V = np.eye(n)
+        # Создание копии матрицы A
+        A = A.copy()
+    
+        for iteration in range(max_iterations):
+            # Поиск индексов максимальног по модулю внедиагонального элемента
+            max_val = 0
+            p = 0
+            q = 0
+            for i in range(n):
+                for j in range(i+1, n):
+                    if abs(A[i][j]) > max_val:
+                        max_val = abs(A[i][j])
+                        p = i
+                        q = j
+    
+            # Проверка условия остановки
+            if max_val < eps:
+                print(f"Алгоритм сошелся за {iteration} итераций")
+                break
+    
+            # Вычисление угла поворота
+            if A[p][p] == A[q][q]:
+                theta = math.pi / 4
+            else:
+                tau = (2 * A[p][q]) / (A[q][q] - A[p][p])
+                theta = 0.5 * math.atan(tau)
+    
+            cos_theta = math.cos(theta)
+            sin_theta = math.sin(theta)
+    
+            # Создание матрицы вращения Якоби
+            J = np.eye(n)
+            J[p][p] = cos_theta
+            J[q][q] = cos_theta
+            J[p][q] = sin_theta
+            J[q][p] = -sin_theta
+    
+            # Применение вращения к матрице
+            A = J.T @ A @ J
+    
+            # Обновление матрицы собственных векторов
+            V = V @ J
+    
+        else:
+            print(f"Алгоритм НЕ сошелся за {iteration} итераций")
+    
+        # Сбор собственных значений
+        eigenvalues = np.diag(A)
+        eigenvectors = V
+    
+        return eigenvalues, eigenvectors
+    
+
+In [13]:
+    
+    
+    # Исходная матрица
+    A = np.array([
+        [10, 4],
+        [4, 5]
+    ], dtype=float)
+    
+    eig_vals, eig_vecs = rotation_method(A)
+    
+    print("Собственные значения:")
+    print(eig_vals)
+    print("\nСобственные векторы:")
+    print(eig_vecs)
+    
+    
+    
+    Алгоритм сошелся за 1 итераций
+    Собственные значения:
+    [12.21699057  2.78300943]
+    
+    Собственные векторы:
+    [[ 0.87464248 -0.48476853]
+     [ 0.48476853  0.87464248]]
+    
+
+In [14]:
+    
+    
+    # Для проверки, используя numpy
+    np_eig_vals, np_eig_vecs = np.linalg.eig(A)
+    
+    print("Собственные значения (numpy.linalg.eig):")
+    print(np_eig_vals)
+    print("\nСобственные векторы (numpy.linalg.eig):")
+    print(np_eig_vecs)
+    
+    
+    
+    Собственные значения (numpy.linalg.eig):
+    [12.21699057  2.78300943]
+    
+    Собственные векторы (numpy.linalg.eig):
+    [[ 0.87464248 -0.48476853]
+     [ 0.48476853  0.87464248]]
+    
+
+In [ ]:
+    
+    
+     
+    
+
+
+# Таратин_Артём_ПМ22-1_ДЗ_2.html
+In [1]:
+    
+    
+    import random
+    
+
+In [2]:
+    
+    
+    # Функция для умножения двух матриц (количество столбцов первой должно совпадать с количеством строк второй)
+    def multiply_matrices(matrix1, matrix2):
+        rows_matrix1 = len(matrix1)
+        cols_matrix1 = len(matrix1[0])
+        cols_matrix2 = len(matrix2[0])
+        
+        # Инициализация результирующей матрицы нулями
+        result = [[0 for _ in range(cols_matrix2)] for _ in range(rows_matrix1)]
+        
+        # Выполнение умножения
+        for row in range(rows_matrix1):
+            for col in range(cols_matrix2):
+                for index in range(cols_matrix1):
+                    result[row][col] += matrix1[row][index] * matrix2[index][col]
+        return result
+    
+
+In [3]:
+    
+    
+    # Функция для транспонирования матрицы
+    def transpose_matrix(matrix):
+        rows = len(matrix)
+        cols = len(matrix[0])
+        transposed = [[0 for _ in range(rows)] for _ in range(cols)]
+        
+        for i in range(rows):
+            for j in range(cols):
+                transposed[j][i] = matrix[i][j]
+        return transposed
+    
+
+In [4]:
+    
+    
+    # Функция для вычисления скалярного произведения двух векторов
+    def scalar_product(vector1, vector2):
+        return sum(x * y for x, y in zip(vector1, vector2))
+    
+
+In [5]:
+    
+    
+    # Функция для вычисления скалярного произведения двух векторов
+    def scalar_product(vector1, vector2):
+        return sum(x * y for x, y in zip(vector1, vector2))
+    
+    # Функция для QR-разложения матрицы методом Грама-Шмидта
+    def gram_schmidt_qr(matrix, precision=10):
+        num_rows = len(matrix)
+        num_cols = len(matrix[0])
+        cols = transpose_matrix(matrix)  # Получение столбцов матрицы
+        orthogonal_vectors = []
+        
+        for i in range(num_cols):
+            current_vector = cols[i].copy()
+            for j in range(len(orthogonal_vectors)):
+                proj_coeff = scalar_product(orthogonal_vectors[j], cols[i]) / scalar_product(orthogonal_vectors[j], orthogonal_vectors[j])
+                current_vector = [elem - proj_coeff * orthogonal_vectors[j][k] for k, elem in enumerate(current_vector)]
+            orthogonal_vectors.append(current_vector)
+        
+        # Нормализация векторов для получения ортонормированной матрицы Q
+        orthonormal_cols = []
+        for vec in orthogonal_vectors:
+            norm = sum(element**2 for element in vec) ** 0.5
+            if norm != 0:
+                orthonormal_cols.append([element / norm for element in vec])
+            else:
+                orthonormal_cols.append(vec)
+        
+        Q = transpose_matrix(orthonormal_cols)
+        R = multiply_matrices(transpose_matrix(Q), matrix)
+        
+        # Округление элементов матриц Q и R
+        Q = [[round(element, precision) for element in row] for row in Q]
+        R = [[round(element, precision) for element in row] for row in R]
+        
+        return Q, R
+    
+
+In [6]:
+    
+    
+    # Функция для стандартного QR-алгоритма нахождения собственных значений
+    def standard_qr_algorithm(matrix, iterations, precision=10):
+        current_matrix = [row.copy() for row in matrix]
+        
+        for _ in range(iterations):
+            Q, R = gram_schmidt_qr(current_matrix, precision)
+            current_matrix = multiply_matrices(R, Q)
+        
+        # Округление итоговой матрицы
+        final_matrix = [[round(element, precision) for element in row] for row in current_matrix]
+        
+        # Вывод результата
+        print(f"Результат стандартного QR-алгоритма после {iterations} итераций:")
+        for row in final_matrix:
+            print(row)
+        return final_matrix
+    
+
+In [7]:
+    
+    
+    # Функция для неявного QR-алгоритма с использованием случайных сдвигов
+    def implicit_qr_algorithm(matrix, iterations, precision=10, random_seed=42):
+        random.seed(random_seed)
+        size = len(matrix)
+        current_matrix = [row.copy() for row in matrix]
+        
+        for _ in range(iterations):
+            shift = random.random()
+            for i in range(size):
+                current_matrix[i][i] -= shift
+            
+            Q, R = gram_schmidt_qr(current_matrix, precision)
+            current_matrix = multiply_matrices(R, Q)
+            
+            for i in range(size):
+                current_matrix[i][i] += shift
+        
+        # Округление итоговой матрицы
+        final_matrix = [[round(element, precision) for element in row] for row in current_matrix]
+        
+        # Вывод результата
+        print(f"Результат неявного QR-алгоритма после {iterations} итераций:")
+        for row in final_matrix:
+            print(row)
+        return final_matrix
+    
+
+In [25]:
+    
+    
+    M = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+    ]
+    
+    for row in M:
+        print(row)
+    
+    
+    
+    [1, 2, 3]
+    [4, 5, 6]
+    [7, 8, 9]
+    
+
+In [30]:
+    
+    
+    # Применение стандартного QR-алгоритма
+    st_qr = standard_qr_algorithm(M, iterations=20)
+    
+    
+    
+    Результат стандартного QR-алгоритма после 20 итераций:
+    [19.3975181278, -6.9279513951, -1e-09]
+    [0.0, -1.8557726143, -3e-10]
+    [-1.4e-09, 3e-10, 0.0]
+    
+
+In [31]:
+    
+    
+    # Применение неявного QR-алгоритма
+    impl_qr = implicit_qr_algorithm(M, iterations=100)
+    
+    
+    
+    Результат неявного QR-алгоритма после 100 итераций:
+    [16.1168439697, -4.8989794824, -8e-10]
+    [0.0, -1.1168439698, 1e-10]
+    [0.0, 0.0, -1e-10]
+    
+
+In [ ]:
+    
+# adams_moulton_method_am5.ipynb
+# Markdown:
+5-шаговый метод Адамса-Мултона  
+Используем метод Рунге-Кутта 4 порядка для инициализации и метод Адамса-Бэшфорта 5 порядка для прогноза
+import numpy as np
+import matplotlib.pyplot as plt
+def am5_method(f, x_0, x_n, y_0, N):
+    dx = (x_n - x_0) / N
+    x = np.linspace(x_0, x_n, N + 1)
+    y = np.zeros((N + 1, len(y_0)))
+    fn = np.zeros_like(y)
+    y[0, :] = y_0
+
+    k1 = np.zeros_like(y_0)
+    k2 = np.zeros_like(y_0)
+    k3 = np.zeros_like(y_0)
+    k4 = np.zeros_like(y_0)
+
+    for n in range(N):
+        fn[n, :] = f(x[n], y[n, :])
+        k1 = dx * fn[n, :]
+        k2 = dx * f(x[n] + dx / 2, y[n, :] + k1 / 2)
+        k3 = dx * f(x[n] + dx / 2, y[n, :] + k2 / 2)
+        k4 = dx * f(x[n] + dx, y[n, :] + k3)
+        y[n + 1, :] = y[n, :] + 1 / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+
+    coeff_A = np.array(
+        [
+            [1, 1, 1, 1, 1],
+            [0, -1, -2, -3, -4],
+            [0, 0, 2, 6, 12],
+            [0, 0, 0, -6, -24],
+            [0, 0, 0, 0, 24],
+        ]
+    )
+    coeff_b = np.array([1, 1 / 2, 5 / 6, 9 / 4, 251 / 30])
+    b_ab4 = np.linalg.solve(coeff_A, coeff_b)
+    b_am5 = np.array([251, 646, -264, 106, -19]) / 720
+
+    for n in range(4, N):
+        fn[n, :] = f(x[n], y[n, :])
+        yp = y[n, :] + dx * (
+            b_ab4[0] * fn[n, :]
+            + b_ab4[1] * fn[n - 1, :]
+            + b_ab4[2] * fn[n - 2, :]
+            + b_ab4[3] * fn[n - 3, :]
+            + b_ab4[4] * fn[n - 4, :]
+        )
+        y[n + 1, :] = y[n, :] + dx * (
+            b_am5[0] * f(x[n+1], yp)
+            + b_am5[1] * fn[n, :]
+            + b_am5[2] * fn[n - 1, :]
+            + b_am5[3] * fn[n - 2, :]
+            + b_am5[4] * fn[n - 3, :]
+        )
+
+    return x, y
+
+def fun_sin(x, y):
+    return -np.sin(x)
+
+x_5, y_5 = am5_method(fun_sin, 0.0, 0.5, [1.0], 5)
+x_50, y_50 = am5_method(fun_sin, 0.0, 0.5, [1.0], 50)
+
+print('Решение в x = 0,5 при h = 0,1 - {}.'.format(y_5[-1, 0]))
+print('Ошибка в x = 0,5 при h = 0,1 - {}.\n'.format(abs(y_5[-1, 0] - np.cos(0.5))))
+
+print('Решение в x = 0,5 при h = 0,01 - {}.'.format(y_50[-1, 0]))
+print('Ошибка в x = 0,5 при h = 0,01 - {}.\n'.format(abs(y_50[-1, 0] - np.cos(0.5))))
+
+print('Точное решение в x = 0,5 - {}.'.format(np.cos(0.5)))
+def motion(x, y):
+    dfdt = np.zeros_like(y)
+    dfdt[0] = -y[1]
+    dfdt[1] = y[0]
+
+    return dfdt
+y0 = np.array([1.0, 0.0])
+
+t_01, y_01 = am5_method(motion, 0.0, 50, y0, 500)
+t_001, y_001 = am5_method(motion, 0.0, 50, y0, 5000)
+
+fig = plt.figure(figsize = (10, 6))
+ax1 = fig.add_subplot(121)
+ax1.plot(y_01[:, 0], y_01[:, 1], label = '$h = 0.1$')
+ax1.set_xlabel('$x$')
+ax1.set_ylabel('$y$')
+
+ax2 = fig.add_subplot(122)
+ax2.plot(y_001[:, 0], y_001[:, 1], label = '$h = 0.1$')
+ax2.set_xlabel('$x$')
+ax2.set_ylabel('$y$')
+
+plt.show()
+fig = plt.figure(figsize = (10, 6))
+ax1 = fig.add_subplot(121)
+ax1.plot(t_01, np.sqrt(y_01[:, 0]**2 + y_01[:, 1]**2) - 1, label = '$h = 0.1$')
+ax1.set_xlabel('$t$')
+ax1.set_ylabel('$\|$ Ошибка $\|$')
+
+ax2 = fig.add_subplot(122)
+ax2.plot(t_001, np.sqrt(y_001[:, 0]**2 + y_001[:, 1]**2) - 1, label = '$h = 0.01$')
+ax2.set_xlabel('$t$')
+ax2.set_ylabel('$\|$ Ошибка $\|$')
+plt.show()
+import math
+
+y0 = np.array([1.0, 0.0])
+N = np.array([50*2**i for i in range(3, 10)])
+h = np.zeros_like(N, float)
+h = 50.0 / N
+err = np.zeros_like(h)
+
+for i in range(len(N)):
+    n = N[i]
+    x, y = am5_method(motion, 0.0, 50, y0, n)
+    err[i] = np.abs(y[-1, 0]**2 + y[-1, 1]**2 - 1)
+p = np.polyfit(np.log(h[:-1]), np.log(err[:-1]), 1)
+
+fig = plt.figure(figsize = (10, 6))
+ax1 = fig.add_subplot(111)
+ax1.loglog(h, err, 'kx', label = 'Невязки в $r$')
+ax1.loglog(h, np.exp(p[1])*h**p[0], 'b-', label = 'Наклон линии {:.2f}'.format(p[0]))
+
+ax1.set_xlabel('h')
+ax1.set_ylabel('$\|$ Ошибка $\|$')
+ax1.set_title('Сходимость метода Адамса-Бэшфорта')
+ax1.legend(loc = 2)
+plt.show()
+
+
+# conjugate_fourier_matrix..ipynb
+# Markdown:
+![Снимок экрана 2024-12-19 в 10.27.48.png](attachment:9d114505-3695-4687-a822-3e0b45645543.png)
+# Markdown:
+c есть первый столбец матрицы С (c_0, c_1, ..., c_n-1)  
+Fn* - сопряжённая матрица Фурье
+# Markdown:
+![Снимок экрана 2024-12-19 в 10.31.54.png](attachment:621c2e5b-ef23-4943-bcc8-a19a6f2390df.png)
+
+# Markdown:
+# Сопряжённая матрица Фурье: концепция и применение
+
+Матрица Фурье — это ключевой инструмент для дискретного преобразования Фурье (DFT), широко используемого в обработке сигналов, анализе данных и численных методах. Сопряжённая матрица Фурье представляет собой транспонированный и комплексно-сопряжённый вид этой матрицы. Она играет важную роль в обратном преобразовании Фурье, а также в изучении симметрий и свойств преобразования.
+
+---
+
+## Определение
+
+Для дискретного преобразования Фурье на \( $N$ \) точках матрица Фурье \( $F$ \) определяется как:
+\[
+$F_{k,n} = \exp\left(-2\pi i \frac{kn}{N}\right), \quad k, n = 0, 1, \dots, N-1.$
+\]
+
+Сопряжённая матрица Фурье \( $F^*$ \) определяется как:
+\[
+$F^*_{k,n} = \overline{F_{n,k}} = \exp\left(2\pi i \frac{kn}{N}\right).$
+\]
+
+---
+
+## Свойства
+
+1. **Унитарность**  
+   Матрица Фурье является унитарной при нормировке на \( $1/\sqrt{N}$ \):
+   \[
+   $F \cdot F^* = I,$
+   \]
+   где \( I \) — единичная матрица.
+
+2. **Обратное преобразование**  
+   Сопряжённая матрица Фурье используется для обратного дискретного преобразования Фурье:
+   \[
+   $x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k \exp\left(2\pi i \frac{kn}{N}\right).$
+   \]
+
+3. **Симметрии**  
+   - Элементы \( $F$ \) и \( $F^*$ \) обладают циклической симметрией.
+   - Модуль всех элементов матрицы равен 1.
+
+---
+
+## Применения
+
+1. **Обратное преобразование Фурье**  
+   Использование сопряжённой матрицы Фурье позволяет восстановить временной сигнал из его спектра.
+
+2. **Анализ частотного спектра**  
+   Сопряжённая матрица Фурье используется для изучения частотного содержания сигналов.
+
+3. **Квантовая механика**  
+   Сопряжённая матрица Фурье применяется для перехода между базисами (например, импульсного и координатного).
+
+4. **Компрессия данных**  
+   Используется в алгоритмах сжатия, таких как JPEG, где анализируется энергетическое распределение сигналов.
+
+5. **Численные методы**  
+   Сопряжённая матрица Фурье используется в задачах аппроксимации, интерполяции и фильтрации данных.
+
+---
+
+## Пример вычислений
+
+Рассмотрим \( $N = 4$ \), где матрица Фурье \( $F$ \) и её сопряжённая выглядят так:
+\[
+$F$ =
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+1 & \omega & \omega^2 & \omega^3 \\
+1 & \omega^2 & \omega^4 & \omega^6 \\
+1 & \omega^3 & \omega^6 & \omega^9
+\end{bmatrix},
+\]
+где \( $\omega = \exp\left(-2\pi i / N\right)$ \).
+
+Сопряжённая матрица \( $F^*$ \):
+\[
+$F^*$ =
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+1 & \overline{\omega} & \overline{\omega^2} & \overline{\omega^3} \\
+1 & \overline{\omega^2} & \overline{\omega^4} & \overline{\omega^6} \\
+1 & \overline{\omega^3} & \overline{\omega^6} & \overline{\omega^9}
+\end{bmatrix}.
+\]
+
+---
+
+## Заключение
+
+Сопряжённая матрица Фурье — это неотъемлемый инструмент для анализа частотного спектра, восстановления сигналов и решения различных задач в физике и математике. Её свойства обеспечивают высокую точность и эффективность вычислений в самых разных областях науки и техники.
+
+# dft_analysis_and_visualization.ipynb
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0, 20, 201)
+y = np.sin(x)
+
+plt.figure(figsize=(8, 6))
+plt.plot(x, y)
+plt.ylabel("Амплитуда")
+plt.xlabel("Положенение точки (x)")
+plt.show()
+x = np.linspace(0, 20, 201)
+times = np.arange(5)
+n = len(times)
+
+plt.figure(figsize=(8, 8))
+
+for t in times:
+    plt.subplot(n, 1, t+1)
+    y = np.sin(x + t)
+    plt.plot(x, y)
+    plt.plot(x[25], y[25], 'ro')
+    plt.title(f't = {t}')
+    
+
+plt.ylabel("Амплитуда")
+plt.xlabel("Положенение точки (x)")
+plt.show()
+# Markdown:
+Период = 1 / частота
+
+y(t) = A * sin(omega*t + phi)  
+omega - угловая частота, сколько циклов проходит за секунду  
+phi - фаза  
+
+T - период волны  
+f - частота волны, то:  
+omega = 2 * pi / T = 2 * pi * f
+sr = 100
+ts = 1 / sr
+t = np.arange(0, 1, ts)
+
+freq = 5 # частота сигнала
+y = np.sin(2*np.pi*freq*t)
+
+plt.figure(figsize=(9, 9))
+plt.subplot(212)
+plt.plot(t, y, 'b')
+plt.ylabel('Амплитуда')
+
+freq = 10 # частота сигнала
+y = np.sin(2*np.pi*freq*t)
+
+plt.figure(figsize=(9, 9))
+plt.subplot(212)
+plt.plot(t, y, 'b')
+plt.ylabel('Амплитуда')
+
+plt.xlabel('Время')
+plt.show()
+# Markdown:
+Сгенерировать две синусоидальные волны с временным интервалом от 0 до 1 секунды, с чпстотами 5 Гц и 10 Гц все с частотой дискретизации 100гц
+sr = 100
+ts = 1 / sr
+t = np.arange(0, 1, ts)
+
+freq = 5 # частота сигнала
+y = 5*np.sin(2*np.pi*freq*t)
+
+plt.figure(figsize=(9, 9))
+plt.subplot(212)
+plt.plot(t, y, 'b')
+plt.ylabel('Амплитуда')
+
+freq = 10 # частота сигнала
+y = 10*np.sin(2*np.pi*freq*t + 10)
+
+plt.figure(figsize=(9, 9))
+plt.subplot(212)
+plt.plot(t, y, 'b')
+plt.ylabel('Амплитуда')
+
+plt.xlabel('Время')
+plt.show()
+# Markdown:
+### Дискретное преобразование Фурье (DFT) 
+
+Преобразование Фурье помогает разложить любой сигнал на сумму простых синусоидальных волн, что позволяет легко измерять их частоту, амплитуду, фазу. 
+
+Используя DFT можно представить сигнал как сумму синусоид с разными частотами 
+
+Ампоитуда: amp = |X_k| / N = sqrt(Re(X_k)^2 + Im(X_k)^2)  
+Фаза: phase = arctg(Im(X_k), Re(X_k))  
+# Markdown:
+Построить три синусоиды с частотам 1 Гц, 4 Гц, 7 Гц; Амплитудами 3, 1 и 0,5; фазами равными 0. Сложить их при частоте дескритезации
+sr = 100
+ts = 1 / sr
+t = np.arange(0, 1, ts)
+
+freq = 1 # частота сигнала
+x = 3*np.sin(2*np.pi*freq*t)
+# 
+# plt.figure(figsize=(9, 9))
+# plt.subplot(212)
+# plt.plot(t, y, 'b')
+# plt.ylabel('Амплитуда')
+
+freq = 4 # частота сигнала
+x += np.sin(2*np.pi*freq*t + 10)
+
+freq = 7 # частота сигнала
+x += 0.5*np.sin(2*np.pi*freq*t + 10)
+
+plt.figure(figsize=(9, 9))
+plt.subplot(212)
+plt.plot(t, x, 'b')
+plt.ylabel('Амплитуда')
+
+plt.xlabel('Время')
+plt.show()
+def DFT(x):
+    N = len(x)
+    n = np.arange(N)
+    k = n.reshape((N, 1))
+    e = np.exp(-2j * np.pi * k * n / N)
+    X = np.dot(e, x)
+    
+    return X
+X = DFT(x)
+N = len(X)
+n = np.arange(N)
+T = N/sr
+freq = n/T
+
+plt.figure(figsize=(8, 6))
+plt.stem(freq, abs(X), 'b', markerfmt=' ', basefmt='-b')
+
+plt.xlabel('Частота (Гц)')
+plt.ylabel('Амплитуда DFT')
+plt.show()
+
+n_oneside = N//2
+f_oneside = freq[:n_oneside]
+
+X_oneside = X[:n_oneside]/n_oneside
+
+plt.figure(figsize=(12, 6))
+plt.subplot(121)
+plt.stem(freq, abs(X), 'b', markerfmt=' ', basefmt='-b')
+plt.xlabel('Частота (Гц)')
+plt.ylabel('Амплитуда DFT')
+
+plt.subplot(122)
+plt.stem(freq, abs(X), 'b', markerfmt=' ', basefmt='-b')
+plt.xlim(0, 10)
+plt.xlabel('Частота (Гц)')
+plt.ylabel('Амплитуда DFT')
+plt.show()
+# Markdown:
+x_n = 1/N * sum(
+def gen_sig(sr):
+    ts = 1.0 / sr
+    t = np.arange(0, 1, ts)
+    
+    freq = 1
+    x = 3*np.sin(2*np.pi*freq*t)
+    return x
+sr = 2000
+
+%timeit DFT(gen_sig(sr))
+sr = 10000
+ts = 1 / sr
+
+%timeit DFT(gen_sig(sr)
+
+
+# eigenvalues_and_vectors.ipynb
+import numpy as np
+import matplotlib.pyplot as plt
+#!pip install matplotlib --force-reinstall
+def plot_vect(x, b, xlim, ylim):
+    plt.figure(figsize = (10, 6))
+    plt.quiver(0, 0, x[0], x[1], label = 'Original Vector',
+               scale = 1, scale_units = 'xy', angles = 'xy')
+    plt.quiver(0, 0, b[0], b[1], label = 'Transformed Vector',
+               scale = 1, scale_units = 'xy', angles = 'xy', color = 'b')
+    plt.xlim(xlim)
+    plt.ylim(ylim)
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.legend()
+    plt.show()
+A = np.array([[2, 0], [0, 1]])
+x = np.array([[1], [1]])
+b = np.dot(A, x)
+plot_vect(x, b, (0, 3), (0, 2))
+x = np.array([[1], [0]])
+b = np.dot(A, x)
+plot_vect(x, b, (0, 2), (-0.5, 0.5))
+# Markdown:
+Вычисление собственных значений с помощью характерисического многочлена
+
+Характеристическое уравнение является полиномом степени n. Многочлен степени n имеет n комплексных корней
+a = [[1, 0, 1], [1, 2, 0], [8, 0, -1]]
+a = np.array(a)
+cf = np.poly(a)
+cf
+ev_roots = np.roots(cf)
+ev_roots
+n = 40
+a = [[1/(i + j + 0.5) for i in range(n)] for j in range(n)]
+a = np.array(a)
+ev = np.linalg.eigvals(a)
+cf = np.poly(a)
+ev_roots = np.roots(cf)
+
+plt.scatter(ev_roots.real, ev_roots.imag, marker = 'x', label = 'roots')
+
+b = a + np.random.rand(n, n)
+ev_b = np.linalg.eigvals(b)
+
+plt.scatter(ev_b.real, ev_b.imag, marker = 'o', label = 'rand')
+
+plt.xlabel('Real part')
+plt.xlabel('Imaginary part')
+# Markdown:
+Степенной метод (Power method):
+
+Берём некоторый случайный вектор b и начинаем действовать на него оператором А (умножая), при этом нормируя: <br>
+$b_{i+1} = A * b_i$ / ||$A$||
+
+И так повторяем, пока изменение вектора не будет меньше заданного значения eps. <br>
+Когда достигнем этого условия, считаем, что мы нашли собственный вектор, соответствующий наибольшему собственному значению
+A = np.array([[2, 1], [1, 2]]) #Линейный оператор
+x = np.array([[1, 2]]).T #Исходный вектор
+tol = 1e-6 #Порог точности
+max_iter = 100
+
+lam_prev = 0
+
+for i in range(max_iter):
+    x = A @ x / np.linalg.norm(A @ x) 
+    
+    lam = (x.T @ A @ x) / (x.T @ x)
+    
+    if np.abs(lam - lam_prev) < tol:
+        break
+    
+    lam_prev = lam
+    
+print(lam)
+print(x)
+
+
+# euler_method_analysis.ipynb
+import numpy as np
+import matplotlib.pyplot as plt
+# Markdown:
+Применим метод Эйлера к функции y'(x) = -sin(x) при x_0 = 0 до x_n = 0.5 <br>
+    Шаг dx = 0.1
+def method_euler(f, x_0, x_n, y_0, N):
+    dx = (x_n - x_0) / N
+    x = np.linspace(x_0, x_n, N+1)
+    y = np.zeros((N+1, len(y_0)))
+    y[0, :] = y_0
+
+    for n in range(N):
+        y[n+1, :] = y[n, :] + dx * f(x[n], y[n, :])
+
+    return x, y
+
+def fun_sin(x, y):
+    return -np.sin(x)
+
+x_5, y_5 = method_euler(fun_sin, 0.0, 0.5, [1.0], 5)
+x_100, y_100 = method_euler(fun_sin, 0.0, 0.5, [1.0], 100)
+
+print('Решение в x = 0,5 при h = 0,1 - {}.'.format(y_5[-1, 0]))
+print('Решение в x = 0,5 при h = 0,005 - {}.'.format(y_100[-1, 0]))
+print('Точное решение в x = 0,5 - {}.'.format(np.cos(0.5)))
+# Markdown:
+Сходимость
+N = np.array([2**i for i in range(3, 12)])
+dx = 0.5 / N
+err = np.zeros_like(dx)
+
+for i in range(len(N)):
+    n = N[i]
+    x, y = method_euler(fun_sin, 0.0, 0.5, [1.0], n)
+    err[i] = np.abs(np.cos(0.5) - y[-1, 0])
+
+p = np.polyfit(np.log(dx[:-1]), np.log(err[:-1]), 1)
+
+fig = plt.figure(figsize = (10, 6))
+ax = fig.add_subplot(111)
+ax.loglog(dx, err, 'kx', label = 'Посчитанные невязки')
+ax.loglog(dx, np.exp(p[1])*dx**p[0], label = 'Наклон линии {:.2f}'.format(p[0]))
+ax.set_xlabel('dx')
+ax.set_ylabel('$\|$ Ошибка $\|$')
+ax.set_title('Сходимость метода Эйлера')
+ax.legend(loc = 2)
+plt.show()
+# Markdown:
+Система:
+
+$x_{i+1} = -y_i$ <br>
+$y_{i+1} = x_i$
+
+x(0) = 1 <br>
+y(0) = 0
+
+В полярных координатах это r = 0, phi = 1
+
+Возьмём шаг h = 0.1, рассчитав 500 шагов
+def motion(x, y):
+    dfdt = np.zeros_like(y)
+    dfdt[0] = -y[1]
+    dfdt[1] = y[0]
+
+    return dfdt
+
+y0 = np.array([1.0, 0.0])
+
+t_01, y_01 = method_euler(motion, 0.0, 50, y0, 500)
+t_001, y_001 = method_euler(motion, 0.0, 50, y0, 5000)
+fig = plt.figure(figsize = (10, 6))
+ax1 = fig.add_subplot(121)
+ax1.plot(y_01[:, 0], y_01[:, 1], label = '$h = 0.1$')
+ax1.set_xlabel('$x$')
+ax1.set_ylabel('$y$')
+
+ax2 = fig.add_subplot(122)
+ax2.plot(y_001[:, 0], y_001[:, 1], label = '$h = 0.1$')
+ax2.set_xlabel('$x$')
+ax2.set_ylabel('$y$')
+
+plt.show()
+# Markdown:
+Сходимость
+N = np.array([500*2**i for i in range(0, 10)])
+h = 0.5 / N
+err = np.zeros_like(h)
+
+for i in range(len(N)):
+    n = N[i]
+    x, y = method_euler(motion, 0.0, 50, y0, n)
+    err[i] = np.abs(y[-1, 0]**2 + y[-1, 1]**2 - 1)
+
+p = np.polyfit(np.log(h), np.log(err), 1)
+
+fig = plt.figure(figsize = (10, 6))
+ax = fig.add_subplot(111)
+ax.loglog(h, err, 'kx', label = 'Посчитанные невязки')
+ax.loglog(h, np.exp(p[1])*h**p[0], label = 'Наклон линии {:.2f}'.format(p[0]))
+ax.set_xlabel('h')
+ax.set_ylabel('$\|$ Ошибка $\|$')
+ax.set_title('Сходимость метода Эйлера')
+ax.legend(loc = 2)
+plt.show()
+
+
+# euler_pc_rk4_analysis.ipynb
+import numpy as np
+import matplotlib.pyplot as plt
+# Markdown:
+Метод предиктор-корректор
+def method_euler(f, x_0, x_n, y_0, N):
+    dx = (x_n - x_0) / N
+    x = np.linspace(x_0, x_n, N+1)
+    y = np.zeros((N+1, len(y_0)))
+    y[0, :] = y_0
+
+    for n in range(N):
+        y[n+1, :] = y[n, :] + dx * f(x[n], y[n, :])
+
+    return x, y
+
+def fun_sin(x, y):
+    return -np.sin(x)
+
+x_5, y_5 = method_euler(fun_sin, 0.0, 0.5, [1.0], 5)
+x_50, y_50 = method_euler(fun_sin, 0.0, 0.5, [1.0], 50)
+
+print('Решение в x = 0,5 при dx = 0,1 - {}.'.format(y_5[-1, 0]))
+print('Решение в x = 0,5 при dx = 0,01 - {}.'.format(y_50[-1, 0]))
+print('Точное решение в x = 0,5 - {}.'.format(np.cos(0.5)))
+# Markdown:
+Применим метод предиктор-корректор к функции y'(x) = -sin(x) при x_0 = 0 до x_n = 0.5 <br>
+Шаг dx = 0.1
+def euler_pc(f, x_0, x_n, y_0, N):
+    dx = (x_n - x_0) / N
+    x = np.linspace(x_0, x_n, N+1)
+    y = np.zeros((N+1, len(y_0)))
+    y[0, :] = y_0
+
+    for n in range(N):
+        yp = y[n, :] + dx * f(x[n], y[n, :])
+        y[n+1, :] = y[n, :] + dx/2 * (f(x[n], y[n, :]) + f(x[n+1], yp))
+    return x, y
+
+def fun_sin(x, y):
+    return -np.sin(x)
+
+x_5, y_5 = euler_pc(fun_sin, 0.0, 0.5, [1.0], 5)
+x_50, y_50 = euler_pc(fun_sin, 0.0, 0.5, [1.0], 50)
+
+print('Решение в x = 0,5 при dx = 0,1 - {}.'.format(y_5[-1, 0]))
+print('Решение в x = 0,5 при dx = 0,01 - {}.'.format(y_50[-1, 0]))
+print('Точное решение в x = 0,5 - {}.'.format(np.cos(0.5)))
+N = np.array([2**i for i in range(3, 12)])
+dx = 0.5 / N
+err = np.zeros_like(dx)
+
+for i in range(len(N)):
+    n = N[i]
+    x, y = euler_pc(fun_sin, 0.0, 0.5, [1.0], n)
+    err[i] = np.abs(np.cos(0.5) - y[-1, 0])
+
+p = np.polyfit(np.log(dx[:-1]), np.log(err[:-1]), 1)
+
+fig = plt.figure(figsize = (10, 6))
+ax = fig.add_subplot(111)
+ax.loglog(dx, err, 'kx', label = 'Посчитанные невязки')
+ax.loglog(dx, np.exp(p[1])*dx**p[0], label = 'Наклон линии {:.2f}'.format(p[0]))
+ax.set_xlabel('dx')
+ax.set_ylabel('$\|$ Ошибка $\|$')
+ax.set_title('Сходимость метода предиктор-корректор')
+ax.legend(loc = 2)
+plt.show()
+# Markdown:
+Система:
+
+$x_{i+1} = -y_i$ <br>
+$y_{i+1} = x_i$
+
+x(0) = 1 <br>
+y(0) = 0
+
+В полярных координатах это r = 0, phi = 1
+
+Возьмём шаг h = 0.1, рассчитав 500 шагов
+def motion(x, y):
+    dfdt = np.zeros_like(y)
+    dfdt[0] = -y[1]
+    dfdt[1] = y[0]
+
+    return dfdt
+
+y0 = np.array([1.0, 0.0])
+
+t_01, y_01 = euler_pc(motion, 0.0, 50, y0, 500)
+t_001, y_001 = euler_pc(motion, 0.0, 50, y0, 5000)
+fig = plt.figure(figsize = (10, 6))
+ax1 = fig.add_subplot(121)
+ax1.plot(y_01[:, 0], y_01[:, 1], label = '$h = 0.1$')
+ax1.set_xlabel('$x$')
+ax1.set_ylabel('$y$')
+
+ax2 = fig.add_subplot(122)
+ax2.plot(y_001[:, 0], y_001[:, 1], label = '$h = 0.1$')
+ax2.set_xlabel('$x$')
+ax2.set_ylabel('$y$')
+
+plt.show()
+N = np.array([500*2**i for i in range(0, 10)])
+h = 0.5 / N
+err = np.zeros_like(h)
+
+for i in range(len(N)):
+    n = N[i]
+    x, y = euler_pc(motion, 0.0, 50, y0, n)
+    err[i] = np.abs(y[-1, 0]**2 + y[-1, 1]**2 - 1)
+
+p = np.polyfit(np.log(h), np.log(err), 1)
+
+fig = plt.figure(figsize = (10, 6))
+ax = fig.add_subplot(111)
+ax.loglog(h, err, 'kx', label = 'Посчитанные невязки')
+ax.loglog(h, np.exp(p[1])*h**p[0], label = 'Наклон линии {:.2f}'.format(p[0]))
+ax.set_xlabel('h')
+ax.set_ylabel('$\|$ Ошибка $\|$')
+ax.set_title('Сходимость метода предиктор-корректор')
+ax.legend(loc = 2)
+plt.show()
+# Markdown:
+Ошибка (и локальная, и глобальная) состоит из:
+
+- Округления
+- Сокращения
+
+Общая ошибка является суммой глобальной ошибки сокращения и глобальной ошибки округления
+# Markdown:
+**Метод Рунге-Кутта 2**
+
+$y_{n+1} = y_n + a * k_1 + b * k_2$  
+$k_1 = h * f(x_n, y_n)$  
+$k_2 = h * f(x_n + \alpha * h, y_n + \beta * k1)$  
+
+С коэффициентами:  
+$a + b = 1$  
+$\alpha * b = 1/2$  
+$\beta * b = 1/2$  
+# Markdown:
+**Метод Рунге-Кутта 4**
+
+$y_{n+1} = y_n + 1/6 * (k_1 + 2 * (k_2+ k_3) + k_4)$  
+$k1 = h * f(x_n, y_n)$  
+$k2 = h * f(x_n + h/2, y_n + k_1/2)$  
+$k3 = h * f(x_n + h/2, y_n + k_2/2)$  
+$k4 = h * f(x_n + h, y_n + k_3)$  
+
+Локальная ошибка: O(n^5)  
+Глобальная ошибка: O(n^4)  
+# Markdown:
+Применим метод Рунге-Кутта 4 порядка к функции y'(x) = -sin(x) при x_0 = 0 до x_n = 0.5  
+Шаг dx = 0.1
+def rk4_method(f, x_0, x_n, y_0, N):
+    dx = (x_n - x_0) / N
+    x = np.linspace(x_0, x_n, N+1)
+    y = np.zeros((N+1, len(y_0)))
+    y[0, :] = y_0
+    k1 = np.zeros_like(y_0)
+    k2 = np.zeros_like(y_0)
+    k3 = np.zeros_like(y_0)
+    k4 = np.zeros_like(y_0)
+
+    for n in range(N):
+        k1 = dx * f(x[n], y[n, :])
+        k2 = dx * f(x[n] + dx/2, y[n, :] + k1/2)
+        k3 = dx * f(x[n] + dx/2, y[n, :] + k2/2)
+        k4 = dx * f(x[n] + dx, y[n, :] + k3)
+        y[n+1, :] = y[n, :] + (k1 + k4 + 2*(k2 + k3))/6
+
+    return x, y
+def fun_sin(x, y):
+    return -np.sin(x)
+
+x_5, y_5 = rk4_method(fun_sin, 0.0, 0.5, [1.0], 5)
+x_50, y_50 = rk4_method(fun_sin, 0.0, 0.5, [1.0], 50)
+
+print('Решение в x = 0,5 при dx = 0,1 - {}.'.format(y_5[-1, 0]))
+print('Решение в x = 0,5 при dx = 0,01 - {}.'.format(y_50[-1, 0]))
+print('Точное решение в x = 0,5 - {}.'.format(np.cos(0.5)))
+def motion(x, y):
+    dfdt = np.zeros_like(y)
+    dfdt[0] = -y[1]
+    dfdt[1] = y[0]
+
+    return dfdt
+
+y0 = np.array([1.0, 0.0])
+
+t_01, y_01 = rk4_method(motion, 0.0, 50, y0, 500)
+t_001, y_001 = rk4_method(motion, 0.0, 50, y0, 5000)
+fig = plt.figure(figsize = (10, 6))
+ax1 = fig.add_subplot(121)
+ax1.plot(y_01[:, 0], y_01[:, 1], label = '$h = 0.1$')
+ax1.set_xlabel('$x$')
+ax1.set_ylabel('$y$')
+
+ax2 = fig.add_subplot(122)
+ax2.plot(y_001[:, 0], y_001[:, 1], label = '$h = 0.1$')
+ax2.set_xlabel('$x$')
+ax2.set_ylabel('$y$')
+
+plt.show()
+fig = plt.figure(figsize = (10, 6))
+ax1 = fig.add_subplot(121)
+ax1.plot(t_01, np.sqrt(y_01[:, 0]**2 + y_01[:, 1]**2) - 1, label = '$h = 0.1$')
+ax1.set_xlabel('$t$')
+ax1.set_ylabel('$\|$ Ошибка $\|$')
+
+ax2 = fig.add_subplot(122)
+ax2.plot(t_001, np.sqrt(y_001[:, 0]**2 + y_001[:, 1]**2) - 1, label = '$h = 0.01$')
+ax2.set_xlabel('$t$')
+ax2.set_ylabel('$\|$ Ошибка $\|$')
+plt.show()
+import math
+
+y0 = np.array([1.0, 0.0])
+N = np.array([50*2**i for i in range(0, 10)])
+h = np.zeros_like(N, float)
+h = 50.0 / N
+err_r = np.zeros_like(h)
+err_theta = np.zeros_like(h)
+err_x = np.zeros_like(h)
+err_y = np.zeros_like(h)
+err_all = np.zeros_like(h)
+
+for i in range(len(N)):
+    n = N[i]
+    x, y = rk4_method(motion, 0.0, 50, y0, n)
+    err_r[i] = np.abs(y[-1, 0]**2 + y[-1, 1]**2 - 1)
+    err_theta[i] = np.abs(math.atan2(y[-1, 1], y[-1, 0]) - np.mod(50.0, 2.0*np.pi) + 2.0*np.pi)
+    err_x[i] = np.abs(y[-1, 0] - np.cos(50.0))
+    err_y[i] = np.abs(y[-1, 1] - np.sin(50.0))
+    err_all[i] = np.linalg.norm([y[-1, 0] - np.cos(50.0), y[-1, 1] - np.sin(50.0)])
+p_r = np.polyfit(np.log(h[:-1]), np.log(err_r[:-1]), 1)
+p_theta = np.polyfit(np.log(h[:-1]), np.log(err_theta[:-1]), 1)
+p_x = np.polyfit(np.log(h[:-1]), np.log(err_x[:-1]), 1)
+p_y = np.polyfit(np.log(h[:-1]), np.log(err_y[:-1]), 1)
+p_all = np.polyfit(np.log(h[:-1]), np.log(err_all[:-1]), 1)
+
+fig = plt.figure(figsize = (10, 6))
+ax1 = fig.add_subplot(121)
+ax1.loglog(h, err_r, 'kx', label = 'Невязки в $r$')
+ax1.loglog(h, np.exp(p_r[1])*h**p_r[0], 'b-', label = 'Наклон линии {:.2f}'.format(p_r[0]))
+ax1.loglog(h, err_theta, 'ro', label = 'Невязки в $theta$')
+ax1.loglog(h, np.exp(p_theta[1])*h**p_theta[0], 'b-', label = 'Наклон линии {:.2f}'.format(p_theta[0]))
+ax1.loglog(h, err_all, 'c+', label = '$\|$ Ошибка $\|_2$ в (\bf y)')
+ax1.loglog(h, np.exp(p_all[1])*h**p_all[0], 'b-', label = 'Наклон линии {:.2f}'.format(p_all[0]))
+ax1.set_xlabel('h')
+ax1.set_ylabel('$\|$ Ошибка $\|$')
+ax1.set_title('Сходимость метода предиктор-корректор')
+ax1.legend(loc = 2)
+
+ax2 = fig.add_subplot(122)
+ax2.loglog(h, err_x, 'kx', label = 'Невязки в $x$')
+ax2.loglog(h, np.exp(p_x[1])*h**p_x[0], 'b-', label = 'Наклон линии {:.2f}'.format(p_x[0]))
+ax2.loglog(h, err_y, 'ro', label = 'Невязки в $y$')
+ax2.loglog(h, np.exp(p_y[1])*h**p_y[0], 'b-', label = 'Наклон линии {:.2f}'.format(p_y[0]))
+ax2.loglog(h, err_all, 'c+', label = '$\|$ Ошибка $\|_2$ в (\bf y)')
+ax2.loglog(h, np.exp(p_all[1])*h**p_all[0], 'b-', label = 'Наклон линии {:.2f}'.format(p_all[0]))
+ax2.set_xlabel('h')
+ax2.set_ylabel('$\|$ Ошибка $\|$')
+ax2.set_title('Сходимость метода предиктор-корректор')
+ax2.legend(loc = 2)
+plt.show()
+
+
+# fft_signal_analysis.ipynb
+# Markdown:
+## Быстрое преобразование Фурье
+import matplotlib.pyplot as plt
+import numpy as np
+def FFT(x):
+    N = len(x)
+
+    if N == 1:
+        return x
+    else:
+        X_even = FFT(x[::2])
+        X_odd = FFT(x[1::2])
+
+        factor = np.exp(-2j*np.pi*np.arange(N)/N)
+
+        X = np.concatenate([X_even + factor[:int(N/2)]*X_odd,
+                X_even + factor[int(N/2):]*X_odd])
+        return X
+sr = 128
+ts = 1/sr
+t = np.arange(0, 1, ts)
+
+freq = 1
+x = 3*np.sin(2*np.pi*freq*t)
+
+freq = 4
+x += np.sin(2*np.pi*freq*t)
+
+freq = 7
+x += 0.5*np.sin(2*np.pi*freq*t)
+
+plt.figure(figsize = (8, 4))
+plt.plot(t, x, 'b')
+plt.ylabel('Амплитуда')
+plt.xlabel('Время')
+plt.show()
+X = FFT(x)
+
+N = len(X)
+n = np.arange(N)
+T = N/sr
+freq = n/T
+
+plt.figure(figsize = (12, 6))
+plt.subplot(121)
+plt.stem(freq, abs(X), markerfmt=" ", basefmt='-b')
+plt.ylabel('Амплитуда')
+plt.xlabel('Частота (Hz)')
+
+n_oneside = N//2
+f_oneside = freq[:n_oneside]
+
+X_oneside = X[:n_oneside]/n_oneside
+
+plt.subplot(122)
+plt.stem(f_oneside, abs(X_oneside), markerfmt=" ", basefmt='-b')
+plt.ylabel('Амплитуда')
+plt.xlabel('Частота (Hz)')
+
+plt.show()
+def gen_sig(sr):
+    ts = 1/sr
+    t = np.arange(0, 1, ts)
+
+    freq = 1
+    x = 3*np.sin(2*np.pi*freq*t)
+    return x
+sr = 2048
+%timeit FFT(gen_sig(sr))
+sr = 2000
+ts = 1/sr
+t = np.arange(0, 1, ts)
+
+freq = 1
+x = 3*np.sin(2*np.pi*freq*t)
+
+freq = 4
+x += np.sin(2*np.pi*freq*t)
+
+freq = 7
+x += 0.5*np.sin(2*np.pi*freq*t)
+# Markdown:
+FFT в Numpy
+from numpy.fft import fft, ifft
+
+X = fft(x)
+
+N = len(X)
+n = np.arange(N)
+T = N/sr
+freq = n/T
+
+plt.figure(figsize = (12, 6))
+plt.subplot(121)
+plt.stem(freq, abs(X), markerfmt=" ", basefmt='-b')
+plt.ylabel('Амплитуда')
+plt.xlabel('Частота (Hz)')
+
+plt.subplot(122)
+plt.plot(t, ifft(X), 'r')
+plt.ylabel('Амплитуда')
+plt.xlabel('Время')
+
+plt.show()
+%timeit fft(x)
+from scipy.fftpack import fft, ifft
+
+X = fft(x)
+
+N = len(X)
+n = np.arange(N)
+T = N/sr
+freq = n/T
+
+plt.figure(figsize = (12, 6))
+plt.subplot(121)
+plt.stem(freq, abs(X), markerfmt=" ", basefmt='-b')
+plt.ylabel('Амплитуда')
+plt.xlabel('Частота (Hz)')
+
+plt.subplot(122)
+plt.plot(t, ifft(X), 'r')
+plt.ylabel('Амплитуда')
+plt.xlabel('Время')
+
+plt.show()
+%timeit fft(x)
+import pandas as pd
+df = pd.read_csv('./930-data-export.csv',
+                 delimiter=',', parse_dates=[1])
+df = df.dropna()
+df = df.reset_index(drop = True)
+df.rename(columns = {'Timestamp (Hour Ending)':'hour',
+                    'Demand (MWh)':'demand'},
+                    inplace = True)
+plt.figure(figsize = (12, 6))
+plt.plot(df['hour'], df['demand'])
+plt.xlabel('Дата, время')
+plt.ylabel('Потребление электроэнергии (MWh)')
+demand_values = df['demand'].values
+
+X = fft(demand_values)
+N = len(X)
+n = np.arange(N)
+sr = 1/ (60*60)
+T = N/sr
+freq = n/T
+
+n_oneside = N//2
+f_oneside = freq[1:n_oneside]
+
+plt.figure(figsize = (12, 4))
+plt.stem(f_oneside, np.abs(X[1:n_oneside]), markerfmt=" ", basefmt='-b')
+plt.ylabel('Амплитуда')
+plt.xlabel('Частота (Hz)')
+t_h = 1 / f_oneside / (60*60)
+
+plt.figure(figsize = (16, 4))
+plt.plot(t_h, np.abs(X[1:n_oneside])/n_oneside, 'b')
+plt.xticks([12, 24, 90, 182])
+plt.ylabel('Амплитуда')
+plt.xlabel('Частота (Hz)')
+plt.show()
+
+# fft_vs_dft_analysis.ipynb
+# Markdown:
+Алгоритм вычисления свёртки:  
+1. Вычисляем преобразование Фурье x(t) и y(t)
+2. Вычисляем их произведение
+3. Применяем к результату обратное преобразование Фурье
+
+Связь с вычислительной обработкой данных:
+- Быстрое вычисление свёртки через быстрое преобразование Фурье, требующее O(n log n) операций, а не O(n^2)
+- В обработке сигналов для выделения определённых частотных компонент часто используется гауссовый фильтр (низкочастотный) - как свёртка во временной области или умножение спектра на фильтр в частотной области.
+# Markdown:
+Матрица называется Тёплицевой если её элементы определены как:  
+a_ij = t_(i-j)
+- Все элементы на диагонали Тёплицевой матрицы одинаковы, она определяется двумя векторами - верхней строкой и первым столбцом (2n-1 параметр).
+- Плотная матрица
+- Основная операция для вычисления дискретной свёртки - произведение Тёплицевой матрицы на вектор.
+# Markdown:
+Циркулянтые матрицы
+![Снимок экрана 2024-12-12 в 11.12.47.png](attachment:335bde0a-5467-4a33-8bf8-f4bd2ad61841.png)
+![Снимок экрана 2024-12-12 в 11.15.01.png](attachment:5e81b9f4-163a-4d50-af13-4a852f2497dd.png)
+import matplotlib.pyplot as plt
+import numpy as np
+
+N = 1000
+dt = 1/800
+x = np.linspace(0, N*dt, N)
+y = np.sin(50* 2*np.pi*x) + 0.5*np.sin(80* 2*np.pi*x) + 0.2*np.sin(3000* 2*np.pi*x)
+
+plt.plot(x, y)
+#plt.ylabel('')
+plt.show()
+yf = np.fft.fft(y)
+xf = np.linspace(0, 1/(2*dt), N//2)
+plt.plot(xf, 2/N * np.abs(yf[0:N//2]))
+plt.xlabel('Frequency') 
+plt.ylabel('Amplitude')
+plt.show()
+import time
+import scipy as sp
+
+n = 1000
+F = sp.linalg.dft(n)
+x = np.random.randn(n)
+
+y_full = F.dot(x)
+
+full_time = %timeit -q -o F.dot(x)
+print('Время для вычисления множения "наивного" = ', full_time.average)
+
+y_fft = np.fft.fft(x)
+fft_time = %timeit -q -o np.fft.fft(x)
+print('Время с использованием FFT = ', fft_time.average)
+
+print('Относительная ошибка = ', np.linalg.norm(y_full - y_fft) / np.linalg.norm(y_full))
+
+
+# finite_difference_error_analysis.ipynb
+# Markdown:
+# Обыкновенные Дифференциальные Уравнения
+# Markdown:
+Прямая разность: $f'(x_0) = \frac{f(x_0 + h) - f(x_0)}{h}$
+
+Обратная разность: $f'(x_0) = \frac{f(x_0) - f(x_0 - h)}{h}$
+
+---
+
+Вспомнили ряд Тейлора: $f(x_0 + h) = f(x_0) + \frac{h f'(x_0)}{1!} + \frac{h^2 f''(x_0)}{2!} + O(h^3)$
+
+$f'(x_0) = \frac{f(x_0 + h) - f(x_0)}{h} = f'(x_0) + \frac{hf''(x_0)}{2} + O(h^2) = f'(x_0) + O(h)$
+
+---
+
+$f(x_0 + h) = f(x_0) + \frac{h f'(x_0)}{1!} + \frac{h^2 f''(x_0)}{2!} + O(h^3)$
+
+$f(x_0 - h) = f(x_0) - \frac{h f'(x_0)}{1!} + \frac{h^2 f''(x_0)}{2!} - O(h^3)$
+
+Центральная разность: $f'(x_0) = \frac{f(x_0 + h) - f(x_0 - h)}{2h} = f'(x_0) + O(h^2)$
+import numpy as np
+import matplotlib.pyplot as plt
+# Markdown:
+Вычислим производную f(x) = e^(x) при x = 0 с использованием метода прямой разности <br>
+с проверкой ошибки по сравнению с точным результатом f'(0) = 1
+h = np.logspace(-7, 1)
+estimate = (np.exp(h) - np.exp(0.0)) / h
+err = np.abs(1.0 - estimate)
+
+p = np.polyfit(np.log(h), np.log(err), 1)
+
+fig = plt.figure(figsize = (10, 6))
+ax = fig.add_subplot()
+ax.loglog(h, err, 'kx', label = 'Расчётные данные')
+ax.loglog(h, np.exp(p[1]) * h**p[0], label = 'Линейная аппроксимация')
+ax.set_xlabel('h')
+ax.set_ylabel('$\|$ Ошибка $\|$')
+ax.set_title('Сходимость оценок значения производной')
+ax.legend(loc = 2)
+plt.show()
+# Markdown:
+Вычислим производную f(x) = e^(x) при x = 0 с использованием метода центральной разности <br> 
+с проверкой ошибки по сравнению с точным результатом f'(0) = 1
+h = np.logspace(-5, 1)
+estimate = (np.exp(h) - np.exp(-h)) / (2*h)
+err = np.abs(1.0 - estimate)
+
+p = np.polyfit(np.log(h), np.log(err), 1)
+
+fig = plt.figure(figsize = (10, 6))
+ax = fig.add_subplot()
+ax.loglog(h, err, 'kx', label = 'Расчётные данные')
+ax.loglog(h, np.exp(p[1]) * h**p[0], label = 'Линейная аппроксимация')
+ax.set_xlabel('h')
+ax.set_ylabel('$\|$ Ошибка $\|$')
+ax.set_title('Сходимость оценок значения производной')
+ax.legend(loc = 2)
+plt.show()
+
+
+# gershgorin_circles_and_qr.ipynb
+# Круги Гершгорина
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+n = 3
+fig, ax = plt.subplots(1, 1)
+a = np.array([[5, 1, 1], [1, 0, 0.5], [2, 0, 10]])
+
+a += 2*np.random.randn(n, n)
+
+xg = np.diag(a).real
+yg = np.diag(a).imag
+rg = np.zeros(n)
+ev = np.linalg.eigvals(a)
+
+for i in range(n):
+    rg[i] = np.sum(np.abs(a[i, :])) - np.abs(a[i, i])
+    crc = plt.Circle((xg[i], yg[i]), radius = rg[i], fill = False)
+    ax.add_patch(crc)
+plt.scatter(ev.real, ev.imag, color = 'r', label = "Eigenvalues")
+plt.axis('equal')
+a = np.array([[5, 1, 1], [1, 0, 0.5], [2, 0, 10]])
+np.diag(np.diag(a))
+# QR алгоритм O(n^4)
+
+n = 5
+a = [[1 / (i + j + 0.5) for i in range(n)] for j in range(n)]
+niter = 150
+
+for k in range(niter):
+    q, r = np.linalg.qr(a)
+    a = r.dot(q)
+
+print(a)
+# Первая итерация алгоритма qr O(n^3)
+
+n = 10
+d = np.random.randn(n)
+sub_diag = np.random.randn(n-1)
+
+mat = np.diag(d) + np.diag(sub_diag, -1) + np.diag(sub_diag, 1)
+
+plt.spy(mat)
+plt.title('Original matrix')
+
+q, r = np.linalg.qr(mat)
+plt.figure()
+b = r.dot(q)
+b[abs(b) <= 1e-12] = 0
+
+plt.spy(b)
+plt.title('After one itaration for qr algorithm')
+
+b[0, :]
+
+
+# matrix_multiplication_methods.ipynb
+import numpy as np
+from numba import njit
+import matplotlib.pyplot as plt
+# Markdown:
+Рукописная реализация алгоритма перемножения двух матриц
+def matmult(a, b):
+    n = a.shape[0]
+    k = a.shape[1]
+    m = b.shape[1] #!!!
+    c = np.zeros((n, m))
+    for i in range(n):
+        for j in range(m):
+            for s in range(k):
+                c[i, j] += a[i, s] * b[s, j]
+    return c
+# Markdown:
+Numba версия рукописной реализации алгоритма перемножения двух матриц
+@njit
+def matmult_n(a, b):
+    n = a.shape[0]
+    k = a.shape[1]
+    m = b.shape[1]
+    c = np.zeros((n, m))
+    for i in range(n):
+        for j in range(m):
+            for s in range(k):
+                c[i, j] += a[i, s] * b[s, j]
+    return c
+# Markdown:
+Сравним скорость выполнения различных алгоритмов
+n = 100
+A = np.random.randn(n, n)
+B = np.random.randn(n, n)
+
+%timeit matmult(A, B)
+%timeit matmult_n(A, B)
+%timeit np.dot(A, B)
+# Markdown:
+Проверим для всех ли размерностей выполняются такие соотношения
+dim_range = [10*i for i in range(1, 11)]
+time_range_matmul = []
+time_range_numba_matmul = []
+time_range_np = []
+
+for n in dim_range:
+    a = np.random.randn(n, n)
+    b = np.random.randn(n, n)
+
+    t = %timeit -o -q matmult(a, b)
+    time_range_matmul.append(t.average)
+    
+    t = %timeit -o -q matmult_n(a, b)
+    time_range_numba_matmul.append(t.average)
+    
+    t = %timeit -o -q np.dot(a, b)
+    time_range_np.append(t.average)
+plt.plot(dim_range, time_range_matmul, c = 'red')
+plt.plot(dim_range, time_range_numba_matmul, c = 'blue')
+plt.plot(dim_range, time_range_np, c = 'green')
+plt.yscale('log')
+plt.show()
+# Markdown:
+Классический алгоритм имеет сложность $O(n^3)$ <br>
+Рассмотрим метод Штрассена (https://ru.wikipedia.org/wiki/Алгоритм_Штрассена)
+def strassen(A, B):
+    n = len(A)
+
+    if n <= 2:
+        return np.dot(A, B)
+
+    # Разделим матрицы на подматрицы
+    mid = n // 2
+    A11 = A[:mid, :mid]
+    A12 = A[:mid, mid:]
+    A21 = A[mid:, :mid]
+    A22 = A[mid:, mid:]
+    B11 = B[:mid, :mid]
+    B12 = B[:mid, mid:]
+    B21 = B[mid:, :mid]
+    B22 = B[mid:, mid:]
+
+    # Рекурсивное умножение
+    P1 = strassen(A11, B12 - B22)
+    P2 = strassen(A11 + A12, B22)
+    P3 = strassen(A21 + A22, B11)
+    P4 = strassen(A22, B12 - B22)
+    P5 = strassen(A11 + A22, B11 + B22)
+    P6 = strassen(A12 - A22, B21 + B22)
+    P7 = strassen(A11 - A21, B11 + B12)
+
+    # Соединим результаты в матрицу C
+    C11 = P5 + P4 - P2 + P6
+    C12 = P1 + P2
+    C21 = P3 + P4
+    C22 = P5 + P1 - P3 - P7
+
+    C = np.vstack((np.hstack((C11, C12)), np.hstack((C21, C22))))
+
+    return C
+n = 128
+A = np.random.randn(n, n)
+B = np.random.randn(n, n)
+
+%timeit matmult(A, B)
+%timeit strassen(A, B)
+%timeit matmult_n(A, B)
+%timeit np.dot(A, B)
+dim_range = [2**i for i in range(1, 8)]
+time_range_matmul = []
+time_range_numba_matmul = []
+time_range_np = []
+time_range_strassen = []
+
+for n in dim_range:
+    a = np.random.randn(n, n)
+    b = np.random.randn(n, n)
+
+    t = %timeit -o -q matmult(a, b)
+    time_range_matmul.append(t.average)
+    
+    t = %timeit -o -q matmult_n(a, b)
+    time_range_numba_matmul.append(t.average)
+    
+    t = %timeit -o -q np.dot(a, b)
+    time_range_np.append(t.average)
+    
+    t = %timeit -o -q strassen(a, b)
+    time_range_strassen.append(t.average)
+plt.plot(dim_range, time_range_matmul, c = 'red')
+plt.plot(dim_range, time_range_numba_matmul, c = 'blue')
+plt.plot(dim_range, time_range_np, c = 'green')
+plt.plot(dim_range, time_range_strassen, c = 'orange')
+plt.yscale('log')
+plt.show()
+
+
+# sparse_matrices_and_performance.ipynb
+import numpy as np
+import matplotlib.pyplot as plt
+
+lm = [1, 2, 3, 4] #начальный вектор
+M = len(lm)
+D = np.array(lm)
+a = np.min(lm)
+b = np.max(lm)
+u = 0.5 * np.ones(M)
+p = 1 #смещение
+
+t = np.linspace(-1, 6, 1000)
+
+def fun(lam):
+    return 1 + p*np.sum(u**2 / (D - lam))
+
+res = [fun(lam) for lam in t]
+
+plt.plot(t, res)
+plt.plot(t, np.zeros_like(t))
+plt.ylim([-6, 6])
+plt.show()
+import scipy as sp
+import scipy.sparse
+from scipy.sparse import csc_matrix, csr_matrix
+import scipy.linalg
+import scipy.sparse.linalg
+
+n = 5
+ex = np.ones(n)
+lp1 = scipy.sparse.spdiags(np.vstack((ex, -2*ex, ex)), [-1, 0, 1], n, n)
+e = sp.sparse.eye(n)
+A = sp.sparse.kron(lp1, e) + sp.sparse.kron(e, lp1)
+A = csc_matrix(A)
+
+plt.spy(A, aspect = 'equal', marker = '.')
+# Markdown:
+Способы хранения матриц:
+* coo (координатный формат) - (i, j, value)
+* LIL (список списков)
+* CSR (compressed sparse row) - ia, ja, sa
+* CSC (compressed sparse column)
+* Блочные варианты
+
+В scipy представлены конструкторы для этих форматов, например scipy.sparse.lil_matrix(A)
+from scipy.sparse import csc_matrix, csr_matrix, coo_matrix
+
+n = 1000
+ex = np.ones(n)
+lp1 = scipy.sparse.spdiags(np.vstack((ex, -2*ex, ex)), [-1, 0, 1], n, n)
+e = sp.sparse.eye(n)
+A = sp.sparse.kron(lp1, e) + sp.sparse.kron(e, lp1)
+A = csc_matrix(A)
+rhs = np.ones(n*n)
+B = coo_matrix(A)
+
+%timeit A.dot(rhs)
+%timeit B.dot(rhs)
+import time
+
+n = 4000
+a = np.random.randn(n, n)
+v = np.random.randn(n)
+t = time.time()
+np.dot(a, v)
+t = time.time() - t
+
+print('Время: {0: 3.1e}, Эффективность: {1: 3.1e} Gflops'.format(t, ((2*n**2)/t) / 10**9))
+n = 40000
+ex = np.random.randn(n)
+a = scipy.sparse.spdiags(np.vstack((ex, -2*ex, ex)), [-1, 0, 1], n, n)
+rhs = np.random.randn(n)
+t = time.time()
+a.dot(rhs)
+t = time.time() - t
+
+print('Время: {0: 3.1e}, Эффективность: {1: 3.1e} Gflops'.format(t, ((3*n)/t) / 10**9))
+
+n = 10
+ex = np.ones(n)
+lp1 = scipy.sparse.spdiags(np.vstack((ex, -2*ex, ex)), [-1, 0, 1], n, n, 'csr')
+e = sp.sparse.eye(n)
+A = sp.sparse.kron(lp1, e) + sp.sparse.kron(e, lp1)
+A = csr_matrix(A)
+rhs = np.ones(n*n)
+sol = sp.sparse.linalg.spsolve(A, rhs)
+
+_, ax = plt.subplots(1, 2)
+
+ax[0].plot(sol)
+ax[0].set_title('Не упорядоченное решение')
+
+ax[1].contourf(sol.reshape((n, n)), order = 'f')
+ax[1].set_title('Упорядоченное решение')
+import networkx as nx
+
+n = 10
+ex = np.ones(n)
+lp1 = scipy.sparse.spdiags(np.vstack((ex, -2*ex, ex)), [-1, 0, 1], n, n, 'csr')
+e = sp.sparse.eye(n)
+A = sp.sparse.kron(lp1, e) + sp.sparse.kron(e, lp1)
+A = csr_matrix(A)
+
+G = nx.Graph(A)
+nx.draw_networkx(G, pos = nx.spectral_layout(G), node_size = 20, with_labels = False)
+import scipy.sparse as spsp
+import scipy.sparse.linalg as spsplin
+
+A = spsp.coo_matrix((np.random.randn(10), ([0, 0, 0, 0, 1, 1, 2, 2, 3, 3], 
+                                           [0, 1, 2, 3, 0, 1, 0, 2, 0, 3])))
+
+plt.title('Исходная матрица')
+plt.spy(A)
+plt.show()
+
+lu = spsplin.splu(A.tocsc(), permc_spec = 'COLAMD')
+
+plt.title('L factor')
+plt.spy(lu.L)
+plt.show()
+
+plt.title('U factor')
+plt.spy(lu.U)
+plt.show()
+
+1. Наивное умножение матрицы на вектор и умножение матриц.
+
+Умножение матрицы A (n x m) на вектор b (m): 
+    c[i] = Σ (A[i][j] * b[j]), j = 0, ..., m-1.
+Умножение двух матриц A (n x k) и B (k x m):
+    C[i][j] = Σ (A[i][s] * B[s][j]), s = 0, ..., k-1.
+Сложность для квадратных матриц: O(n^3).
+
+2. Иерархия памяти, кэш и промахи.
+
+Память организована в уровнях: регистры → кэш (L1, L2, L3) → RAM → накопители → облачные хранилища.
+Кэш использует стратегии: полностью ассоциативный, прямо ассоциативный, наборная ассоциативность.
+Стратегия LRU вытесняет давно неиспользуемые данные.
+Типы промахов: холодный, из-за конфликта, из-за емкости.
+Эффективность повышается за счёт пространственной и временной локальности.
+
+3. Алгоритм Штрассена.
+
+Для матриц A, B (n x n):
+Разбиваются на блоки (n/2 x n/2): A = |A11 A12|, B = |B11 B12|.
+Вычисляются 7 матриц: 
+    M1 = (A11 + A22) * (B11 + B22), ..., M7 = (A12 - A22) * (B21 + B22).
+Собирается C: 
+    C11 = M1 + M4 - M5 + M7, ..., C22 = M1 - M2 + M3 + M6.
+Сложность: O(n^(log2(7))).
+
+4. Собственные векторы и значения, Google PageRank.
+
+Собственный вектор X и значение λ:
+    AX = λX,  (A - λE)X = 0,  |A - λE| = 0.
+Собственные значения находятся как корни характеристического многочлена Pn(λ) = |A - λE|.
+PageRank: важность страницы pi:
+    p_i = Σ (p_j / L(j)), для всех j ∈ N(i), где L(j) - число ссылок со страницы j.
+Это выражается как p = Gp, где G[i][j] = 1/L(j). У матрицы G наибольшее собственное значение равно 1.
+
+5. Разложение Шура и QR-алгоритм.
+
+Теорема Шура: любая матрица A представима в виде A = UTU*, где U - унитарная, T - верхнетреугольная.
+Собственные значения матрицы A равны диагональным элементам T.
+QR-алгоритм:
+    1. Инициализируем A0 = A.
+    2. Вычисляем QR-разложение: Ak = QkRk.
+    3. Обновляем: Ak+1 = RkQk.
+Итерации продолжаются, пока Ak не станет достаточно треугольной. Сложность одной итерации: O(n^3).
+
+6. Степенной метод.
+
+Для нахождения наибольшего по модулю собственного значения λ1 матрицы A:
+    x(k+1) = A * x(k) / ||A * x(k)||.
+Приближение λ1:
+    λ(k+1) = (A * x(k+1), x(k+1)).
+Метод сходится со скоростью |λ2/λ1|, где λ2 - следующее по величине собственное значение.
+Для эрмитовых матриц метод всегда сходится, так как собственные значения действительны.
+
+7. Круги Гершгорина.
+
+Собственные значения λ матрицы A лежат внутри кругов C_i с центром в a_ii и радиусом:
+    r_i = Σ |a_ij|, для j ≠ i.
+Если круги C_i не пересекаются, каждый содержит ровно одно собственное значение.
+Для матриц с диагональным преобладанием (|a_ii| > r_i для всех i) матрица невырожденна.
+
+8. Разложение Шура.
+
+A = UTU*, где U - унитарная, T - верхнетреугольная. Это разложение стабильно вычисляется и точно даёт собственные значения.
+Для нормальных матриц (AA* = A*A) разложение принимает вид A = UΛU*, где Λ - диагональная матрица собственных значений.
+Нормальные матрицы всегда унитарно диагонализуемы.
+
+9. Нормальные, эрмитовы, унитарные матрицы.
+
+Нормальная матрица: AA* = A*A.
+Эрмитова матрица: A = A*, элементы удовлетворяют A[i, j] = conj(A[j, i]).
+Любая эрмитова матрица может быть приведена к трёхдиагональной форме с помощью отражений Хаусхолдера.
+Матрица 𝐴 имеет верхне-гессенбергову форму, если 𝑎𝑖𝑗 = 0, при 𝑖 ≥ 𝑗 + 2.
+
+10. Спектр и псевдоспектр.
+
+Спектр матрицы A - множество собственных значений λ, для которых Ax = λx.
+Псевдоспектр Λ_ε(A):
+    Λ_ε(A) = {λ ∈ C : ||(A - λI)^(-1)|| ≥ 1/ε}.
+Для нормальных матриц псевдоспектр близок к спектру, но для ненормальных может иметь сложную форму.
+Радиус спектра ρ(A) = max |λ| указывает на поведение динамических систем.
+
+11. Неявный QR алгоритм  
+Неявный QR алгоритм применяется для нахождения собственных значений матриц через разложение A = QH, где H — верхне-гессенбергова форма. Для повышения сходимости увеличивают зазор между собственными значениями блоков матрицы, выражаемый через параметр q = |λ(m+1)/λm|. Алгоритм использует сдвиги, уменьшающие влияние малых собственных значений: A(k) - s(k)I = Q(k)R(k), A(k+1) = R(k)Q(k) + s(k)I. Сдвиги выбираются близкими к собственным значениям (например, сдвиги Релея), что повышает точность и ускоряет вычисления. Это делает метод эффективным для работы с крупными разреженными системами.
+
+12. Алгоритм "разделяй и властвуй"  
+Алгоритм "разделяй и властвуй" делит задачу на подзадачи меньшего размера, решает их независимо и объединяет результаты. В случае симметричных трехдиагональных матриц T она может быть представлена как блочная структура:  
+T =  
+[ T1   0   v ]  
+[  0  T2   w ]  
+[ v^T w^T   d ].  
+
+Матрица делится на подматрицы T1 и T2, для которых вычисляются собственные значения и векторы. Затем эти результаты объединяются с учетом элементов связи v, w и d, используя теорему о возмущениях собственных значений. Алгоритм эффективен для параллельных вычислений и позволяет оптимально обрабатывать разреженные матрицы.
+
+13. Разреженные матрицы и методы  
+Разреженные матрицы, содержащие много нулевых элементов, используются для экономии памяти и ускорения вычислений. Основные форматы хранения включают COO (тройки), CSR (построчные данные), CSC (постолбцовые) и LIL (списки). Прямые методы решения включают LU-разложение, метод Холецкого и алгоритмы решения линейных систем вида Ax = b (например, из библиотеки Scipy). Эти методы обеспечивают эффективную работу с большими задачами благодаря оптимизации хранения и вычислений. Разреженные структуры часто встречаются в задачах физики, механики и компьютерной графики.
+
+14. Обыкновенные дифференциальные уравнения (ОДУ)  
+ОДУ представляют собой уравнения вида F(x, y, y', ...) = 0, где y(x) — искомая функция. Наивысший порядок производной определяет порядок уравнения. Для нахождения уникального решения часто используется задача Коши с начальными условиями y(0) = y0. Решение может быть представлено в явной форме y(x) или в неявной форме Φ(x, y) = 0. Такие уравнения описывают динамику процессов в науке и технике.
+
+15. Локальная и глобальная ошибки  
+Локальная ошибка возникает на каждом шаге вычислений из-за ограниченной точности или упрощений. Глобальная ошибка накапливается за весь процесс, её величина зависит от устойчивости метода. Для минимизации глобальной ошибки уменьшают шаг расчёта или используют методы с высокой точностью, такие как Рунге-Кутта. Метод Эйлера имеет линейную глобальную ошибку O(h), а метод Рунге-Кутты обеспечивает более точную O(h^p), где p — порядок метода. Контроль ошибок позволяет достичь высокой точности численных вычислений.
+
+16. Метод центральной разности  
+Метод центральной разности используется для численного вычисления производных с применением симметричной формулы f'(x) ≈ (f(x+h) - f(x-h)) / 2h. Он обладает точностью второго порядка O(h^2) и снижает систематические погрешности за счёт симметрии. В сравнении с методами прямой и обратной разности, центральная разность обеспечивает лучший баланс между простотой и точностью. Метод полезен в задачах численного решения дифференциальных уравнений и анализа данных. Он часто используется в моделировании физических процессов.
+
+17. Метод Эйлера  
+Метод Эйлера — это простой численный метод для решения задачи Коши: y'(x) = f(x, y), y(x0) = y0. На каждом шаге аппроксимация решения выполняется через линейную интерполяцию: y(n+1) = y(n) + h f(x(n), y(n)). Этот метод прост в реализации, но имеет высокую глобальную ошибку O(h) и недостаточно точен для сложных задач. Уменьшение шага h повышает точность, но увеличивает вычислительную нагрузку. Метод подходит для грубой оценки решений или задач с невысокими требованиями к точности.
+
+18. Метод предиктора-корректора  
+Метод предиктора-корректора включает два этапа. Сначала с помощью явного метода (предиктора) вычисляется предварительное значение:  
+y(i+1)(0) = y(i) + (h / 24) * (55 * f(i) - 59 * f(i-1) + 37 * f(i-2) - 9 * f(i-3)).  
+Затем используется неявный метод (корректор) для уточнения значения:  
+y(i+1) = y(i) + (h / 24) * (9 * f(i+1) + 19 * f(i) - 5 * f(i-1) + f(i-2)).  
+Этот подход объединяет простоту явных методов и устойчивость неявных, что делает его полезным для жёстких систем. Начальные значения (например, y(1), y(2), y(3)) обычно находятся методом Рунге-Кутты.
+
+19. Метод Рунге-Кутты  
+Метод Рунге-Кутты — это многошаговый численный метод решения ОДУ, который учитывает промежуточные оценки для повышения точности. Наиболее распространён четвёртый порядок, который включает расчёты наклонов k1, k2, k3, k4 и аппроксимацию: y(n+1) = y(n) + (h/6)(k1 + 2k2 + 2k3 + k4). Метод имеет высокую точность O(h^4) и широко используется в задачах, где требуется баланс между точностью и вычислительной сложностью. Он подходит для сложных моделей, например, в физике и инженерии. Рунге-Кутта обеспечивает более точные результаты, чем метод Эйлера, но требует больше вычислений.
+
+20. Методы Адамса  
+Методы Адамса делятся на явные (Бэшфорт) и неявные (Мултон) схемы, основанные на многошаговом подходе. Явные методы используют предыдущие точки для аппроксимации нового значения, например, y(n+1) = y(n) + (h/12)(23f(n) - 16f(n-1) + 5f(n-2)). Неявные схемы уточняют результат через текущее и новое значение, например, y(n+1) = y(n) + (h/12)(5f(n+1) + 8f(n) - f(n-1)). Явные методы проще, но менее стабильны, тогда как неявные подходят для жёстких задач. Такие методы часто применяются для моделирования с большим временным шагом.
+
+21. МЕТОД МИЛНА  
+Метод Милна – многошаговый метод предиктор-корректор для решения ОДУ.  
+Предиктор (явная формула Адамса-Башфорта 4-го порядка):  
+yₙ₊₁^p = yₙ + (h/24) [55fₙ - 59fₙ₋₁ + 37fₙ₋₂ - 9fₙ₋₃]  
+Корректор (неявная формула Адамса-Мултона 4-го порядка):  
+yₙ₊₁ = yₙ + (h/24) [9f(xₙ₊₁, yₙ₊₁) + 19fₙ - 5fₙ₋₁ + fₙ₋₂]  
+Итерация корректора:  
+yₙ₊₁^{new} = yₙ + (h/24) [9f(xₙ₊₁, yₙ₊₁^{new}) + 19fₙ - 5fₙ₋₁ + fₙ₋₂]  
+Требует начальных значений y₀, y₁, y₂, y₃, полученных методом Рунге-Кутты 4-го порядка.
+
+22. СОГЛАСОВАННОСТЬ, УСТОЙЧИВОСТЬ, СХОДИМОСТЬ  
+Согласованность: Локальная погрешность τ = O(h^{p+1}), глобальная погрешность E = O(h^p).  
+Устойчивость: Для уравнения y' = λy метод устойчив, если |ρ(z)| ≤ 1, где z = hλ и ρ – характеристический многочлен метода.  
+Сходимость: Yₙ → y(tₙ) при h→0, если метод согласован и устойчив.  
+Условия устойчивости: Например, для метода Рунге-Кутты 4-го порядка: |1 + hλ + (hλ)^2/2! + (hλ)^3/3! + (hλ)^4/4!| < 1 при Re(λ) < 0.
+
+23. МОДЕЛИРОВАНИЕ ВОЛНЫ  
+Волна описывается формулой s(t) = A⋅sin(ωt + φ).  
+Амплитуда (A): Максимальное отклонение.  
+Частота (f): f = ω / (2π).  
+Период (T): T = 1/f.  
+Длина волны (λ): λ = vT, где v – скорость распространения.  
+Дискретизация: Шаг времени dt, частота дискретизации fₛ = 1/dt ≥ 2f (критерий Найквиста).  
+Угловая частота (ω): ω = 2πf.  
+При дискретизации: s[n] = A⋅sin(ωndt + φ).
+
+24. ДИСКРЕТНОЕ ПРЕОБРАЗОВАНИЕ ФУРЬЕ (DFT)  
+DFT: Xₖ = Σₙ=₀^{N-1} xₙ ⋅ e^(-j2πnk/N) для k=0,…,N-1.  
+Обратное DFT (IDFT): xₙ = (1/N) Σₖ=₀^{N-1} Xₖ ⋅ e^(j2πnk/N) для n=0,…,N-1.  
+Ограничения:  
+- Сигнал xₙ предполагается периодическим с периодом N.  
+- При f > fₛ/2 возникает aliasing.  
+Симметрии: Для вещественных xₙ: Xₖ¯ = X_{N−k}. Для чётных xₙ Re(Xₖ) ≠ 0, Im(Xₖ) = 0; для нечётных xₙ Re(Xₖ) = 0, Im(Xₖ) ≠ 0.
+
+25. БЫСТРОЕ ПРЕОБРАЗОВАНИЕ ФУРЬЕ (FFT)  
+FFT алгоритм Кули-Тьюки: Разделяет DFT на DFT чётных и нечётных элементов:  
+Xₖ = Σₙ=₀^{N/2-1} x_{2n} e^(-j4πnk/N) + e^(-j2πk/N) Σₙ=₀^{N/2-1} x_{2n+1} e^(-j4πnk/N)  
+Сложность: O(N logN) вместо O(N²).  
+Фильтрация:  
+1. S = FFT(s[n]).  
+2. S_filtered = Sₖ ⋅ Hₖ.  
+3. s_filtered[n] = IDFT(S_filtered).  
+Это позволяет выполнять свёртку: s_filtered = s * h за O(N logN).
+
+26. ОПЕРАЦИЯ СВЁРТКИ  
+Линейная свёртка: (f*g)[n] = Σₘ=0^{N-1} f[m] g[n−m].  
+Циклическая свёртка: (f⊛g)[n] = Σₘ=0^{N-1} f[m] g[(n−m) mod N].  
+Связь с Фурье:  
+f*g ↔ F(f) ⋅ F(g).  
+Алгоритм быстрой свёртки:  
+1. F_f = FFT(f).  
+2. F_g = FFT(g).  
+3. F_fg = F_f ⋅ F_g.  
+4. f*g = IDFT(F_fg).  
+Замечание: Для линейной свёртки дополнить f и g нулями до длины ≥ N₁+N₂−1.
+
+27. ДИСКРЕТНАЯ СВЁРТКА И ТЁПЛИЦЕВЫ МАТРИЦЫ  
+Тёплицева матрица (Toeplitz): Aᵢⱼ = t_{i−j}.  
+Пример для N=4:  
+A = [[t₀ t_{-1} t_{-2} t_{-3}],  
+     [t₁ t₀ t_{-1} t_{-2}],  
+     [t₂ t₁ t₀ t_{-1}],  
+     [t₃ t₂ t₁ t₀]]  
+Умножение A×x: эквивалентно свёртке с ядром t.  
+Оптимизация через FFT:  
+(f * g) = IDFT(FFT(f) ⋅ FFT(g)), что снижает сложность до O(N logN).
+
+28. ЦИРКУЛЯНТНЫЕ МАТРИЦЫ. МАТРИЦЫ ФУРЬЕ  
+Циркулянтная матрица (C): C₍i,j₎ = c_{(i−j) mod N}.  
+Пример для N=4:  
+C = [[c₀ c₃ c₂ c₁],  
+     [c₁ c₀ c₃ c₂],  
+     [c₂ c₁ c₀ c₃],  
+     [c₃ c₂ c₁ c₀]]  
+Свойства:  
+- Диагонализуется матрицей Фурьё F: C = F⁻¹ D F, где D – диагональная матрица с элементами Dₖ = FFT(c)[k].  
+- Собственные векторы – столбцы F, собственные значения – DFT первого столбца C.  
+Матрица Фурьё (F): Fₖℓ = e^(-j2πkℓ/N), k, ℓ=0,…,N-1.
+
+29. БЫСТРЫЙ МАТВЕК С ЦИРКУЛЯНТОМ  
+Умножение C×x:  
+1. Y = FFT(x).  
+2. Z = FFT(c) ⋅ Y.  
+3. C×x = IDFT(Z).  
+Алгоритмические шаги:  
+- Вычислить Y = F×x, где F – матрица Фурьё.  
+- Умножить поэлементно: Zₖ = Dₖ ⋅ Yₖ, где Dₖ = FFT(c)[k].  
+- Получить результат: C×x = F⁻¹×Z.  
+Сложность: O(N logN) вместо O(N²).  
+Применение: Фильтрация сигналов, решение линейных систем с циклическими граничными условиями.
+
+1. Наивное умножение матрицы на вектор и умножение матриц.
+
+    1. Умножение матрицы на вектор:
+    Если матрица A имеет размеры n x m, а вектор b длину m, то результатом умножения 
+    будет вектор c длины n.
+
+    Формула для каждого элемента результата:
+        c[i] = Σ (A[i][j] * b[j])  для j = 0, 1, ..., m-1
+    где:
+        A[i][j] - элемент матрицы A в строке i и столбце j,
+        b[j]    - элемент вектора b,
+        c[i]    - i-й элемент результирующего вектора c.
+
+    2. Умножение двух матриц:
+    Если матрица A имеет размеры n x k, а матрица B - размеры k x m, то результатом 
+    умножения будет матрица C размером n x m.
+
+    Формула для каждого элемента результата:
+        C[i][j] = Σ (A[i][s] * B[s][j])  для s = 0, 1, ..., k-1
+    где:
+        A[i][s] - элемент матрицы A в строке i и столбце s,
+        B[s][j] - элемент матрицы B в строке s и столбце j,
+        C[i][j] - элемент результирующей матрицы C в строке i и столбце j.
+
+    Сложность данного алгоритма составляет O(n * k * m), что для квадратных матриц (n = k = m) 
+    сводится к O(n^3).
+
+2. Иерархия памяти, план кэша и LRU, промахи при обращении к кэшу.
+
+    Вычисления с помощью ручки и бумаги можно проводить с любой степенью точности.
+    В компьютере числа хранятся в ячейках памяти с фиксированной разрядностью не более 15 цифр.
+    Ограничен диапазон представления чисел: 10-307 < |x| < 10307.
+    Компьютерные вычисления могут содержать миллионы операций, что приводит к накоплению ошибки.
+    Компьютерная арифметика связана с представлением чисел в ЭВМ и отличается от обычной.
+
+    Иерархия памяти, план кэша и LRU, промахи при обращении к кэшу:
+
+    1. Иерархия памяти:
+    Иерархия памяти строится для баланса между скоростью, емкостью и стоимостью различных типов памяти.
+    Схема иерархии выглядит так:
+
+        Регистр (самый быстрый, но минимальный объем)
+        ↓
+        Кэш (уровни L1, L2, L3):
+            L1 - самый быстрый, но малый объем (обычно 32-128 КБ).
+            L2 - больше объема, медленнее, чем L1 (256 КБ - несколько МБ).
+            L3 - общий для всех ядер, медленнее, чем L2 (несколько МБ - десятки МБ).
+        ↓
+        Оперативная память (RAM):
+            Большой объем (несколько ГБ), но значительно медленнее кэша.
+        ↓
+        Накопители (SSD/HDD):
+            Очень большой объем (сотни ГБ - несколько ТБ), но медленный доступ.
+        ↓
+        Сетевые и удаленные хранилища (например, облака):
+            Наиболее медленные, но практически неограниченные по объему.
+
+    Цель иерархии: обеспечение минимального времени доступа к данным за счет предсказуемого использования более быстрой памяти.
+
+    2. План кэша:
+    План кэша определяет, как данные из памяти размещаются в кэше. Для этого используют несколько стратегий:
+
+    2.1. Полностью ассоциативный кэш:
+            - Любой блок данных из памяти может быть размещен в любом месте кэша.
+            - Самый гибкий, но сложный в реализации.
+
+    2.2. Прямо ассоциативный кэш:
+            - Каждый блок памяти может быть размещен только в одном определенном месте кэша.
+            - Прост в реализации, но может привести к большому числу промахов.
+
+    2.3. Кэш с наборной ассоциативностью:
+            - Компромиссный вариант: кэш делится на наборы (sets), каждый блок памяти может быть размещен
+            в любом месте в рамках одного набора.
+            - Пример: 4-канальный ассоциативный кэш означает, что каждый набор содержит 4 слота.
+
+    3. LRU (Least Recently Used):
+    - Это стратегия управления замещением данных в кэше.
+    - При необходимости замены данных из кэша вытесняется блок, который не использовался дольше других.
+    - Реализация:
+        1. Каждому блоку присваивается временная метка последнего использования.
+        2. При необходимости замещения выбирается блок с самой старой временной меткой.
+
+    4. Промахи при обращении к кэшу:
+    Промах (cache miss) происходит, когда запрашиваемые данные не находятся в кэше. Различают несколько типов промахов:
+
+    4.1. Промах из-за холодного старта (cold miss):
+            - Происходит при первом доступе к данным, когда кэш еще пуст.
+
+    4.2. Промах из-за конфликта (conflict miss):
+            - Возникает, когда два блока данных отображаются на одну и ту же строку кэша в прямо или наборно ассоциативных кэшах.
+
+    4.3. Промах из-за емкости (capacity miss):
+            - Происходит, когда объем кэша недостаточен для хранения всех нужных данных.
+
+    5. Влияние кэша на производительность:
+    - Высокая вероятность попаданий (cache hit) существенно ускоряет доступ к данным.
+    - Промахи ведут к увеличению задержек, так как требуется доступ к более медленной памяти.
+    - Эффективное использование кэша включает:
+        1. Пространственную локальность (spatial locality):
+            Данные, расположенные рядом друг с другом в памяти, с большей вероятностью будут использоваться.
+        2. Временную локальность (temporal locality):
+            Данные, которые использовались недавно, с большей вероятностью будут использоваться снова.
+
+    6. Пример работы с кэшем:
+    Пусть у нас есть массив данных длиной 1000 элементов. Если кэш использует строки длиной 64 байта (16 элементов для массива с типом int),
+    то при последовательном доступе один доступ к памяти загрузит 16 элементов в кэш, минимизируя число промахов.
+
+3. Алгоритм Штрассена.
+    Алгоритм Штрассена — это рекурсивный алгоритм, который позволяет умножать матрицы быстрее, чем классический алгоритм со сложностью O(n^3).
+    Он использует 7 умножений вместо 8 для вычисления подматриц, снижая асимптотическую сложность до O(n^(log2(7))) ≈ O(n^2.81).
+
+    1. Разделение матриц:
+    Исходные квадратные матрицы A и B (размер n x n) разбиваются на 4 подматрицы размером n/2 x n/2:
+        A = | A11  A12 |       B = | B11  B12 |
+            | A21  A22 |           | B21  B22 |
+
+    2. Вычисление промежуточных матриц (M1, M2, ..., M7):
+    Алгоритм Штрассена определяет 7 промежуточных матриц следующим образом:
+
+        M1 = (A11 + A22) * (B11 + B22)
+        M2 = (A21 + A22) * B11
+        M3 = A11 * (B12 - B22)
+        M4 = A22 * (B21 - B11)
+        M5 = (A11 + A12) * B22
+        M6 = (A21 - A11) * (B11 + B12)
+        M7 = (A12 - A22) * (B21 + B22)
+
+    3. Вычисление результирующих подматриц C11, C12, C21, C22:
+    После вычисления промежуточных матриц результирующая матрица C формируется как:
+
+        C11 = M1 + M4 - M5 + M7
+        C12 = M3 + M5
+        C21 = M2 + M4
+        C22 = M1 - M2 + M3 + M6
+
+    4. Сбор результирующей матрицы:
+    Матрица C собирается из подматриц:
+        C = | C11  C12 |
+            | C21  C22 |
+
+    5. Рекурсия:
+    Если подматрицы A11, A12, ..., B22 имеют размер больше 1 x 1, то алгоритм Штрассена рекурсивно применяется к вычислению промежуточных матриц.
+
+    6. Сложность:
+    Классический алгоритм умножения матриц имеет сложность O(n^3).
+    Алгоритм Штрассена сокращает количество умножений до 7 вместо 8, что приводит к сложности O(n^(log2(7))) ≈ O(n^2.81).
+
+    Примечания:
+    - Алгоритм работает только для квадратных матриц размера 2^k x 2^k. Для матриц произвольного размера они дополняются нулями.
+    - Алгоритм Штрассена менее эффективен для небольших матриц из-за накладных расходов.
+
+    Преимущества:
+    - Уменьшение количества умножений по сравнению с классическим методом.
+
+    Недостатки:
+    - Увеличение количества сложений и вычитаний, что может быть проблемой при больших размерностях.
+    - Меньшая числовая стабильность по сравнению с классическим методом.
+
+4. Собственные векторы, собственные значения (важность, Google PageRank).
+    Пусть A — действительная числовая квадратная матрица размеров (n × n).
+    Ненулевой вектор X = (x1, ..., xn)T размеров (n × 1), удовлетворяющий условию
+    AX = λX
+    называется собственным вектором матрицы A.
+    Число λ в равенстве называется собственным значением.
+    Говорят, что собственный вектор X соответствует (принадлежит) собственному значению λ.
+    Последнее равенство равносильно однородной относительно X системе:
+    (A – λE) X = 0, (X ≠ 0).
+    Система имеет ненулевое решение для вектора X (при известном λ) при условии |A – λE| = 0.
+    Это равенство есть характеристическое уравнение:
+    |A – λE| = Pn(λ) = 0.\
+    ПОСТАНОВКА ЗАДАЧИ
+    |A – λE| = Pn(λ) = 0.
+    где Pn() — характеристический многочлен n-й степени.
+    Корни λ1, λ2, ..., λn характеристического уравнения являются собственными (характеристическими) значениями матрицы A,
+    а соответствующие каждому собственному значению λi, i = 1, ..., n, ненулевые векторы Xi,
+    удовлетворяющие системе AXi = λi Xi или (A – λiE) Xi = 0, i = 1, 2, ..., n,являются собственными векторами.
+
+    GOOGLE PAGERANK
+    Задача состоит в ранжировании веб-страницы: какие из них являются важными, а какие нет.
+    В интернете страницы ссылаются друг на друга.
+    PageRank определяется рекурсивно. 
+    Обозначим за pi важность i-ой страницы.
+    Тогда определим эту важность как усреднённую важность всех страниц, которые ссылаются на данную страницу. 
+    Это определение приводит к следующей линейной системе:
+    p_i = Σ (p_j / L(j)) для всех j ∈ N(i)
+    где L(j) – число исходящих ссылок с j-ой страницы, N(i) – число соседей i-ой страницы.
+    Это может быть записано следующим образом:
+    p = G * p,  G_ij = 1 / L(j)
+    то есть мы уже знаем, что у матрицы G есть собственное значение равное 1. 
+    Заметим, что G – левостохастичная матрица, то есть сумма в каждом столбце равна 1.
+
+5. Разложение Шура и QR-алгоритм.
+
+    Теорема Шура
+    Каждая матрица A ∈ Cn×n может быть представлена в виде формы Шура:
+    A = UTU∗
+    где U унитарная, а T верхнетреугольная.
+    • Это разложение Шура.
+    • Использование унитарных матриц приводит к устойчивым алгоритмам,
+    таким образом собственные значения вычисляются очень точно.
+    • Разложение Шура показывает, почему нам нужны матричные разложения:
+    они представляют матрицу в виде произведения трёх матриц подходящей
+    структуры.
+    1.Каждая матрица имеет как минимум один ненулевой собственный вектор (для
+    корня характеристического многочлена матрица (A−λI) вырождена и имеет
+    нетривиальное ядро). 
+    Пусть
+    A * v1 = λ1 * v1, ||v1||_2 = 1
+    2.Пусть U1=[υ1, υ2,…, υn], где υ2,…, υn любые векторы ортогональные υ1. 
+    Тогда где A2 матрица размера (n−1) × (n−1). 
+    Она же называется блочнотреугольной формой. 
+    Теперь мы можем проделать аналогичную процедуру для матрицы A2 и так далее.
+    ПРИЛОЖЕНИЕ ТЕОРЕМЫ ШУРА
+    Важное приложение теоремы Шура связано с так называемыми нормальными матрицами.
+    Определение. 
+    Матрица A называется нормальной матрицей, если AA* = A*A.
+    Примеры нормальных матриц: эрмитовы матрицы, унитарные матрицы.
+    Теорема. Матрица A - нормальная матрица, тогда и только тогда, когда A=UΛU∗, где U - унитарная и Λ - диагональная матрицы.
+    Следствие. 
+    Любая нормальная матрица – унитарно диагонализуема. 
+    Это означает, что она может быть приведена к диагональному виду с помощью унитарной матрицы U. 
+    Другими словами, каждая нормальная матрица имеет ортогональный базис из собственных векторов.
+
+    QR АЛГОРИТМ
+    QR алгоритм и QR разложение – разные вещи!
+    QR разложение – это представление матрицы в виде произведения двух матриц,
+    QR алгоритм использует QR разложение для вычисления разложения Шура.
+    Рассмотрим выражение
+    A = QTQ∗
+    и перепишем его в виде
+    QT=AQ.
+    Слева замечаем QR разложение матрицы AQ.
+    Используем его чтобы записать одну итерацию метода неподвижной точки для разложения Шура.
+    ВЫВОД QR АЛГОРИТМА ИЗ УРАВНЕНИЯ НЕПОДВИЖНОЙ ТОЧКИ
+    Запишем следующий итерационный процесс
+    Q_(k+1) * R_(k+1) = A * Q_k, Q_(k+1)^* * A = R_(k+1) * Q_k^*
+    Введём новую матрицу
+    A_k = Q_k^* * A * Q_k = Q_k^* * Q_(k+1) * R_(k+1) = Q̂_k * R_(k+1)
+    тогда аппроксимация для 𝐴𝑘+1 Ak+1 имеет вид
+    A_(k+1) = Q_(k+1)^* * A * Q_(k+1) = (Q_(k+1)^* * A) * Q_k^* = R_(k+1) * Q̂_k
+    Итак, мы получили стандартную форму записи QR алгоритма.
+    Финальные формулы обычно записывают в QRRQ-форме:
+    1. Инициализируем 𝐴0=𝐴.
+    2. Вычислим QR разложение матрицы 𝐴𝑘: 𝐴𝑘=𝑄𝑘𝑅𝑘.
+    3. Обновим аппроксимацию 𝐴𝑘+1=𝑅𝑘𝑄𝑘.
+    Продолжаем итерации пока 𝐴𝑘 не станет достаточно треугольной (например,
+    норма подматрицы под главной диагональю не станет достаточно мала).
+    ▪ QR алгоритм сходится от первого диагонального элемента к последнему.
+    ▪ По крайней мере 2-3 итерации необходимы для определения каждого
+    диагонального элемента матрицы 𝑇.
+    ▪ Каждый шаг состоит в вычислении QR разложения и одного
+    произведения двух матриц, в результате имеем сложность O(𝑛3).
+    Итоговая сложность - O(𝑛4)?
+    Возможно ускорить QR алгоритм, используя сдвиги, поскольку матрица
+    𝐴𝑘 − 𝜆𝐼 имеет те же векторы Шура (столбцы матрицы 𝑈).
+
+6. Степенной метод.
+    • Часто в вычислительной практике требуется найти не весь
+    спектр, а только некоторую его часть, например самое
+    большое или самое маленькое собственные значения.
+    • Также отметим, что для Эрмитовых матриц собственные
+    значения всегда действительны.
+    • Степенной метод – простейший метод вычисления
+    максимального по модулю собственного значения.
+
+    Задача на собственные значения
+    A * x = λ * x,  ||x||_2 = 1 для устойчивости
+    может быть записана как итерации с неподвижной точкой,
+    которые называются степенным методом и дают
+    максимальное по модулю собственное значение матрицы A.
+
+    Степенной метод имеет вид
+    x_(k+1) = A * x_k
+    x_(k+1) := x_(k+1) / ||x_(k+1)||_2
+    и xk+1 → υ1, где Aυ1 = λ1υ1 и λ1 максимальное по модулю
+    собственное значение, и υ1 – соответствующий собственный
+    вектор.
+    На (k + 1)-ой итерации приближение для λ1 может быть
+    найдено следующим образом
+    λ^(k+1) = (A * x_(k+1), x_(k+1))
+    Заметим, что λ(k+1) не требуется для (k + 2)-ой итерации, но
+    может быть полезно для оценки ошибки на каждой итерации:
+    ||A * x_(k+1) - λ^(k+1) * x_(k+1)||
+
+    Метод сходится со скоростью геометричеcкой прогрессии, с константой
+    q = |λ_2 / λ_1|, где |λ_2 / λ_1| < 1, λ_1 > λ_2 >= ... >= λ_n
+    Это означает, что сходимость может быть сколь угодно
+    медленной при близких значениях у λ1 и λ2.
+
+    Анализ сходимости для A = A∗
+    • Рассмотрим степенной метод более подробно для случая эрмитовой матрицы
+    • Любая эрмитова матрица диагонализуема, поэтому существует ортонормированный базис из собственных векторов 
+    υ1,…, υn такой что A υi = λi υi.
+    • Разложим x0 в этом базисе с коэффициентами ci:
+    x0 = c1 υ1+ ⋯ + cn υn.
+    • Поскольку υi – собственные векторы, выполнены следующие равенства
+    x_1 = A * x_0 / ||A * x_0|| 
+       = (c_1 * λ_1 * v_1 + ... + c_n * λ_n * v_n) / ||c_1 * λ_1 * v_1 + ... + c_n * λ_n * v_n||
+    x_k = A * x_(k-1) / ||A * x_(k-1)|| 
+       = (c_1 * λ_1^k * v_1 + ... + c_n * λ_n^k * v_n) / ||c_1 * λ_1^k * v_1 + ... + c_n * λ_n^k * v_n||
+    x_k = A * x_(k-1) / ||A * x_(k-1)|| 
+       = (c_1 * λ_1^k * v_1 + ... + c_n * λ_n^k * v_n) / ||c_1 * λ_1^k * v_1 + ... + c_n * λ_n^k * v_n||
+    • Получаем следующее выражение
+    x_k = (c_1 / |c_1|) * (λ_1 / |λ_1|)^k * v_1 + ...
+    которое сходится к υ1 при 
+    |(c_1 / |c_1|) * (λ_1 / |λ_1|)^k| = 1 и (λ_2 / λ_1)^k -> 0,
+    если |λ_2| < |λ_1|
+
+7. Круги Гершгорина.
+    Есть теорема, которая часто помогает локализовать собственные значения.
+    Она называется теоремой Гершгорина.
+    • Теорема утверждает, что все собственные значения λi, i = 1, 2, ..., n
+    находятся внутри объединения кругов Гершгорина Ci, где Ci –
+    окружность на комплексной плоскости с центром в aii и радиусом
+    r_i = Σ |a_ij|, для j ≠ i
+    Более того, если круги не пересекаются, то они содержат по одному собственному значению внутри каждого круга.
+    Сначала покажем, что если матрица A обладает строгим диагональным преобладанием, то есть
+    |a_ii| > Σ |a_ij|, для всех j ≠ i
+    тогда такая матрица невырождена.
+    Разделим диагональную и недиагональную часть и получим
+    A = D + S = D * (I + D^(-1) * S)
+    где ||D^(-1) * S||_1 < 1
+    Поэтому, в силу теоремы о ряде Неймана, матрица
+    обратима и, следовательно, A также обратима.
+    Докажем утверждение теоремы от противного:
+    если любое из собственных чисел лежит вне всех кругов, то матрица (A - λ*I)
+    обладает свойством строгого диагонального преобладания
+    поэтому она обратима это означает, что если
+    (A - λ*I)*x = 0, то x = 0
+    • Существуют более сложные фигуры, под названием овалы Кассини, которые содержат спектр
+    M_ij = {z ∈ C : |a_ii - z| * |a_jj - z| ≤ r_i * r_j}, r_i = Σ |a_il|, для l ≠ i
+
+8. Разложение Шура, теорема Шура.
+    Теорема Шура
+    Каждая матрица A ∈ Cn×n может быть представлена в виде формы Шура:
+    A = UTU∗
+    • Это разложение Шура.
+    • Использование унитарных матриц приводит к устойчивым алгоритмам,
+    таким образом собственные значения вычисляются очень точно.
+    • Разложение Шура показывает, почему нам нужны матричные разложения:
+    они представляют матрицу в виде произведения трёх матриц подходящей
+    структуры.
+    где U унитарная, а T верхнетреугольная.
+    1.Каждая матрица имеет как минимум один ненулевой собственный вектор (для
+    корня характеристического многочлена матрица (A−λI) вырождена и имеет
+    нетривиальное ядро). 
+    Пусть
+    A * v1 = λ1 * v1, ||v1||_2 = 1
+    2.Пусть U1=[υ1, υ2,…, υn], где υ2,…, υn любые векторы ортогональные υ1. 
+    Тогда где A2 матрица размера (n−1) × (n−1). 
+    Она же называется блочнотреугольной формой. 
+    Теперь мы можем проделать аналогичную процедуру для матрицы A2 и так далее.
+    ПРИЛОЖЕНИЕ ТЕОРЕМЫ ШУРА
+    Важное приложение теоремы Шура связано с так называемыми нормальными матрицами.
+    Определение. 
+    Матрица A называется нормальной матрицей, если AA* = A*A.
+    Примеры нормальных матриц: эрмитовы матрицы, унитарные матрицы.
+    Теорема. Матрица A - нормальная матрица, тогда и только тогда, когда A=UΛU∗, где U - унитарная и Λ - диагональная матрицы.
+    Следствие. 
+    Любая нормальная матрица – унитарно диагонализуема. 
+    Это означает, что она может быть приведена к диагональному виду с помощью унитарной матрицы U. 
+    Другими словами, каждая нормальная матрица имеет ортогональный базис из собственных векторов.
+
+9. Нормальные матрицы, эрмитовы матрицы, унитарно диагонализируемые матрицы, верхне-гессенбергова форма матриц.
+    Определение. Матрица A называется нормальной матрицей, если
+    AA* = A*A.
+    Примеры нормальных матриц: эрмитовы матрицы, унитарные матрицы.
+    Теорема. Матрица A - нормальная матрица, тогда и только тогда,
+    когда A=UΛU∗, где U - унитарная и Λ - диагональная матрицы.
+    Следствие. Любая нормальная матрица – унитарно диагонализуема. Это
+    означает, что она может быть приведена к диагональному виду с помощью
+    унитарной матрицы U. Другими словами, каждая нормальная матрица имеет
+    ортогональный базис из собственных векторов.
+
+    Эрмитова матрица — это квадратная матрица A, элементы которой удовлетворяют условию:
+
+    A[i, j] = conj(A[j, i])
+
+    Где:
+    - conj(A[j, i]) — комплексно сопряжённое число элемента A[j, i].
+
+    Иными словами, эрмитова матрица равна своей сопряжённо-транспонированной матрице:
+
+        A = A*
+
+    Где:
+    - A* обозначает сопряжённо-транспонированную матрицу (транспонирование с заменой каждого элемента на его комплексно сопряжённое).
+
+    Пример записи:
+
+    Для матрицы A размером 3x3:
+
+        A = | a11   a12   a13  |
+            | conj(a12)  a22   a23  |
+            | conj(a13)  conj(a23)  a33 |
+
+    Свойства эрмитовых матриц:
+    1. Диагональные элементы эрмитовой матрицы всегда вещественны:
+    a_ii ∈ R
+    2. Если все элементы матрицы вещественны, эрмитова матрица становится симметричной:
+    A = A^T
+
+    Матрица 𝐴 имеет верхне-гессенбергову форму, если 𝑎𝑖𝑗 = 0, при 𝑖 ≥ 𝑗 + 2.
+    H = | *  *  *  *  * |
+        | *  *  *  *  * |
+        | 0  *  *  *  * |
+        | 0  0  *  *  * |
+        | 0  0  0  *  * |
+    С помощью отражений Хаусхолдера можно привести любую матрицу к верхне-
+    гессенберговой форме:
+    𝑈∗𝐴𝑈=𝐻.
+    ▪ Единственное отличие от вычисления разложения Шура заключается в
+    занулении последних 𝑛 − 2, 𝑛 − 3, ...n − 2, n − 3,... элементов в первом, втором
+    и так далее столбцах
+    ▪ Сложность такого приведения O(n3) операций
+    ▪ Если матрица приведена к верхне-гессенберговой форме, то одна итерация QR
+    алгоритма имеет сложность O(n2) операций.
+    ▪ Также верхне-гессенбергова форма матрицы сохраняется после выполнения
+    одной итерации QR алгоритма.
+
+    СЛУЧАЙ СИММЕТРИЧНОЙ (ЭРМИТОВОЙ) МАТРИЦЫ
+    ▪ Если матрица 𝐴 симметричная (эрмитова), то 𝐴=𝐴∗,
+    тогда 𝐻=𝐻∗ и верхне-гессенбергова форма оказывается
+    трёхдиагональной матрицей.
+    ▪ Будем говорить только о симметричном трёхдиагональном виде
+    верхне-гессенберговой формы.
+    ▪ Любая эрмитова матрица может быть приведена к
+    трёхдиагональной форме с помощью отражений Хаусхолдера.
+    Основная идея: трёхдиагональная форма сохраняется при
+    выполнении QR алгоритма, и сложность одной итерации может
+    быть сокращена до O(n).
+
+10. Спектр и псевдоспектр.
+
+    Для динамических систем с матрицей A, спектр может много
+    сообщить о поведении системы (например, о её устойчивости).
+    Однако для не нормальных матриц, спектр может быть неустойчивым
+    относительно малых возмущений матрицы.
+    Для измерения подобных возмущений было разработана концепция
+    псевдоспектра.
+
+    Рассмотрим объединение всех возможных собственных значений для
+    всевозможных возмущений матрицы A.
+    Λ_ε(A) = {λ ∈ C : ∃E, x ≠ 0 : (A + E)x = λx, ||E||_2 ≤ ε}
+    Для малых E и нормальных A это круги вокруг собственных значений, для не
+    нормальных матриц, структура может сильно отличаться.
+
+    Различают полную и частичную проблему собственных значений, когда
+    необходимо найти весь спектр (все собственные значения) и собственные векторы
+    либо часть спектра, например: ρ(A) = max |λ_i(A)| и min |λ_i(A)|
+    Величина (A) называется спектральным радиусом.
+    1. Если для собственного значения i найден собственный вектор Xi, то
+    вектор μXi, где μ — произвольное число, также является собственным вектором,
+    соответствующим этому же собственному значению i.
+    2. Попарно различным собственным значениям соответствуют линейно
+    независимые собственные векторы; k-кратному корню характеристического
+    уравнения соответствует не более k линейно независимых собственных векторов.
+    3. Симметрическая матрица имеет полный спектр λ_i, i = 1, ..., n
+    действительных собственных значений; k-кратному корню характеристического уравнения
+    симметрической матрицы соответствует ровно k линейно независимых
+    собственных векторов.
+    4. Положительно определенная симметрическая матрица
+    спектр действительных положительных собственных значений.
+    
+11. Неявный QR алгоритм (со сдвигами).
+
+ТЕОРЕМА О НЕЯВНОМ QR АЛГОРИТМЕ
+
+Все реализации неявного QR алгоритма основаны на следующей теореме:
+
+Теорема. Пусть Q* A Q = H, где H — верхне-гессенбергова форма матрицы. Тогда первый столбец матрицы Q определяет все остальные её столбцы. Он может быть найден из следующего уравнения:
+A Q = Q H.
+
+СХОДИМОСТЬ QR АЛГОРИТМА
+
+Если у нас есть разложение вида:
+A = X * Λ * X^(-1),
+где A = [A11 A12; A21 A22],
+Λ = [Λ1 0; 0 Λ2],
+
+собственные значения Λ1 — это {λ1, ..., λm},
+а собственные значения Λ2 — это {λ(m+1), ..., λr}.
+
+Также, если существует зазор между собственными значениями в Λ1 и Λ2:
+|λ1| >= ... >= |λm| > |λ(m+1)| >= ... >= |λr| > 0,
+то блок A21^(k) матрицы Ak сходится к нулевому в процессе работы QR алгоритма со скоростью:
+||A21^(k)|| <= C * q^k, где q = |λ(m+1) / λm|,
+
+где m — размер матрицы Λ1.
+
+Таким образом, чтобы улучшить сходимость, нужно увеличить зазор между Λ1 и Λ2. Это достигается с помощью QR алгоритма со сдвигами.
+
+QR АЛГОРИТМ СО СДВИГАМИ
+
+Сходимость такого алгоритма линейная с фактором:
+A(k) - s(k) * I = Q(k) * R(k),
+A(k+1) = R(k) * Q(k) + s(k) * I,
+
+где скорость сходимости определяется выражением:
+| (λ(m+1) - s(k)) / (λm - s(k)) |.
+
+Здесь λm — m-ое большее по модулю собственное значение. Если сдвиг s(k) близок к собственному вектору, сходимость будет быстрее.
+
+Существуют различные стратегии выбора сдвигов (Рандомизированные сдвиги - пример random.random(); Сдвиги Релея - Сдвиг выбирается близким к одному из собственных значений матрицы; и другие)
+Использование сдвигов — это общий подход к ускорению сходимости итерационных методов вычисления собственных значений.
+
+---
+
+12. Алгоритм на основе стратегии "разделяй и властвуй".
+
+Идея алгоритма:
+
+Алгоритм "разделяй и властвуй" представляет собой подход к решению задач, основанный на разделении задачи на подзадачи меньшего размера, их решении и объединении результатов. Этот метод эффективен для задач, которые могут быть рекурсивно разделены и решены. В контексте вычисления собственных значений и собственных векторов симметричных трехдиагональных матриц алгоритм "разделяй и властвуй" позволяет улучшить производительность по сравнению с традиционными методами, такими как метод Якоби или QR-алгоритм. Стратегия "разделяй и властвуй" хорошо подходит для работы с трехдиагональными матрицами из-за их простоты и компактного хранения.
+
+Основные этапы алгоритма:
+
+Первый этап - разделение матрицы. Исходная симметричная трехдиагональная матрица T разбивается на две подматрицы меньшего размера. Это достигается введением разбиения в центральной точке матрицы. Для разделения используется блочная структура, где исходная матрица T представляется как:
+
+T =
+[ T1   0   v ]
+[  0  T2   w ]
+[ v^T w^T   d ]
+
+где T1 и T2 – подматрицы меньшего размера, v, w и d – элементы, связывающие блоки.
+
+Второй этап - решение подзадач. Для каждой из подматриц T1 и T2 вычисляются их собственные значения и собственные векторы (с использованием любого подходящего метода, например, рекурсивного применения алгоритма "разделяй и властвуй").
+
+Третий этап - объединение решений. Собственные значения и векторы объединяются с учетом возмущения, вызванного элементами v, w и d. Используется теорема о возмущениях собственных значений, чтобы корректно вычислить новые собственные значения и векторы объединенной матрицы.
+
+Реализация:
+
+Алгоритм реализуется рекурсивно. Базовым случаем является матрица небольшого размера (обычно 1×1 или 2×2), для которой собственные значения и векторы вычисляются напрямую. Разбиение обычно выполняется в середине матрицы для минимизации размера подзадач. Алгоритм значительно выигрывает при использовании параллельных вычислений (подзадачи для T1 и T2 независимы и могут обрабатываться параллельно). Возмущения от элементов v и w обрабатываются с использованием специализированных методов, таких как метод обобщенного собственных значений для возмущенных матриц.
+
+Преимущества и недостатки:
+
+Преимущества метода включают высокую вычислительную эффективность для больших матриц, возможность параллельной обработки подзадач и использование структуры трехдиагональных матриц для экономии памяти. Основные недостатки - сложность реализации и чувствительность к числовой стабильности (особенно при обработке возмущений).
+
+Применение:
+
+Алгоритм "разделяй и властвуй" для трехдиагональных матриц широко используется в численных методах линейной алгебры, особенно для обработки больших разреженных матриц. Он применяется в задачах механики, физики и компьютерной графики, а также включен в современные библиотеки линейной алгебры (например, LAPACK).
+
+???
+
+---
+
+13. Разреженные матрицы, форматы хранения разреженных матриц, прямые методы для решения больших разреженных систем.
+
+Разреженные матрицы содержат множество нулевых элементов и используются для экономии памяти и ускорения вычислений.
+
+Форматы хранения
+
+1. COO: Хранит ненулевые элементы как тройки (строка, столбец, значение). Удобен для создания матриц.
+	coo (координатный формат) - (i, j, value)
+2. CSR: Данные по строкам:
+   - data - значения,
+   - indices - столбцы,
+   - indptr - указатели строк.
+   Эффективен для умножения на вектор и решения систем.
+	CSR (compressed sparse row) - ia, ja, sa
+3. CSC: Аналог CSR, но данные по столбцам.
+	CSC (compressed sparse column)
+4. LIL: Списки ненулевых элементов по строкам. Удобен для модификации, но не для вычислений.
+	LIL (список списков)
+5. Блочные форматы: Хранят матрицу как набор подматриц, каждая из которых может быть разреженной. Эффективны для больших структурированных систем.
+
+В scipy представлены конструкторы для этих форматов, например scipy.sparse.lil_matrix(A)
+
+Прямые методы
+
+1. LU-разложение (scipy.sparse.splu): Разложение на нижнюю L и верхнюю U треугольные матрицы.
+2. Метод Холецкого (scipy.sparse.cholesky): Для симметричных положительно определённых матриц; позволяет разложить матрицу A в виде A = L * L_T
+3. Решение систем (scipy.sparse.spsolve): Для уравнений вида Ax = b.
+4. Умножение матрицы на вектор (эффективно для CSR и CSC): scipy.sparse.csr_matrix(...).dot(vector)
+
+---
+
+14. Обыкновенные дифференциальные уравнения, задача Коши.
+
+ОБЫКНОВЕННЫЕ ДИФФЕРЕНЦИАЛЬНЫЕ УРАВНЕНИЯ
+
+Обыкновенные дифференциальные уравнения (ОДУ) — это уравнения, содержащие одну или несколько производных от искомой функции:
+
+F(x, y, y', y'', y''', ..., y^(n)) = 0
+
+где x — независимая переменная, y = y(x) — искомая функция.
+
+Наивысший порядок производной n, входящей в предыдущее уравнение, называют порядком дифференциального уравнения.
+
+Рассмотрим систему обыкновенных дифференциальных уравнений (ОДУ) первого порядка, записанную в виде:
+
+y'(x) = f(x, y(x))
+
+Решение: любая функция y(x), которая удовлетворяет уравнению. Решением ОДУ на интервале (a, b) называется функция y = φ(x), которая при ее подстановке в исходное уравнение обращает его в тождество на (a, b).
+
+Решение ОДУ в неявном виде Φ(x, y) = 0 называется интегралом ОДУ.
+
+Существует множество возможных решений. Для одного уникального решения необходимо указать независимые условия (для системы размером n).
+
+Например, когда n условий заданы для одной точки:
+
+y(0) = y₀
+
+Это задача Коши (задача с начальными условиями). Либо дифференциальная задача.
+
+---
+
+15. Локальная, глобальная ошибки.
+
+Локальная ошибка возникает на уровне отдельных элементов или шагов системы, например, при вычислениях на одном этапе. Глобальная ошибка – это накопление локальных ошибок за весь процесс. Причины локальных ошибок – ограниченная точность вычислений и упрощение моделей. Глобальная ошибка зависит от накопления локальных ошибок, её влияние определяется устойчивостью метода. Для снижения ошибок уменьшают шаг расчёта, используют точные методы и устойчивые численные подходы. Локальная ошибка важна для отдельных операций, глобальная – для оценки всей системы.
+
+Ошибки в методах Эйлера и Рунге-Кутты:
+Метод Эйлера имеет локальную ошибку первого порядка, пропорциональную квадрату шага, из-за линейной аппроксимации. Глобальная ошибка накапливается линейно, также первого порядка. В методе Рунге-Кутты (с 1 порядка!!) локальная ошибка гораздо меньше, так как используется аппроксимация с учётом промежуточных значений, а глобальная ошибка накапливается медленнее, она от второго порядка. Разница связана с тем, что Эйлер предполагает постоянную производную на шаге, что увеличивает ошибки на изогнутых участках, а Рунге-Кутта учитывает изменения внутри шага, обеспечивая точность. Эйлер проще и быстрее, но менее точен, Рунге-Кутта сложнее, но подходит для задач, где требуется высокая точность.
+
+---
+
+16. Метод центральной разности.
+
+Метод центральной разности используется для численного вычисления производной. Он основан на симметричной формуле: f'(x) ≈ (f(x+h) - f(x-h)) / (2h), где h — малый шаг. Метод обладает ошибкой второго порядка (O(h^2)), что делает его более точным по сравнению с методами прямой и обратной разностей, у которых ошибка первого порядка (O(h)).
+
+Формула прямой разности: f'(x) ≈ (f(x+h) - f(x)) / h  
+Формула обратной разности: f'(x) ≈ (f(x) - f(x-h)) / h  
+
+Благодаря симметричной структуре, метод центральной разности снижает систематические погрешности, предоставляя эффективный баланс между простотой реализации и точностью вычислений.
+
+Спасибо! Отличная работа, и я рад, что мог помочь так лаконично и четко донести информацию ^_^
+
+---
+
+17. Метод Эйлера.
+
+Метод Эйлера — это численный метод для решения задачи Коши для обыкновенных дифференциальных уравнений. Он основан на аппроксимации решений методом шагового интегрирования, где используется линейная интерполяция для приближения функции на каждом шаге.
+
+Основная идея метода Эйлера заключается в замене кривой решения дифференциального уравнения отрезками прямых, вычисляемых по касательной в текущей точке. На каждом шаге производная функции (определяемая уравнением) используется для линейного приближения следующего значения функции.
+
+Для задачи Коши: y'(x) = f(x, y), y(x0) = y0. Шаг метода Эйлера: yn+1 = yn + h * f(xn, yn), где h — шаг интегрирования, xn+1 = xn + h, yn — приближённое значение решения в точке xn, f(xn, yn) — значение правой части дифференциального уравнения.
+
+Локальная ошибка (на одном шаге) пропорциональна h^2. Она возникает из-за того, что метод Эйлера использует линейное приближение вместо истинной кривой. Глобальная ошибка пропорциональна h (линейная зависимость от шага). Она накапливается за счёт суммирования локальных ошибок на каждом шаге.
+
+(Дальше по лекции!!!)
+
+Разложим функцию y(x) в окрестности точки x0 в ряд Тейлора:
+
+y(x) = y(x0) + (x - x0)y'(x0) + ((x - x0)^2 / 2)y''(x0) + ...
+
+который применяется для приближенного определения значения искомой функции y(x). В точке x0 + h при малых значениях h достаточно использовать только два слагаемых ряда, получим
+
+y(x) = y(x0 + h) = y(x0) + y'(x0)Δx + O(h^2),
+
+где O(h^2) — бесконечно малая величина порядка h^2. Преобразуем:
+
+y(x0 + h) ≈ y0 + hf(x0, y0).
+
+Теперь приближенное решение в точке x1 = x0 + h может быть вновь рассмотрено как начальное условие, следовательно, используя формулу, можно найти значение искомой функции в следующей точке x2 = x1 + h. Таким образом, был получен простой алгоритм решения задачи Коши, называемый методом Эйлера или методом ломаных.
+
+Метод Эйлера может быть представлен в виде последовательного применения формул:
+
+x1 = x0 + h; y1 = y0 + hy'0 = y0 + hf(x0, y0)  
+x2 = x1 + h; y2 = y1 + hy'1 = y1 + hf(x1, y1)  
+...  
+xi = xi-1 + h; yi = yi-1 + y'i-1 = yi-1 + hf(xi-1, yi-1)
+
+В общем виде формула Эйлера записывается следующим образом:  
+
+yi = yi-1 + hf(xi-1, yi-1); xi = xi-1 + h
+
+Второе название — «метод ломаных» обусловлено графической интерпретацией данного метода. Искомая функция y(x) заменяется ломаной линией с узлами в точках x0, x1, ..., xn. Метод Эйлера характеризуется достаточно высокой погрешностью вычисления: Δ ≈ O(h). В дополнение, данный метод во многих случаях оказывается неустойчивым — малая ошибка (к примеру, заложенная в исходных данных) накапливается с увеличением x.
+
+Вместе с тем, как показано на рисунке, точность метода Эйлера повышается при уменьшении размера шага вычислений h. Здесь также стоит отметить, что чрезмерно малое значение величины h приводит к снижению производительности вследствие увеличения количества вычислений: чем меньше шаг вычислений — тем больше итераций необходимо выполнить.
+
+---
+
+18. Метод предиктора-корректора.
+
+Метод прогноза и коррекции, также называемый методом предиктор-корректор, относится к семейству многошаговых методов, использующих неявные схемы. Основная идея заключается в том, чтобы на каждом шаге выполнить два этапа. Сначала с помощью явного метода предиктора вычисляется начальное приближение функции в новом узле, используя известные значения в предыдущих узлах. Это начальное приближение обозначается как y(i+1)(0). Затем используется неявный метод корректор, который уточняет значение функции в новой точке путем итераций, вычисляя последовательность приближений y(i+1)(1), y(i+1)(2) и так далее.
+
+Один из вариантов метода предиктор-корректор основан на методе Адамса 4-го порядка. На этапе предиктора используется явный метод Адамса-Башфорта: y(i+1) = y(i) + (h / 24) * (55 * f(i) - 59 * f(i-1) + 37 * f(i-2) - 9 * f(i-3)), где f(i) = f(t(i), y(i)), а h — шаг интегрирования. На этапе корректора применяется неявный метод Адамса-Мултона: y(i+1) = y(i) + (h / 24) * (9 * f(i+1) + 19 * f(i) - 5 * f(i-1) + f(i-2)).
+
+Явная схема на этапе предиктора используется один раз, а неявная схема на этапе корректора уточняет решение через итерационный процесс, так как значение f(i+1) зависит от y(i+1), которое еще не определено. Для применения метода необходимы начальные значения функции y(1), y(2), y(3), которые можно найти с помощью метода Рунге-Кутты, а начальное значение y(0) задается условием задачи. Расчеты можно начинать только с известного значения y(4).
+
+---
+
+19. Метод Рунге-Кутты 1-4 порядков.
+
+(Считаю хорошей суммаризацией от чатика)
+
+Метод Рунге-Кутты – это численный метод решения дифференциальных уравнений, используемый для нахождения приближенного значения решения задачи Коши. Он базируется на итеративном расчете нового значения функции с учетом производной на текущем шаге и, в случае методов более высокого порядка, дополнительных промежуточных расчетов.
+
+Идея метода основывается на разложении решения в ряд Тейлора и аппроксимации этого ряда конечной суммой. Основная цель – построить численную схему, которая учитывает производные разного порядка, чтобы достичь заданной точности решения.
+
+Для уравнения первого порядка dy/dx = f(x, y), y(x₀) = y₀, метод итерационно определяет значение y в зависимости от текущего значения, шага и значений функции f(x, y) в нескольких точках.
+
+Метод первого порядка (метод Эйлера) является самым простым: y_{n+1} = y_n + h * f(x_n, y_n). Локальная ошибка метода составляет O(h²), глобальная ошибка O(h).
+
+Метод второго порядка учитывает информацию о наклоне на середине шага. В расчетах используются формулы k₁ = f(x_n, y_n), k₂ = f(x_n + h/2, y_n + h/2 * k₁), а новое значение находится как y_{n+1} = y_n + h * k₂. Локальная ошибка метода составляет O(h³), глобальная ошибка O(h²).
+
+Метод третьего порядка включает больше промежуточных оценок. Формулы: k₁ = f(x_n, y_n), k₂ = f(x_n + h/2, y_n + h/2 * k₁), k₃ = f(x_n + h, y_n - h * k₁ + 2h * k₂), y_{n+1} = y_n + (h/6) * (k₁ + 4k₂ + k₃). Локальная ошибка метода O(h⁴), глобальная ошибка O(h³).
+
+Метод четвертого порядка является наиболее популярным и обеспечивает хороший баланс между точностью и вычислительной сложностью. Формулы расчета: k₁ = f(x_n, y_n), k₂ = f(x_n + h/2, y_n + h/2 * k₁), k₃ = f(x_n + h/2, y_n + h/2 * k₂), k₄ = f(x_n + h, y_n + h * k₃). Новое значение рассчитывается как y_{n+1} = y_n + (h/6) * (k₁ + 2k₂ + 2k₃ + k₄). Локальная ошибка O(h⁵), глобальная ошибка O(h⁴).
+
+---
+
+20. Методы Адамса-Мултона, методы Адамса-Бэшфорта.
+
+Методы Адамса-Мултона и Адамса-Бэшфорта являются классическими численными методами для решения обыкновенных дифференциальных уравнений (ОДУ). Они основаны на использовании многошагового подхода, при котором значения решения в нескольких предыдущих точках используются для вычисления следующего значения. Основное различие между этими методами заключается в том, что Адамс-Бэшфорт — явный метод, а Адамс-Мултон — неявный.
+
+Метод Адамса  
+
+Явный метод Адамса: Использует предыдущие значения y_n, y_{n-1}, ... для аппроксимации следующего значения y_{n+1}. Формула для трёхшагового метода Адамса-Бэшфорта:  
+y_{n+1} = y_n + (h / 12) * (23f(t_n, y_n) - 16f(t_{n-1}, y_{n-1}) + 5f(t_{n-2}, y_{n-2})).  
+
+Неявный метод Адамса: Использует текущие и будущие значения для более точного результата. Формула для трёхшагового метода Адамса-Мултона:  
+y_{n+1} = y_n + (h / 12) * (5f(t_{n+1}, y_{n+1}) + 8f(t_n, y_n) - f(t_{n-1}, y_{n-1})).  
+
+Явные методы  
+
+Преимущества: Простота реализации. Высокая вычислительная эффективность.  
+Недостатки: Ограниченная стабильность, особенно для жёстких систем.  
+
+Неявные методы  
+
+Преимущества: Более высокая стабильность. Подходят для жёстких систем.  
+Недостатки: Более сложная реализация. Необходимость решения нелинейных уравнений на каждом шаге.
+
+================================================================================
+21. МЕТОД МИЛНА
+================================================================================
+
+Метод Милна ― это один из многошаговых методов решения задачи Коши для обыкновенных дифференциальных уравнений (ОДУ). Относится к семейству методов «предиктор-корректор». Его построение базируется на аппроксимации решения полиномом (часто полиномом Ньютона), а затем применении двух разных формул на каждом шаге:
+
+1) Предиктор (явная многошаговая формула);
+2) Корректор (неявная формула), который учитывает предсказанное значение.
+
+Чаще всего, перед тем как приступить к методу Милна, несколько начальных значений (скажем, y₀, y₁, y₂, y₃...) вычисляют каким-либо одношаговым методом более высокого порядка, например методом Рунге-Кутты 4-го порядка.
+
+- Явный «предиктор Милна» обычно напоминает явную формулу Адамса-Башфорта, он использует значения решения и правой части f(x,y) в нескольких предыдущих точках.
+- Неявный «корректор Милна» обычно похож на формулу Адамса-Мултона, которая учитывает предсказанное значение.
+
+Достоинства:
+- Меньше вычислений правой части на каждом шаге (в сравнении с одношаговыми методами того же порядка).
+- При достаточно большом шаге даёт высокую точность (обычно порядка 3 или 4).
+
+Недостатки:
+- Сложность реализации (надо иметь 3–4 заранее посчитанных значений).
+- Невозможность легко менять шаг (поскольку это многошаговый метод).
+- Нужен контроль устойчивости и корректорных итераций.
+
+Применяют его для решения ОДУ, где выгодно использовать многошаговые схемы с экономичным вычислением.
+
+
+================================================================================
+22. СОГЛАСОВАННОСТЬ, УСТОЙЧИВОСТЬ, СХОДИМОСТЬ, УСЛОВИЯ УСТОЙЧИВОСТИ
+================================================================================
+
+
+
+Согласованность означает, что метод правильно аппроксимирует дифференциальное уравнение (определяет величину погрешности аппроксимации), и его локальная погрешность исчезает при уменьшении шага. Формально, если разностная схема корректно аппроксимирует производные, то при h → 0 аппроксимационная ошибка уменьшается. Порядок метода p показывает, что глобальная погрешность порядка O(h^p).
+
+Устойчивость заключается в том, что небольшие изменения, такие как ошибки в начальных условиях, не приводят к неограниченному росту погрешности. Для линейных уравнений, например y' = λ·y, устойчивость исследуется через корни характеристического полинома или зоны устойчивости. Метод считается устойчивым, если модуль численного множителя не превышает 1, что обеспечивает затухание итераций.
+
+Сходимость характеризует метод, при котором разность между точным решением y(t) и численным Yᵢ стремится к нулю при уменьшении шага h. Метод сходится, если он одновременно согласован и устойчив.
+
+Условия устойчивости зависят от конкретного метода. Для метода Рунге-Кутты 4-го порядка при уравнении y' = λy устойчивость определяется условием вида |1 + h·λ + ...| < 1, что накладывает ограничения на шаг h в зависимости от Re(λ). Для многошаговых методов анализируют корни характеристического полинома.
+
+Таким образом, для качественного численного метода требуется согласованность для корректной аппроксимации и устойчивость для контроля ошибок, что гарантирует сходимость.
+
+
+================================================================================
+23. МОДЕЛИРОВАНИЕ ВОЛНЫ: АМПЛИТУДА, ПЕРИОД, ЧАСТОТА, ДИСКРЕТИЗАЦИЯ И Т.Д.
+================================================================================
+
+При численном моделировании волны (акустической, электромагнитной и т.п.) используют следующие понятия:
+
+- Амплитуда: максимальное отклонение волнового сигнала от среднего уровня (например A·sin(...)).
+- Период волны T: промежуток времени, через который сигнал повторяется (T = 1 / f).
+- Длина волны λ: расстояние, за которое волна проходит «один цикл» (2π фазы).
+- Частота f: число колебаний в секунду, измеряется в Герцах (Гц).
+- Герц (Гц): единица измерения частоты (1 Гц = 1 колебание в 1 секунду).
+- Дискретизация во времени: при цифровом моделировании сигнал представляют набором отсчётов, шаг dt.
+- Частота дискретизации fₛ: количество отсчётов в единицу времени, fₛ = 1/dt. Должна быть достаточно большой (чаще всего в 2 раза больше максимально существенной частоты сигнала), чтобы избежать «aliasing».
+- Фаза: смещение синусоиды. Общий вид: s(t) = A·sin(ω·t + φ).
+- Угловая частота ω: связана с частотой f через ω = 2π·f.
+
+Таким образом, любая волна может быть записана как A·sin(ω·t + φ) (или cos), где A ― амплитуда, ω ― угловая частота, φ ― фаза. При компьютерном моделировании или цифрообработке выбирают dt, чтобы правильно воспроизвести волновой процесс (учитывая Nyquist-критерий).
+
+
+================================================================================
+24. ДИСКРЕТНОЕ ПРЕОБРАЗОВАНИЕ ФУРЬЕ, ОБРАТНОЕ ДПФ, ОГРАНИЧЕНИЯ, СИММЕТРИИ
+================================================================================
+
+Дискретное преобразование Фурье является спектром дискретного периодического сигнала и позволяет восстановить непрерывный периодический сигнал, занимающий некоторую ограниченную полосу частот.
+Формулы:
+
+Xₖ = Σ ( n=0..N-1 ) [ xₙ * exp( -j·2π·n·k / N ) ],
+
+Обратное ДПФ (IDFT) восстанавливает исходные xₙ:
+
+xₙ = (1 / N) Σ ( k=0..N-1 ) [ Xₖ * exp( +j·2π·n·k / N ) ].
+
+Ограничения:
+- Рассматриваем конечную последовательность длины N, и сигнал интерпретируется как периодический с периодом N.
+- Спектр Xₖ также периодичен по k.
+- Если во входных данных есть высокие частоты (выше половины частоты дискретизации), возникает наложение спектров (aliasing).
+
+Симметрии:
+- Если xₙ вещественные, то спектр Xₖ имеет «зеркальную» (конъюгированную) симметрию: Xₖ¯ = X₍ₙ₋ₖ₎.
+- Если xₙ чётные / нечётные, то часть спектра может быть сугубо вещественной / мнимой.
+
+Таким образом, ДПФ ― основа для анализа частотного состава цифровых сигналов, но нужно учитывать конечность и периодичность, а также зеркальные свойства при вещественных данных.
+
+
+================================================================================
+25. БЫСТРОЕ ПРЕОБРАЗОВАНИЕ ФУРЬЕ (FFT), ПРИНЦИПЫ, ФИЛЬТРАЦИЯ
+================================================================================
+
+1) БПФ (FFT) ― это алгоритм вычисления ДПФ с затратой порядка O(N·logN) операций вместо O(N²).
+   - Основная идея: разбиение набора точек на чётные и нечётные индексы, рекурсивное использование малых ДПФ.
+   - Наиболее известен алгоритм Кули-Тьюки, особенно для N=2ᵐ.
+
+2) Фильтрация сигнала через БПФ:
+   - Выполняем FFT сигнала s(t): получаем спектр S.
+   - Умножаем S на «частотную характеристику» фильтра H (к примеру, нули вне «полезного диапазона»).
+   - Применяем обратный FFT к S·H.
+   - Получаем во временной области отфильтрованный сигнал.
+
+Такое решение даёт эффективный способ вычислить свёртку (сигнал со свёрточным ядром), так как во временной области свёртка может быть дороже (O(N²)), а через FFT ― O(N·logN).
+
+
+================================================================================
+26. ОПЕРАЦИЯ СВЁРТКИ, СВЯЗЬ С БЫСТРЫМ ПРЕОБРАЗОВАНИЕМ ФУРЬЕ, ДИСКРЕТНАЯ СВЁРТКА
+================================================================================
+
+Свертка двух функций f и g в непрерывном случае:
+
+(f * g)(t) = ∫ f(τ)·g(t - τ) dτ, от -∞ до +∞.
+
+В дискретном виде (f*g)[n] = Σ (m=-∞..∞) [ f[m] · g[n - m] ].
+
+Теорема: Преобразование Фурье (непрерывное или дискретное) превращает свёртку во временной области в обычное произведение в частотной области.
+
+- (f*g)  ⇔ (F·G).
+
+Отсюда следует практический метод быстрой свёртки:
+1) Находим FFT(f) и FFT(g).
+2) Умножаем их спектры покомпонентно.
+3) Применяем обратное FFT.
+4) Получаем (f*g), причём всё за O(N·logN).
+
+В случае дискретных сигналов часто используют термины «циклическая свёртка» и «линейная свёртка». Циклическая (или циркулярная) свёртка возникает из периодических продолжений сигналов. Чтобы получить обычную линейную свёртку, сигналы можно дополнить нулями и выполнить циклическую свёртку.
+
+
+================================================================================
+27. ДИСКРЕТНАЯ СВЁРТКА И ТЁПЛИЦЕВЫ МАТРИЦЫ (ГАНКЕЛЕВЫ МАТРИЦЫ)
+================================================================================
+
+Тёплицева матрица (Toeplitz) ― квадратная матрица A, где элемент Aᵢⱼ зависит только от (i - j). То есть элементы постоянны по диагоналям. Пример:
+
+A = 
+[[ t₀   t₋₁  t₋₂  t₋₃ ],
+[ t₁   t₀   t₋₁  t₋₂ ],
+[ t₂   t₁   t₀   t₋₁ ],
+[ t₃   t₂   t₁   t₀  ]]
+
+Ганкелева матрица (Hankel) ― где Aᵢⱼ зависит от (i + j).
+
+Связь с дискретной свёрткой:
+- Умножение вектора на тёплицеву матрицу можно интерпретировать как свёртку одного вектора с другим (при подходящем дополнении нулями).
+- Для линейной свёртки часто строят тёплицеву матрицу из коэффициентов ядра свёртки. Тогда результат умножения = результат свёртки.
+
+Часто такую операцию (матрица Toeplitz × вектор) оптимизируют через FFT, учитывая, что свёртка в явном виде вычисляется за O(N·logN).
+
+
+================================================================================
+28. ЦИРКУЛЯНТНЫЕ МАТРИЦЫ. МАТРИЦЫ ФУРЬЕ
+================================================================================
+
+1) Циркулянтная матрица (C) ― особый случай тёплицевой, в которой каждая строка сдвинута циклически относительно предыдущей. Например, если первый столбец (c₀, c₁, c₂, ..., c₍ₙ₋₁₎) задан, то остальное определяется циклическими сдвигами. Формально:
+
+C =
+[[c₀  c₃  c₂  c₁],
+[c₁  c₀  c₃  c₂],
+[c₂  c₁  c₀  c₃],
+[c₃  c₂  c₁  c₀]]
+
+2) Свойства:
+   - Любая циркулянтная матрица диагонализуется матрицей дискретного Фурье (F).  
+   - Собственные вектора ― это «базис» Фурье, собственные значения ― это значения ДПФ первого столбца.
+
+3) Матрица Фурье (F):
+   - F обычно описывается формулой F₍k,ℓ₎ = exp(-j·2π·(k)(ℓ) / N) (иногда с масштабом 1/√N).
+   - Она ортогональная (с точностью к фактору 1/√N), и выполняет переход к частотной области.
+
+Таким образом, циркулянтная матрица ― это «циклическая» структура, а матрица Фурье позволяет за O(n log n) умножать циркулянт на вектор, используя FFT, а не O(n²).
+
+
+================================================================================
+29. БЫСТРЫЙ МАТВЕК С ЦИРКУЛЯНТОМ
+================================================================================
+
+«Быстрый матвек» (быстрое умножение матрицы на вектор) с циркулянтом (C×x) делается так:
+1) Представляем C = F⁻¹ D F, где D ― диагональная (собственные значения C).
+2) Тогда C×x = F⁻¹ [D (F×x)].
+3) Для F×x используем FFT, для умножения на D ― покомпонентное умножение, для F⁻¹ ― обратный FFT.
+Итог: за O(n log n) вместо O(n²).
+
+В практике это означает, что если оператор вычисляется как циклическая свёртка, то умножение легко реализовать через FFT. Очень полезно, например, для фильтрации, при решении линейных систем с периодическими граничными условиями и т.п.
+     
+    
+
