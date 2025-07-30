@@ -1,0 +1,28 @@
+# Based on https://github.com/github/gitignore/blob/main/Python.gitignore
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+dist/
+MANIFEST
+*.egg-info/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+nosetests.xml
+
+# Sphinx documentation
+docs/_build/
+doc/html/
+
+# pyenv
+# .python-version
+
+# mypy
+.mypy_cache/

@@ -1,0 +1,1 @@
+#{{ read('example.txt') | literal }}#
