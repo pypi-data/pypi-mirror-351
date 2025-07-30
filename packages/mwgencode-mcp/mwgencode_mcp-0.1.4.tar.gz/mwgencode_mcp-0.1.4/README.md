@@ -1,0 +1,65 @@
+# MWGenCode-MCP
+
+一个基于 MCP 的 Web 框架代码生成工具。
+
+## 功能特点
+
+- 支持多种 Web 框架的代码生成（Flask、AioHTTP、FastAPI）
+- UML 模型到 Swagger 类的转换
+- 项目初始化和配置文件生成
+- 支持自动升级到 K8s 部署
+
+## 安装
+
+```bash
+pip install mwgencode-mcp
+```
+
+## 使用方法
+
+1. 初始化项目：
+```bash
+初始化以myproject为项目名的flask项目
+```
+
+2. 生成 Swagger 类：
+```bash
+把myclass生成 Swagger 类
+```
+
+3. 添加操作：
+```bash
+给myclassmng添加添加myopration 操作
+```
+
+更多使用说明请参考文档。
+
+## 依赖要求
+
+- Python >= 3.11
+- MCP >= 0.1.0
+- PyYAML >= 5.1
+
+## mcp server json
+```json
+{
+  "mcpServers": {
+    "mwgencode_pypi": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mwgencode_mcp.main"
+      ]
+    }
+  }
+}
+```
+
+## 构建包命令:
+```bash
+python -m build
+pip install -e .p #  本地安装包
+python -m twine upload dist/*
+```
+
+
