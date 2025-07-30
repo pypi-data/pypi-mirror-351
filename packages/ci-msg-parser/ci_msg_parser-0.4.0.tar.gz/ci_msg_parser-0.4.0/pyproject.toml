@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ci-msg-parser"
+version = "0.4.0"
+description = "NSRTW_mk4 MQTT protocol message parser"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENCSE"]
+
+[project.urls]
+Homepage = "https://github.com/BPaillard/ci-msg-parser"
+
+[project.optional-dependencies]
+dev = ["pytest", "build", "twine"]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
