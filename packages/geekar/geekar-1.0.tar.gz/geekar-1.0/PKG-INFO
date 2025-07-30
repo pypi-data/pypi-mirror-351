@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: geekar
+Version: 1.0
+Summary: Guitar learning application for the Linux terminal
+Author: Dimitris Kardarakos
+Maintainer: Dimitris Kardarakos
+License-Expression: AGPL-3.0-only
+Project-URL: Homepage, https://codeberg.org/dimkard/geekar
+Project-URL: Issues, https://codeberg.org/dimkard/geekar/issues
+Keywords: guitar, learn
+Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: textual>=0.32.0
+Requires-Dist: pyFluidSynth>=1.3.2
+Requires-Dist: music21>=9.1.0
+Requires-Dist: pyxdg
+Provides-Extra: dev
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pylint; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: reuse; extra == "dev"
+Dynamic: license-file
+
+# Geekar
+
+Geekar is a guitar learning application for the Linux terminal.
+
+
+## Features
+
+It features an interactive fretboard that displays:
+
+- Major and natural minor scales
+- Major and minor pentatonic scales
+- Scale notes and degrees
+- Triads for each scale degree
+
+![](screenshots/geekar-start.png)
+
+Geekar facilitates study of the CAGED system. For each supported scale it colors the fretboard accordingly.
+
+![](screenshots/geekar-c-major-caged.png)
+
+The interactive fretboard is playable. Click on a fretboard location and listen to the corresponding pitch.
+
+![](screenshots/geekar-c-major-pitch-play.png)
+
+Supported scales can also be played. Geekar suggests the finger that should be used.
+
+![](screenshots/geekar-c-major-play-scale.png)
+
+A very simple metronome has also been included in the application.
+
+## Build
+
+Geekar has been written using the [textualize](https://textual.textualize.io/) framework.
+
+It has the following system dependencies:
+
+- fluidsynth
+
+To build the application, execute on a Python virtual environment:
+
+```
+pip install -e ".[dev]"
+```
+
+## License
+
+Geekar has been created by human beings for human beings. It is a free and open source project licensed under AGPL v3 only.
+If you find its code as training input for [non-foss ML models](https://sfconservancy.org/blog/2024/oct/31/open-source-ai-definition-osaid-erodes-foss/) consider it stolen.
+

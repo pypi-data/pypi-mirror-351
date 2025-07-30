@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geekar"
+version = "1.0"
+authors = [
+  { name="Dimitris Kardarakos"},
+]
+maintainers = [
+  { name="Dimitris Kardarakos"},
+]
+description = "Guitar learning application for the Linux terminal"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: POSIX :: Linux",
+]
+keywords= ["guitar, learn"]
+license = "AGPL-3.0-only"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "textual>=0.32.0",
+    "pyFluidSynth>=1.3.2",
+    "music21>=9.1.0",
+    "pyxdg"
+]
+
+[project.optional-dependencies]
+dev = ["mypy", "pylint", "black", "reuse"]
+
+[project.urls]
+Homepage = "https://codeberg.org/dimkard/geekar"
+Issues = "https://codeberg.org/dimkard/geekar/issues"
+
+[project.scripts]
+geekar = "geekar.app:main"
+
