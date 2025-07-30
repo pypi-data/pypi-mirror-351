@@ -1,0 +1,17 @@
+[project]
+name = "fgui"
+version = "0.0.1"
+description = "Test"
+readme = "README.md"
+authors = [
+    { name = "MaxLi", email = "aigcst@outlook.com" }
+]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+fgui = "fgui:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
