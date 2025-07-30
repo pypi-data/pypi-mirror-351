@@ -1,0 +1,29 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FluViewer"
+version = "0.3.7"
+authors = [
+  { name="Kevin Kuchinski", email="kevin.kuchinski@gov.bc.ca" },
+]
+description = "An automated host- and subtype-agnostic tool for generating influenza A virus genome sequences from FASTQ data"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/KevinKuchinski/FluViewer"
+Issues = "https://github.com/KevinKuchinski/FluViewer/issues"
+
+[project.scripts]
+FluViewer = "FluViewer.FluViewer_v_0_3_7:main"
