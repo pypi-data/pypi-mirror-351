@@ -1,0 +1,57 @@
+[project]
+name = "NEMO-user-details"
+version = '1.11.2'
+description = "User details plugin for NEMO"
+keywords = ["NEMO"]
+readme = "README.md"
+authors = [{name = "Atlantis Labs LLC", email = "atlantis@atlantislabs.io"}]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Framework :: Django :: 4.2",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "django",
+    "requests",
+    "djangorestframework"
+]
+license = {file = "LICENSE"}
+
+[project.urls]
+Homepage = "https://gitlab.com/nemo-community/atlantis-labs/nemo-user-details"
+Changelog = "https://gitlab.com/nemo-community/atlantis-labs/nemo-user-details/-/releases"
+Issues = "https://gitlab.com/nemo-community/atlantis-labs/nemo-user-details/-/issues"
+CI = "https://gitlab.com/nemo-community/atlantis-labs/nemo-user-details/-/pipelines"
+
+[project.optional-dependencies]
+NEMO-CE = ["NEMO-CE>=2.4.0",]
+NEMO = ["NEMO>=5.5.0",]
+dev-tools = ["pre-commit", "djlint", "black"]
+
+[tool.setuptools.packages.find]
+include = ["NEMO_user_details*"]
+exclude = ["NEMO_user_details.tests", "NEMO_user_details.tests.*"]
+
+[tool.setuptools.package-data]
+"NEMO_user_details" = ["templates/**/*", "static/**/*"]
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
+
+[tool.djlint]
+profile = "django"
+max_attribute_length=100
+max_line_length=120
+ignore = "H031"
