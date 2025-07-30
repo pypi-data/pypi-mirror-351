@@ -1,0 +1,4 @@
+[console_scripts]
+quimeraps_client = quimeraps.entry_points:startup_client
+quimeraps_daemon = quimeraps.entry_points:install_daemon
+quimeraps_server = quimeraps.entry_points:startup_server
