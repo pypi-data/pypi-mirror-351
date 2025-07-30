@@ -1,0 +1,17 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.py
+src/CognexNativePy/CognexCommandError.py
+src/CognexNativePy/NativeInterface.py
+src/CognexNativePy/__init__.py
+src/CognexNativePy/utils.py
+src/CognexNativePy.egg-info/PKG-INFO
+src/CognexNativePy.egg-info/SOURCES.txt
+src/CognexNativePy.egg-info/dependency_links.txt
+src/CognexNativePy.egg-info/top_level.txt
+src/CognexNativePy/commands/ExecutionAndOnline.py
+src/CognexNativePy/commands/FileAndJob.py
+src/CognexNativePy/commands/Image.py
+src/CognexNativePy/commands/SettingsAndCellsValues.py
+src/CognexNativePy/commands/__init__.py
