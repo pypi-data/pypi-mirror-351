@@ -1,0 +1,13 @@
+🧊 SocialMapper Cold Start Benchmark
+============================================================
+This benchmark clears all caches between tests to measure true performance.
+
+Generated 25 test POIs in North Carolina area
+
+
+==================== Test 1/5: Standard Sequential (Baseline) ====================
+
+--- Cold Start Benchmark: Standard Sequential (Baseline) ---
+Processing 25 POIs...
+Cleared cache directory: cache
+Downloading Road Networks:   0%|          | 0/25 [00:00<?, ?POI/s]
