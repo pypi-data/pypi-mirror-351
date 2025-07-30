@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "marat"
+version = "0.1.0"
+description = ""
+authors = ["Nikita Umerov <nagvalhm@yandex.ru>"]
+readme = "README.md"
+# requires-python = "<=3.10.1"
+
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+epure = "^0.3.12"
+aiogram = "^3.20.0.post0"
+
+
+[tool.poetry.urls]
+Homepage = "https://github.com/nagvalhm/marat"
+Source = "https://github.com/nagvalhm/marat"
