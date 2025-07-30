@@ -1,0 +1,2 @@
+[console_scripts]
+gtfs-rt-pipeline = gtfs_rt_aggregator.utils.cli:main
