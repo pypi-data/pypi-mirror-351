@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: langchain-text-splitters-aipy
+Version: 0.3.7
+Summary: Community contributed LangChain integrations.
+Author-email: The QPYPI Team <qpypi@qpython.org>
+License: MIT AND (Apache-2.0 OR BSD-2-Clause)
+Project-URL: Homepage, https://qpypi.qpython.org/project/langchain-text-splitters-aipy/
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: Android
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development
+Requires-Python: ==3.12.*
+Description-Content-Type: text/markdown
+Requires-Dist: orjson-qpython
+
+This project is a branch of [langchain-text-splitters](https://pypi.org/project/langchain-text-splitters/) on [QPython](https://www.qpython.org).
+
+LangChain Text Splitters contains utilities for splitting into chunks a wide variety of text documents.
+
+For full documentation see the [API reference](https://python.langchain.com/api_reference/text_splitters/index.html) and the [Text Splitters](https://python.langchain.com/docs/modules/data_connection/document_transformers/) module in the main docs.
