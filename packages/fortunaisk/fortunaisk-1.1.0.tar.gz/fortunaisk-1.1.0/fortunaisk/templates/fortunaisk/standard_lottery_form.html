@@ -1,0 +1,204 @@
+{# fortunaisk/templates/fortunaisk/standard_lottery_form.html #}
+{% extends "fortunaisk/base.html" %}
+{% load i18n static %}
+
+{% block page_title %}
+  {% trans "Create a New Lottery" %}
+{% endblock %}
+
+{% block details %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-header text-white"
+              style="background: linear-gradient(135deg, #27ae60, #f1c40f);">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-ticket-alt fa-2x me-3"></i>
+            <div>
+              <h4 class="mb-0">{% trans "Create a New Lottery" %}</h4>
+              <small class="opacity-75">
+                {% trans "Set up a one-time lottery event with a touch of luck" %}
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form method="post" id="standardLotteryForm" novalidate>
+            {% csrf_token %}
+
+            {# Section 1: Basic Information #}
+            <div class="mb-4">
+              <h5 class="mb-3 text-success">
+                <i class="fas fa-info-circle me-2 text-warning"></i>
+                {% trans "Basic Information" %}
+              </h5>
+              <div class="row g-3">
+                <!-- Ticket Price -->
+                <div class="col-md-6">
+                  <label for="{{ form.ticket_price.id_for_label }}" class="form-label">
+                    {% trans "Ticket Price (ISK)" %}*
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-coins"></i></span>
+                    {{ form.ticket_price }}
+                    <span class="input-group-text">ISK</span>
+                  </div>
+                  {% if form.ticket_price.errors %}
+                    <div class="text-danger">{{ form.ticket_price.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+                <!-- Duration -->
+                <div class="col-md-6">
+                  <label class="form-label">{% trans "Duration" %}*</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-hourglass-half"></i></span>
+                    {{ form.duration_value }} {{ form.duration_unit }}
+                  </div>
+                  {% if form.duration_value.errors %}
+                    <div class="text-danger">{{ form.duration_value.errors|striptags }}</div>
+                  {% endif %}
+                  {% if form.duration_unit.errors %}
+                    <div class="text-danger">{{ form.duration_unit.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            {# Section 2: Winners Configuration #}
+            <div class="mb-4">
+              <h5 class="mb-3 text-warning">
+                <i class="fas fa-trophy me-2"></i>
+                {% trans "Winners Configuration" %}
+              </h5>
+              <div class="row g-3">
+                <!-- Number of Winners -->
+                <div class="col-md-6">
+                  <label for="{{ form.winner_count.id_for_label }}" class="form-label">
+                    {% trans "Number of Winners" %}*
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-users"></i></span>
+                    {{ form.winner_count }}
+                  </div>
+                  {% if form.winner_count.errors %}
+                    <div class="text-danger">{{ form.winner_count.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+                <!-- Prize Distribution -->
+                <div class="col-12">
+                  <label class="form-label">{% trans "Prize Distribution (%)" %}</label>
+                  <div id="prize-distribution-container"></div>
+                </div>
+              </div>
+            </div>
+
+            {# Section 3: Additional Settings #}
+            <div class="mb-4">
+              <h5 class="mb-3 text-success">
+                <i class="fas fa-cog me-2"></i>{% trans "Additional Settings" %}
+              </h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="{{ form.max_tickets_per_user.id_for_label }}" class="form-label">
+                    {% trans "Max Tickets per User" %}
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-ticket-alt"></i></span>
+                    {{ form.max_tickets_per_user }}
+                  </div>
+                  {% if form.max_tickets_per_user.errors %}
+                    <div class="text-danger">{{ form.max_tickets_per_user.errors|striptags }}</div>
+                  {% endif %}
+                  <div class="form-text">
+                    {% trans "Leave blank for unlimited tickets." %}
+                  </div>
+                </div>
+                <!-- Payment Receiver -->
+                <div class="col-md-6">
+                  <label for="{{ form.payment_receiver.id_for_label }}" class="form-label">
+                    {% trans "Payment Receiver" %}
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    {{ form.payment_receiver }}
+                  </div>
+                  {% if form.payment_receiver.errors %}
+                    <div class="text-danger">{{ form.payment_receiver.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+                <div class="col-md-6">
+                  <label for="{{ form.tax.id_for_label }}" class="form-label">
+                    {% trans "Tax (%)" %}
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text">%</span>
+                    {{ form.tax }}
+                  </div>
+                  {% if form.tax.errors %}
+                    <div class="text-danger mt-1">{{ form.tax.errors|striptags }}</div>
+                  {% endif %}
+                  <div class="form-text">{% trans "Percentage of tax applied to each ticket." %}</div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              {% trans "Create Lottery" %}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// JS logic to generate <input name="winners_distribution_entry"> fields
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('standardLotteryForm');
+  const countInput = document.getElementById('id_winner_count');
+  const container = document.getElementById('prize-distribution-container');
+
+  function makeField(i, val) {
+    const div = document.createElement('div');
+    div.className = 'input-group mb-2';
+    div.innerHTML = `
+      <span class="input-group-text">Winner ${i+1}</span>
+      <input type="number" name="winners_distribution_entry"
+              class="form-control prize-distribution"
+              value="${val}" min="0" max="100" step="1" required>
+      <span class="input-group-text">%</span>
+    `;
+    return div;
+  }
+
+  function render(n) {
+    container.innerHTML = '';
+    let rem = 100;
+    for (let i = 0; i < n; i++) {
+      const v = (i === n - 1) ? rem : Math.floor(100 / n);
+      rem -= v;
+      container.appendChild(makeField(i, v));
+    }
+  }
+
+  countInput.addEventListener('input', () => {
+    const n = parseInt(countInput.value, 10) || 0;
+    render(n > 0 ? n : 1);
+  });
+
+  // Initial render
+  render(parseInt(countInput.value, 10) || 1);
+
+  form.addEventListener('submit', e => {
+    const sum = Array.from(container.querySelectorAll('input.prize-distribution'))
+      .reduce((total, inp) => total + (parseInt(inp.value, 10) || 0), 0);
+    if (sum !== 100) {
+      alert("{% trans 'The sum of percentages must equal 100.' %}");
+      e.preventDefault();
+    }
+  });
+});
+</script>
+{% endblock %}
