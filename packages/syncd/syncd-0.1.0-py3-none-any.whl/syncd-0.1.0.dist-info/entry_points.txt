@@ -1,0 +1,4 @@
+[console_scripts]
+syncd = syncd._cli:run
+syncd-conf = syncd._cli:conf
+
