@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: koreanbots
+Version: 3.1.0
+Summary: Official SDK for Koreanbots.
+Home-page: https://github.com/koreanbots/py-sdk
+Author: Koreanbots
+License: MIT
+Project-URL: Homepage, https://koreanbots.dev/
+Project-URL: Source, https://github.com/koreanbots/py-sdk
+Project-URL: Tracker, https://github.com/koreanbots/py-sdk/issues
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+<div align="center">
+  <h1>koreanbots py-sdk</h1>
+    
+  [![pypi](https://img.shields.io/pypi/v/koreanbots.svg)](https://pypi.org/project/koreanbots/)
+  [![pypi](https://img.shields.io/pypi/pyversions/koreanbots.svg)](https://pypi.org/project/koreanbots/)
+  [![license](https://img.shields.io/github/license/koreanbots/py-sdk.svg)](https://github.com/koreanbots/py-sdk/blob/master/LICENSE)
+  [![downloads](https://img.shields.io/pypi/dm/koreanbots.svg)](https://pypi.org/project/koreanbots/)
+  [![codecov](https://codecov.io/gh/koreanbots/py-sdk/branch/master/graph/badge.svg?token=EEZDCQRLW5)](https://codecov.io/gh/koreanbots/py-sdk)
+</div>
+ 
+> Official Python SDK for [KOREANBOTS](https://koreanbots.dev)
+
+## 문서
+
+[문서](https://koreanbots.readthedocs.io/en/latest/)
