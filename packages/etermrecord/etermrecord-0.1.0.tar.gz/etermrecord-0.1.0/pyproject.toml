@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "etermrecord"
+version = "0.1.0"
+description = "A terminal recorder and player for Linux systems"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{ include = "termrecord" }]
+license = "MIT"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+
+[tool.poetry.scripts]
+termrecord = "termrecord.core:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
