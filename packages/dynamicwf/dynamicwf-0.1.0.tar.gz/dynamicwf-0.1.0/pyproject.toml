@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dynamicwf"
+version = "0.1.0"
+description = "Adobe Interns MCP Server"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [
+    {name = "Abhijeet Ahluwalia", email = "abhijeeta@adobe.com"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "mcp[cli]>=1.9.2",
+    "click>=8.2.1",
+    "pydantic>=2.11.5",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/adobe/dynamicwf"
+"Bug Tracker" = "https://github.com/adobe/dynamicwf/issues"
+
+[project.scripts]
+dynamicwf = "dynamicwf:main"
+
+[project.entry-points.console_scripts]
+dynamicwf = "dynamicwf:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
