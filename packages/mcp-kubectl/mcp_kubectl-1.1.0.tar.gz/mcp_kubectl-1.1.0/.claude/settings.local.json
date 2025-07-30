@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__kubernetes__get_pods",
+      "Bash(tar:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(make:*)"
+    ],
+    "deny": []
+  }
+}

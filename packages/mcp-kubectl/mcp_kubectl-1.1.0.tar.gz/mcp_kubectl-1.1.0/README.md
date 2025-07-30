@@ -1,0 +1,217 @@
+# 🚀 MCP Kubectl ⚡
+
+*A totally rad Model Context Protocol server for Kubernetes* 🎮
+
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![uv](https://img.shields.io/badge/uv-required-orange.svg)](https://docs.astral.sh/uv/)
+[![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=flat&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://github.com/modelcontextprotocol/modelcontextprotocol)
+
+```
+ ███▄ ▄███▓ ▄████▄   ██▓███      ██ ▄█▀ █    ██  ▄▄▄▄   ▓█████  ▄████▄  ▄▄▄█████▓ ██▓    
+▓██▒▀█▀ ██▒▒██▀ ▀█  ▓██░  ██▒    ██▄█▒  ██  ▓██▒▓█████▄ ▓█   ▀ ▒██▀ ▀█  ▓  ██▒ ▓▒▓██▒    
+▓██    ▓██░▒▓█    ▄ ▓██░ ██▓▒   ▓███▄░ ▓██  ▒██░▒██▒ ▄██▒███   ▒▓█    ▄ ▒ ▓██░ ▒░▒██░    
+▒██    ▒██ ▒▓▓▄ ▄██▒▒██▄█▓▒ ▒   ▓██ █▄ ▓▓█  ░██░▒██░█▀  ▒▓█  ▄ ▒▓▓▄ ▄██▒░ ▓██▓ ░ ▒██░    
+▒██▒   ░██▒▒ ▓███▀ ░▒██▒ ░  ░   ▒██▒ █▄▒▒█████▓ ░▓█  ▀█▓░▒████▒▒ ▓███▀ ░  ▒██▒ ░ ░██████▒
+░ ▒░   ░  ░░ ░▒ ▒  ░▒▓▒░ ░  ░   ▒ ▒▒ ▓▒░▒▓▒ ▒ ▒ ░▒▓███▀▒░░ ▒░ ░░ ░▒ ▒  ░  ▒ ░░   ░ ▒░▓  ░
+░  ░      ░  ░  ▒   ░▒ ░        ░ ░▒ ▒░░░▒░ ░ ░ ▒░▒   ░  ░ ░  ░  ░  ▒       ░    ░ ░ ▒  ░
+░      ░   ░        ░░          ░ ░░ ░  ░░░ ░ ░  ░    ░    ░   ░          ░        ░ ░   
+       ░   ░ ░                  ░  ░      ░      ░         ░  ░░ ░                   ░  ░
+           ░                                          ░         ░                        
+```
+
+## 🎯 Overview
+
+Welcome to the future of Kubernetes automation! 🌟 This MCP server brings the power of K8s to your AI assistant through clean, atomic tools. No more wrestling with YAML or memorizing kubectl commands - just pure, retro-cool automation! 
+
+*Think of it as your AI's personal kubectl sidekick* 🤖✨
+
+## ✨ Features
+
+### 🎮 Core Kubernetes Operations
+- **🚢 Pod Management**: List, create, delete, and get logs from pods
+- **🏠 Namespace Operations**: List and switch between namespaces  
+- **🚀 Deployment Management**: Create, scale, and delete deployments
+- **🗑️ Resource Operations**: Delete various Kubernetes resources
+- **🔌 Port Forwarding**: Forward local ports to pod ports
+- **📜 Logs Access**: Retrieve logs from specific pods and containers
+
+### 🏗️ MCP Architecture
+- **⚛️ Atomic Tools**: Each tool does one specific thing well
+- **🎯 Clean APIs**: Well-defined input/output schemas for each operation
+- **🛡️ Error Handling**: Structured error responses with actionable messages
+- **📡 Transport Support**: stdio and SSE transport protocols
+
+## 🛠️ Available Tools
+
+### 📋 Core Kubernetes Operations
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `get_pods` 🚢 | List pods in a namespace | `namespace` (optional) |
+| `get_namespaces` 🏠 | List all namespaces | None |
+| `create_deployment` 🚀 | Create a new deployment | `name`, `image`, `replicas`, `namespace` (optional) |
+| `delete_resource` 🗑️ | Delete a Kubernetes resource | `resource_type`, `name`, `namespace` (optional) |
+| `get_logs` 📜 | Get logs from a pod | `pod_name`, `namespace` (optional), `container` (optional), `tail` (optional) |
+| `port_forward` 🔌 | Forward local port to pod | `pod_name`, `local_port`, `pod_port`, `namespace` (optional) |
+| `scale_deployment` 📈 | Scale a deployment | `name`, `replicas`, `namespace` (optional) |
+
+### 📊 Advanced Operations  
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `list_services` 🌐 | List services with detailed info | `namespace` (default: "default"), `label_selector` (optional) |
+| `list_deployments` 🚀 | List deployments with replica status | `namespace` (default: "default"), `label_selector` (optional) |
+| `list_nodes` 🖥️ | List cluster nodes with status | `label_selector` (optional) |
+| `describe_pod` 🔍 | Get comprehensive pod details | `pod_name`, `namespace` (default: "default") |
+
+### ⚙️ Cluster Management
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `get_contexts` 🔄 | List available kubectl contexts | None |
+| `switch_context` 🔀 | Switch to different context | `context_name` |
+
+### 🔧 Configuration Management
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `create_config_map` 📝 | Create a ConfigMap | `name`, `data` (dict), `namespace` (default: "default") |
+| `create_secret` 🔐 | Create a Secret | `name`, `data` (dict), `secret_type` (default: "Opaque"), `namespace` (default: "default") |
+
+### 🛠️ Troubleshooting
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `explain_error` ❓ | Explain K8s errors in plain English | `error_msg` |
+
+## 📦 Installation
+
+### 🔧 Prerequisites
+- [uv](https://docs.astral.sh/uv/) package manager (required) ⚡
+- kubectl CLI installed and configured ⚙️
+- Access to a Kubernetes cluster ☸️
+
+### 🎉 Install from PyPI
+```bash
+# Install with uv ⚡
+uv tool install mcp-kubectl
+```
+
+### 🔨 Development Installation
+```bash
+git clone https://github.com/rohitg00/kubectl-mcp-server.git
+cd kubectl-mcp-server
+uv sync
+uv pip install -e .
+```
+
+## 🎮 Usage
+
+### 🖥️ As an MCP Server
+Fire up the server and let the magic happen! ✨
+
+```bash
+mcp-kubectl serve
+```
+
+### ⚙️ Configuration for AI Assistants
+Add this rad config to your AI assistant's MCP setup:
+
+```json
+{
+  "mcpServers": {
+    "kubernetes": {
+      "command": "mcp-kubectl",
+      "args": ["serve"],
+      "env": {
+        "KUBECONFIG": "~/.kube/config"
+      }
+    }
+  }
+}
+```
+
+## 🎪 Examples
+
+Watch your AI assistant work its magic! 🎭
+
+**User**: *"Show me all pods in the kubeflow namespace"* 💬  
+**AI Assistant calls**: `get_pods` with `{"namespace": "kubeflow"}` 🤖
+
+**User**: *"Create a nginx deployment with 3 replicas"* 💬  
+**AI Assistant calls**: `create_deployment` with `{"name": "nginx", "image": "nginx:latest", "replicas": 3}` 🤖
+
+**User**: *"Scale the nginx deployment to 5 replicas"* 💬  
+**AI Assistant calls**: `scale_deployment` with `{"name": "nginx", "replicas": 5}` 🤖
+
+## ⚙️ Configuration
+
+### 🌍 Environment Variables
+- `KUBECONFIG`: Path to your Kubernetes config file (default: `~/.kube/config`) 📁
+
+### 🔐 Kubernetes Access
+Make sure your kubectl is configured and you've got the right permissions! 🛡️
+
+## 🔧 Development
+
+### 📁 Project Structure
+```
+kubectl_mcp_tool/
+├── __init__.py
+├── mcp_server.py          # 🎯 Main MCP server implementation  
+├── cli.py                 # 💻 CLI interface
+└── core/
+    └── kubernetes_ops.py  # ⚙️ Core Kubernetes operations
+```
+
+### 🧪 Testing with MCP Inspector
+```bash
+# Start the MCP inspector to test tools
+npx @modelcontextprotocol/inspector uv run mcp-kubectl serve
+```
+
+### 🎨 Code Quality
+```bash
+# Linting 🔍
+uv run ruff check .
+
+# Formatting 💅  
+uv run black .
+
+# Type checking 🔬
+uv run mypy kubectl_mcp_tool/
+```
+
+## 🏗️ Architecture
+
+This server follows MCP best practices like a boss! 😎
+
+1. **⚛️ Atomic Tools**: Each tool performs one specific operation
+2. **📋 Clear Schemas**: Well-defined input/output for each tool
+3. **🛡️ Error Handling**: Structured error responses
+4. **🔄 Stateless**: No session state between tool calls
+5. **☸️ Kubernetes Native**: Uses the official Kubernetes Python client
+
+**The AI assistant handles**: 🤖
+- Natural language understanding 🧠
+- Tool selection and orchestration 🎭
+- Complex workflow coordination 🔄
+- User interaction and feedback 💬
+
+## 🤝 Contributing
+
+Join the retro revolution! 🌟
+
+1. Fork the repository 🍴
+2. Create a feature branch 🌿
+3. Make your changes ✨
+4. Add tests for new functionality 🧪
+5. Submit a pull request 📤
+
+## 📜 License
+
+Apache License 2.0 - see [LICENSE](LICENSE) file for details. 📄
+
+### 🙏 Acknowledgments
+
+This project builds upon the original MIT-licensed work by [Rohit Ghumare](https://github.com/rohitg00). We're grateful for the foundation provided by the original kubectl-mcp-server project.
+
+---
+
+*Made with ❤️ and a healthy dose of 80s nostalgia* 🎮✨
