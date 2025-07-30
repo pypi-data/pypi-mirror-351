@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dyadic-tiling"
+version = "0.1.2"
+description = "Morton encoded dyadic cubes and points for efficient space decomposition."
+authors = [{ name = "Benjamin Walker", email = "mail@benwalker.co.uk" }]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["sortedcontainers >= 2.4"]
+
+license = "MIT"
+
+keywords = [
+  "dyadic cube",
+  "Morton code",
+  "spatial indexing",
+  "stopping time"
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Benjamin-Walker/dyadic-tiling"
+"Bug Tracker" = "https://github.com/Benjamin-Walker/dyadic-tiling/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dyadic_tiling*"]
