@@ -1,0 +1,24 @@
+Metadata-Version: 2.3
+Name: anyot
+Version: 0.3.0
+Summary: 
+License: MIT
+Author: Allen Chou
+Author-email: f1470891079@gmail.com
+Requires-Python: >=3.11,<4
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: httpx (>=0.28,<0.29)
+Requires-Dist: logfire[fastapi,httpx] (>=3,<4.0.0)
+Requires-Dist: opentelemetry-api (>=1.33,<2)
+Requires-Dist: opentelemetry-exporter-otlp (>=1.33,<2)
+Requires-Dist: opentelemetry-sdk (>=1.33,<2)
+Requires-Dist: pydantic (>=2,<3)
+Requires-Dist: str-or-none (>=0.1.0,<1)
+Requires-Dist: yarl (>=1.18.3,<2.0.0)
+Description-Content-Type: text/markdown
+
+# anyot
