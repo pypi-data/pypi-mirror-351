@@ -1,0 +1,16 @@
+# encoding: utf-8
+
+__author__ = 'Daniel Westwood'
+__date__ = '29 Oct 2024'
+__copyright__ = 'Copyright 2024 United Kingdom Research and Innovation'
+__license__ = 'BSD - see LICENSE file in top-level package directory'
+__contact__ = 'daniel.westwood@stfc.ac.uk'
+
+from abc import ABC, abstractmethod
+
+
+class FileHandler(ABC):
+
+    @abstractmethod
+    def extract_facet_labels(self, proc_level):
+        return
