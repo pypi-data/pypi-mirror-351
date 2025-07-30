@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "muxify"
+version = "0.0.4"
+description = "Multiplex stdout into multiple tiles."
+readme = "README.md"
+authors = [{name = "Jonas Eschmann", email = "jonas.eschmann@gmail.com"}]
+license = {text = "MIT"}
+dependencies = [
+    "prompt-toolkit" # tested with 3.0.51
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["muxify"]

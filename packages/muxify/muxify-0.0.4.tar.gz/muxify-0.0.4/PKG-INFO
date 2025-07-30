@@ -1,0 +1,31 @@
+Metadata-Version: 2.4
+Name: muxify
+Version: 0.0.4
+Summary: Multiplex stdout into multiple tiles.
+Author-email: Jonas Eschmann <jonas.eschmann@gmail.com>
+License: MIT
+Requires-Dist: prompt-toolkit
+Description-Content-Type: text/markdown
+
+# Muxify: Multiplex Stdout
+
+
+
+```bash
+pip install muxify
+```
+
+
+```python
+import time
+from muxify import Muxify
+
+mux = Muxify(2, flush_interval=0.01)
+i = 0
+while True:
+    if i % 5 == 0:
+        print(f"Update {i} to tile0", file=mux[0])
+    print(f"Update {i} to tile1", file=mux[1])
+    time.sleep(0.01)
+    i += 1
+```
