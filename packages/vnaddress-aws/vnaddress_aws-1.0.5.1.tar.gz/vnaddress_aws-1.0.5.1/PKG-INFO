@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: vnaddress_aws
+Version: 1.0.5.1
+Summary: A package for parsing Vietnamese address able to run in AWS lambda based origin version
+Author: hoanganhhy2003
+Author-email: hoanganhhy2003@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+License-File: LICENSE
+Requires-Dist: nltk
+Requires-Dist: joblib
+Requires-Dist: sklearn_crfsuite
+Requires-Dist: fuzzywuzzy
+Requires-Dist: python-Levenshtein
+Requires-Dist: lambda_multiprocessing
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
