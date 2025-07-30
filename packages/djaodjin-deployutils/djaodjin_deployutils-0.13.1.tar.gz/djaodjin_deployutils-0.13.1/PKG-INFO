@@ -1,0 +1,98 @@
+Metadata-Version: 2.4
+Name: djaodjin-deployutils
+Version: 0.13.1
+Summary: Deploy webapps hosted on djaodjin.com
+Author-email: The DjaoDjin Team <help@djaodjin.com>
+Maintainer-email: The DjaoDjin Team <help@djaodjin.com>
+License: BSD-2-Clause
+Project-URL: repository, https://github.com/djaodjin/djaodjin-deployutils
+Project-URL: documentation, https://djaodjin-deployutils.readthedocs.io/
+Project-URL: changelog, https://github.com/djaodjin/djaodjin-deployutils/changelog
+Keywords: deployutils,session,django,flask
+Classifier: Framework :: Django
+Classifier: Framework :: Flask
+Classifier: Environment :: Web Environment
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: BSD License
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: boto3>=1.12.31
+Requires-Dist: cryptography>=2.2.2
+Requires-Dist: pip>=8.1.2
+Requires-Dist: PyJWT>=1.6.1
+Requires-Dist: python-dateutil>=2.4.2
+Requires-Dist: pytz>=2021.1
+Requires-Dist: six>=1.10.0
+Requires-Dist: requests>=2.22.0
+Provides-Extra: django
+Requires-Dist: Django>=3.2; python_version < "3.9" and extra == "django"
+Requires-Dist: Django>=4.2; (python_version >= "3.9" and python_version < "3.12") and extra == "django"
+Requires-Dist: Django>=5.1; python_version >= "3.12" and extra == "django"
+Requires-Dist: django-assets>=0.10; extra == "django"
+Requires-Dist: djangorestframework>=3.14.0; python_version < "3.9" and extra == "django"
+Requires-Dist: djangorestframework>=3.15.2; python_version >= "3.9" and extra == "django"
+Requires-Dist: jinja2>=2.8.1; extra == "django"
+Requires-Dist: monotonic>=1.1; extra == "django"
+Provides-Extra: flask
+Requires-Dist: Flask>=0.11; extra == "flask"
+Dynamic: license-file
+
+DjaoDjin deployutils
+====================
+
+This repository contains the code for the command line tool and modules
+to seamlessly integrate an appplication with DjaoDjin's
+[HTTP session manager proxy](https://github.com/djaodjin/djaoapp).
+
+Install
+-------
+
+Install deployutils into your environment
+
+
+    $ pip install djaodjin-deployutils
+
+See the steps to [integrate with a Django project](docs/deploy-django.rst).
+
+
+Development
+-----------
+
+Clone the repository in a virtualenv and install the prerequisites
+
+
+    $ python3 -m .venv
+    $ source .venv/bin/activate
+    $ pip install -r testsite/requirements.txt
+
+
+Create the credentials file with a ``DJAODJIN_SECRET_KEY`` and the empty db.
+
+
+    $ make initdb
+
+
+Run the web application
+
+
+    $ python manage.py runserver
+
+
+Browse to http://localhost:8000
+
+Release Notes
+=============
+
+Tested with
+
+- **Python:** 3.10, **Django:** 4.2 ([LTS](https://www.djangoproject.com/download/))
+- **Python:** 3.12, **Django:** 5.1 (next)
+- **Python:** 3.7, **Django:** 3.2 (legacy)
+
+0.13.1
+
+ * evals settings passed through environment variables
+ * matches saas profile redirects
+
+[previous release notes](changelog)
