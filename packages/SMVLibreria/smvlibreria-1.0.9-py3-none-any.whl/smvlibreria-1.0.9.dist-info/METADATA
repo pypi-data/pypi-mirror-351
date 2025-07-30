@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: SMVLibreria
+Version: 1.0.9
+Summary: Librería para analizar datos de seguridad vial de SEMOVI: conteo por periodos y tasas de crecimiento
+Home-page: https://github.com/greenmay99/semovi_libreria
+Author: @may, @juan
+Author-email: may@example.com, juan@example.com
+License: MIT
+Project-URL: Repositorio, https://github.com/greenmay99/semovi_libreria
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: seaborn
+Requires-Dist: matplotlib
+Requires-Dist: requests
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Changelog
+En este archivo se describen los diferentes cambios realizados al proyecto:
+
+Version 1.0.0 (02-23-2019)
+## New
+    - Added column classifiers (Date, Time, PerUnitCost, TotalCost, etc. )
+    - Added Column "AveCost" to track average item cost
+
+## Changes 
+    - Changed date format to MM-DD-YYYY
+    - Removal of whitespace (cosmetic)
+
+## Fixes
+    - Fixed misalignment in Column "TotalCost" where some rows did not match with correct dates
+    - Fixed SUM to run over entire column instead of partial
+
+
+
+Actualmente estamos trabajando en la librería.
+
