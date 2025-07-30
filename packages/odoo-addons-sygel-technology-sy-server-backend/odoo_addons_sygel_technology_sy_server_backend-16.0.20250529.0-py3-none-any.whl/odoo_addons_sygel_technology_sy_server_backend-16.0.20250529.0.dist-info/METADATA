@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: odoo-addons-sygel-technology-sy-server-backend
+Version: 16.0.20250529.0
+Summary: Meta package for sygel-technology-sy-server-backend Odoo addons
+Classifier: Programming Language :: Python
+Classifier: Framework :: Odoo
+Classifier: Framework :: Odoo :: 16.0
+Requires-Dist: odoo-addon-base-old-migration-fields<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-file-download<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-model-access-restriction<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-odoo-2-odoo-data-transfer<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-reports-font-size<16.1dev,>=16.0dev
+
+UNKNOWN
