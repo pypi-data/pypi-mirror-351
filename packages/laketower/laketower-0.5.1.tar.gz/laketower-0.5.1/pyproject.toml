@@ -1,0 +1,71 @@
+[project]
+name = "laketower"
+description = "Oversee your lakehouse"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Romain Clement", email = "git@romain-clement.net" }
+]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "deltalake>=1,<2",
+    "duckdb",
+    "fastapi",
+    "jinja2>=3,!=3.1.5",
+    "pandas",
+    "pyarrow!=19.0.0",
+    "pydantic>=2",
+    "pydantic-settings>=2",
+    "pyyaml",
+    "rich",
+    "sqlglot",
+    "uvicorn",
+]
+keywords = ["data", "lakehouse", "sql", "delta-lake"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Other Audience",
+    "Topic :: Database",
+    "Topic :: Software Development",
+    "Topic :: Utilities",
+]
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.com/datalpia/laketower"
+Issues = "https://github.com/datalpia/laketower/issues"
+Changelog = "https://github.com/datalpia/laketower/blob/main/CHANGELOG.md"
+
+[project.scripts]
+laketower = "laketower:cli.cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "bandit==1.8.3",
+    "beautifulsoup4==4.13.4",
+    "httpx==0.28.1",
+    "invoke==2.2.0",
+    "mypy==1.16.0",
+    "pandas-stubs==2.2.3.250527",
+    "pip-audit==2.9.0",
+    "pyarrow-stubs==19.4",
+    "pytest==8.3.5",
+    "pytest-cov==6.1.1",
+    "ruff==0.11.12",
+    "types-pyyaml==6.0.12.20250516",
+    "watchdog==6.0.0",
+]
+
+[tool.hatch.version]
+path = "laketower/__about__.py"
