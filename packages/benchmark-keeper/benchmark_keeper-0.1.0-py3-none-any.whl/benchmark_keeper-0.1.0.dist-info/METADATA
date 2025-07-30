@@ -1,0 +1,21 @@
+Metadata-Version: 2.3
+Name: benchmark-keeper
+Version: 0.1.0
+Summary: Simple tracking of benchmark results across git commits
+License: MIT
+Author: Leandro Conte
+Author-email: me@lcjconte.com
+Requires-Python: >=3.10
+Classifier: Development Status :: 1 - Planning
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.10
+Requires-Dist: pydantic (>=2.11.5,<3.0.0)
+Requires-Dist: pyyaml (>=6.0.2,<7.0.0)
+Requires-Dist: rich (>=10.14.0,<11.0.0)
+Requires-Dist: typer[all] (>=0.15.3,<0.16.0)
+Project-URL: Repository, https://github.com/lcjconte/benchmark-keeper.git
+Description-Content-Type: text/markdown
+
+Simple tracking of benchmark results across git commits
