@@ -1,0 +1,15 @@
+MANIFEST.in
+README.md
+pyproject.toml
+setup.cfg
+sqlite_orm/__init__.py
+sqlite_orm/database.py
+sqlite_orm/logger.py
+sqlite_orm/manager.py
+sqlite_orm/model.py
+sqlite_orm/sqlite3.bin
+sqlite_orm/vec0.so
+sqlite_orm_vec_qpython.egg-info/PKG-INFO
+sqlite_orm_vec_qpython.egg-info/SOURCES.txt
+sqlite_orm_vec_qpython.egg-info/dependency_links.txt
+sqlite_orm_vec_qpython.egg-info/top_level.txt
