@@ -1,0 +1,22 @@
+// File: src/components/HomepageFeatures/index.js
+import React from 'react';
+import styles from './styles.module.css';
+
+export default function HomepageFeatures() {
+  return (
+    <section className={styles.features}>
+      <div className="container">
+        <div className="row">
+          <div className="col col--12">
+            <h1>About {{ site_name }}</h1>
+            <section id="about-us">
+              <p>
+                At <strong>{{ site_name }}</strong>, we do (write about what you do with {{ site_name }} here)
+              </p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

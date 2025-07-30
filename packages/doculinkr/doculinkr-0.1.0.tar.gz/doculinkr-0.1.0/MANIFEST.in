@@ -1,0 +1,11 @@
+# MANIFEST.in
+
+# Always include your top-level docs
+include README.md
+include LICENSE
+
+# Include requirements.txt for devs
+include requirements.txt
+
+# Include Jinja2 templates with .j2 extension
+recursive-include doculinkr/templates *.j2
