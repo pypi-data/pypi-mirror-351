@@ -1,0 +1,16 @@
+LICENSE
+README.md
+pyproject.toml
+src/delegate/events/__init__.py
+src/delegate/events/core/channel.py
+src/delegate/events/core/channel_closed_error.py
+src/delegate/events/core/event.py
+src/delegate/events/core/handler_already_subscribed_error.py
+src/delegate/events/core/handler_not_subscribed_error.py
+src/delegate/events/core/queued_event.py
+src/delegate_events.egg-info/PKG-INFO
+src/delegate_events.egg-info/SOURCES.txt
+src/delegate_events.egg-info/dependency_links.txt
+src/delegate_events.egg-info/requires.txt
+src/delegate_events.egg-info/top_level.txt
+tests/test_channel.py
