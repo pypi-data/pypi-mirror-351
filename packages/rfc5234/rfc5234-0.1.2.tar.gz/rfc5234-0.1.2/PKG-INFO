@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: rfc5234
+Version: 0.1.2
+Summary: A python implementation of RFC 5234: Augmented BNF for Syntax Specifications: ABNF
+Project-URL: Source, https://github.com/scravy/python-rfc5234
+Project-URL: Tracker, https://github.com/scravy/python-rfc5234/issues
+Author-email: Julian Bertram <tirednesscankill@warhog.net>
+License: MIT
+License-File: LICENSE
+Keywords: abnf,parser,rfc5234,rfc7405
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.13
+Requires-Dist: colorama>=0.4.6
+Requires-Dist: frozenintset>=0.1.2
+Requires-Dist: strongly-connected-components>=0.1.1
