@@ -1,0 +1,10 @@
+mkdocs>=1.0.4
+mkdocs-material>=9.2.7
+
+[dev]
+mkdocs-material>=9.0.0
+pytest>=6.0
+pytest-cov
+black
+isort
+flake8
