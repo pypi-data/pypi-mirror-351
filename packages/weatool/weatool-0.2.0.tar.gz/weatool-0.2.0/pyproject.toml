@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "weatool"
+version = "0.2.0"
+description = "framework for preprocess"
+readme = "README.md"
+requires-python = ">=3.13"
+license = {file = "LICENSE"}
+
+authors = [
+  {name = "Chengrui Zhang", email = "1447489091@qq.com"}
+]
+
+dependencies = [
+  "numpy",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Neo0214"

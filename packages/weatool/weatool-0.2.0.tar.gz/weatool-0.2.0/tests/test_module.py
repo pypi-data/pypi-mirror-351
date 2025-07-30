@@ -1,0 +1,1 @@
+from weatool import ResultGetter
