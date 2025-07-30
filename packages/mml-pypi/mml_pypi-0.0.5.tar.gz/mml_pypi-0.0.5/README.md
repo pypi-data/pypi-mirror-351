@@ -1,0 +1,220 @@
+# MML (mml-pypi)
+`My Machine Learning (MML)` Library developed by Nathmath and DOF Studio, identified as `mml-pypi` on PyPI.
+
+What is `MML`? Why `MML`?
+
+* It is a **high performance machine learning and deep learning framework coding from scratch** (pure Python) with hybrid backend support (`numpy` or `torch`).
+
+* It is a **pure Python implementation and almost has production level performance (significantly higher in neural nets)** as fantastic toolkit for `quick application`, `library comparision`, and  `quick benchmarking` with.
+
+* It is a **package with utilities covering from Data IO, Feature Engineering, and Data Transforming**, not only and far from simply a machine learning library, but a deeply integrated environment you can do everything on one set.
+
+* Its *code* is **completely light-weight and open-source suitable for teaching, learning, deploying, and even debugging**. You will never forget how `integrated`, `simple`, and `powerful` MML can be before starting to code on it.
+
+* Its *style* is **designed for experts as well as non-experts** -- we have a complete set of nn modules and `Auto Neural Network` framework, which can automatically `build`, `train`, `fine-tune`, and `evaluate` a neural network natively useful for non-technical groups.
+
+Latest Version: `0.0.5`
+
+For more information:
+
+* GitHub homepage: https://github.com/dof-studio/MML
+
+* PyPI homepage: https://pypi.org/project/mml-pypi
+
+
+
+# How to Start
+
+```bash
+# bash:
+pip install mml-pypi
+```
+
+```python
+# Python:
+import mml
+
+# For further tutorials, see `./document`
+# Recommend to start from `1. General.md` and try the must-run example first.
+```
+
+
+
+# Update History
+
+`MML 0.0.5` Release:
+
+* Minor bugs fixed.
+* Some document updates.
+* New methods `erf` and `erfinv` are provided in `Matrix` and `Tensor` containers.
+* New Activations like `GELU`, `ELU`, `SELU`, `SiLU`, ... are implemented.
+* More abbreviations like `RM`, `BCM`, `MCM`, `BCE`, `MCE` ... are included. 
+* Global support of better Auto-Encoder arch by introducing a `forward_encoder` method from the base `nn_Module`, and `predict_encoder` in `Evaluator`.
+* Global support of `Auto Forward` and `Auto Backward` systems. Users can only define a sequential network in `__init__` without concerning its forward and backward passes by manual labor.
+* Formal introduction of `Auto Neural Network` system, supporting `tabular` and `time-series` data modelling (will be continuously updating in the future).
+* Try `nn.AutoNN` now!
+
+
+
+Planned Updates:
+
+   Within `0.0.5.x`:
+
+* More Document updates.
+
+* `Clip` layer, manually supports clipping to avoid overfitting in classification tasks.
+* `Reshape` layer, a generic reshaping tool supplementary to the current `Flatten`.
+* `Pooling` layers, useful in CNN or LSTM related architectures.
+* `GRU` layers, serves as a simpler version of LSTM.
+* Introduce `Dropout` layers between Recurrent blocks.
+* More `Loss` functions like `WMSE`, `WRMSE`, etc. to support weighted average.
+* More `Loss` functions designed for financial engineers to develop strategies.
+* `Kernel PCA` implementation for simpler but stronger dimensionality reduction.
+* `KNN` and `K-means` algorithms for regression and clustering.
+* More `AutoNN` architecture and tasks support.
+
+   Later versions:
+
+* `Attention` module, which is regarded by someone as `All You Need`. 
+* `Conv1D` and `Conv2D` layers and pre-trained models (like `MobileNet`) for audio and image neural network tasks.
+* `Auto Neural Network` support for audio and image style tasks.
+* `GAN` and `RL` framework, incorporated into the current Neural Network framework.
+* More `AutoNN` architecture and tasks support.
+
+
+
+# Version Control
+
+From versions later than `0.0.5`, `Viewable Version Control (VVC)` tools will be installed with this library. With `VVC`
+
+enabled, you can clear filter and see what has changed on a specific function or argument from a specific version to a specific version. Database will record any change starting from version `0.0.5.1` (next minor update to `0.0.5`).
+
+* Note: `Viewable Version Control (VVC)` is also a `DOF Studio` owned open-source repository. 
+* See `https://github.com/dof-studio/VVC` for more information about using this version control tool.
+
+
+
+# License
+
+`Apache 2.0` License, with no warranty but grants the right for even commercial use. 
+
+
+
+# What's Inside?
+
+* Containers.
+
+* ML Algorithms.
+
+* Neural Network Framework (and Simple Interfaces).
+
+* Utilities and Toolkits.
+
+* Free ML Tutorial, Project Examples, and Documents.
+
+Everything coded from scratch! 
+
+See below for a quick and complete reference.
+
+
+
+# Containers using Mixed Backends
+
+* Matrix (n-dimensional, For ML Algorithms) (NumPy √ Torch √)
+* Tensor (n-dimensional, For NN Framework) (NumPy √ Torch √)
+
+
+
+# ML Algorithms from Scratch
+* Linear Models (OLS and FGLS)
+* Generalized Linear Models (FGLS with Activation)
+* Time Series Models (TS, ARIMAX)
+* Principal Component Analysis (PCA)
+* Support Vector Machine (SVM)
+* Classification And Regression Tree (CART)
+* Linear Regression Tree Wrapper (LRTW)
+* Random Forest (RF)
+* Gradient Boosting Machine (GBM)
+* Extreme Gradient Boosting Machine (XGBM)
+* ...
+
+
+
+# Neural Network Framework from Scratch
+* Basic Overridable Neural Network Module (Module)
+* Dense Layer (Dense)
+* Dropout Layer (Dropout)
+* Flatten Layer (Flatten)
+* Single or Stacked RNN Layer (RNN)
+* Single or Stacked LSTM Layer (LSTM)
+* Activation Layers (ReLU, LeakyReLU, ELU, SELU, GELU, SiLU, ...)
+* Loss Functions (MSE, RMSE, MAE, BCE, MCE, ...)
+* Optimizers (SGD, Adam, AdamW, ...)
+* Easy Interface for Evaluation (Evaluator)
+* Auto Neural Network Framework (AutoNN)
+* ...
+
+
+
+# Utilities from Scratch
+
+* Regression, Binary Classification, Multi Classification Metrics
+* Train-Test Split, Train-Test Split for Time Series, Rolling Window Maker
+* Data Scaler
+* Data Wrangling Toolkits
+* Easy Save and Load Interface
+* Generic Optimizer
+* Generic Bootstrap Sampler
+* ...
+
+
+
+# Documentation in Detail (Updating)
+
+See `./document` for more information. 
+
+Recommended learning curve:
+
+* `1. General.md`
+* `2. Containers.md`
+* `3. Machine Learning Models.md`
+* `4. Neural Netwotk Framwwork.md`
+* `5. Simple Interface and AutoNN System.md`
+
+
+
+# Project Based Examples (Legacy)
+
+* Homework_1_Q1_TimeSeries.ipynb
+
+* Homework_1_Q2_PCA.ipynb
+
+* Homework_1_Q3_SVM.ipynb
+
+* Homework_2_Q1_Tree.ipynb
+
+* Homework_2_Q2_RandomForest.ipynb
+
+* Homework_2_Q3_Bagging_with_Linear_Regression.ipynb
+
+* Homework_3_Q1_Logistic_Regression.ipynb
+
+* Homework_3_Q2_Gradient_Boosting_with_Decision_Trees.ipynb
+
+* Homework_3_Q3_Multilayer_Perceptron.ipynb
+
+* Homework_4_Q1_Vanilla_RNN.ipynb
+
+* Homework_4_Q2_LSTM.ipynb
+
+* Homework_4_Q3_Autoencoders.ipynb
+
+
+
+# Contact core developers
+
+Please open an issue at *https://github.com/dof-studio/MML* if you find a bug or functionality problem.
+
+To directly contact the developer team, send an e-mail to *dof.hbx@gmail.com* (can't ensure to be replied).
+
+**We welcome and value any positive contribution to this repository**.
