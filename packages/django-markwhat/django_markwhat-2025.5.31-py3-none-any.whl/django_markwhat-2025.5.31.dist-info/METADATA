@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: django_markwhat
+Version: 2025.5.31
+Summary: A collection of template filters that implement common markup languages.
+Author-email: Alireza Savand <alireza.savand@gmail.com>
+License-Expression: BSD-3-Clause
+Project-URL: Homepage, https://github.com/Alir3z4/django-markwhat/
+Platform: OS Independent
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Development Status :: 6 - Mature
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: AUTHORS.rst
+Requires-Dist: Django
+Provides-Extra: markdown
+Requires-Dist: Markdown; extra == "markdown"
+Provides-Extra: textile
+Requires-Dist: textile; extra == "textile"
+Provides-Extra: commonmark
+Requires-Dist: commonmark; extra == "commonmark"
+Provides-Extra: rst
+Requires-Dist: docutils; extra == "rst"
+Provides-Extra: all
+Requires-Dist: Markdown; extra == "all"
+Requires-Dist: textile; extra == "all"
+Requires-Dist: commonmark; extra == "all"
+Requires-Dist: docutils; extra == "all"
+Provides-Extra: dev
+Requires-Dist: Markdown; extra == "dev"
+Requires-Dist: textile; extra == "dev"
+Requires-Dist: commonmark; extra == "dev"
+Requires-Dist: docutils; extra == "dev"
+Requires-Dist: coverage; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: django-stubs; extra == "dev"
+Dynamic: license-file
