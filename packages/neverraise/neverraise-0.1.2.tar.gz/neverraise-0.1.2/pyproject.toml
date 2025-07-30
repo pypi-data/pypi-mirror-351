@@ -1,0 +1,37 @@
+[project]
+name = "neverraise"
+version = "0.1.2"
+description = "Result types for python"
+readme = "README.md"
+authors = [
+  { name = "Alexander Ott", email = "66271487+AlexanderHott@users.noreply.github.com" },
+]
+requires-python = ">=3.13"
+dependencies = []
+classifiers = [
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+license = { file = "LICENSE" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["nox>=2025.5.1"]
+test = ["pytest>=8.3.5"]
+lint = ["ruff>=0.11.9"]
+examples = ["httpx>=0.28.1", "msgspec>=0.19.0"]
+typecheck = ["pyright>=1.1.400"]
+format = ["ruff>=0.11.9"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+docstring-code-line-length = 80
