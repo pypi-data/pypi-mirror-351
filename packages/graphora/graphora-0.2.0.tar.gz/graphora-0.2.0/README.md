@@ -1,0 +1,110 @@
+# Graphora Client Library
+
+A Python client for interacting with the Graphora API. This library provides a simple and intuitive interface for working with Graphora's graph-based data processing capabilities.
+Graphora is a Text to Knowledge Graphs platform that helps you transform unstructured text into powerful knowledge graphs.
+
+## Features
+
+- **Complete API Coverage**: Access all Graphora API endpoints
+- **Type Safety**: Fully typed with Pydantic models
+- **User Context**: All API calls are automatically scoped to the specified user
+- **Async Support**: Efficient handling of long-running operations
+- **Minimal Dependencies**: Lightweight with few external dependencies
+- **Comprehensive Documentation**: Detailed guides and API references
+
+## Installation
+
+```bash
+pip install graphora
+```
+
+## Quick Start
+
+```python
+from graphora import GraphoraClient
+
+# Initialize client with user ID (required)
+client = GraphoraClient(
+    base_url="https://api.graphora.io",
+    user_id="your-user-id",  # Required: User ID for all API calls
+    api_key="your-api-key"   # Or set GRAPHORA_API_KEY environment variable
+)
+
+# Upload an ontology
+with open("ontology.yaml", "r") as f:
+    ontology_yaml = f.read()
+    
+ontology_response = client.register_ontology(ontology_yaml)
+ontology_id = ontology_response.id
+
+# Upload documents for processing
+transform_response = client.transform(
+    ontology_id=ontology_id,
+    files=["document1.pdf", "document2.txt"]
+)
+
+# Wait for processing to complete
+transform_status = client.wait_for_transform(transform_response.id)
+
+# Get the resulting graph
+graph = client.get_transformed_graph(transform_id=transform_response.id)
+
+# Print nodes and edges
+print(f"Nodes: {len(graph.nodes)}")
+print(f"Edges: {len(graph.edges)}")
+
+# Start merging the processed data
+merge_response = client.start_merge(
+    session_id=ontology_id,
+    transform_id=transform_response.id
+)
+```
+
+## Environment Variables
+
+The following environment variables can be used to configure the client:
+
+- `GRAPHORA_API_KEY`: Your Graphora API key
+- `GRAPHORA_USER_ID`: Your user ID (alternatively pass directly to client)
+- `GRAPHORA_API_URL`: Custom API URL (overrides environment-based URL)
+
+## Core API Methods
+
+### Ontology Management
+- `register_ontology(ontology_yaml)` - Register and validate an ontology
+- `get_ontology(ontology_id)` - Retrieve an ontology by ID
+
+### Document Processing
+- `transform(ontology_id, files, metadata=None)` - Upload documents for processing
+- `get_transform_status(transform_id)` - Check transformation status
+- `wait_for_transform(transform_id)` - Wait for transformation to complete
+- `cleanup_transform(transform_id)` - Clean up transformation data
+
+### Graph Operations
+- `get_transformed_graph(transform_id)` - Retrieve graph data
+- `update_transform_graph(transform_id, changes)` - Save graph modifications
+
+### Merge Operations
+- `start_merge(session_id, transform_id)` - Start merging processed data
+- `get_merge_status(merge_id)` - Check merge status
+- `get_conflicts(merge_id)` - Get conflicts requiring resolution
+- `resolve_conflict(merge_id, conflict_id, ...)` - Resolve specific conflicts
+- `get_merge_statistics(merge_id)` - Get merge statistics
+- `get_merged_graph(merge_id, transform_id)` - Retrieve merged graph
+
+## Documentation
+
+For detailed documentation, see the [docs directory](./docs) or visit our [official documentation website](https://docs.graphora.io).
+
+## Examples
+
+Check out the [examples directory](./examples) for sample code demonstrating various use cases:
+
+- `manage_ontology.py` - Ontology creation and management
+- `upload_and_transform.py` - Document upload and transformation
+- `modify_graph.py` - Graph data manipulation
+- `merge_graph_data.py` - Merging and conflict resolution
+
+## License
+
+MIT License
