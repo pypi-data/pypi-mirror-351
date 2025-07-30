@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: vyn
+Version: 0.1.4
+Summary: A CLI tool that scans files for vulnerabilities
+Author-email: Yemi Ojedapo <yemiojedapo1@example.com>
+License-Expression: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: bandit==1.8.3
+Requires-Dist: click==8.2.1
+Requires-Dist: prettytable==3.16.0
+Requires-Dist: python-dotenv==1.0.1
+Requires-Dist: requests==2.32.3
+Dynamic: license-file
