@@ -1,0 +1,6 @@
+dagster==1.10.18rc1
+dlt>=0.4
+
+[test]
+duckdb
+dagster-dg-cli
