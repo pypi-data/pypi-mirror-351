@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "get_weather_api"
+version = "0.1.4"
+description = "A simple API key example package"
+authors = [{ name="JP Talusan", email="jptalusan@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = ["python-dotenv", "pandas>=2.1.0", "pytz", "requests~=2.31.0"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/jptalusan/get_weather"
+
+[tool.setuptools.packages.find]
+where = ["src"]
