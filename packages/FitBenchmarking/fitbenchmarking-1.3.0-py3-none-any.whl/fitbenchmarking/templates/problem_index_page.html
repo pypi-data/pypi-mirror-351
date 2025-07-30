@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{{ css_style_sheet }}" />
+    <link rel="stylesheet" type="text/css" href="{{ custom_style }}" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="{{ mathjax }}"></script>
+
+    <head>
+        <title>{{ run_name }}{{ group_name }} results</title>
+    </head>
+    <body>
+        <div class="box">
+            <div class="container">
+                <div class="row">
+                    <h1 class="title">FitBenchmarking results: {{ group_name }}</h1>
+                    <hr>
+                </div>
+                <div class="row">
+                    <p>FitBenchmarking is a tool for comparing different fitting software based on their accuracy and runtimes.
+                    </p>
+                    <p>The results were generated using <b>python</b> <span class="pill">{{ python_version }}</span> and <b>numpy</b> <span class="pill">{{ numpy_version }}</span>.</p>
+                </div>
+                <hr>
+                <div class="table-row">
+                    {% for type, link, description in zip(table_type, links, description) %}
+                        <div class="left-column">
+                            <h3>
+                                <a href="{{ link }}"><code>{{ type }}</code> table</a>
+                            </h3>
+                            <p>{{ description }}</p>
+                        </div>
+                        <div class="right-column">
+                            <form>
+                                <button class="btn default" type="submit" formaction="{{ link }}">
+                                    {% if type == "compare" %}
+                                        <img src="../images/compare.png" alt="compare icon">
+                                    {% elif type == "acc" %}
+                                        <img src="../images/accuracy.png" alt="accuracy icon">
+                                    {% elif type == "runtime" %}
+                                        <img src="../images/runtime.png" alt="runtime icon">
+                                    {% elif type == "local_min" %}
+                                        <img src="../images/local_min.png" alt="local min icon">
+                                    {% else %}
+                                        <img src="../images/energy.png" alt="energy icon">
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
+                        <hr style="width: 100%;">
+                    {% endfor %}
+                </div>
+                <center>
+                <button class="btn default" onclick="history.go(-1)">
+                <i class="fa fa-arrow-left"></i>
+                </button>
+                </center>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,93 @@
+Metadata-Version: 2.4
+Name: FitBenchmarking
+Version: 1.3.0
+Summary: FitBenchmarking: A tool for comparing fitting software
+Project-URL: Homepage, https://fitbenchmarking.github.io
+Project-URL: Documentation, https://fitbenchmarking.readthedocs.io/en/stable
+Project-URL: Repository, https://github.com/fitbenchmarking/fitbenchmarking
+Project-URL: Release Notes, https://github.com/fitbenchmarking/fitbenchmarking/releases
+Project-URL: Issues, https://github.com/fitbenchmarking/fitbenchmarking/issues
+Author: FitBenchmarking Team
+License-File: LICENSE.txt
+Keywords: benchmark,comparison,fitting,least squares,optimisation
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9.1
+Requires-Dist: codecarbon<2.7,>=2.5.1
+Requires-Dist: configparser
+Requires-Dist: dash
+Requires-Dist: docutils
+Requires-Dist: jinja2
+Requires-Dist: lxml
+Requires-Dist: matplotlib>=2.0
+Requires-Dist: numpy
+Requires-Dist: pandas>=1.3
+Requires-Dist: plotly>=5.0.0
+Requires-Dist: scipy>=0.18
+Requires-Dist: tqdm>=4.60
+Provides-Extra: bumps
+Requires-Dist: bumps>=0.9.0; extra == 'bumps'
+Provides-Extra: dev
+Requires-Dist: coverage[toml]>=6.3; extra == 'dev'
+Requires-Dist: coveralls; extra == 'dev'
+Requires-Dist: iminuit>=2.25.2; extra == 'dev'
+Requires-Dist: pandas; extra == 'dev'
+Requires-Dist: parameterized; extra == 'dev'
+Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Provides-Extra: dfo
+Requires-Dist: dfo-ls; extra == 'dfo'
+Provides-Extra: gofit
+Requires-Dist: gofit; extra == 'gofit'
+Provides-Extra: gradient-free
+Requires-Dist: gradient-free-optimizers; extra == 'gradient-free'
+Provides-Extra: hogben
+Requires-Dist: hogben; extra == 'hogben'
+Provides-Extra: levmar
+Requires-Dist: levmar; extra == 'levmar'
+Provides-Extra: lmfit
+Requires-Dist: emcee>=3.1.0; extra == 'lmfit'
+Requires-Dist: lmfit; extra == 'lmfit'
+Provides-Extra: mantid
+Requires-Dist: h5py<3,>=2.10.0; extra == 'mantid'
+Requires-Dist: pyyaml>=5.4.1; extra == 'mantid'
+Provides-Extra: matlab
+Requires-Dist: dill; extra == 'matlab'
+Provides-Extra: minuit
+Requires-Dist: iminuit>=2.0; extra == 'minuit'
+Provides-Extra: nlopt
+Requires-Dist: nlopt; extra == 'nlopt'
+Provides-Extra: numdifftools
+Requires-Dist: numdifftools; extra == 'numdifftools'
+Provides-Extra: paramonte
+Requires-Dist: paramonte; extra == 'paramonte'
+Provides-Extra: sas
+Requires-Dist: sasmodels; extra == 'sas'
+Requires-Dist: tinycc; (platform_system == 'Windows') and extra == 'sas'
+Description-Content-Type: text/markdown
+
+[![Build Status](https://img.shields.io/github/actions/workflow/status/fitbenchmarking/fitbenchmarking/release.yml?style=flat-square)](https://github.com/fitbenchmarking/fitbenchmarking/actions/workflows/release.yml?query=branch%3Av1.3.0)
+[![Tests Status](https://img.shields.io/github/actions/workflow/status/fitbenchmarking/fitbenchmarking/main.yml?label=tests&style=flat-square)](https://github.com/fitbenchmarking/fitbenchmarking/actions/workflows/main.yml?query=branch%3Av1.3.0)
+[![Install Status](https://img.shields.io/github/actions/workflow/status/fitbenchmarking/fitbenchmarking/install.yml?label=install&style=flat-square)](https://github.com/fitbenchmarking/fitbenchmarking/actions/workflows/install.yml)
+[![Documentation Status](https://img.shields.io/readthedocs/fitbenchmarking/v1.3.0?style=flat-square)](https://fitbenchmarking.readthedocs.io/en/v1.3.0)
+[![Coverage Status](https://img.shields.io/coveralls/github/fitbenchmarking/fitbenchmarking.svg?style=flat-square)](https://coveralls.io/github/fitbenchmarking/fitbenchmarking)
+[![Chat](https://img.shields.io/badge/chat-CompareFitMinimizers-lightgrey.svg?style=flat-square&logo=slack)](https://slack.com/)
+[![Zenodo](https://img.shields.io/badge/Zenodo-10.5281/zenodo.14224242-blue.svg?style=flat-square)](https://doi.org/10.5281/zenodo.14224242)
+[![JOSS](https://img.shields.io/badge/JOSS-10.21105/joss.03127-brightgreen.svg?style=flat-square)](https://doi.org/10.21105/joss.03127)
+# FitBenchmarking
+
+FitBenchmarking is an open source tool for comparing different minimizers/fitting frameworks. FitBenchmarking is cross platform and we support Windows, Linux and Mac OS. For questions, feature requests or any other inquiries, please open an issue on GitHub.
+
+- **Installation Instructions:** https://fitbenchmarking.readthedocs.io/en/v1.3.0/users/install_instructions/index.html
+- **User Documentation & Example Usage:** https://fitbenchmarking.readthedocs.io/en/v1.3.0/users/index.html
+- **Community Guidelines:** https://fitbenchmarking.readthedocs.io/en/v1.3.0/contributors/guidelines.html
+- **Automated Tests:** Run via GitHub Actions, https://github.com/fitbenchmarking/fitbenchmarking/actions, and tests are documented at https://fitbenchmarking.readthedocs.io/en/v1.3.0/users/tests.html
+
+The package is the result of a collaboration between STFC’s Scientific Computing Department and ISIS Neutron and Muon Facility and the Diamond Light Source. We also would like to acknowledge support from:
+
+* EU SINE2020 WP-10, which received funding from the European Union’s Horizon2020 research and innovation programme under grant agreement No 654000.
+* EPSRC Grant EP/M025179/1  Least Squares: Fit for the Future.
+* The Ada Lovelace Centre (ALC). ALC is an integrated, cross-disciplinary data intensive science centre, for better exploitation of research carried out at our large scale National Facilities including the Diamond Light Source (DLS), the ISIS Neutron and Muon Facility, the Central Laser Facility (CLF) and the Culham Centre for Fusion Energy (CCFE).

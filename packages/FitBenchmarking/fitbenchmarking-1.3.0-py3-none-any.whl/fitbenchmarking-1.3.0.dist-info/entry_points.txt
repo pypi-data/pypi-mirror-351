@@ -1,0 +1,3 @@
+[console_scripts]
+fitbenchmarking = fitbenchmarking.cli.main:main
+fitbenchmarking-cp = fitbenchmarking.cli.checkpoint_handler:main
