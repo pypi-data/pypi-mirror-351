@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: saintess
+Version: 0.9.2
+Summary: Official wrapper for Discord API.
+Home-page: https://github.com/yourusername/saintess
+Author: Saint Official
+Author-email: support@saint.xxx
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 4 - Beta
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: discord.py
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Saintess - Official Wrapper for Discord API
+
+Saintess is an official wrapper for Discord API that simplifies hybrid commands, guild/user checks, and mobile status integration.
+
+## Features
+- Simplified Hybrid Commands with `@saintess`
+- Guild and User Context Checks using `@guild` and `@user`
+- Discord Mobile Status Wrapper
+
+## Installation
+```bash
+pip install saintess
