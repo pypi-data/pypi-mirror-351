@@ -1,0 +1,7 @@
+[oci]
+
+[security]
+secret = 'secret'
+
+[gunicorn]
+workers = 1
