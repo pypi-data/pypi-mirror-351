@@ -1,0 +1,5 @@
+[console_scripts]
+dt-linter = domain_types_linter.cli:main
+
+[flake8.extension]
+DT = domain_types_linter.flake8_plugin:DomainTypesLinter
