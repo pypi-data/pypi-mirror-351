@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gui_package_cawilvitro"
+version = "0.0.1"
+authors = [
+  { name="Carl Wilson", email="cawilson@example.com" },
+]
+description = "simple GUI package for QC and inline tools"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/pypa/gui_package_cawilvitro"
+Issues = "https://github.com/pypa/gui_package_cawilvitro/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gui_package_cawilvitro.py"]
