@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: odoo-addons-oca-commission
+Version: 16.0.20250530.0
+Summary: Meta package for oca-commission Odoo addons
+Classifier: Programming Language :: Python
+Classifier: Framework :: Odoo
+Classifier: Framework :: Odoo :: 16.0
+Requires-Dist: odoo-addon-account-commission<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-commission<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-commission-delegated-partner<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-commission-formula<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-hr-commission<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-sale-commission<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-sale-commission-agent-restrict<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-sale-commission-margin<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-sale-commission-product-criteria<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-sale-commission-product-criteria-discount<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-sale-commission-product-criteria-domain<16.1dev,>=16.0dev
+Requires-Dist: odoo-addon-sale-commission-salesman<16.1dev,>=16.0dev
+
+UNKNOWN
