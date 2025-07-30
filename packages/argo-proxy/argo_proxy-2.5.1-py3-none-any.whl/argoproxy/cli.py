@@ -1,0 +1,162 @@
+#!/usr/bin/env python3
+import argparse
+import os
+import subprocess
+import sys
+from typing import Optional
+
+from loguru import logger
+from sanic import Sanic
+from sanic.worker.loader import AppLoader
+
+from .__init__ import __version__
+from .config import PATHS_TO_TRY, validate_config
+
+logger.remove()  # Remove default handlers
+logger.add(sys.stdout, colorize=True, format="<level>{message}</level>", level="INFO")
+
+
+def parsing_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Argo Proxy CLI")
+    parser.add_argument(
+        "config",
+        type=str,
+        nargs="?",  # makes argument optional
+        help="Path to the configuration file",
+        default=None,
+    )
+    parser.add_argument(
+        "--host",
+        "-H",
+        type=str,
+        help="Host address to bind the server to",
+    )
+    parser.add_argument(
+        "--port",
+        "-p",
+        type=int,
+        help="Port number to bind the server to",
+    )
+    parser.add_argument(
+        "--num-worker",
+        "-n",
+        type=int,
+        help="Number of worker processes to run",
+    )
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--verbose",
+        "-v",
+        action="store_true",
+        default=False,  # default is False, so --verbose will set it to True
+        help="Enable verbose logging, override if `verbose` set False in config",
+    )
+    group.add_argument(
+        "--quiet",
+        "-q",
+        action="store_true",
+        default=False,  # default is False, so --quiet will set it to True
+        help="Disable verbose logging, override if `verbose` set True in config",
+    )
+
+    parser.add_argument(
+        "--edit",
+        "-e",
+        action="store_true",
+        help="Open the configuration file in the system's default editor for editing",
+    )
+    parser.add_argument(
+        "--validate",
+        "-vv",
+        action="store_true",
+        help="Validate the configuration file and exit",
+    )
+    parser.add_argument(
+        "--show",
+        "-s",
+        action="store_true",
+        help="Show the current configuration during launch",
+    )
+    parser.add_argument(
+        "--version",
+        "-V",
+        action="version",
+        version=f"%(prog)s {__version__}",
+        help="Show the version and exit.",
+    )
+
+    args = parser.parse_args()
+
+    return args
+
+
+def set_config_envs(args: argparse.Namespace):
+    if args.port:
+        os.environ["PORT"] = str(args.port)
+    if args.verbose:
+        os.environ["VERBOSE"] = str(True)
+    if args.quiet:
+        os.environ["VERBOSE"] = str(False)
+
+
+def open_in_editor(config_path: Optional[str] = None):
+    paths_to_try = [config_path] if config_path else PATHS_TO_TRY
+
+    # Add EDITOR from environment variable if set, followed by defaults
+    editors_to_try = [os.getenv("EDITOR")] if os.getenv("EDITOR") else []
+    editors_to_try += ["notepad"] if os.name == "nt" else ["nano", "vi", "vim"]
+
+    for path in paths_to_try:
+        if path and os.path.exists(path):
+            for editor in editors_to_try:
+                try:
+                    subprocess.run([editor, path], check=True)
+                    return
+                except FileNotFoundError:
+                    continue  # Try the next editor in the list
+                except Exception as e:
+                    logger.error(f"Failed to open editor with {editor} for {path}: {e}")
+                    sys.exit(1)
+
+    logger.error("No valid configuration file found to edit.")
+    sys.exit(1)
+
+
+def main():
+    args = parsing_args()
+
+    if args.edit:
+        open_in_editor(args.config)
+        return
+
+    set_config_envs(args)
+
+    try:
+        # Validate config in main process only
+        config_instance = validate_config(args.config, args.show)
+        if args.validate:
+            logger.info("Configuration validation successful.")
+            return
+        # Run the app with validated config
+        loader = AppLoader("argoproxy.app:app")
+        app = loader.load()
+        app.prepare(
+            host=args.host or config_instance.host,
+            port=args.port or config_instance.port,
+            workers=args.num_worker or config_instance.num_workers,
+        )
+        Sanic.serve(primary=app, app_loader=loader)
+    except KeyError:
+        logger.error("Port not specified in configuration file.")
+        sys.exit(1)
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Failed to start Sanic server: {e}")
+        sys.exit(1)
+    except Exception as e:
+        logger.error(f"An error occurred while starting the server: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
