@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github-org-stats"
+version = "1.1.0"
+authors = [
+    {name = "Open Source Contributors", email = "contributors@github-org-stats.org"},
+]
+description = "A comprehensive tool for analyzing GitHub organization statistics"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+]
+keywords = ["github", "organization", "statistics", "analysis", "repositories", "contributors"]
+dependencies = [
+    "PyGithub>=1.55.0",
+    "pandas>=1.3.0",
+    "numpy>=1.21.0",
+    "requests>=2.25.0",
+    "PyJWT>=2.0.0",
+    "tqdm>=4.60.0",
+    "openpyxl>=3.0.0",
+    "pytz>=2021.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "pytest-cov>=2.10.0",
+    "black>=21.0.0",
+    "flake8>=3.8.0",
+    "mypy>=0.800",
+]
+
+[project.urls]
+Homepage = "https://github.com/zoharbabin/github-org-stats"
+"Bug Reports" = "https://github.com/zoharbabin/github-org-stats/issues"
+"Source" = "https://github.com/zoharbabin/github-org-stats"
+"Documentation" = "https://github.com/zoharbabin/github-org-stats/blob/main/README.md"
+
+[project.scripts]
+github-org-stats = "github_org_stats:main"
+
+[tool.setuptools]
+py-modules = ["github_org_stats"]
+
+[tool.setuptools.package-data]
+"*" = ["README.md", "LICENSE"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
