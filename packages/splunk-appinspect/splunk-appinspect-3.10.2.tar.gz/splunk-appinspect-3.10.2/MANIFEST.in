@@ -1,0 +1,7 @@
+# This file is required in order to include data_files when running the command `python setup.py sdist`
+include license-eula.rtf
+include license-eula.txt
+include splunk_appinspect/version/VERSION.txt
+global-exclude *.pyc *.pyo
+recursive-exclude test *
+exclude README.md

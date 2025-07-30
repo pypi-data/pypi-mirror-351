@@ -1,0 +1,9 @@
+[tool.black]
+target-version = ["py312"] # TODO change to py313 when possible
+force-exclude = "venv|inconsistent_tab_space|syntax_error|null_byte|with_hardcoded|malformed|splunklib_dependency_under_bin|has_python_sdk|has_binary_file|tarsec|data|packages|python_analyzer_packages"
+line-length = "120"
+
+[tool.isort]
+line_length = "120"
+profile = "black"
+skip = [".venv", "venv", "./build", "./tarsec", "splunklib_dependency_under_bin", "has_python_sdk_old_deep_nested", "has_python_sdk_old", "has_binary_file", "data", "packages", "python_analyzer_packages"]
