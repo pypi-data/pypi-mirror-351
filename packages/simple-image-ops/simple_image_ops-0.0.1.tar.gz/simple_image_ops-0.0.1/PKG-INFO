@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: simple_image_ops
+Version: 0.0.1
+Summary: Python3 library for simple image operations either using OpenCV or Pillow.
+Home-page: https://github.com/waikato-datamining/simple-image-ops
+Author: Peter Reutemann
+Author-email: fracpete@waikato.ac.nz
+License: Apache 2.0 License
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Topic :: Utilities
+Classifier: Programming Language :: Python :: 3
+License-File: LICENSE
+
+Python3 library for simple image operations either using OpenCV or Pillow.
+
+Supported I/O operations:
+
+* load_file
+* save_file
+* load_bytes
+* save_bytes
+
+Supported image operations:
+
+* flip
+* resize
+* rotate
+
+
+Changelog
+=========
+
+0.0.1 (2025-05-29)
+------------------
+
+- initial release
+
