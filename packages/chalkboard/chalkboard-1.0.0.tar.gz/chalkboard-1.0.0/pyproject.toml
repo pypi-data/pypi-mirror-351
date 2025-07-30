@@ -1,0 +1,18 @@
+[project]
+name = "chalkboard"
+version = "1.0.0"
+description = "Text styling with many colors and effects"
+authors = [
+    {name = "Kyle Simpson",email = "Kyle_Simpson5624@yahoo.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+]
+packages = [{ include = "chalkboard" }]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
