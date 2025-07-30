@@ -1,0 +1,11 @@
+
+[dev]
+black>=22.0
+flake8>=4.0
+mypy>=0.900
+isort>=5.0
+
+[test]
+pytest>=6.0
+pytest-cov>=2.0
+pytest-mock>=3.0
