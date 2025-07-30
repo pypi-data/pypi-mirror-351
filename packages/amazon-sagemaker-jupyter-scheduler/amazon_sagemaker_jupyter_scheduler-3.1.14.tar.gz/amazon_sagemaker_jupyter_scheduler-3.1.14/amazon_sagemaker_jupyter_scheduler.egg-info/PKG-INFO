@@ -1,0 +1,32 @@
+Metadata-Version: 2.1
+Name: amazon-sagemaker-jupyter-scheduler
+Version: 3.1.14
+Summary: Amazon SageMaker Jupyter Scheduler based on the https://pypi.org/project/jupyter-scheduler/
+Home-page: https://aws.amazon.com/sagemaker/
+Author: Amazon
+License: Apache 2.0
+Keywords: Jupyter,JupyterLab,JupyterLab3,Scheduling Notebooks,Notebooks,Amazon Sagemaker
+Platform: Linux
+Platform: Mac OS X
+Platform: Windows
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Framework :: Jupyter
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+License-File: LICENSE
+License-File: NOTICE
+
+# Amazon Sagemaker Jupyter Scheduler
+
+A JupyterLab extension to schedule notebooks on Amazon SageMaker from any JupyterLab environment. This extension is built on top of https://pypi.org/project/jupyter-scheduler/
+For more details on usage please follow the documentation - https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-auto-run.html
+
+
+
+

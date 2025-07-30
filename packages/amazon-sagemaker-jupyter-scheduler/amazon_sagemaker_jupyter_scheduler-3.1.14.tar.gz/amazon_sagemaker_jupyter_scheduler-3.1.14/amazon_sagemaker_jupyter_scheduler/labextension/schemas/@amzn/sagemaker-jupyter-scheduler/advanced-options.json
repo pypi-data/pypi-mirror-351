@@ -1,0 +1,54 @@
+{
+  "jupyter.lab.setting-icon": "jupyterlab-scheduler:calendar-month",
+  "title": "Amazon SageMaker Scheduler",
+  "description": "Amazon SageMaker Scheduler options",
+  "definitions": {
+    "advancedOptions": {
+      "properties": {
+        "role_arn": {
+          "type": "string",
+          "title": "Role ARN"
+        },
+        "s3_input": {
+          "type": "string",
+          "title": "S3 Input Folder"
+        },
+        "s3_output": {
+          "type": "string",
+          "title": "S3 Output Folder"
+        },
+        "sm_output_kms_key": {
+          "type": "string",
+          "title": "Output encryption KMS key"
+        },
+        "sm_volume_kms_key": {
+          "type": "string",
+          "title": "Job instance volume encryption KMS key"
+        },
+        "enable_network_isolation": {
+          "type": "boolean",
+          "title": "Enable Network Isolation"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "properties": {
+    "advancedOptions": {
+      "title": "Scheduler Advanced Options",
+      "description": "Pre-populate Advanced Options with user defaults for ease of use",
+      "$ref": "#/definitions/advancedOptions",
+      "default": {
+        "role_arn": "",
+        "s3_input": "",
+        "s3_output": "",
+        "sm_output_kms_key": "",
+        "sm_volume_kms_key": "",
+        "enable_network_isolation": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

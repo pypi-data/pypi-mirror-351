@@ -1,0 +1,17 @@
+aiobotocore<3,>=2.9
+jupyter-scheduler<3,>=2.7.0
+jupyter_server
+jupyterlab==4.*
+sagemaker_jupyterlab_extension_common<1,>=0.2.1
+aws-embedded-metrics
+async-timeout
+async-lru
+pydantic
+
+[dev]
+asynctest
+black
+pytest
+pytest-asyncio
+pytest-cov
+jupyter-packaging
