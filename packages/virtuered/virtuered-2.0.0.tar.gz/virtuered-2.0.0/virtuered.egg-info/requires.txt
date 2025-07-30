@@ -1,0 +1,10 @@
+requests>=2.25.1
+rich>=10.0.0
+flask>=2.0.0
+flask-cors>=3.0.0
+waitress>=2.0.0
+pyyaml>=6.0.0
+fastapi>=0.70.0
+uvicorn[standard]>=0.15.0
+click>=7.0
+pyfiglet>=0.8
