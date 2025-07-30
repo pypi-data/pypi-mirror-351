@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xianxia-quotes"
+version = "0.1.0"
+description = "Generate xianxia-style proverbs."
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "GPL-3.0-or-later" }
+authors = [ { name = "John Burns", email = "john@johnburns.io" } ]
