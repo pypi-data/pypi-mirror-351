@@ -1,0 +1,56 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'  # Matches v1.0.0, v1.0.0-alpha, etc.
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  validate-tag:
+    name: Validate Tag Format
+    runs-on: ubuntu-latest
+    outputs:
+      is-valid: ${{ steps.check-tag.outputs.is-valid }}
+    steps:
+      - name: Check tag format
+        id: check-tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "Tag name: $TAG_NAME"
+          
+          # Check if tag matches semantic versioning pattern
+          if [[ $TAG_NAME =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)?(\+[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)?$ ]]; then
+            echo "Tag format is valid"
+            echo "is-valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag format is invalid. Expected format: v1.0.0, v1.0.0-alpha, v1.0.0+build"
+            echo "is-valid=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+  pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: validate-tag
+    if: needs.validate-tag.outputs.is-valid == 'true'
+    environment:
+      name: pypi
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          
+      - name: Build package
+        run: uv build
+        
+      - name: Publish to PyPI
+        run: uv publish --trusted-publishing always
