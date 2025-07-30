@@ -1,0 +1,45 @@
+[project]
+name = "edpm"
+dynamic = ["version"]
+description = "Easy Dependency Package Manager"
+readme = { file = "pip_readme.md", content-type = "text/markdown" }
+dependencies = [
+    "click",
+    "appdirs",
+    "ruamel.yaml"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+]
+license = "MIT"
+authors = [
+    { name = "Dmitry Romanov", email = "romanov@jlab.org" },
+]
+
+[project.urls]
+Homepage = "https://github.com/DraTeots/edpm"
+
+[project.scripts]
+edpm = "edpm.cli:edpm_cli"
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "build",
+    "twine",
+    "keyrings.alt"
+]
+
+[build-system]
+requires = ["setuptools>=66.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+[tool.setuptools.packages.find]
+include = ["edpm"]
+
+[tool.setuptools.dynamic]
+version = { attr = "edpm.version.version" }
