@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FncLogger"
+version = "1.0.0"
+description = "Простой и мощный логгер для Python с цветным выводом"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "plv88", email = "devplv88@gmail.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: System :: Logging",
+]
+requires-python = ">=3.7"
+
+[project.optional-dependencies]
+rich = ["rich>=10.0.0"]
+
+[project.urls]
+"Homepage" = "https://github.com/plv88/FncLogger"
+"Repository" = "https://github.com/plv88/FncLogger"
