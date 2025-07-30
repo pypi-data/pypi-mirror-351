@@ -1,0 +1,125 @@
+Metadata-Version: 2.3
+Name: syncd
+Version: 0.1.0
+Summary: CLI tool to synchronize directories using rsync.
+Author: Christian Heinze
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Dist: aiosqlite>=0.21
+Requires-Dist: pydantic>=2.10
+Requires-Dist: rich>=13.9
+Requires-Python: >=3.12
+Project-URL: Repository, https://codeberg.org/christianheinze/syncd
+Description-Content-Type: text/markdown
+
+# `syncd` synchronization tool
+
+CLI tool to synchronize directories using `rsync` with a focus on synchronization from local disk to (_LUKS_ encrypted) USB disk/drives and/or phones or vice versa.
+Most functionality should work on any Linux distribution provided the required tools (`rsync`, `gio`, amongst others; see [Executables] below) are available.
+However, access to _LUKS_ encrypted disks used _debian_'s `cryptdisks_start`/`_stop`.
+
+## Install
+
+```
+uv tool install syncd
+```
+
+## Getting started
+
+Run
+
+```
+syncd-conf name-of-conf
+```
+
+to create a new (or edit an existing) synchronization setup called `name-of-conf`.
+
+If the setup is newly created, then it will contain a template explaining the various options.
+In any case, the configuration is opened in the editor specified in the environment variable `EDITOR` if set.
+
+The names of all available configuration can be found in the help page; call `syncd -h`.
+
+```
+syncd-conf name-of-conf --copy name-of-existing-conf
+```
+
+allows to start a new configuration `name-of-conf` based on (a copy of) an existing configuration `name-of-existing-conf`.
+
+Use `syncd name-of-conf` to synchronize according to the configuration `name-of-conf`.
+
+## CLI options
+
+By default, files that exist in the destination but not in the source are deleted if and only if a back-up directory is specified.
+This behavior can be modified using the `--del-extra` and `--no-del-extra` flags.
+
+| Option | Description |
+| ------ | ----------- |
+| `--verbose` | Print all file actions to the screen (on top of a summary). |
+| `--dry-run` | Just show the implied actions but don't take any action. |
+| `--del-extra` | Delete files (and others) available in the destination but not in the source. |
+| `--no-del-extra` | Do not delete files (and others) available in the destination but not in the source. |
+| `--force` | By default, files in the destination which are newer than in the source are not overwritten. This can be changed by setting `--force`. |
+
+## Logging
+
+Actions are logged to a *SQLite* database named `syncd.log` and located in the state directory (see `SYNCD_STATE_DIR`).
+
+- Each call to `syncd` generates a new record in the `runs` table.
+- Each item in the configuration is handled by an individual subprocess and has an individual record in the `tasks` table.
+- Each action taken has a record in `transactions`.
+
+## Settings
+
+In addition to the configuration files specifying the synchronization process, the following environment variables can be set.
+
+### General
+
+| Environment variable | Description |
+| -------------------- | ----------- |
+| `SYNCD_CONFIG_DIR` | Directory containing the setup files. If unset and `XDG_CONFIG_HOME` is nonempty, then a directory called `syncd` inside that location if used. Otherwise `$HOME/.config/syncd` is used. |
+| `SYNCD_STATE_DIR` | Directory to write log file to. If unset and `XDG_STATE_HOME` is set, then the latter is used. Otherwise defaults to `$HOME/.local/state`. |
+| `EDITOR` | Text editor called by `syncd-conf` if specified. |
+| `SYNCD_BACKUP_FMT` | If a backup folder is specified, then files which are changed or deleted are copied to `target/backup/SYNCD_BACKUP_DIR`. `strftime` time specifiers are replaced. Default: `"%Y%m%d-%H-%M-%S"` |
+
+### Multiprocessing
+
+| Environment variable | Description |
+| -------------------- | ----------- |
+| `SYNCD_MAX_PROCESSES` | Maximal number of `rsync` subprocesses running in parallel. |
+| `SYNCD_RSYNC_TERMINATE_TIMEOUT` | When an error occurs during sync-ing, then the `SIGTERM` signal is sent to all subprocesses. Processes a given this amount of seconds to actually shut down before a `SIGKILL` is sent. |
+| `SYNCD_RSYNC_KILL_TIMEOUT` | Wait (in seconds) for the process to shut down after `SIGKILL`. |
+
+### Executables
+
+| Environment variable | Description |
+| -------------------- | ----------- |
+| `SYNCD_RSYNC_EXEC` | Path to `rsync` executable. |
+| `SYNCD_LSUSB_EXEC` | Path to `lsusb` executable. |
+| `SYNCD_GIO_EXEC` | Path to `gio` executable. |
+| `SYNCD_CD_START_EXEC` | Path to `cryptdisks_start` executable. |
+| `SYNCD_CD_STOP_EXEC` | Path to `cryptdisks_stop` executable. |
+| `SYNCD_MOUNT_EXEC` | Path to `mount` executable. |
+| `SYNCD_UMOUNT_EXEC` | Path to `umount` executable. |
+| `SYNCD_SUDO_EXEC` | Path the `sudo` executable. |
+| `SYNCD_CHOWN_EXEC` | Path to `chown` executable. |
+
+### Logging
+
+The following are technical timing and queue size parameter and usually don't need to be changed.
+
+| Environment variable | Description |
+| -------------------- | ----------- |
+| `SYNCD_PARSER_QUEUING_TIMEOUT` | Time-out for putting newly parsed transactions logs on the logging queue. |
+| `SYNCD_PARSER_CLEANUP_TIMEOUT` | Time-out for closing the logging queue when shutting down. |
+| `SYNCD_PARSER_QUEUE_SIZE` | Size of the logging queue. |
+| `SYNCD_SQLITE_BATCH_SIZE` | Number of items written to the database in one transaction. |
+| `SYNCD_SQLITE_BATCH_TIMEOUT` | Time-out for a new item to appear on the batch-collection queue before an incomplete batch is written to the database. |
+| `SYNCD_SQLITE_QUEUEING_TIMEOUT` | Time-out for putting a new item on the batch-collection queue. |
+| `SYNCD_SQLITE_CLEANUP_TIMEOUT` | Time-out for terminating the batch-collection queue when shutting down. ||
+| `SYNCD_SQLITE_QUEUE_MULTIPLIER` | Number of batches fitting in the batch-collection queue. |
