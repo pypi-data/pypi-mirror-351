@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: theglam
+Version: 1.2.0
+Summary: The Glycopeptide Analysis Module
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: glycowork==1.6.1
+Requires-Dist: pyteomics==4.7.5
