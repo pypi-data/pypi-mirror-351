@@ -1,0 +1,8 @@
+dagster==1.10.18rc2
+wandb<1.0,>=0.15.11
+
+[dev]
+cloudpickle
+joblib
+callee
+dill
