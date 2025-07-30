@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tinymsg"
+version = "0.1.0"
+description = "A lightweight serialization library for Python using MessagePack with type-safe Pydantic models"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Alex Langshur", email = "alex@langshur.com"}]
+requires-python = ">=3.8"
+dependencies = [
+    "msgpack>=1.0.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.0.290",
+]
+
+[project.urls]
+Repository = "https://github.com/alangshur/tinymsg"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--verbose"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double" 
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
+]
