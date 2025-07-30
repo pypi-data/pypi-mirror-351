@@ -1,0 +1,182 @@
+[project]
+name = "sqlflow-core"
+version = "0.1.7"
+description = "SQLFlow is a SQL-native engine for defining, orchestrating, and managing data workflows—empowering analysts and engineers to build robust, production-grade pipelines using only SQL."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    {name = "Chanh Le", email = "giaosudau@gmail.com"},
+]
+keywords = [
+    "sql",
+    "data-pipeline",
+    "etl",
+    "workflow",
+    "duckdb",
+    "analytics",
+    "data-engineering"
+]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Information Analysis"
+]
+# Core dependencies - everything needed for complete analytical workflows
+# Includes DuckDB, Pandas, Arrow, and CLI tools for immediate productivity
+dependencies = [
+    "duckdb>=1.2.0",
+    "pandas>=2.0.0",
+    "click>=8.0.0",
+    "networkx>=3.0",
+    "typer==0.9.0",
+    "rich>=13.0.0",
+    "requests>=2.28.0",
+    "pyyaml>=6.0",
+    "typing-extensions>=4.0.0",
+    "pyarrow>=10.0.0",  # Analytics-ready by default - key differentiator vs competitors
+]
+
+# Optional dependencies - simplified structure for better user experience
+[project.optional-dependencies]
+# PostgreSQL connectivity - most common database need
+postgres = [
+    "psycopg2-binary>=2.9.0; platform_machine != 'aarch64'",
+    "psycopg2>=2.9.0; platform_machine == 'aarch64'",
+]
+
+# Cloud storage integration - AWS S3 + Google Cloud
+cloud = [
+    "boto3>=1.26.0",
+    "botocore>=1.29.0",
+    "google-api-python-client>=2.0.0",
+    "google-auth>=2.0.0",
+    "google-auth-oauthlib>=1.0.0",
+    "google-cloud-storage>=2.0.0",
+]
+
+# Everything included - for users who want it all
+all = [
+    "psycopg2-binary>=2.9.0; platform_machine != 'aarch64'",
+    "psycopg2>=2.9.0; platform_machine == 'aarch64'",
+    "boto3>=1.26.0",
+    "botocore>=1.29.0",
+    "google-api-python-client>=2.0.0",
+    "google-auth>=2.0.0",
+    "google-auth-oauthlib>=1.0.0",
+    "google-cloud-storage>=2.0.0",
+]
+
+# Development dependencies
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.0.0",
+    "black>=22.1.0",
+    "isort>=5.10.1",
+    "flake8>=4.0.1",
+    "flake8-pyproject>=1.2.3",
+    "autoflake>=2.2.0",
+    "pre-commit>=3.0.0",
+    "mypy>=1.0.0",
+]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "mock>=5.0.0",
+]
+docs = [
+    "sphinx>=4.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "myst-parser>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/sqlflow/sqlflow"
+Documentation = "https://github.com/sqlflow/sqlflow#readme"
+Source = "https://github.com/sqlflow/sqlflow"
+Tracker = "https://github.com/sqlflow/sqlflow/issues"
+
+[project.scripts]
+sqlflow = "sqlflow.cli.main:cli"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = {find = {where = ["."], include = ["sqlflow*"]}}
+
+[tool.setuptools.package-data]
+sqlflow = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.flake8]
+exclude = ".git,__pycache__,build,dist"
+ignore = "E501,E221,E222,E223,E224,E303,E301,E302,E402,F401,F841,E741,W291,W293,D100,D101,W503,W504,E203"
+max-complexity = 10
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+source = ["sqlflow"]
+parallel = true
+branch = true
+omit = [
+    "tests/*",
+    "setup.py",
+    "*/migrations/*",
+    "*/venv/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.paths]
+source = [
+    "sqlflow/",
+    "*/site-packages/sqlflow/",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+skip_covered = true
+show_missing = true
