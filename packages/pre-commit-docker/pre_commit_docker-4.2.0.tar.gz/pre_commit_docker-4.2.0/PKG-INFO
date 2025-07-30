@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: pre-commit-docker
+Version: 4.2.0
+Summary: A pre-commit that runs inside Docker.
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pre-commit>=4.2.0
+
+# pre-commit-docker
+
+A pre-commit that runs inside Docker.
