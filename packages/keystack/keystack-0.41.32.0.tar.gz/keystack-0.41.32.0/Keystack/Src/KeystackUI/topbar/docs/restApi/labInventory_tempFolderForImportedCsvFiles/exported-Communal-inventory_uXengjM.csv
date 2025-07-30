@@ -1,0 +1,6 @@
+domain,name,deviceType,vendor,model,serialNumber,location,ipAddress,ipPort,loginName,password,connectionProtocol,ports,notes
+Communal,device-11,,,None,None,,None,None,None,None,ssh,"1/1, 1/2, 1/3, 1/4, 1/5",None
+Communal,device-13,Access Point,Cisco,cat6k,123abc,Hawaii,1.1.1.1,442,hgee,None,ssh,"1/1, 1/2, 1/3, 1/4, 1/5",Now is the time for all good men
+Communal,device-14,,,Juniper,None,,None,None,None,None,ssh,"2/1, 2/2, 2/3, 2/4, 2/5",None
+Communal,device15,,,None,None,,1.1.1.1,None,None,None,ssh,"1/1, 1/2, 1/3, 1/4, 1/5",None
+Communal,device_20,,,None,None,,192.168.28.11,None,hgee,!Flash128,telnet,"1/1, 1/2, 1/3, 1/4, 1/5",Now is the time for all good men
