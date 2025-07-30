@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uvx:*)",
+      "Bash(timeout 5 uvx:*)",
+      "Bash(timeout 2s:*)",
+      "Bash(echo:*)",
+      "Bash(python test_mcp_manual.py:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(python test_fastmcp_simple.py)",
+      "Bash(./test_tools_manual.sh:*)",
+      "WebFetch(domain:gofastmcp.com)",
+      "Bash(./test_tool_execution.sh:*)",
+      "Bash(./test_minimal.sh:*)",
+      "Bash(./test_proper_sequence.sh:*)",
+      "Bash(./test_full_server.sh:*)",
+      "Bash(rm:*)",
+      "Bash(sed:*)",
+      "Bash(mkdir:*)",
+      "Bash(python -m pytest tests/test_python_versions.py -v)",
+      "Bash(python:*)",
+      "WebFetch(domain:ai.google.dev)",
+      "WebFetch(domain:ai.google.dev)",
+      "WebFetch(domain:ai.google.dev)",
+      "Bash(pip install:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git add:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": false
+}
