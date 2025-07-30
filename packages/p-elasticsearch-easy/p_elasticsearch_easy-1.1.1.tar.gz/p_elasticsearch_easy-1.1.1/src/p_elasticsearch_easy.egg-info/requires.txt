@@ -1,0 +1,6 @@
+elasticsearch<9.0,>=8.11
+elasticsearch-dsl<9.0,>=8.11
+
+[dev]
+pytest
+pytest-cov
