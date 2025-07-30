@@ -1,0 +1,128 @@
+Metadata-Version: 2.4
+Name: voter-tools
+Version: 0.0.23
+Summary: Tools for online voter registration in the United States of America
+Author-email: Dave Peck <dave@frontseat.org>
+License: MIT
+Project-URL: Homepage, https://github.com/front-seat/voter-tools
+Project-URL: Changelog, https://github.com/front-seat/voter-tools/releases
+Project-URL: Issues, https://github.com/front-seat/voter-tools/issues
+Project-URL: CI, https://github.com/front-seat/voter-tools/actions
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: beautifulsoup4>=4.13.4
+Requires-Dist: click>=8.1.8
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: pillow>=11.2.1
+Requires-Dist: pydantic-xml>=2.16.0
+Requires-Dist: pydantic[email]>=2.11.4
+Requires-Dist: user-agent>=0.1.10
+Provides-Extra: dev
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Provides-Extra: build
+Requires-Dist: setuptools; extra == "build"
+Requires-Dist: wheel; extra == "build"
+Requires-Dist: build; extra == "build"
+Provides-Extra: lxml
+Requires-Dist: lxml; extra == "lxml"
+Dynamic: license-file
+
+# voter-tools
+
+[![PyPI](https://img.shields.io/pypi/v/voter-tools.svg)](https://pypi.org/project/voter-tools/)
+[![Tests](https://github.com/front-seat/voter-tools/actions/workflows/test.yml/badge.svg)](https://github.com/front-seat/voter-tools/actions/workflows/test.yml)
+[![Changelog](https://img.shields.io/github/v/release/front-seat/voter-tools?include_prereleases&label=changelog)](https://github.com/front-seat/voter-tools/releases)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/front-seat/voter-tools/blob/main/LICENSE)
+
+Tools for online voter registration in the United States of America.
+
+Contains a command-line tool (`vote`) and a python library (`voter_tools`) to:
+
+1. Check voter registration status in key states, currently including:
+   - Georgia
+   - Michigan
+   - Pennsylvania
+   - Wisconsin
+1. Perform online voter registration (OVR) directly with key states, via their APIs. We currently support the [Pennsylvania OVR API](https://www.pa.gov/en/agencies/dos/resources/voting-and-elections-resources/pa-online-voter-registration-web-api-rfc.html) with plans to support Michigan and Washington states in the future.
+
+
+## Installation
+
+Install this library using `pip`:
+
+```bash
+pip install voter-tools
+```
+
+## Command-line usage
+
+### Check registration of a single voter
+
+To check whether a voter is registered:
+
+```
+vote check <first-name> <last-name> <zip> <dob YYYY-MM-DD> [--details]
+```
+
+This will tell you whether the user is registered to vote. You can request extra details (registration date, current status, etc.) with the `--details` flag. Not all states support all details.
+
+### Check registration of multiple voters in bulk
+
+There is also a tool to check every record in a CSV file:
+
+```
+vote check-csv <input-file.csv> [--details]
+```
+
+A new CSV is written to `stdout` with the same fields as the input CSV plus extras related to the registration check.
+
+### Interact with the Pennsylvania API
+
+The `vote` command contains a number of sub-commands for interacting directly with the [Pennsylvania state API](https://www.pa.gov/en/agencies/dos/resources/voting-and-elections-resources/pa-online-voter-registration-web-api-rfc.html).
+
+For instance, to invoke the API's "get available languages" call:
+
+```
+> vote pa get-languages
+languages=(Language(code='LANGENG', name='English'), Language(code='LANGSPN', name='Spanish'), Language(code='LANGTCN', name='Chinese'))
+```
+
+Use `vote pa --help` for details on available subcommands.
+
+## Development
+
+To contribute to this library, first checkout the code. Then create a new virtual environment:
+
+```bash
+cd voter-tools
+python -m venv .venv
+source .venv/bin/activate
+```
+
+Now install the dependencies and test dependencies:
+
+```bash
+pip install -e '.[dev]'
+```
+
+To run tests:
+
+```bash
+make test
+```
+
+To run a full lint/typecheck/test pass:
+
+```bash
+make check
+```
+
+## State-specific documents
+
+We've collected state-specific documents in the [`docs`](./docs) directory and will try to keep them up-to-date as state APIs change.
