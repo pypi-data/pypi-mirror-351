@@ -1,0 +1,169 @@
+[project]
+name = "pytest-csv-params"
+version = "1.3.2"
+description = "Pytest plugin for Test Case Parametrization with CSV files"
+authors = [
+    { name = "Juergen Edelbluth", email = "csv_params@jued.de" },
+]
+license = { file = "LICENSE.txt" }
+readme = "README.md"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins",
+    "Environment :: Console",
+    "Framework :: Pytest",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+    "Operating System :: POSIX",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS :: MacOS X",
+    "Topic :: Utilities",
+]
+keywords = [
+    "py.test", "pytest", "csv", "params", "parametrize", "pytest-plugin", "ddt", "data-driven"
+]
+
+requires-python = ">=3.9,<3.14"
+
+dependencies = [
+    "pytest>=8.3,<9",
+    "attrs>=24.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "tox>=3.25.1,<4",
+    "tox-poetry>=0.4.1",
+    "pytest-black>=0.3.12",
+    "pytest-isort>=3.0",
+    "pytest-cov>=4.1",
+    "pytest-mock>=3.8.2",
+    "pytest-clarity>=1.0.1",
+    "pytest-bandit>=0.6.1",
+    "pytest-order>=1.0.1,<2",
+    "Sphinx>=5.1.1,<6",
+    "myst-parser>=0.18.0",
+    "sphinx-material>=0.0.35",
+    "sphinx-autodoc-typehints>=1.19.2,<2",
+    "livereload>=2.6.3",
+    "tomli>=2.0.1",
+]
+
+[project.urls]
+repository = "https://git.codebau.dev/pytest-plugins/pytest-csv-params"
+homepage = "https://git.codebau.dev/pytest-plugins/pytest-csv-params"
+"Issue Tracker" = "https://git.codebau.dev/pytest-plugins/pytest-csv-params/issues"
+"Wiki" = "https://git.codebau.dev/pytest-plugins/pytest-csv-params/wiki"
+"Releases" = "https://git.codebau.dev/pytest-plugins/pytest-csv-params/releases"
+"Documentation" = "https://docs.codebau.dev/pytest-plugins/pytest-csv-params/"
+"Changelog" = "https://docs.codebau.dev/pytest-plugins/pytest-csv-params/pages/changelog.html"
+
+[tool.poetry]
+packages = [
+    { include = "_ptcsvp" },
+    { include = "pytest_csv_params" },
+]
+
+[project.entry-points."pytest11"]
+"pytest-csv-params" = "pytest_csv_params.plugin"
+
+[tool.pytest.ini_options]
+addopts = "--black --isort --cov --cov-report=term-missing --cov-report=xml --junitxml=test-reports/pytest_csv_params.xml"
+filterwarnings=[
+    "ignore:.*BlackItem.*:_pytest.warning_types.PytestDeprecationWarning",
+    "ignore:.*BlackItem.*:_pytest.warning_types.PytestRemovedIn9Warning",
+    "ignore:.*BlackItem.*:_pytest.warning_types.PytestWarning",
+    "ignore:Using the __implements__ inheritance pattern for BaseReporter is no longer supported. Child classes should only inherit BaseReporter",
+    "ignore:.*zipimport.*",
+    "ignore:Creating a LegacyVersion has been deprecated and will be removed in the next major release",
+]
+junit_family = "xunit2"
+junit_logging = "all"
+junit_log_passing_tests = true
+junit_duration_report = "call"
+junit_suite_name = "pytest-csv-params"
+
+bandit_targets = [
+    "pytest_csv_params",
+    "_ptcsvp",
+]
+bandit_recurse = "True"
+
+[tool.coverage]
+
+[tool.coverage.run]
+omit = [
+    "test/*",
+    "tests/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/.tox/*",
+    "*/pyvenv/*",
+    "*/JetBrains/*",
+    "*/virtualenv/*",
+    "/etc/python*",
+    "*pip-standalone-pip*",
+    "*pip-build-env*",
+    "*/test_plugin_test_multiplication.py",
+    "*/test_plugin_test_error.py",
+    "*/test_base_dir_param.py",
+    "*/test_plugin_test_text_shorthand.py",
+    "*/test_plugin_test_all_one.py",
+    "*/test_plugin_test_all_two.py",
+    "*/test_plugin_test_all_three.py",
+]
+relative_files = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+ignore_missing_imports = true
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+minversion = 3.25.0
+envlist = clean,py39,py310,py311,py312,py313
+isolated_build = True
+
+[testenv]
+commands =
+    pytest --cov-append
+
+[testenv:clean]
+skip_install = true
+commands =
+    coverage erase
+"""
+
+[tool.black]
+line-length = 120
+target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
+include = '\.pyi?$'
+
+[tool.isort]
+line_length = 120
+include_trailing_comma = true
+multi_line_output = 3
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
