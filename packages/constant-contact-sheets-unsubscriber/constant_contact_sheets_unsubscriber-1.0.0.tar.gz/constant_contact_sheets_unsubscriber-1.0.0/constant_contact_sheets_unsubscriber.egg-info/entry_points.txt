@@ -1,0 +1,3 @@
+[console_scripts]
+cc-monitor = constant_contact_unsubscriber.monitor:main
+cc-unsubscriber = constant_contact_unsubscriber.cli:main

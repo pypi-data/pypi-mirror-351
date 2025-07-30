@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+include requirements.txt
+include .env.example
+recursive-include constant_contact_unsubscriber *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+exclude .env
+exclude credentials.json
+exclude processed_emails.json
+exclude unsubscribe_success_log.txt
+exclude SETUP_LOG.md
+exclude ecosystem.config.js 
