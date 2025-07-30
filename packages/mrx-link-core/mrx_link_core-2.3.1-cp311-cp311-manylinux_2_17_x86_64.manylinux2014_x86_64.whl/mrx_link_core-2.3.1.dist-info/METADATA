@@ -1,0 +1,84 @@
+Metadata-Version: 2.2
+Name: mrx_link_core
+Version: 2.3.1
+Summary: A simple AI/ML modeling tool, Link™ ensures a smoother flow and a better experience throughout the model development cycle.
+Author-email: makinarocks <mrx.dev@makinarocks.ai>
+License: proprietary
+Project-URL: homepage, https://link.makinarocks.ai
+Project-URL: documentation, https://makinarocks.gitbook.io/link/
+Platform: Linux
+Platform: Mac OS X
+Platform: Windows
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: astor>=0.8
+Requires-Dist: black<=22.12,>=19.3b0
+Requires-Dist: celery[eventlet,msgpack,pymemcache,redis,yaml]>=5.2
+Requires-Dist: cloudpickle>=1.6
+Requires-Dist: colorama>=0.4
+Requires-Dist: Cython>=3.0
+Requires-Dist: dill>=0.3
+Requires-Dist: eventlet>=0.33
+Requires-Dist: ipykernel
+Requires-Dist: ipython>=7.30
+Requires-Dist: isort>=5.7
+Requires-Dist: Jinja2>=3.0
+Requires-Dist: jupyter_server<3,>=2.4.0
+Requires-Dist: kfp<2,>=1.6
+Requires-Dist: msgpack>=1.0.3
+Requires-Dist: networkx>=2.5
+Requires-Dist: pydantic>=1.8.0
+Requires-Dist: python-memcached>=1.59
+Requires-Dist: redis>=4.3
+Requires-Dist: requests>=2.27
+Provides-Extra: dev
+Requires-Dist: build>=0.7; extra == "dev"
+Requires-Dist: flake8>=3.9; extra == "dev"
+Requires-Dist: mypy>=0.910; extra == "dev"
+Requires-Dist: packaging>=23.1; extra == "dev"
+Requires-Dist: pre-commit>=2.13; extra == "dev"
+Requires-Dist: pylint>=2.9; extra == "dev"
+Requires-Dist: pytest-cov>=2.12; extra == "dev"
+Requires-Dist: pytest-mock>=3.6; extra == "dev"
+Requires-Dist: pytest>=6.2; extra == "dev"
+Requires-Dist: setuptools>=68.0; extra == "dev"
+Requires-Dist: tomli>=2.0.1; python_version < "3.11" and extra == "dev"
+Requires-Dist: wheel>=0.37; extra == "dev"
+Provides-Extra: hpo
+Requires-Dist: matplotlib>=2.0; extra == "hpo"
+Requires-Dist: numpy>=1.19; extra == "hpo"
+Requires-Dist: optuna>=2.8.0; extra == "hpo"
+Requires-Dist: pandas>=1.1; extra == "hpo"
+Requires-Dist: plotly>=4.0.0; extra == "hpo"
+Requires-Dist: scikit-learn>=0.22.2; extra == "hpo"
+
+![Link](https://user-images.githubusercontent.com/18215796/186842421-4af16476-8c68-47e8-a941-c16d6bb1c43b.png)
+
+# Link Core
+
+> Link Core is a package that contains the core functions related to pipeline operation for [Link](https://makinarocks.gitbook.io/link/). `mrx-link-core` is automatically installed when `mrx-link` is installed. Please refer to the following link if you wish to use the `mrx-link` package.
+
+- Visit [Link](https://pypi.org/project/mrx-link/)
+
+## Usage Environment
+
+| Supported Platform | Linux (AMD64, ARM64) / macOS (Intel, Apple Silicon) / Windows |
+| ------------------ | ------------------------------------------------------------- |
+| Python Version     | `3.8`, `3.9`, `3.10`                                          |
+
+## Learn more
+
+- [Discussions](https://makinarocks-link.readme.io/discuss)
+- [Link Docs](https://makinarocks-link.readme.io/docs)
+- [Link SDK Docs](https://makinarocks-link.readme.io/reference/introduction)
+- [Release Note](https://makinarocks-link.readme.io/changelog)
+- [Website](https://link.makinarocks.ai/)
+- [Youtube](https://www.youtube.com/watch?v=uM2uPG-1eQQ&ab_channel=MakinaRocks)
+- [Technical Support](https://link.makinarocks.ai/technical_support/)
