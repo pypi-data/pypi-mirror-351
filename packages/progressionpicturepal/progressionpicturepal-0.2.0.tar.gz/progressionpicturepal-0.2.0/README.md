@@ -1,0 +1,89 @@
+# Progression Picture Pal
+PPP is _perfect_ if you want to automate showing progression in images.
+
+```sh
+pip install 
+
+## Examples
+All images generated with the below code with different `num_images` and `max_per_row` values to show different behaviour.
+
+```python
+from progressionpicturepal import create_flow_diagram
+
+images = [
+    ("example_images/step1.JPG", "\"First you go to the beach\""),
+    ("example_images/step2.JPG", "\"Then you look at a green bush and think about your place in the world\""),
+    ("example_images/step3.JPG", "\"Then you see a red leaf\""),
+    ("example_images/step4.JPG", "\"But then you see a white house\""),
+    ("example_images/step5.JPG", "\"So you look at some bins\""),
+    ("example_images/step6.JPG", "\"And then some more houses\""),
+    ("example_images/step7.JPG", "\"Before finally looking at your foot\""),
+]
+
+create_flow_diagram(
+    images=images,
+    output_path="flow_output.png",
+    num_images=6,
+    spacing=160,
+    spacing_vertical=100,
+    max_node_dim=400,
+    max_per_row=3,
+    font_size=20,
+    arrow_padding_v=70
+)
+```
+
+### Basic
+```python
+num_images=3
+```
+
+![](examples/3_in_a_row.png)
+
+### Wrapping with even
+```python
+num_images=7
+```
+![](examples/4_with_7.png)
+
+
+### Wrapping with odd
+```python
+num_images=6 
+max_per_row=3
+```
+![](examples/3_with_6.png)
+
+
+### Advanced
+More advanced usage use the FlowDiagram class directly.
+
+```python
+images = [
+    ("example_images/step1.JPG", "\"First you go to the beach\""),
+    ("example_images/step2.JPG", "\"Then you look at a green bush and think about your place in the world\""),
+    ("example_images/step3.JPG", "\"Then you see a red leaf\""),
+    ("example_images/step4.JPG", "\"But then you see a white house\""),
+    ("example_images/step5.JPG", "\"So you look at some bins\""),
+    ("example_images/step6.JPG", "\"And then some more houses\""),
+    ("example_images/step7.JPG", "\"Before finally looking at your foot\""),
+
+]
+
+fd = FlowDiagram(spacing=160, spacing_vertical=100, max_node_dim=400, max_per_row=3,
+                    font_size=20, arrow_padding_v=70)
+
+num_images = 6
+for image in images[0:num_images]: 
+    fd.add_node(image[0], image[1]) 
+
+# only put an arrow every second image
+for i in range(num_images-1, 2):
+    fd.add_arrow(i, i+1)
+fd.save("flow_output.png")
+```
+
+![](examples/every_second_arrow.png)
+
+# Sponsorship
+Sample images kindly provided by Sam Lewis of https://snaps.samlewis.me .
