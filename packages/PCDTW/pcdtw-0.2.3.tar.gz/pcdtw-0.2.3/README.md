@@ -1,0 +1,87 @@
+PCDTW is a package that implements the conversion of amino acid sequences to physicochemical vectors and subsequently allows for alignment of the sequences based on those vectors, development of consensus vectors that can be used to search databases for similar physicochemical profiles, development of the DTW distance between two physicochemical vectors and a few other functions.  The basis for this package can be found in three publications and should be consulted for further background [1–3].
+
+To install PCDTW (Two Options):
+	-Use ‘pip install PCDTW’ in a powershell prompt
+	-Use ‘! pip install PCDTW’ in a jupyter notebook
+
+To use PCDTW:
+Use ‘import PCDTW’
+
+
+Citations
+1)Dixson, J.D.; Vumma, L.; Azad, R.K. An Analysis of Combined Molecular Weight and Hydrophobicity Similarity between the Amino Acid Sequences of Spike Protein Receptor Binding Domains of Betacoronaviruses and Functionally Similar Sequences from Other Virus Families. Microorganisms 2024, 12.
+
+2)Dixson, J.D.; Azad, R.K. Physicochemical Evaluation of Remote Homology in the Twilight Zone. Proteins Struct. Funct. Bioinforma. 2024, n/a, doi:https://doi.org/10.1002/prot.26742.
+
+3)Dixson, J.D.; Azad, R.K. A Novel Predictor of ACE2-Binding Ability among Betacoronaviruses. Evol. Med. Public Heal. 2021, 9, 360–373, doi:10.1093/EMPH/EOAB032.
+
+Usage:
+
+1) To convert an amino acid sequence to vector form using two physicochemical properties:
+
+    ```python
+    PCDTWConvert(x, PCProp1='Mass', PCProp2='HydroPho', normalize=False)
+    ```
+    PCProp1/PCProp2 options:
+    - 'HydroPho'
+    - 'HydroPhIl'
+    - 'Hbond'
+    - 'SideVol'
+    - 'Polarity'
+    - 'Polarizability'
+    - 'SASA'
+    - 'NCI'
+    - 'Mass'
+
+    Normalization: If normalize is set to True then the individual physicochemical scalar values for each amino acid are absolute maximum normalized before converting the amino acid sequence to vector form.
+
+2) To align two amino acid sequences using DTW and two physicochemical properties:
+
+    ```python
+    PCDTWAlign(inputseq1str, inputseq2str, PCProp1='Mass', PCProp2='HydroPho', Penalty=0, Window=3)
+    ```
+    - `window` = size of Sakoe-Chiba band
+    - `penalty` = somewhat equivalent to mismatch penalty in standard dynamic programming based alignment
+
+    Returns a dictionary containing the following values:
+    - 'Seq1AlignedString'
+    - 'Seq2AlignedString'
+    - 'FullAlignment'
+    - 'Identity'
+    - 'ConsensusVector'
+
+    Example to get the full alignment and identity:
+
+    ```python
+    seq1 = "MSDSNQGNNQQNYQQYSQNGNQQQGNNRYQG"
+    seq2 = "MMNNNGNQVSNLSNALRQVNIGNRNSNTTT"
+    print(PCDTWAlign(seq1, seq2)['FullAlignment'])
+    print(PCDTWAlign(seq1, seq2)['Identity'])
+    ```
+
+3) To get the PCDTW distance between two sequences normalized to the number of amino acids in the alignment:
+
+    ```python
+    Dist=PCDTWDist(Seq1, Seq2)
+    print(Dist)
+    ```
+
+    Example to get the distance:
+
+    ```python
+    seq1 = "MSDSNQGNNQQNYQQYSQNGNQQQGNNRYQG"
+    seq2 = "MMNNNGNQVSNLSNALRQVNIGNRNSNTTT"
+    print(PCDTWDist(seq1, seq2))
+    ```
+
+Dependency Citations:
+
+dtaidistance:
+Wannes Meert, Kilian Hendrickx, Toon Van Craenendonck, Pieter Robberechts, Hendrik Blockeel, & Jesse Davis. (2022). DTAIDistance (Version v2). Zenodo. http://doi.org/10.5281/zenodo.5901139
+
+numpy:
+Harris, C.R., Millman, K.J., van der Walt, S.J. et al. (2020). Array programming with NumPy. Nature 585, 357–362. DOI: 10.1038/s41586-020-2649-2.
+
+pandas:
+McKinney, W. (2010). Data Structures for Statistical Computing in Python. Proceedings of the 9th Python in Science Conference (SciPy 2010).
+
