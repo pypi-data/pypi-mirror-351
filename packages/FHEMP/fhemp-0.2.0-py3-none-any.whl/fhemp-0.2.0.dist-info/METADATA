@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: FHEMP
+Version: 0.2.0
+Summary: Гомоморфное шифрование на основе матричных полиномов
+Author: EvZait
+Author-email: email@example.com
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: numpy
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Homomorphic Encryption
+
+Гомоморфное шифрование на основе матричных полиномов. Поддерживает генерацию ключей, шифрование, гомоморфные операции и расшифровку.
+
+## Установка
+
+```bash
+pip install FHEMP
