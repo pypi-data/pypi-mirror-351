@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: statemachines_orchestrator
+Version: 0.0.3
+Summary: An extension of `python-statemachine` with linking between machines.
+Requires-Python: >=3.11
+License-File: LICENSE
+Requires-Dist: python-statemachine==2.5.0
+Dynamic: license-file
