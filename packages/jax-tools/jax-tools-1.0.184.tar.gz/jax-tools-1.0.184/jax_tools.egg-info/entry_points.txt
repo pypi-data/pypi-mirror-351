@@ -1,0 +1,23 @@
+[console_scripts]
+build-pip = jax_tools.cmd.build_pip:main
+build-pip-jax = jax_tools.cmd.build_pip:main
+find-jax = jax_tools.cmd.jax_find:main
+gpt = jax_tools.cmd.jax_gpt:main
+gpt-jax = jax_tools.cmd.jax_gpt:main
+install_python = jax_tools.cmd.install_python:main
+jax = jax_tools.cmd.jax:main
+jax-build-pip = jax_tools.cmd.build_pip:main
+jax-encrypt = jax_tools.cmd.jax_encrypt:main
+jax-fix = jax_tools.cmd.jax_fix:main
+jax-nd = jax_tools.cmd.nd:main
+jax-pam = jax_tools.cmd.jax_pam:main
+jax-upgrade-pip = jax_tools.cmd.upgrade_pip:main
+nd = jax_tools.cmd.nd:main
+nd-jax = jax_tools.cmd.nd:main
+pam = jax_tools.cmd.jax_pam:main
+pam-jax = jax_tools.cmd.jax_pam:main
+tail-jax = jax_tools.cmd.jax_tail:main
+upgrade-pip = jax_tools.cmd.upgrade_pip:main
+upgrade-pip-jax = jax_tools.cmd.upgrade_pip:main
+xargs-jax = jax_tools.cmd.jax_xargs:main
+
