@@ -1,0 +1,12 @@
+#
+# example configuration file for the SpotExtractor component
+#
+
+SpotExtractorLED:
+  name: Extractor-thresh5.0-ledmask
+  detection_threshold: 5.0
+  kernel_size: 10
+  use_tophat_kernel: True
+  min_spot_distance: 20
+  image_mask_name:
+

@@ -1,0 +1,23 @@
+#
+# example configuration file for the ctapointing-extract-spots tool
+#
+
+ExtractSpotsTool:
+  image_url: .
+  image_database: images
+  image_collection: ""
+  image_selection: {"sun_position_alt": {"$lt":  -12}}
+  hdf5_output_url: None
+  hdf5_group_name: spots
+  mongo_output_database: spots
+  mongo_output_collection: test_collection
+
+# note that config section name must match class name
+SpotExtractor:
+  name: Extractor-thresh5.0-no-mask
+  detection_threshold: 5.0
+  kernel_size: 10
+  use_tophat_kernel: False
+  min_spot_distance: 20
+  image_mask_name: None
+

@@ -1,0 +1,5 @@
+[console_scripts]
+ctapointing-create-movie = ctapointing.tools.create_movie:main
+ctapointing-extract-spots = ctapointing.tools.extract_spots_tool:main
+ctapointing-simulate-images = ctapointing.tools.simulate_images_tool:main
+ctapointing-solve-images = ctapointing.tools.solve_images_tool:main

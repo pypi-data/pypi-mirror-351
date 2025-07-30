@@ -1,0 +1,16 @@
+#
+# example configuration file for the ImageSolver component
+#
+
+# note that config section name must match class name
+ImageSolver:
+  name: ImageSolver-default
+  min_magnitude: -12.0
+  max_magnitude: 9.0
+  max_num_stars: 100
+  max_num_spots: 15
+  matching_distance: 0.01
+  matching_radius: 15
+  max_pointing_deviation: 2.0
+  min_camera_shadow: 10.0
+  scale_tolerance: 0.1

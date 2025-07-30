@@ -1,0 +1,31 @@
+#
+# example configuration file for a ZWO ASI2600-MM Pro pointing camera
+#
+
+PointingCamera:
+  name: ZWO ASI2600-MM-Pro-ECAP
+  uuid: 8f5d984c-f773-4aa1-bfcb-9ec78fc67d71
+  serial_number: ""
+  telescope_id:
+  location: ["11.03091 deg", "49.58124 deg", "300 m"]  # ECAP, Erlangen, Germany
+  f_stop: 11
+  focal_length: ["50.0 mm", "50.0 mm"]
+  num_pix: [4176, 6248]
+  pixel_size: "3.76 um"
+  tilt: ["0.0 deg", "0.0 deg"]  # tilt w.r.t. telescope orientation
+  offset: ["0.0 m", "0.0 m"]    # offset of chip centre in plane perpendicular to optical axis
+  rotation: "0.0 deg"           # rotation around optical axis w.r.t. horizon
+  noise_mean: [45]
+  noise_rms: [45]
+  noise_pixel_fraction: [1]
+  expansion_coefficient: "2.0 um/K"
+  efficiency: 0.9
+  bit_depth: 16
+  used_since: "2018-07-07 00:00:00.000"
+  used_until:
+
+  # example SIP distortion model as part of the camera config
+  DistortionCorrectionSIP:
+    name: SIP-distortion
+    coeff: {"A10": 0.0, "A20": 0.0, "A11": 0.0, "A02": 0.0, "B10": 0.0, "B20": 0.0, "B11": 0.0, "B02": 0.0}
+    coeff_inv: {"AP10": 0.0, "AP20": 0.0, "AP11": 0.0, "AP02": 0.0, "BP10": 0.0, "BP20": 0.0, "BP11": 0.0, "BP02": 0.0}

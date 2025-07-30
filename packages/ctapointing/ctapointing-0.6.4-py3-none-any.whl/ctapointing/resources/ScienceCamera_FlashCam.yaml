@@ -1,0 +1,21 @@
+#
+# example configuration file for a ZWO ASI2600-MM Pro pointing camera
+#
+
+ScienceCamera:
+  name: FlashCam
+  uuid: a406cfa7-b8c5-47b0-9f28-a50eded31d9b
+  focal_length: "16.0 m"
+  mirror_area: "88.0 m**2"
+  tilt: ["0.0 deg", "0.0 deg"]  # tilt w.r.t. telescope orientation
+  offset: ["0.0 m", "0.0 m"]    # offset of chip centre in plane perpendicular to optical axis
+  rotation: "0.0 deg"           # rotation around optical axis w.r.t. horizon
+  led_positions_x: ["1267.30 mm", "927.70 mm", "656.00 mm", "-656.00 mm", "-927.70 mm", "-1267.30 mm", "-1267.30 mm", "-927.70 mm", "-656.00 mm", "656.00 mm", "927.70 mm", "1267.30 mm"]
+  led_positions_y: ["-339.70 mm", "-927.70 mm", "-1136.20 mm", "-1136.20 mm", "-927.70 mm", "-339.70 mm", "339.70 mm", "927.70 mm", "1136.20 mm", "1136.20 mm", "927.70 mm", "339.70 mm"]
+  led_intensity: [60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000]
+  led_radius: "5 mm"  # TODO: change to actual size once smearing implemented
+  body_vertex_positions_x: ["-1.459 m", "1.459 m", "1.459 m", "-1.459 m"]
+  body_vertex_positions_y: ["-1.459 m", "-1.459 m", "1.459 m", "1.459 m"]
+  body_intensity: 10.0
+  lid_radius: "400.0 mm"
+  lid_intensity: 20.0

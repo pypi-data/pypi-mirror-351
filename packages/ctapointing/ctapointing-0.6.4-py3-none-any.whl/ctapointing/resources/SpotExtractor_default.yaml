@@ -1,0 +1,12 @@
+#
+# example configuration file for the SpotExtractor component
+#
+
+SpotExtractorSky:
+  name: Extractor-thresh5.0-no-mask
+  detection_threshold: 5.0
+  kernel_size: 10
+  use_tophat_kernel: False
+  min_spot_distance: 20
+  image_mask_name:
+

@@ -1,0 +1,64 @@
+#
+# example configuration file for the ctapointing-simulate-images tool
+#
+
+SimulateImagesTool:
+  image_url: "."
+  image_database: "images"
+  image_collection: "test"
+
+ObservationPlan:
+  input_url: "testplan.h5"
+
+ExposureSimulator:
+  name: ExposureSimulator-default
+  min_magnitude: -12.0
+  max_magnitude: 9.0
+  num_time_steps: 20
+  unsharp_radius: "50 arcsec"
+  num_unsharp_rays_stars: 200
+  num_unsharp_rays_leds: 1000
+  apply_moonlight: True
+  apply_noise: True
+  ambient_temperature: "20 deg_C"
+  ambient_pressure: "1020 mbar"
+
+PointingCamera:
+  name: ZWO ASI2600-MM-Pro-ECAP
+  uuid: 8f5d984c-f773-4aa1-bfcb-9ec78fc67d71
+  serial_number: ""
+  telescope_id:
+  location: ["11.03091 deg", "49.58124 deg", "300 m"]  # ECAP, Erlangen, Germany
+  f_stop: 11
+  focal_length: ["50.0 mm", "50.0 mm"]
+  num_pix: [4176, 6248]
+  pixel_size: "3.76 um"
+  tilt: ["0.0 deg", "0.0 deg"]  # tilt w.r.t. telescope orientation
+  offset: ["0.0 m", "0.0 m"]    # offset of chip centre in plane perpendicular to optical axis
+  rotation: "0.0 deg"           # rotation around optical axis w.r.t. horizon
+  noise_mean: [45]
+  noise_rms: [45]
+  noise_pixel_fraction: [1]
+  expansion_coefficient: "2.0 um/K"
+  efficiency: 0.9
+  bit_depth: 16
+  used_since: "2018-07-07 00:00:00.000"
+  used_until:
+
+ScienceCamera:
+  name: FlashCam
+  uuid: a406cfa7-b8c5-47b0-9f28-a50eded31d9b
+  focal_length: "16.0 m"
+  mirror_area: "88.0 m**2"
+  tilt: ["0.0 deg", "0.0 deg"]  # tilt w.r.t. telescope orientation
+  offset: ["0.0 m", "0.0 m"]    # offset of chip centre in plane perpendicular to optical axis
+  rotation: "0.0 deg"           # rotation around optical axis w.r.t. horizon
+  led_positions_x: ["1267.30 mm", "927.70 mm", "656.00 mm", "-656.00 mm", "-927.70 mm", "-1267.30 mm", "-1267.30 mm", "-927.70 mm", "-656.00 mm", "656.00 mm", "927.70 mm", "1267.30 mm"]
+  led_positions_y: ["-339.70 mm", "-927.70 mm", "-1136.20 mm", "-1136.20 mm", "-927.70 mm", "-339.70 mm", "339.70 mm", "927.70 mm", "1136.20 mm", "1136.20 mm", "927.70 mm", "339.70 mm"]
+  led_intensity: [60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000, 60000]
+  led_radius: "5 mm"  # TODO: change to actual size once smearing implemented
+  body_vertex_positions_x: ["-1.459 m", "1.459 m", "1.459 m", "-1.459 m"]
+  body_vertex_positions_y: ["-1.459 m", "-1.459 m", "1.459 m", "1.459 m"]
+  body_intensity: 10.0
+  lid_radius: "400.0 mm"
+  lid_intensity: 20.0
