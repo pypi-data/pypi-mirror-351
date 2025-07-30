@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: semiauto-classification
+Version: 1.0.2
+Summary: Automated classification pipeline for machine learning
+Home-page: https://github.com/Akshat-Sharma-110011/SemiAuto-Classification
+Author: Akshat-Sharma-110011
+Author-email: akshatsharma.business.1310@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy==1.23.5
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: PyYAML
+Requires-Dist: cloudpickle==2.2.1
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: optuna
+Requires-Dist: featuretools
+Requires-Dist: imbalanced-learn
+
+# SemiAuto-Classification
+This will be an Classification-based AutoML clone Microservice
