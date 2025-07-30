@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+src/de4rec/__init__.py
+src/de4rec/s3_tools.py
+src/de4rec/text_encoder.py
+src/de4rec/train.py
+src/de4rec.egg-info/PKG-INFO
+src/de4rec.egg-info/SOURCES.txt
+src/de4rec.egg-info/dependency_links.txt
+src/de4rec.egg-info/requires.txt
+src/de4rec.egg-info/top_level.txt
+tests/test_ml_1m.py
+tests/test_s3_train.py
+tests/test_tokenizer.py

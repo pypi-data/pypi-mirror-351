@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: de4rec
+Version: 0.7.0
+Summary: Dual Encoder  model for recommendations of search suggests
+Author-email: Fedor Krasnov <krasnov.fedor2@wb.ru>
+Project-URL: Homepage, https://github.com/fkrasnov2/de4rec
+Project-URL: Repository, https://github.com/fkrasnov2/de4rec
+Keywords: recsys,recommendation systems,machine learning,AI,personalization
+Classifier: Development Status :: 3 - Alpha
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: Unix
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: scipy>=1.15.1
+Requires-Dist: torch>=2.6.0
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: transformers>=4.48.3
+Requires-Dist: numpy>=2.2.2
+Requires-Dist: accelerate>=1.5.1
+Requires-Dist: evaluate>=0.4.3
+Requires-Dist: scikit-learn>=1.6.1
+Requires-Dist: boto3>=1.38.2
+
+# de4rec
+
+
+## Framework
+
+[![Framework](https://github.com/fkrasnov2/de4rec/raw/main/de4recv3.png)](https://github.com/fkrasnov2/de4rec)
+
+## Getting Started
+bash:
+```console
+git clone https://github.com/fkrasnov2/de4rec.git
+cd de4rec
+#to test in isolated env
+make install test
+```
+## Production ready
+```bash
+pip install de4rec
+```
+
