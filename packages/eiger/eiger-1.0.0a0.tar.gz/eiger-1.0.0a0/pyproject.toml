@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "eiger"
+version = "1.0.0a0"
+description = "A modern, async Python framework for Discord bots."
+authors = ["vcokltfre <vcokltfre@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/vcokltfre/eiger"
+keywords = ["discord", "python", "library", "bot"]
+classifiers = [
+    "Framework :: AsyncIO",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Communications :: Chat",
+    "Typing :: Typed",
+]
+include = ["eiger/py.typed"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiohttp = {extras = ["speedups"], version = "^3.12.4"}
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+isort = "^6.0.1"
+taskipy = "^1.14.1"
+
+[tool.taskipy.tasks]
+format = "black . && isort --profile black ."
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+
+[tool.pyright]
+typeCheckingMode = "strict"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
