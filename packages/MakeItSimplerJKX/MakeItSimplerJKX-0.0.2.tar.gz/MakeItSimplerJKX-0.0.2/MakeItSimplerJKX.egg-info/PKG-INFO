@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: MakeItSimplerJKX
+Version: 0.0.2
+Summary: Make it simple
+Author: juckex
+Author-email: Julius Stensson <juliusstensso@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/dittkonto/dittrepo
+Project-URL: Bug Tracker, https://github.com/dittkonto/dittrepo/issues
+Keywords: ai,verktyg,python,whatever
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+
+A library to import simple functions to make a clean coded project.

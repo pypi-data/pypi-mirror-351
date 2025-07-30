@@ -1,0 +1,40 @@
+[project]
+name = "MakeItSimplerJKX"
+version = "0.0.2"
+description = "Make it simple"
+authors = [
+    { name = "Julius Stensson", email = "juliusstensso@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+# Viktigt för PyPI
+keywords = ["ai", "verktyg", "python", "whatever"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",  # Ändra beroende på stabilitet
+    "Intended Audience :: Developers"
+]
+
+# Dina beroenden
+dependencies = [
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.10",
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "requests"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/dittkonto/dittrepo"
+"Bug Tracker" = "https://github.com/dittkonto/dittrepo/issues"
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "mypy"]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"

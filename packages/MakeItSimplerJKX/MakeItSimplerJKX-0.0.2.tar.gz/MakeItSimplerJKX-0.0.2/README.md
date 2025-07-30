@@ -1,0 +1,1 @@
+A library to import simple functions to make a clean coded project.
