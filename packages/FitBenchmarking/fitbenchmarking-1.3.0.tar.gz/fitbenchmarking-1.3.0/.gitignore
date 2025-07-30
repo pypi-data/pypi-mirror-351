@@ -1,0 +1,17 @@
+fitbenchmarking_results/
+*.pyc
+logs/
+.idea/
+build/build.log
+FitBenchmarking.egg-info/
+build/lib/
+dist/
+docs/build
+docs/source/_build
+docs/source/contributors/module_index
+*.log
+*.DS_Store
+.vscode/
+.eggs/
+*.out
+powermetrics_log.txt

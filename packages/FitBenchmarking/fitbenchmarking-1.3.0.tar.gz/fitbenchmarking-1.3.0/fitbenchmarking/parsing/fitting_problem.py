@@ -1,0 +1,353 @@
+"""
+Implements the FittingProblem class, this will be the object that inputs are
+parsed into before being passed to the controllers
+"""
+
+try:
+    from itertools import izip_longest
+except ImportError:
+    # python3
+    from itertools import zip_longest as izip_longest
+import contextlib
+
+import numpy as np
+
+from fitbenchmarking.utils.debug import get_printable_table
+from fitbenchmarking.utils.exceptions import (
+    FittingProblemError,
+    IncorrectBoundsError,
+)
+from fitbenchmarking.utils.timer import TimerWithMaxTime
+
+
+class FittingProblem:
+    r"""
+    Definition of a fitting problem, which will be populated by a parser from a
+    problem definition file.
+
+    Onces populated, this should include the data, the function and any other
+    additional requirements from the data.
+    """
+
+    def __init__(self, options):
+        """
+        Initialises variable used for temporary storage.
+
+        :param options: all the information specified by the user
+        :type options: fitbenchmarking.utils.options.Options
+        """
+        self.options = options
+        #: *string* Name (title) of the fitting problem
+        self.name = None
+
+        #: *string* Name of the problem definition type (e.g., 'cutest')
+        self.format = None
+
+        #: *string* The plot scale for the y and x data
+        self.plot_scale = None
+
+        #: *string* Equation (function or model) to fit against data
+        self.equation = None
+
+        #: *string* Description of the fitting problem
+        self.description = ""
+
+        #: *float* The start of the range to fit model data over
+        #: (if different from entire range)
+        self.start_x = None
+
+        #: *float* The end of the range to fit model data over
+        #: (if different from entire range) (/float/)
+        self.end_x = None
+
+        #: *numpy array* The x-data
+        self.data_x = None
+
+        #: *numpy array* The y-data
+        self.data_y = None
+
+        #: *numpy array* The errors or weights
+        self.data_e = None
+
+        #: *list of dict*
+        #: Starting values of the fitting parameters
+        #:
+        #: e.g.
+        #: :code:`[{p1_name: p1_val1, p2_name: p2_val1, ...},
+        #: {p1_name: p1_val2, ...}, ...]`
+        self.starting_values: list = []
+
+        #: *list*
+        #: Smallest and largest values of interest in the data
+        #:
+        #: e.g.
+        #: :code:`[(p1_min, p1_max), (p2_min, p2_max),...]`
+        self.value_ranges = None
+
+        #: Callable function
+        self.function = None
+
+        self._param_names = None
+
+        #: *numpy array* The index for sorting the data (used in plotting)
+        self.sorted_index = None
+
+        #: *dict*
+        #: Container for software specific information.
+        #: This should be avoided if possible.
+        self.additional_info = {}
+
+        # Used to check if a problem is using multifit.
+        self.multifit = None
+
+        # Used to check if a problem will be used down the line for
+        # varying starting conditions analysis.
+        self.multistart = None
+
+        #: Callable function for the Jacobian
+        self.jacobian = None
+
+        self.sparse_jacobian = None
+
+        #: Whether the function has been wrapped to reduce the dimension of x
+        #: on function calls
+        self.multivariate = None
+
+        #: Callable function for the Hessian
+        self.hessian = None
+
+        # The timer used to check if the 'max_runtime' is exceeded.
+        self.timer = TimerWithMaxTime(self.options.max_runtime)
+
+        #: Cache for calulating the initial value of the problem for plots
+        self._ini_y = {}
+
+    def __str__(self):
+        info = {
+            "Name": self.name,
+            "Format": self.format,
+            "Equation": self.equation,
+            "Params": self._param_names,
+            "Start X": self.start_x,
+            "End X": self.end_x,
+            "MultiFit": self.multifit,
+        }
+
+        return get_printable_table("FittingProblem", info)
+
+    def eval_model(self, params, **kwargs):
+        """
+        Function evaluation method
+
+        :param params: parameter value(s)
+        :type params: list
+
+        :return: data values evaluated from the function of the problem
+        :rtype: numpy array
+        """
+        if self.function is None:
+            raise FittingProblemError(
+                "Cannot call function before setting function."
+            )
+
+        self.timer.check_elapsed_time()
+
+        x = kwargs.get("x", self.data_x)
+        return self.function(x, *params)
+
+    @property
+    def param_names(self):
+        """
+        Utility function to get the parameter names
+
+        :return: the names of the parameters
+        :rtype: list of str
+        """
+        if self._param_names is None:
+            self._param_names = list(self.starting_values[0].keys())
+        return self._param_names
+
+    @param_names.setter
+    def param_names(self, value):
+        raise FittingProblemError("param_names should not be edited")
+
+    def get_function_params(self, params):
+        """
+        Return the function definition in a string format for output
+
+        :param params: The parameters to use in the function string
+        :type params: list
+
+        :return: Representation of the function
+                 example format: 'b1 * (b2+x) | b1=-2.0, b2=50.0'
+        :rtype: string
+        """
+        params = [
+            f"{n}={p}"
+            for n, p in izip_longest(
+                self.param_names, params if params is not None else []
+            )
+        ]
+        param_string = ", ".join(params)
+
+        return param_string
+
+    def verify(self):
+        """
+        Basic check that minimal set of attributes have been set.
+
+        Raise FittingProblemError if object is not properly initialised.
+        """
+        values = {
+            "data_x": np.ndarray,
+            "data_y": np.ndarray,
+            "starting_values": list,
+        }
+
+        for attr_name, attr_type in values.items():
+            attr = getattr(self, attr_name)
+            type_match = isinstance(attr, attr_type)
+            with contextlib.suppress(TypeError, IndexError):
+                type_match = type_match or isinstance(attr[0], attr_type)
+            if not type_match:
+                raise FittingProblemError(
+                    f'Attribute "{attr_name}" is not the expected type.'
+                    f' Expected "{attr_type}", got "{type(attr)}".'
+                )
+        if self.function is None:
+            raise FittingProblemError('Attribute "function" has not been set.')
+
+    def correct_data(self):
+        """
+        Strip data that overruns the start and end x_range,
+        and approximate errors if not given.
+        Modifications happen on member variables.
+        """
+        use_errors = (
+            "weighted_nlls" in self.options.cost_func_type
+            or "loglike_nlls" in self.options.cost_func_type
+        )
+        if self.multifit:
+            # Mantid multifit problem
+            self.sorted_index = []
+            num_data = len(self.data_x)
+            for i in range(num_data):
+                correct_vals = correct_data(
+                    x=self.data_x[i],
+                    y=self.data_y[i],
+                    e=self.data_e[i],
+                    startx=self.start_x[i],
+                    endx=self.end_x[i],
+                    use_errors=use_errors,
+                )
+                self.data_x[i] = correct_vals[0]
+                self.data_y[i] = correct_vals[1]
+                self.data_e[i] = correct_vals[2]
+                self.sorted_index.append(correct_vals[3])
+        else:
+            self.data_x, self.data_y, self.data_e, self.sorted_index = (
+                correct_data(
+                    x=self.data_x,
+                    y=self.data_y,
+                    e=self.data_e,
+                    startx=self.start_x,
+                    endx=self.end_x,
+                    use_errors=use_errors,
+                )
+            )
+
+    def set_value_ranges(self, value_ranges):
+        """
+        Function to format parameter bounds before passing to controllers,
+        so self.value_ranges is a list of tuples, which contain lower and
+        upper bounds (lb,ub) for each parameter in the problem
+
+        :param value_ranges: dictionary of bounded parameter names with
+                             lower and upper bound values e.g.
+                             :code:`{p1_name: [p1_min, p1_max], ...}`
+        :type value_ranges: dict
+        """
+        lower_param_names = [name.lower() for name in self.starting_values[0]]
+        if not all(name in lower_param_names for name in value_ranges):
+            raise IncorrectBoundsError(
+                "One or more of the parameter names in "
+                "the `parameter_ranges` dictionary is "
+                "incorrect, please check the problem "
+                "definiton file for this problem."
+            )
+
+        self.value_ranges = []
+        for name in lower_param_names:
+            if name in value_ranges:
+                self.value_ranges.append(
+                    (value_ranges[name][0], value_ranges[name][1])
+                )
+            else:
+                self.value_ranges.append((-np.inf, np.inf))
+
+    def ini_y(self, parameter_set=0):
+        """
+        Return the result of evaluating the problem at the initial parameters
+        for plotting.
+
+        :param parameter_set: The initial parameters to use, defaults to 0
+        :type parameter_set: int, optional
+        :return: The initial estimates
+        :rtype: numpy.ndarray
+        """
+        if parameter_set not in self._ini_y:
+            params = self.starting_values[parameter_set].values()
+            self._ini_y[parameter_set] = (
+                self.eval_model(params=params, x=self.data_x[0])
+                if self.multifit
+                else self.eval_model(params=params)
+            )
+        return self._ini_y[parameter_set]
+
+
+def correct_data(x, y, e, startx, endx, use_errors):
+    """
+    Strip data that overruns the start and end x_range,
+    and approximate errors if not given.
+
+    :param x: x data
+    :type x: np.array
+    :param y: y data
+    :type y: np.array
+    :param e: error data
+    :type e: np.array
+    :param startx: minimum x value
+    :type startx: float
+    :param endx: maximum x value
+    :type endx: float
+    :param use_errors: whether errors should be added if not present
+    :type use_errors: bool
+    """
+    # fix data_e
+    if use_errors:
+        if e is None:
+            e = np.sqrt(abs(y))
+
+        # The values of data_e are used to divide the residuals.
+        # If these are (close to zero), then this blows up.
+        # This is particularly a problem if trying to fit
+        # counts, which may follow a Poisson distribution.
+        #
+        # Fix this by cutting values less than a certain value
+        trim_value = 1.0e-8
+        e[e < trim_value] = trim_value
+    else:
+        e = None
+
+    # impose x ranges
+    if startx is not None and endx is not None:
+        mask = np.logical_and(x >= startx, x <= endx)
+        x = x[mask]
+        y = y[mask]
+        if e is not None:
+            e = e[mask]
+
+    # Stores the indices of the sorted data
+    sorted_index = np.argsort(x)
+
+    return x, y, e, sorted_index

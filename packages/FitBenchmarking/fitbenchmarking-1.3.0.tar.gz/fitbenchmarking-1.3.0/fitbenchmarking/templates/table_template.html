@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{{ css_style_sheet }}" />
+    <link rel="stylesheet" type="text/css" href="{{ custom_style }}" />
+    <link rel="stylesheet" type="text/css" href="{{ dropdown_style }}" />
+    <link rel="stylesheet" type="text/css" href="{{ table_style }}" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="{{ dropdown_js }}"></script>
+    <script id="MathJax-script" async src="{{ mathjax }}"></script>
+    <script type="text/javascript" src="{{ table_js }}"></script>
+    <script>        
+        // When the table page loads, read the selected runtime metric
+        // and update the display of the runtime rows accordingly.
+        document.addEventListener("DOMContentLoaded", () => {
+            const metric = sessionStorage.getItem("selected_runtime_metric");
+            if (metric) {
+                update_runtime(metric);
+            }
+        });
+    </script>
+    <head>
+        <title>{{ run_name }}Fitbenchmark Results Table</title>
+    </head>
+    <body>
+        <div class="box">
+            <div class="container">
+                <div class="post-title">
+                    <h1>{{ result_name }}</h1>
+                    <hr />
+                </div>
+                {% if table_description %}
+                    <div class="content">
+                        {{ table_description }}
+                    </div>
+                {% endif %}
+                <section class="accordion">
+                    <input type="checkbox" name="collapse" id="handle2" checked="checked">
+                    <h2 class="handle">
+                    <label for="handle2">Table</label>
+                    </h2>
+                    <div class="content">
+                        {% if table_format %}
+                            <p>
+                                {{ table_format }}
+                            </p>
+                        {% endif %}
+                        <center>
+                            <div>
+                                {{ problem_dropdown }}
+                                {{ costfunc_dropdown }}
+                                {{ software_dropdown }}
+                                {{ minimizer_dropdown }}
+                            </div>
+                            <div class="checkbox-row">
+                                {{ runtime_dropdown }}
+                                {{ probsize_checkbox }}
+                            </div>
+                        </center>
+
+                        <h3>
+                            Key:
+                        </h3>
+                        <center>
+                            <img alt="{{ cbar }}" src="{{ cbar }}" />
+                        </center>
+
+                        <h3>
+                            Table:
+                        </h3>
+                        <center>
+                        <div class="table">
+                            {{ table }}
+                        </div>
+                        </center>
+                    <div class="info-box">
+                        <p><b>Important Information:</b></p>
+                        <ul>
+                            <li>Clicking a result in the tables will provide more details, such as graphs of the fit against the data and the parameters found.</li>
+                            <li>Clicking the problem names will take you to details of the best minimizer.</li>
+                            <li>Clicking the software name will take you to the FitBenchmarking documentation for the selected software.</li>
+                            <li>Hovering over each minimizer name will display its matching algorithm types out of those selected in options.</li>
+                        </ul>
+                    </div>
+                        {% if report_failed_min %}
+                            <h3>Failed minimizers</h3>
+                            <p>
+                                The `algorithm_type` has been selected to be
+                                <strong>{{algorithm_type}}</strong> and not all minimizers
+                                specified in the options setup file are compatible. If this was not intended, please review
+                                current options setup and re-run FitBenchmarking.
+                            </p>
+                            <p>
+                                {% for software, minimizer in unselected_minimzers.items() %}
+                                    {% if minimizer != [] %}
+                                        Within <strong>{{software}}</strong>, the following
+                                        minimizer(s) were not run due to the choice of <strong>{{algorithm_type}}</strong>
+                                        for the algorithm type:
+                                        <ol>
+                                            {% for m in minimizer -%}
+                                                {{ m }} <br/>
+                                                {%- endfor %}
+                                            </ol>
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                            {% endif %}
+                            {% if failed_problems != [] %}
+                                <h3>Failed problems</h3>
+                                <p>
+                                    For the following problems all the selected minimizers
+                                    and software packages raise an exception:
+                                </p>
+                                <ol>
+                                    {% for problem in failed_problems %}
+                                        {{ problem }} <br/>
+                                    {% endfor %}
+                                </ol>
+                                <p>
+                                    This could be due to incompatible problem-cost function combinations or the `algorithm_type` set in the options.
+                                    Please review the logs and current options setup and re-run FitBenchmarking to see comparisons for these problems.
+                                </p>
+                            {% endif %}
+                            <h3>Errors</h3>
+                            <p>
+                                The <b>superscripts</b> in the tables denote current error handling within FitBenchmarking.
+                                Currently the <span class='pill'>errors</span> correspond to:
+                            </p>
+                            <table class="error-table">
+                                <tr>
+                                    <th>Error flag</th>
+                                    <th>Error message</th>
+                                </tr>
+                                {% for flag, message in error_message.items() %}
+                                    <tr class="{% if loop.index is even %}even-row{% else %}odd-row{% endif %}">
+                                        <td>{{ flag }}</td>
+                                        <td>{{ message }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </section>
+                    {% if has_pp %}
+                        <hr>
+                        <section class="accordion">
+                            <input type="checkbox" name="collapse" id="handle3" checked="checked">
+                            <h2 class="handle">
+                            <label for="handle3">Performance profile</label>
+                            </h2>
+                            <div class="content">
+                                <div>
+                                    <p>
+                                        For a more interative plot (Dash), switch to "Online version" by clicking the button below.
+                                        <b>This will only work if the Dash app is running.</b>
+                                    </p>
+                                    <div>
+                                        <button class="btn default" id="offline_plot"
+                                                data-value1={{ pp_filenames | join("|") }}
+                                                data-value3="{{ n_solvers_large }}"
+                                                onclick="load_src(this)">Offline version</button>
+                                        <button class="btn default" id="online_plot"
+                                                data-value1={{ pp_dash_url }}
+                                                data-value3="{{ n_solvers_large }}"
+                                                onclick="load_src(this)">Online version</button>
+                                    </div>
+                                    <br>
+                                    <div class="iframe-wrapper">
+                                        {% for offline_plot in pp_filenames %}
+                                            <iframe width="100%" frameborder="0" seamless="seamless"
+                                                    src="{{ offline_plot }}" height={{ 100 if n_solvers_large else 650 }}></iframe>
+                                            <br>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <p id="profiles_info" style={{"display:none" if n_solvers_large else "display:block"}}>
+                                    <div class="info-box">
+                                        <p><b>Important Information:</b></p>
+                                        <ul>
+                                            <li> Fits are taken from all benchmarks, so if FitBenchmarking is run with
+                                                <em>n</em> <b>problems</b> and <em>m</em> <b>cost functions</b>, the resulting profile plots will have
+                                                <em>n * m</em> <b>steps</b> on the y-axis.</li>
+                                            <li>This is a Dolan-Moré performance profile.
+                                                The solvers appearing in the <b>top left corner</b> may be considered the <b>best</b> performing on this test set.
+                                                See <a href="https://doi.org/10.1007/s101070100263">Dolan and Moré (2001)</a> for more information.</li>
+                                        </ul>
+                                        <br>
+                                        <p>The plot is such that lines can be removed by clicking on the respective minimizer name in the dropdown
+                                            or hidden by unselecting the minimizer in the legend. If a solver is removed through the dropdown,
+                                            the graph gets recalculated based on the best minimizer among the ones shown. On the other hand, if a solver
+                                            is unselected in the legend, the line gets temporarily hidden and the plot is not recalculated.
+                                            <b>We recommend only analysing graphs where lines are removed via the dropdown.</b></p>
+                                    </div>
+                                </p>
+                            </div>
+                        </section>
+                    {% endif %}
+                    <center>
+                    <button class="btn default" onclick="history.go(-1)">
+                    <i class="fa fa-arrow-left"></i>
+                    </button>
+                    </center>
+                </div>
+            </div>
+        </body>
+    </html>
