@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ChinaHolidays"
+version = "0.0.2"
+description = "获取中国节假日信息"
+readme = "README.md"
+license = "MIT"
+dependencies = ['toml']
