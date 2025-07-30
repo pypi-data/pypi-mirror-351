@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "filedialogs"
+authors = [
+    {name = "Adrian F. Hoefflin", email = "srccircumflex@outlook.com"},
+]
+description = "Platform independent interface for file dialogs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT License"}
+classifiers = [
+    "Development Status :: 7 - Inactive",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Desktop Environment :: File Managers",
+]
+dependencies = [
+    "pywin32; platform_system == 'Windows'",
+]
+
+version = "0.4.2"
+
+[project.scripts]
+askfile = "filedialogs.__main__:run"
+
+[project.urls]
+Repository = "https://github.com/srccircumflex/filedialogs"

@@ -1,0 +1,17 @@
+.gitignore
+LICENSE
+README.md
+pyproject.toml
+src/filedialogs/__init__.py
+src/filedialogs/__main__.py
+src/filedialogs/linux_kdialog.py
+src/filedialogs/linux_zenity.py
+src/filedialogs/mac.py
+src/filedialogs/tkinter.py
+src/filedialogs/windows.py
+src/filedialogs.egg-info/PKG-INFO
+src/filedialogs.egg-info/SOURCES.txt
+src/filedialogs.egg-info/dependency_links.txt
+src/filedialogs.egg-info/entry_points.txt
+src/filedialogs.egg-info/requires.txt
+src/filedialogs.egg-info/top_level.txt
