@@ -1,0 +1,224 @@
+Metadata-Version: 2.4
+Name: sentr-guard
+Version: 0.1.4
+Summary: High-performance fraud detection rules engine with sub-millisecond evaluation
+Project-URL: Homepage, https://github.com/sentr-dev/sentr-guard
+Project-URL: Documentation, https://github.com/sentr-dev/sentr-guard#readme
+Project-URL: Repository, https://github.com/sentr-dev/sentr-guard.git
+Project-URL: Issues, https://github.com/sentr-dev/sentr-guard/issues
+Author-email: Sentr Team <hello@sentr.dev>
+License: MIT
+License-File: LICENSE
+Keywords: detection,engine,fraud,guard,payments,rules,security
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Office/Business :: Financial
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: typer>=0.9.0
+Provides-Extra: dev
+Requires-Dist: black>=24.4.0; extra == 'dev'
+Requires-Dist: mypy>=1.10.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.26.0; extra == 'dev'
+Requires-Dist: pytest-mock>=3.14.0; extra == 'dev'
+Requires-Dist: pytest>=8.2.0; extra == 'dev'
+Requires-Dist: ruff>=0.4.0; extra == 'dev'
+Provides-Extra: full
+Requires-Dist: confluent-kafka>=2.4.0; extra == 'full'
+Requires-Dist: fastapi>=0.110.0; extra == 'full'
+Requires-Dist: numpy>=1.24.0; extra == 'full'
+Requires-Dist: orjson>=3.9.0; extra == 'full'
+Requires-Dist: prometheus-client>=0.20.0; extra == 'full'
+Requires-Dist: pydantic-settings>=2.9.0; extra == 'full'
+Requires-Dist: pydantic>=2.7.0; extra == 'full'
+Requires-Dist: redis>=5.0.0; extra == 'full'
+Requires-Dist: structlog>=23.2.0; extra == 'full'
+Requires-Dist: tenacity>=8.2.3; extra == 'full'
+Requires-Dist: uvicorn[standard]>=0.29.0; extra == 'full'
+Description-Content-Type: text/markdown
+
+# Sentr
+
+**High-performance, open-source middleware that blocks card-testing traffic _before_ it reaches Stripe.**
+
+[![PyPI version](https://badge.fury.io/py/sentr.svg)](https://pypi.org/project/sentr/)
+[![Python 3.8‒3.12](https://img.shields.io/badge/python-3.8--3.12-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+---
+
+## Overview
+
+Card-testing attacks burn fee budgets, pollute customer analytics and increase charge-back risk. **Sentr** stops these requests inside your application layer in < 1 ms, so only legitimate traffic reaches Stripe.
+
+*Written in modern Python, built for developer velocity, shipped under the MIT license.*
+
+---
+
+## Key Capabilities
+
+| Capability | Detail |
+|------------|--------|
+| **Sub-millisecond rules engine** | 95-th percentile evaluation ≈ **5 µs**; full request path (Redis + HTTP) ≈ **1 ms** |
+| **Behavioural features** | Sliding-window counters in Redis (failure rate, BIN diversity, burst velocity) |
+| **Transparent YAML rules** | Hot-reload, *audit → shadow-block → enforce* workflow; no black-box ML required |
+| **Operational guard rails** | Panic flag, Prometheus metrics, `/healthz` readiness, circuit-breaker on Redis loss |
+| **Drop-in middleware** | First-class FastAPI, Flask and Express examples; webhook-guard fallback for legacy stacks |
+
+---
+
+## Installation
+
+```bash
+# Alpha channel until v1.0
+pip install --pre sentr
+
+# Optional extras: Streamlit rule-simulator GUI
+pip install --pre sentr[full]
+```
+
+---
+
+## Quick Start (proxy-confirm mode)
+
+```bash
+# 1. Run Redis (or point to an existing instance)
+docker run -d -p 6379:6379 redis:7-alpine
+
+# 2. Create .env
+echo "SENTR_REDIS_URL=redis://localhost:6379/0" > .env
+
+# 3. Launch the guard
+sentr run --env-file .env
+```
+
+### Add middleware to FastAPI
+
+```python
+from fastapi import FastAPI, Request
+from sentr.integrations.fastapi_guard import SentrGuard
+
+app = FastAPI()
+app.add_middleware(SentrGuard)  # MUST be first
+
+@app.post("/confirm")
+async def confirm(req: Request):
+    verdict = await req.state.sentr_verdict  # populated by middleware
+    if verdict.decision == "block":
+        return {"blocked": True, "reasons": verdict.reasons}, 402
+    # proceed to stripe.PaymentIntent.confirm(...)
+```
+
+All rules ship in **audit** mode; no customer traffic is blocked until you promote rules to **shadow** or **enforce**.
+
+---
+
+## Performance Profile<sup>1</sup>
+
+| Path | Median | P95 |
+|------|--------|-----|
+| Rule evaluation (10 rules) | 2 µs | 4 µs |
+| Redis Lua feature lookup (local socket) | 110 µs | 260 µs |
+| Full request → verdict (uvicorn + uvloop) | 0.9 ms | 1.4 ms |
+
+<sup>1</sup> Apple M2, Python 3.12, Redis 7.0.
+
+---
+
+## Architecture
+
+```text
+┌─────────────── API / Checkout ───────────────┐
+│                                               │
+│  POST /confirmPaymentIntent                   │
+│               │                               │
+│               ▼                               │
+│      ┌────────────────────┐   Redis (local)   │
+│      │     Sentr Guard    │───▲ sliding win.  │
+│      │  (FastAPI + rules) │   └───────────────┘
+│      └─────────┬──────────┘
+│                │ allow / block
+│                ▼
+│          Stripe API
+└───────────────────────────────────────────────┘
+```
+
+*No card data leaves your infrastructure; Sentr only needs BIN + last‑4 and a hashed IP address.*
+
+---
+
+## Monitoring Endpoints
+
+| Path | Purpose |
+|------|---------|
+| `/healthz` | JSON health report (Redis, rules count, revision hash) |
+| `/metrics` | Prometheus exposition (`decision_latency_seconds`, `rules_hit_total`, `fees_saved_total`) |
+
+A ready‑to‑use Grafana dashboard JSON lives in `docker/grafana/`.
+
+---
+
+## Rule Definition Example
+
+```yaml
+- id: burst_failures
+  if: ip.fail_rate_60s > 0.8 and ip.attempts_60s >= 6
+  action: block
+  score: 0.92
+  state: shadow  # audit | shadow | enforce
+
+- id: geo_mismatch
+  if: card.bin_country != ip.geo.country and timestamp.hour in 2..5
+  action: challenge_3ds
+  score: 0.65
+  state: audit
+```
+
+Reload rules in‑place:
+
+```bash
+kill -HUP $(pgrep -f "uvicorn.*sentr")
+```
+
+---
+
+## Deployment Notes
+
+* **Colocate Redis** with the guard or connect via Unix socket to minimise RTT.
+* Use the provided `docker-compose.yml` or the Helm chart under `deploy/` for Kubernetes.
+* For webhook‑only flows, run `apps/webhook_guard` and point the Stripe Dashboard to its public URL.
+
+---
+
+## Development & Contribution
+
+```bash
+git clone https://github.com/sentr-dev/sentr-core.git
+cd sentr-core
+pip install -e .[dev]
+pytest -q
+pytest-benchmark
+```
+
+Pull requests are welcome for rule examples, feature ideas and integration guides.
+
+---
+
+## License
+
+Sentr is released under the [MIT License](LICENSE).
+
+---
+
+> **Sentr – deterministic, open and fast fraud blocking for modern payment stacks.**
