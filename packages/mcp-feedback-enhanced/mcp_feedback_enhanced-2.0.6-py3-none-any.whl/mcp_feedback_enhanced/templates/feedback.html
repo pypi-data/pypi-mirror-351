@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互動式回饋收集 - Interactive Feedback MCP</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <style>
+        /* ===== 基礎樣式 ===== */
+        :root {
+            --bg-primary: #2b2b2b;
+            --bg-secondary: #2d2d30;
+            --bg-tertiary: #1e1e1e;
+            --surface-color: #2d2d30;
+            --surface-hover: #383838;
+            --border-color: #464647;
+            --text-primary: #ffffff;
+            --text-secondary: #9e9e9e;
+            --primary-color: #007acc;
+            --primary-hover: #005a9e;
+            --success-color: #4caf50;
+            --success-hover: #45a049;
+            --error-color: #f44336;
+            --error-hover: #d32f2f;
+            --console-bg: #1e1e1e;
+            --button-bg: #0e639c;
+            --button-hover-bg: #005a9e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ===== 標題樣式 ===== */
+        .header {
+            background: linear-gradient(135deg, var(--surface-color), var(--surface-hover));
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header .project-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* ===== AI 工作摘要 ===== */
+        .summary-section {
+            background: linear-gradient(135deg, var(--surface-color), var(--surface-hover));
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            min-height: 150px;
+            max-height: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .summary-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-content {
+            background: var(--console-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* ===== 分頁標籤 ===== */
+        .tabs-container {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            background: var(--surface-color);
+            border: none;
+            padding: 12px 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            margin-right: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tab-button:hover:not(.active) {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== 回饋分頁樣式 ===== */
+        .feedback-section {
+            flex: 2;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: var(--surface-color);
+        }
+
+        .feedback-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feedback-textarea {
+            width: 100%;
+            min-height: 150px;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            color: var(--text-primary);
+            font-size: 14px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .feedback-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+        }
+
+        .feedback-textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* ===== 圖片上傳區域 ===== */
+        .image-section {
+            flex: 1;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            background: var(--surface-color);
+            min-height: 200px;
+            max-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .image-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .upload-btn {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .upload-btn:hover {
+            background: var(--button-hover-bg);
+            transform: translateY(-1px);
+        }
+
+        .upload-btn.success {
+            background: var(--success-color);
+        }
+
+        .upload-btn.success:hover {
+            background: var(--success-hover);
+        }
+
+        .upload-btn.danger {
+            background: var(--error-color);
+        }
+
+        .upload-btn.danger:hover {
+            background: var(--error-hover);
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            background: var(--surface-color);
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.drag-over {
+            border-color: var(--primary-color);
+            background: var(--surface-hover);
+            color: var(--primary-color);
+        }
+
+        .image-preview-area {
+            flex: 1;
+            min-height: 120px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            background: var(--bg-tertiary);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-content: flex-start;
+        }
+
+        .image-preview {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--surface-color);
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview .remove-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .image-preview .remove-btn:hover {
+            background: var(--error-hover);
+        }
+
+        .image-status {
+            color: var(--text-secondary);
+            font-size: 11px;
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* ===== 命令分頁樣式 ===== */
+        .command-section {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            background: var(--surface-color);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .command-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .command-input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .command-input {
+            flex: 1;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .command-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .run-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .run-btn:hover {
+            background: var(--success-hover);
+        }
+
+        .command-output {
+            flex: 1;
+            background: var(--console-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            color: #ffffff;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            min-height: 200px;
+        }
+
+        /* ===== 操作按鈕 ===== */
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding: 20px 0;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: var(--success-hover);
+            transform: translateY(-2px);
+        }
+
+        .cancel-btn {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background: var(--error-hover);
+            transform: translateY(-2px);
+        }
+
+        /* ===== 響應式設計 ===== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .tab-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .upload-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* ===== 隱藏檔案輸入 ===== */
+        #fileInput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 標題 -->
+        <div class="header">
+            <h1>🎯 互動式回饋收集</h1>
+            <div class="project-info">專案目錄: {{ project_directory }}</div>
+        </div>
+
+        <!-- AI 工作摘要 -->
+        <div class="summary-section">
+            <h2>📋 AI 工作摘要</h2>
+            <div class="summary-content">{{ summary }}</div>
+        </div>
+
+        <!-- 分頁容器 -->
+        <div class="tabs-container">
+            <!-- 分頁按鈕 -->
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('feedback')">💬 回饋</button>
+                <button class="tab-button" onclick="switchTab('command')">⚡ 命令</button>
+            </div>
+
+            <!-- 回饋分頁 -->
+            <div id="feedback-tab" class="tab-content active">
+                <div class="feedback-section">
+                    <h3>💬 您的回饋</h3>
+                    <textarea id="feedbackText" class="feedback-textarea" 
+                              placeholder="請在這裡輸入您的回饋、建議或問題...&#10;&#10;💡 小提示：按 Ctrl+Enter 可快速提交回饋"></textarea>
+                </div>
+
+                <div class="image-section">
+                    <h3>🖼️ 圖片附件（可選）</h3>
+                    <div class="upload-buttons">
+                        <button class="upload-btn" onclick="selectFiles()">📁 選擇文件</button>
+                        <button class="upload-btn success" onclick="pasteFromClipboard()">📋 剪貼板</button>
+                        <button class="upload-btn danger" onclick="clearAllImages()">❌ 清除</button>
+                    </div>
+                    <div class="drop-zone" id="dropZone">
+                        🎯 拖拽圖片到這裡 (PNG、JPG、JPEG、GIF、BMP、WebP)
+                    </div>
+                    <div class="image-status" id="imageStatus">已選擇 0 張圖片</div>
+                    <div class="image-preview-area" id="imagePreviewArea"></div>
+                </div>
+            </div>
+
+            <!-- 命令分頁 -->
+            <div id="command-tab" class="tab-content">
+                <div class="command-section">
+                    <h3>⚡ 命令執行</h3>
+                    <div class="command-input-area">
+                        <input type="text" id="commandInput" class="command-input" 
+                               placeholder="輸入要執行的命令..." 
+                               onkeypress="if(event.key==='Enter') runCommand()">
+                        <button class="run-btn" onclick="runCommand()">▶️ 執行</button>
+                    </div>
+                    <div id="commandOutput" class="command-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作按鈕 -->
+        <div class="action-buttons">
+            <button class="action-btn cancel-btn" onclick="cancelFeedback()">❌ 取消</button>
+            <button class="action-btn submit-btn" onclick="submitFeedback()">✅ 提交回饋</button>
+        </div>
+    </div>
+
+    <!-- 隱藏的檔案輸入 -->
+    <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFileSelect(event)">
+
+    <script>
+        // ===== 全域變數 =====
+        let ws = null;
+        let images = [];
+        let commandRunning = false;
+
+        // ===== WebSocket 連接 =====
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/ws/{{ session_id }}`;
+            
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = function() {
+                console.log('WebSocket 連接成功');
+            };
+            
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                handleWebSocketMessage(data);
+            };
+            
+            ws.onclose = function() {
+                console.log('WebSocket 連接已關閉');
+            };
+            
+            ws.onerror = function(error) {
+                console.error('WebSocket 錯誤:', error);
+            };
+        }
+
+        function handleWebSocketMessage(data) {
+            if (data.type === 'command_output') {
+                appendCommandOutput(data.output);
+            } else if (data.type === 'command_finished') {
+                appendCommandOutput(`\n進程結束，返回碼: ${data.exit_code}\n`);
+                commandRunning = false;
+            }
+        }
+
+        // ===== 分頁切換 =====
+        function switchTab(tabName) {
+            // 隱藏所有分頁
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 移除所有按鈕的活動狀態
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 顯示選中的分頁
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // 設置按鈕活動狀態
+            event.target.classList.add('active');
+        }
+
+        // ===== 圖片處理 =====
+        function selectFiles() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            processFiles(files);
+        }
+
+        async function pasteFromClipboard() {
+            try {
+                const items = await navigator.clipboard.read();
+                for (const item of items) {
+                    for (const type of item.types) {
+                        if (type.startsWith('image/')) {
+                            const blob = await item.getType(type);
+                            const file = new File([blob], `clipboard_${Date.now()}.png`, { type });
+                            processFiles([file]);
+                            return;
+                        }
+                    }
+                }
+                showNotification('剪貼板中沒有圖片！');
+            } catch (error) {
+                console.error('剪貼板讀取失敗:', error);
+                showNotification('無法從剪貼板讀取圖片');
+            }
+        }
+
+        function processFiles(files) {
+            for (const file of files) {
+                if (!file.type.startsWith('image/')) {
+                    showNotification(`檔案 ${file.name} 不是圖片格式！`, 'warning');
+                    continue;
+                }
+
+                if (file.size > 1024 * 1024) { // 1MB 限制
+                    showNotification(`圖片 ${file.name} 大小超過 1MB 限制！`, 'warning');
+                    continue;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = {
+                        id: Date.now() + Math.random(),
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        data: e.target.result.split(',')[1] // 移除 data:image/xxx;base64, 前綴
+                    };
+                    
+                    images.push(imageData);
+                    updateImagePreview();
+                    updateImageStatus();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateImagePreview() {
+            const previewArea = document.getElementById('imagePreviewArea');
+            previewArea.innerHTML = '';
+
+            images.forEach(img => {
+                const preview = document.createElement('div');
+                preview.className = 'image-preview';
+                preview.innerHTML = `
+                    <img src="data:${img.type};base64,${img.data}" alt="${img.name}" title="${img.name}">
+                    <button class="remove-btn" onclick="removeImage('${img.id}')" title="刪除圖片">×</button>
+                `;
+                previewArea.appendChild(preview);
+            });
+        }
+
+        function removeImage(imageId) {
+            images = images.filter(img => img.id != imageId);
+            updateImagePreview();
+            updateImageStatus();
+        }
+
+        function clearAllImages() {
+            if (images.length > 0) {
+                if (confirm(`確定要清除所有 ${images.length} 張圖片嗎？`)) {
+                    images = [];
+                    updateImagePreview();
+                    updateImageStatus();
+                }
+            }
+        }
+
+        function updateImageStatus() {
+            const count = images.length;
+            const totalSize = images.reduce((sum, img) => sum + img.size, 0);
+            
+            let sizeStr;
+            if (totalSize < 1024) {
+                sizeStr = `${totalSize} B`;
+            } else if (totalSize < 1024 * 1024) {
+                sizeStr = `${(totalSize / 1024).toFixed(1)} KB`;
+            } else {
+                sizeStr = `${(totalSize / (1024 * 1024)).toFixed(1)} MB`;
+            }
+
+            document.getElementById('imageStatus').textContent = 
+                count > 0 ? `已選擇 ${count} 張圖片 (總計 ${sizeStr})` : '已選擇 0 張圖片';
+        }
+
+        // ===== 拖拽功能 =====
+        function setupDragAndDrop() {
+            const dropZone = document.getElementById('dropZone');
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                dropZone.classList.add('drag-over');
+            }
+
+            function unhighlight() {
+                dropZone.classList.remove('drag-over');
+            }
+
+            dropZone.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = Array.from(dt.files);
+                processFiles(files);
+            }
+        }
+
+        // ===== 命令執行 =====
+        function runCommand() {
+            const command = document.getElementById('commandInput').value.trim();
+            if (!command) return;
+
+            if (commandRunning) {
+                showNotification('已有命令在執行中，請等待完成或停止當前命令', 'warning');
+                return;
+            }
+
+            appendCommandOutput(`$ ${command}\n`);
+            
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'run_command',
+                    command: command
+                }));
+                commandRunning = true;
+            } else {
+                appendCommandOutput('WebSocket 連接未建立\n');
+            }
+        }
+
+        function appendCommandOutput(text) {
+            const output = document.getElementById('commandOutput');
+            output.textContent += text;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // ===== 回饋提交 =====
+        function submitFeedback() {
+            const feedback = document.getElementById('feedbackText').value.trim();
+            
+            if (!feedback && images.length === 0) {
+                showNotification('請輸入回饋內容或上傳圖片！', 'warning');
+                return;
+            }
+
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                // 顯示提交中狀態
+                const submitBtn = document.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = '提交中...';
+                submitBtn.disabled = true;
+                
+                ws.send(JSON.stringify({
+                    type: 'submit_feedback',
+                    feedback: feedback,
+                    images: images
+                }));
+                
+                // 簡短延遲後自動關閉，不顯示 alert
+                setTimeout(() => {
+                    window.close();
+                }, 500);
+            } else {
+                showNotification('WebSocket 連接異常，請重新整理頁面', 'error');
+            }
+        }
+
+        // 添加通知函數，替代 alert
+        function showNotification(message, type = 'info') {
+            // 創建通知元素
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#007acc'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-weight: bold;
+                max-width: 300px;
+                word-wrap: break-word;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 3 秒後自動移除
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        function cancelFeedback() {
+            if (confirm('確定要取消回饋嗎？')) {
+                window.close();
+            }
+        }
+
+        // ===== 快捷鍵支援 =====
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                submitFeedback();
+            }
+        });
+
+        // ===== 初始化 =====
+        document.addEventListener('DOMContentLoaded', function() {
+            connectWebSocket();
+            setupDragAndDrop();
+        });
+    </script>
+</body>
+</html> 
