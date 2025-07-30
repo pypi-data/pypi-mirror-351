@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        name="portal_controlpanel"
+        i18n:domain="iosanita.policy"
+>
+
+  <configlet action_id="IoSanitaSettings"
+             appId="IoSanitaSettings"
+             category="Products"
+             condition_expr=""
+             icon_expr=""
+             title="Impostazioni IoSanita"
+             url_expr="string:${portal_url}/@@iosanita-settings"
+             visible="True"
+             i18n:attributes="title"
+  >
+    <permission>Manage portal</permission>
+  </configlet>
+
+</object>

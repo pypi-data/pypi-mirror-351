@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="iosanita.policy"
+    >
+
+  <include
+      package="z3c.jbot"
+      file="meta.zcml"
+      />
+
+  <browser:page
+      name="iosanita-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.IoSanitaControlPanel"
+      permission="cmf.ManagePortal"
+      layer="iosanita.policy.interfaces.IIosanitaPolicyLayer"
+      />
+
+</configure>
