@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mmllm-face-refinement"
+version = "0.1.5"
+description = "Face detection and LLM-based face refinement using YOLO and multimodal LLMs (Gemini, LLaVA)."
+authors = [
+    { name = "Your Name", email = "your@email.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+keywords = ["face-detection", "llm", "yolo", "gemini", "llava", "computer-vision"]
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "torch",
+    "torchvision",
+    "pillow",
+    "pyyaml",
+    "requests",
+    "matplotlib",
+    "supervision",
+    "ultralytics",
+    "transformers",
+    "python-dotenv",
+    "google-generativeai",
+    "accelerate",
+    "bitsandbytes",
+    "sentencepiece",
+    "tqdm",
+    "onnx",
+    "protobuf",
+    "tensorboard",
+    "safetensors",
+    "jsonschema"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/mmllm-face-refinement"
+"Documentation" = "https://github.com/yourusername/mmllm-face-refinement#readme"
+"Repository" = "https://github.com/yourusername/mmllm-face-refinement.git"
+"Bug Tracker" = "https://github.com/yourusername/mmllm-face-refinement/issues"
+
+[project.scripts]
+mmllm-face-refinement = "mmllm_face_refinement.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["mmllm_face_refinement"] 
