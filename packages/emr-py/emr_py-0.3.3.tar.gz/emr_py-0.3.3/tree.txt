@@ -1,0 +1,37 @@
+.
+├── dist
+│   ├── emr_py-0.3.1-py3-none-any.whl
+│   └── emr_py-0.3.1.tar.gz
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── src
+│   └── emrpy
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-312.pyc
+│       │   ├── encoders.cpython-312.pyc
+│       │   └── telegrambot.cpython-312.pyc
+│       ├── decorators.py
+│       ├── encoders.py
+│       ├── logging
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   └── logger_config.cpython-312.pyc
+│       │   └── logger_config.py
+│       ├── py.typed
+│       └── telegrambot.py
+├── tests
+│   ├── __pycache__
+│   │   ├── test_encoders.cpython-312-pytest-8.3.5.pyc
+│   │   ├── test_logger_config.cpython-312-pytest-8.3.4.pyc
+│   │   ├── test_logger_config.cpython-312-pytest-8.3.5.pyc
+│   │   └── test_telegram_bot.cpython-312-pytest-8.3.5.pyc
+│   ├── test_encoders.py
+│   ├── test_logger_config.py
+│   └── test_telegram_bot.py
+├── tree.txt
+└── uv.lock
+
+9 directories, 26 files

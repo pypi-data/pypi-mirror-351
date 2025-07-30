@@ -1,0 +1,39 @@
+name: Python Code Quality
+on: [push]
+
+jobs:
+
+  lock_file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: uv sync --locked --all-extras --dev # uv lock --locked (old with errors)
+
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: uvx ruff format .
+
+  linting:
+    runs-on: ubuntu-latest
+    needs: [formatting]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: uvx ruff check --fix .
+
+  tests:
+    runs-on: ubuntu-latest
+    needs: [lock_file]
+    env:
+      # pull from repo secrets
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID:  ${{ secrets.TELEGRAM_CHAT_ID }}
+      TELEGRAM_CHAT_NAME: ${{ secrets.TELEGRAM_CHAT_NAME }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: uv run pytest -v --durations=0
