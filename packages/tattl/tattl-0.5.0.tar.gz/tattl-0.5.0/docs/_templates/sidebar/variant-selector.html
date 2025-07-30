@@ -1,0 +1,40 @@
+<!--
+    Slightly tweaked code from https://github.com/pradyunsg/furo/pull/500 vendored here until it
+    gets merged. This adds a functioning version selector to the sidebar.
+-->
+
+{% if versions %}
+<div
+    id="furo-versions"
+    class="rst-versions sidebar-tree"
+    role="note"
+    aria-label="{{ _('Versions') }}"
+    tabindex="0"
+>
+    <p class="caption">Versions</p>
+    <input
+        type="checkbox"
+        id="checkbox_toggle"
+        class="toctree-checkbox versions-checkbox"
+        role="switch"
+    />
+    <label id="versions-label" class="versions-label" for="checkbox_toggle">
+        <div class="visually-hidden">Toggle child pages in navigation</div>
+        <i class="icon">
+            <svg>
+                <use href="#svg-arrow-right"></use>
+            </svg>
+        </i>
+    </label>
+    <ul id="versions-children">
+        {% for version in versions|reverse -%}
+        <li {% if version.name == current_version.name %} class="current-version" {%- endif %} >
+            <a href="{{ version.url }}"> {{ version.name }} </a>
+            {% if version.name == latest_version.name -%}
+                <b> (latest)</b>
+            {%- endif %}
+        </li>
+        {% endfor -%}
+    </ul>
+</div>
+{% endif %}

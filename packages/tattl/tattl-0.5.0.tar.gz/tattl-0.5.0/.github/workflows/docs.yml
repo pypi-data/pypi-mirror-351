@@ -1,0 +1,60 @@
+name: Build and publish documentation
+
+on:
+  release:
+    types:
+      - published
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build documentation with Sphinx
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Install `uv`
+        uses: astral-sh/setup-uv@v6.0.1
+        with:
+          version: "0.7.3"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.6.0
+        with:
+          python-version: "3.12"
+      
+      - name: Install requirements
+        run: uv sync --all-extras --frozen
+
+      - name: Build documentation
+        run: sh scripts/build-docs.sh
+      
+      - name: Upload build as artifact
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: docs/_build
+  
+  publish:
+    name: Publish to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write  # to verify we're allowed to deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5
+      
