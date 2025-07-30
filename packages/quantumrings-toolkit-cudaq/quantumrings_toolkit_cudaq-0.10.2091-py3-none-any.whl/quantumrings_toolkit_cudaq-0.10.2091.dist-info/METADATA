@@ -1,0 +1,209 @@
+Metadata-Version: 2.4
+Name: quantumrings-toolkit-cudaq
+Version: 0.10.2091
+Summary: Quantum Rings toolkit for CUDA-Q
+Author-email: "Quantum Rings Inc." <contact@quantumrings.com>
+Project-URL: Homepage, https://www.quantumrings.com/docs
+Project-URL: Documentation, https://www.quantumrings.com/docs
+Project-URL: API Reference, https://quantumrings.com/doc/modules.html
+Keywords: quantum,quantum circuit,quantum computing,quantum programming language,quantum register,quantum tools,cuda,gpu,cudaq,tools,sdk
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: Scientific/Engineering
+Classifier: Programming Language :: Python
+Classifier: Operating System :: POSIX :: Linux
+Description-Content-Type: text/x-rst
+License-File: LICENSE.rst
+Requires-Dist: cudaq==0.9.1
+Dynamic: license-file
+
+===========================================================
+Welcome to the Quantum Rings SDK for NVIDIA CUDA-Q Platform
+===========================================================
+
+Minimum System Requirements
+---------------------------
+
+A system with a configuration better than the minimum requirements is advised. 
+Lower configurations may affect the number of qubits that can be supported and
+may perform poorly.
+
+-  Operating systems recommended:
+
+   -  Ubuntu 22.04.4 LTS
+   -  Ubuntu 24.04.4 LTS
+
+-  64-bit Intel i9 x86 CPU (14 cores 20 logical processors recommended) or equivalent
+
+-  DDR5 or better memory channels recommended
+
+-  32 GB Installed physical memory
+
+-  18 GB Available physical memory
+
+-  64-bit Python version 3.11 or later
+
+
+Supported GPU Architectures
+---------------------------
+
+* Amphere, compute capabilities 8.0, 8.6
+* Hopper, compute capability 9.0
+* or later
+
+A minimum of 4 GB global memory on the GPU is required to run the SDK. The actual amount of memory required depends upon the number of qubits used and the gate operations involved.
+
+
+Installting the Quantum Rings SDK for the CUDA-Q platform
+---------------------------------------------------------
+
+Quantum Rings SDK now supports CUDA-Q platform in the Python programming mode. CUDA-Q platform 0.9.1 or above are supported.
+
+The following steps outline the installation procedure.
+
+
+**STEP - 1**
+
+Obtain your license to the `Quantum Rings SDK <https://www.quantumrings.com/>`_ by selecting the *Login* menu.
+
+Skip this step, if you are already registered.
+
+Login to the `Quantum Rings portal <https://portal.quantumrings.com/developer/>`_. Download your access keys by selecting the *Manage Keys* menu in the left-hand side bar.
+
+
+**STEP - 2**
+
+.. warning::
+   This step my be challenging and you may need professional help. Installing device drivers can make your installation unstable. Always proceed with a backup and read all
+   documentation carefully. Ensure that you are installing the correct drivers for your hardware platform. Installing open source drivers may not be a good idea.
+
+Update the `NVIDIA drivers <https://www.nvidia.com/en-us/drivers/>`_ for your system.
+For some linux installations, you may be required to install the NVIDIA drivers directly from the linux distribution. Search for the documentation
+from your linux operating system provider and go by their recommendation.
+
+
+**STEP - 3**
+
+Create a virtual environment for your python version using the following example.
+
+.. code-block:: console
+
+    virtualenv --python=/usr/bin/python3.11 myenv
+    source myenv/bin/activate
+
+You can use Python 3.12 or another Python version of your choice. However, remember that the tool kits used by the CUDA-Q tutorials may not be compatible with your choice of Python version.
+
+If you have not installed Jupyter notebook, you can install it at this time using the following command.
+
+
+.. code-block:: console
+
+    pip install notebook
+
+
+Install the `CUDA-Q platform <https://nvidia.github.io/cuda-quantum/latest/using/quick_start.html>`_ and its dependencies after setting up the virtual python environment.
+
+
+**STEP - 4**
+
+Install the Quantum Rings SDK using the following command:
+
+.. code-block:: console
+
+    pip install quantumrings_toolkit_cudaq
+
+.. note::
+   This installs the SDK for the latest version of the CUDA-Q platform (0.10.0) . To install the SDK for the CUDA-Q platform 0.9.1, use the following command.
+
+    .. code-block:: console
+
+        pip install quantumrings_toolkit_cudaq==0.1.91
+
+
+**STEP - 5**
+
+Store your credentials to the Quantum Rings SDK locally using the following commands from your terminal. 
+Edit the <...> fields and enter the values provided for you.
+
+If you are using the Jupyter notebook, open the termnial as follows:
+
+From your Jupyter notebook, select *File->New->Terminal*. This launches the terminal window. 
+
+From this terminal window, create the configuration file holding the license key as follows:
+
+.. code-block:: console
+
+    mkdir ~/.config/quantumrings
+    echo -e '[default]\nemail = <YOUR_ACCOUNT_ID>\nkey = <YOUR_ACCESS_KEY>\nbackend = scarlet_quantum_rings' > ~/.config/quantumrings/quantumrings.conf
+
+
+
+**STEP - 6**
+
+Now, try the following program from your Jupyter notebook to ensure that everything is working fine.
+
+.. code-block:: console
+
+    import cudaq
+    import numpy as np
+
+    cudaq.set_target("QuantumRingsLib")
+
+    num_of_qubits = 3
+    kernel = cudaq.make_kernel()
+    qubits = kernel.qalloc(num_of_qubits)
+
+    kernel.x(qubits)
+    kernel.h(qubits)
+
+    print(cudaq.draw(kernel))
+
+    state = cudaq.get_state(kernel)
+
+    print(np.array(state))
+    
+
+.. note::
+   Use ``cudaq.set_target("QuantumRingsLib")`` to select the Quantum Rings engine.
+
+
+Using the GPU Mode
+------------------
+
+Certain programs with large number of qubits (> 22) with complex entanglements and a large number of gate operations can benefit from using a GPU.
+
+
+To switch to the GPU mode, edit the configuration file using the following command
+
+.. code-block:: console
+
+    vi ~/.config/quantumrings/quantumrings.conf
+
+Change the backend from ``scarlet_quantum_rings`` to ``amber_quantum_rings``
+
+.. note::
+   Programs with a few qubits and gate operations usually run faster on the CPU mode with the ``scarlet_quantum_rings`` backend.
+
+
+============================
+Feedback and getting support
+============================
+
+We love to hear from you! Please join our `Discord community <https://discord.com/invite/dZJvX5AfkS>`_ to discuss anything quantum computing.
+
+
+`SDK Documentation <https://portal.quantumrings.com/doc/>`_
+
+`FAQ <https://portal.quantumrings.com/developer/support/>`_
+
+`Managing your license keys <https://portal.quantumrings.com/developer/keys/>`_
+
+`Need more qubits? Requuest here <https://portal.quantumrings.com/developer/keys/>`_
+
+
+
+
+

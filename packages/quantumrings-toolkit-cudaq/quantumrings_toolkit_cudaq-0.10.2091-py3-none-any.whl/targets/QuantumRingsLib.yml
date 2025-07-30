@@ -1,0 +1,19 @@
+# ============================================================================ #
+#
+# Copyright (c) 2024-2024 Quantum Rings Inc.                                   #
+# All rights reserved.                                                         #
+#                                                                              #
+# ============================================================================ #
+
+name: QuantumRingsLib
+description: "Quantum Rings SDK"
+
+config:
+  nvqir-simulation-backend: QuantumRingsLib
+  library-mode: true
+
+target-arguments:
+  - key: machine
+    required: false
+    type: string
+
