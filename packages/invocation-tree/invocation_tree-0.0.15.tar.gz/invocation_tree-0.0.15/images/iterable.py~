@@ -1,0 +1,31 @@
+import invocation_tree as invo_tree
+
+class My_Iterable:
+
+    def __init__(self, stop, start=0, step=1):
+        self.stop = stop
+        self.step = step
+        self.i = start
+
+    def __repr__(self):
+        return f'Source i:{self.i} step:{self.step} stop:{self.stop}'
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        prev = self.i
+        self.i += self.step
+        if prev < self.stop:
+            return prev
+        raise StopIteration()
+        
+def main():
+    iterable = My_Iterable(start=1, stop=3)
+    for i in iterable:
+        print(i)
+        
+tree = invo_tree.blocking() # gif('genexp.png')
+#tree.to_string[type(iter(range(0)))] = lambda ri: 'range_iterator' # short name for range_iterator
+#tree.to_string[types.GeneratorType] = lambda gen: 'generator'      # short name for generators
+print('sum:', tree(main))

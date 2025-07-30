@@ -1,0 +1,22 @@
+digraph invocation_tree {
+	node [shape=plaintext]
+	0 [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="#ccffcc">
+  <TR><TD ALIGN="left">➤main</TD></TR>
+</TABLE>>]
+	1 [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="#ccffcc">
+  <TR><TD ALIGN="left">➤My_Iterable.__init__</TD></TR>
+  <TR><TD ALIGN="left">   self: <B>My_&#8203;</B>&#8203;I<FONT COLOR="#aaaaaa"><I>>no&#8203;</I></FONT>&#8203;t<FONT COLOR="#aaaaaa"><I>-string-conv&#8203;</I></FONT>&#8203;er<FONT COLOR="#aaaaaa"><I>t&#8203;</I></FONT>&#8203;able<B> start:1 stop:3 step:1&#8203;</B>&#8203;</TD></TR>
+  <TR><TD ALIGN="left">   stop: 3</TD></TR>
+  <TR><TD ALIGN="left">   start: 1</TD></TR>
+  <TR><TD ALIGN="left">   step: 1</TD></TR>
+</TABLE>>]
+	2 [label=<
+<TABLE BORDER="3" CELLBORDER="0" CELLSPACING="0" BGCOLOR="#ffffff">
+  <TR><TD ALIGN="left">➤<B>My_Iterable.__repr__</B></TD></TR>
+  <TR><TD ALIGN="left">   <B>self</B>: <B>My_Iterable start:1 stop:3 step:1</B></TD></TR>
+</TABLE>>]
+	0 -> 1
+	1 -> 2
+}

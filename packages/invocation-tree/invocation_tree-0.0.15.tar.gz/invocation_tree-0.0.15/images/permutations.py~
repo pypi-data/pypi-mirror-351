@@ -1,0 +1,8 @@
+
+def permutations(elements, perm, n):
+    if n==0:
+        return [perm]
+    for element in elements:
+        permutations(perm + element, n-1)
+
+permutations(['L','R'])

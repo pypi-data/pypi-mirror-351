@@ -1,0 +1,11 @@
+import invocation_tree
+
+def factorial(n):
+    if n <= 0:
+        return 1
+    return n * factorial(n - 1)
+
+invocation_tree = invocation_tree.Invocation_Tree()
+invocation_tree.block = False
+
+print( invocation_tree(factorial, 4) )

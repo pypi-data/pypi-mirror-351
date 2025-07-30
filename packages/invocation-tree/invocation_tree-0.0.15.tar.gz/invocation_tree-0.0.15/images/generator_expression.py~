@@ -1,0 +1,9 @@
+import invocation_tree as invo_tree
+
+def main():
+    iterable_in = range(1,4)
+    iterable_out = (i*10 for i in iterable_in) # generator expression
+    print(list(iterable_out))
+
+tree = invo_tree.gif('generator_function.png')
+tree(main)

@@ -1,0 +1,4 @@
+class My_List(list):
+
+    def __init__(self, *args, **kwargs):
+        super.__init__self(*args, **kwargs)
