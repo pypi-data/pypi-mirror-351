@@ -1,0 +1,335 @@
+@import url('./variables.css');
+
+/* Set the default typography for monospace elements */
+tt,
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--jp-code-font-family);
+  font-size: var(--jp-code-font-size);
+  line-height: var(--jp-code-line-height);
+}
+
+#jp-bottom-panel {
+  display: none;
+}
+
+.jp-mod-left [data-id='jp-running-sessions'] {
+  display: none;
+}
+
+.jp-mod-left [data-id='extensionmanager.main-view'] {
+  display: none;
+}
+
+.custom-loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #37485a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  z-index: 9999;
+}
+
+#jupyterlab-splash {
+  display: none;
+}
+
+#jupyterlab-splash.light {
+  background-color: #37485a !important;
+}
+
+.jp-RenderedText[data-mime-type='application/vnd.jupyter.stderr'] pre {
+  color: black;
+}
+
+.jp-Splash {
+  background-color: #37485a;
+  animation: none !important;
+  display: none !important;
+}
+
+.jp-Splash .jp-Splash-logos {
+  display: none !important;
+  animation: none !important;
+}
+
+body {
+  background-color: var(--pg-color1);
+}
+
+.Toastify {
+  display: none !important;
+}
+
+/* Header */
+#jp-top-panel {
+  height: 90px !important;
+  display: flex;
+  align-items: center;
+  border-bottom: none !important;
+}
+
+#jp-main-content-panel {
+  height: calc(100vh - 90px) !important;
+  top: 90px !important;
+}
+
+#jp-MainLogo {
+  background-image: url('images/Logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 200px;
+}
+
+#jp-MainLogo svg {
+  display: none;
+}
+
+/* Sidebar */
+.jp-SideBar.lm-TabBar.jp-mod-left::after {
+  border-right: none !important;
+}
+
+.lm-mod-current {
+  border: none !important;
+}
+
+/* Side Panel */
+#jp-left-stack {
+  border: 1px solid var(--pg-color2);
+  border-radius: 12px 0 0 12px;
+}
+
+#jp-left-stack div {
+  background-color: var(--pg-color3);
+}
+
+button.MuiButton-containedPrimary {
+  background-color: var(--pg-color5) !important;
+  opacity: 1;
+}
+
+button.MuiButton-containedPrimary svg {
+  color: var(--pg-color3) !important;
+}
+
+.MuiInputAdornment-outlined {
+  border-radius: 4px;
+  clip-path: border-box;
+}
+
+/* AI Chat */
+#jupyter-ai\:\:chat code {
+  background-color: var(--pg-color4);
+}
+
+.pergamon-calliope-container {
+  background-color: var(--pg-color4) !important;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.pergamon-calliope-container div {
+  background-color: var(--pg-color4) !important;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
+
+.pergamon-calliope-avatar {
+  width: 80px;
+  height: 80px;
+  background-image: url('images/Calliope.png');
+  background-size: contain;
+  border-radius: 0;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border: none;
+}
+
+.pergamon-calliope-text {
+  font-weight: 400;
+}
+
+textarea.MuiInputBase-input,
+input.MuiInputBase-input {
+  background-color: var(--pg-color6);
+  color: var(--pg-color7);
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--pg-color7);
+}
+
+svg.MuiSvgIcon-root {
+  color: #fff;
+}
+
+#jupyter-ai\:\:chat label {
+  z-index: 1;
+  padding-left: 5px;
+}
+
+#jupyter-ai\:\:chat pre {
+  color: black;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: var(--pg-color4);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pg-color5);
+  border-radius: 4px;
+}
+
+/* top menu */
+.lm-Widget.lm-Panel.lm-BoxPanel,
+.lm-Widget#jp-main-dock-panel {
+  overflow: initial !important;
+}
+
+.lm-DockPanel-tabBar[data-orientation='horizontal'],
+.lm-TabPanel-tabBar[data-orientation='horizontal'] {
+  top: 5px !important;
+  height: 45px !important;
+}
+
+.lm-DockPanel-tabBar .lm-TabBar-tab,
+.lm-TabPanel-tabBar .lm-TabBar-tab {
+  height: 40px;
+  border-radius: 8px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  background: var(--pg-color3);
+  border: var(--pg-color3) 1px solid;
+}
+
+.lm-DockPanel-tabBar .lm-TabBar-tab:hover:not(.lm-mod-current),
+.lm-TabPanel-tabBar .lm-TabBar-tab:hover:not(.lm-mod-current) {
+  background: var(--pg-color3);
+  border: var(--pg-color3) 1px solid;
+}
+
+.lm-TabPanel-tabBar .lm-TabBar-tab.jp-mod-current,
+.lm-DockPanel-tabBar .lm-TabBar-tab.jp-mod-current {
+  background: var(--jp-brand-color0);
+  border: var(--jp-brand-color0) 1px solid;
+  color: black;
+}
+
+.lm-Widget.jp-MainAreaWidget.jp-Activity.lm-DockPanel-widget {
+  margin-top: 20px;
+  overflow: initial;
+}
+
+.jp-icon3[fill] {
+  fill: white;
+}
+
+.lm-TabBar-addButton {
+  margin: auto 0 !important;
+}
+
+.jp-NotebookPanel-toolbar .lm-Widget.jp-CommandToolbarButton.jp-Toolbar-item {
+  border-right: 1px solid var(--jp-border-color1);
+}
+
+.lm-Widget.jp-Toolbar.jp-NotebookPanel-toolbar {
+  height: 48px !important;
+}
+
+.jp-Toolbar > .jp-Toolbar-item {
+  height: initial !important;
+}
+
+.jp-WindowedPanel.jp-Notebook.jp-NotebookPanel-notebook {
+  top: 50px !important;
+}
+
+/* Notebook cells */
+.lm-Widget.jp-CodeMirrorEditor.jp-Editor.jp-InputArea-editor {
+  background: var(--jp-cell-editor-background);
+  border: none;
+  border-radius: 10px;
+}
+
+.jp-Notebook .jp-Cell:not(.jp-mod-active) .jp-InputPrompt {
+  color: white;
+  opacity: 100%;
+}
+
+.jp-Notebook .jp-Cell .jp-InputPrompt {
+  color: var(--jp-brand-color0);
+}
+
+/* Calliope added classes */
+.calliope-thinking .jp-Cell-inputArea {
+  overflow: visible;
+}
+
+.calliope-thinking div.jp-InputArea-editor {
+  position: relative;
+  overflow: visible;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.calliope-thinking div.jp-InputArea-editor .cm-editor {
+  background-color: var(--pg-color3);
+  border-radius: 8px;
+}
+
+.calliope-thinking div.jp-InputArea-editor::before,
+.calliope-thinking div.jp-InputArea-editor::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    #37c8ce,
+    #32b5c3,
+    #268bab,
+    #1d6d9b,
+    #17568e,
+    #162345
+  );
+  background-size: 400%;
+  z-index: -1;
+  animation: glow 2s linear infinite;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.calliope-thinking div.jp-InputArea-editor::after {
+  border-radius: 9px;
+  filter: blur(10px);
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes glow {
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}

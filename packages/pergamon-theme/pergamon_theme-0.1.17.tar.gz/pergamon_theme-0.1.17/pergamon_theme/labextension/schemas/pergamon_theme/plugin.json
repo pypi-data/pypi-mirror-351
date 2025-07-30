@@ -1,0 +1,28 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "pergamon_theme",
+  "description": "pergamon_theme settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false,
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-kernel",
+        "disabled": true
+      },
+      {
+        "id": "jp-mainmenu-help",
+        "disabled": true
+      },
+      {
+        "id": "jp-mainmenu-tabs",
+        "disabled": true
+      },
+      {
+        "id": "jp-mainmenu-settings",
+        "disabled": true
+      }
+    ]
+  }
+}
