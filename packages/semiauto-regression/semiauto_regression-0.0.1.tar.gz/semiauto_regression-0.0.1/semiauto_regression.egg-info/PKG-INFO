@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: semiauto-regression
+Version: 0.0.1
+Summary: Automated regression pipeline for machine learning
+Home-page: https://github.com/Akshat-Sharma-110011/SemiAuto-regression
+Author: Akshat-Sharma-110011
+Author-email: akshatsharma.business.1310@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy==1.24.4
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: PyYAML
+Requires-Dist: cloudpickle==2.2.1
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: optuna
+Requires-Dist: featuretools
+Requires-Dist: fpdf
+Requires-Dist: catboost
+Requires-Dist: xgboost
+Requires-Dist: lightgbm
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# SemiAuto-Regression
+This will be an Regression-based AutoML clone Microservice
