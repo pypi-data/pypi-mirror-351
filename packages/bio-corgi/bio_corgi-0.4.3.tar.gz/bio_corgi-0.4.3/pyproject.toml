@@ -1,0 +1,76 @@
+[tool.poetry]
+name = "bio-corgi"
+version = "0.4.3"
+description = "Classifier for ORganelle Genomes Inter alia"
+authors = ["Robert Turnbull <robert.turnbull@unimelb.edu.au>"]
+license = "Apache Software License 2.0"
+readme = "README.rst"
+repository = "https://github.com/rbturnbull/corgi"
+documentation = "https://rbturnbull.github.io/corgi/"
+homepage = "https://github.com/rbturnbull/corgi"
+keywords = ["metagenomic classifier", "tiara", "DNA", "bioinformatics", "fastai", "pytorch", "deep learning", "command-line interface"]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Bio-Informatics"
+]
+packages = [
+    {include = "corgi"}
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+biopython = ">=1.79"
+fastai = ">=2.4.1,<=2.7.12"
+dask = ">=2021.7.1"
+progressbar2 = ">=3.53.1"
+h5py = ">=3.1.0"
+humanize = ">=3.10.0"
+pyarrow = ">=5.0.0"
+plotly = ">=5.3.1"
+appdirs = ">=1.4.4"
+beautifulsoup4 = ">=4.10.0"
+httpx = ">=0.20.0"
+wandb = ">=0.12.9"
+optuna = ">=2.10.0"
+cryptography = ">=36.0.1"
+PyMySQL = ">=1.0.2"
+termgraph = ">=0.5.3"
+torchapp = ">=0.3.1,<0.4.0"
+scipy = ">=1.9.1,<1.10.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=6.2.5"
+ipykernel = ">=6.6.1"
+coverage = ">=5.5"
+autopep8 = ">=1.5.7"
+Sphinx = ">=4.2.0"
+nbsphinx = ">=0.8.7"
+sphinx-rtd-theme = ">=1.0.0"
+sphinx-autobuild = ">=2021.3.14"
+myst-parser = ">=0.15.2"
+pre-commit = ">=2.20.0"
+sphinx-copybutton = ">=0.4.0"
+black = ">=21.10b0"
+sphinx-click = {git = "https://github.com/rbturnbull/sphinx-click.git"}
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests",
+]
+
+[tool.black]
+line-length = 120
+skip_string_normalization = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+corgi-train = "corgi.apps:Corgi.main"
+corgi = "corgi.apps:Corgi.inference_only_main"
