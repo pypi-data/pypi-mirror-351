@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-flowpilot"
+version = "0.3.3"
+description = "A modern typed Python package"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+dependencies = [
+    # 运行时依赖
+    "asyncio"
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.5.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/deepissue"
+Repository = "https://github.com/deepissue/flowpilot"
+
+# Hatch 特定配置
+[tool.hatch.build.targets.wheel]
+packages = ["agent_flowpilot"]
+
+# 方法1：明确指定包
+[tool.setuptools]
+packages = ["agent_flowpilot"]  # 明确列出包名
+package-dir = {"" = "src"}   # 指定包在 src 目录
+
+[tool.setuptools.package-data]
+agent_flowpilot = ["py.typed"]  # 更具体的配置
