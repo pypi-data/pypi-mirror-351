@@ -1,0 +1,5 @@
+===============
+iosanita.policy
+===============
+
+User documentation

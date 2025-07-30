@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cache="http://namespaces.zope.org/cache"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    >
+
+  <plone:service
+      method="GET"
+      factory=".get.IoSanitaSettingsGet"
+      for="zope.interface.Interface"
+      permission="zope2.View"
+      layer="iosanita.policy.interfaces.IIosanitaPolicyLayer"
+      name="@iosanita-settings-data"
+      />
+
+  <adapter
+      factory=".get.IoSanitaSettings"
+      name="iosanita-settings-data"
+      />
+
+  <cache:ruleset
+      for=".get.IoSanitaSettingsGet"
+      ruleset="plone.content.dynamic"
+      />
+
+</configure>
