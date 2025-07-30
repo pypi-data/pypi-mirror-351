@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: nanodt
+Version: 0.1.0
+Summary: A minimal Decision Transformer implementation for Minari datasets.
+Project-URL: Homepage, https://github.com/lubiluk/nanoDTm
+Project-URL: Repository, https://github.com/lubiluk/nanoDT
+Project-URL: Issues, https://github.com/lubiluk/nanoDT/issues
+Author-email: Paul Gajewski <lubiluk@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2025 Paweł Gajewski
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Requires-Python: >=3.12
+Requires-Dist: gymnasium>=1.1.1
+Requires-Dist: minari[hdf5]>=0.5.3
+Requires-Dist: numpy>=2.2.5
+Requires-Dist: pillow>=11.2.1
+Requires-Dist: torch>=2.7.0
+Description-Content-Type: text/markdown
+
+# nanoDT
+
+*The simplest, fastest repository for training/finetuning medium-sized DTs.*
+
+This repository is based on [nanoGPT](https://github.com/karpathy/nanoGPT) and provides a lightweight implementation of Decision Transformers.
+
+---
+
+## Features
+
+- **Lightweight and Simple**: Minimal dependencies and easy-to-understand codebase.
+- **Continuous and Discrete Action Spaces**: Works seamlessly with both types of environments.
+- **Customizable Models**: Easily configure model architecture and training parameters.
+- **Dataset Integration**: Supports [Minari](https://minari.farama.org/) datasets for training.
+- **Scalable Training**: Optimized for fast training on GPUs.
