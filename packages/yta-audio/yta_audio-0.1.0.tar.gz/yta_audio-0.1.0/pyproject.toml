@@ -1,0 +1,76 @@
+[project]
+name = "yta-audio"
+version = "0.1.0"
+description = "Youtube Autonomous Audio Module."
+authors = [
+    {name = "danialcala94",email = "danielalcalavalera@gmail.com"}
+]
+readme = "README.md"
+requires-python = "==3.9"
+dependencies = [
+    "yta_audio_base (>=0.0.1,<1.0.0)",
+    "yta_validation (>=0.0.1,<1.0.0)",
+    "yta_constants (>=0.0.1,<1.0.0)",
+    "yta_programming (>=0.0.1,<1.0.0)",
+    "yta_temp (>=0.0.1,<1.0.0)",
+    "yta_file_downloader (>=0.0.1,<1.0.0)",
+    "yta_google_drive_downloader (>=0.0.1,<1.0.0)",
+    "yta_text (>=0.0.1,<1.0.0)",
+    "whisper_timestamped (>=1.14.2,<2.0.0)",
+    # These 'torch' and 'torchaudio' are needed by, at
+    # least, the 'deepfilternet' (df) library
+    "torch (>=2.3.0,<3.0.0)",
+    # This 'torchaudio' was previously '>=2.3.0+cpu'
+    # but generated conflicts
+    "torchaudio (>=2.3.0,<3.0.0)",
+    "deepfilternet (>=0.5.6,<9.0.0)",
+    # Careful, 'coqui-tts' v0.26.0 drops Python 3.9 support
+    "coqui-tts (>=0.25.3,<0.26.0)",
+    "pyttsx3 (>=2.90,<3.0)",
+    "gtts (>=2.5.1,<3.0.0)",
+    "scamp (>=0.9.1.post9,<9.0.0)",
+    # The 'elevenlabs' lib has been commented due to
+    # we are not using it by now
+    #"elevenlabs (>=0.2.26,<9.0.0)",
+    # The 'pedalboard' lib has been commented due to
+    # it was not being installed through poetry
+    #"pedalboard (>=0.7.4,<9.0.0)",
+    "soundfile (>=0.12.1,<9.0.0)",
+    # This 'scipy' library is causing conflicts so it's
+    # been commented
+    #"scipy (>=1.12.0,<2.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "yta_audio", from = "src"}]
+
+# Optional dependencies below
+[tool.poetry.group.optional]
+optional = true
+
+[tool.poetry.group.optional.dependencies]
+moviepy = ">=2.0.0,<3.0.0"
+faster_whisper = ">=1.0.2,<2.0.0"
+# This 'onnxruntime' is required by 'faster-whisper'
+# and the 'v1.18.0' is the last version that accepts 
+# python 3.9
+#"onnxruntime (>=1.17.0,<1.19.0)",
+# This 'av' is required by 'faster-whisper' and the
+# 'v12.1.0' was working locally (but 'v14.3.0' was
+# not)
+#"av (>=12.0.9,<12.1.1)",
+# Careful, possible cyclic import issue
+yta_multimedia = ">=0.0.1,<1.0.0"
+# 'librosa' is experimental by now
+# librosa = ">=0.10.0,<1.0.0"
+# This 'musixmatch' library is commented because
+# the code is not being used by now (experimental)
+# musixmatch = ""=>0.0.1,<9.0.0"
+# Optional dependencies above
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
