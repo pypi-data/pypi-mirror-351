@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zlib-into"
+version = "0.3"
+description = "Compress & decompress data with zlib into preallocated buffers"
+readme = "README.rst"
+license = "MPL-2.0"
+license-files = ["LICENSE.md"]
+authors = [
+  {name = "European XFEL GmbH", email = "da-support@xfel.eu"}
+]
+classifiers = [
+  "Topic :: System :: Archiving :: Compression",
+]
+requires-python = ">=3.10"
+
+[project.urls]
+Source = "https://git.xfel.eu/dataAnalysis/zlib_into"
+
+[tool.setuptools]
+ext-modules = [
+  {name = "zlib_into", sources = ["src/zlib_into.c"], libraries = ["z"]}
+]
