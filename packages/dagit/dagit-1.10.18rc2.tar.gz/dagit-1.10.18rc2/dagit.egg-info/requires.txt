@@ -1,0 +1,7 @@
+dagster-webserver==1.10.18rc2
+
+[notebook]
+dagster-webserver[notebook]==1.10.18rc2
+
+[test]
+dagster-webserver[test]==1.10.18rc2
