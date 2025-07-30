@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-ui-bridge"
+version = "0.2.0"
+description = "High-performance Python MCP server for LLM-web UI automation with viewport-optimized parsing and scroll navigation"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+  {name = "Santiago Calvo", email = "santiago@example.com"},
+]
+keywords = ["mcp", "llm", "automation", "playwright", "ui-bridge", "model-context-protocol", "web-automation", "performance", "viewport", "scroll-navigation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+    "Topic :: Software Development :: Testing",
+]
+
+dependencies = [
+    "playwright>=1.40.0",
+    "fastmcp>=2.5.0",
+    "pydantic>=2.0.0",
+    "uvicorn>=0.24.0",
+    "fastapi>=0.104.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/your-username/mcp-ui-bridge"
+"Repository" = "https://github.com/your-username/mcp-ui-bridge"
+"Bug Tracker" = "https://github.com/your-username/mcp-ui-bridge/issues"
+"Documentation" = "https://github.com/your-username/mcp-ui-bridge#readme"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.5.0",
+]
+
+# Uncomment if you want to provide a CLI tool
+# [project.scripts]
+# mcp-ui-bridge = "mcp_ui_bridge_python.main:app" 
