@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: strongly-connected-components
+Version: 0.1.1
+Summary: Compute the strongly connected components of a graph.
+Project-URL: Source, https://github.com/scravy/python-strongly-connected-components
+Project-URL: Tracker, https://github.com/scravy/python-strongly-connected-components/issues
+Author-email: Julian Bertram <tirednesscankill@warhog.net>
+License: MIT
+Keywords: graph,graph-algorithms,scc,strongly-connected-components
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+
+Compute the [strongly connected components](https://en.wikipedia.org/wiki/Strongly_connected_component) of a graph.
+
+```python
+type Graph[L] = Mapping[L, Collection[L]]
+
+def strongly_connected_components[L](graph: Graph[L]) -> Iterator[frozenset[L]]
+```

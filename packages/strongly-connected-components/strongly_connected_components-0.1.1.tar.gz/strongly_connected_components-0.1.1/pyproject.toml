@@ -1,0 +1,38 @@
+[project]
+name = "strongly-connected-components"
+version = "0.1.1"
+description = "Compute the strongly connected components of a graph."
+readme = "README.md"
+authors = [
+    { name = "Julian Bertram", email = "tirednesscankill@warhog.net" }
+]
+requires-python = ">=3.12"
+dependencies = []
+license = { text = "MIT" }
+keywords = ["graph", "graph-algorithms", "strongly-connected-components", "scc"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+    "Intended Audience :: Developers",
+]
+
+[project.urls]
+Source = "https://github.com/scravy/python-strongly-connected-components"
+Tracker = "https://github.com/scravy/python-strongly-connected-components/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "mypy>=1.15.0",
+    "ruff>=0.11.11",
+    "twine>=6.1.0",
+]
