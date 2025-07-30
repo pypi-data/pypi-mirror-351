@@ -1,0 +1,36 @@
+[build-system]
+requires = [
+  "setuptools >= 40.9.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lapet"
+version = "0.9.4"
+authors = [
+    {name = "Jonathan Eisenzopf", email = "ironbraid74@gmail.com"},
+]
+description = "Library that makes it easier to evaluate the quality of LLM outputs"
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ["llm"]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "pandas",
+    "numpy",
+    "torch>=2.6.0",
+    "huggingface_hub>=0.23.0",
+    "transformers==4.52.3",
+    "openai>=1.0.0",
+    'importlib-metadata; python_version<"3.10"',
+]
+
+[project.optional-dependencies]
+cuda = ["flash_attn", "auto-gptq", "autoawq"]
+
+[project.urls]
+Homepage = "https://github.com/eisenzopf/lapet"
+Issues = "https://github.com/eisenzopf/lapet/issues"

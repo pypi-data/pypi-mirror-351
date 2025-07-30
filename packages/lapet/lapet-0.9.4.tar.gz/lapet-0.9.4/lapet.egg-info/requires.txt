@@ -1,0 +1,14 @@
+pandas
+numpy
+torch>=2.6.0
+huggingface_hub>=0.23.0
+transformers==4.52.3
+openai>=1.0.0
+
+[:python_version < "3.10"]
+importlib-metadata
+
+[cuda]
+flash_attn
+auto-gptq
+autoawq
