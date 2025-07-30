@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: tetrad_plus
+Version: 0.1.2
+Summary: A package of tools for working with the tetrad java program for causal discovery from CMU
+Author-email: "Kelvin O. Lim" <lim.kelvino@gmail.com>
+Project-URL: Homepage, https://github.com/kelvinlim/tetrad_plus
+Project-URL: Bug Tracker, https://github.com/kelvinlim/tetrad_plus/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: JPype1
+Requires-Dist: pandas
+Requires-Dist: python-dotenv
+Requires-Dist: PyYAML
+Requires-Dist: seaborn
+Requires-Dist: semopy
+Requires-Dist: graphviz
+Requires-Dist: tqdm
+Requires-Dist: ipykernel
+Requires-Dist: dgraph_flex
+Requires-Dist: ipywidgets
+Requires-Dist: scikit-learn
+
+# tetrad_plus
+
+This project provides a python interface to the java Tetrad program from cmu.
+
+The primary motivation was to provide a set of commands that could be used in a jupyter notebook. Combined with the dgraph_flex package, it supports the interactive use of causal discovery algorithms such as gfci, running of a SEM using the causal graph and data, and creation of publication quality graphs using the graphviz program.
