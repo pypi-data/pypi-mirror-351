@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCAP Recorder</title>
+    <link href="./css/styles.css" rel="stylesheet">
+    <link href="./css/full.css" rel="stylesheet" type="text/css" />
+
+    <script src="./js/tailwind.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .recording-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .recording-indicator {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .file-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .file-table th {
+            background-color: #e2e8f0;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .file-table td {
+            background-color: white;
+            padding: 12px;
+        }
+
+        .file-table tr {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #0d9bf9;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .navbar-end .btn-circle svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .navbar-end .btn-circle:hover svg {
+            color: #e2e8f0;
+        }
+
+        .navbar-end .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-end .btn-circle.btn-lg {
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-end .btn-circle.btn-lg svg {
+            margin-top: -5px;
+            width: 25px;
+            height: 25px;
+            color: white;
+        }
+
+        .navbar-end .btn-circle.btn-lg:hover svg {
+            color: #e2e8f0;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            max-width: 28rem;
+            margin: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+            margin: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e2e8f0;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input:checked+.slider {
+            background-color: #3b82f6;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        .btn {
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            border-color: transparent;
+        }
+
+        .btn-ghost:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1E88E5;
+        }
+
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-box {
+            animation: modal-pop 0.2s ease-out;
+        }
+
+        @keyframes modal-pop {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            margin-bottom: 5px;
+            z-index: 10;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            transform: none;
+            box-shadow: none;
+        }
+
+        #modeIndicator {
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        #serviceStatusContent {
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #CBD5E0 #EDF2F7;
+        }
+
+        #serviceStatusContent::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #serviceStatusContent::-webkit-scrollbar-track {
+            background: #EDF2F7;
+            border-radius: 3px;
+        }
+
+        #serviceStatusContent::-webkit-scrollbar-thumb {
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+
+        #serviceDialog {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        #serviceDialogContent {
+            scrollbar-width: thin;
+            scrollbar-color: #CBD5E0 #EDF2F7;
+        }
+
+        #serviceDialogContent::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #serviceDialogContent::-webkit-scrollbar-track {
+            background: #EDF2F7;
+            border-radius: 3px;
+        }
+
+        #serviceDialogContent::-webkit-scrollbar-thumb {
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+
+        .bg-amber-100 {
+            background-color: rgb(254 243 199);
+        }
+
+        .text-amber-800 {
+            color: rgb(146 64 14);
+        }
+
+        .group:hover #modeIndicator {
+            filter: brightness(0.95);
+        }
+
+        .btn-circle {
+            border-radius: 9999px;
+            padding: 0;
+            height: 2rem;
+            width: 2rem;
+            min-height: 2rem;
+            min-width: 2rem;
+        }
+
+        .btn-sm {
+            height: 2rem;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+            min-height: 2rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar bg-base-100">
+        <div class="navbar-start">
+            <a href="/" class="btn btn-ghost text-xl"><img class="header__logo me-2" src="assets/auzoneLogo.svg"
+                    alt=""></a>
+        </div>
+        <div class="navbar-center">
+            <span class="text-xl">MCAP</span>
+        </div>
+        <div class="navbar-end">
+            <div class="flex items-center gap-4">
+                <div id="recorderIndicator" class="hidden relative group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 96 96" fill="currentColor">
+                        <circle cx="48" cy="48" r="32" />
+                    </svg>
+                    <div
+                        class="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                        Recording
+                    </div>
+                </div>
+                <div class="relative group" id="statusContainer">
+                    <div class="flex items-center gap-2">
+                        <div id="modeIndicator"
+                            class="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600 flex items-center gap-2">
+                            <span id="modeText">Loading...</span>
+                            <svg class="animate-spin h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </div>
+                        <button onclick="showServiceStatus()" class="btn btn-ghost btn-circle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="absolute right-0 mt-2 hidden group-hover:block z-50">
+                        <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-4 w-64">
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900 mb-2">Service Status</div>
+                                <div id="quickStatusContent" class="space-y-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="menu menu-horizontal px-1">
+                </ul>
+                <a href="/settings" class="btn btn-ghost btn-circle btn-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main class="container mt-8">
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4">Recording Controls</h2>
+            <div class="recording-controls">
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center">
+                        <span id="recordingStatus" class="font-bold mr-2">Recording</span>
+                        <label class="switch mr-4">
+                            <input type="checkbox" id="recordingToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <button id="liveToggle" class="btn btn-primary" onclick="switchToLive()"
+                            title="Pressing the button will restart the device in live mode, regardless of its current mode.">
+                            Live Mode
+                        </button>
+                    </div>
+                </div>
+                <div class="recording-indicator" id="recordingIndicator"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4">MCAP Files</h2>
+            <div id="directoryPath" class="mb-4 text-gray-600"></div>
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Size (MB)</th>
+                        <th>Created</th>
+                        <th>Avg. Video Length (s)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="fileTableBody"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <dialog id="playOptionsModal" class="rounded-lg shadow-lg">
+        <div id="playModalContent"></div>
+    </dialog>
+
+    <dialog id="myModal" class="bg-white rounded-lg shadow-lg p-6 w-[600px]">
+        <div id="modalDetails"></div>
+    </dialog>
+
+    <dialog id="loadingDialog" class="modal">
+        <div class="modal-box flex flex-col items-center p-6 bg-white rounded-lg shadow-xl">
+            <span class="loading loading-spinner loading-lg text-primary mb-4"></span>
+            <p class="text-lg font-semibold text-gray-700">Switching to Live Mode...</p>
+            <p class="text-sm text-gray-500">Please wait while the system transitions.</p>
+        </div>
+    </dialog>
+
+    <div id="serviceStatusDialog" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50" style="display: none;">
+        <div
+            class="bg-white rounded-xl shadow-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div class="p-6">
+                <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-gray-100">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-800">System Status</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="/config/services"
+                            class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            Configure Services
+                        </a>
+                        <button onclick="hideServiceStatus()"
+                            class="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="serviceStatusContent" class="space-y-3 overflow-y-auto max-h-[60vh]">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let socket = null;
+        let pollingInterval = 5000;
+        let currentRecordingFile = null;
+        let currentPlayingFile = null;
+        let isPlaying = false;
+        let statusCheckInterval = 1000; // 1 second
+        const REPLAY_STATUS_INTERVAL = 1000;
+        let deviceName = null;
+
+        async function fetchDeviceName() {
+            try {
+                const response = await fetch('/config/webui/details');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                deviceName = data.DEVICE;
+            } catch (error) {
+                console.error('Error fetching device name:', error);
+            }
+        }
+        function showLoading() {
+            const loadingDialog = document.getElementById('loadingDialog');
+            loadingDialog.showModal();
+        }
+
+        function hideLoading() {
+            const loadingDialog = document.getElementById('loadingDialog');
+            loadingDialog.close();
+        }
+
+        async function switchToLive() {
+            showLoading();
+
+            try {
+                if (!deviceName) {
+                    throw new Error('Device name not available');
+                }
+
+                const response = await fetch('/live-run', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        target: deviceName.toLowerCase(),
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 5000));
+
+                const transitionCheck = setInterval(async () => {
+                    try {
+                        const statusResponse = await fetch('/replay-status');
+                        const statusText = await statusResponse.text();
+                        const isReplay = statusText.trim() === "Replay is running";
+
+                        if (!isReplay) {  // System has finished transitioning to live
+                            clearInterval(transitionCheck);
+                            hideLoading();
+                        }
+                    } catch (error) {
+                        console.error('Error checking status during transition:', error);
+                    }
+                }, 1000);
+
+                setTimeout(() => {
+                    clearInterval(transitionCheck);
+                    hideLoading();
+                }, 45000);
+
+            } catch (error) {
+                hideLoading();
+                alert('Error turning on all or some services but device is switched to live mode.');
+            }
+        }
+
+        async function updateQuickStatus() {
+            try {
+                // First get device type
+                const deviceResponse = await fetch('/config/webui/details');
+                if (!deviceResponse.ok) throw new Error(`HTTP error! status: ${deviceResponse.status}`);
+                const deviceData = await deviceResponse.json();
+                const isRaivin = deviceData.DEVICE?.toLowerCase().includes('raivin');
+
+                // Then check services - filter based on device type
+                const baseServices = ["camera", "imu", "navsat", "model"];
+                const raivinServices = ["radarpub", "fusion"];
+                const services = isRaivin ? [...baseServices, ...raivinServices] : baseServices;
+
+                const response = await fetch('/config/service/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ services })
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const serviceStatuses = await response.json();
+                const quickStatusContent = document.getElementById('quickStatusContent');
+
+                if (!quickStatusContent) {
+                    console.error('Quick status content element not found');
+                    return;
+                }
+
+                const nonRunningServices = serviceStatuses.filter(({ status }) => status !== 'running');
+
+                if (nonRunningServices.length === 0) {
+                    quickStatusContent.innerHTML = `
+                        <div class="flex items-center text-green-600">
+                            <span class="h-2 w-2 rounded-full bg-green-500 mr-2"></span>
+                            All Services Running
+                        </div>
+                    `;
+                } else {
+                    quickStatusContent.innerHTML = `
+                        <div class="text-red-600 mb-2">
+                            <span class="h-2 w-2 rounded-full bg-red-500 mr-2 inline-block"></span>
+                            Inactive Services:
+                        </div>
+                        ${nonRunningServices.map(({ service }) => {
+                        const serviceName = service
+                            .replace('.service', '')
+                            .split('-')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                            .join(' ');
+                        return `
+                                <div class="flex items-center justify-between text-gray-600">
+                                    <span>${serviceName}</span>
+                                    <span class="text-red-500">Inactive</span>
+                                </div>
+                            `;
+                    }).join('')}
+                    `;
+                }
+
+                quickStatusContent.innerHTML += `
+                    <button onclick="showServiceStatus()" class="w-full mt-4 text-sm text-blue-600 hover:text-blue-800 flex items-center justify-center gap-1">
+                        <span>Click for more details</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                `;
+            } catch (error) {
+                console.error('Error updating quick status:', error);
+                const quickStatusContent = document.getElementById('quickStatusContent');
+                if (quickStatusContent) {
+                    quickStatusContent.innerHTML = `
+                        <div class="text-red-600">
+                            Error checking service status
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await fetchDeviceName();
+            connectWebSocket();
+            checkReplayStatus();
+            await updateQuickStatus();
+            statusCheckInterval = setInterval(async () => {
+                await checkReplayStatus();
+                await updateQuickStatus();
+            }, 5000);
+        });
+
+        async function checkReplayStatus() {
+            try {
+                // First get device type and check for degraded mode
+                const deviceResponse = await fetch('/config/webui/details');
+                if (!deviceResponse.ok) throw new Error(`HTTP error! status: ${deviceResponse.status}`);
+                const deviceData = await deviceResponse.json();
+                const isRaivin = deviceData.DEVICE?.toLowerCase().includes('raivin');
+                const services = isRaivin ?
+                    ["camera", "imu", "navsat", "radarpub"] :
+                    ["camera", "imu", "navsat"];
+                const serviceResponse = await fetch('/config/service/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ services })
+                });
+
+                if (!serviceResponse.ok) throw new Error(`HTTP error! status: ${serviceResponse.status}`);
+                const serviceStatuses = await serviceResponse.json();
+
+                // Check critical services
+                const statusMap = serviceStatuses.reduce((acc, { service, status }) => {
+                    acc[service] = status;
+                    return acc;
+                }, {});
+
+                // Check replay status
+                const replayResponse = await fetch('/replay-status');
+                if (!replayResponse.ok) {
+                    throw new Error(`HTTP error! status: ${replayResponse.status}`);
+                }
+                const statusText = await replayResponse.text();
+                const isReplay = statusText.trim() === "Replay is running";
+
+                const modeIndicator = document.getElementById('modeIndicator');
+                const modeText = document.getElementById('modeText');
+                const loadingSpinner = modeIndicator.querySelector('svg.animate-spin');
+                if (loadingSpinner) {
+                    loadingSpinner.remove();
+                }
+                const allSensorsInactive = services.every(service => statusMap[service] !== 'running');
+                const allSensorActive = services.every(service => statusMap[service] === 'running');
+                if (allSensorsInactive && !isReplay) {
+                    modeText.textContent = "Stopped";
+                    modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 flex items-center gap-2";
+                }
+                else if (isReplay) {
+                    if (!allSensorsInactive) {
+                        modeText.textContent = "Replay Mode (Degraded)";
+                        modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 flex items-center gap-2";
+                    } else {
+                        modeText.textContent = "Replay Mode";
+                        modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 flex items-center gap-2";
+                    }
+                } else {
+                    const isCameraDown = !statusMap['camera'] || statusMap['camera'] !== 'running';
+                    const isradarpubDown = !statusMap['radarpub'] || statusMap['radarpub'] !== 'running';
+                    const isDegraded = (isRaivin && isradarpubDown) || isCameraDown;
+                    if (!allSensorActive) {
+                        modeText.textContent = "Live Mode (Degraded)";
+                        modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800 flex items-center gap-2";
+                    } else {
+                        modeText.textContent = "Live Mode";
+                        modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 flex items-center gap-2";
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking replay status:', error);
+                const modeIndicator = document.getElementById('modeIndicator');
+                const modeText = document.getElementById('modeText');
+                const loadingSpinner = modeIndicator.querySelector('svg.animate-spin');
+                if (loadingSpinner) {
+                    loadingSpinner.remove();
+                }
+                modeText.textContent = "Status Unknown";
+                modeIndicator.className = "px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 flex items-center gap-2";
+            }
+        }
+
+        function connectWebSocket() {
+            socket = new WebSocket('/mcap/');
+
+            socket.onopen = () => {
+                console.log('WebSocket connection established');
+                checkPlaybackStatus();
+                listMcapFiles();
+            };
+
+            socket.onmessage = (event) => {
+                const fileTableBody = document.querySelector('#fileTableBody');
+                const responseText = event.data;
+
+                fileTableBody.innerHTML = '';
+
+                try {
+                    const data = JSON.parse(responseText);
+                    if (data.error) {
+                        document.getElementById('directoryPath').textContent = `Directory: ${data.dir_name}`;
+                        console.error('Error:', data.error);
+                        const errorRow = document.createElement('tr');
+                        const errorCell = document.createElement('td');
+                        errorCell.colSpan = 5;
+                        errorCell.textContent = data.error;
+                        errorRow.appendChild(errorCell);
+                        fileTableBody.appendChild(errorRow);
+                        return;
+                    }
+                    document.getElementById('directoryPath').textContent = `Directory: ${data.dir_name}`;
+                    const files = data.files || [];
+                    files.sort((a, b) => new Date(b.created) - new Date(a.created));
+                    files.forEach((file) => {
+                        const row = createTableRow(file, data.dir_name);
+                        fileTableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    console.error('Response text:', responseText);
+                    const errorRow = document.createElement('tr');
+                    const errorCell = document.createElement('td');
+                    errorCell.colSpan = 5;
+                    errorCell.textContent = 'Error parsing server response';
+                    errorRow.appendChild(errorCell);
+                    fileTableBody.appendChild(errorRow);
+                }
+            };
+
+            socket.onclose = () => {
+                console.log('WebSocket connection closed');
+                setTimeout(connectWebSocket, 3000);
+            };
+
+            socket.onerror = (error) => {
+                console.error('WebSocket error:', error);
+            };
+        }
+
+        function listMcapFiles() {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({ action: 'list_files' }));
+            }
+        }
+
+        function showModal(topics) {
+            const modal = document.getElementById('myModal');
+            const modalDetails = document.getElementById('modalDetails');
+
+            if (!modal || !modalDetails) {
+                console.error('Modal elements not found');
+                return;
+            }
+
+            modalDetails.innerHTML = `
+                <div class="mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">File Details</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    ${Object.entries(topics).map(([topic, details]) => `
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="font-medium text-gray-800 mb-2">${topic}</div>
+                            <div class="grid grid-cols-[80px,1fr] gap-y-2">
+                                <span class="text-gray-600">FPS:</span>
+                                <span class="text-gray-800">${details.average_fps.toFixed(2)}</span>
+                                <span class="text-gray-600">Frames:</span>
+                                <span class="text-gray-800">${details.message_count}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="flex justify-end mt-6">
+                    <button onclick="closeModal()" 
+                        class="bg-[#4285f4] text-white px-4 py-2 rounded hover:bg-blue-600">
+                        CLOSE
+                    </button>
+                </div>
+            `;
+
+            modal.showModal();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('myModal');
+            if (modal) modal.close();
+        }
+
+        function deleteFile(fileName, directory) {
+            if (fileName === currentRecordingFile) {
+                alert('Cannot delete file while it is being recorded');
+                return;
+            }
+
+            const confirmDelete = confirm(`Are you sure you want to delete: ${fileName}?`);
+            const params = {
+                directory: directory,
+                file: fileName
+            }
+            if (confirmDelete) {
+                fetch('/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(params)
+                }).then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error(`HTTP error ${response.status}: ${text}`);
+                        });
+                    }
+                    return response.text();
+                }).then(text => {
+                    console.log('File deleted:', text);
+                    startPolling()
+                    listMcapFiles();
+                }).catch(error => {
+                    console.error('Error deleting file:', error);
+                    alert(`Error deleting file: ${error.message}`);
+                });
+            }
+        }
+
+        function getUploadCredentials(fileName, directoryName) {
+            fetch('/get-upload-credentials', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.url && data.jwt, data.topic) {
+                        console.log('Credentials fetched successfully:', data);
+                        alert(`Credentials fetched successfully: Starting Upload`);
+                        uploadFile(directoryName, fileName, data.url, data.jwt, data.topic);
+                    } else {
+                        const url = prompt("Enter the URL to upload the file:");
+                        const jwt = prompt("Enter the JWT token:");
+                        const topic = prompt("Enter the primary topic:");
+                        if (!url || !jwt || !topic) {
+                            alert('Upload cancelled: URL and JWT token are required.');
+                            return;
+                        }
+                        uploadFile(directoryName, fileName, url, jwt, topic);
+                    }
+                })
+                .catch(error => {
+                    const url = prompt("Enter the URL to upload the file:");
+                    const jwt = prompt("Enter the JWT token:");
+                    const topic = prompt("Enter the primary topic:");
+                    if (!url || !jwt || !topic) {
+                        alert('Upload cancelled: URL and JWT token are required.');
+                        return;
+                    }
+                    uploadFile(directoryName, fileName, url, jwt, topic);
+                    alert(`Credentials fetched successfully: Starting Upload`);
+                });
+        }
+
+
+        function uploadFile(directoryName, fileName, url, jwt, topic) {
+            const params = {
+                directory: directoryName,
+                file: fileName,
+                url: url,
+                jwt: jwt,
+                topic: topic,
+            };
+
+            fetch('/upload', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(params)
+            })
+                .then(response => {
+                    return response.json().then(data => {
+                        alert(data.message || 'No message provided from the server.');
+                    });
+                })
+                .catch(error => {
+                    console.error('Upload error:', error);
+                    alert('An error occurred during the upload process.');
+                });
+        }
+
+
+        document.getElementById('recordingToggle').addEventListener('change', function () {
+            if (this.checked) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        });
+
+        function checkRecordingStatus() {
+            fetch('/recorder-status')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(statusText => {
+                    const isRecording = statusText.trim() === "Recorder is running";
+                    if (isRecording) {
+                        return fetch('/current-recording')
+                            .then(response => response.json())
+                            .then(data => {
+                                currentRecordingFile = data.status === "recording" ? data.filename : null;
+                                updateRecordingUI(isRecording);
+                            });
+                    } else {
+                        currentRecordingFile = null;
+                        updateRecordingUI(false);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking recording status:', error);
+                    currentRecordingFile = null;
+                    updateRecordingUI(false);
+                });
+        }
+
+        function updateRecordingUI(isRecording) {
+            const toggle = document.getElementById('recordingToggle');
+            const recordingIndicator = document.getElementById('recordingIndicator');
+            const recorderIndicator = document.getElementById('recorderIndicator');
+
+            toggle.checked = isRecording;
+
+            if (recordingIndicator) {
+                recordingIndicator.textContent = isRecording ?
+                    (currentRecordingFile ? `Recording in progress: ${currentRecordingFile}` : 'Starting recording...') : '';
+                recordingIndicator.style.color = isRecording ? '#e74c3c' : 'inherit';
+            }
+
+            if (recorderIndicator) {
+                if (isRecording) {
+                    recorderIndicator.classList.remove('hidden');
+                    recorderIndicator.className = "text-red-600 animate-pulse relative group";
+                } else {
+                    recorderIndicator.classList.add('hidden');
+                }
+            }
+        }
+
+        function startRecording() {
+            var request = fetch('/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({})
+            });
+
+            request.then(function (response) {
+                if (!response.ok) {
+                    throw new Error(`HTTP error ${response.status}`);
+                }
+                return response.text();
+            }).then(function (text) {
+                console.log('Recording started:', text);
+                currentRecordingFile = null;  // Reset the current recording file
+                updateRecordingUI(true);
+                startPolling();
+            }).catch(function (error) {
+                console.error('Error starting recording:', error);
+                alert(`Error starting recording: ${error.message}`);
+                updateRecordingUI(false);
+            });
+        }
+
+        function stopRecording() {
+            fetch('/stop', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({})
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                    return response.text();
+                })
+                .then(text => {
+                    console.log('Recording stopped:', text);
+                    currentRecordingFile = null;
+                    updateRecordingUI(false);
+                    startPolling();
+                })
+                .catch(error => {
+                    console.error('Error stopping recording:', error);
+                    alert(`Error stopping recording: ${error.message}`);
+                    updateRecordingUI(true);
+                });
+        }
+
+        function startPolling() {
+            setInterval(() => {
+                listMcapFiles();
+                checkRecordingStatus();
+                checkPlaybackStatus();
+            }, pollingInterval);
+        }
+
+        function formatDuration(seconds) {
+            if (seconds < 60) {
+                return `${seconds.toFixed(2)}s`;
+            } else {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes}m ${remainingSeconds.toFixed(1)}s`;
+            }
+        }
+
+        function showPlayDialog(fileName, directory, fileDetails) {
+            const modal = document.getElementById('playOptionsModal');
+            const content = document.getElementById('playModalContent');
+
+            // Check if modal elements exist
+            if (!modal || !content) {
+                console.error('Modal elements not found. Make sure playOptionsModal and playModalContent exist in HTML');
+                return;
+            }
+
+            // Check if device is Maivin
+            const isMaivin = deviceName?.toLowerCase().includes('maivin');
+
+            content.innerHTML = '';
+            modal.dataset.fileName = fileName;
+            modal.dataset.directory = directory;
+
+            const formattedDuration = formatDuration(fileDetails.average_video_length);
+
+            content.innerHTML = `
+                <div class="bg-white p-8 rounded-xl max-w-md w-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-semibold text-gray-800">Play Options</h2>
+                        <button onclick="closePlayDialog()" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">File Name:</span>
+                                <span class="text-sm font-medium text-gray-900 truncate ml-4 max-w-[200px]">${fileName}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">Size:</span>
+                                <span class="text-sm font-medium text-gray-900">${fileDetails.size} MB</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">Length:</span>
+                                <span class="text-sm font-medium text-gray-900">${formattedDuration}</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            ${!isMaivin ? `
+                                <div class="space-y-2">
+                                    <label class="text-sm font-medium text-gray-700">Fusion</label>
+                                    <div class="inline-flex w-full rounded-lg shadow-sm" role="group">
+                                        <button type="button" 
+                                            class="fusion-btn flex-1 px-4 py-2.5 text-sm font-medium text-white bg-[#4285f4] rounded-l-lg active hover:bg-blue-600" 
+                                            data-value="live">
+                                            Live
+                                        </button>
+                                        <button type="button" 
+                                            class="fusion-btn flex-1 px-4 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-r-lg hover:bg-gray-200 transition-colors" 
+                                            data-value="mcap">
+                                            MCAP
+                                        </button>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">Model</label>
+                                <div class="inline-flex w-full rounded-lg shadow-sm" role="group">
+                                    <button type="button" 
+                                        class="model-btn flex-1 px-4 py-2.5 text-sm font-medium text-white bg-[#4285f4] rounded-l-lg active hover:bg-blue-600" 
+                                        data-value="live">
+                                        Live
+                                    </button>
+                                    <button type="button" 
+                                        class="model-btn flex-1 px-4 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-r-lg hover:bg-gray-200 transition-colors" 
+                                        data-value="mcap">
+                                        MCAP
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex justify-end space-x-3">
+                            <button onclick="closePlayDialog()" 
+                                class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                                Cancel
+                            </button>
+                            <button onclick="startPlayback()" 
+                                class="px-4 py-2 text-sm font-medium text-white bg-[#4285f4] rounded-lg hover:bg-blue-600 transition-colors">
+                                Start
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            const fusionBtns = content.querySelectorAll('.fusion-btn');
+            const modelBtns = content.querySelectorAll('.model-btn');
+
+            function setupButtonGroup(buttons) {
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        buttons.forEach(b => {
+                            b.classList.remove('active', 'bg-[#4285f4]', 'text-white');
+                            b.classList.add('bg-gray-100', 'text-gray-600');
+                        });
+                        this.classList.remove('bg-gray-100', 'text-gray-600');
+                        this.classList.add('active', 'bg-[#4285f4]', 'text-white');
+                    });
+                });
+            }
+
+            setupButtonGroup(fusionBtns);
+            setupButtonGroup(modelBtns);
+
+            modal.showModal();
+        }
+
+        function updateToggleLabel(label, isChecked) {
+            label.textContent = isChecked ? 'MCAP' : 'Live';
+            label.className = `text-sm font-medium ${isChecked ? 'text-blue-600' : 'text-gray-600'}`;
+        }
+
+        function closePlayDialog() {
+            const modal = document.getElementById('playOptionsModal');
+            modal.close();
+        }
+
+        function startPlayback() {
+            const modal = document.getElementById('playOptionsModal');
+            const fileName = modal.dataset.fileName;
+            const directory = modal.dataset.directory;
+
+            // Check if device is Maivin
+            const isMaivin = deviceName?.toLowerCase().includes('maivin');
+
+            // Only check fusion button if not Maivin
+            const fusionIsLive = isMaivin ? true : modal.querySelector('.fusion-btn[data-value="live"]').classList.contains('active');
+            const modelIsLive = modal.querySelector('.model-btn[data-value="live"]').classList.contains('active');
+
+            const config = {
+                fileName: "replay",
+                MCAP: `${directory}/${fileName}`,
+                IGNORE_TOPICS: ""
+            };
+
+            let ignoreTopics = [];
+            if (fusionIsLive) ignoreTopics.push("/fusion/*");
+            if (modelIsLive) ignoreTopics.push("/model/*");
+            config.IGNORE_TOPICS = ignoreTopics.join(" ");
+
+            fetch('/config/replay', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(config)
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                    return response.text();
+                })
+                .then(() => {
+                    return fetch('/replay', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            file: fileName,
+                            directory: directory,
+                            dataSource: fusionIsLive ? 'live' : 'mcap',
+                            model: modelIsLive ? 'live' : 'mcap'
+                        })
+                    });
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                    return response.text();
+                })
+                .then(() => {
+                    isPlaying = true;
+                    currentPlayingFile = fileName;
+                    modal.close();
+                    listMcapFiles();
+                })
+                .catch(error => {
+                    console.error('Error starting playback:', error);
+                    alert(`Error starting playback: ${error.message}`);
+                });
+        }
+
+        function togglePlayMcap(fileName, directory, options = null) {
+            if (isPlaying && currentPlayingFile === fileName) {
+                fetch('/config/replay', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fileName: "replay",
+                        MCAP: "",
+                        IGNORE_TOPICS: ""
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                        return response.text();
+                    })
+                    .then(() => {
+                        return fetch('/replay-end', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ file: fileName, directory: directory })
+                        });
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                        return response.text();
+                    })
+                    .then(() => {
+                        isPlaying = false;
+                        currentPlayingFile = null;
+                        listMcapFiles();
+                    })
+                    .catch(error => {
+                        console.error('Error stopping replay:', error);
+                        alert(`Error stopping replay: ${error.message}`);
+                    });
+            } else if (!isPlaying) {
+                if (!options) {
+                    const fileRows = document.querySelectorAll('#fileTableBody tr');
+                    let fileDetails = null;
+
+                    for (const row of fileRows) {
+                        const cells = row.getElementsByTagName('td');
+                        if (cells[0].textContent.includes(fileName)) {
+                            fileDetails = {
+                                size: cells[1].textContent,
+                                average_video_length: parseFloat(cells[3].textContent)
+                            };
+                            break;
+                        }
+                    }
+
+                    if (fileDetails) {
+                        showPlayDialog(fileName, directory, fileDetails);
+                    } else {
+                        console.error('Could not find file details in table');
+                        alert('Error: Could not find file details');
+                    }
+                    return;
+                }
+
+                fetch('/start-replay', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        file: fileName,
+                        directory: directory,
+                        dataSource: options.dataSource,
+                        model: options.model
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                        return response.text();
+                    })
+                    .then(() => {
+                        isPlaying = true;
+                        currentPlayingFile = fileName;
+                        listMcapFiles();
+                    })
+                    .catch(error => {
+                        console.error('Error starting fusion:', error);
+                        alert(`Error starting fusion: ${error.message}`);
+                    });
+            }
+        }
+
+        function createTableBody(files, directoryName) {
+            const tbody = document.getElementById('fileTableBody');
+            tbody.innerHTML = '';
+
+            const sortedFiles = [...files].sort((a, b) => {
+                if (a.name === currentPlayingFile) return -1;
+                if (b.name === currentPlayingFile) return 1;
+                return new Date(b.created) - new Date(a.created);
+            });
+
+            sortedFiles.forEach(file => {
+                const row = createTableRow(file, directoryName);
+                tbody.appendChild(row);
+            });
+        }
+
+        function createTableRow(file, directoryName) {
+            const row = document.createElement('tr');
+            const isRecording = file.name === currentRecordingFile && currentRecordingFile !== null;
+            const isCurrentlyPlaying = file.name === currentPlayingFile;
+
+            const buttonBase = "w-10 h-10 inline-flex items-center justify-center rounded-full transition-all duration-200";
+            const buttonStyles = {
+                play: `${buttonBase} ${isCurrentlyPlaying ? 'bg-[#dc3545] hover:bg-red-600' : 'bg-[#4285f4] hover:bg-blue-600'} text-white`,
+                info: `${buttonBase} bg-[#4285f4] text-white hover:bg-blue-600 mr-2`,
+                upload: `${buttonBase} bg-gray-400 text-white opacity-50 cursor-not-allowed mr-2`,
+                download: `${buttonBase} bg-[#34a853] text-white hover:bg-[#2d9248] mr-2`,
+                delete: `${buttonBase} bg-[#dc3545] text-white hover:bg-red-600 mr-2`
+            };
+
+            row.innerHTML = `
+                <td class="px-4 py-3">
+                    <div class="flex items-center">
+                        <button class="${buttonStyles.play} mr-3"
+                            onclick="togglePlayMcap('${file.name}', '${directoryName}')"
+                            ${isRecording || (isPlaying && !isCurrentlyPlaying) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}
+                            title="${isCurrentlyPlaying ? 'Stop' : 'Play'}">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                ${isCurrentlyPlaying ?
+                    '<path d="M8 6h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2z"/>' :
+                    '<path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>'
+                }
+                            </svg>
+                        </button>
+                        <span class="${isCurrentlyPlaying ? 'text-[#4285f4] font-medium' : ''}">${file.name}</span>
+                        ${isCurrentlyPlaying ? '<span class="ml-2 text-[#4285f4]">(Now Playing)</span>' : ''}
+                    </div>
+                </td>
+                <td class="px-4 py-3">${file.size}</td>
+                <td class="px-4 py-3">${file.created}</td>
+                <td class="px-4 py-3">${file.average_video_length.toFixed(2)}</td>
+                <td class="px-4 py-3">
+                    <button class="${buttonStyles.info}"
+                        onclick='showModal(${JSON.stringify(file.topics)})'
+                        title="Details">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                    </button>
+                    
+                    <button class="${buttonStyles.upload}"
+                        title="Upload: Available soon"  
+                        disabled
+                    >
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+                        </svg>
+                    </button>
+                    
+                    <a class="${buttonStyles.download}"
+                        href="/download/${directoryName}/${file.name}"
+                        title="Download">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        </svg>
+                    </a>
+
+                    <button class="${buttonStyles.delete}"
+                        onclick="deleteFile('${file.name}', '${directoryName}')"
+                        ${isRecording || isCurrentlyPlaying ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}
+                        title="Delete">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                        </svg>
+                    </button>
+                </td>
+            `;
+
+            return row;
+        }
+
+        function checkPlaybackStatus() {
+            fetch('/replay-status')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(statusText => {
+                    const status = statusText.trim();
+                    isPlaying = status === "Replay is running";
+
+                    // Update status display - fix selector to match the actual element
+                    const statusElement = document.querySelector('[data-status]');
+                    if (statusElement) {
+                        statusElement.textContent = isPlaying ? "Playing" : "Live";
+                    }
+
+                    // Force live toggle to match actual state
+                    const liveToggle = document.getElementById('liveToggle');
+                    if (liveToggle) {
+                        liveToggle.checked = !isPlaying;
+                    }
+
+                    if (isPlaying) {
+                        return fetch('/config/replay/details')
+                            .then(response => response.json())
+                            .then(config => {
+                                if (config.MCAP) {
+                                    currentPlayingFile = config.MCAP.split('/').pop();
+                                }
+                                listMcapFiles();
+                            });
+                    } else {
+                        currentPlayingFile = null;
+                        listMcapFiles();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking playback status:', error);
+                    const statusElement = document.querySelector('[data-status]');
+                    if (statusElement) {
+                        statusElement.textContent = "Error";
+                    }
+                    const liveToggle = document.getElementById('liveToggle');
+                    if (liveToggle) {
+                        liveToggle.checked = true;
+                    }
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            connectWebSocket();
+            checkPlaybackStatus();
+            checkRecorderStatus();
+            statusCheckInterval = setInterval(() => {
+                checkPlaybackStatus();
+                checkRecorderStatus();
+            }, REPLAY_STATUS_INTERVAL);
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (statusCheckInterval) {
+                clearInterval(statusCheckInterval);
+            }
+        });
+
+        window.showServiceStatus = async function () {
+            const dialog = document.getElementById('serviceStatusDialog');
+            const content = document.getElementById('serviceStatusContent');
+
+            // Show loading state first
+            dialog.style.display = 'flex';
+            content.innerHTML = `
+                <div class="flex items-center justify-center p-4">
+                    <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+            `;
+            dialog.classList.remove('hidden');
+
+            try {
+                // First get device type
+                const deviceResponse = await fetch('/config/webui/details');
+                if (!deviceResponse.ok) throw new Error(`HTTP error! status: ${deviceResponse.status}`);
+                const deviceData = await deviceResponse.json();
+                const isRaivin = deviceData.DEVICE?.toLowerCase().includes('raivin');
+
+                // Filter services based on device type
+                const baseServices = ["camera", "imu", "navsat", "model"];
+                const raivinServices = ["radarpub", "fusion"];
+                const services = isRaivin ? [...baseServices, ...raivinServices] : baseServices;
+
+                const response = await fetch('/config/service/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ services })
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                const serviceStatuses = await response.json();
+                content.innerHTML = ''; // Clear existing content
+
+                // Create status items for each service
+                serviceStatuses.forEach(({ service, status, enabled }) => {
+                    const isRunning = status === 'running';
+                    const isEnabled = enabled === 'enabled';
+
+                    const statusColor = isRunning ? 'bg-green-500' : 'bg-red-500';
+                    const enabledColor = isEnabled ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600';
+
+                    const serviceName = service
+                        .replace('.service', '')
+                        .split('-')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                        .join(' ');
+
+                    content.innerHTML += `
+                        <div class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-sm font-medium text-gray-900">${serviceName}</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full ${enabledColor} inline-flex items-center w-fit">
+                                    ${isEnabled ? 'Enabled' : 'Disabled'}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-medium ${isRunning ? 'text-green-600' : 'text-red-600'}">
+                                    ${isRunning ? 'Running' : 'Stopped'}
+                                </span>
+                                <div class="w-2 h-2 rounded-full ${statusColor}"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error fetching service status:', error);
+                content.innerHTML = `
+                    <div class="flex items-center gap-2 p-3 text-red-800 bg-red-50 rounded-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-sm font-medium">Error loading service status</span>
+                    </div>
+                `;
+            }
+        };
+
+        window.hideServiceStatus = function () {
+            const dialog = document.getElementById('serviceStatusDialog');
+            dialog.style.display = 'none';
+            dialog.classList.add('hidden');
+        };
+
+        function playMcap(filename) {
+            fetch('/replay/play', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ filename: filename })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+                    // Update live toggle immediately after successful play request
+                    const liveToggle = document.getElementById('liveToggle');
+                    if (liveToggle) {
+                        liveToggle.checked = false;
+                    }
+                    return response.text();
+                })
+                .catch(error => {
+                    console.error('Error playing MCAP:', error);
+                });
+        }
+
+        function checkRecorderStatus() {
+            fetch('/recorder-status')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(statusText => {
+                    const isRecording = statusText.trim() === "Recorder is running";
+                    if (isRecording) {
+                        // Get current recording filename
+                        return fetch('/current-recording')
+                            .then(response => response.json())
+                            .then(data => {
+                                currentRecordingFile = data.status === "recording" ? data.filename : null;
+                                updateRecordingUI(isRecording);
+                            });
+                    } else {
+                        currentRecordingFile = null;
+                        updateRecordingUI(false);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking recording status:', error);
+                    currentRecordingFile = null;
+                    updateRecordingUI(false);
+                });
+        }
+    </script>
+</body>
+
+</html>

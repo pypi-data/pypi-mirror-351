@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration</title>
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/full.css" rel="stylesheet" type="text/css" />
+    <script src="../js/tailwind.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #060606;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-start img {
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navbar-menu a:hover {
+            color: #28a745;
+        }
+
+        .navbar-menu a.active {
+            border-bottom: 2px solid #28a745;
+        }
+
+        .navbar-end .btn-circle svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .navbar-end .btn-circle:hover svg {
+            color: #e2e8f0;
+        }
+
+        .navbar-end .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-end .btn-circle.btn-lg {
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-end .btn-circle.btn-lg svg {
+            margin-top: 15px;
+            width: 25px;
+            height: 25px;
+            color: white;
+        }
+
+        .navbar-end .btn-circle.btn-lg:hover svg {
+            color: #e2e8f0;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .settings-card {
+            width: 200px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .settings-card h3 {
+            margin: 10px 0 0 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .settings-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            background-color: #e9ecef;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #radar-settings-card {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar bg-base-100">
+        <div class="navbar-start">
+            <a href="/" class="btn btn-ghost text-xl"><img class="header__logo me-2" src="../assets/auzoneLogo.svg"
+                    alt=""></a>
+        </div>
+        <div class="navbar-center">
+            <span class="text-xl">Settings</span>
+        </div>
+        <div class="navbar-end">
+            <a href="/settings" class="btn btn-ghost btn-circle btn-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </a>
+        </div>
+    </header>
+    <main>
+        <div class="container" id="settings-container">
+            <a href="/config/recorder" class="settings-card">
+                <h3>MCAP Recorder</h3>
+            </a>
+            <a href="/config/camera" class="settings-card">
+                <h3>Camera Settings</h3>
+            </a>
+            <a href="/config/webui" class="settings-card">
+                <h3>WebUI Settings</h3>
+            </a>
+            <a href="/config/model" class="settings-card">
+                <h3>Model Settings</h3>
+            </a>
+            <a href="/config/services" class="settings-card">
+                <h3>Service Status</h3>
+            </a>
+            <a href="/config/lidarpub" class="settings-card">
+                <h3>LiDAR Settings</h3>
+            </a>
+            <!-- Radar Settings card will be added dynamically if needed -->
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/config/webui/details')
+                .then(response => response.json())
+                .then(data => {
+                    const deviceType = data.DEVICE;
+                    const settingsContainer = document.getElementById('settings-container');
+
+                    if (deviceType.toLowerCase() !== 'maivin') {
+                        const radarSettingsCard = document.createElement('a');
+                        radarSettingsCard.href = '/config/radarpub';
+                        radarSettingsCard.className = 'settings-card';
+                        radarSettingsCard.innerHTML = '<h3>Radar Settings</h3>';
+                        settingsContainer.appendChild(radarSettingsCard);
+                        const fusionSettingsCard = document.createElement('a');
+                        fusionSettingsCard.href = '/config/fusion';
+                        fusionSettingsCard.className = 'settings-card';
+                        fusionSettingsCard.innerHTML = '<h3>Fusion Settings</h3>';
+                        settingsContainer.appendChild(fusionSettingsCard);
+
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching device type:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>
