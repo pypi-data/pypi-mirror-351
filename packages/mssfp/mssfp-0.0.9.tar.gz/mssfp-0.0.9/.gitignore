@@ -1,0 +1,18 @@
+
+# Python-related files
+/__pycache__
+*__pycache__
+*.ipynb_checkpoints
+.ipynb_checkpoints
+.DS_Store
+
+# Data files
+*.mp4
+*.mnc
+*.npy
+
+# Distrubution / packaging 
+/data
+/saved
+/mrdata
+/dist
