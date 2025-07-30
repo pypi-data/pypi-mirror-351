@@ -1,0 +1,16 @@
+Metadata-Version: 2.2
+Name: hurmodel
+Version: 1.1.1
+Home-page: https://github.com/sapiens-technology/hurmodel
+Author: SAPIENS TECHNOLOGY
+License: Proprietary Software
+License-File: LICENSE.txt
+Requires-Dist: torch==2.4.1
+Requires-Dist: tiktoken==0.4.0
+Requires-Dist: numpy==1.25.2
+Requires-Dist: psutil==7.0.0
+Requires-Dist: tqdm==4.67.1
+Dynamic: author
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
