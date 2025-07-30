@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: pystatik
+Version: 0.1.4
+Summary: Türkçe fonksiyonlarla sade istatistik kütüphanesi
+Home-page: https://github.com/kullaniciadi/pystatic
+Author: Poyraz
+Author-email: poyraz@example.com
+Keywords: istatistik python türkçe egitim medyan ortalama sapma mod
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Education
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# pystatik
+
+**pystatic**, Türkçe fonksiyon isimleriyle temel istatistiksel hesaplamaları yapmanızı sağlayan basit bir Python kütüphanesidir.
+
+## Özellikler
+
+- `aritmetik_ortalama(veriler)` → Ortalama hesaplar  
+- `medyan(veriler)` → Ortadaki değeri bulur  
+- `tepe_degeri(veriler)` → En çok tekrar eden sayıyı bulur  
+- `standart_sapma(veriler)` → Verilerin dağılımını ölçer  
+
+## Kurulum
+
+```bash
+pip install pystatik
