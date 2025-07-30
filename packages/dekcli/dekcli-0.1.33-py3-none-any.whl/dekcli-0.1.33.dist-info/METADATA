@@ -1,0 +1,49 @@
+Metadata-Version: 2.1
+Name: dekcli
+Version: 0.1.33
+Author-Email: sanzenwin <sanzenwin@gmail.com>
+License: MIT
+Requires-Python: <3.13,>=3.10
+Requires-Dist: GitPython<=3.1.41
+Requires-Dist: kubernetes<=29.0.0
+Requires-Dist: smbprotocol<=1.10.1
+Requires-Dist: pyinstaller<=6.8.0
+Requires-Dist: tqdm<=4.66.4
+Requires-Dist: toml<=0.10.2
+Requires-Dist: dektools[version,win32,ymal]<1.0.0
+Requires-Dist: deksecrets<1.0.0
+Requires-Dist: dekgen<1.0.0
+Requires-Dist: dekvenv<1.0.0
+Requires-Dist: dekmedia[svg]<1.0.0
+Description-Content-Type: text/markdown
+
+### dekcli
+
+
+#### 1. gitea
+```shell
+### Push your gitea repos to remote
+
+# Need your inputs, input a token which from gitea website, the token has all permissions.
+# Or you can input username and password, because some api endpoint has permission limits.
+dekcli gitea login https://xx.gitearepos.site --username xxxx
+
+# git-set's repo dir path format: git-set/org/repo/.git, and have a `simples/gitea/index.yaml` in git-set.
+# httpcode 404/201 is expected, those are deleting tokens/variables/secrets
+# You can create mirror repoS manually, if it always failed.
+dekcli gitea init /path/to/git-set
+
+# Make sure mirror repos have been migrated
+
+# Change some orgs to public, you can find it in index.yaml
+
+# Add local ssh token(.ssh/id_rsa.pub) to the gitea website settings, delete .ssh/known_hosts, then clone a mirror repo to auto add .ssh/known_hosts
+
+# Add gitea runner to cluster
+
+dekcli gitea push /path/to/git-set
+
+
+### Pull your gitea repos from remote
+dekcli gitea pull /path/to/git-set
+```
