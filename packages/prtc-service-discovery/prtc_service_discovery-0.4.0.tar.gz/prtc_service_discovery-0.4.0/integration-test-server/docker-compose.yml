@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  consul:
+    image: hashicorp/consul:latest
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+      - CONSUL_CLIENT_INTERFACE=eth0
+    command: agent -dev -ui -client=0.0.0.0
+    healthcheck:
+      test: ["CMD", "consul", "members"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Optional: Integration test server running in Docker
+  # integration-test-server:
+  #   build:
+  #     context: ..
+  #     dockerfile: integration-test-server/Dockerfile
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     - CONSUL_HOST=consul
+  #     - CONSUL_PORT=8500
+  #     - ACCESS_HOST=integration-test-server
+  #     - ACCESS_PORT=8000
+  #     - SERVICE_NAME=integration-test-server
+  #     - ENABLE_REGISTRATION=true
+  #   depends_on:
+  #     consul:
+  #       condition: service_healthy
