@@ -1,0 +1,39 @@
+Metadata-Version: 2.4
+Name: opensymbiose
+Version: 0.0.2
+Summary: OpenSymbiose is an open-source biotechnology / biology research AI agent designed to support researcher.
+Project-URL: Homepage, https://github.com/lambda-science/OpenSymbiose
+Project-URL: Documentation, https://lambda-science.github.io/OpenSymbiose/
+Project-URL: Repository, https://github.com/lambda-science/OpenSymbiose
+Project-URL: Issues, https://github.com/lambda-science/OpenSymbiose/issues
+Author-email: Corentin Meyer <contact@cmeyer.fr>
+Maintainer-email: Corentin Meyer <contact@cmeyer.fr>
+License-File: LICENSE
+Requires-Python: >=3.10
+Requires-Dist: biopython>=1.85
+Requires-Dist: bioservices>=1.12.1
+Requires-Dist: gradio>=5.31.0
+Requires-Dist: mistralai>=1.8.0
+Requires-Dist: python-dotenv>=1.1.0
+Description-Content-Type: text/markdown
+
+---
+title: opensymbiose
+app_file: src/opensymbiose/gradio/app.py
+sdk: gradio
+sdk_version: 5.31.0
+---
+# OpenSymbiose: Open Source Biotechnology AI Agent
+
+OpenSymbiose is an open-source biotechnology / biology research AI agent designed to support researcher.
+
+Creator and Maintainer: [**Corentin Meyer**, PhD](https://cmeyer.fr/) - <contact@cmeyer.fr>
+
+## Installation
+
+From PyPi: `pip install opensymbiose`
+
+## Usage
+
+Placeholder
+
