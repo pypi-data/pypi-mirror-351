@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: PyGitContributionChart
+Version: 0.0.2
+Summary: A package for generating Git contribution charts
+Home-page: https://github.com/arkangel-dev/GitCommitChart
+Author: Sam Ramirez
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: pillow==10.2.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# GitCommitChart
+
+This is a small python library that uses PIL to generate Github commit charts dynamically. Its very cool.
+
+## Examples
+
+Create a simple chart
+```py
+from GitCommitChart import create_git_commit_chart
+import random
+
+if __name__ == "__main__":
+    # Example data array with 365 elements
+    # each with a random value between 0 and 100
+    data = [random.randint(0, 10) for i in range(365)] 
+
+
+    # Create the Git commit chart
+    image = create_git_commit_chart(data, rows_per_column=7)
+    image.save("test.png")
+```
+![alt text](docs/image-1.png)
+
+Create a chart with labels
+```py
+from GitCommitChart import create_git_commit_chart
+import random
+
+if __name__ == "__main__":
+    data = [random.randint(0, 10)
+            for i in range(365)]  # Example data for a year
+
+    # Create the Git commit chart
+    image = create_git_commit_chart(
+        data,
+        rows_per_column=7,
+        horizontal_labels=["Jan", "Feb", "Mar"...
+        vertical_labels=["Sun", "Wed", "Sat"],
+        label_font_size=40
+    )
+    image.save("test.png")
+
+```
+![alt text](docs/image-2.png)
