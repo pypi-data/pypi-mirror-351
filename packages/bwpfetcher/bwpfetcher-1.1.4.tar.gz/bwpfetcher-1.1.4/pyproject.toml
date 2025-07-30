@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bwpfetcher"
+version = "1.1.4"
+description = "A library for fetching Voxyl API data"
+authors = [
+  { name = "Ventros", email = "ventros.development@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "aiohttp",
+  "python-dotenv"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bwpfetcher*"]
