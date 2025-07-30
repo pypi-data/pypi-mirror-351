@@ -1,0 +1,33 @@
+[build-system]
+requires = [
+    "setuptools >= 77.0.3",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pricepy"
+version = "0.2.0"
+authors = [
+  { name="Omer Amin" },
+]
+description = "Easy-to-use Python library for analyzing price data."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE*"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where   = ["src"]
+include = ["pricepy", "pricepy.*"]
+
+[project.urls]
+Homepage = "https://github.com/Omer-Amin/pricepy"
+Issues = "https://github.com/Omer-Amin/pricepy/issues"
