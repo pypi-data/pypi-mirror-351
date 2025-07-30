@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "escape-path"
+version = "0.1.0"
+description = "A lightweight Python utility to safely escape file paths for command-line usage."
+readme = "README.md"
+requires-python = ">=3"
+license = "MIT"
+authors = [
+  { name="Jifeng Wu", email="jifengwu2k@gmail.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+]
+
+[project.urls]
+"Homepage" = "https://github.com/jifengwu2k/escape-path"
+"Bug Tracker" = "https://github.com/jifengwu2k/escape-path/issues"
