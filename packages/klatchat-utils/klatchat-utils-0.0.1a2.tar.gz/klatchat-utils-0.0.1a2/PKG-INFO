@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: klatchat-utils
+Version: 0.0.1a2
+Summary: Utilities for Klat
+Home-page: https://github.com/neongeckocom/pyklatchat-utils
+Author: Neongecko
+Author-email: developers@neon.ai
+License: BSD-3-Clause
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Provides-Extra: sql
+Provides-Extra: test
+License-File: LICENSE.md
+
+# Klat Utilities
+Collection of generic utilities used within Klat.

@@ -1,0 +1,14 @@
+starlette
+pymongo
+jinja2
+neon-utils~=1.0
+ovos-utils~=0.0
+
+[sql]
+mysql
+sshtunnel
+
+[test]
+pytest
+pytest-timeout
+pytest-cov
