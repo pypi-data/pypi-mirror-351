@@ -1,0 +1,4 @@
+[console_scripts]
+lila-create-admin = lila.admin.create_admin:main
+lila-init = lila.cli.scaffold:main
+lila-migrate = lila.database.migrations:main
