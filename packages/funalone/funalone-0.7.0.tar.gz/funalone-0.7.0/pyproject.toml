@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "funalone"
+version = "0.7.0"
+description = "Unittest functions isolated."
+authors = ["Borja Martinena"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/aafrecct/funalone"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.test.dependencies]
+coverage = {extras = ["toml"], version = "^7.8.2"}
+
+[tool.poetry.group.dev.dependencies]
+ipdb = "^0.13.13"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+exclude=["venv", "test"]
+
+[tool.coverage.run]
+branch = true
+source = ["."]
+omit = ["test/*"]
+
+[tool.ruff]
+target-version = "py310"
