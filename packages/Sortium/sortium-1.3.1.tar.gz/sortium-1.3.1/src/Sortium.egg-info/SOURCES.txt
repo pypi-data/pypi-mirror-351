@@ -1,0 +1,16 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+src/Sortium/__init__.py
+src/Sortium/config.py
+src/Sortium/file_utils.py
+src/Sortium/sorter.py
+src/Sortium.egg-info/PKG-INFO
+src/Sortium.egg-info/SOURCES.txt
+src/Sortium.egg-info/dependency_links.txt
+src/Sortium.egg-info/requires.txt
+src/Sortium.egg-info/top_level.txt
+src/tests/__init__.py
+src/tests/test_file_utils.py
+src/tests/test_sorter.py
