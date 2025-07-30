@@ -1,0 +1,70 @@
+[tool.poetry]
+name = "garmin-to-fittrackee"
+version = "0.10.0"
+description = "A simple script to synchronize garmin to fittrackee. Inspired by https://github.com/jat255/strava-to-fittrackee"
+authors = ["Dryusdan <contact@dryusdan.fr>"]
+license = "GPL-3"
+readme = "README.md"
+packages = [{include = "garmin_to_fittrackee"}]
+
+[tool.poetry.scripts]
+garmin2fittrackee = "garmin_to_fittrackee.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = {extras = ["all"], version = "^0.15.1"}
+garminconnect = "^0.2.25"
+pendulum = "^3.0.0"
+pyyaml = "^6.0.2"
+requests = "^2.32.3"
+requests-oauthlib = "^2.0.0"
+packaging = "^24.2"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.11"
+isort = "^5.13.2"
+
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.4"
+pytest-mock = "^3.14.0"
+requests-mock = "^1.12.1"
+pytest-cov = "^4.1.0"
+coverage = {extras = ["toml"], version = "^7.6.1"}
+
+[[tool.poetry.source]]
+name = "gitea"
+url = "https://git.dryusdan.fr/api/packages/Dryusdan/pypi"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.coverage.run]
+omit = [
+    "tests/*",
+]
+[tool.coverage.report]
+fail_under = 90
