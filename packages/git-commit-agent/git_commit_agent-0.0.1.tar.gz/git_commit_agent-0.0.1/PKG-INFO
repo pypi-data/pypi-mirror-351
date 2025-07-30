@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: git-commit-agent
+Version: 0.0.1
+Summary: A simple git commit agent
+Author-email: zhiliang_ma <mapinxuesmail@gmail.com>
+License: MIT License
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Requires-Dist: openai
+Requires-Dist: python-dotenv
+Description-Content-Type: text/markdown
+
+# Git Commit agent
