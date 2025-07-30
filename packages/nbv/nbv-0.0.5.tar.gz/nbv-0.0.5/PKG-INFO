@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: nbv
+Version: 0.0.5
+Summary: Read-only viewing of Jupyter notebooks in the web browser.
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: rich
+Requires-Dist: typer
+Requires-Dist: ipython ; extra == "complete"
+Requires-Dist: nbconvert ~=7.0 ; extra == "complete"
+Provides-Extra: complete
+
+# nbv
+
+Read-only Jupyter Notebook viewing using `nbconvert`.
+
+Invoking
+```
+nbv notebook.ipynb
+```
+converts the notebook to HTML[^1] and opens this HTML file in the default web browser.
+
+You can get a similar result with just
+```
+nbconvert notebook.ipynb --to html --post serve
+```
+Note that this (and `nbv`) doesn't require a full Jupyter installation (e.g. JupyterLab) in order to run.
+But `nbv` has additional benefits[^2]:
+* doesn't pollute the notebook location with HTML (unlike the above)
+* no server, just open the HTML file in browser
+* simple CLI, exposing only a few `nbconvert` options
+
+**Note:** `nbv` will use the [`nbconvert` library](https://nbconvert.readthedocs.io/en/stable/nbconvert_library.html) if installed, otherwise it will fall back to the `jupyter-nbconvert` [command](https://nbconvert.readthedocs.io/en/stable/usage.html).
+
+### [uv](https://docs.astral.sh/uv/guides/tools/) examples
+
+Use `jupyter-nbconvert` command:
+```
+uvx nbv notebook.ipynb
+```
+
+Use `nbconvert` library:
+```
+uvx --with nbconvert nbv notebook.ipynb
+```
+```
+uvx --from 'nbv[complete]' nbv notebook.ipynb
+```
+```
+uv tool install --with nbconvert nbv
+```
+
+---
+
+[^1]: Inside the OS temporary directory by default.
+[^2]: Also I wanted to try [Typer](https://typer.tiangolo.com).
+

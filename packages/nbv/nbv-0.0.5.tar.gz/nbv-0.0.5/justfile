@@ -1,0 +1,15 @@
+set windows-powershell := true
+
+version := `python -c "from nbv import __version__; print(__version__)"`
+tag := "v" + version
+
+default:
+  @echo "'just publish'?"
+  @echo "(Use 'just -l' to see all recipes.)"
+
+# Release on GitHub and publish to PyPI
+publish:
+  @echo "detected __version__: {{version}}"
+  @echo "-> tag: {{tag}}"
+  gh release create {{tag}}
+  flit publish
