@@ -1,0 +1,16 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+torch_ttnn/__init__.py
+torch_ttnn/backend.py
+torch_ttnn/fx_graphviz.py
+torch_ttnn/handle_input_aliasing.py
+torch_ttnn/mem_utils.py
+torch_ttnn/metrics.py
+torch_ttnn/utils.py
+torch_ttnn.egg-info/PKG-INFO
+torch_ttnn.egg-info/SOURCES.txt
+torch_ttnn.egg-info/dependency_links.txt
+torch_ttnn.egg-info/requires.txt
+torch_ttnn.egg-info/top_level.txt
