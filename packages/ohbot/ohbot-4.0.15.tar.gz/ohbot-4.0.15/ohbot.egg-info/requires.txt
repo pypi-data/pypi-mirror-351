@@ -1,0 +1,17 @@
+pyserial
+requests
+numpy
+
+[:platform_system == "Darwin" or platform_system == "Linux"]
+playsound3
+
+[:platform_system == "Linux"]
+gTTS
+pydub
+
+[:platform_system == "Windows"]
+playsound
+
+[:platform_system == "Windows" or platform_system == "Darwin"]
+lxml
+comtypes

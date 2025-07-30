@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: ohbot
+Version: 4.0.15
+Summary: Python library for controlling an Ohbot Robot
+Home-page: https://github.com/ohbot/ohbot-python
+Download-URL: https://github.com/ohbot/ohbot-python/archive/4.0.15.tar.gz
+Author: ohbot
+Author-email: info@ohbot.co.uk
+Keywords: ohbot,robot,picoh
+Requires-Dist: pyserial
+Requires-Dist: requests
+Requires-Dist: numpy
+Requires-Dist: lxml; platform_system == "Windows" or platform_system == "Darwin"
+Requires-Dist: playsound3; platform_system == "Darwin" or platform_system == "Linux"
+Requires-Dist: playsound; platform_system == "Windows"
+Requires-Dist: comtypes; platform_system == "Windows" or platform_system == "Darwin"
+Requires-Dist: gTTS; platform_system == "Linux"
+Requires-Dist: pydub; platform_system == "Linux"
+Dynamic: author
+Dynamic: author-email
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: summary
