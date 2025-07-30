@@ -1,0 +1,94 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S4_done [color=blue fontame=Menlo shape=ellipse style=""]
+	S3_typing_code_yes_wordlist [color=blue fontame=Menlo shape=ellipse style=""]
+	S2_typing_code_no_wordlist [color=blue fontame=Menlo shape=ellipse style=""]
+	S1_typing_nameplate [color=blue fontame=Menlo shape=ellipse style=""]
+	S0_idle [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	t0 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">got_wordlist</font></td></tr><tr ><td color="pink"><font point-size="9">record_wordlist</font></td><td color="pink"><font point-size="9">notify_wordlist_waiters</font></td></tr></table>> margin=0.2 shape=none]
+	S0_idle -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S0_idle
+	t1 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_choose_nameplate</font></td></tr><tr ><td color="pink"><font point-size="9">record_all_nameplates</font></td></tr></table>> margin=0.2 shape=none]
+	S1_typing_nameplate -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S2_typing_code_no_wordlist
+	t2 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_nameplates</font></td></tr></table>> margin=0.2 shape=none]
+	S2_typing_code_no_wordlist -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S2_typing_code_no_wordlist
+	t3 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">refresh_nameplates</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate1</font></td></tr></table>> margin=0.2 shape=none]
+	S3_typing_code_yes_wordlist -> t3:tableport:w [arrowhead=none]
+	t3:tableport:e -> S3_typing_code_yes_wordlist
+	t4 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">get_word_completions</font></td></tr><tr ><td color="pink"><font point-size="9">_get_word_completions</font></td></tr></table>> margin=0.2 shape=none]
+	S3_typing_code_yes_wordlist -> t4:tableport:w [arrowhead=none]
+	t4:tableport:e -> S3_typing_code_yes_wordlist
+	t5 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">choose_words</font></td></tr><tr ><td color="pink"><font point-size="9">do_words</font></td></tr></table>> margin=0.2 shape=none]
+	S2_typing_code_no_wordlist -> t5:tableport:w [arrowhead=none]
+	t5:tableport:e -> S4_done
+	t6 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">get_nameplate_completions</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate2</font></td></tr></table>> margin=0.2 shape=none]
+	S3_typing_code_yes_wordlist -> t6:tableport:w [arrowhead=none]
+	t6:tableport:e -> S3_typing_code_yes_wordlist
+	t7 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_choose_nameplate</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate3</font></td></tr></table>> margin=0.2 shape=none]
+	S3_typing_code_yes_wordlist -> t7:tableport:w [arrowhead=none]
+	t7:tableport:e -> S3_typing_code_yes_wordlist
+	t8 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">get_word_completions</font></td></tr><tr ><td color="pink"><font point-size="9">raise_must_choose_nameplate1</font></td></tr></table>> margin=0.2 shape=none]
+	S1_typing_nameplate -> t8:tableport:w [arrowhead=none]
+	t8:tableport:e -> S1_typing_nameplate
+	t9 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">choose_words</font></td></tr><tr ><td color="pink"><font point-size="9">raise_must_choose_nameplate2</font></td></tr></table>> margin=0.2 shape=none]
+	S1_typing_nameplate -> t9:tableport:w [arrowhead=none]
+	t9:tableport:e -> S1_typing_nameplate
+	t10 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">choose_words</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_words2</font></td></tr></table>> margin=0.2 shape=none]
+	S4_done -> t10:tableport:w [arrowhead=none]
+	t10:tableport:e -> S4_done
+	t11 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">got_wordlist</font></td></tr><tr ><td color="pink"><font point-size="9">record_wordlist</font></td><td color="pink"><font point-size="9">notify_wordlist_waiters</font></td></tr></table>> margin=0.2 shape=none]
+	S2_typing_code_no_wordlist -> t11:tableport:w [arrowhead=none]
+	t11:tableport:e -> S3_typing_code_yes_wordlist
+	t12 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_nameplates</font></td></tr></table>> margin=0.2 shape=none]
+	S4_done -> t12:tableport:w [arrowhead=none]
+	t12:tableport:e -> S4_done
+	t13 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">get_word_completions</font></td></tr><tr ><td color="pink"><font point-size="9">no_word_completions</font></td></tr></table>> margin=0.2 shape=none]
+	S2_typing_code_no_wordlist -> t13:tableport:w [arrowhead=none]
+	t13:tableport:e -> S2_typing_code_no_wordlist
+	t14 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">get_nameplate_completions</font></td></tr><tr ><td color="pink"><font point-size="9">_get_nameplate_completions</font></td></tr></table>> margin=0.2 shape=none]
+	S1_typing_nameplate -> t14:tableport:w [arrowhead=none]
+	t14:tableport:e -> S1_typing_nameplate
+	t15 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">refresh_nameplates</font></td></tr><tr ><td color="pink"><font point-size="9">do_refresh</font></td></tr></table>> margin=0.2 shape=none]
+	S1_typing_nameplate -> t15:tableport:w [arrowhead=none]
+	t15:tableport:e -> S1_typing_nameplate
+	t16 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_nameplates</font></td></tr></table>> margin=0.2 shape=none]
+	S3_typing_code_yes_wordlist -> t16:tableport:w [arrowhead=none]
+	t16:tableport:e -> S3_typing_code_yes_wordlist
+	t17 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_choose_nameplate</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate3</font></td></tr></table>> margin=0.2 shape=none]
+	S2_typing_code_no_wordlist -> t17:tableport:w [arrowhead=none]
+	t17:tableport:e -> S2_typing_code_no_wordlist
+	t18 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">refresh_nameplates</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate1</font></td></tr></table>> margin=0.2 shape=none]
+	S4_done -> t18:tableport:w [arrowhead=none]
+	t18:tableport:e -> S4_done
+	t19 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">refresh_nameplates</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate1</font></td></tr></table>> margin=0.2 shape=none]
+	S2_typing_code_no_wordlist -> t19:tableport:w [arrowhead=none]
+	t19:tableport:e -> S2_typing_code_no_wordlist
+	t20 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">get_nameplate_completions</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate2</font></td></tr></table>> margin=0.2 shape=none]
+	S2_typing_code_no_wordlist -> t20:tableport:w [arrowhead=none]
+	t20:tableport:e -> S2_typing_code_no_wordlist
+	t21 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_wordlist</font></td></tr></table>> margin=0.2 shape=none]
+	S4_done -> t21:tableport:w [arrowhead=none]
+	t21:tableport:e -> S4_done
+	t22 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">choose_words</font></td></tr><tr ><td color="pink"><font point-size="9">do_words</font></td></tr></table>> margin=0.2 shape=none]
+	S3_typing_code_yes_wordlist -> t22:tableport:w [arrowhead=none]
+	t22:tableport:e -> S4_done
+	t23 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_choose_nameplate</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate3</font></td></tr></table>> margin=0.2 shape=none]
+	S4_done -> t23:tableport:w [arrowhead=none]
+	t23:tableport:e -> S4_done
+	t24 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">start</font></td></tr><tr ><td color="pink"><font point-size="9">do_start</font></td></tr></table>> margin=0.2 shape=none]
+	S0_idle -> t24:tableport:w [arrowhead=none]
+	t24:tableport:e -> S1_typing_nameplate
+	t25 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">get_word_completions</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_words1</font></td></tr></table>> margin=0.2 shape=none]
+	S4_done -> t25:tableport:w [arrowhead=none]
+	t25:tableport:e -> S4_done
+	t26 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">get_nameplate_completions</font></td></tr><tr ><td color="pink"><font point-size="9">raise_already_chose_nameplate2</font></td></tr></table>> margin=0.2 shape=none]
+	S4_done -> t26:tableport:w [arrowhead=none]
+	t26:tableport:e -> S4_done
+	t27 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_nameplates</font></td></tr><tr ><td color="pink"><font point-size="9">record_nameplates</font></td></tr></table>> margin=0.2 shape=none]
+	S1_typing_nameplate -> t27:tableport:w [arrowhead=none]
+	t27:tableport:e -> S1_typing_nameplate
+}

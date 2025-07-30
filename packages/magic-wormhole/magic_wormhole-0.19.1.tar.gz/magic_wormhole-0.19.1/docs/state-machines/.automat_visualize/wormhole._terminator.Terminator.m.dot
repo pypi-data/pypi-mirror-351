@@ -1,0 +1,57 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S0o [color=blue fontame=Menlo shape=ellipse style=""]
+	S_stoppingD [color=blue fontame=Menlo shape=ellipse style=""]
+	Smo [color=blue fontame=Menlo shape=ellipse style=""]
+	S_stopped [color=blue fontame=Menlo shape=ellipse style=""]
+	Sm [color=blue fontame=Menlo shape=ellipse style=""]
+	Snm [color=blue fontame=Menlo shape=ellipse style=""]
+	S_stoppingRC [color=blue fontame=Menlo shape=ellipse style=""]
+	Sn [color=blue fontame=Menlo shape=ellipse style=""]
+	Sno [color=blue fontame=Menlo shape=ellipse style=""]
+	Snmo [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	t0 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">close_mailbox</font></td></tr></table>> margin=0.2 shape=none]
+	Smo -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> Sm
+	t1 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">stoppedRC</font></td></tr><tr ><td color="pink"><font point-size="9">stop_dilator</font></td></tr></table>> margin=0.2 shape=none]
+	S_stoppingRC -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S_stoppingD
+	t2 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">nameplate_done</font></td></tr><tr ><td color="pink"><font point-size="9">RC_stop</font></td></tr></table>> margin=0.2 shape=none]
+	Sn -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S_stoppingRC
+	t3 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">mailbox_done</font></td></tr></table>> margin=0.2 shape=none]
+	Snm -> t3:tableport:w [arrowhead=none]
+	t3:tableport:e -> Sn
+	t4 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">close_nameplate</font></td><td color="pink"><font point-size="9">close_mailbox</font></td></tr></table>> margin=0.2 shape=none]
+	Snmo -> t4:tableport:w [arrowhead=none]
+	t4:tableport:e -> Snm
+	t5 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">mailbox_done</font></td></tr></table>> margin=0.2 shape=none]
+	Snmo -> t5:tableport:w [arrowhead=none]
+	t5:tableport:e -> Sno
+	t6 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">stoppedD</font></td></tr><tr ><td color="pink"><font point-size="9">B_closed</font></td></tr></table>> margin=0.2 shape=none]
+	S_stoppingD -> t6:tableport:w [arrowhead=none]
+	t6:tableport:e -> S_stopped
+	t7 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">nameplate_done</font></td></tr></table>> margin=0.2 shape=none]
+	Sno -> t7:tableport:w [arrowhead=none]
+	t7:tableport:e -> S0o
+	t8 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">ignore_mood_and_RC_stop</font></td></tr></table>> margin=0.2 shape=none]
+	S0o -> t8:tableport:w [arrowhead=none]
+	t8:tableport:e -> S_stoppingRC
+	t9 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">close_nameplate</font></td></tr></table>> margin=0.2 shape=none]
+	Sno -> t9:tableport:w [arrowhead=none]
+	t9:tableport:e -> Sn
+	t10 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">mailbox_done</font></td></tr><tr ><td color="pink"><font point-size="9">RC_stop</font></td></tr></table>> margin=0.2 shape=none]
+	Sm -> t10:tableport:w [arrowhead=none]
+	t10:tableport:e -> S_stoppingRC
+	t11 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">nameplate_done</font></td></tr></table>> margin=0.2 shape=none]
+	Snm -> t11:tableport:w [arrowhead=none]
+	t11:tableport:e -> Sm
+	t12 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">mailbox_done</font></td></tr></table>> margin=0.2 shape=none]
+	Smo -> t12:tableport:w [arrowhead=none]
+	t12:tableport:e -> S0o
+	t13 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">nameplate_done</font></td></tr></table>> margin=0.2 shape=none]
+	Snmo -> t13:tableport:w [arrowhead=none]
+	t13:tableport:e -> Smo
+}

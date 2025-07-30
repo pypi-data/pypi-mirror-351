@@ -1,0 +1,28 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S4_known [color=blue fontame=Menlo shape=ellipse style=""]
+	S3_allocating [color=blue fontame=Menlo shape=ellipse style=""]
+	S2_inputting_words [color=blue fontame=Menlo shape=ellipse style=""]
+	S1_inputting_nameplate [color=blue fontame=Menlo shape=ellipse style=""]
+	S0_idle [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	t0 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_nameplate</font></td></tr><tr ><td color="pink"><font point-size="9">do_middle_input</font></td></tr></table>> margin=0.2 shape=none]
+	S1_inputting_nameplate -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S2_inputting_words
+	t1 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">input_code</font></td></tr><tr ><td color="pink"><font point-size="9">do_start_input</font></td></tr></table>> margin=0.2 shape=none]
+	S0_idle -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S1_inputting_nameplate
+	t2 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">allocate_code</font></td></tr><tr ><td color="pink"><font point-size="9">do_start_allocate</font></td></tr></table>> margin=0.2 shape=none]
+	S0_idle -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S3_allocating
+	t3 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_set_code</font></td></tr><tr ><td color="pink"><font point-size="9">do_set_code</font></td></tr></table>> margin=0.2 shape=none]
+	S0_idle -> t3:tableport:w [arrowhead=none]
+	t3:tableport:e -> S4_known
+	t4 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">allocated</font></td></tr><tr ><td color="pink"><font point-size="9">do_finish_allocate</font></td></tr></table>> margin=0.2 shape=none]
+	S3_allocating -> t4:tableport:w [arrowhead=none]
+	t4:tableport:e -> S4_known
+	t5 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">finished_input</font></td></tr><tr ><td color="pink"><font point-size="9">do_finish_input</font></td></tr></table>> margin=0.2 shape=none]
+	S2_inputting_words -> t5:tableport:w [arrowhead=none]
+	t5:tableport:e -> S4_known
+}

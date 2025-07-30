@@ -1,0 +1,18 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S2_know_key [color=blue fontame=Menlo shape=ellipse style=""]
+	S1_know_code [color=blue fontame=Menlo shape=ellipse style=""]
+	S0_know_nothing [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	S3_scared [color=blue fontame=Menlo shape=ellipse style=""]
+	t0 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_code</font></td></tr><tr ><td color="pink"><font point-size="9">build_pake</font></td></tr></table>> margin=0.2 shape=none]
+	S0_know_nothing -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S1_know_code
+	t1 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_pake_bad</font></td></tr><tr ><td color="pink"><font point-size="9">scared</font></td></tr></table>> margin=0.2 shape=none]
+	S1_know_code -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S3_scared
+	t2 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_pake_good</font></td></tr><tr ><td color="pink"><font point-size="9">compute_key</font></td></tr></table>> margin=0.2 shape=none]
+	S1_know_code -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S2_know_key
+}
