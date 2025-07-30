@@ -1,0 +1,21 @@
+# Include essential files
+include README.md
+include LICENSE
+include *.json
+include *.ico
+include *.png
+include *.py
+include requirements.txt
+include setup.py
+
+# Include template files
+include *.j2
+
+# Recursively include these folders and all their files
+recursive-include Assets *
+recursive-include Examples *
+recursive-include Icons *
+recursive-include temp *
+recursive-include Themes *
+recursive-include ThemeAssets *
+recursive-include Widgets *
