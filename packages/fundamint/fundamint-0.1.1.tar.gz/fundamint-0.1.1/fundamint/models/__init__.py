@@ -1,0 +1,1 @@
+"""Models module for LLM-based news summarization and stock analysis."""
