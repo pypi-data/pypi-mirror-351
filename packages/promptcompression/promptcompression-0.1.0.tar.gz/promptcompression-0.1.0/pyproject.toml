@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "promptcompression"
+version = "0.1.0"
+description = "Taking text input and compressing it into a smaller representation for cost savings."
+keywords = ["llm", "prompt", "compression", "tokens", "savings"]
+authors = [{name = "Corey Michaud", email = "cor3y.michaud@gmail.com"}]
+requires-python = ">=3.8"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = "MIT"
+dependencies = ["nltk>=3.9", "tiktoken>=0.9"]
+
+[project.urls]
+Repository = "https://github.com/coreymichaud/promptcompression"
