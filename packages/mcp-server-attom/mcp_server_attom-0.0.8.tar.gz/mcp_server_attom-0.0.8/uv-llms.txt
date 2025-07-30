@@ -1,0 +1,60 @@
+# Introduction to uv
+
+uv is an extremely fast Python package and project manager, written in Rust. It aims to replace multiple tools like pip, pip-tools, pipx, poetry, pyenv, twine, and virtualenv.
+
+## Key Features
+
+- A single tool to replace multiple existing tools
+- 10-100x faster than pip
+- Comprehensive project management with lockfiles and workspaces
+- Support for running scripts with inline dependency metadata
+- Ability to install and manage Python versions
+- Support for running and installing tools published as Python packages
+- pip-compatible interface for a performance boost with a familiar CLI
+
+## Installation
+
+uv can be installed using:
+
+- curl (for macOS and Linux): `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- powershell (for Windows): `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+
+## Basic Usage
+
+### Projects
+
+1. Initialize a new project: `uv init example`
+2. Add a package: `uv add ruff`
+3. Run a script: `uv run ruff check`
+4. Lock dependencies: `uv lock`
+5. Sync dependencies: `uv sync`
+
+### Scripts
+
+1. Create a new script with inline metadata: `echo 'import requests; print(requests.get("https://astral.sh"))' > example.py`
+2. Add dependencies to a script: `uv add --script example.py requests`
+3. Run a script: `uv run example.py`
+
+### Tools
+
+1. Run a tool: `uvx pycowsay 'hello world!'`
+2. Install a tool: `uv tool install ruff`
+
+### Python Versions
+
+1. Install multiple Python versions: `uv python install 3.10 3.11 3.12`
+2. Create a virtual environment: `uv venv --python 3.12.0`
+
+## Advanced Features
+
+- Universal lockfile for project dependencies
+- Support for Cargo-style workspaces
+- Disk-space efficient with a global cache for dependency deduplication
+
+## Migration from Other Tools
+
+uv provides a drop-in replacement for common pip, pip-tools, and virtualenv commands. It extends their interfaces with advanced features like dependency version overrides and platform-independent resolutions.
+
+## Conclusion
+
+uv is a powerful and flexible tool for managing Python projects and dependencies. Its speed and feature set make it an attractive alternative to existing package managers.
