@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pacote-sistema-bancario"
+version = "0.0.2"
+description = "Pacote de sistema bancário desenvolvido em Python com POO"
+authors = [
+  { name = "Miguel Ângelo", email = "miguelangelodasilva86@gmail.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.7"
+dependencies = []
+
+[tool.setuptools]
+packages = ["sistema_bancario"]
