@@ -1,0 +1,38 @@
+from typing import Callable
+from sunra_apispec.base.adapter_interface import IFalAdapter
+from sunra_apispec.base.output_schema import ImageOutput, ImagesOutput, SunraFile
+from ...sunra_schema import TextToImageInput
+from .schema import FalInput
+
+
+class FalTextToImageAdapter(IFalAdapter):
+    """Adapter for image-to-video generation using Tencent Hunyuan Video model on FAL."""
+    
+    def convert_input(self, data) -> dict:
+        """Convert from Sunra's ImageToVideoInput to FAL's input format."""
+        # Validate the input data if required
+        input_model = TextToImageInput.model_validate(data)
+        
+        # Create FalInput instance with mapped values
+        fal_input = FalInput(
+            prompt=input_model.prompt,
+        )
+        
+        # Convert to dict, excluding None values
+        return fal_input.model_dump(exclude_none=True, by_alias=True)
+    
+    def get_fal_model(self) -> str:
+        """Return the FAL model identifier."""
+        return "fal-ai/lcm"
+    
+    def convert_output(self, data, processURLMiddleware: Callable[[str], SunraFile]) -> dict:
+        """Convert FAL output to Sunra ImagesOutput format."""
+        images = []
+        if isinstance(data, dict) and "images" in data:
+            for img in data["images"]:
+                sunra_file = processURLMiddleware(img["url"])
+                images.append(ImageOutput(image=sunra_file))
+        else:
+            raise ValueError(f"Invalid output type: {type(data)}")
+        
+        return ImagesOutput(images=images).model_dump(exclude_none=True, by_alias=True)
