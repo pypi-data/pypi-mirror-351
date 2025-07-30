@@ -1,0 +1,28 @@
+variables:
+  UV_VERSION: 0.7.2
+  UV_CACHE_DIR: .uv-cache
+  UV_SYSTEM_PYTHON: 1
+stages:
+  - test
+pytest:
+  stage: test
+  image: docker.app-us1.com/python:3.13
+  cache:
+    - key:
+        files:
+          - uv.lock
+      paths:
+        - $UV_CACHE_DIR
+  script:
+    - apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
+    - curl -LsSf https://astral.sh/uv/${UV_VERSION}/install.sh | sh
+    - export PATH="/root/.local/bin/:$PATH"
+    - uv sync --all-extras
+    - uv run pytest --cov=. tests --cov-report xml:coverage.xml --cov-report term:skip-covered --junitxml=junit.xml
+  coverage: /^TOTAL.*\s+(\d+\%)$/
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+      junit: junit.xml
