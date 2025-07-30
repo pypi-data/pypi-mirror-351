@@ -1,0 +1,41 @@
+Metadata-Version: 2.2
+Name: KB_Bank_Transaction_Lookup
+Version: 0.0.5
+Summary: KB Kookmin Bank library for easy inquiry (Selenium not used)
+Home-page: https://starseller.co.kr
+Author: Starseller
+Author-email: yjkutl717@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: bs4
+Requires-Dist: requests
+Requires-Dist: python-dateutil
+Requires-Dist: pillow
+Requires-Dist: tqdm
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# example
+
+from KB_Bank_Transaction_Lookup import get_transactions
+
+transaction_list = get_transactions(
+        bank_num='74670101827583',
+        birthday='900101',
+        password='0000',
+        # days=30 # Optional: default is 30
+    )
+
+for trs in transaction_list:
+    print(trs['date'], trs['amount'], trs['transaction_by'])
+
