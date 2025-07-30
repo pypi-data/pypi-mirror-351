@@ -1,0 +1,14 @@
+aind-data-access-api
+mcp>=1.8.1
+langchain-core>=0.3.60
+pydantic>=2.11.4
+langchain-huggingface>=0.2.0
+
+[dev]
+black
+coverage
+flake8
+interrogate
+isort
+Sphinx
+furo
