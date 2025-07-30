@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: robo_orchard_core
+Version: 0.1.0
+Summary: Core package of the project RoboOrchard
+Author: The RoboOrchard Team
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://github.com/HorizonRobotics/robo_orchard_core
+Project-URL: Repository, https://github.com/HorizonRobotics/robo_orchard_core
+Project-URL: Source, https://github.com/HorizonRobotics/robo_orchard_core
+Project-URL: Issues, https://github.com/HorizonRobotics/robo_orchard_core/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: NOTICE
+Requires-Dist: rtoml
+Requires-Dist: pyyaml
+Requires-Dist: deprecated
+Requires-Dist: torch
+Requires-Dist: pydantic<=2.10.6
+Requires-Dist: pydantic-settings
+Requires-Dist: ordered-set
+Provides-Extra: kinematic
+Requires-Dist: pytorch_kinematics; extra == "kinematic"
+Provides-Extra: ipy-viz
+Requires-Dist: ipywidgets; extra == "ipy-viz"
+Requires-Dist: ipycanvas; extra == "ipy-viz"
+Requires-Dist: ipyevents; extra == "ipy-viz"
+Requires-Dist: pillow; extra == "ipy-viz"
+Provides-Extra: virtual-desktop
+Requires-Dist: ipywidgets; extra == "virtual-desktop"
+Requires-Dist: ipycanvas; extra == "virtual-desktop"
+Requires-Dist: ipyevents; extra == "virtual-desktop"
+Requires-Dist: pillow; extra == "virtual-desktop"
+Requires-Dist: pyautogui; extra == "virtual-desktop"
+Requires-Dist: pyvirtualdisplay; extra == "virtual-desktop"
+Requires-Dist: mss; extra == "virtual-desktop"
+Provides-Extra: all
+Requires-Dist: robo_orchard_core[ipy_viz,kinematic,virtual_desktop]; extra == "all"
+Dynamic: license-file
+
+# RoboOrchard Core
+
+**robo_orchard_core** is the core package of the project **RoboOrchard**, which provides the basic infrastructure for the framework, such as configuration management, data structure, environment abstraction, etc.
+
+## Getting started
+
+### Requirements
+
+* Python 3.10
+
+### Installation
+
+#### From pip
+
+```bash
+pip install robo_orchard_core
+```
+
+#### From source
+
+```bash
+make install
+```
