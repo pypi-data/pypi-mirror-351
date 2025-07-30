@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: MakeItSimplerJKX
+Version: 0.0.4
+Author: juckex
+Author-email: <juliusstensso@gmail.com>
+Keywords: python,AI,chat,simple,agent
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Requires-Dist: langchain>=0.1.0
+Requires-Dist: langchain-community>=0.0.10
+Requires-Dist: openai>=1.0.0
+Requires-Dist: python-dotenv>=1.0.0
+
