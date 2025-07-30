@@ -1,0 +1,14 @@
+.git_archival.txt
+.gitattributes
+README.md
+pyproject.toml
+tests.py
+tox.ini
+.github/workflows/test.yml
+memory_inventory/__init__.py
+memory_inventory/__main__.py
+memory_inventory/py.typed
+memory_inventory.egg-info/PKG-INFO
+memory_inventory.egg-info/SOURCES.txt
+memory_inventory.egg-info/dependency_links.txt
+memory_inventory.egg-info/top_level.txt
