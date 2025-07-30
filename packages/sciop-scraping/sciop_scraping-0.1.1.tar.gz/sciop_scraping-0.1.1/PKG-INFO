@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: sciop-scraping
+Version: 0.1.1
+Summary: scraping code to use with sciop-coordinated scrapes
+Author-Email: sneakers-the-rat <sneakers-the-rat@protonmail.com>
+License: EUPL-1.2
+Project-URL: repository, https://codeberg.org/safeguarding/sciop-scraping
+Project-URL: homepage, https://codeberg.org/safeguarding/sciop-scraping
+Requires-Python: >=3.11
+Requires-Dist: sciop-cli>=0.1.4
+Requires-Dist: click>=8.2.1
+Requires-Dist: scrapy>=2.13.0
+Provides-Extra: test
+Requires-Dist: pytest>=8.3.5; extra == "test"
+Description-Content-Type: text/markdown
+
+# sciop-scraping
+
+scraping code to use with sciop-coordinated scrapes
