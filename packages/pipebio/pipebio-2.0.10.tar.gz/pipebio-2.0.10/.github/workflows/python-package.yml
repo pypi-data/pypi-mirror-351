@@ -1,0 +1,79 @@
+# This workflow will install Python dependencies and run regression tests
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python package
+run-name: Python package
+
+on:
+  push:
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[dev,build]
+      
+      - name: Run tests
+        run: |
+          pytest -v tests/unit/
+      
+      - name: Build package
+        run: |
+          ./build.sh
+
+  installation-failure-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.14.0-beta.2" ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python for building
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"  # Use a supported version to build the package
+      - name: Build package
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build --wheel
+      - name: Set up Python for testing
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Verify installation fails with correct message
+        timeout-minutes: 2
+        run: |
+          python -m pip install --upgrade pip
+          # Try to install the built wheel and capture the error message
+          if ERROR_MSG=$(timeout 60s pip install dist/*.whl 2>&1); then
+            echo "Installation succeeded but should have failed for unsupported Python version"
+            exit 1
+          else
+            # Check if the error message contains our expected message
+            if echo "$ERROR_MSG" | grep -q "Package 'pipebio' requires a different Python: .* not in '<3.14,>=3.8'"; then
+              echo "Installation failed with expected error message"
+            else
+              echo "Error message did not contain expected version requirement message"
+              echo "Actual error message:"
+              echo "$ERROR_MSG"
+              exit 1
+            fi
+          fi
