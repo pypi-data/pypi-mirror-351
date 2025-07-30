@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "prysa"
+version = "0.1.2"
+description = "A modern Python CLI tool to scaffold and configure new Python library projects with best practices."
+authors = ["Eduardo Alapisco <alapisco@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/alapisco/prysa"
+homepage = "https://github.com/alapisco/prysa"
+keywords = ["python", "cli", "scaffold", "project", "library", "automation"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Build Tools"
+]
+packages = [{ include = "prysa" }]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+typer = "^0.12.3"
+
+[tool.poetry.scripts]
+prysa = "prysa.cli.main:app"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+ruff = "^0.4.4"
+toml = "^0.10.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
