@@ -1,0 +1,25 @@
+delta-kernel-rust-sharing-wrapper>=0.2.0
+pandas
+pyarrow>=16.1.0
+fsspec>=0.7.4
+requests
+aiohttp
+yarl>=1.6.0
+
+[:python_version < "3.8"]
+dataclasses
+
+[abfs]
+adlfs
+
+[adl]
+adlfs
+
+[gcs]
+gcsfs
+
+[gs]
+gcsfs
+
+[s3]
+s3fs
