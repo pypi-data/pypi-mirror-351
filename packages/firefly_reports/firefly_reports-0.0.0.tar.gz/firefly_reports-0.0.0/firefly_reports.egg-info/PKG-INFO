@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: firefly_reports
+Version: 0.0.0
+Author-email: Christopher Tyler <ChristopherTyler@engineer.com>
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: beautifulsoup4>=4.13.4
+Requires-Dist: click>=8.2.1
+Requires-Dist: requests>=2.32.3
+Dynamic: license-file
