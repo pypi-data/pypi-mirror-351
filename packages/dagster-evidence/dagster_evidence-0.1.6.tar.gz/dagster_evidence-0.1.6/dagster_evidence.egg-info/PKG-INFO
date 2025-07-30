@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: dagster-evidence
+Version: 0.1.6
+Summary: Dagster integration with evidence.dev
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: dagster>=1.10.9
+
+# dagster-evidence
+
+`dagster-evidence` provides a Dagster Component that integrates with [evidence](https://evidence.dev/), an open-source tool for building data apps.
+
+## Test
+
+```sh
+make test
+```
+
+## Build
+
+```sh
+make build
+```
