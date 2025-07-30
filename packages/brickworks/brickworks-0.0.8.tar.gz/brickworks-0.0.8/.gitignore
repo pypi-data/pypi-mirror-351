@@ -1,0 +1,14 @@
+.venv
+.vscode
+__pycache__
+.ruff_cache
+dist
+build
+/migrations
+.mypy_cache
+*.pyc
+*.pyo
+*.egg-info
+*.egg
+app/
+site/
