@@ -1,0 +1,92 @@
+[
+    {
+        "model": "uw_person_client.Person",
+        "pk": 1,
+        "fields": {
+            "is_active_employee": false,
+            "is_active_student": true,
+            "display_name": "Jamesy McJamesy",
+            "first_name": "Jamesy",
+            "full_name": "Jamesy McJamesy",
+            "preferred_first_name": "Jamesy",
+            "preferred_middle_name": null,
+            "preferred_surname": "McJamesy",
+            "prior_uwnetids": [],
+            "prior_uwregids": [
+                "9136CCB8F66711D5BE060004AC494FF0"
+            ],
+            "pronouns": null,
+            "surname": "Average",
+            "system_key": "532353230",
+            "uwnetid": "javerage",
+            "uwregid": "9136CCB8F66711D5BE060004AC494FFE",
+            "whitepages_publish": true
+        }
+    },
+    {
+        "model": "uw_person_client.Person",
+        "pk": 2,
+        "fields": {
+            "is_active_employee": false,
+            "is_active_student": true,
+            "display_name": "James Bothell Student",
+            "first_name": "James Bothell",
+            "full_name": "James Bothell Student",
+            "preferred_first_name": "James",
+            "preferred_middle_name": "Bothell",
+            "preferred_surname": "Student",
+            "prior_uwnetids": [],
+            "prior_uwregids": [],
+            "pronouns": null,
+            "surname": "Student",
+            "system_key": "820582050",
+            "uwnetid": "jbothell",
+            "uwregid": "FE36CCB8F66711D5BE060004AC494FCD",
+            "whitepages_publish": false
+        }
+    },
+    {
+        "model": "uw_person_client.Person",
+        "pk": 3,
+        "fields": {
+            "is_active_employee": true,
+            "is_active_student": false,
+            "display_name": "Bill Average Teacher",
+            "first_name": "Bill",
+            "full_name": "Bill Average Teacher",
+            "preferred_first_name": "Bill",
+            "preferred_middle_name": "Average",
+            "preferred_surname": "Teacher",
+            "prior_uwnetids": [],
+            "prior_uwregids": [],
+            "pronouns": "He/him/his",
+            "surname": "Teacher",
+            "system_key": null,
+            "uwnetid": "bill",
+            "uwregid": "FBB38FE46A7C11D5A4AE0004AC494FFE",
+            "whitepages_publish": true
+        }
+    },
+    {
+        "model": "uw_person_client.Person",
+        "pk": 4,
+        "fields": {
+            "is_active_employee": true,
+            "is_active_student": false,
+            "display_name": "Jay Adviser",
+            "first_name": "Jay",
+            "full_name": "Jay Adviser",
+            "preferred_first_name": null,
+            "preferred_middle_name": null,
+            "preferred_surname": null,
+            "prior_uwnetids": ["jadviser1"],
+            "prior_uwregids": [],
+            "pronouns": "He/him/his",
+            "surname": "Adviser",
+            "system_key": null,
+            "uwnetid": "jadviser",
+            "uwregid": "5136CCB9F66711D5BE060004AC494FF0",
+            "whitepages_publish": false
+        }
+    }
+]

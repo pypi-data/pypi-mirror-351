@@ -1,0 +1,32 @@
+[
+    {
+        "model": "uw_person_client.Degree",
+        "pk": 1,
+        "fields": {
+            "student": 1,
+            "degree_term": 2,
+            "campus_code": "0",
+            "campus_name": "Seattle",
+            "degree_college_code": "C",
+            "degree_college_name": "College of Arts & Sciences",
+            "degree_abbr_code": "STAT",
+            "degree_pathway_num": "0",
+            "degree_desc": "Statistics",
+            "degree_level_code": "0",
+            "degree_level_desc": "Bachelor",
+            "degree_type_code": "5",
+            "degree_level_type_desc": "Bachelor Of Science",
+            "degree_status_code": "9",
+            "degree_status_desc": "AWARDED",
+            "degree_date": "2022-06-15",
+            "degree_grad_honor": 3,
+            "degree_grad_honor_desc": "CUM LAUDE",
+            "degree_uw_credits": "170.0",
+            "degree_transfer_credits": "0.0",
+            "degree_extension_credits": "65.0",
+            "degree_gpa": "3.75",
+            "degree_index": 1,
+            "degree_major_index": 1
+        }
+    }
+]

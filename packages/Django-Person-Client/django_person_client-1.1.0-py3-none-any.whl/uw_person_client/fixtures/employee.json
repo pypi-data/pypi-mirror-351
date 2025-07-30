@@ -1,0 +1,28 @@
+[
+    {
+        "model": "uw_person_client.Employee",
+        "pk": 1,
+        "fields": {
+            "person": 3,
+            "email_addresses": [],
+            "employee_affiliation_state": "current",
+            "employee_number": "100000000",
+            "home_department": "Family Medicine",
+            "department": "Family Medicine",
+            "title": "Associate Professor"
+        }
+    },
+    {
+        "model": "uw_person_client.Employee",
+        "pk": 2,
+        "fields": {
+            "person": 4,
+            "email_addresses": [],
+            "employee_affiliation_state": "current",
+            "employee_number": "200000000",
+            "home_department": "MA: Student Advising",
+            "department": "MA: Student Advising",
+            "title": "Academic Counselor (E S 6)"
+        }
+    }
+]

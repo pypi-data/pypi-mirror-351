@@ -1,0 +1,23 @@
+[
+    {
+        "model": "uw_person_client.Sport",
+        "pk": 1,
+        "fields": {
+            "sport_code": "1",
+            "short_sport_name": "GLF",
+            "sport_descrip": "GOLF",
+            "sport_reg_pr_aut": true,
+            "sport_reg_pr_spr": true,
+            "sport_reg_pr_sum": false,
+            "sport_reg_pr_win": true
+        }
+    },
+    {
+        "model": "uw_person_client.StudentToSport",
+        "pk": 1,
+        "fields": {
+            "student": 2,
+            "sport": 1
+        }
+    }
+]

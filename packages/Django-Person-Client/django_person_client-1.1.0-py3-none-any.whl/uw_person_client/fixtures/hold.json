@@ -1,0 +1,30 @@
+[
+    {
+        "model": "uw_person_client.StudentHold",
+        "pk": 1,
+        "fields": {
+            "student": 1,
+            "seq": 2,
+            "hold_dt": "2015-09-25 00:00:00-08:00",
+            "hold_office": "EOP",
+            "hold_office_desc": "EDUCATIONAL OPPTNY PROGR",
+            "hold_reason": "1.00",
+            "hold_type": 1,
+            "hold_type_desc": "REGISTRAITON HOLD"
+        }
+    },
+    {
+        "model": "uw_person_client.StudentHold",
+        "pk": 2,
+        "fields": {
+            "student": 1,
+            "seq": 1,
+            "hold_dt": "2015-10-07 00:00:00-08:00",
+            "hold_office": "UWEXT",
+            "hold_office_desc": "UW CONTINUUM COLLEGE",
+            "hold_reason": "UWC2 12345 INV000000 $250",
+            "hold_type": 1,
+            "hold_type_desc": "REGISTRAITON HOLD"
+        }
+    }
+]
