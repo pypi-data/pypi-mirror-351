@@ -1,0 +1,9 @@
+project_id: ee-earthdata-459817
+google_drive_dir: EarthEngine_WildfireSpreadTS
+min_size: 1000.0
+max_size: 10000000000.0
+credentials: /home/kyle/ee_wildfire_data/OAuth/credentials.json
+data_dir: /home/kyle/ee_wildfire_data
+tiff_dir: /home/kyle/ee_wildfire_data/tiff
+export: true
+download: true
