@@ -1,0 +1,4 @@
+[console_scripts]
+teenagi=teenagi.cli:main
+teenagi-dashboard=teenagi.dashboard.app:main
+
