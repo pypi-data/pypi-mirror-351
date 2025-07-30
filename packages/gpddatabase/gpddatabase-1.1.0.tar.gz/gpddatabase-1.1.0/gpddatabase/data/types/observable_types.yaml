@@ -1,0 +1,195 @@
+---
+
+# observable types
+
+data:
+  
+  # ALL
+  - name: ALL
+    description: "Double-spin asymmetry (LL)"
+    unit_group: NONE
+  # ALLCos0Phi
+  - name: ALLCos0Phi 
+    description: "Double-spin asymmetry (LL), cos0φ moment"
+    unit_group: NONE        
+  # ALLCos1Phi 
+  - name: ALLCos1Phi 
+    description: "Double-spin asymmetry (LL), cos1φ moment"
+    unit_group: NONE        
+  # ALLCos2Phi
+  - name: ALLCos2Phi 
+    description: "Double-spin asymmetry (LL), cos2φ moment"
+    unit_group: NONE     
+
+  # AUL
+  - name: AUL
+    description: "Target-spin asymmetry (UL)"
+    unit_group: NONE       
+  # AULSin1Phi
+  - name: AULSin1Phi    
+    description: "Target-spin asymmetry (UL), sin1φ moment"
+    unit_group: NONE    
+  # AULSin2Phi
+  - name: AULSin2Phi
+    description: "Target-spin asymmetry (UL), sin2φ moment"
+    unit_group: NONE  
+  # AULSin3Phi
+  - name: AULSin3Phi
+    description: "Target-spin asymmetry (UL), sin3φ moment"
+    unit_group: NONE  
+
+    # ALU
+  - name: ALU
+    description: "Beam-spin asymmetry (LU)"
+    unit_group: NONE      
+  # ALUSin1Phi
+  - name: ALUSin1Phi
+    description: "Beam-spin asymmetry (LU), sin1φ moment"
+    unit_group: NONE    
+  # ALUSin2Phi
+  - name: ALUSin2Phi
+    description: "Beam-spin asymmetry (LU), sin2φ moment"
+    unit_group: NONE
+  # ALUIntSin1Phi
+  - name: ALUIntSin1Phi
+    description: "Beam-spin asymmetry (LU), beam charge difference, sin1φ moment"
+    unit_group: NONE  
+  # ALUIntSin2Phi
+  - name: ALUIntSin2Phi
+    description: "Beam-spin asymmetry (LU), beam charge difference, sin2φ moment"
+    unit_group: NONE      
+  # ALUDVCSSin1Phi
+  - name: ALUDVCSSin1Phi
+    description: "Beam-spin asymmetry (LU), beam charge sum, sin1φ moment"
+    unit_group: NONE    
+
+  # Ac
+  - name: Ac
+    description: "Charge asymmetry"
+    unit_group: NONE   
+  # AcCos0Phi
+  - name: AcCos0Phi
+    description: "Charge asymmetry, cos0φ moment"
+    unit_group: NONE   
+  # AcCos1Phi
+  - name: AcCos1Phi
+    description: "Charge asymmetry, cos1φ moment"
+    unit_group: NONE 
+  # AcCos2Phi
+  - name: AcCos2Phi
+    description: "Charge asymmetry, cos2φ moment"
+    unit_group: NONE 
+  # AcCos3Phi
+  - name: AcCos3Phi
+    description: "Charge asymmetry, cos3φ moment"
+    unit_group: NONE     
+
+  # CrossSectionUU
+  - name: CrossSectionUU
+    description: "Unpolarised cross section"
+    unit_group: EVm2   
+  # CrossSectionDifferenceLU
+  - name: CrossSectionDifferenceLU
+    description: "Cross section beam helicity difference (LU)"
+    unit_group: EVm2
+  # CrossSectionUUVirtualPhotoProduction
+  - name: CrossSectionUUVirtualPhotoProduction
+    description: "Photoproduction cross section"
+    unit_group: EVm2
+  # TSlope  
+  - name: TSlope
+    description: "Slope of t-distribution"
+    unit_group: EVm2 
+
+  # AUTDVCSSinPhiMPhisCos0Phi  
+  - name: AUTDVCSSinPhiMPhisCos0Phi
+    description: "Transverse target-spin asymmetry (UT), beam charge sum, sin(φ-φs)cos0φ moment"
+    unit_group: NONE    
+  # AUTIntSinPhiMPhisCos0Phi 
+  - name: AUTIntSinPhiMPhisCos0Phi
+    description: "Transverse target-spin asymmetry (UT), beam charge difference, sin(φ-φs)cos0φ moment"
+    unit_group: NONE    
+  # AUTIntSinPhiMPhisCos1Phi 
+  - name: AUTIntSinPhiMPhisCos1Phi
+    description: "Transverse target-spin asymmetry (UT), beam charge difference, sin(φ-φs)cos1φ moment"
+    unit_group: NONE
+  # AUTIntSinPhiMPhisSin1Phi 
+  - name: AUTIntSinPhiMPhisSin1Phi
+    description: "Transverse target-spin asymmetry (UT), beam charge difference, sin(φ-φs)sin1φ moment"
+    unit_group: NONE  
+
+  # ALTIntCosPhiMPhisCos0Phi 
+  - name: ALTIntCosPhiMPhisCos0Phi
+    description: "Double transverse target-spin asymmetry (LT), beam charge difference, cos(φ-φs)cos0φ moment"
+    unit_group: NONE         
+  # ALTIntCosPhiMPhisCos1Phi 
+  - name: ALTIntCosPhiMPhisCos1Phi
+    description: "Double transverse target-spin asymmetry (LT), beam charge difference, cos(φ-φs)cos1φ moment"
+    unit_group: NONE     
+  # ALTIntCosPhiMPhisCos2Phi 
+  - name: ALTIntCosPhiMPhisCos2Phi
+    description: "Double transverse target-spin asymmetry (LT), beam charge difference, cos(φ-φs)cos2φ moment"
+    unit_group: NONE       
+  # ALTIntSinPhiMPhisSin1Phi
+  - name: ALTIntSinPhiMPhisSin1Phi
+    description: "Double transverse target-spin asymmetry (LT), beam charge difference, sin(φ-φs)sin1φ moment"
+    unit_group: NONE      
+  # ALTIntSinPhiMPhisSin2Phi
+  - name: ALTIntSinPhiMPhisSin2Phi
+    description: "Double transverse target-spin asymmetry (LT), beam charge difference, sin(φ-φs)sin2φ moment"
+    unit_group: NONE       
+  # ALTDVCSCosPhiMPhisCos0Phi
+  - name: ALTDVCSCosPhiMPhisCos0Phi
+    description: "Double transverse target-spin asymmetry (LT), beam charge sum, cos(φ-φs)cos0φ moment"
+    unit_group: NONE          
+  # ALTDVCSCosPhiMPhisCos1Phi
+  - name: ALTDVCSCosPhiMPhisCos1Phi
+    description: "Double transverse target-spin asymmetry (LT), beam charge sum, cos(φ-φs)cos1φ moment"
+    unit_group: NONE     
+  # ALTDVCSSinPhiMPhisSin1Phi
+  - name: ALTDVCSSinPhiMPhisSin1Phi
+    description: "Double transverse target-spin asymmetry (LT), beam charge sum, sin(φ-φs)sin1φ moment"
+    unit_group: NONE       
+
+  # Generalized Form Factors int dx x^n H(x, xi, t) = sum_(k = 0, even)^n A_(n,k)(t) xi^k + mod(n, 2) C_(n) xi^(n+1)
+  #                          int dx x^n E(x, xi, t) = sum_(k = 0, even)^n B_(n,k)(t) xi^k - mod(n,2) C_(n) xi^(n+1)
+  - name: A10
+    description: "Moment of the GPD H: <x^0, xi^0>, Elastic form factor"
+    unit_group: NONE
+  - name: A20
+    description: "Moment of the GPD H: <x^1, xi^0>, Gravitational form factor"
+    unit_group: NONE
+  - name: A30
+    description: "Moment of the GPD H: <x^2, xi^0>"
+    unit_group: NONE             
+  - name: A40
+    description: "Moment of the GPD H: <x^3, xi^0>"
+    unit_group: NONE             
+
+  - name: A32
+    description: "Moment of the GPD H: <x^2, xi^2>"
+    unit_group: NONE             
+  - name: A42
+    description: "Moment of the GPD H: <x^3, xi^2>"
+    unit_group: NONE             
+ 
+  - name: B10
+    description: "Moment of the GPD E: <x^0, xi^0>, Elastic form factor"
+    unit_group: NONE             
+  - name: B20
+    description: "Moment of the GPD E: <x^1, xi^0>, Gravitational form factor"
+    unit_group: NONE             
+  - name: B30
+    description: "Moment of the GPD E: <x^2, xi^0>"
+    unit_group: NONE             
+  - name: B40
+    description: "Moment of the GPD E: <x^3, xi^0>"
+    unit_group: NONE             
+
+  - name: B32
+    description: "Moment of the GPD E: <x^2, xi^2>"
+    unit_group: NONE             
+  - name: B42
+    description: "Moment of the GPD E: <x^3, xi^2>"
+    unit_group: NONE             
+ 

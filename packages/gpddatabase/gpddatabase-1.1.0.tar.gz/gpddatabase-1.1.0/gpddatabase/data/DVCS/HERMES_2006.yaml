@@ -1,0 +1,46 @@
+---
+uuid: 3gYp9R4P
+
+general_info: 
+    date: 2024-07-24
+    data_type: DVCS 
+    collaboration: HERMES
+    reference: https://arxiv.org/pdf/hep-ex/0605108.pdf
+    conditions:
+        lepton_beam_type: e+ # and e-
+        lepton_beam_energy: 27.6
+        hadron_beam_type: p
+
+data:
+
+    - data_set:
+
+        label: "t_dep"
+
+        kinematics:
+            name: [xB, t, Q2]
+            unit: [none, GeV2, GeV2]
+            value:
+                - [0.08, -0.03, 2.0]
+                - [0.1, -0.09, 2.6]
+                - [0.11, -0.2, 3.0]
+                - [0.12, -0.42, 3.7]
+        observable:
+            name: [AcCos1Phi]
+            unit: [none]
+            value:
+                - [0.024]
+                - [0.02]
+                - [0.071]
+                - [0.377]
+            stat_unc:
+                - [0.043]
+                - [0.054]
+                - [0.066]
+                - [0.11]
+            sys_unc:
+                - [0.022]
+                - [0.022]
+                - [0.028]
+                - [0.081]
+ 

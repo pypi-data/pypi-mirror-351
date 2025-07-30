@@ -1,0 +1,47 @@
+---
+
+# data types
+
+data:
+  
+  # structure function (like elastic FFs, F2, etc.)
+  - name: STRUCTURE_FUNCTION
+    description: "structure function"
+    required_name: [ hadron_type ]
+    required_type: [ particle ]
+    optional_name: [ ]
+    optional_type: [ ]
+    optional_default: [ ]
+  # elastic
+  - name: LATTICE_QCD
+    description: "lattice QCD"
+    required_name: [ hadron_type, pion_mass, lattice_spacing ]
+    required_type: [ particle, float, float ]
+    optional_name: [ pion_mass_unit, lattice_spacing_unit ]
+    optional_type: [ unit, unit ]
+    optional_default: [ GeV, fm ]
+  # exclusive: DVCS
+  - name: DVCS
+    description: "deeply virtual Compton scattering"
+    required_name: [ lepton_beam_type, lepton_beam_energy, hadron_beam_type, hadron_beam_energy ]
+    required_type: [ particle, float, particle, float ]
+    optional_name: [ lepton_beam_energy_unit, hadron_beam_energy_unit ]
+    optional_type: [ unit, unit ]
+    optional_default: [ GeV, GeV ]
+  # exclusive: DDVCS (used also for pseudo TCS at leptoproduction experiments)
+  - name: DDVCS
+    description: "deeply virtual Compton scattering"
+    required_name: [ lepton_beam_type, lepton_beam_energy, hadron_beam_type, hadron_beam_energy, lepton_type ]
+    required_type: [ particle, float, particle, float, particle ]
+    optional_name: [ lepton_beam_energy_unit, hadron_beam_energy_unit ]
+    optional_type: [ unit, unit ]
+    optional_default: [ GeV, GeV ]
+  # exclusive: DVMP
+  - name: DVMP 
+    description: "deeply virtual meson production"
+    required_name: [ lepton_beam_type, lepton_beam_energy, hadron_beam_type, hadron_beam_energy, meson_type ]
+    required_type: [ particle, float, particle, float, particle ]
+    optional_name: [ lepton_beam_energy_unit, hadron_beam_energy_unit ]
+    optional_type: [ unit, unit ]
+    optional_default: [ GeV, GeV ]
+

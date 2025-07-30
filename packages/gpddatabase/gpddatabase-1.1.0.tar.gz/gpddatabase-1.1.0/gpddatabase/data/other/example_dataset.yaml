@@ -1,0 +1,117 @@
+---
+uuid: 9j7gof4d # id
+
+general_info:
+
+   date: 2023-09-25 # date of insertion to database
+   data_type: DVCS # data type (enum)
+   pseudodata: true # tag to distinguish between data and pseudo-data (e.g. Monte Carlo study)
+                    # (optional) if not set pseudodata = false
+   collaboration: "Example" # collaboration name releasing data stored (limited to 40 characters)
+   reference: "arXiv:01/02" # reference, (limited to 255 characters)
+   conditions: # experimental or lattice-QCD conditions
+      lepton_beam_type: e- # lepton beam type (enum)
+      lepton_beam_energy: 10. # lepton beam energy (by default in GeV)
+      hadron_beam_type: p # hadron beam type (enum)
+      hadron_beam_energy: 100. # hadron beam energy (by default in GeV)
+                               # if missing, fixed target assumed
+   comment: "Comment" # comment (optional, limited to 255 characters)
+
+data:
+
+    - data_set: 
+
+        label: "Q2_dep" # label of current data set
+                        # limited to 40 characters 
+   
+        kinematics: # data related to kinematics
+
+            name: [xB, Q2] # definition of kinematic phase-space, 
+                           # here 2D (xB, Q2) domain (enums)
+            unit: [none, GeV2] # units (enums)
+            value: # mean values of xB and Q2 obtained in three kinematic bins 
+                - [0.2, 1.5] # 1st bin: xB = 0.2, Q2/GeV2 = 1.5 
+                - [0.3, 2.2] # ...
+                - [0.4, 3.1] # 3th bin: xB = 0.4, Q2/GeV2 = 3.1 
+            # or alternatively: 
+            # value: [[0.2, 1], [0.3, 2], [0.4, 3]]
+
+            unc: # uncertainties associated to the mean values (optional)
+                - [0.0015, 0.016] # 1st bin: xB = 0.2 +- 0.0015, Q2/GeV2 = 1.5 +- 0.016 
+                - [0.0012, 0.011] # ...
+                - [0.0019, 0.013] # 3th bin: xB = 0.4 +- 0.0019, Q2/GeV2 = 3.1 +- 0.013
+            bin: # bin boundaries (optional)
+                - [[0.11, 0.25], [1, 2]] # 1st bin: 0.11 < xB < 0.25 and 1 < Q2/GeV2 < 2
+                - [[0.25, 0.35], [2, 3]] # ...
+                - [[0.35, 0.52], [3, 4]] # 1st bin: 0.35 < xB < 0.52 and 3 < Q2/GeV2 < 4
+            replica: # values obtained from replicas used in the related analysis (optional)
+                     # in the first bin three replicas give: 
+                     # xB = {0.2005, 0.1967, 0.1995} and Q2 = {1.514, 1.502, 1.487} 
+                     # the same replicas in the second bin give:
+                     # xB = {0.2997, 0.3005, 0.2988} and Q2 = {2.212, 2.193, 2.207} 
+                - [[0.2005, 0.1967, 0.1995], [1.514, 1.502, 1.487]] 
+                - [[0.2997, 0.3005, 0.2988], [2.212, 2.193, 2.207]]
+                - [[0.4002, 0.4003, 0.3987], [3.094, 3.094, 3.107]]
+
+        observable: # data related to observables
+
+            name: [ALU, ALL] # definition of observables (enums)
+                             # here, in each kinematic bin experiment measures two observables: 
+                             # ALU and ALL asymmetries 
+            unit: [none, none] # units (enums)
+            value: # mean values of ALU and ALL obtained in three kinematic bins
+                - [0.13, 0.29] # 1st bin: ALU = 0.13, ALL = 0.29
+                - [0.14, 0.24] # ...
+                - [0.11, 0.26] # 3th bin: ALU = 0.11, ALL = 0.26
+            stat_unc: # statistical uncertainties associated to the mean values (optional)
+                - [0.03, 0.08] # 1st bin: ALU = 0.13 +- 0.03, ALL = 0.29 +- 0.08
+                - [0.04, 0.07] # ...
+                - [0.03, 0.02] # 3th bin: ALU = 0.11 +- 0.03, ALL = 0.26 +- 0.02
+            sys_unc: # systematic uncertainties associated to the mean values (optional)
+                     # here we demonstrate how one can use asymmetric uncertainties 
+                     # and can specify a correlation between uncertainties
+                - [0.02, 0.01] # 1st bin: ALU = 0.13 +- 0.02, ALL = 0.29 +- 0.01
+                - [0.01, [0.02, 0.03]] # 2nd bin: ALU = 0.14 +- 0.01, ALL = 0.24 - 0.02 + 0.03
+                - ["corr_matrix1", 0.01, 0.02] # 3th bin: ALU = 0.11 +- 0.01, ALL = 0.26 +- 0.02, 
+                                               # uncertainties are correlated according to 
+                                               # 'corr_matrix1' matrix, see 'correlation' section
+            sys_unc_contrib_label: ["fit", "detector"] # labels of contributions to systematic 
+                                                       # uncertainties (optional)
+                                                       # limited to 40 characters 
+            sys_unc_contrib: # contributions to systematic uncertainties (optional)
+                - [[0.015, 0.013], [0.007, 0.007]] # contributions to systematic uncertainties of 
+                                                   # asymmetries measured in the first bin, 
+                                                   # i.e. 0.02 and 0.01 values (see above)
+                                                   # contributions are:
+                                                   # 0.015 and 0.007 for source labeled as 'fit'
+                                                   # 0.013 and 0.007 for source labeled as 'detector'
+                - [[0.007, 0.008], [[0.010, 0.017], [0.020, 0.023]]] # use of asymmetric uncertainties 
+                - ["corr_matrix2", 0.005, 0.008, 0.014, 0.016] # use of correlation matrix with elements:
+                                                                   # sigma_sys_ALU_fit 
+                                                                   # sigma_sys_ALU_detector
+                                                                   # sigma_sys_ALL_fit 
+                                                                   # sigma_sys_ALL_detector
+            replica: # values obtained from replicas used in the related analysis (optional)
+                     # in the first bin three replicas give: 
+                     # ALU = {0.132, 0.127, 0.140} and ALL = {0.295, 0.237, 0.327} 
+                     # the same replicas in the second bin give
+                     # ALU = {0.137, 0.149, 0.105} and ALL = {0.183, 0.232, 0.306} 
+                - [[0.132, 0.127, 0.140], [0.295, 0.237, 0.327]] 
+                - [[0.137, 0.149, 0.105], [0.183, 0.232, 0.306]]
+                - [[0.097, 0.113, 0.120], [0.259, 0.262, 0.259]]
+            norm_unc: [0.001, 0.002] # normalisation uncertainties (optional)
+                                     # ALU +- 0.001, ALL +- 0.002 (for each kinematic bin)
+            norm_unc_contrib_label: ["target_pol", "beam_pol"] # labels of contributions to 
+                                                               # systematic uncertainties (optional)
+                                                               # limited to 40 characters 
+            norm_unc_contrib: [[0., 0.001], [0.0014, 0.0019]] # contributions to systematic
+                                                             # uncertainties (optional)
+                                                    # contributions are: 
+                                                    # 0.0006 and 0.0014 for source labeled as 'target_pol'
+                                                    # 0.0008 and 0.0019 for source labeled as 'beam_pol'
+
+correlation: #definition of correlation matrices used in data file
+
+    - ["corr_matrix1", 1, 0.2, 0.2, 1] # 2D matrix labeled as 'corr_matrix1', 
+                                       # with row-by-row values ((1,0.2),(0.2,1))
+    - ["corr_matrix2", 1, 0.1, 0.3, 0.2, 0.1, 1, 0.5, 0.1, 0.3, 0.5, 1, -0.2, 0.2, 0.1, -0.2, 1] # 4D matrix

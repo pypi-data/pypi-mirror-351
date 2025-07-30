@@ -1,0 +1,43 @@
+---
+
+# variables
+
+data:
+  
+  # x
+  - name: x
+    description: "average momentum of active parton"
+    unit_group: NONE
+  # xi
+  - name: xi
+    description: "skewness variable"
+    unit_group: NONE
+  # nu
+  - name: nuI
+    description: "Ioffe time"
+    unit_group: NONE
+
+  # xB
+  - name: xB
+    description: "Bjorken variable"
+    unit_group: NONE
+  # t
+  - name: t
+    description: "Mandelstam variable t"
+    unit_group: EV2
+  # Q2
+  - name: Q2
+    description: "virtuality of incoming virtual photon"
+    unit_group: EV2  
+ # phi
+  - name: phi
+    description: "azimuthal angle between the leptonic and hadronic planes (Trento convention)"
+    unit_group: ANGLE
+  # nu 
+  - name: nu 
+    description: "energy of virtual photon"
+    unit_group: EV 
+  # W 
+  - name: W 
+    description: "invariant mass of virtual photon - target system"
+    unit_group: EV 
