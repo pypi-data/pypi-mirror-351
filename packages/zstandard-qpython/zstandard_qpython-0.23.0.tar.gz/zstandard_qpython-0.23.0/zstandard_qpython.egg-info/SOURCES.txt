@@ -1,0 +1,14 @@
+MANIFEST.in
+README.md
+pyproject.toml
+setup.cfg
+zstandard/__init__.py
+zstandard/__init__.pyi
+zstandard/_cffi.cpython-312.so
+zstandard/backend_c.cpython-312.so
+zstandard/backend_cffi.py
+zstandard/py.typed
+zstandard_qpython.egg-info/PKG-INFO
+zstandard_qpython.egg-info/SOURCES.txt
+zstandard_qpython.egg-info/dependency_links.txt
+zstandard_qpython.egg-info/top_level.txt
