@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: OptiDamTool
+Version: 0.0.1
+Author-email: Debasish Pal <bestdebasish@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/debpal/OptiDamTool
+Project-URL: Documentation, https://optidamtool.readthedocs.io/en/latest/
+Keywords: Water erosion,Sedimentation,Dam operation,Optimization,Decision support
+Classifier: Development Status :: 1 - Planning
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: GIS
+Classifier: Topic :: Scientific/Engineering :: Hydrology
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Dynamic: license-file
+
+# OptiDamTool
+
+`OptiDamTool` is a Python package for analytics and decision-making in dam operations and water resources management.
+
+
+## Easy Installation
+
+To install, use pip:
+
+```bash
+pip install OptiDamTool
+```
+
+
+## Quickstart
+A brief example of how to start:
+
+```python
+>>> import OptiDamTool
+>>> watemsedem = OptiDamTool.WatemSedem()
+```
+
+
+## Documentation
+
+For detailed information, see the [documentation](https://optidamtool.readthedocs.io/en/latest/).
+
+## Support
+
+If this project has been helpful and you'd like to contribute to its development, consider sponsoring with a coffee! Support will help maintain, improve, and expand this open-source project, ensuring continued valuable tools for the community.
+
+
+[![Buy Me a Coffee](https://img.shields.io/badge/☕_Buy_me_a_coffee-FFDD00?style=for-the-badge)](https://www.buymeacoffee.com/debasish_pal)
+
+
