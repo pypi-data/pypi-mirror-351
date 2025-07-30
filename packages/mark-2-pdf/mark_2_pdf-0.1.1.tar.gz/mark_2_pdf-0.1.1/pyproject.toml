@@ -1,0 +1,49 @@
+[build-system]
+# Specifies the build backend (setuptools is common and works well)
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# Basic metadata about your package
+# CRITICAL: Choose a unique name that is not already on PyPI
+name = "mark-2-pdf" # User specified this name - double-check if it's available on PyPI
+version = "0.1.1" # Start with 0.1.0 or 0.0.1, increment for new releases
+authors = [
+  { name="Mokksh Kapur", email="mokkshkapur@gmail.com" }, # <--- REPLACE with your info
+]
+description = "A Python package for converting Markdown content or files to PDF (Playwright) or DOCX (Pandoc)." # Your concise description
+readme = "README.md" # Assumes you have a README.md file in the project root
+requires-python = ">=3.7" # Minimum Python version required
+
+# Correct location and format for Python package dependencies - THIS IS AN ARRAY
+dependencies = [
+    "Markdown>3.3",
+    "playwright>=1.20", # Use appropriate version range compatible with your code
+    "Pygments>=2.9",
+    # Add any other Python packages your 'markdown_converter_1' package directly uses
+]
+
+keywords = ["markdown", "pdf", "docx", "converter", "pandoc", "playwright", "document", "conversion", "utility"]
+license = { text = "MIT License" } # Or use { file="LICENSE" } if you created a LICENSE file
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7", # List the Python versions you support
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License", # Use the license you chose
+    "Operating System :: OS Independent",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Utilities",
+    "Topic :: Office/Business :: Office Suites",
+    "Development Status :: 3 - Alpha", # Or 4 - Beta, 5 - Production/Stable
+    "Intended Audience :: Developers",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Mokkshkapur"
+
+[tool.setuptools.packages.find]
+where = ["."]
