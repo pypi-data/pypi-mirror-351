@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: stackspot-client
+Version: 0.1.0
+Summary: Cliente Python para a API do StackSpot
+Home-page: https://github.com/Kaiofprates/stackspot-client
+Author: KaiofPrates
+Author-email: kaiofprudencio@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.31.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# StackSpot Client Python
+
+Cliente Python oficial para interagir com a API do StackSpot.
+
+## InstalaÃ§Ã£o
+
+```bash
+pip install stackspot-client
+```
+
+## Uso BÃ¡sico
+
+```python
+from stackspot_client import StackSpotConfig, StackSpotClient
+
+# ConfiguraÃ§Ã£o do cliente
+config = StackSpotConfig(
+    base_url='https://genai-code-buddy-api.stackspot.com',
+    auth_url='https://idm.stackspot.com/stackspot-freemium/oidc/oauth/token',
+    client_id='seu_client_id',
+    client_secret='seu_client_secret'
+)
+
+# Criando instÃ¢ncia do cliente
+client = StackSpotClient(config)
+
+# Executando um comando
+execution_id = client.execute_command('seu_comando', {'dados': 'exemplo'})
+
+# Obtendo o resultado
+result = client.get_execution_result(execution_id)
+print(result)
+```
+
+## Recursos
+
+- AutenticaÃ§Ã£o automÃ¡tica
+- Tratamento de erros
+- Retry automÃ¡tico em caso de falhas
+- Suporte a diferentes tipos de respostas
+
+## DocumentaÃ§Ã£o
+
+Para mais informaÃ§Ãµes sobre a API do StackSpot, consulte a [documentaÃ§Ã£o oficial](https://docs.stackspot.com).
+
+## LicenÃ§a
+
+Este projeto estÃ¡ licenciado sob a licenÃ§a MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes. 
