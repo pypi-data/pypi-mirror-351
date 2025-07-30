@@ -1,0 +1,220 @@
+Write a program to implement Knapsack (0/1) using Dynamic Programming.
+
+import java.util.Scanner;
+
+public class Knapsack01 {
+
+    // Returns the maximum value that can be put in a knapsack of capacity W
+    public static int knapsack(int W, int[] weights, int[] values, int n) {
+        int[][] dp = new int[n + 1][W + 1];
+
+        // Build table dp[][] in bottom up manner
+        for (int i = 0; i <= n; i++) {
+            for (int w = 0; w <= W; w++) {
+                if (i == 0 || w == 0) {
+                    dp[i][w] = 0; // Base case: no items or zero capacity
+                } else if (weights[i - 1] <= w) {
+                    // Max of including the item and excluding it
+                    dp[i][w] = Math.max(values[i - 1] + dp[i - 1][w - weights[i - 1]], dp[i - 1][w]);
+                } else {
+                    // Can't include the item because it exceeds capacity
+                    dp[i][w] = dp[i - 1][w];
+                }
+            }
+        }
+        return dp[n][W];
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of items: ");
+        int n = sc.nextInt();
+
+        int[] values = new int[n];
+        int[] weights = new int[n];
+
+        System.out.println("Enter values of items:");
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+        }
+
+        System.out.println("Enter weights of items:");
+        for (int i = 0; i < n; i++) {
+            weights[i] = sc.nextInt();
+        }
+
+        System.out.print("Enter knapsack capacity: ");
+        int W = sc.nextInt();
+
+        int maxValue = knapsack(W, weights, values, n);
+        System.out.println("Maximum value possible in knapsack = " + maxValue);
+
+        sc.close();
+    }
+}
+
+
+Sample Input:
+yaml
+Copy
+Edit
+Enter number of items: 4
+Enter values of items:
+60 100 120 80
+Enter weights of items:
+10 20 30 40
+Enter knapsack capacity: 50
+
+
+--------------------------------------------------------------------------------------------------
+Write a program to implement Matrix chain multiplication using Dynamic Programming.
+
+import java.util.Scanner;
+
+public class MatrixChainMultiplication {
+
+    // Function to find minimum multiplication cost
+    public static int matrixChainOrder(int[] dims) {
+        int n = dims.length - 1; // Number of matrices
+        int[][] dp = new int[n][n];
+
+        // dp[i][j] = Minimum number of multiplications needed to compute the matrix Ai...Aj
+        // cost is zero when multiplying one matrix
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = 0;
+        }
+
+        // l is chain length
+        for (int l = 2; l <= n; l++) {
+            for (int i = 0; i < n - l + 1; i++) {
+                int j = i + l - 1;
+                dp[i][j] = Integer.MAX_VALUE;
+
+                for (int k = i; k < j; k++) {
+                    // cost = cost/scalar multiplications of left + right + cost to multiply two results
+                    int cost = dp[i][k] + dp[k + 1][j] + dims[i] * dims[k + 1] * dims[j + 1];
+
+                    if (cost < dp[i][j]) {
+                        dp[i][j] = cost;
+                    }
+                }
+            }
+        }
+
+        return dp[0][n - 1];
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of matrices: ");
+        int n = sc.nextInt();
+
+        int[] dims = new int[n + 1];
+        System.out.println("Enter dimensions of matrices (length " + (n + 1) + "):");
+        // For matrices A1 (dims[0] x dims[1]), A2 (dims[1] x dims[2]) ... An (dims[n-1] x dims[n])
+        for (int i = 0; i < n + 1; i++) {
+            dims[i] = sc.nextInt();
+        }
+
+        int minCost = matrixChainOrder(dims);
+        System.out.println("Minimum number of multiplications is " + minCost);
+
+        sc.close();
+    }
+}
+
+
+Sample Input:
+mathematica
+Copy
+Edit
+Enter number of matrices: 4
+Enter dimensions of matrices (length 5):
+10 20 30 40 30
+
+
+------------------------------------------------------------------------------------------------------------------------
+Write a program to implement all pair shortest paths (Floyd Warshall) using Dynamic Programming. 
+
+import java.util.Scanner;
+
+public class FloydWarshall {
+
+    private static final int INF = 99999;
+
+    public static void floydWarshall(int[][] graph, int V) {
+        int[][] dist = new int[V][V];
+
+        // Initialize the solution matrix same as input graph matrix
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                dist[i][j] = graph[i][j];
+            }
+        }
+
+        // Adding vertices one by one as intermediate vertices
+        for (int k = 0; k < V; k++) {
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    // If vertex k is on the shortest path from i to j, then update dist[i][j]
+                    if (dist[i][k] != INF && dist[k][j] != INF 
+                        && dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+
+        printSolution(dist, V);
+    }
+
+    private static void printSolution(int[][] dist, int V) {
+        System.out.println("Shortest distances between every pair of vertices:");
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                if (dist[i][j] == INF)
+                    System.out.print("INF ");
+                else
+                    System.out.print(dist[i][j] + "   ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of vertices: ");
+        int V = sc.nextInt();
+
+        int[][] graph = new int[V][V];
+        System.out.println("Enter adjacency matrix (use 0 if no edge, INF for no path):");
+
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                String val = sc.next();
+                if (val.equalsIgnoreCase("INF")) {
+                    graph[i][j] = INF;
+                } else {
+                    graph[i][j] = Integer.parseInt(val);
+                }
+            }
+        }
+
+        floydWarshall(graph, V);
+
+        sc.close();
+    }
+}
+
+
+
+Sample Input:
+Enter number of vertices: 4
+Enter adjacency matrix (use 0 if no edge, INF for no path):
+0 5 INF 10
+INF 0 3 INF
+INF INF 0 1
+INF INF INF 0
