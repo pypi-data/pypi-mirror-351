@@ -1,0 +1,51 @@
+[project]
+name = "cci-tag-scanner"
+version = "2.5.0"
+description = "This package provides a command line tool moles_esgf_tag to generate dataset tags for both MOLES and ESGF."
+license = "BSD 3"
+readme = "README.md"
+authors = [
+    { name = "Daniel Westwood", email = "daniel.westwood@stfc.ac.uk"},
+    { name = "Antony Wilson", email = "antony.wilson@stfc.ac.uk"}
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+]
+include = [
+    { path = "templates/*.html" },
+    { path = "conf/tag_check.conf" },
+    { path = "tag_scanner/tests/*"}
+]
+dependencies = [
+    "verboselogs>=1.7",
+    "elasticsearch (>=8, <9)",
+    "tqdm (>=4.45.0,<5)",
+    "jinja2 (>=3,<4)",
+    "numpy (>=1.25,<2.0)",
+    "netcdf4 (>=1.7.2,<2.0.0)",
+    "six (>=1.16.0,<2.0.0)",
+    "requests (>=2.32.3,<3.0.0)",
+    "ceda-directory-tree (>=1.2.0)"
+]
+requires-python = ">=3.9,<4"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7"
+poetry = "^2"
+sphinx = "^7.1.2"
+sphinx-rtd-theme = "^3.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project.scripts]
+moles_esgf_tag = "cci_tag_scanner.scripts:CCITaggerCommandLineClient.main"
+cci_json_check = "cci_tag_scanner.scripts:TestJSONFile.cmd"
+cci_check_tags = "cci_tag_scanner.scripts.check_tags:main"
+export_facet_json = "cci_tag_scanner.scripts.dump_facet_object:main"
