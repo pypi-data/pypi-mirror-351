@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: cranelift-py
+Version: 0.1.0
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development :: Compilers
+Summary: Cranelift Python bindings
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+
+# Python bindings for the Cranelift compiler.
+
+This package is a thin python wrapper around the [Cranelift](https://github.com/bytecodealliance/wasmtime/tree/main/cranelift) compiler.
+
+It is pretty much a direct translation of the [Rust API](https://docs.rs/cranelift/latest/cranelift/) to Python, with some simplifications.
+
+For usage check out the [example file](./example/example.py).
