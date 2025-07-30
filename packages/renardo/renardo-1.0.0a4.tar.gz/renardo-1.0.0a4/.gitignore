@@ -1,0 +1,119 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Web client Svelte
+
+node_modules
+dist
+
+gunicorn.pid
+.claude
+
+# Virtual environments
+.venv
+
+renardo.lib/debug/*
+renardo.lib/Settings/conf.py
+renardo.lib/Extensions/VRender/tmp/*
+renardo.lib/osc/**/**
+renardo.lib/osc/scsyndef/test.scd
+renardo.lib/GhostCoder/*
+renardo.lib/Settings/conf.txt
+
+changed_files.txt
+
+# To-do list
+TODO.txt
+
+renardo_samples
+*.wav
+*.aiff
+*.mp3
+*.ogg
+
+autodoc.py
+
+snd/mkdir.py
+
+# Pytest
+
+.pytest_cache
+
+# PIP Registration file
+
+.pypirc
+
+# Directory created by pip install -e
+
+/*.egg-info
+
+
+# Compiled Python file
+
+*.pyc
+
+# Sphinx build dir
+docs/_build/
+
+*.txt
+!requirements.pyinstaller.txt
+!requirements.dev.txt
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+.idea
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# swp files
+*.swp
+
+
+# Pyinstaller
+*.spec
+**/.claude/settings.local.json

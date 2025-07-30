@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: renardo
+Version: 1.0.0a4
+Summary: Python livecoding environment - New fork of FoxDot
+Project-URL: Homepage, http://renardo.org/
+Author-email: Elie Gavoty <eliegavoty@free.fr>
+License: GPL-3.0
+Requires-Python: >=3.9
+Requires-Dist: fastnumbers>=5.1.1
+Requires-Dist: flask-cors>=3.0.10
+Requires-Dist: flask-sock>=0.7.0
+Requires-Dist: flask>=3.1.0
+Requires-Dist: gevent
+Requires-Dist: gevent-websocket
+Requires-Dist: gunicorn
+Requires-Dist: indexed
+Requires-Dist: markdown>=3.5.1
+Requires-Dist: midiutil
+Requires-Dist: mido>=1.3.3
+Requires-Dist: psutil
+Requires-Dist: python-reapy>=0.10.0
+Requires-Dist: python-rtmidi
+Requires-Dist: requests
+Requires-Dist: textual<3
+Requires-Dist: tomli
+Requires-Dist: tomli-w
+Requires-Dist: ttkbootstrap
+Requires-Dist: websockets>=10.4
