@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: event-local
+Version: 0.0.10
+Summary: PyPI Package for Circles event-local Python
+Home-page: https://github.com/circles-zone/event-local-python-package
+Author: Circles
+Author-email: info@circlez.ai
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+Requires-Dist: logger-local
+Requires-Dist: database-mysql-local
+Requires-Dist: python-sdk-remote
+Requires-Dist: opensearch-local>=0.0.8
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: summary
+
+PyPI Package for Circles event-local Python
