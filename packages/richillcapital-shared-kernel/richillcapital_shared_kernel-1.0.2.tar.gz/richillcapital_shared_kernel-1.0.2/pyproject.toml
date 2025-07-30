@@ -1,0 +1,32 @@
+[project]
+name = "richillcapital-shared-kernel"
+version = "1.0.2"
+description = "Shared kernel"
+authors = [
+    { name = "Mengsyue Amao Tsai", email = "mengsyue.tsai@outlook.com" }
+]
+readme = "README.md"
+requires-python = ">= 3.12"
+license = { file = "LICENSE" }
+
+[build-system]
+requires = ["hatchling==1.26.3", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "ruff>=0.9.6",
+    "pytest>=8.3.5",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/richillcapital_shared_kernel"]
+
+[tool.rye.scripts]
+build = "rye build --sdist --wheel -a --clean -v"
+test = "pytest"
+lint = "ruff check"
