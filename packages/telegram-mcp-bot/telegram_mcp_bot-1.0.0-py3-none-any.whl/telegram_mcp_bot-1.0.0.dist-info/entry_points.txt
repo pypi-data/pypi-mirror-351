@@ -1,0 +1,4 @@
+[console_scripts]
+telegram-bot-demo = unified_bot:main
+telegram-bot-prod = webhook_bot:main
+telegram-mcp-bot = telegram_mcp_bot.cli:main
