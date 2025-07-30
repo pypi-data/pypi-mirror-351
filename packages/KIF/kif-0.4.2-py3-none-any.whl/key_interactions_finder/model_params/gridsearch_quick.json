@@ -1,0 +1,66 @@
+{
+    "classification_models": {
+        "CatBoost": {
+            "params": {
+                "iterations": [
+                    100,
+                    250,
+                    500
+                ]
+            }
+        },
+        "XGBoost": {
+            "params": {
+                "n_estimators": [
+                    100,
+                    250,
+                    500
+                ]
+            }
+        },
+        "Random_Forest": {
+            "params": {
+                "n_estimators": [
+                    100,
+                    250,
+                    500
+                ],
+                "max_depth": [
+                    100
+                ]
+            }
+        }
+    },
+    "regression_models": {
+        "CatBoost": {
+            "params": {
+                "iterations": [
+                    100,
+                    250,
+                    500
+                ]
+            }
+        },
+        "XGBoost": {
+            "params": {
+                "n_estimators": [
+                    100,
+                    250,
+                    500
+                ]
+            }
+        },
+        "Random_Forest": {
+            "params": {
+                "n_estimators": [
+                    100,
+                    250,
+                    500
+                ],
+                "max_depth": [
+                    100
+                ]
+            }
+        }
+    }
+}
