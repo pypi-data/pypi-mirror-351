@@ -1,0 +1,9 @@
+requests>=2.28.0
+typing-extensions>=4.5.0  # For Python <3.9 compatibility
+python-dotenv>=1.0.0  # For handling environment variables and API keys
+
+# Build dependencies
+hatchling>=1.18.0  # Build backend
+build>=1.0.3  # For building packages
+wheel>=0.40.0  # For building wheel distributions
+setuptools>=68.0.0  # For backward compatibility 
