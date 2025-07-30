@@ -1,0 +1,3 @@
+[console_scripts]
+tavily-search = tavily_tools.cli.main:main
+tavily-tools = tavily_tools.cli.main:run_cli
