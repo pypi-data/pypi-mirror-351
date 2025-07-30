@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-signal-bot"
+version = "0.1.8"
+authors = [
+    { name="0x4c47" },
+]
+description = "Framework to easily write bots for messenger Signal"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "async-timeout ~= 4.0.2",
+]
+
+[project.urls]
+"Homepage" = "https://gitlab.com/0x4c47/python-signal-bot"
+"Bug Tracker" = "https://gitlab.com/0x4c47/python-signal-bot/-/issues"
