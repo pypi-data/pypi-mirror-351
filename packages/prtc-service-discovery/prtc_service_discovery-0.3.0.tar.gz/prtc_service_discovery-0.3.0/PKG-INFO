@@ -1,0 +1,326 @@
+Metadata-Version: 2.4
+Name: prtc-service-discovery
+Version: 0.3.0
+Summary: A modern annotation-based library for registering FastAPI services with Consul service discovery
+Project-URL: Homepage, https://github.com/perceptic/service-discovery-python
+Project-URL: Documentation, https://github.com/perceptic/service-discovery-python/blob/main/README.md
+Project-URL: Repository, https://github.com/perceptic/service-discovery-python
+Project-URL: Issues, https://github.com/perceptic/service-discovery-python/issues
+Author-email: Perceptic Technologies Ltd <martin@perceptic.ai>
+License: Proprietary
+Keywords: consul,fastapi,microservices,registration,service-discovery
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Requires-Dist: aiohttp>=3.10.0
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: pydantic-settings>=2.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: python-consul2>=0.1.5
+Provides-Extra: dev
+Requires-Dist: black>=24.10.0; extra == 'dev'
+Requires-Dist: httpx>=0.28.0; extra == 'dev'
+Requires-Dist: mypy>=1.14.0; extra == 'dev'
+Requires-Dist: pre-commit>=4.0.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.24.0; extra == 'dev'
+Requires-Dist: pytest>=8.2.0; extra == 'dev'
+Requires-Dist: ruff>=0.11.0; extra == 'dev'
+Requires-Dist: testcontainers>=4.10.0; extra == 'dev'
+Requires-Dist: uvicorn>=0.30.0; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: httpx>=0.28.0; extra == 'test'
+Requires-Dist: pytest-asyncio>=0.24.0; extra == 'test'
+Requires-Dist: pytest>=8.2.0; extra == 'test'
+Requires-Dist: testcontainers>=4.10.0; extra == 'test'
+Provides-Extra: testing
+Requires-Dist: httpx>=0.28.0; extra == 'testing'
+Requires-Dist: pytest-asyncio>=0.24.0; extra == 'testing'
+Requires-Dist: pytest>=8.2.0; extra == 'testing'
+Requires-Dist: testcontainers>=4.10.0; extra == 'testing'
+Requires-Dist: uvicorn>=0.30.0; extra == 'testing'
+Description-Content-Type: text/markdown
+
+# Service Discovery
+
+A Python library for microservice registration and discovery using Consul. This is the Python counterpart to [service-discovery-java](https://github.com/perceptic/service-discovery-java), providing decorator-based service registration and client-side load balancing for FastAPI applications.
+
+## Installation
+
+```bash
+pip install prtc-service-discovery
+```
+
+**Note:** While the package is named `prtc-service-discovery` on PyPI, you import it as `service_discovery` in your code.
+
+## Prerequisites
+
+- Python 3.10+
+- FastAPI application
+- Consul server (for service registration/discovery)
+
+## Quick Start
+
+### Service Registration
+
+```python
+from fastapi import FastAPI, APIRouter
+from service_discovery import register_service, create_consul_lifespan
+
+app = FastAPI(lifespan=create_consul_lifespan)
+
+api_router = APIRouter(prefix="/api/v1")
+
+@register_service("user-service")
+class UserService:
+    router = api_router
+    
+    @router.get("/users/{id}")
+    async def get_user(id: str):
+        return {"id": id, "name": "John Doe"}
+
+app.include_router(api_router)
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy"}
+```
+
+### Service Discovery
+
+```python
+from service_discovery import create_service_discovery
+
+# Discover services
+discovery = create_service_discovery()
+
+# Get all SERVICE-tagged services
+services = await discovery.get_services()
+# Returns: {"user-service": ["http://10.0.0.1:8080/api/v1", "http://10.0.0.2:8080/api/v1"]}
+
+# Get a random URI (client-side load balancing)
+uri = await discovery.get_service_uri("user-service")
+# Returns: "http://10.0.0.1:8080/api/v1"
+
+# Get all URIs for a service
+uris = await discovery.get_all_service_uris("user-service")
+# Returns: ["http://10.0.0.1:8080/api/v1", "http://10.0.0.2:8080/api/v1"]
+
+# Cleanup
+await discovery.close()
+```
+
+## Configuration
+
+Configuration is handled through environment variables. All settings are optional with sensible defaults:
+
+```bash
+# Consul connection
+CONSUL_HOST=localhost           # Consul server host (default: localhost)
+CONSUL_PORT=8500               # Consul server port (default: 8500)
+
+# Service networking
+ACCESS_HOST=my-service.local   # Hostname/IP other services use to reach this service
+ACCESS_PORT=8080              # Port other services use to reach this service
+
+# Feature flags
+ENABLE_REGISTRATION=true       # Enable/disable Consul registration (default: true)
+
+# Health check networking (optional, defaults to ACCESS_HOST:ACCESS_PORT)
+HEALTH_HOST=0.0.0.0           # Interface for health checks
+HEALTH_PORT=8080              # Port for health checks
+```
+
+## Service Types
+
+The library provides three decorators for different service types:
+
+| Decorator | Consul Tag | Discoverable | Use Case |
+|-----------|------------|--------------|----------|
+| `@register_service` | `SERVICE` | ✅ Yes | REST APIs, gRPC services, and other client-facing services |
+| `@register_worker` | `WORKER` | ❌ No |  |
+| `@register_indexer` | `INDEXER` | ❌ No |  |
+
+Only services registered with `@register_service` are discoverable via the `ServiceDiscovery` client. Workers and indexers are registered in Consul for monitoring but are not included in service discovery results.
+
+## Testing
+
+### Unit Testing
+
+```python
+from service_discovery import get_service_registry
+
+def test_service_registration():
+    get_service_registry().clear()
+    
+    @register_service("test-service", base_route="/api/v1")
+    class TestService:
+        pass
+    
+    services = get_service_registry().get_all_services()
+    assert len(services) == 1
+    assert services[0].name == "test-service"
+```
+
+### Integration Testing
+
+```python
+from service_discovery.testing import ConsulRegistrationTestBase, ExpectedService
+
+class TestMyApp(ConsulRegistrationTestBase):
+    def get_expected_services(self) -> list[ExpectedService]:
+        return [
+            ExpectedService.api_service("user-service", 8080),
+            ExpectedService.worker("pdf-processor", 8080),
+        ]
+    
+    def create_app(self) -> FastAPI:
+        from my_app import app
+        return app
+```
+
+The base test class automatically verifies:
+- Service registration with correct metadata
+- Health check configuration
+- Service deregistration on shutdown
+
+## Advanced Usage
+
+### Custom Configuration
+
+```python
+from service_discovery import DiscoveryConfig, create_consul_lifespan
+
+config = DiscoveryConfig(
+    consul__host="consul.prod",
+    consul__port=8500,
+    access__host="api.example.com",
+    access__port=443,
+    health__host="internal.example.com",  # Separate health check network
+    health__port=8080,
+    enable_registration=True
+)
+
+app = FastAPI(lifespan=lambda app: create_consul_lifespan(app, config))
+```
+
+### Multiple Service Registrations
+
+```python
+@register_service("auth-service", base_route="/api/auth/v1")
+class AuthService:
+    router = APIRouter()
+
+@register_worker("email-worker", base_route="/api/workers/email/v1")
+class EmailWorker:
+    router = APIRouter()
+
+# Include all routers
+for service in [AuthService(), EmailWorker()]:
+    app.include_router(service.router)
+```
+
+### Service Discovery Patterns
+
+```python
+# Singleton pattern
+discovery = create_service_discovery()
+
+async def make_user_service_call(user_id: str):
+    # Get a random instance (client-side load balancing)
+    uri = await discovery.get_service_uri("user-service")
+    if not uri:
+        raise ServiceUnavailableError("user-service not found")
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"{uri}/users/{user_id}")
+        return response.json()
+
+# Context manager pattern
+async def get_all_services():
+    discovery = create_service_discovery()
+    try:
+        return await discovery.get_services()
+    finally:
+        await discovery.close()
+```
+
+## Architecture Notes
+
+### Service Discovery
+- Only discovers services tagged with `SERVICE` (not `WORKER` or `INDEXER`)
+- Uses Consul's catalog API for real-time service discovery
+- Implements client-side random load balancing
+- Caches service data with configurable refresh interval (default: 30s)
+- Automatic retry and error handling for network failures
+
+### Service Registration
+- Automatic registration on app startup via FastAPI lifespan events
+- Built-in health check endpoint configuration
+- Generates unique service IDs per instance (consistent within a session)
+- Automatically extracts base routes from FastAPI routers
+- Graceful deregistration on shutdown
+
+### Key Differences from Java Library
+- No Stork integration (uses simple random selection for load balancing)
+- Discovery returns HTTP URIs directly instead of stork:// URIs
+- No static service configuration fallback
+- Async-first design using python-consul2
+- Decorator-based registration instead of annotations
+
+## Development
+
+### Setup
+
+This project uses Hatchling for packaging (not Poetry, as libraries should not pin dependencies). For development, create a virtual environment:
+
+```bash
+# Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On macOS/Linux
+# .venv\Scripts\activate   # On Windows
+
+# Install package in editable mode with dev dependencies
+pip install -e ".[dev,test]"
+```
+
+### Running Tests & Quality Checks
+
+```bash
+# Run tests
+make test           # All tests
+make test-unit      # Unit tests only
+make test-example   # Example app tests
+
+# Code quality
+make format         # Format with black
+make lint          # Lint with ruff
+make type-check    # Type check with mypy
+make all           # All checks + tests
+```
+
+## Troubleshooting
+
+### Services not registering
+- Ensure `ENABLE_REGISTRATION=true` (or not set, as `true` is the default)
+- Check that `ACCESS_HOST` and `ACCESS_PORT` are set correctly
+- Verify Consul is reachable at `CONSUL_HOST:CONSUL_PORT`
+- Check application logs for registration errors
+
+### Services not discoverable
+- Verify the service is registered with `@register_service` (not `@register_worker` or `@register_indexer`)
+- Check that the service is healthy in Consul UI
+- Ensure the service has the `SERVICE` tag in Consul
+
+### Health checks failing
+- Verify the `/health` endpoint is accessible at `HEALTH_HOST:HEALTH_PORT`
+- If using separate health check networking, ensure `HEALTH_HOST` is reachable from Consul
+- Check that the health endpoint returns a 2xx status code
+
+## License
+
+Proprietary - Perceptic Technologies Ltd.
