@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: atlas-mc-scanner
+Version: 0.0.1
+Project-URL: Documentation, https://github.com/Gordon Watts/atlas-mc-scanner#readme
+Project-URL: Issues, https://github.com/Gordon Watts/atlas-mc-scanner/issues
+Project-URL: Source, https://github.com/Gordon Watts/atlas-mc-scanner
+Author-email: Gordon Watts <gwatts@uw.edu>
+License-Expression: MIT
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.10
+Requires-Dist: awkward
+Requires-Dist: func-adl-servicex-xaodr25
+Requires-Dist: jinja2
+Requires-Dist: particle
+Requires-Dist: servicex-analysis-utils
+Requires-Dist: tabulate
+Requires-Dist: typer>=0.9.0
+Provides-Extra: local
+Requires-Dist: func-adl-xaod; extra == 'local'
+Requires-Dist: servicex-local; extra == 'local'
+Description-Content-Type: text/markdown
+
+# atlas-mc-scanner
+
+[![PyPI - Version](https://img.shields.io/pypi/v/atlas-mc-scanner.svg)](https://pypi.org/project/atlas-mc-scanner)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/atlas-mc-scanner.svg)](https://pypi.org/project/atlas-mc-scanner)
+
+-----
+
+## Table of Contents
+
+- [Installation](#installation)
+- [License](#license)
+
+## Installation
+
+```console
+pip install atlas-mc-scanner
+```
+
+## License
+
+`atlas-mc-scanner` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
