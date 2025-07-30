@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: problemtools
+Version: 1.20231016
+Summary: Kattis Problem Tools
+Home-page: https://github.com/Kattis/problemtools
+Maintainer: Kattis AB
+Maintainer-email: contact@kattis.com
+License: MIT
+License-File: LICENSE
+Requires-Dist: PyYAML
+Requires-Dist: plasTeX>=3.0; python_version >= "3"
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: requires-dist
+Dynamic: summary
