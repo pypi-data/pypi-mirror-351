@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "frozen_ground_fem"
+version = "1.0.1"
+authors = [{ name = "Anna Pekinasova", email = "anna.pekinasova@ucalgary.ca" }]
+description = "Multi-physics for frozen ground analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.22", "matplotlib>=3.6"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/annapekinasova/frozen-ground-fem"
+
+[tool.pytest.ini_options]
+filterwarnings = ["error"]
