@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mcpServerDev": {
+      "command": "/Users/asadir/PycharmProjects/TwelveDataProjects/mcp/.venv/bin/python",
+      "args": [
+        "/Users/asadir/PycharmProjects/TwelveDataProjects/mcp/src/mcp_server_twelve_data/__main__.py"
+      ],
+      "workingDir": ".",
+      "env": {
+
+      }
+    }
+  }
+}
