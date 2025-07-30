@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: neverraise
+Version: 0.1.2
+Summary: Result types for python
+Author-email: Alexander Ott <66271487+AlexanderHott@users.noreply.github.com>
+License: Copyright 2025 Alexander Ott
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+
+# `neverraise`
+
+A mix of Rust's Result type and the neverthrow typescript library.
+
+```python
+from neverraise import Result, Ok, Err
+
+
+def divide(a: int, b: int) -> Result[float, ZeroDivisionError]:
+    if b == 0:
+        return Err(ZeroDivisionError())
+    return Ok(a / b)
+
+match divide(1, 0):
+    case Ok(res): print(f"Got {res}")
+    case Err(): print("Couldn't divide")
+```
+
+```python
+def get_todos() -> ResultAsync[list[Todo], HTTPError | JsonParseError | DecodeError]:
+    client = httpx.AsyncClient()
+    return (
+        ResultAsync.from_coro(
+            client.get("https://jsonplaceholder.typicode.com/todos/"),
+            lambda e: HTTPError(e),
+        )
+        .try_catch(lambda response: response.json(), lambda e: JsonParseError(e))
+        .try_catch(
+            lambda json: msgspec.convert(json, type=list[Todo]),
+            lambda e: DecodeError(e),
+        )
+    )
+```
+
+> [!IMPORTANT]
+> Functions that return `neverraise.Result` or `neverraise.ResultAsync` do not throw exceptions, apart from
+
+- `UnwrapError` caused by calling
+  - `map` when the mapping function throws (use `.try_catch` for map operations that can fail)
+  - `unwrap`, `expect`, `unwrap_err`, or `expect_err` when called on a non-matching variant of `Result` (e.g. `Err("oh no").unwrap()`)
+- Any subclass of `BaseException` such as `asyncio.CancelledError`.
+
+Do not catch `UnwrapError`, as they are not expected to be raised. If one is raised, it means that the code is incorrect. It should be treated as a failed assertion.
