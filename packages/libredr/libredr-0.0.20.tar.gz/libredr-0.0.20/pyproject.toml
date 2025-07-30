@@ -1,0 +1,38 @@
+[build-system]
+requires = ["maturin>=1,<2"]
+build-backend = "maturin"
+
+[tool.maturin]
+python-source = "python"
+features = ["pyo3-extension-module"]
+include = ["LICENSE", "README.md"]
+manifest-path = "client/Cargo.toml"
+
+[project]
+name = "libredr"
+description = "LibreDR is an open-source ray-tracing differentiable renderer"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {file = "LICENSE"}
+authors = [
+  {email = "ybh1998@protonmail.com"},
+  {name = "Bohan Yu"}
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python",
+  "Programming Language :: Rust",
+  "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+]
+dependencies = [
+  "numpy",
+]
+
+[project.optional-dependencies]
+torch = [
+  "torch",
+]
+
+[project.urls]
+homepage = "https://codeberg.org/ybh1998/LibreDR"
+documentation = "https://ybh1998.codeberg.page/LibreDR/"

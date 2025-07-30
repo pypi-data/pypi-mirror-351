@@ -1,0 +1,49 @@
+[workspace]
+members = ["common", "client"]
+resolver = "2"
+
+[workspace.package]
+version = "0.0.20"
+edition = "2021"
+authors = ["Bohan Yu"]
+description = "LibreDR is an open-source ray-tracing differentiable renderer"
+documentation = "https://ybh1998.codeberg.page/LibreDR/"
+homepage = "https://codeberg.org/ybh1998/LibreDR/"
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+
+[profile.release]
+lto = "thin"
+panic = "abort"
+# strip = "symbols"
+
+[workspace.dependencies]
+tobj = "4"
+rayon = "1"
+blake3 = "1"
+chrono = "0.4"
+once_cell = "1"
+tracing = "0.1"
+# Limited by `numpy` dependency version number
+nalgebra = ">=0.30, <0.34"
+aho-corasick = "1"
+configparser = "3"
+shadow-rs = "1"
+async-channel = "2"
+const_format = "0.2"
+tokio = { version = "1", features = ["full"] }
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+anyhow = { version = "1", features = ["backtrace"] }
+# Limited by `numpy` dependency version number
+postcard = { version = "1", features = ["use-std"] }
+numpy = { version = "0.24", features = ["nalgebra"] }
+hashbrown = { version = "0.15", features = ["serde"] }
+ocl = { version = "0.19", features = ["opencl_version_2_1"] }
+ndarray = { version = ">= 0.15, < 0.17", features = ["serde"] }
+# Limited by `numpy` dependency version number
+pyo3 = { version = "0.24", features = ["abi3-py37", "anyhow"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+uuid = { version = "1", features = ["v4", "fast-rng", "macro-diagnostics", "serde"] }
+tikv-jemallocator = { version = "0.6", features = ["background_threads", "disable_initial_exec_tls"] }
+common = { package = "libredr-common", path = "common", version = "0.0.20" }

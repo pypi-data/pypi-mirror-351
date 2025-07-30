@@ -1,0 +1,41 @@
+[package]
+name = "libredr-common"
+build = "src/build.rs"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+readme = "README.md"
+license.workspace = true
+
+[lib]
+name = "libredr_common"
+path = "src/lib.rs"
+
+[target.'cfg(not(target_env = "msvc"))'.dependencies]
+tikv-jemallocator = { workspace = true, optional = true }
+
+[dependencies]
+tobj.workspace = true
+uuid.workspace = true
+serde.workspace = true
+tokio.workspace = true
+anyhow.workspace = true
+blake3.workspace = true
+chrono.workspace = true
+ndarray.workspace = true
+tracing.workspace = true
+postcard.workspace = true
+nalgebra.workspace = true
+shadow-rs.workspace = true
+hashbrown.workspace = true
+configparser.workspace = true
+const_format.workspace = true
+
+[build-dependencies]
+shadow-rs.workspace = true
+
+[features]
+jemalloc = ["tikv-jemallocator"]

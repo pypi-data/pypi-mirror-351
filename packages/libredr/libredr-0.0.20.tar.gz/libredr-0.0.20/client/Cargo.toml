@@ -1,0 +1,32 @@
+[package]
+name = "libredr-client"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+readme.workspace = true
+license.workspace = true
+
+[lib]
+name = "libredr"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pyo3.workspace = true
+numpy.workspace = true
+tokio.workspace = true
+anyhow.workspace = true
+ndarray.workspace = true
+tracing.workspace = true
+nalgebra.workspace = true
+hashbrown.workspace = true
+once_cell.workspace = true
+tracing-subscriber.workspace = true
+common.workspace = true
+
+[features]
+default = ["jemalloc"]
+jemalloc = ["common/jemalloc"]
+pyo3-extension-module = ["pyo3/extension-module"]
