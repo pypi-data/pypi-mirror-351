@@ -1,0 +1,3 @@
+from .MyNYT import (
+    MyNYT
+)
