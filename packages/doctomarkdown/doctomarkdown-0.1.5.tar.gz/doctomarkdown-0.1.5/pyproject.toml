@@ -1,0 +1,36 @@
+[project]
+name = "doctomarkdown"
+version = "0.1.5"
+description = "Convert PDF, DOCX, PPTX, Medium, Wikipedia and CSV documents to Markdown. Extracts text, images, and tables. Supports LLM-based extraction."
+authors = [
+  { name = "docparseai", email = "sayantanghosh.work@gmail.com" }
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "PyMuPDF",
+    "Pillow",
+    "typing-extensions",
+    "python-docx",
+    "python-pptx",
+    "pandas",
+    "tabulate",
+    'html2text',
+    'beautifulsoup4',
+    'google-generativeai',
+    'pytesseract'
+]
+
+[project.urls]
+Homepage = "https://github.com/DocParseAI/doctomarkdown"
+Documentation = "https://github.com/DocParseAI/doctomarkdown#readme"
+BugTracker = "https://github.com/DocParseAI/doctomarkdown/issues"
+PyPI = "https://pypi.org/project/doctomarkdown/"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "."}
