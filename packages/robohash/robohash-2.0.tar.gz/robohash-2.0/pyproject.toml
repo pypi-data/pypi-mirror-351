@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robohash"
+version = "2.0"
+description = "One of the leading robot-based hashing tools on the web"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "e1ven", email = "robo@robohash.org"}
+]
+keywords = ["robots", "avatar", "identicon"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "pillow>=9.1.1",
+    "natsort>=8.1.0"
+]
+
+[project.optional-dependencies]
+web = ["tornado>=6.1"]
+
+[project.urls]
+Homepage = "https://github.com/e1ven/Robohash"
+Repository = "https://github.com/e1ven/Robohash"
+"Docker Images" = "https://github.com/e1ven/Robohash/pkgs/container/robohash"
+
+[tool.setuptools.packages.find]
+include = ["robohash*"]
+
+[tool.setuptools.package-data]
+robohash = [
+    "sets/set1/*/*/*",
+    "sets/set2/*/*",
+    "sets/set3/*/*",
+    "sets/set4/*/*",
+    "sets/set5/*/*",
+    "backgrounds/*/*",
+]
