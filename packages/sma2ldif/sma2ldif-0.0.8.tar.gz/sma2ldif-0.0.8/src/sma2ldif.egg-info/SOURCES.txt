@@ -1,0 +1,12 @@
+.gitattributes
+.gitignore
+LICENSE
+README.md
+pyproject.toml
+.github/workflows/python-publish.yml
+src/sma2ldif.py
+src/sma2ldif.egg-info/PKG-INFO
+src/sma2ldif.egg-info/SOURCES.txt
+src/sma2ldif.egg-info/dependency_links.txt
+src/sma2ldif.egg-info/entry_points.txt
+src/sma2ldif.egg-info/top_level.txt
