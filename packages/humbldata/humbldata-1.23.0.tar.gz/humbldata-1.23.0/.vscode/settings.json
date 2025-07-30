@@ -1,0 +1,135 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true
+    },
+    "python.autoComplete.extraPaths": [
+        "./src"
+    ],
+    "python.analysis.extraPaths": [
+        "./src"
+    ],
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "files.trimTrailingWhitespace": true,
+    "git.autofetch": true,
+    "files.autoSave": "onFocusChange",
+    "cSpell.words": [
+        "backtest",
+        "bordercolor",
+        "borderwidth",
+        "Clauclate",
+        "cumdev",
+        "cumsum",
+        "dataframe",
+        "Defualt",
+        "degross",
+        "displaylogo",
+        "Drawdowns",
+        "expirdate",
+        "fixedrange",
+        "fromdate",
+        "garman",
+        "hoverinfo",
+        "hovermode",
+        "inital",
+        "intrinio",
+        "investmnet",
+        "ivol",
+        "klass",
+        "modebar",
+        "nbinsx",
+        "obbh",
+        "openbb",
+        "ORATS",
+        "Patito",
+        "premia",
+        "prepost",
+        "quantile",
+        "quantstats",
+        "reqs",
+        "rowspan",
+        "satchell",
+        "showarrow",
+        "showgrid",
+        "showlegend",
+        "showline",
+        "showspikes",
+        "showticklabels",
+        "spikecolor",
+        "spikedistance",
+        "Spikelines",
+        "spikemode",
+        "spikethickness",
+        "todate",
+        "togglespikelines",
+        "tozeroy",
+        "traceorder",
+        "tradedate",
+        "xanchor",
+        "xaxes",
+        "xaxis",
+        "yaxes",
+        "yref",
+        "zeroline",
+        "zerolinecolor",
+        "zhang",
+        "zoomin",
+        "zoomout"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "yaml.schemas": {
+        "https://squidfunk.github.io/mkdocs-material/schema.json": "mkdocs.yml"
+    },
+    "yaml.customTags": [
+        "!ENV scalar",
+        "!ENV sequence",
+        "!relative scalar",
+        "tag:yaml.org,2002:python/name:material.extensions.emoji.to_svg",
+        "tag:yaml.org,2002:python/name:material.extensions.emoji.twemoji",
+        "tag:yaml.org,2002:python/name:pymdownx.superfences.fence_code_format"
+    ],
+    "folder-color.pathColors": [
+        {
+            "folderPath": "humblDATA/src/humbldata/core/",
+            "badge": "🕸️"
+        },
+        {
+            "folderPath": "humblDATA/src/humbldata/toolbox/",
+            "badge": "🧰"
+        },
+        {
+            "folderPath": "humblDATA/src/humbldata/core/standard_models/portfolio/",
+            "badge": "📁"
+        },
+        {
+            "folderPath": "humblDATA/pyproject.toml/",
+            "color": "foldercolorizer.LightRed"
+        },
+        {
+            "folderPath": "humblDATA/src/humbldata/portfolio/",
+            "badge": "📁"
+        },
+        {
+            "folderPath": "humblDATA/src/humbldata/core/standard_models/toolbox/",
+            "badge": "🧰"
+        },
+        {
+            "folderPath": "humblDATA/tests/integration/toolbox/",
+            "badge": "🧰"
+        },
+        {
+            "folderPath": "humblDATA/tests/integration/portfolio/",
+            "badge": "📁"
+        }
+    ],
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
