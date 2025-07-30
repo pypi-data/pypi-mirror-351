@@ -1,0 +1,8 @@
+importlib-metadata
+cryptography==3.0
+FreeSimpleGUI
+
+[testing]
+setuptools
+pytest
+pytest-cov
