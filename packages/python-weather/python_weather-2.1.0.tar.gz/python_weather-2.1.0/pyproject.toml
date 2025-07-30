@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools"]
+
+[project]
+name = "python-weather"
+version = "2.1.0"
+description = "A free and asynchronous weather API wrapper made in Python, for Python."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "null8626" }]
+keywords = ["weather", "forecast", "weather-api", "weather-forecast"]
+dependencies = ["aiohttp>=3.12.4"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Education",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Topic :: Education",
+  "Topic :: Internet",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Software Development",
+  "Topic :: Software Development :: Libraries",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13"
+]
+requires-python = ">=3.9"
+
+[project.urls]
+Documentation = "https://python-weather.readthedocs.io/en/latest/"
+Repository = "https://github.com/null8626/python-weather"
+Changelog = "https://python-weather.readthedocs.io/en/latest/changelog.html"
+"Donate via GitHub Sponsors" = "https://github.com/sponsors/null8626"
+"Donate via Ko-fi" = "https://ko-fi.com/null8626"
