@@ -1,0 +1,6 @@
+apache-airflow
+fs>=2.4.16
+pss>=1.44
+
+[test]
+pytest
