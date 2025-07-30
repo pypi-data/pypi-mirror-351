@@ -1,0 +1,16 @@
+[project]
+name = "luffybot"
+version = "1.0.0"
+description = "Un bot Pywikibot pour Vikidia effectuant des tâches de maintenance répétitives"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "LuffyDev", email = "luffy@leblogcubing.fr" }]
+requires-python = ">=3.7"
+dependencies = ["pywikibot"]
+
+[project.scripts]
+luffybot-init = "luffybot.__main__:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: luffybot
+Version: 1.0.0
+Summary: Un bot Pywikibot pour Vikidia effectuant des tâches de maintenance répétitives
+Author-email: LuffyDev <luffy@leblogcubing.fr>
+License-Expression: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: pywikibot
+
+# LuffyBot
+
+LuffyBot est un bot basé sur Pywikibot pour Vikidia, développé par LuffyDev.
+
+## Installation
+
+```bash
+pip install luffybot
+
+## Création des fichiers de configuration
+
+```bash
+luffybot-init
+
+Cela vous demandera votre nom de bot, votre identifiant et mot de passe, puis créera les fichiers user-config.py et user-password.py.
+
+## Utilisation
+
+```bash
+luffybot nomduscript.py
+
+
