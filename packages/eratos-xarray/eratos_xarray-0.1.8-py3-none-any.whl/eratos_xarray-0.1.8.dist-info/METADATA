@@ -1,0 +1,66 @@
+Metadata-Version: 2.3
+Name: eratos-xarray
+Version: 0.1.8
+Summary: Xarray backend for Eratos SDK
+License: MIT
+Author: Chris Sharman
+Author-email: chris.sharman@csiro.au
+Requires-Python: >=3.8,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: eratos-sdk (>=0.16.0,<1.0.0)
+Requires-Dist: numpy (>=1.20.0,<2.0.0)
+Requires-Dist: xarray (>=2023.1.0,<2024.0.0)
+Project-URL: Homepage, https://bitbucket.csiro.au/projects/SC/repos/eratos-xarray/browse
+Project-URL: Repository, https://bitbucket.csiro.au/projects/SC/repos/eratos-xarray/browse
+Description-Content-Type: text/markdown
+
+# Xarray support for Eratos SDK
+
+Provides an Xarray backend for Eratos SDK (<www.eratos.com>). The backend supports lazy loading remote datasets.
+
+## Usage
+
+Gridded datasets may be opened in `xarray` by passing in a valid ERN to the path argument and then supplying either an Eratos credentials object to `eratos_auth`
+or an Eratos adapter object to `eratos_adapter`.
+
+See below for a minimal example to open the SILO maximum temperature dataset.
+
+```python
+
+from eratos.creds import AccessTokenCreds
+import xarray as xr
+
+eratos_id = 'ENTER YOUR ERATOS ID'
+eratos_secret = 'ENTER YOUR ERATOS SECRET KEY'
+
+ecreds = AccessTokenCreds(eratos_id, eratos_secret)
+silo = xr.open_dataset('ern:e-pn.io:resource:eratos.blocks.silo.maxtemperature', eratos_auth=ecreds)
+
+print(silo)
+```
+
+alternatively an initialised adapter object can be passed through. This is useful to reuse the same session.
+
+```python
+
+from eratos.creds import AccessTokenCreds
+from eratos.adapter import Adapter
+import xarray as xr
+
+eratos_id = 'ENTER YOUR ERATOS ID'
+eratos_secret = 'ENTER YOUR ERATOS SECRET KEY'
+
+ecreds = AccessTokenCreds(eratos_id, eratos_secret)
+adapter = Adapter(ecreds)
+silo = xr.open_dataset('ern:e-pn.io:resource:eratos.blocks.silo.maxtemperature', eratos_adpater=adapter)
+
+print(silo)
+```
+

@@ -1,0 +1,3 @@
+[xarray.backends]
+eratos=eratos_xarray.backend.eratos_:EratosBackendEntrypoint
+
