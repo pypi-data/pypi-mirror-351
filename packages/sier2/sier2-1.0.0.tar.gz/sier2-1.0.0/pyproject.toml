@@ -1,0 +1,38 @@
+[project]
+name = "sier2"
+version = "1.0.0"
+description = "Blocks of code that are executed in dags"
+authors = [
+    {name="Algol60", email="algol60 <algol60@users.noreply.github.com>"}
+]
+readme = "README.rst"
+packages = [{include = "sier2", from = "src"}]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries"
+]
+
+[dependencies]
+python = "^3.11"
+
+panel = ">=1.6.3"
+param = ">=2.1.0"
+
+[[tool.mypy.overrides]]
+module = [
+    "param"
+]
+ignore_missing_imports = true
+
+[project.urls]
+Homepage = "https://github.com/sier2/sier2"
+
+[build-system]
+requires = ["poetry-core>=2.1.1"]
+build-backend = "poetry.core.masonry.api"
