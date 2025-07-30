@@ -1,0 +1,307 @@
+Metadata-Version: 2.4
+Name: verity-ai-client
+Version: 0.1.1
+Summary: Official Python client for Verity AI - Comprehensive API service for unstructured and structured RAG generation, file management, and AI interactions
+Home-page: https://veritylabs.ai
+Author: Verity Labs
+Author-email: support@veritylabs.ai
+Maintainer: Verity Labs
+Maintainer-email: support@veritylabs.ai
+License: MIT
+Project-URL: Homepage, https://veritylabs.ai
+Project-URL: Documentation, https://docs.veritylabs.ai
+Project-URL: Repository, https://github.com/veritylabs/verity-ai-python-client
+Project-URL: Bug Tracker, https://github.com/veritylabs/verity-ai-python-client/issues
+Project-URL: Changelog, https://github.com/veritylabs/verity-ai-python-client/blob/main/CHANGELOG.md
+Keywords: verity-ai,rag,retrieval-augmented-generation,ai,machine-learning,nlp,document-processing,knowledge-base,openapi,api-client
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: urllib3<3.0.0,>=2.1.0
+Requires-Dist: python-dateutil>=2.8.2
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: typing-extensions>=4.7.1
+Provides-Extra: dev
+Requires-Dist: pytest>=7.2.1; extra == "dev"
+Requires-Dist: pytest-cov>=2.8.1; extra == "dev"
+Requires-Dist: tox>=3.9.0; extra == "dev"
+Requires-Dist: flake8>=4.0.0; extra == "dev"
+Requires-Dist: types-python-dateutil>=2.8.19.14; extra == "dev"
+Requires-Dist: mypy>=1.5; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: isort>=5.0.0; extra == "dev"
+Provides-Extra: examples
+Requires-Dist: python-dotenv>=1.0.0; extra == "examples"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Verity AI Python Client
+
+[![PyPI version](https://badge.fury.io/py/verity-ai-client.svg)](https://badge.fury.io/py/verity-ai-client)
+[![Python Support](https://img.shields.io/pypi/pyversions/verity-ai-client.svg)](https://pypi.org/project/verity-ai-client/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Official Python client for **Verity AI** - A comprehensive API service for unstructured and structured RAG (Retrieval-Augmented Generation), file management, AI interactions, and knowledge base operations.
+
+## 🚀 Features
+
+- **RAG Generation**: Powerful retrieval-augmented generation for both structured and unstructured data
+- **File Management**: Upload, list, and delete files with ease
+- **Knowledge Base Operations**: Manage and query knowledge bases
+- **Database Integration**: Natural language SQL queries and database operations
+- **AI Chat Completions**: Advanced chat completions with multiple AI models
+- **Type Safety**: Full type hints and Pydantic models for better development experience
+- **Async Support**: Built for modern async Python applications
+
+## 📦 Installation
+
+Install the Verity AI Python client using pip:
+
+```bash
+pip install verity-ai-client
+```
+
+For development with optional dependencies:
+
+```bash
+pip install verity-ai-client[dev]
+```
+
+## 🔧 Quick Start
+
+### Authentication
+
+First, obtain your API key from [Verity Labs](https://veritylabs.ai) and set it as an environment variable:
+
+```bash
+export API_KEY="your-api-key-here"
+```
+
+### Basic Usage
+
+```python
+import os
+import verity_ai_pyc
+from verity_ai_pyc.rest import ApiException
+
+# Configure the client
+configuration = verity_ai_pyc.Configuration(
+    host="https://chat.veritylabs.ai"
+)
+configuration.api_key['XAPIKeyAuth'] = os.environ["API_KEY"]
+
+# Create API client
+with verity_ai_pyc.ApiClient(configuration) as api_client:
+    # List available models
+    models_api = verity_ai_pyc.ModelsApi(api_client)
+    try:
+        models = models_api.list_models_rag_generation_models_get()
+        print("Available models:", models)
+    except ApiException as e:
+        print(f"Error: {e}")
+```
+
+### Chat Completions
+
+```python
+# Create a chat completion
+completions_api = verity_ai_pyc.CompletionsApi(api_client)
+
+chat_request = verity_ai_pyc.ChatCompletionRequestPublic(
+    model="anthropic_claude_3_5_sonnet_v1",
+    messages=[
+        verity_ai_pyc.Message(
+            role="user",
+            content="What is artificial intelligence?"
+        )
+    ],
+    data_type="unstructured",
+    knowledge_base="all"
+)
+
+try:
+    response = completions_api.create_chat_completion_rag_generation_chat_completions_post(chat_request)
+    print("AI Response:", response.messages[0].content)
+except ApiException as e:
+    print(f"Error: {e}")
+```
+
+### SQL Database Queries
+
+```python
+# Query a database using natural language
+completions_api = verity_ai_pyc.CompletionsApi(api_client)
+
+chat_request = verity_ai_pyc.ChatCompletionRequestPublic(
+    model="anthropic_claude_3_5_sonnet_v1",
+    messages=[
+        verity_ai_pyc.Message(
+            role="user",
+            content="How many records are in the database?"
+        )
+    ],
+    data_type="structured",
+    database_name="veritydemo_mimic"
+)
+
+try:
+    response = completions_api.create_chat_completion_rag_generation_chat_completions_post(chat_request)
+    print("SQL Response:", response.messages[0].content)
+except ApiException as e:
+    print(f"Error: {e}")
+```
+
+### File Management
+
+```python
+# List files
+file_management_api = verity_ai_pyc.FileManagementApi(api_client)
+
+try:
+    response = file_management_api.list_files_get_fileman_data_list_get(
+        storage_type="unstructured",
+        page=1,
+        page_size=5
+    )
+    print(f"Found {len(response.files)} files:")
+    for file_info in response.files:
+        print(f"- {file_info.filename} ({file_info.size_mb:.2f} MB)")
+except ApiException as e:
+    print(f"Error: {e}")
+```
+
+### Knowledge Base Retrieval
+
+```python
+# Retrieve relevant documents
+unstructured_api = verity_ai_pyc.UnstructuredApi(api_client)
+
+retrieval_request = verity_ai_pyc.RetrievalRequestPublic(
+    query="machine learning algorithms",
+    knowledge_base="all",
+    top_k=5
+)
+
+try:
+    results = unstructured_api.retrieve(retrieval_request)
+    print("Document search completed successfully!")
+    print(f"Retrieved {len(results.documents)} documents")
+except ApiException as e:
+    print(f"Retrieval error: {e}")
+```
+
+## 📚 API Documentation
+
+### Available APIs
+
+- **CompletionsApi**: Chat completions and AI interactions
+- **FileManagementApi**: File upload, listing, and deletion
+- **ModelsApi**: List available AI models
+- **UnstructuredApi**: Knowledge base and document operations
+- **StructuredApi**: Database and SQL operations
+
+### Key Models
+
+- `ChatCompletionRequestPublic`: Request structure for chat completions
+- `Message`: Individual message in a conversation
+- `FileInfo`: File metadata and information
+- `RetrievalRequestPublic`: Document retrieval requests
+
+For detailed API documentation, visit: [https://docs.veritylabs.ai](https://docs.veritylabs.ai)
+
+## 🔒 Authentication
+
+The Verity AI API uses API key authentication. Include your API key in the `x-api-key` header:
+
+```python
+configuration.api_key['XAPIKeyAuth'] = "your-api-key"
+```
+
+## 🛠️ Development
+
+### Requirements
+
+- Python 3.9+
+- Dependencies listed in `pyproject.toml`
+
+### Installation for Development
+
+```bash
+git clone https://github.com/veritylabs/verity-ai-python-client.git
+cd verity-ai-python-client
+pip install -e .[dev]
+```
+
+### Running Tests
+
+```bash
+pytest
+```
+
+### Code Formatting
+
+```bash
+black .
+isort .
+```
+
+### Type Checking
+
+```bash
+mypy verity_ai_pyc
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## 📞 Support
+
+- **Documentation**: [https://docs.veritylabs.ai](https://docs.veritylabs.ai)
+- **Issues**: [GitHub Issues](https://github.com/veritylabs/verity-ai-python-client/issues)
+- **Email**: support@veritylabs.ai
+
+## 🔗 Links
+
+- **Homepage**: [https://veritylabs.ai](https://veritylabs.ai)
+- **PyPI**: [https://pypi.org/project/verity-ai-client/](https://pypi.org/project/verity-ai-client/)
+- **GitHub**: [https://github.com/veritylabs/verity-ai-python-client](https://github.com/veritylabs/verity-ai-python-client)
+
+---
+
+Built with ❤️ by [Verity Labs](https://veritylabs.ai)
+
+
+
+
