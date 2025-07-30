@@ -1,0 +1,8 @@
+[project]
+name = "zeusdb"
+version = "0.0.0"
+description = "Ultra-light and blazingly-fast database system"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
