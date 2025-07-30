@@ -1,0 +1,5 @@
+[console_scripts]
+docs-build = mkdocs build
+docs-serve = mkdocs serve
+etdi = mcp.etdi.cli:main
+mcp = mcp.cli.cli:main
