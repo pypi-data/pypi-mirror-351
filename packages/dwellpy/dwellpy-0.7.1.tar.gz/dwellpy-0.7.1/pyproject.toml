@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dwellpy"
+dynamic = ["version"]
+description = "Accessibility dwell clicker for motor disabilities"
+readme = "docs/README.md"
+requires-python = ">=3.9"
+license = {text = "GPL-3.0"}
+authors = [
+    {name = "code0nwheels"},
+]
+keywords = ["accessibility", "dwell", "clicker", "motor", "disabilities", "assistive", "technology"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Desktop Environment :: Window Managers",
+    "Topic :: Adaptive Technologies"
+]
+dependencies = [
+    "PyQt6>=6.4.0",
+    "pynput>=1.7.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/code0nwheels/dwellpy"
+Documentation = "https://github.com/code0nwheels/dwellpy/wiki"
+Repository = "https://github.com/code0nwheels/dwellpy"
+"Bug Reports" = "https://github.com/code0nwheels/dwellpy/issues"
+
+[project.scripts]
+dwellpy = "dwellpy.main:main"
+
+[project.gui-scripts]
+dwellpy-gui = "dwellpy.main:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "dwellpy.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["dwellpy*"]
+
+[tool.setuptools.package-data]
+dwellpy = [
+    "config/*.json",
+    "docs/*.md"
+]
