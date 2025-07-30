@@ -1,0 +1,95 @@
+Metadata-Version: 2.4
+Name: lussac
+Version: 2.0.0rc2
+Summary: Python package for automatic post-processing and merging of multiple spike-sorting analyses.
+Author-email: Aurélien Wyngaard <aurelien.wyngaard@gmail.com>
+Project-URL: homepage, https://github.com/BarbourLab/lussac
+Project-URL: repository, https://github.com/BarbourLab/lussac
+Project-URL: documentation, https://lussac.readthedocs.io/
+Project-URL: changelog, https://github.com/BarbourLab/lussac/releases
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: networkx>=3.0
+Requires-Dist: numpy>=1.23
+Requires-Dist: pandas>=2.0
+Requires-Dist: scikit-learn>=1.1.0
+Requires-Dist: scipy>=1.9
+Requires-Dist: plotly>=5.8.2
+Requires-Dist: kaleido
+Requires-Dist: jsmin>=3.0
+Requires-Dist: numba>=0.56.2
+Requires-Dist: tqdm>=4.64.0
+Requires-Dist: requests>=2.28.0
+Requires-Dist: overrides>=7.3.1
+Requires-Dist: psutil
+Requires-Dist: spikeinterface<0.103,>=0.102.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.1.3; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: matplotlib; extra == "dev"
+Requires-Dist: hdbscan>=0.8.33; extra == "dev"
+Requires-Dist: zarr>=2.13.0; extra == "dev"
+Requires-Dist: wavpack-numcodecs>=0.1.2; extra == "dev"
+Requires-Dist: sphinx>=7.0.1; extra == "dev"
+Requires-Dist: sphinxemoji>=0.2.0; extra == "dev"
+Requires-Dist: sphinx-rtd-theme>=1.3.0; extra == "dev"
+Dynamic: license-file
+
+[![Python version](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue.svg)](https://img.shields.io/badge/python-3.10-blue.svg)
+[![Documentation Status](https://readthedocs.org/projects/lussac/badge/?version=latest)](http://lussac.readthedocs.io/)
+[![Build status](https://github.com/BarbourLab/lussac/actions/workflows/unit-tests-linux.yml/badge.svg)](https://github.com/BarbourLab/lussac/actions/workflows/unit-tests.yml)
+[![Coverage report](https://codecov.io/gh/barbourlab/lussac/graphs/badge.svg)](https://app.codecov.io/github/barbourlab/lussac)
+
+# Lussac 2.0
+
+You can use the version 1 with `git checkout v1`
+
+Lussac is an **automated** and **configurable** analysis pipeline for post-processing and/or merging multiple spike-sorting analyses.
+The goal is to improve the **yield** and **quality** of data from multielectrode extracellular recordings by comparing the outputs of different spike-sorting algorithms and/or multiple runs with different parameters.
+For more information, check out our [preprint](https://www.biorxiv.org/content/10.1101/2022.02.08.479192v2).
+
+
+## Installation
+
+You can install the latest release version of Lussac:
+
+```bash
+# OPTIONAL: Use a conda environment.
+conda create -n lussac python=3.12  # Must be >= 3.10
+conda activate lussac
+
+pip install lussac
+# pip install --upgrade lussac  # To upgrade in case a new version is released.
+```
+
+Or if you prefer downloading the latest developmental version:
+
+```bash
+# Download Lussac in any directory you want.
+git clone https://github.com/BarbourLab/lussac.git --branch dev
+cd lussac
+
+# OPTIONAL: Use a conda environment.
+conda create -n lussac python=3.12  # Must be >= 3.10
+conda activate lussac
+
+# Install Lussac.
+pip install -e ".[dev]"
+
+# To upgrade Lussac.
+git pull
+
+# If you want to check whether the installation was successful (optional)
+pytest
+```
+
+
+## Documentation
+
+You can find the documentation [here](https://lussac.readthedocs.io/).
+
+
+## Migration from Lussac1
+
+Lussac2 is not backwards-compatible with Lussac1.  We advise you to make a new conda environment, and to remake your `params.json` file (which is also not backwards-compatible).
