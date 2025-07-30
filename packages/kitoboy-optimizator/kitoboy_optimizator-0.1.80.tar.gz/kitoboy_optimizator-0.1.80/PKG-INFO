@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: kitoboy-optimizator
+Version: 0.1.80
+Summary: Optimizations for trading strategies with UV support.
+Author-email: fdoooch <fdoooch@gmail.com>
+Project-URL: repository, https://github.com/fdoooch/kitoboy-optimizator
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: numba<1.0,>=0.59
+Requires-Dist: aiohttp<4.0,>=3.9.3
+Requires-Dist: pybit<6.0,>=5.6.2
+Requires-Dist: python-binance<2.0,>=1.0.19
+Requires-Dist: pandas<3.0,>=2.2.0
+Requires-Dist: pydantic<3.0,>=2.6.3
+Requires-Dist: colorama<1.0,>=0.4.6
+Requires-Dist: numpy<2.0,>=1.26.4
+
+# Оптимизатор для Китобойной
