@@ -1,0 +1,6 @@
+[console_scripts]
+nobuild = nobuild:app
+nobuild-debian = nobuild.distro.debian:app
+
+[gui_scripts]
+
