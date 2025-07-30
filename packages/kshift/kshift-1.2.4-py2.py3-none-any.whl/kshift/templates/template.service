@@ -1,0 +1,6 @@
+[Unit]
+Description=$description
+
+[Service]
+Environment="SOURCE=systemd"
+ExecStart=$command
