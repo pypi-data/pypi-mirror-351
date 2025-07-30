@@ -1,0 +1,57 @@
+import argparse
+import os
+from typing import Any
+
+from kfp import compiler as kfp_compiler
+from kfp import components as kfp_components
+from kfp import dsl as kfp_dsl
+from kfp.dsl import RUN_ID_PLACEHOLDER as KFP_RUN_ID_PLACEHOLDER
+from kubernetes.client import V1EnvVar
+
+
+@kfp_dsl.pipeline(name="{{ name }}")
+def {{ name }}({% for param in parameters %}{{ param.name }}: {% if param.type == "NoneType" %}Any{% else %}{{ param.type }}{% endif %}={% if param.type == "bool" %}{{ param.value | capitalize }}{% else %}{{ param.value }}{% endif %}, {% endfor %}):
+    {% for component in components %}
+        {%- set op_name = "op_" + component.name %}
+    {{ op_name }} = kfp_components.load_component_from_file("{{ component.yaml_path}}")
+    {% endfor %}
+
+    kfp_run_id_env_var = V1EnvVar(name="KUBEFLOW_RUN_ID", value=KFP_RUN_ID_PLACEHOLDER)
+
+    {% for component in components %}
+        {%- set op_name = "op_" + component.name %}
+        {%- set task_name = "task_" + component.name %}
+    {{ task_name }} = {{ op_name }}({% for item in component.inputs %}{{ item }}, {% endfor %}).add_env_variable(kfp_run_id_env_var)
+        {%- if component.outputs %}
+    {{ component.name }}_outputs = {{ task_name }}.outputs["{{ component.name }}_outputs"]
+        {%- endif %}
+    {% endfor %}
+
+
+def compile_to_yaml(save_path: str) -> None:
+    dir_name: str = os.path.dirname(os.path.abspath(save_path))
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+
+    {% if components %}
+    kfp_compiler.Compiler().compile(pipeline_func={{ name }}, package_path=save_path)
+    {%- endif %}
+
+
+def main(save_path: str) -> None:
+    compile_to_yaml(save_path=save_path)
+
+
+if __name__ == "__main__":
+    argparser = argparse.ArgumentParser(description="Arguments for compiler.")
+    argparser.add_argument(
+        "--save-path",
+        type=str,
+        default=os.path.join(os.path.curdir, "pipeline.yaml"),
+        required=False,
+        dest="save_path",
+    )
+
+    parsed_args = vars(argparser.parse_args())
+
+    main(**parsed_args)
