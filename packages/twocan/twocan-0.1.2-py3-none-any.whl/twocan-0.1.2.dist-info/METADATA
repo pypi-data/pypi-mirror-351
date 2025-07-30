@@ -1,0 +1,159 @@
+Metadata-Version: 2.4
+Name: twocan
+Version: 0.1.2
+Summary: A Bayesian optimization framework for multimodal registration of highly multiplexed single-cell spatial proteomics data
+Home-page: https://github.com/camlab-bioml/twocan
+Author: Caitlin F. Harrigan
+Author-email: caitlin.harrigan@mail.utoronto.ca
+Project-URL: Documentation, https://twocan.readthedocs.io/
+Project-URL: Source, https://github.com/camlab-bioml/twocan
+Keywords: spatial-proteomics highly-multiplexed-imaging cross-modality-registration bayesian-optimization
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.19.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: opencv-python>=4.5.0
+Requires-Dist: scikit-image>=0.18.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: spatialdata>=0.1.0
+Requires-Dist: optuna>=3.0.0
+Requires-Dist: tifffile>=2021.1.1
+Requires-Dist: matplotlib>=3.3.0
+Requires-Dist: scipy>=1.7.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: black>=22.0; extra == "dev"
+Requires-Dist: flake8>=4.0; extra == "dev"
+Requires-Dist: isort>=5.0; extra == "dev"
+Requires-Dist: pre-commit>=2.0; extra == "dev"
+Requires-Dist: jupyter>=1.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=4.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme; extra == "docs"
+Requires-Dist: myst-parser; extra == "docs"
+Requires-Dist: myst-nb; extra == "docs"
+Requires-Dist: nbsphinx; extra == "docs"
+Requires-Dist: sphinx-autobuild; extra == "docs"
+Requires-Dist: sphinx-copybutton; extra == "docs"
+Requires-Dist: sphinxcontrib-bibtex; extra == "docs"
+Provides-Extra: notebooks
+Requires-Dist: jupyter>=1.0; extra == "notebooks"
+Requires-Dist: ipywidgets>=7.0; extra == "notebooks"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+<div align="center">
+
+
+
+<p align="center"><img src="https://github.com/user-attachments/assets/1cad2a1e-ca87-474e-96de-fd6b02560771" width=100px /></p>
+
+# Twocan
+
+*A Bayesian optimization framework for multimodal registration of highly multiplexed single-cell spatial proteomics data*
+
+[![Documentation Status](https://readthedocs.org/projects/twocan/badge/?version=latest)](https://twocan.readthedocs.io/en/latest/?badge=latest)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![PyPI version](https://badge.fury.io/py/twocan.svg)](https://badge.fury.io/py/twocan)
+
+</div>
+
+## Overview
+
+Twocan automatically finds optimal parameters for registering images from different spatial proteomics technologies using Bayesian optimization. Instead of manually tuning preprocessing and registration parameters, Twocan efficiently explores the parameter space to find the best registration for your data.
+
+**Key Features:**
+- 🔧 Automated parameter optimization for image registration
+- 🧠 Bayesian optimization via Optuna for efficient search
+- 🔬 Support for multiple spatial proteomics modalities (IF, IMC, FISH, IMS)
+- 📊 Built-in quality metrics and visualization tools
+- 🎯 Extensible framework for custom objectives and preprocessors
+
+## Quick Start
+
+### Installation
+
+```bash
+# Install from PyPI
+pip install twocan
+
+# Or install from source
+git clone https://github.com/camlab-bioml/twocan.git
+cd twocan
+pip install .
+```
+
+### Basic Usage
+
+```python
+import twocan as tc
+
+# Load your images
+moving_img = tc.read_image("moving.tif") 
+fixed_img = tc.read_image("fixed.tif")
+
+# Create estimator and optimize
+estimator = tc.RegEstimator(moving_img, fixed_img)
+study = estimator.optimize(n_trials=100)
+
+# Get best transformation
+best_transform = tc.pick_best_registration(study)
+```
+
+## Documentation
+
+📚 **[Full Documentation](https://twocan.readthedocs.io/)**
+
+## Examples & Notebooks
+
+Check out the `notebooks/` directory for comprehensive examples:
+- Basic registration with default settings
+- Custom preprocessing for different modalities  
+- Advanced optimization strategies
+- Saving and loading registration results
+
+## Citation
+
+If you use Twocan in your research, please cite:
+
+```bibtex
+@software{harrigan2024twocan,
+  title={Twocan: A Bayesian optimization framework for multimodal registration},
+  author={Harrigan, Caitlin F.},
+  year={2024},
+  url={https://github.com/camlab-bioml/twocan}
+}
+```
+
+## License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- 📖 **Documentation**: [twocan.readthedocs.io](https://twocan.readthedocs.io/)
+- 📧 **Contact**: kierancampbell@lunenfeld.ca
+- 🐛 **Issues**: [GitHub Issues](https://github.com/camlab-bioml/twocan/issues)
