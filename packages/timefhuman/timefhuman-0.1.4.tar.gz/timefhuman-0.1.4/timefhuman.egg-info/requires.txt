@@ -1,0 +1,10 @@
+lark==1.2.2
+babel==2.16.0
+pytz==2024.2
+python-dateutil==2.9.0.post0
+
+[test]
+pytest==8.3.4
+pytest-cov==6.0.0
+coverage==7.6.10
+coveralls==4.0.1
