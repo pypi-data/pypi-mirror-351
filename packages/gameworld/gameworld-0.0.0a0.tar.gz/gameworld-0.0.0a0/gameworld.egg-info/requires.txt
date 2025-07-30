@@ -1,0 +1,8 @@
+numpy==1.26.4
+gymnasium==0.29.1
+imageio==2.36.0
+pytest
+
+[test]
+pytest
+pytest-cov
