@@ -1,0 +1,75 @@
+Quimera printing service is a jon-rpc server that processes jasperreports reports and fills them with the information received through calls to the service.
+
+It consists of 3 parts:
+-server. Json-rpc server processing calls
+-customer. PyQt6 interface in charge of viewing the status of the server and managing printers and models.
+-daemon. Allows you to install and / or remove the quimera service on the host operating system.
+
+Installation:
+Requirements:
+* Java JRE 9 (tested with OpenJDK 11 on windows) (Set JAVA_HOME in environment variables)
+* Ghostscript (tested with 9.55 on windows)
+* Git
+
+
+Windows.
+In console with administrator privileges we execute:
+pip install quimeraps
+pip install git+https://github.com/acesseonline/pyreportjasper@master#egg=pyreportjasper
+
+Linux
+sudo -H pip3 install quimeraps
+sudo -H pip3 install git+https://github.com/acesseonline/pyreportjasper@master#egg=pyreportjasper
+
+
+
+Service installation (Linux):
+quimeraps_daemon install. This service can be managed in the style of service quimeraps [start, stop, restart]
+
+Service installation (Windows):
+Download NSSM  from https://nssm.cc/download
+
+Use "nssm.exe install QuimeraPrintService". Set quimeraps_server path and accept. 
+
+
+Uninstall service (Linux):
+quimeraps_daemon remove
+
+If we want to launch a server manually through the console:
+* We must make sure that there are no other quimera servers running on the machine.
+* We run quimeraps_server with administrator privileges.
+
+
+Using reports:
+The reports must be located:
+* (Linux) /opt/quimeraPS/reports 
+* (Windows) ...\ProgramFiles\quimeraPS\reports
+
+Registration of models and printer.
+For easy management of models and printers, quimeraps_client has been provided, which allows visually mapping existing printers and models with aliases recognized by the client.
+
+The log can be found in:
+* (Linux) /var/log/quimeraps.log 
+* (Windows) ...\ProgramFiles\quimeraPS\quimera.log
+
+
+You can enable the use of chimeraps with ssl as follows:
+
+Inside the chimeraPS folder, we create the cert folder and add the ssl.cert and ssl.key files. If the ssl.key file does not exist, an adhoc ssl connection will be created.
+
+Instructions for generating certificate and ssl password.
+
+$ openssl genrsa 2048 > ssl.key
+$ openssl req -new -x509 -nodes -sha1 -days 365 -key ssl.key > ssl.cert
+
+
+
+
+
+
+
+
+
+
+
+
