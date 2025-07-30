@@ -1,0 +1,63 @@
+Metadata-Version: 2.1
+Name: obo_parser
+Version: 1.0.3
+Summary: A Python library for parsing OBO (Open Biological and Biomedical Ontologies) files.
+Home-page: https://github.com/suqingdong/obo_parser
+Author: suqingdong
+Author-email: suqingdong1114@gmail.com
+License: MIT License
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries
+Description-Content-Type: text/markdown
+Requires-Dist: click
+Requires-Dist: requests
+
+# A Python library for parsing [OBO(Open Biological and Biomedical Ontologies)](https://obofoundry.org/) files.
+
+## Installation
+
+```
+pip install obo_parser
+```
+
+## Usage
+
+### Use in Command Line
+
+```bash
+obo_parser headers -f path/to/obo_file.obo
+obo_parser headers -f path/to/obo_file.obo -o headers.json
+
+obo_parser terms -f path/to/obo_file.obo
+obo_parser terms -f path/to/obo_file.obo -o terms.jl
+```
+
+### Use in Python
+
+```python
+from obo_parser.parser import OBO_Parser
+
+obo = OBO_Parser('./hp.obo')
+print(obo.headers)
+
+for term in obo.terms:
+    print(term)
+
+    # accessing term attribute
+    print(term.id, term.name)
+    print(term['id'], term['name'])
+    print(term.get('id'), term.get('name'))
+
+    # accessing term dict
+    print(term._data)
+    print(dict(term))
+```
