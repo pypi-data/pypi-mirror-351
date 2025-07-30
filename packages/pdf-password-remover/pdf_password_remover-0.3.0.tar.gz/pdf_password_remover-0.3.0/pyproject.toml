@@ -1,0 +1,28 @@
+[project]
+name = "pdf-password-remover"
+version = "0.3.0"
+description = "A Python based CLI tool to remove passwords from PDF files."
+authors = [
+    {name = "Ronald Erosa",email = "thecasualdev@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "typer (>=0.16.0,<0.17.0)",
+    "pypdf2 (>=3.0.1,<4.0.0)",
+    "pycryptodome (>=3.23.0,<4.0.0)",
+    "pytest (>=8.3.5,<9.0.0)",
+    "tkinterdnd2 (>=0.3.0,<0.4.0)",
+    "tk"
+]
+
+[tool.poetry]
+packages = [{include = "pdf_password_remover", from = "."}]
+
+[tool.poetry.scripts]
+pdf-password-remover = "pdf_password_remover.main:app"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
