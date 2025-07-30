@@ -1,0 +1,5 @@
+pypandoc>=1.11  # Python interface for Pandoc
+
+# External dependencies (not Python packages):
+# - pandoc >= 2.11 (https://pandoc.org/installing.html)
+# - asciidoctor >= 2.0.0 (gem install asciidoctor) - Required for AsciiDoc to DOCX conversion 
