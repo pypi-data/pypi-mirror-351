@@ -1,0 +1,101 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+authors = [{name = "LORES"}]
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.9",
+]
+dependencies = [
+  "stollen>=0.6.8",
+]
+description = "A lightweight NotLetters SDK based on stollen."
+keywords = [
+  "letters",
+  "mails",
+  "notletters",
+  "sdk",
+]
+license-files = ["LICENSE"]
+name = "notletters"
+readme = "README.md"
+version = "0.1.2"
+requires-python = ">=3.9"
+
+[project.urls]
+Homepage = "https://git.notletters.com/notletters/notletters-python.git"
+Issues = "https://git.notletters.com/notletters/notletters-python/issues"
+Repository = "https://git.notletters.com/notletters/notletters-python.git"
+
+[dependency-groups]
+dev = [
+  "mypy[faster-cache]",
+  "ruff",
+]
+
+[tool.codespell]
+check-filenames = true
+quiet-level = 3
+
+[tool.mypy]
+cache_dir = ".cache/mypy"
+explicit_package_bases = true
+extra_checks = true
+local_partial_types = true
+pretty = true
+python_version = "3.9"
+show_column_numbers = true
+show_error_code_links = true
+strict = true
+strict_bytes = true
+strict_concatenate = true
+strict_equality = true
+warn_unreachable = true
+
+[tool.ruff]
+cache-dir = ".cache/ruff"
+line-length = 99
+preview = true
+show-fixes = true
+target-version = "py39"
+
+[tool.ruff.lint]
+ignore = [
+  "ANN401", # any-type
+  "CPY", # flake8-copyright
+  "D", # pydocstyle
+  "FA", # flake8-future-annotations
+  "PLR6301", # no-self-use
+]
+select = ["ALL"]
+
+[tool.ruff.lint.flake8-self]
+ignore-names = []
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.flake8-type-checking]
+exempt-modules = []
+strict = true
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+
+[tool.ruff.lint.pep8-naming]
+ignore-names = []
+
+[tool.ruff.lint.pylint]
+allow-magic-value-types = []
+
+[tool.uv]
+cache-dir = ".cache/uv"
+link-mode = "copy"
+package = false
+preview = true

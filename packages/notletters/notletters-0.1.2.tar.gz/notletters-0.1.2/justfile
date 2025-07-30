@@ -1,0 +1,63 @@
+######################################
+# Just Settings
+######################################
+
+set unstable := true
+
+######################################
+# Local Variables
+######################################
+
+package := "notletters"
+
+######################################
+# Defaults
+######################################
+
+[private]
+default: help
+
+[doc("Show this help menu")]
+@help:
+    just --list --unsorted
+
+######################################
+# Develpomnet
+######################################
+
+alias cln := clean
+alias bs := bootstrap
+
+[doc("Removes caches and temporary files")]
+[group("Develpomnet")]
+clean:
+    rm --force --recursive --verbose .egg*
+    rm --force --recursive --verbose .cache/
+    rm --force --recursive --verbose **/__pycache__/
+
+[doc("Bootstrap project")]
+[group("Develpomnet")]
+bootstrap:
+    uv sync --all-extras --all-groups
+
+######################################
+# Сode Quality
+######################################
+
+alias lnt := lint
+alias fmt := format
+
+[doc("Running code quality checks")]
+[group("Сode Quality")]
+@lint:
+    uv run mypy {{ package }}
+    uv run ruff check {{ package }}
+    uv run ruff format --check {{ package }}
+    just --check --fmt
+
+[doc("Formatting and fixing code")]
+[group("Сode Quality")]
+format:
+    uv run ruff format {{ package }}
+    uv run ruff check --fix --unsafe-fixes {{ package }}
+    just --fmt
