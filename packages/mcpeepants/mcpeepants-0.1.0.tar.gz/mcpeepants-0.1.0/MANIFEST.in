@@ -1,0 +1,17 @@
+include README.md
+include LICENSE
+include requirements.txt
+include requirements-dev.txt
+include pyproject.toml
+include .env.example
+recursive-include src/mcpeepants *.py
+recursive-include src/mcpeepants/plugins *.py
+recursive-include tests *.py
+recursive-include examples *.py *.md
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude .git*
+global-exclude .coverage
+global-exclude htmlcov
+global-exclude .pytest_cache

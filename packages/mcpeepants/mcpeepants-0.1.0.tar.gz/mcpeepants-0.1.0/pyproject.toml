@@ -1,0 +1,69 @@
+[project]
+name = "mcpeepants"
+version = "0.1.0"
+description = "Extensible MCP server library with plugin support"
+authors = [
+    {name = "Ewvyx", email = "nick@idabble.biz"},
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "fastmcp>=0.1.0",
+    "python-dotenv>=1.0.0",
+    "pytest>=7.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/gizix/MCPeePants"  # Update this
+"Bug Tracker" = "https://github.com/gizix/MCPeePants/issues"  # Update this
+"Documentation" = "https://github.com/gizix/MCPeePants#readme"  # Update this
+
+[project.optional-dependencies]
+dev = [
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[project.scripts]
+mcpeepants = "mcpeepants.server:main"
+
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "--cov=mcpeepants --cov-report=term-missing --cov-report=html -m 'not hanging'"
+markers = [
+    "hanging: marks tests that hang indefinitely (deselect with '-m not hanging')",
+]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.coverage.run]
+branch = true
+source = ["mcpeepants"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
