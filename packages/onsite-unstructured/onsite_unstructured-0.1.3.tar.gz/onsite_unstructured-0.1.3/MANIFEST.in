@@ -1,0 +1,5 @@
+include LICENSE
+
+include onsite-unstructured/data/*.npy
+include onsite-unstructured/VehicleModel_dll/*.so
+include onsite-unstructured/VehicleModel_dll/*.dll
