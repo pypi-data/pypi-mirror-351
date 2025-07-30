@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: user_info_collector
+Version: 0.1.0
+Summary: A simple CLI program to collect user information.
+Home-page: https://github.com/yourusername/user_info_collector
+Author: Yashoda Ghimire
+Author-email: ghimireyashoda10@gmail.com
+Project-URL: Bug Tracker, https://github.com/yourusername/user_info_collector/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# User Info Collector
+
+A simple command-line program to collect user information including name, age, and email.
+
+## Installation
+
+You can install the package using pip:
+
+```bash
+pip install user_info_collector
