@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bkdetect"
+version = "0.1.0"
+description = "Library for document similarity search"
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [{name = "Your Name", email = "your@email.com"}]
+license = { text = "MIT" }  # Используем современный синтаксис
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "nltk",
+    "scikit-learn",
+    "beautifulsoup4",
+    "pdfminer.six",
+    "python-docx",
+    "pdfplumber",
+    "numpy",
+    "scipy"
+]
+
+[project.scripts]
+bkdetect = "bkDetect.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
