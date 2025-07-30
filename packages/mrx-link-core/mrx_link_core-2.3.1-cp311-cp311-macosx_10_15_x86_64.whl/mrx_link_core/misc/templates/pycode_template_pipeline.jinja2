@@ -1,0 +1,28 @@
+import argparse
+
+
+parser = argparse.ArgumentParser(description='Pipeline Parameter')
+{% for parameter in parameters -%}
+parser.add_argument(
+    '--{{ parameter.name.replace('_', '-') }}',
+    type={{ parameter.type }},
+    default={{ parameter.value }},
+    nargs='?',
+    help='type={{ parameter.type }}, default={{ parameter.value }}',
+)
+{% endfor %}
+args = parser.parse_args()
+
+
+if __name__ == "__main__":
+    {% for parameter in parameters -%}
+    {{ parameter.name }} = args.{{ parameter.name }}
+    {% endfor %}
+
+    {% for component in components -%}
+    # =============================================================
+    # Component: {{ component.name }}
+    # Parents: {{ component.parents }}
+    {{ component.cell_code | indent(width=4, blank=True) }}
+
+    {% endfor %}
