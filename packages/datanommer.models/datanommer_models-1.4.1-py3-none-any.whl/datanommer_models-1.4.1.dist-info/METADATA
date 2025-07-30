@@ -1,0 +1,61 @@
+Metadata-Version: 2.1
+Name: datanommer.models
+Version: 1.4.1
+Summary: SQLAlchemy models for datanommer
+Home-page: https://github.com/fedora-infra/datanommer
+License: GPL-3.0-or-later
+Author: Fedora Infrastructure
+Author-email: admin@fedoraproject.org
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: schemas
+Requires-Dist: SQLAlchemy (>=1.3.24,<3.0.0)
+Requires-Dist: alembic (>=1.6.5,<2.0.0)
+Requires-Dist: anitya-schema ; extra == "schemas"
+Requires-Dist: bodhi-messages ; extra == "schemas"
+Requires-Dist: bugzilla2fedmsg-schema ; extra == "schemas"
+Requires-Dist: ci-messages ; extra == "schemas"
+Requires-Dist: copr-messaging ; extra == "schemas"
+Requires-Dist: discourse2fedmsg-messages ; extra == "schemas"
+Requires-Dist: fedocal-messages ; extra == "schemas"
+Requires-Dist: fedora-elections-messages ; extra == "schemas"
+Requires-Dist: fedora-image-uploader-messages ; extra == "schemas"
+Requires-Dist: fedora-messaging (>=2.1.0)
+Requires-Dist: fedora-messaging-git-hook-messages ; extra == "schemas"
+Requires-Dist: fedora-messaging-the-new-hotness-schema ; extra == "schemas"
+Requires-Dist: fedora-planet-messages ; extra == "schemas"
+Requires-Dist: fedorainfra-ansible-messages ; extra == "schemas"
+Requires-Dist: fmn-messages ; extra == "schemas"
+Requires-Dist: journal-to-fedora-messaging-messages ; extra == "schemas"
+Requires-Dist: kerneltest-messages (>=1.0.0,<2.0.0) ; extra == "schemas"
+Requires-Dist: koji-fedoramessaging-messages (>=1.2.6,<2.0.0) ; extra == "schemas"
+Requires-Dist: koschei-messages ; extra == "schemas"
+Requires-Dist: mailman3-fedmsg-plugin-schemas ; extra == "schemas"
+Requires-Dist: maubot-fedora-messages ; extra == "schemas"
+Requires-Dist: mdapi-messages ; extra == "schemas"
+Requires-Dist: mediawiki-messages ; extra == "schemas"
+Requires-Dist: meetbot-messages ; extra == "schemas"
+Requires-Dist: noggin-messages ; extra == "schemas"
+Requires-Dist: nuancier-messages ; extra == "schemas"
+Requires-Dist: pagure-messages ; extra == "schemas"
+Requires-Dist: psycopg2 (>=2.9.1,<3.0.0)
+Requires-Dist: tahrir-messages ; extra == "schemas"
+Requires-Dist: webhook-to-fedora-messaging-messages ; extra == "schemas"
+Project-URL: Repository, https://github.com/fedora-infra/datanommer
+Description-Content-Type: text/x-rst
+
+datanommer.models
+=================
+
+This package contains the SQLAlchemy data model for datanommer.
+
+Datanommer is a storage consumer for the Fedora Infrastructure Message Bus
+(fedmsg).  It is comprised of a `fedmsg <http://fedmsg.com>`_ consumer that
+stuffs every message into a sqlalchemy database.
+
