@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pixelsort-cli"
+version = "1.1.0"
+authors = [
+    {name = "Ferdinand Theil", email = "f.p.theil@proton.me"},
+]
+description = "A Python CLI tool for sorting pixels in images."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    'numpy',
+    'scipy',
+    'opencv-python',
+    'filetype'
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Blotz/pixelsort-cli"
+"Bug Tracker" = "https://github.com/Blotz/pixelsort-cli/issues"
+
+[project.scripts]
+pixelsort = "pixelsort.__main__:main"
+
+[project.optional-dependencies]
+test = [
+    'pytest',
+    'pytest-xdist',  # use -n cpu_count to speedup pytest
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "test"
+]
+
+[tool.tox]
+requires = ["tox>=4.19", "tox-pyenv-redux"]
+env_list = ["py313", "py312", "py311", "py310", "py39", "local"]
+
+
+[tool.tox.env_run_base]
+description = "Run test under {base_python}"
+commands = [["pytest", "."]]
+allowlist_externals = ["pytest"]
