@@ -1,0 +1,50 @@
+[project]
+name = "loggate"
+version = "1.14.0"
+description = "The advance logging system."
+readme = "README.md"
+authors = [
+    { name = "Martin Korbel", email = "mkorbel@alps.cz" },
+]
+keywords = [
+    "log",
+    "loggin",
+    "loggate",
+    "logger",
+    "loki",
+]
+classifiers = [
+    "Topic :: System :: Networking",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.9,<4.0"
+dependencies = []
+
+[project.license]
+text = "MIT"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.2.5",
+    "PyYAML>=5.4.1,<7.0",
+    "pytest-asyncio",
+]
+asyncio = [
+    "aiohttp",
+]
+
+[project.urls]
+homepage = "https://github.com/calcite/loggate"
+repository = "https://github.com/calcite/loggate"
+documentation = "https://github.com/calcite/loggate"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
