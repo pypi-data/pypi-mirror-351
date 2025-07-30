@@ -1,0 +1,27 @@
+name: pyremo-tests
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - cartopy
+  - matplotlib-base
+  - numpy #<1.26.3
+  - pooch
+  - regionmask
+  - xarray
+  - dask
+  - cf_xarray>=0.8.1
+  - xesmf>=0.7.0
+  - netCDF4
+# for testing
+  - pytest
+  - pytest-cov
+  - pytest-env
+  - fsspec
+  - requests
+  #- setuptools<60.0 # see https://numpy.org/doc/stable/reference/distutils_status_migration.html
+  - aiohttp
+  - cmor
+  - cdo
+  - python-cdo
+  - py-cordex

@@ -1,0 +1,4 @@
+[console_scripts]
+pradd-vars = pyremo.cli:add_variables
+prsint = pyremo.cli:prsint
+pyremo-analysis = pyremo.cli:main_analysis

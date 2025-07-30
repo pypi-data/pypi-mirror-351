@@ -1,0 +1,32 @@
+name: pyremo-docs
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - python
+  - dask
+  - xarray
+  - netCDF4
+  - matplotlib-base
+  - cartopy
+  - cf_xarray>=0.8.0
+  - nbconvert
+  - numpydoc
+    #  - docutils=0.16
+  - pillow
+  - pip
+  - nbconvert
+  - nbsphinx
+  - ipython
+  - ipykernel
+  - py-cordex
+  - cftime
+  - cdo
+  - python-cdo
+  - sphinx
+  - sphinx_rtd_theme
+  - sphinx-autosummary-accessors
+  - furo
+  - pip:
+    - git+https://github.com/euro-cordex/py-cordex.git # always use master for now
+    - sphinxcontrib-mockautodoc
