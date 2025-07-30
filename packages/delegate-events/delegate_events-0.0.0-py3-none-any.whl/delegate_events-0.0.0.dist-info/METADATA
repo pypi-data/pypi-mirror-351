@@ -1,0 +1,155 @@
+Metadata-Version: 2.4
+Name: delegate-events
+Version: 0.0.0
+Summary: Python implementation of the Event Pattern
+Author-email: Anders Madsen <anders.madsen@alphavue.com>
+License: MIT
+Project-URL: repository, https://github.com/apmadsen/delegate-events
+Keywords: windows,linux,delegates,events
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Development Status :: 6 - Mature
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Typing :: Typed
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: delegate-pattern==0.0.0
+Provides-Extra: test
+Requires-Dist: pytest>=8.3; extra == "test"
+Requires-Dist: pytest-cov>=6.1; extra == "test"
+Dynamic: license-file
+
+[![Test](https://github.com/apmadsen/delegate-events/actions/workflows/python-test.yml/badge.svg)](https://github.com/apmadsen/delegate-events/actions/workflows/python-test.yml)
+[![Coverage](https://github.com/apmadsen/delegate-events/actions/workflows/python-test-coverage.yml/badge.svg)](https://github.com/apmadsen/delegate-events/actions/workflows/python-test-coverage.yml)
+[![Stable Version](https://img.shields.io/pypi/v/delegate-events?label=stable&sort=semver&color=blue)](https://github.com/apmadsen/delegate-events/releases)
+![Pre-release Version](https://img.shields.io/github/v/release/apmadsen/delegate-events?label=pre-release&include_prereleases&sort=semver&color=blue)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/delegate-events)
+[![PyPI Downloads](https://static.pepy.tech/badge/delegate-events/week)](https://pepy.tech/projects/delegate-events)
+
+# delegate-events: Python implementation of the Event Pattern.
+
+delegate-events provides a basic implementation of the well-known Event or Pub/Sub Pattern, and is built on top of the `delegate-pattern` package which handles the delegation part.
+
+## Example
+
+```python
+from delegate.pattern import delegate
+from delegate.events import Channel, Event
+
+class OnSomethingEvent(Event):
+    def __init__(self, what: str, why: str):
+        self.what = what
+        self.why = why
+
+    def __str__(self):
+        return f"{self.what} happened because of {self.why}"
+
+class Class1:
+    on_something = delegate(Channel[OnSomethingEvent])
+
+inst = Class1()
+msg_queue: list[Event] = []
+
+def fn(publisher, event: OnSomethingEvent):
+    msg_queue.append(event)
+
+inst.on_something.subscribe(fn)
+inst.on_something.fire(OnSomethingEvent("Something", "some other thing"))
+
+str(msg_queue[0]) # => "Something happened because of some other thing"
+```
+
+# API
+
+## Event class
+The `Event` class is the base class of all events. Events are the classes holding the event information, when an event is fired, thus, when subclassed, should contain properties/fields of the event information.
+
+#### Example
+```python
+from delegate.events import Event
+
+class OnSomething(Event):
+    def __init__(self, what: str, why: str):
+        self.what = what
+        self.why = why
+
+    def __str__(self):
+        return f"{self.what} happened because of {self.why}"
+
+```
+
+## Channel class
+The `Channel` class is the event channel returned by the delegate, and its jobs are handling subscriptions and firing of events.
+
+### Channel.subscribe(handler: _Callable[[object, T\<Event>], None]_)
+
+The `subscribe` function subscribes a handler function to the channel. The function takes 1 argument:
+- handler: `Callable[[object, Event], None]`
+
+#### Example
+```python
+from delegate.events import Channel
+
+channel = Channel[OnSomethingEvent]()
+
+def handler(sender: object, args: OnSomethingEvent) -> None:
+    pass
+
+channel.subscribe(handler)
+```
+
+
+### Channel.unsubscribe(handler: _Callable[[object, T\<Event>], None]_)
+The `unsubscribe` function unsubscribes a handler function from the channel. The function takes 1 argument:
+- handler: `Callable[[object, Event], None]`
+
+```python
+from delegate.events import Channel
+
+channel = Channel[OnSomethingEvent]()
+
+def handler(sender: object, args: OnSomethingEvent) -> None:
+    pass
+
+channel.subscribe(handler)
+channel.unsubscribe(handler)
+```
+
+### Channel.fire(event: _T\<Event>_, *, ttl: _float | None = 0_) -> _bool_ function
+The `fire` function fires the event, invoking all subscribed handlers. The function returns True if event was successfully sent and takes 1 argument:
+- event: `Event`
+
+and 1 optional keyword argument:
+- ttl: `float | None` the time-to-live (seconds) of the event.
+
+```python
+from delegate.events import Channel
+
+channel = Channel[OnSomethingEvent]()
+
+msg_queue: list[Event] = []
+
+def handler(sender: object, event: OnSomethingEvent) -> None:
+    msg_queue.append(event)
+
+channel.fire(OnSomethingEvent("Something", "some other thing")) # => False
+channel.fire(OnSomethingEvent("Something", "some other thing"), ttl=10) # => False - event stays in queue and will be sent if subcrribed to within 10 seconds though
+
+channel.subscribe(handler)
+
+channel.fire(OnSomethingEvent("Something", "some other thing")) # => True
+
+len(msg_queue) # => 2
+```
