@@ -1,0 +1,98 @@
+# SCHEMATIX - CHANGELOG
+
+## [0.3.6] -- May 29th, 2025
+### Decorator API
+* **@schema Decorator**: Convert regular classes to Schema classes with field auto-discovery
+* **@field Decorator Suite**: Complete decorator ecosystem for all field types
+ - `@field` - Basic Field creation from class attributes
+ - `@field.source` - SourceField with enhanced extraction capabilities
+ - `@field.target` - TargetField with enhanced assignment features
+ - `@field.bound` - BoundField for complete source-to-target binding
+ - `@field.fallback` - FallbackField for primary/backup field logic
+ - `@field.combined` - CombinedField for merging multiple field results
+ - `@field.nested` - NestedField for applying fields to nested data paths
+ - `@field.accumulated` - AccumulatedField for smart value combination
+
+### Advanced Field Configuration
+* **Dynamic Constructor Inspection**: Automatic validation of required decorator attributes using `inspect` module
+* **Flexible Field Naming**: Schema metaclass controls field naming for maximum reusability across contexts
+* **Enhanced Type Validation**: Robust input validation for complex field configurations (lists, field instances)
+* **Comprehensive Error Handling**: Clear error messages for missing required attributes and invalid configurations
+
+### API Improvements
+* **Functional Programming Style**: Clean decorator syntax alongside existing class-based API
+* **Constructor Introspection**: Dynamic validation based on actual field constructor signatures
+* **Extended __constructs__ Pattern**: Systematic attribute mapping for all field types
+* **Context-Aware Naming**: Field names determined by usage context rather than definition context
+
+### Testing & Quality
+* **27 Passing Decorator Tests**: Comprehensive test coverage for all decorator functionality
+* **Integration Testing**: End-to-end decorator usage with schema composition
+* **Error Case Validation**: Thorough testing of invalid inputs and edge cases
+* **Documentation Examples**: Real-world usage patterns and best practices
+
+## [0.3.0] -- May 27th, 2025
+### Complete Schema Implementation
+* **Concrete Schema Class**: Full implementation of `Schema` with transformation, validation, and composition
+* **Target Type Conversion**: Support for dataclasses, Pydantic models, NamedTuples, TypedDict
+* **Schema Composition**: `fromfields()`, `merge()`, `copy()`, `subset()` methods for flexible schema building
+* **Batch Processing**: `transformplural()` for processing lists of data objects
+* **Callable Interface**: Schema instances are callable for convenient transformation
+
+### Comprehensive Test Suite
+* **93 Passing Tests**: Complete test coverage across all components
+* **Unit Tests**: Individual field and schema functionality
+* **Integration Tests**: Real-world transformation workflows
+* **Edge Case Testing**: Error handling, validation, boundary conditions
+* **Test Categories**: API transformation, web scraping, ETL pipelines, nested data
+
+### Production Ready Features
+* **Error Handling**: Detailed error messages with field-level reporting
+* **Validation System**: Schema and field-level validation with comprehensive error reporting
+* **Performance Optimized**: Efficient field extraction and operator chaining
+* **Memory Management**: Proper cleanup and resource handling
+
+### Bug Fixes & Stability
+* **Operator Chaining**: Fixed field flattening in combined and accumulated operations
+* **String Accumulation**: Proper separator handling in AccumulatedField
+* **Field Assignment**: Robust object attribute assignment across different types
+* **Fallback Logic**: Improved SourceField fallback detection and handling
+* **Dict Merging**: Correct dictionary combination in AccumulatedField
+
+## [0.2.0] -- May 27th, 2025
+### Core Foundation
+* **Metaclasses**: Implemented `SchemaMeta` for automatic field discovery and `FieldMeta` (skeleton for future extension)
+* **Base Classes**: Created `BaseField` (abstract field interface) and `BaseSchema` (abstract schema interface)
+* **Core Field Types**:
+  - `Field` - Basic concrete field implementation with source/target support
+  - `BoundField` - Complete source-to-target transformation binding
+  - `SourceField` - Enhanced extraction with fallbacks and conditions
+  - `TargetField` - Enhanced assignment with formatting and multiple targets
+
+### Operator Overloading System
+* **Pipeline Operator** (`>>`): `source_field >> target_field` → `BoundField`
+* **Fallback Operator** (`|`): `primary_field | backup_field` → `FallbackField`
+* **Combine Operator** (`&`): `field1 & field2` → `CombinedField`
+* **Nested Operator** (`@`): `field @ "nested.path"` → `NestedField`
+* **Accumulate Operator** (`+`): `field1 + field2` → `AccumulatedField`
+* **Method Chaining**: Equivalent methods for all operators (`.pipeline()`, `.fallback()`, etc.)
+
+### Specialized Field Classes
+* **`FallbackField`**: Try primary field, fall back to secondary on failure
+* **`CombinedField`**: Apply multiple fields and merge results into single dict
+* **`NestedField`**: Apply field operations to nested data paths
+* **`AccumulatedField`**: Smart type-based value combination (strings, numbers, dicts, lists)
+
+### Schema Infrastructure
+* **`BoundSchema`**: Schema instances bound to specific source mappings
+* **`FieldBindingFactory`**: Factory methods for creating bound fields from various inputs
+* **Field Discovery**: Automatic field detection and organization via metaclass
+
+### Architecture
+* **Type-agnostic Design**: Works with dicts, dataclasses, any attributable objects
+* **Nested Path Support**: Handle complex data structures with dot notation
+* **Error Handling**: Comprehensive validation and clear error messages
+* **Extensible**: Clean inheritance hierarchy for custom field types
+
+## [0.1.0] -- May 27th, 2025
+* project initialized
