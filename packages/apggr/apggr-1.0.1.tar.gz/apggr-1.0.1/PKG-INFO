@@ -1,0 +1,53 @@
+Metadata-Version: 2.1
+Name: apggr
+Version: 1.0.1
+Summary: A package for the analysis of population genetics for genomic regions (APGGR) targeting bacterial species.
+Author-Email: Limbani Thengo <lthengo@gmail.com>
+Requires-Dist: biopython>=1.84
+Requires-Dist: matplotlib>=3.8.0
+Requires-Dist: numpy>=1.26.4
+Requires-Dist: pandas>=2.1.4
+Requires-Dist: scikit-learn>=1.5.2
+Description-Content-Type: text/markdown
+
+# **Analysis of Population Genetics for Genomic Region (APGGR)**
+
+A package with a set of modules for the analysis of population genetics of genomic regions targeting bacterial species
+
+## Installation
+
+pip install apggr
+
+## Usage
+
+Usage: apggr [--version\|--version-only] [--help] <command> <argument>
+
+### **Commands**
+
+cds
+
+cluster
+
+variant
+
+### **Arguments**
+
+--input-file
+
+-d
+
+--out
+
+--out-file
+
+--csv
+
+## Examples
+
+### BASH
+
+apggr cds -f '/path/to/annotation/file' –csv 'path/to/csv'
+
+### Python
+
+from apggr.cds import get_cds_features
