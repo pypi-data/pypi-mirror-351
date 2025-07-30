@@ -1,0 +1,116 @@
+[tool.poetry]
+name = "gmx-python-ng"
+version = "1.0.0"
+description = "A Python SDK for interacting with GMX"
+
+authors = [
+    "snipermonke01 <snipermonke01@proton.me>",
+    "alienf33t <alienf33t@yahoo.com>",
+    "aviksaikat <github.maturity983@passinbox.com>",
+    "Mikko Ohtamaa <mikko@tradingstrategy.ai>"
+]
+maintainers = [
+    "Mikko Ohtamaa <mikko@tradingstrategy.ai>",
+    "aviksaikat <github.maturity983@passinbox.com>"
+]
+
+repository = "https://github.com/tradingstrategy-ai/gmx-python-ng"
+
+readme = "README.md"
+license = "MIT"
+packages = [
+    { include = "gmx_python_sdk" },
+]
+
+
+[tool.poetry.group.dev.dependencies]
+dotenv = "^0.9.9"
+rich = "^14.0.0"
+
+[tool.setuptools.packages.find]
+include = ["gmx_python_sdk", "gmx_python_sdk.*"]
+namespaces = false
+
+[tool.poetry.dependencies]
+# this will break prjects with python > 3.10.x
+python = ">= 3.10, < 4"
+numpy = ">= 1.26.3"
+hexbytes = ">= 0.3.1"
+web3 = ">= 6.10.0"
+pyyaml = ">= 6.0.1"
+pandas = ">= 1.4.2"
+numerize = ">= 0.12"
+Packaging = ">= 24.1"
+ruff = "^0.11.6"
+
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "A",
+    "ARG",
+    "B",
+    "C",
+    "DTZ",
+    "E",
+    "EM",
+    "F",
+    "FBT",
+    "ICN",
+    "ISC",
+    "N",
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
+    "Q",
+    "RUF",
+    "S",
+    "T",
+    "TID",
+    "UP",
+    "W",
+    "YTT",
+]
+
+ignore = [
+    # Allow non-abstract empty methods in abstract base classes
+    "B027",
+    # Allow boolean positional values in function calls, like `dict.get(... True)`
+    "FBT003",
+    # Ignore checks for possible passwords
+    "S105",
+    "S106",
+    "S107",
+    # Ignore complexity
+    "C901",
+    "PLR0911",
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    "ISC001"
+]
+
+
+[tool.ruff.lint.per-file-ignores]
+# Tests can use magic values, assertions, and relative imports
+"tests/**/*" = ["PLR2004", "S101", "TID252", "PLR2004"]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# See PyPi for supported links https://github.com/pypi/warehouse/blob/main/warehouse/templates/packaging/detail.html
+# https://stackoverflow.com/a/74394591/315168
+# https://pypi.org/project/links-demo/
+[tool.poetry.urls]
+Changelog = "https://github.com/tradingstrategy-ai/web3-ethereum-defi/blob/master/CHANGELOG.md"
+Documentation = "https://web3-ethereum-defi.readthedocs.io/"
+Twitter = "https://twitter.com/tradingprotocol"
+Youtube = "https://www.youtube.com/@tradingstrategyprotocol"
+Discord = "https://discord.gg/5M88m9nM8H"
+Sponsor = "https://tradingstrategy.ai"
