@@ -1,0 +1,1 @@
+from .xdtelegram import xdSendMsg
