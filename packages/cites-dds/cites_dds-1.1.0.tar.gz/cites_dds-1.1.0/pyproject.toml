@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cites-dds"
+version = "1.1.0"
+authors = [
+  { name="Data Developer", email="info@sysnet.cz" },
+]
+description = "CITES DDS factory"
+readme = "README.md"
+license = { file="LICENSE.md" }
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Developers",
+    "License :: Free For Home Use",
+    "Natural Language :: Czech",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries"
+]
+dynamic = ["dependencies"]
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+
+[project.urls]
+"Homepage" = "https://github.com/SYSNET-CZ/cites/tree/citesdoc_2.0.0/dds"
+
+[tool.setuptools.package-dir]
+cites_dds = "cites_dds"
