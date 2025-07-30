@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: mcp-testcortexai
+Version: 0.2.0
+Summary: TestCortex AI is a specialized quality engineering tool built on top of the Goose AI platform
+Requires-Python: >=3.13.1
+Description-Content-Type: text/markdown
+Requires-Dist: beautifulsoup4>=4.12.3
+Requires-Dist: html2text>=2024.2.26
+Requires-Dist: mcp[cli]>=1.9.1
+Requires-Dist: requests>=2.32.3
+
+TestCortex AI is a specialized quality engineering tool built on top of the Goose AI platform, designed to streamline and automate testing workflows across enterprise systems. By integrating with tools like TestRail, Jira, Figma and Tax Butler, TestCortex AI empowers engineering and QA teams to author test cases, execute scenario-driven validations, and synchronize results — all through intelligent command-based interactions. Leveraging Goose’s reasoning engine, TestCortex AI brings contextual awareness, precision, and structure to your test ecosystem, making it an essential component of a scalable, intelligent QA strategy
