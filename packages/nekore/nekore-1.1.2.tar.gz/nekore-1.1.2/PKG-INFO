@@ -1,0 +1,21 @@
+Metadata-Version: 2.3
+Name: nekore
+Version: 1.1.2
+Summary: Create operating cost statements for apartment buildings.
+License: MIT
+Author: Starbat
+Author-email: 45294825+Starbat@users.noreply.github.com
+Requires-Python: >=3.13,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: fpdf2 (>=2.8.3,<3.0.0)
+Project-URL: Repository, https://github.com/Starbat/nekore
+Description-Content-Type: text/markdown
+
+# nekore
+
+Nekore is a library that can be used to create utility bills for apartment buildings. Nekore is being developed against the background of German regulations. It is therefore probably only of limited use for other countries.
+
+The [example](./example/) shows how nekore can be used in your own scripts.
+
