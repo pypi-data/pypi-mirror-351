@@ -1,0 +1,95 @@
+[build-system]
+requires = [
+    "numpy",
+    "pandas",
+    "xarray",
+    "rioxarray",
+    "pystac",
+    "rio-stac",
+    "boto3",
+    "botocore",
+    "openeo[localprocessing]",
+    "fsspec",
+    "ujson",
+    "rio-cogeo",
+    "setuptools>=61.0",
+    "dask"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["raster2stac"]
+
+[project]
+name = "raster2stac"
+version = "0.0.8"
+dependencies = [
+    "kerchunk",
+    "openeo-pg-parser-networkx",
+    "openeo-processes-dask[implementations]",
+    "rio-stac",
+    "boto3",
+    "netcdf4==1.6.5",
+    "h5netcdf",
+    "h5py",
+    "ujson",
+    "openeo",
+    "pydantic"
+]
+authors = [
+    { name = "Michele Claus", email = "michele.claus@eurac.edu" },
+    { name = "Lorenzo Mercurio", email = "lorenzo.mercurio@eurac.edu" },
+    { name = "Rufai Omowunmi Balogun", email = "rbalogun@eurac.edu" },
+    { name = "Suriyah Dhinakaran", email = "sdhinakaran@eurac.edu"},
+]
+description = "Create valid STAC Collections, Items and Assets given already existing raster datasets"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Information Analysis"
+]
+keywords = ["STAC", "Metadata", "Cloud-Optimized GeoTIFFs", "Kerchunk", "NetCDF"]
+
+[project.optional-dependencies]
+dev = ["isort", "ruff"]
+
+[project.urls]
+Homepage = "https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac"
+Issues = "https://gitlab.inf.unibz.it/earth_observation_public/raster-to-stac/-/issues"
+
+[tool.isort]
+sections = [
+    "FUTURE", 
+    "STDLIB",
+    "THIRDPARTY",
+    "FIRSTPARTY",
+    "LOCALFOLDER"
+]
+
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | \.conda
+  | \.cache
+  | empty_conda_pkgs_dir
+  | site-packages
+)/
+'''
