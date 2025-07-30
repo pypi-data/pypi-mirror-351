@@ -1,0 +1,194 @@
+Metadata-Version: 2.4
+Name: drvi-py
+Version: 0.1.7
+Summary: Unsupervised Deep Disentangled Representation of Single-Cell Omics
+Project-URL: Documentation, https://drvi.readthedocs.io/
+Project-URL: Home-page, https://github.com/theislab/drvi
+Project-URL: Source, https://github.com/theislab/drvi
+Author: Amir Ali Moinfar
+Maintainer-email: Amir Ali Moinfar <moinfar.amirali@gmail.com>
+License: BSD 3-Clause License
+        
+        Copyright (c) 2024, Amir Ali Moinfar, Fabian J. Theis
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+        1. Redistributions of source code must retain the above copyright notice, this
+           list of conditions and the following disclaimer.
+        
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        
+        3. Neither the name of the copyright holder nor the names of its
+           contributors may be used to endorse or promote products derived from
+           this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: <3.13,>=3.10
+Requires-Dist: anndata<0.11,>=0.10.2
+Requires-Dist: jax<=0.4.20
+Requires-Dist: jaxlib<=0.4.20
+Requires-Dist: lightning<2.1,>=2.0
+Requires-Dist: numpy>=1.16.1
+Requires-Dist: pandas>=1.2.0
+Requires-Dist: scanpy==1.9.5
+Requires-Dist: scikit-learn>=1.5.1
+Requires-Dist: scipy<1.13,>=1.11.3
+Requires-Dist: scvi-tools==1.0.4
+Requires-Dist: session-info
+Requires-Dist: torch<2.4,>=2.1.0
+Requires-Dist: urllib3<2
+Provides-Extra: dev
+Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: twine>=4.0.2; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: docutils!=0.18.*,!=0.19.*,>=0.8; extra == 'doc'
+Requires-Dist: ipykernel; extra == 'doc'
+Requires-Dist: ipython; extra == 'doc'
+Requires-Dist: merlin-dataloader==23.8.0; extra == 'doc'
+Requires-Dist: myst-nb>=1.1.0; extra == 'doc'
+Requires-Dist: pandas; extra == 'doc'
+Requires-Dist: setuptools; extra == 'doc'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'doc'
+Requires-Dist: sphinx-book-theme>=1.0.0; extra == 'doc'
+Requires-Dist: sphinx-copybutton; extra == 'doc'
+Requires-Dist: sphinx-tabs; extra == 'doc'
+Requires-Dist: sphinx>=4; extra == 'doc'
+Requires-Dist: sphinxcontrib-bibtex>=1.0.0; extra == 'doc'
+Requires-Dist: sphinxext-opengraph; extra == 'doc'
+Provides-Extra: merlin
+Requires-Dist: merlin-dataloader==23.8.0; extra == 'merlin'
+Provides-Extra: test
+Requires-Dist: coverage; extra == 'test'
+Requires-Dist: pytest; extra == 'test'
+Provides-Extra: tutorials
+Requires-Dist: gprofiler-official==0.3.5; extra == 'tutorials'
+Requires-Dist: leidenalg; extra == 'tutorials'
+Description-Content-Type: text/markdown
+
+# DRVI
+
+[![Build][badge-build]][link-build]
+[![Tests][badge-tests]][link-tests]
+[![Documentation][badge-docs]][link-docs]
+[![Python Version][badge-pyver]][link-pypi]
+
+[badge-build]: https://github.com/theislab/drvi/actions/workflows/build.yaml/badge.svg
+[badge-tests]: https://github.com/theislab/drvi/actions/workflows/test.yaml/badge.svg
+[link-build]: https://github.com/theislab/drvi/actions/workflows/build.yaml
+[link-tests]: https://github.com/theislab/drvi/actions/workflows/test.yaml
+[badge-docs]: https://img.shields.io/readthedocs/drvi/latest.svg?label=Read%20the%20Docs
+[badge-pyver]: https://img.shields.io/pypi/pyversions/drvi-py
+
+Unsupervised Deep Disentangled Representation of Single-Cell Omics
+
+<h1 align="center">
+    <picture>
+        <source srcset="https://raw.githubusercontent.com/theislab/DRVI/main/.github/misc/concept.svg">
+        <img width="800" src="https://raw.githubusercontent.com/theislab/DRVI/main/.github/misc/concept.svg" alt="DRVI concept">
+    </picture>
+</h1>
+
+## Getting started
+
+Please refer to the [documentation][link-docs]. In particular, the
+
+- [Tutorials][link-tutorials], specially
+    - [A demo](https://drvi.readthedocs.io/latest/tutorials/external/general_pipeline.html) of how to train DRVI and interpret the latent dimensions.
+- [API documentation][link-api], specially
+    - [DRVI Model](https://drvi.readthedocs.io/latest/api/generated/drvi.model.DRVI.html)
+    - [DRVI utility functions (tools)](https://drvi.readthedocs.io/latest/api/tools.html)
+    - [DRVI plotting functions](https://drvi.readthedocs.io/latest/api/plotting.html)
+
+## System requirements
+
+We recommend running DRVI on a recent Linux distribution.
+DRVI is actively tested on the latest LTS version of Ubuntu (currently 24.04 LTS).
+
+[//]: # "TODO: remove ubuntu version later"
+
+For optimal performance, we highly recommend using a GPU with CUDA capabilities.
+While CPU-based systems are supported, GPU-powered systems are strongly recommended for optimal performance.
+
+## Installation
+
+You need to have Python 3.10, 3.11, or 3.12 installed on your system. If you don't have
+Python installed, we recommend installing [Mambaforge](https://github.com/conda-forge/miniforge#mambaforge).
+
+There are several options to install drvi:
+
+[//]: # "TODO: remove install time!"
+
+1. Install the latest release of `drvi-py` from [PyPI][link-pypi], which should take around two minutes:
+
+```bash
+pip install drvi-py
+```
+
+1. Install the latest development version:
+
+```bash
+pip install git+https://github.com/theislab/drvi.git@main
+```
+
+Please be sure to install a version of [PyTorch][pytorch-home] that is compatible with your GPU.
+Dependencies are installed automatically, please take a look at the versions for different dependencies in `pyproject.toml` if needed.
+
+[pytorch-home]: https://pytorch.org/
+
+## Release notes
+
+See the [changelog][changelog].
+
+## Contact
+
+[//]: # "TODO: make clear where to ask questions:"
+[//]: # "For questions and help requests, you can reach out in the [scverse discourse][scverse-discourse]."
+
+If you found a bug, please use the [issue tracker][issue-tracker].
+
+## Citation
+
+If DRVI is helpful in your research, please consider citing the following paper:
+
+> Moinfar, A. A. & Theis, F. J.
+> **Unsupervised deep disentangled representation of single-cell omics.**
+> bioRxiv 2024.11.06.622266 (2024) [doi:10.1101/2024.11.06.622266](https://doi.org/10.1101/2024.11.06.622266).
+
+## Reproducibility
+
+Code, notebooks, and instructions to reproduce the results from the paper are available at the [reproducibility repository][repr-repo].
+
+[repr-repo]: https://github.com/theislab/drvi_reproducibility
+[issue-tracker]: https://github.com/theislab/drvi/issues
+[changelog]: https://drvi.readthedocs.io/latest/changelog.html
+[link-docs]: https://drvi.readthedocs.io
+[link-api]: https://drvi.readthedocs.io
+[link-tutorials]: https://drvi.readthedocs.io/latest/tutorials/index.html
+[link-pypi]: https://pypi.org/project/drvi-py

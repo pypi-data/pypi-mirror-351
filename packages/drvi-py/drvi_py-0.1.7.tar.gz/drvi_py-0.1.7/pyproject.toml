@@ -1,0 +1,189 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[project]
+name = "drvi-py"
+version = "0.1.7"
+description = "Unsupervised Deep Disentangled Representation of Single-Cell Omics"
+readme = "README.md"
+license = { file = "LICENSE" }
+maintainers = [
+    {name = "Amir Ali Moinfar", email = "moinfar.amirali@gmail.com"},
+]
+authors = [
+    {name = "Amir Ali Moinfar"},
+]
+requires-python = ">=3.10,<3.13"
+
+# PyPI classifiers
+classifiers = [
+    "License :: OSI Approved :: BSD License",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+# Please make an issue if you need wider range of versions
+dependencies = [
+    "torch>=2.1.0,<2.4",
+    "lightning>=2.0,<2.1",
+    "scanpy==1.9.5",
+    "scikit-learn>=1.5.1",
+    "scipy>=1.11.3,<1.13",
+    "scvi-tools==1.0.4",
+    ## TODO: Remove when scvi-tools and jax become ok again
+    "jax<=0.4.20",
+    "jaxlib<=0.4.20",
+    ## END_TODO
+    "anndata>=0.10.2,<0.11",
+    "numpy>=1.16.1",  # for np.linspace
+    "pandas>=1.2.0",
+    ## TODO: update this when this is resolved: https://github.com/boto/botocore/issues/2926
+    # lightning-cloud depends on boto3 that is currently not compatible with urllib3 so resolution takes forever
+    "urllib3<2",
+    ## END_TODO
+    # for debug logging (referenced from the issue template)
+    "session-info",
+]
+optional-dependencies.dev = [
+    "pre-commit",
+    "twine>=4.0.2",
+]
+optional-dependencies.doc = [
+    # Disable for now as nvidia servers return 404
+    "merlin-dataloader==23.8.0",
+    "docutils>=0.8,!=0.18.*,!=0.19.*",
+    "sphinx>=4",
+    "sphinx-book-theme>=1.0.0",
+    "myst-nb>=1.1.0",
+    "sphinxcontrib-bibtex>=1.0.0",
+    "setuptools",  # Until pybtex >0.23.0 releases: https://bitbucket.org/pybtex-devs/pybtex/issues/169/
+    "sphinx-autodoc-typehints",
+    "sphinxext-opengraph",
+    # For notebooks
+    "ipykernel",
+    "ipython",
+    "sphinx-copybutton",
+    "sphinx-tabs",
+    "pandas",
+]
+optional-dependencies.test = [
+    "pytest",
+    "coverage",
+]
+optional-dependencies.tutorials = [
+    "leidenalg",
+    "gprofiler-official==0.3.5",
+]
+optional-dependencies.merlin = [
+    "merlin-dataloader==23.8.0",
+]
+
+urls.Documentation = "https://drvi.readthedocs.io/"
+urls.Home-page = "https://github.com/theislab/drvi"
+urls.Source = "https://github.com/theislab/drvi"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/drvi"]
+
+[tool.hatch.envs.default]
+installer = "uv"
+features = [ "dev" ]
+
+[tool.hatch.envs.docs]
+features = [ "doc" ]
+scripts.build = "sphinx-build -M html docs docs/_build --keep-going {args}"
+scripts.open = "python -m webbrowser -t docs/_build/html/index.html"
+scripts.clean = "git clean -fdX -- {args:docs}"
+
+# Test the lowest and highest supported Python versions with normal deps
+[[tool.hatch.envs.hatch-test.matrix]]
+deps = [ "stable" ]
+python = [ "3.10", "3.12" ]
+
+# Test the newest supported Python version also with pre-release deps
+[[tool.hatch.envs.hatch-test.matrix]]
+deps = [ "pre" ]
+python = [ "3.12" ]
+
+[tool.hatch.envs.hatch-test]
+features = [ "test" ]
+
+[tool.ruff]
+line-length = 120
+src = ["src"]
+extend-include = ["*.ipynb"]
+
+format.docstring-code-format = true
+
+lint.select = [
+  "B",      # flake8-bugbear
+  "BLE",    # flake8-blind-except
+  "C4",     # flake8-comprehensions
+  "D",      # pydocstyle
+  "E",      # Error detected by Pycodestyle
+  "F",      # Errors detected by Pyflakes
+  "I",      # isort
+  "RUF100", # Report unused noqa directives
+  "TID",    # flake8-tidy-imports
+  "UP",     # pyupgrade
+  "W",      # Warning detected by Pycodestyle
+]
+lint.ignore = [
+  "B008", # Errors from function calls in argument defaults. These are fine when the result is immutable.
+  "D100", # Missing docstring in public module
+  "D104", # Missing docstring in public package
+  "D105", # __magic__ methods are often self-explanatory, allow missing docstrings
+  "D107", # Missing docstring in __init__
+  # Disable one in each pair of mutually incompatible rules
+  "D203", # We don’t want a blank line before a class docstring
+  "D213", # <> We want docstrings to start immediately after the opening triple quote
+  "D400", # first line should end with a period [Bug: doesn’t work with single-line docstrings]
+  "D401", # First line should be in imperative mood; try rephrasing
+  "E501", # line too long -> we accept long comment lines; formatter gets rid of long code lines
+  "E731", # Do not assign a lambda expression, use a def -> lambda expression assignments are convenient
+  "E741", # allow I, O, l as variable names -> I is the identity matrix    "D101",
+    # For now skip missing docstrings for public classes, methods, and functions. TODO: remove this
+    "D101",
+    "D102",
+    "D103",
+]
+lint.per-file-ignores."*/__init__.py" = [ "F401" ]
+lint.per-file-ignores."docs/*" = [ "I" ]
+lint.per-file-ignores."tests/*" = [ "D" ]
+lint.pydocstyle.convention = "numpy"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+xfail_strict = true
+addopts = [
+    "--import-mode=importlib",  # allow using test files with same name
+]
+
+[tool.coverage.run]
+source = ["drvi"]
+omit = [
+  "**/test_*.py",
+]
+
+[tool.cruft]
+skip = [
+    "tests",
+    "src/**/__init__.py",
+    "src/**/basic.py",
+    "docs/api.md",
+    "docs/changelog.md",
+    "docs/references.bib",
+    "docs/references.md",
+    "docs/notebooks/example.ipynb",
+]
