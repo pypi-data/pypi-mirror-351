@@ -1,0 +1,7 @@
+# ─── section header ──────────────────────────────────────────────────── ✦✦ ──
+
+    # ─── indented section header ─────────────────────────────────────────────
+
+        # ─── further indented section header ─────────────────────────────────
+
+            # ─── even further indented section header ────────────────────────
