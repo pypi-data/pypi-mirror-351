@@ -1,0 +1,16 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+uv.lock
+LICENSE
+MANIFEST.in
+PYPI_RELEASE_GUIDE.md
+UVX_USAGE_GUIDE.md
