@@ -1,0 +1,167 @@
+Metadata-Version: 2.4
+Name: cm-jupyter-widget
+Version: 0.3.7
+Summary: CleverMaps Marimo Widget - A widget for embedding CleverMaps visualizations in Marimo notebooks.
+Author-email: Karel Psota <karel.psota@clevermaps.io>
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Dist: anywidget
+Requires-Dist: traitlets>=5.0.0
+Project-URL: Homepage, https://github.com/clevermaps/cm-jupyter-widget
+
+# CleverMaps Jupyter Widget
+
+A Jupyter widget for embedding and interacting with CleverMaps visualizations in Jupyter notebooks.
+
+## Installation
+
+You can install the package using pip:
+
+```bash
+pip install clevermaps-jupyter-widget
+```
+
+## Requirements
+
+- Python >= 3.9
+- Jupyter notebook or JupyterLab
+- anywidget
+
+## Usage
+
+### Basic Usage
+
+```python
+from cm_jupyter_widget.widget import CleverMapsWidget
+
+# Create a widget with a view URL
+widget = CleverMapsWidget(view_url="https://your-view-url")
+
+# Display the widget
+widget
+```
+
+### Advanced Usage with Options
+
+```python
+# Create a widget with custom options
+widget = CleverMapsWidget(
+    view_url="https://your-view-url",
+    options='''{
+        "componentSettings": {
+            "infoBox": {
+                "defaultExpanded": false
+            },
+            "tools": {
+                "search": false
+            }
+        },
+        "theme": {
+            "colorPrimary": "#0055ff"
+        },
+        "interactivity": {
+            "afterClick": false
+        },
+        "fullScreenButton": {
+            "enabled": false
+        },
+        "studioLinkButton": {
+            "enabled": false
+        }
+    }'''
+)
+```
+
+## API Reference
+
+### Widget Properties
+
+- `view_url` (required): The URL of the CleverMaps view to display
+- `base_url` (optional): The base URL for CleverMaps API (defaults to 'https://secure.clevermaps.io/')
+- `options` (optional): A JSON string containing configuration options for the widget
+- `width` (optional): The width of the widget (e.g. '100%', '500px', '1000px')
+- `height` (optional): The height of the widget (e.g. '100%', '500px', '1000px')    
+- `add_filter_callback` (optional): A Python function that will be called when a filter is added. The function will be called without any arguments.
+
+### Methods
+
+#### `toggle_fit_all()`
+Fits all features in the current view.
+
+#### `add_filter(definition_id: str, values: Dict[str, Any], instance_id: str)`
+Adds a new filter to the view.
+
+Parameters:
+- `definition_id`: The ID of the filter definition
+- `values`: Filter values (format depends on filter type)
+- `instance_id`: The instance ID of the filter
+
+Filter value formats:
+- MultiSelect: `{"values": ["Male", 1, null]}`
+- SingleSelect: `{"value": "selected_value"}` or `{"value": null}`
+- Feature: `{"values": ["feature1", 1]}` or `{"values": null}`
+- Histogram: `{"values": [1, 10], "nullFiltered": true}` or `{"values": [null, null]}`
+- Date: `{"startDate": {"value": "2023-01-01"}, "endDate": {"value": "2023-12-31"}}`
+- Indicator: `{"values": [min, max], "granularity": "year"}`
+
+#### `set_filter(instance_id: str, value)`
+Sets the value of an existing filter.
+
+Parameters:
+- `instance_id`: The instance ID of the filter to set
+- `value`: The new filter value
+
+#### `remove_filter(instance_id: str)`
+Removes a filter from the view.
+
+Parameters:
+- `instance_id`: The instance ID of the filter to remove
+
+#### `reset_filter(instance_id: str)`
+Resets a filter to its default state.
+
+Parameters:
+- `instance_id`: The instance ID of the filter to reset
+
+#### `set_state(view_url: str)`
+Loads a new view URL.
+
+Parameters:
+- `view_url`: The URL of the view to load
+
+#### `open_bookmark_modal()`
+Opens the bookmark modal dialog.
+
+#### `open_export_modal()`
+Opens the export modal dialog.
+
+## Examples
+
+### Using Filter Callbacks
+
+```python
+def on_filter_added():
+    print("A filter was added")
+    # Handle the filter addition event
+
+widget = CleverMapsWidget(view_url="your-view-url")
+widget.add_filter_callback = on_filter_added
+```
+
+Check out the example notebook in the repository:
+- `sdk-test.ipynb`: Advanced usage and testing examples
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Author
+
+Karel Psota (karel.psota@clevermaps.io)
