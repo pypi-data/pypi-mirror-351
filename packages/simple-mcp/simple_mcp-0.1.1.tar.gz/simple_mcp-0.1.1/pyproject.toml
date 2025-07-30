@@ -1,0 +1,26 @@
+[project]
+name = "simple-mcp"
+version = "0.1.1"
+description = "A simple demonstration of the Model Context Protocol (MCP) implementation"
+readme = "README.md"
+authors = [
+    { name = "Arunkumar Selvam", email = "arunkse@amazon.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "build>=1.2.2.post1",
+    "mcp[cli]>=1.9.2",
+    "twine>=6.1.0",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+simple-mcp = "simple_mcp:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
