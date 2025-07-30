@@ -1,0 +1,5 @@
+cffi>=1.15.0
+
+[dev]
+pytest>=7.0.0
+pytest-benchmark>=4.0.0
