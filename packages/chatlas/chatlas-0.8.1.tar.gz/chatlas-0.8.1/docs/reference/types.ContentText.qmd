@@ -1,0 +1,7 @@
+# types.ContentText { #chatlas.types.ContentText }
+
+```python
+types.ContentText(self, text)
+```
+
+Text content for a [](`~chatlas.Turn`)
