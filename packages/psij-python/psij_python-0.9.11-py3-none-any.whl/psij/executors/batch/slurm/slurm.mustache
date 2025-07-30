@@ -1,0 +1,123 @@
+#!/bin/bash
+
+
+{{#job.name}}
+#SBATCH --job-name="{{.}}"
+{{/job.name}}
+
+{{#job.spec.directory}}
+#SBATCH --chdir="{{.}}"
+{{/job.spec.directory}}
+
+{{#job.spec.resources}}
+    {{#exclusive_node_use}}
+#SBATCH --exclusive
+    {{/exclusive_node_use}}
+
+    {{#computed_node_count}}
+#SBATCH --nodes={{.}}
+    {{/computed_node_count}}
+
+    {{#computed_process_count}}
+#SBATCH --ntasks={{.}}
+    {{/computed_process_count}}
+
+    {{#computed_processes_per_node}}
+#SBATCH --ntasks-per-node={{.}}
+    {{/computed_processes_per_node}}
+
+    {{#gpu_cores_per_process}}
+#SBATCH --gpus-per-task={{.}}
+    {{/gpu_cores_per_process}}
+
+    {{#cpu_cores_per_process}}
+        {{!SLURM has different meanings for 'CPU', depending on the exact allocation plugin being
+        used. The default plugin uses the literal meaning for 'CPU' - physical processor. The
+        consumable resource allocation plugin, on the other hand, equates 'CPU' to a thread (if
+        hyperthreaded CPUs are used) or CPU core (for non-hyperthreaded CPUs).}}
+#SBATCH --cpus-per-task={{.}}
+    {{/cpu_cores_per_process}}
+
+    {{#memory}}
+#SBATCH --mem={{memory_kb}}K
+    {{/memory}}
+{{/job.spec.resources}}
+
+{{#formatted_job_duration}}
+#SBATCH --time={{.}}
+{{/formatted_job_duration}}
+
+{{#job.spec.attributes}}
+    {{#queue_name}}
+#SBATCH --partition="{{.}}"
+    {{/queue_name}}
+
+    {{#account}}
+#SBATCH --account="{{.}}"
+    {{/account}}
+
+    {{#reservation_id}}
+#SBATCH --reservation="{{.}}"
+    {{/reservation_id}}
+{{/job.spec.attributes}}
+
+{{#custom_attributes}}
+    {{#slurm}}
+#SBATCH --{{key}}="{{value}}"
+    {{/slurm}}
+{{/custom_attributes}}
+
+{{!since we redirect the output manually, below, tell slurm not to do its own thing, since it
+only results in empty files that are not cleaned up}}
+#SBATCH -e /dev/null
+#SBATCH -o /dev/null
+
+{{#job.spec.inherit_environment}}
+#SBATCH --export=ALL
+{{/job.spec.inherit_environment}}
+{{^job.spec.inherit_environment}}
+#SBATCH --export=NONE
+{{/job.spec.inherit_environment}}
+
+{{#env}}
+export {{name}}={{value}}
+{{/env}}
+
+{{#job.spec.resources}}
+    {{#process_count}}
+_PSIJ_PC={{.}}
+    {{/process_count}}
+    {{#processes_per_node}}
+_PSIJ_PPN={{.}}
+    {{/processes_per_node}}
+{{/job.spec.resources}}
+
+_PSIJ_NC=`scontrol show hostnames | wc -l`
+
+{{!Unlike PBS, Slurm only lists the nodes once in the nodelist, so, to bring it to uniform PBS
+form, we need to duplicate each node line by PPN, which we need to calculate}}
+if [ "$_PSIJ_PPN" == "" ]; then
+    if [ "$_PSIJ_NC" != "" ] && [ "$_PSIJ_PC" != "" ]; then
+        _PSIJ_PPN=$((_PSIJ_PC/_PSIJ_NC))
+    fi
+fi
+
+PSIJ_NODEFILE="{{psij.script_dir}}/$SLURM_JOB_ID.nodefile"
+if [ "$_PSIJ_PPN" == "" ]; then
+    scontrol show hostnames >"$PSIJ_NODEFILE"
+else
+    scontrol show hostnames | while read NODE; do for _ in $(seq 1 1 $_PSIJ_PPN); do echo "$NODE"; done; done > "$PSIJ_NODEFILE"
+fi
+export PSIJ_NODEFILE
+
+
+
+{{!redirect output here instead of through #SBATCH directive since SLURM_JOB_ID is not available
+when the directives are evaluated; the reason for using the job id in the first place being the
+same as for the exit code file.}}
+exec &>> "{{psij.script_dir}}/$SLURM_JOB_ID.out"
+
+{{#psij.launch_command}}{{.}} {{/psij.launch_command}}
+
+{{!we redirect to a file tied to the native ID so that we can reach the file with attach().}}
+echo "$?" > "{{psij.script_dir}}/$SLURM_JOB_ID.ec"
