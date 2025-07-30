@@ -1,0 +1,16 @@
+LICENCE.txt
+README.md
+setup.py
+cleanscript/__init__.py
+cleanscript/cli.py
+cleanscript/gpt_commenter.py
+cleanscript/optimizer.py
+cleanscript/utils.py
+cleanscript.egg-info/PKG-INFO
+cleanscript.egg-info/SOURCES.txt
+cleanscript.egg-info/dependency_links.txt
+cleanscript.egg-info/entry_points.txt
+cleanscript.egg-info/requires.txt
+cleanscript.egg-info/top_level.txt
+tests/test_cli.py
+tests/test_optimizer.py
