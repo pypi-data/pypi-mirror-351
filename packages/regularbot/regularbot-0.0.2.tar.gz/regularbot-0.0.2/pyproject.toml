@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "regularbot"
+version = "0.0.2"
+authors = [{ name = "Berk Karaal", email = "iletisim.berkkaraal@gmail.com" }]
+description = "Regularbot Python Package"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://regularbot.com"
+Documentation = "https://docs.regularbot.com"
