@@ -1,0 +1,21 @@
+[build-system]
+requires = ["maturin>=1.4,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "py_ark_vrf"
+version = "0.1.2"
+description = "Python bindings for ark-vrf"
+authors = [
+    { name = "Prasad", email = "prasad@chainscore.finance" },
+]
+dependencies = []
+requires-python = ">=3.8"
+
+[project.urls]
+"Homepage" = "https://github.com/chainscore/py-ark-vrf"
+"Bug Tracker" = "https://github.com/chainscore/py-ark-vrf/issues"
+
+[tool.maturin]
+module-name = "py_ark_vrf"
+include = ["bandersnatch_ring.srs"]
