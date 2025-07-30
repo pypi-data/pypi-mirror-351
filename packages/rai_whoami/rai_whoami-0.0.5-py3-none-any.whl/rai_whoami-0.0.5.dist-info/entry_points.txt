@@ -1,0 +1,4 @@
+[console_scripts]
+build-whoami=rai_whoami.build_whoami:main
+initialize-docs=rai_whoami.initialize_docs_directory:main
+
