@@ -1,0 +1,22 @@
+Metadata-Version: 2.3
+Name: langraph_api
+Version: 0.1.1
+Summary: LangGraph Azure Function Agents
+Author: Example
+Author-email: example@example.com
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: azure-functions
+Requires-Dist: dacite
+Requires-Dist: langchain
+Requires-Dist: langchain-core
+Requires-Dist: langchain_community
+Requires-Dist: langgraph
+Requires-Dist: openai-agents
+Requires-Dist: openapi-schema-pydantic
+Requires-Dist: pydantic
+Requires-Dist: requests
