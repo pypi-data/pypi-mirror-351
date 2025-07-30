@@ -1,0 +1,72 @@
+include:
+  - project: "cdos-pub/pycode-quality"
+    ref: "main"
+    file:
+      - ".gitlab/ci/static-analysis.yml"
+      - ".gitlab/ci/doc.yml"
+      - ".gitlab/ci/docker-compose-tests.yml"
+      - ".gitlab/ci/pip.yml"
+
+default:
+  tags:
+    - armageddon
+   
+variables:
+  PYTHON_IMG: python:3.12-slim
+  PACKAGE_INSTALL_EXTRAS: "[test,upload]"
+  PIP_PACKAGE_URL: "https://upload.pypi.org/legacy/"
+  TWINE_USERNAME: __token__
+  TWINE_PASSWORD: ${PYPI_TOKEN}
+  DOCKER_COMPOSE_CHDIR: "tests"
+
+  DOC_BUILD_SELF: true
+
+stages:
+  - Docker compose tests
+  - Test
+  - Static Analysis
+  - Documentation
+  - Pip
+
+.static_analysis_base:
+  allow_failure: false
+
+Tests with docker compose:
+  except: [tags]
+  script:
+    - if [ "${CI_COMMIT_REF_NAME}" != "main" ]; then export SKIP_AUTH_LINK=ON; fi
+    - docker compose up --abort-on-container-exit --exit-code-from tests
+  artifacts:
+    paths:
+      - .coverage
+      - report.xml
+    when: always
+    reports:
+      junit: report.xml
+
+
+Code coverage:
+  except: [tags]
+  stage: Static Analysis
+  coverage: '/^TOTAL.+?(\d+\%)$/'
+  image: python:3.10-slim
+  script:
+    - ls -lha
+    - mkdir /app
+    - cp -r . /app
+    - pip install coverage
+    - coverage report
+    - coverage xml
+    - coverage html
+    - ls -lha
+  needs:
+    - Tests with docker compose
+  artifacts:
+    paths:
+      - htmlcov/
+      - coverage.xml
+    when: always
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
