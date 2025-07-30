@@ -1,0 +1,45 @@
+Metadata-Version: 2.1
+Name: kkrobots
+Version: 1.0.0
+Summary: kkrobots安全爬虫守护者
+Author: Kuizi
+Author-email: 123751307@qq.com
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+
+## 关于这个项目
+
+**kkrobots** 是一款保证安全爬虫的工具，在爬取任何请求前调用 **Parse** 对象的 **can_crawl()** 方法即可判断是否符合 **robots.txt** 协议。
+
+## 使用流程
+使用流程非常简单，在每次爬虫前调用即可：
+```python
+from kkrobots import Parse
+
+if __name__ == '__main__':
+    parse = Parse(
+        user_agent='your spider',
+        # 该站点任意链接即可
+        test_url='https://xxxx.com/xxx/xxx/xxx'
+    )
+
+    can_crawl = parse.can_crawl('https://xxxx.com/xxx/xxx')
+
+    # 下方执行你的爬虫逻辑
+    if can_crawl:
+        pass
+
+```
+
+## 关于作者
+微信公众号：Python卡皮巴拉
+
+🌟【Python卡皮巴拉】—— 你的Python修炼秘籍，代码界的“神兽”驾到！🌟
