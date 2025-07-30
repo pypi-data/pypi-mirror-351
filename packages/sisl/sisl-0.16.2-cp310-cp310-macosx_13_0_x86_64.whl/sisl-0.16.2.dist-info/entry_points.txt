@@ -1,0 +1,6 @@
+[console_scripts]
+sgeom = sisl._core.geometry:sgeom
+sgrid = sisl._core.grid:sgrid
+sdata = sisl.utils._sisl_cmd:sisl_cmd
+stoolbox = sisl_toolbox.cli:stoolbox_cli
+
