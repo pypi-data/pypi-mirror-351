@@ -1,0 +1,21 @@
+[project]
+name = "statemachines_orchestrator"
+version = "0.0.2"
+
+description = "An extension of `python-statemachine` with linking between machines."
+requires-python = ">=3.11"
+
+dependencies = [
+    "python-statemachine == 2.5.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff == 0.11.12",
+    "pre-commit == 4.2.0",
+    "mypy == 1.16.0",
+    "pytest == 8.3.5",
+    "pytest-cov == 6.1.1",
+]
+
+[tool.mypy]
