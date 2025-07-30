@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: aind-metadata-mcp
+Version: 0.2.5
+Summary: MCP server for AIND metadata
+Author: Allen Institute for Neural Dynamics
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aind-data-access-api
+Requires-Dist: mcp>=1.8.1
+Requires-Dist: langchain-core>=0.3.60
+Requires-Dist: pydantic>=2.11.4
+Requires-Dist: langchain-huggingface>=0.2.0
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: coverage; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: interrogate; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: Sphinx; extra == "dev"
+Requires-Dist: furo; extra == "dev"
+Dynamic: license-file
+
+# AIND Metadata access MCP server
+
+[![License](https://img.shields.io/badge/license-MIT-brightgreen)](LICENSE)
+![Code Style](https://img.shields.io/badge/code%20style-black-black)
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+![Interrogate](https://img.shields.io/badge/interrogate-94.4%25-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?logo=codecov)
+![Python](https://img.shields.io/badge/python->=3.11-blue?logo=python)
+
+## Instructions for use in MCP clients
+
+JSON Config files to add MCP servers in clients should be structured like this
+```bash
+{
+    "mcpServers": {
+
+    }
+}
+```
+Insert the following lines into the mcpServers dictionary
+```bash
+
+"aind_data_access": {
+    "command": "uvx",
+    "args": ["aind-metadata-mcp"]
+}
+
+```
+
+### Claude Desktop App
+- Click the three lines at the top left of the screen.
+- File > Settings > Developer > Edit config
+
+### Cline in VSCode
+- Ensure that Cline is downloaded to VScode
+- Click the three stacked rectangles at the top right of the Cline window
+- Installed > Configure MCP Servers
+
