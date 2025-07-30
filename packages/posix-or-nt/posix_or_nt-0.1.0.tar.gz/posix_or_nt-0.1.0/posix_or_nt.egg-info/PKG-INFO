@@ -1,0 +1,47 @@
+Metadata-Version: 2.4
+Name: posix-or-nt
+Version: 0.1.0
+Summary: Determine whether the current Python interpreter is running on a POSIX-like or Windows NT platform---even when `os.name` is `java` (Jython).
+Author-email: Jifeng Wu <jifengwu2k@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/jifengwu2k/posix-or-nt
+Project-URL: Bug Tracker, https://github.com/jifengwu2k/posix-or-nt/issues
+Classifier: Programming Language :: Python
+Classifier: Operating System :: OS Independent
+Requires-Python: >=2
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# posix-or-nt
+
+Determine whether the current Python interpreter is running on a POSIX-like or Windows NT platform---even when `os.name` is `java` (Jython).
+
+## Features
+
+-   Single import: `from posix_or_nt import get_os_flavor`
+-   Returns `'posix'` or `'nt'` across CPython, PyPy, and Jython.
+-   Supports Python 2+
+-   Zero dependencies
+
+## Installation
+
+```
+pip install posix-or-nt
+```
+
+## Quickstart
+
+```
+>>> from posix_or_nt import get_os_flavor
+>>> get_os_flavor()
+'posix'   # or 'nt'
+```
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements.
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for more information.
