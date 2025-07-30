@@ -1,0 +1,72 @@
+Metadata-Version: 2.4
+Name: the_utils
+Version: 0.9.0
+Project-URL: Homepage, https://github.com/galogm/the_utils
+Project-URL: Bug Tracker, https://github.com/galogm/the_utils/issues
+Author-email: "galo.gm" <galo.gm.work@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2023-present Author
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: 
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Requires-Dist: matplotlib
+Requires-Dist: munkres>=1.1.4
+Requires-Dist: pytz>=2023.3.post1
+Requires-Dist: scikit-learn
+Requires-Dist: texttable>=1.6
+Requires-Dist: torch>=1.12
+Requires-Dist: torchaudio>=0.10.2
+Requires-Dist: torchvision>=0.11.3
+Description-Content-Type: text/markdown
+
+# The Utils
+
+<div align="center">
+
+[![PYPI](https://img.shields.io/pypi/v/the_utils?style=flat)](https://pypi.org/project/the_utils/)  [![Latest Release](https://img.shields.io/github/v/tag/galogm/the_utils)](https://github.com/galogm/the_utils/tags)
+
+</div>
+
+## Installation
+
+- python>=3.8
+- torch>=1.12
+
+## Usage
+See [the_utils_docs](https://galogm.github.io/the_utils_docs) for docs.
+
+```python
+from the_utils import get_str_time
+
+current_time = get_str_time()
+```
+
+## Requirements
+
+See [requirements-dev.txt](./requirements-dev.txt), [requirements.txt](./requirements.txt) and [pyproject.toml:dependencies](./pyproject.toml).
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
