@@ -1,0 +1,22 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+
+# Unit test / coverage reports
+.coverage
+.coverage.*
+coverage.*
+.pytest_cache/
+
+# Build artifacts
+dist/
+
+# Project related
+.tool-versions
+docs/*.lock
+
+# IDEs
+.idea
+.DS_Store
+.vscode
+.zed

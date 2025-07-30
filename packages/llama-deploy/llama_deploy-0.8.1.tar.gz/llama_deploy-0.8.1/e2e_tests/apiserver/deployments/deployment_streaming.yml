@@ -1,0 +1,14 @@
+name: Streaming
+
+control-plane:
+  port: 8000
+
+default-service: streaming_workflow
+
+services:
+  streaming_workflow:
+    name: Streaming Workflow
+    source:
+      type: local
+      name: src
+    path: src/workflow:streaming_workflow
