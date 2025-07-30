@@ -1,0 +1,328 @@
+ ![master](https://github.com/djmgit/flask-opsgenie/actions/workflows/run_tests.yml/badge.svg?branch=master)
+
+# Flask Opsgenie
+
+Flask-opsgenie is a flask extension for creating alerts on Opsgenie. Once configured flask-opsgenie can generate an opsgenie alert once a desired condition is met,
+for example an endpoint returns an unwanted status code (500 may be) or an unwanted status class (5XX or 3XX for some reason) or lets say a given endpoint is
+breaching response latency threshold or may be it has thrown some exception. Flask-opsgenie will try to send as much details as possible to Opsgenie so that
+the on-call rockstar can get most of the details looking at the phone screen on receiving the page.
+
+## Getting flask-opsgenie
+
+Flask-opsgenie can be installed using pip. Make sure to have python 3+.
+
+```pip install Flask-Opsgenie```
+
+## Quick Start
+
+Lets quickly see how to use flask-opsgenie in an actual flask application.
+For an easy to get started with example, lets say we want to generate an opsgenie alert whenever a route returns 500 as response status code. Using
+flask-opsgenie we do not need to write our own middleware code to generate the alert.
+
+```
+import os
+from flask import Flask
+from flask_opsgenie import FlaskOpsgenie
+
+class FlaskOpsgenieConfig:
+
+    ALERT_STATUS_CODES = [500]
+    OPSGENIE_TOKEN = os.getenv("API_KEY")
+    ALERT_TAGS = ["flask_status_alert"]
+    ALERT_PRIORITY = "P3"
+    SERVICE_ID = "my_flask_service"
+    RESPONDER = [{
+        "type": "user",
+        "username": "neo@matrix"
+    }]
+
+app = Flask(__name__)
+app.config.from_object(FlaskOpsgenieConfig())
+flask_opsgenie = FlaskOpsgenie(None)
+flask_opsgenie.init_app(app)
+
+@app.route("/index", methods=["GET"])
+def index():
+    return "Hello world", 200
+
+@app.route("/res500", methods=["GET"])
+def res_500():
+    return "This is a 500", 500
+    
+if __name__ == "__main__":
+    app.run("127.0.0.1", 8080)
+
+```
+
+If we run this above tiny application and try to hit ``` /res500 ``` endpoint, it will generate an opsgenie alert because we are monitoring for ``` 500 ```
+response status code and the given endpoint returns the same. 
+
+![Screenshot 2021-12-05 at 4 54 55 PM](https://user-images.githubusercontent.com/16368427/144744662-8b638b1f-7237-4b86-bd24-c37808c495e8.png)
+
+This is the alert we get out of the box using the bare minimum configuration we used above. As it can bee seen, flask-opsgenie decides for an appropriate alias
+for this alert so that similar alerts can be grouped in future. It also provides several details in the details section like the path, method, url and response
+of the request and additionaly the host which served the request. The alias can always be overriden as well.
+
+If we want we can provide several status codes to be monitored like : ``` ALERT_STATUS_CODES = [500, 501, 502] ```
+This will generate an alert if any of the mentioned status codes is returned. So if we want to monitor for all the 5's status codes we can keep on mentioning
+all of them like ``` 500, 501, 502, 503 ...``` or even better we can use ``` ALERT_STATUS_CLASSES = ["5XX"] ``` instead of ``` ALERT_STATUS_CODES ```. As the
+name suggests ``` ALERT_STATUS_CLASSES ``` instructs flask-opsgenie to monitor for entire classes of status codes which in this case will be the ``` 5XX ``` class
+which means 500, 501, 502 and so on till 510. Isn't that cool?
+We can also chose to monitor a given set of routes/endpoints, conversely we can chose to monitor all the endpoints for the response status code alert and decide
+to ignore a few. More on that later.
+
+We can also configure flask-opsgnie such that it generates an opsegenie alert when a monitored route breaches response time latency. Lets see an example for that.
+For this example let us consider the following flask snippet.
+
+```
+import time
+import os
+from flask import Flask
+from flask_opsgenie import FlaskOpsgenie
+
+class FlaskOpsgenieConfig:
+
+    OPSGENIE_TOKEN = os.getenv("API_KEY")
+    ALERT_TAGS = ["flask_latency_alert"]
+    ALERT_PRIORITY = "P3"
+    SERVICE_ID = "my_flask_service"
+    THRESHOLD_RESPONSE_TIME = 2000.0 # time is required in ms
+    RESPONSE_TIME_MONITORED_ENDPOINTS = ["^\/res_slow\/\d+\/info\/$"]
+    RESPONDER = [{
+        "type": "user",
+        "username": "neo@matrix"
+    }]
+
+app = Flask(__name__)
+app.config.from_object(FlaskOpsgenieConfig())
+flask_opsgenie = FlaskOpsgenie(None)
+flask_opsgenie.init_app(app)
+
+@app.route("/res_slow/<id_num>/info/", methods=["GET"])
+def res_slow(id_num):
+    time.sleep(3)
+    return f'I am slow, {id_num}', 
+    
+if __name__ == "__main__":
+    app.run("127.0.0.1", 8080)
+
+```
+
+Once again, if we run this above tiny flask application and hit ```/res_slow/1/info/``` it will generate an opsgenie alert because the route takes more than
+2s or 2000ms to return a response.
+
+![Screenshot 2021-12-05 at 5 21 54 PM](https://user-images.githubusercontent.com/16368427/144745379-393d9389-7233-4b05-8939-3bfd62f689a3.png)
+
+Above is the alert generated by flask-opsgenie for this example. Again, we have the same amount of details as before and a different alias this time to denote
+its an latency related alert. Also, we do notice that now we have two new config parameters. First is ```THRESHOLD_RESPONSE_TIME``` which takes latency
+time threshold in ms and then we have ```RESPONSE_TIME_MONITORED_ENDPOINTS``` which takes a list of regexes to match against a route path. If the route matches
+with any of the regexes present in the list, that route path will be monitored and an alert will be generated if it breaches the response latency,
+
+Finally, we can also generate alert when a route throws an exception for some reason. It might seem that we dont need to capture this situation since if a route
+raises an exception, the response returned will be 500/5XX and hence we can have an alert for that. However that is always not true with flask. If we use
+multiple ```@app.after_request``` decorated methods and if somehow one of those methods fail to return the respnse object at the end, the response (status 5XX)
+will not be sent back to the user. In such scenario this config option provided by flask-opsgenie can help us.
+Also the generated alert will have the exception in the alert body which can come quite handy for the on-call engineer.
+
+There are two cases to it:
+1. To raise alert on unhandled Exceptions:
+   For unhandled exceptions, flask has a beautiful way to handle it via decorator ```@app.errorhandler(Exception)```. User needs to call ```flask_opsgenie``` function with exception to raise the alert. No separate config is required
+
+2. To raise alert on handled Exceptions:
+   To raise alerts for handled exception, call function ```flask_opsgenie.raise_exception_alert``` with exceotion and stack-trace (if you want). You can also add function-name to it to make it more descriptive.
+ 
+
+```
+# Raise alert for unhandled Exceptions
+
+import os, traceback
+from flask import Flask
+from flask_opsgenie import FlaskOpsgenie, AlertType
+
+class FlaskOpsgenieConfig:
+
+    OPSGENIE_TOKEN = os.getenv("API_KEY")
+    ALERT_TAGS = ["flask_exception_alert"]
+    ALERT_PRIORITY = "P3"
+    SERVICE_ID = "my_flask_service"
+    RESPONDER = [{
+        "type": "user",
+        "username": "neo@matrix"
+    }]
+    ALERT_ALIAS = "handled_exception"
+    ALERT_EXCEPTION_ALIAS = "unhandled_exception"
+
+app = Flask(__name__)
+app.config.from_object(FlaskOpsgenieConfig())
+flask_opsgenie = FlaskOpsgenie(None)
+flask_opsgenie.init_app(app)
+
+@app.errorhandler(Exception)
+def exception_handler(e: Exception):
+    """Handler for generic Exceptions occurring in the Application"""
+    
+    flask_opsgenie.raise_exception_alert(alert_type=AlertType.EXCEPTION, exception=e)
+    return {'Error': str(e)}, 500
+
+
+@app.route("/unhandledException", methods=["GET"])
+def unhandled_exception_case():
+    a = 1/0
+    return "I am assuming everything is fine, but there might be exception", 200
+
+
+@app.route("/handledException", methods=["GET"])
+def handled_exception_case():
+    try:
+        a = 1/0
+    except Exception as e:
+        flask_opsgenie.raise_exception_alert(alert_type=AlertType.MANUAL, exception=e, func_name="handle_exception_case")
+
+    return "I am assuming everything is fine, but there might be exception", 200
+    
+if __name__ == "__main__":
+    app.run("127.0.0.1", 8080)
+
+
+```
+
+If we hit ```/res_ex```, flask_opsgenie will raise an alert since this route will be throwing a Division by Zero exception.
+The difference between two alerts for two cases would be in ```Alias```. 
+- Unhandled Exception: Alias format -> ```SERVICE_ID-<exception-name>-ALERT_EXCEPTION_ALIAS```
+- Handled Exception: Alias format -> ```SERVICE_ID-<funcname>-<exception-name>-ALERT_ALIAS```
+
+![Screenshot 2021-12-05 at 5 44 31 PM](/Users/sgupta8/Desktop/Screenshot 2022-01-21 at 1.44.35 PM.png)
+
+### Support for gevent Exceptions
+Another case for exception handling is when you are using ```gevent``` in flask app. In case of ```gevent```, exception will not propagate to main thread, hence flask-opsgenie will not be able to raise any opsgenie Alert. 
+To handle this, user needs to invoke a callback to link gevent exception to main thread. 
+
+```
+# Raise alert for gevent Exceptions
+
+import os, traceback
+from flask import Flask
+from flask_opsgenie import FlaskOpsgenie, AlertType
+
+class FlaskOpsgenieConfig:
+
+    OPSGENIE_TOKEN = os.getenv("API_KEY")
+    ALERT_TAGS = ["flask_exception_alert"]
+    ALERT_PRIORITY = "P3"
+    SERVICE_ID = "my_flask_service"
+    RESPONDER = [{
+        "type": "user",
+        "username": "neo@matrix"
+    }]
+    ALERT_ALIAS = "handled_exception"
+    ALERT_EXCEPTION_ALIAS = "unhandled_exception"
+
+app = Flask(__name__)
+app.config.from_object(FlaskOpsgenieConfig())
+flask_opsgenie = FlaskOpsgenie(None)
+flask_opsgenie.init_app(app)
+
+@app.errorhandler(Exception)
+def exception_handler(e: Exception):
+    """Handler for generic Exceptions occurring in the Application"""
+    
+    flask_opsgenie.raise_exception_alert(alert_type=AlertType.EXCEPTION, exception=e)
+    return {'Error': str(e)}, 500
+
+
+@app.route("/geventException", methods=["GET"])
+def unhandled_exception_case():
+    g = gevent.spawn(inner_func)
+    flask_opsgenie.gevent_exception_callback(g)
+    return "I am assuming everything is fine, but there might be exception", 200
+
+
+def inner_func():
+    time.sleep(2)
+    a = 1/0
+
+    
+if __name__ == "__main__":
+    app.run("127.0.0.1", 8080)
+```
+
+## Flask-opsgenie configuration in details
+
+As already shown in the quick start guide, initialising flask-opsgenie is pretty easy just like any other flask extention. We can either pass the flask app
+object to the FlaskOpsgenie constructor or use the the init method of initialising flask-opsgenie. We can load the config as an object or from a config file.
+
+In this section we will go through all the different config option that flask-opsgenie provides, how we can use them and what default values they assume.
+
+### Config options provided by flask-opsgenie
+
+- **ALERT_STATUS_CODES** : This takes a list of status codes. Our flask service endpoints will be monitored against these response status codes. By default all
+the endpoints/routes will be monitored, but this can be controlled, as mentioned below.
+
+- **ALERT_STATUS_CLASS** : This takes a list of response status classes like ```5XX, 4XX or 3XX``` etc. For example if the provided value is ```["5XX", "4XX"]```
+any request throwing a 501 or 502 or 404 or 403 etc will raise opsgenie alert. Again by default if this param is present, all the route response status codes
+will be monitored, however this too can be controlled. If both ```ALERT_STATUS_CODES``` and ```ALERT_STATUS_CLASS``` are provided, then ```ALERT_STATUS_CODES```
+will be given priority. That is if we are monitoring for both 501 and 5XX, there will be only one alert generated and not two.
+
+- **MONITORED_ENDPOINTS** : This takes in a list of regexes. With this we can limit the endpoints that will be monitored for or whose response status code/class
+will be matched against the provided params. The request endpoints will be matched against the given list of regexes and only the matching paths will be
+evaluated against the given rules. It is to be noted that the given regex should be provided keeping only the request/route path in mind, niether the complete
+url nor the query params. For example if the requested url is ```https://mydomain.com/blog/1/info?theme=dark``` only ```/blog/1/info``` will be matched against
+the list of regex patterns provided.
+
+- **IGNORED_ENDPOINTS** : This takes a list of regexes. With this we can ignore a given set of route paths from being monitored for the response status
+code/class alerts. If a path matches any of the regex present in this list, it wont be evaluated aginst any of the above mentioned rules. For this as well,
+only the request path is matched against the pattern, not the url or the arguments.
+
+- **THRESHOLD_RESPONSE_TIME** : This takes in a int or float and the number is interpretated as time duration in **milliseconds**. With this param its mandatory
+to provide ```RESPONSE_TIME_MONITORED_ENDPOINTS``` as well which once again takes in a list of regex patterns to match against the requested route paths. So how
+its supposed to work is for every request path that matches any of the regex patterns present in ```RESPONSE_TIME_MONITORED_ENDPOINTS```, flask-opsgenie will
+compare the response time of that request against ```THRESHOLD_RESPONSE_TIME```, and if the response time exceeds this value then an opsgenie alert will be
+generated.
+
+- **RESPONSE_TIME_MONITORED_ENDPOINTS** : As already mentioned in the previous line, this also takes a list of regex patterns to match against request paths
+(not to mention, only paths) for monitoring selective route paths against response time latency.
+
+- **OPSGENIE_TOKEN** : This is the opsgenie REST API integration token which flask-opsgenie will use on your behalf to invoke opsgenie REST API.
+
+- **OPSGENIE_API_BASE** : This takes in a string representing the Opsgenie REST API base. By default its Opsgenie US, however if we want we can override it
+with something else like EU.
+
+- **ALERT_TAGS** : This takes in a list of strings which will be put as tags on the generated alert.
+
+- **ALERT_DETAILS** : It takes a dictionary of keys and values. These are details provided along with the alert body. Flask-opsgenie will by default provided
+some details like request url, path, method, etc as can be seen in the screenshots above. Whatever we mention in this dictionary will be added over and above
+the default ones.
+
+- **SERVICE_ID** : As the name suggests, this option takes in a string as a service id. If this is not provided, flask-opsgenie comes up with a default service
+name which is ```flask-service-{host}```, where host is basically the hostname of the box or conatiner where the service is running.
+
+- **ALERT_ALIAS** : Takes in a string and uses it as the default alert alias when the alert type specific aliases are not present. If this too is not present,
+then flask-opsgenie generates and uses a default alias depedning on the alert type.
+
+- **ALERT_STATUS_ALIAS** : Takes in a string and uses it as the alias for an alert generated for unwanted response status code. If this is not present then
+```ALERT_ALIAS``` value is used. If that too is not present then ```{service_id}-response-status-alert``` is used as the alias.
+
+- **ALERT_LATENCY_ALIAS** :  Takes in a string and uses it as the alias for an alert generated for breach of latency threshold. If this is not present then
+```ALERT_ALIAS``` value is used. If that too is not present then ```{service_id}-esponse-latency-alert``` is used as the alias.
+
+- **ALERT_EXCEPTION_ALIAS** : Takes in a string and uses it as the alias for an alert generated in response to an exception from a route. If this is not
+present then ```ALERT_ALIAS``` value is used. If that too is not present then ```{service_id}-exception-alert``` is used as the alias.
+
+- **ALERT_PRIORITY** : One of ```P1|P2|P3|P4|P5```. Default is P4.
+
+- **FORWARDED_HEADER_KEYS** : Takes a list of request header keys and add its value to Opsgenie Alert in detail section. Usually, it is used to send ```request_id``` from headers to help in tracing
+
+- **RESPONDER** : The responder of your alert. Takes in a list of dictionary same as that accepted by the Opsgenie alert API. More can be found
+<a href="https://docs.opsgenie.com/docs/alert-api"> here </a> under responder field example. An example for adding an user can be
+```[{"type": "user","username": "user@domain.com"}]```
+
+
+
+## Enriching Opsgenie Alert with extra information
+
+Sometimes, it is required to add extra details to Opsgenie alerts via alert-details. You can add any details in key:value pair via Flask-Opsgenie function ```raise_exception_alert```
+
+- **extra_props** : This is a dictionary type object. You can send any data you want and it'll be added to Opsgenie alert in detail section. Good example can be function name. 
+
+- **alert_priority** : Alert-Priority can be overridden while invoking function ```raise_exception_alert```. One of ```P1|P2|P3|P4|P5```
+

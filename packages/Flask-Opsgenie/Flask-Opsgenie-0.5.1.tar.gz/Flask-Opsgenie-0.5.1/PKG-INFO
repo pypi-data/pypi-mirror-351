@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: Flask-Opsgenie
+Version: 0.5.1
+Summary: Opsgenie extension for Flask
+Home-page: https://github.com/djmgit/flask-opsgenie
+Download-URL: https://github.com/djmgit/flask-opsgenie/archive/refs/tags/v0.5.1.tar.gz
+Author: Deepjyoti Mondal
+Keywords: Alerting,flask,web,Reliability,DevOps
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: System :: Monitoring
+License-File: LICENSE
+
+
+Flask-Opsgenie
+---------------
+
+An easy to use Opsgenie extension for flask. Allows user
+to raise an opsgenie alert on unwanted response status code,
+increased response latency and on unhandled exception thrown
+by routes.
+With flask-opsgenie, you will no more have to add alerting
+logic to your code manually, rather all you need to do is configure
+this extension with different alert conditions and attributes.
