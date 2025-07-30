@@ -1,0 +1,105 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "eBoruta"
+description = "Extended Boruta -- a flexible transparent sklearn-compatible python Boruta implementation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+#license-files = ["LICENCE"]
+keywords = ["feature-selection", "machine-learning", "scikit-learn", "model-agnostic"]
+authors = [
+    { name = "Ivan Reveguk", email = "ivan.reveguk@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    'scikit-learn>=1.0.2',
+    'numpy>=2.0.1',
+    'pandas>=2.2',
+    'statsmodels',
+    'tqdm',
+    'scipy',
+    'shap>=0.47.0',
+    'xgboost'
+]
+dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://github.com/edikedik/eBoruta#readme"
+Issues = "https://github.com/edikedik/eBoruta/issues"
+Source = "https://github.com/edikedik/eBoruta"
+
+[tool.hatch.version]
+path = "eBoruta/__about__.py"
+
+[tool.hatch.build]
+ignore-vcs = true
+packages = ["eBoruta"]
+exclude = ["notebooks", "fig"]
+
+[tool.hatch.build.targets.wheel]
+only-include = ["eBoruta"]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.12", "3.11", "3.10"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = [
+    "eBoruta/__about__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "no cov",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+no_implicit_optional = true
+exclude = ["scripts", "docs", "test", "notebooks"]
+
+#[[tool.mypy.overrides]]
+#module = "toolz.*"
+#ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "sklearn.*"
+ignore_missing_imports = true
+
+[tool.pylint.main]
+ignore = ["test"]
+
+[tool.pylint.format]
+max-line-length = "88"
+good-names = "i, j, k, x, df, l, m, n, f, fn, e"
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+    "too-few-public-methods",
+    "too-many-public-methods",
+    "too-many-arguments",
+    "too-many-locals",
+    "too-many-instance-attributes",
+    "logging-fstring-interpolation",
+    "invalid-name",
+    "eval-used",
+    "exec-used",
+    "broad-except",
+    "attribute-defined-outside-init"
+]
