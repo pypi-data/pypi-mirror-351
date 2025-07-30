@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt"]
+build-backend = "hatchling.build"
+
+[tool.setuptools]
+packages = ["object_filtering"]
+
+[project]
+name = "object_filtering"
+version = "0.1.14"
+authors = [
+    { name="Scott Ratchford", email="object_filtering@scottratchford.com" },
+]
+description = "A module for determining whether arbitrary Python objects meet a set of defined criteria."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Topic :: File Formats :: JSON",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+dynamic = ["dependencies"]
+
+[project.urls]
+Homepage = "https://github.com/KyberCritter/Object-Filtering"
+Issues = "https://github.com/KyberCritter/Object-Filtering/issues"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
