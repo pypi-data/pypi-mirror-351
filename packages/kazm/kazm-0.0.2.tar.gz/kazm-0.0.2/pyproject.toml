@@ -1,0 +1,27 @@
+[project]
+name = "kazm"
+version = "0.0.2"
+description = "A fully modular AI game backend built in python"
+authors = [
+    {name = "hamad",email = "60110135+HAlafeefi@users.noreply.github.com"}
+]
+license = "GPL-3.0"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "openai (>=1.82.0,<2.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "kazm", from = "src"}]
+homepage = "https://github.com/HAlafeefi/kazm"
+repository = "https://github.com/HAlafeefi/kazm"
+documentation = "https://github.com/HAlafeefi/kazm"
+
+[tool.poetry.urls]
+Changelog = "https://github.com/HAlafeefi/kazm/releases"
+Issues = "https://github.com/HAlafeefi/kazm/issues"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

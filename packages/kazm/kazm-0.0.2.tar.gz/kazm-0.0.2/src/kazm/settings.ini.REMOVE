@@ -1,0 +1,13 @@
+[general]
+
+[AI]
+; Choose the type of the api key: 1. 'env' (RECOMMENDED) 2. 'text' (DANGEROUS)
+API_KEY_TYPE = env
+API_KEY = OPENAI_API_KEY
+
+; if you want to use a custom AI API, provide the url insted of false
+; MUST be compatiple with OpenAI API endpoints (eg. Groq)
+custom_ai = false
+
+; The model name of the AI you want to use, get it from the provider website
+ai_model_name = PLACEHOLDER
