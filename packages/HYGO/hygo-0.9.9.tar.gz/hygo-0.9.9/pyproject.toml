@@ -1,0 +1,27 @@
+[project]
+name = "HYGO"
+version = "0.9.9"
+description = "HYbrid Genetic Optimizer mixing parametric genetic optimization with genetic programming"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [{name = "Isaac Robledo Martin", email = "isaac.robledo.martin@gmail.com"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy>=1.16,<2.0",
+    "scipy>=1.3,>=1.15",  # You may want to consolidate this
+    "matplotlib>=3.0",
+    "pandas>=0.25",
+    "dill>=0.3.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/iatazas/HYGO"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
