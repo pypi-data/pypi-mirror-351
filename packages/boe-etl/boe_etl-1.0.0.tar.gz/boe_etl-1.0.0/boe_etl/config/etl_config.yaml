@@ -1,0 +1,76 @@
+# ETL Configuration
+
+# Bank Configuration
+banks:
+  - name: "Citigroup"
+    quarters:
+      - "Q1_2025"
+      - "Q4_2024"
+    data_sources:
+      - type: "presentation"
+        format: "pdf"
+        file_pattern: "presentation.pdf"
+      - type: "supplement"
+        format: "pdf"
+        file_pattern: "supplement.pdf"
+      - type: "transcript"
+        format: "pdf"
+        file_pattern: "transcript.pdf"
+      - type: "results"
+        format: "xlsx"
+        file_pattern: "results_excel.xlsx"
+
+# Processing Configuration
+processing:
+  text_cleaning:
+    remove_stopwords: true
+    normalize_whitespace: true
+    remove_punctuation: true
+    lemmatize: true
+    min_word_length: 2
+    max_word_length: 50
+  
+  # Topic modeling configuration
+  topic_modeling:
+    num_topics: 10
+    min_topic_size: 5
+    n_gram_range: (1, 2)
+    embedding_model: "all-MiniLM-L6-v2"
+    
+  # Sentiment analysis configuration
+  sentiment_analysis:
+    model_name: "ProsusAI/finbert"
+    batch_size: 32
+    min_word_length: 3
+    max_word_length: 50
+
+  topic_modeling:
+    min_topic_size: 10
+    num_topics: 20
+    seed_topics: true
+    use_embedding_model: "ProsusAI/finbert"
+
+# Storage Configuration
+storage:
+  local: true
+  base_path: "data"
+  versioning: true
+  backup_enabled: true
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s %(levelname)s %(message)s"
+  file: "logs/etl.log"
+
+# Error Handling
+error_handling:
+  max_retries: 3
+  retry_delay_seconds: 5
+  fail_fast: false
+
+# Performance Settings
+performance:
+  batch_size: 1000
+  parallel_processing: true
+  max_workers: 4
