@@ -1,0 +1,19 @@
+[project]
+name = "ctg-mcp-server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=2.5.1",
+    "pandas>=2.2.3",
+    "pytest>=8.3.5",
+    "pytrials>=1.0.0",
+]
+
+[project.scripts]
+ctg-mcp-server = "ctg_mcp_server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
