@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: submariner
+Version: 0.1
+Summary: A tool to explore python modules
+Project-URL: Documentation, https://github.com/stormzzy900/submariner#readme
+Project-URL: Issues, https://github.com/stormzzy900/submariner/issues
+Project-URL: Source, https://github.com/stormzzy900/submariner
+Author-email: stormzzy900 <stormzzy900@gmail.com>
+License-Expression: MIT
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Requires-Dist: dotenv
+Requires-Dist: langchain[google-genai]
+Requires-Dist: rich
+Requires-Dist: typer
+Description-Content-Type: text/markdown
+
+# submariner
+
+[![PyPI - Version](https://img.shields.io/pypi/v/submarine.svg)](https://pypi.org/project/submariner)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/submarine.svg)](https://pypi.org/project/submariner)
+
+-----
+
+## Table of Contents
+
+- [Installation](#installation)
+- [License](#license)
+
+## Installation
+
+```console
+pip install submariner
+```
+
+## License
+
+`submariner` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
