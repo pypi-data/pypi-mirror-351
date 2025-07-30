@@ -1,0 +1,85 @@
+Metadata-Version: 2.4
+Name: flowplot
+Version: 0.0.15
+Summary: An interactive visualisation ananlyis tool for flow and input-output-storage data
+Author-email: Mikhail Smilovic <smilovic@mail.com>
+License-Expression: GPL-3.0-or-later
+Project-URL: Homepage, https://github.com/mikhailsmilovic/flowplot
+Project-URL: Repository, https://github.com/mikhailsmilovic/flowplot
+Project-URL: Issues, https://github.com/mikhailsmilovic/flowplot/issues
+Keywords: hydrology,visualization,reservoir,plot,interactive
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=2.1.2
+Requires-Dist: plotly>=5.24.0
+Requires-Dist: pandas>=2.2.3
+Dynamic: license-file
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/95150a22-f7bf-4b69-b387-e2f6c19e93af" width=70% height=70%>
+</p>
+
+# Quickstart
+`pip install flowplot`
+
+```python
+from flowplot import cycle
+cycle(r".\user-inputs\cycles\Overall.csv", delimiter=';')
+```
+<p align="center">
+<img src="https://github.com/user-attachments/assets/7fcdd855-611f-4cb7-82df-bc82baaf2865" width=50% height=50%>
+</p>
+
+# Overview
+
+flowplot is a visualisation and analysis tool for hydrological and general flow-stock, input-output-storage data for Python 🐳
+
+Diagrams include 
+- **Cycle**, including *Circles*, *Bar graphs*, and *Line graphs*
+- **TSCompare** Time series of multiple simulations and observations, with statistics
+- **ExceedanceProb** Exceedance probability and comparison, multiple simulations
+- **BoxWhisker** Box-whisker plots, multiple simulations
+- **HeatSeason** Seasonality, multiple simulations
+
+
+![flowplot_portfolio](https://github.com/user-attachments/assets/2170632f-acbf-4d21-8303-73dd0d372fed)
+
+# User inputs
+### user-inputs folder includes: 
+#### cycles: 
+- associates the cycle flows as in, out, storage, and sub-flows
+  
+#### flow time series:
+- Contains three columns for the date: YYYY, MM,  DD
+- Column names match those indicated in the cycles csv above
+- There can be several csv files holding flow time series
+- Columns hold daily values of flows, with name and unit indicated in cycle csv
+
+### Units
+- standard
+  - m3   (meaning m3/day)
+  - m3s  
+(meaning m3/second)
+- with option num_cells_domain:
+  - mmcell (meaning mm/day/averaged across all cells)
+  - m3cell (meaning m3/day averaged across all cells)
+ 
+
+  - m3scell (meaning m3/second averaged across all cells)
+- with option cellsize_m2, assuming all cells are the same size in square metres
+  - mm     (meaning mm/day)
+```
+cycle(r".\user-inputs\cycles\Overall.csv", delimiter=';', cellsize_m2=1000*1000, num_cells_domain=153451)
+```
+### Creates the following diagrams for a user-determined cycle:
+  1. **Circles**, showing the partitioned inputs, outputs, net storage changes, and balance, aggregated spatiotemporally;
+  2. **Bar graphs**, showing the partitioned inputs, outputs, net storage changes, and balance, aggregated spatiotemporal;
+  3. **Line graphs, overall**, showing the inputs, outputs, net storage changes, and balance through time, aggregated spatially;
+  4. **Line graphs, partitioned**, showing the partitioned flows through time, aggregated spatially.
+![flowplot](https://github.com/user-attachments/assets/defcf9c5-6750-4270-b0a6-a74806361582)
