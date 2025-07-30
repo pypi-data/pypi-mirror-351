@@ -1,0 +1,27 @@
+name: Build package
+
+on:
+  push:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '>=3.12'
+      - name: Setup build dependencies
+        run: pip install -U build
+      - name: Build package
+        run: python -m build .
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-wheel
+          path: dist/
