@@ -1,0 +1,15 @@
+[project]
+name = "restricted"
+version = "0.2.0"
+description = "A lightweight Python package for analyzing and securely executing code blocks with AST-based restrictions."
+readme = "README.md"
+authors = [
+    { name = "Bimal Paudel" }
+]
+keywords = ["python", "execution", "restricted", "interpreter", "ast", "exec", "uv"]
+requires-python = ">=3.13"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
