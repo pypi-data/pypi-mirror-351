@@ -1,0 +1,99 @@
+# https://taskfile.dev
+
+version: "3"
+
+tasks:
+    list:
+        # If no task is specified, we use the magic variable `TASK_EXE` to call `task` again with `--list`.
+        # See https://github.com/go-task/task/issues/1562.
+        aliases: [default]
+        silent: true
+        cmds:
+            - "{{.TASK_EXE}} --list"
+
+    check-tests:
+        desc: Run test suite
+        cmd: uv run pytest
+        deps: [build-package]
+        sources:
+            - src/**/*
+            - tests/**/*
+            - exclude: src/**/_version.py
+            - exclude: ./**/__pycache__/**/*
+
+    check-linting:
+        desc: Run linting and apply fixes automatically
+        cmd: uv run ruff check --fix
+        sources:
+            - src/**/*.py
+            - exclude: src/**/_version.py
+
+    check-types:
+        desc: Run type checking
+        cmd: uv run mypy
+        deps: [build-package]
+        sources:
+            - src/**/*.py
+
+    check-format:
+        desc: Apply standardised formatting fixes
+        cmd: uv run ruff format
+        sources:
+            - exclude: src/**/_version.py
+            - exclude: ./**/__pycache__/**/*
+
+    check:
+        desc: Run all checks
+        cmds:
+            - task: check-linting
+            - task: check-types
+            - task: check-format
+            - task: check-tests
+
+    build-docs:
+        desc: Build documentation to static HTML
+        cmd: sh scripts/build-docs.sh
+        deps: [build-package]
+        sources:
+            - docs/**/*
+            - exclude: docs/_build/**/*
+            - src/**/*
+            - exclude: src/**/__pycache__/**/*
+
+    serve-docs:
+        desc: Serve documentation locally
+        deps: [build-docs]
+        cmd: uv run python3 -m http.server -d docs/_build
+
+    build-package:
+        desc: Build Python package for distribution
+        cmd: uv build
+        run: when_changed
+        sources:
+            - ./**/*
+            - exclude: .task/**/*
+            - exclude: .venv/**/*
+            - exclude: dist/**/*
+            - exclude: docs/_build/**/*
+            - exclude: src/**/_version.py
+            - exclude: ./**/__pycache__/**/*
+            - exclude: ./*_cache/**/*
+
+    build:
+        desc: Build for distribution
+        deps:
+            - build-docs
+            - build-package
+
+    clean:
+        desc: Clean all caches and build artifacts
+        cmds:
+            - rm -rf .pytest_cache
+            - rm -rf .ruff_cache
+            - rm -rf .mypy_cache
+            - rm -rf .task
+            - rm -rf .venv
+            - rm -rf dist
+            - rm -rf docs/_build
+            - rm -rf */**/__pycache__/
+            - rm -rf src/**/_version.py

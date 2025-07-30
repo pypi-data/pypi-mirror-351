@@ -1,0 +1,60 @@
+name: Apply formatting
+
+on:
+    - push
+    - pull_request
+
+jobs:
+    format:
+        name: Apply formatting
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: write
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4.2.2
+              with:
+                  # Needed in order to work on `pull_request` event
+                  # See https://github.com/stefanzweifel/git-auto-commit-action#example-workflow
+                  ref: ${{ github.head_ref }}
+
+            ## PYTHON ##############################################################################
+
+            - name: Install `uv`
+              uses: astral-sh/setup-uv@v6.0.1
+              with:
+                version: "0.7.3"
+
+            - name: Set up Python
+              uses: actions/setup-python@v5.6.0
+              with:
+                  python-version: "3.12"
+
+            - name: Install requirements
+              run: uv sync --all-extras --frozen
+
+            - name: Format Python code
+              run: uv run --frozen ruff format
+
+            ## OTHER ###############################################################################
+            
+            - name: Set up Node
+              uses: actions/setup-node@v4.4.0
+              with:
+                node-version: '22.12.0'
+                cache: 'npm'
+                cache-dependency-path: '**/.github/workflows/*.yml'
+
+            - name: Run Prettier
+              run: |
+                npm install --no-save prettier prettier-plugin-toml
+                npx prettier . --write
+
+            ## COMMIT CHANGES ######################################################################
+
+            - name: Commit formatting
+              uses: stefanzweifel/git-auto-commit-action@v5.2.0
+              with:
+                  commit_message: "style: Apply standardised formatting"
