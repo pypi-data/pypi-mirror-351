@@ -1,0 +1,14 @@
+[Unit]
+Description=upboard service
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/local
+ExecStartPre=/bin/mkdir -p /var/local/upboard
+ExecStart=upboard-server --dir upboard --host 0.0.0.0 --port 5001 --password admin
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
