@@ -1,0 +1,3 @@
+```bash
+curl -X PUT http://localhost:5002/api/v0/machine_up/set_info/   -H "Content-Type: application/json"   -d '{"mach_api_key":"af57a33de9876daf46bc28c522968281598438fa35ee8525b799764b2d0afc0d","contact_address":"203.0.113.42",
+```
