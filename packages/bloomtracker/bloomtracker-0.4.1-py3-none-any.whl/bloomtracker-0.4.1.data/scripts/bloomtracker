@@ -1,0 +1,10 @@
+#!python
+"""
+Command-line script for installing as an entry point.
+"""
+
+import sys
+from bloomtracker.cli import main
+
+if __name__ == "__main__":
+    sys.exit(main())
