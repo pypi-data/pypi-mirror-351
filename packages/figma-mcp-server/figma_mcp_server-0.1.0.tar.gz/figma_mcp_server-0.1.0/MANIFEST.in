@@ -1,0 +1,12 @@
+include README.md
+include LICENSE
+include requirements.txt
+include env.example
+recursive-include figma_mcp_server *.py
+recursive-include docs *.md
+recursive-include examples *.py *.yaml *.yml *.json
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .git* 
