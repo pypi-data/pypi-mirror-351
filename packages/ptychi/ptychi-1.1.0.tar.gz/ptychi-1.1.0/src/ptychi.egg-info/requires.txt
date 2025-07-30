@@ -1,0 +1,15 @@
+h5py
+matplotlib
+mypy
+numpy
+pandas
+ruff
+scikit-image
+scikit-learn
+scipy
+torch>=2.4.1
+torchvision
+tqdm
+
+[movies]
+opencv-python
