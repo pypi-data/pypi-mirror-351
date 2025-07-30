@@ -1,0 +1,66 @@
+---
+uuid: H8ngrpx5
+
+general_info: 
+    date: 2024-07-29
+    data_type: DVCS 
+    collaboration: H1 
+    reference: https://arxiv.org/pdf/hep-ex/0505061.pdf 
+    conditions:
+        lepton_beam_type: e+
+        lepton_beam_energy: 27.6
+        hadron_beam_type: p
+        hadron_beam_energy: 820.
+    comment: "Data collected in 1996-1997"
+
+data:
+
+    - data_set:
+
+        label: "t_dep"
+
+        kinematics:
+            name: [W, Q2, t]
+            unit: [GeV, GeV2, GeV2]
+            value:
+                - [71., 4., -0.1]
+                - [71., 4., -0.3]
+                - [71., 4., -0.5]
+                - [71., 4., -0.8]
+        observable:
+            name: [CrossSectionUUVirtualPhotoProduction]
+            unit: [nb]
+            value:
+                - [29.9]
+                - [8.0]
+                - [2.13]
+                - [0.27]
+            stat_unc:
+                - [4.1]
+                - [1.4]
+                - [0.60]
+                - [0.12]
+            sys_unc:
+                - [7.1]
+                - [1.4]
+                - [0.69]
+                - [0.14]
+
+    - data_set:
+
+        label: "slopes"
+
+        kinematics:
+            name: [W, Q2]
+            unit: [GeV, GeV2]
+            value:
+                - [71., 4.]
+        observable:
+            name: [TSlope]
+            unit: [1/GeV2]
+            value:
+                - [6.66]
+            stat_unc:
+                - [0.54]
+            sys_unc:
+                - [0.43]

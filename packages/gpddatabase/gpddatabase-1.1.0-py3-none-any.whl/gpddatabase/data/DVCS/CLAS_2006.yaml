@@ -1,0 +1,34 @@
+---
+uuid: SYmZ5Qka
+
+general_info: 
+    date: 2024-07-24 
+    data_type: DVCS 
+    collaboration: CLAS 
+    reference: https://arxiv.org/pdf/hep-ex/0605012.pdf
+    conditions:
+        lepton_beam_type: e-
+        lepton_beam_energy: 5.7 
+        hadron_beam_type: p
+    comment: "Some dependencies may be missing."
+
+data:
+
+    - data_set:
+
+        label: "none_dep"
+
+        kinematics:
+            name: [xB, t, Q2]
+            unit: [none, GeV2, GeV2]
+            value:
+                - [0.275862, -0.31, 1.82]
+        observable:
+            name: [AULSin1Phi, AULSin2Phi]
+            unit: [none, none]
+            value:
+                    - [0.252, -0.022]
+            stat_unc:
+                    - [0.042, 0.045]
+            sys_unc:
+                    - [0.02, 0.021]

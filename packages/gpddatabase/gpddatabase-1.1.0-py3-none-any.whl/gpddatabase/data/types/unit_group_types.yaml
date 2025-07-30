@@ -1,0 +1,25 @@
+---
+
+# definition of unit groups
+
+data:
+  
+  # none
+  - name: NONE
+    description: "unitless"
+  # cross section (eV^-2 in natural units)
+  - name: EVm2
+    description: "eV^-2 in natural units"
+  # time or distance (eV^-1 in natural units)
+  - name: EVm1
+    description: "eV^-1 in natural units"
+  # energy, mass or momentum (eV in natural units)
+  - name: EV
+    description: "eV in natural units"
+  # square of energy, mass or momentum (eV^2 in natural units)
+  - name: EV2
+    description: "eV^2 in natural units"
+  # angle
+  - name: ANGLE 
+    description: "angle"
+  

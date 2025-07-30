@@ -1,0 +1,92 @@
+---
+
+# definition of units
+
+data:
+
+  # none
+
+  - name: none
+    description: "unitless"
+    unit_group: NONE
+
+  # cross section (eV^-2 in natural units)
+
+  - name: 1/MeV2
+    description: "inverse megaelectron-volt squared"
+    unit_group: EVm2
+  - name: 1/GeV2
+    description: "inverse gigaelectron-volt squared"
+    unit_group: EVm2
+  - name: 1/TeV2
+    description: "inverse teraelectron-volt squared"
+    unit_group: EVm2
+
+  - name: fb
+    description: "femtobarn"
+    unit_group: EVm2
+  - name: pb
+    description: "picobarn"
+    unit_group: EVm2
+  - name: nb
+    description: "nanobarn"
+    unit_group: EVm2
+  - name: ub  
+    description: "microbarn"
+    unit_group: EVm2
+  - name: mb
+    description: "milibarn"
+    unit_group: EVm2
+
+  # time or distance (eV^-1 in natural units)
+
+  - name: 1/MeV
+    description: "inverse megaelectron-volt"
+    unit_group: EV
+  - name: 1/GeV
+    description: "inverse gigaelectron-volt"
+    unit_group: EV
+  - name: 1/TeV
+    description: "inverse teraelectron-volt"
+    unit_group: EV
+  - name: fm
+    description: "femtometer"
+    unit_group: EV
+
+  # energy, mass or momentum (eV in natural units)
+
+  - name: MeV
+    description: "megaelectron-volt"
+    unit_group: EV
+  - name: GeV
+    description: "gigaelectron-volt"
+    unit_group: EV
+  - name: TeV
+    description: "teraelectron-volt"
+    unit_group: EV
+
+  # square of energy, mass or momentum (eV^2 in natural units)
+
+  - name: MeV2
+    description: "megaelectron-volt squared"
+    unit_group: EV2
+  - name: GeV2
+    description: "gigaelectron-volt squared"
+    unit_group: EV2
+  - name: TeV2
+    description: "gigaelectron-volt squared"
+    unit_group: EV2
+
+  # angle
+  
+  - name: mrad
+    description: "miliradian"
+    unit_group: ANGLE
+  - name: rad
+    description: "radian"
+    unit_group: ANGLE
+  - name: deg
+    description: "degree"
+    unit_group: ANGLE
+
+

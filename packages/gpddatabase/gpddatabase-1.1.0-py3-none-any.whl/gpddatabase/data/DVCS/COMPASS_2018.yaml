@@ -1,0 +1,69 @@
+---
+uuid: 75ueQoQw
+
+general_info: 
+      date: 2024-07-15
+      data_type: DVCS 
+      collaboration: COMPASS
+      reference: https://arxiv.org/abs/1802.02739
+      conditions:
+            lepton_beam_type: mu+ # and mu-
+            lepton_beam_energy: 160.
+            hadron_beam_type: p
+
+data:
+
+      - data_set:
+
+            label: "t_dep"
+
+            kinematics:
+                  name: [nu, Q2, t]
+                  unit: [GeV, GeV2, GeV2]
+                  value:
+                        - [19.5, 1.79, -0.15] # central values for t, not given in the source paper
+                        - [18.8, 1.77, -0.29]
+                        - [18.6, 1.91, -0.43]
+                        - [20.1, 1.77, -0.57]
+                  bin:
+                        - [[10., 32.], [1., 5.], [-0.22, -0.08]]
+                        - [[10., 32.], [1., 5.], [-0.36, -0.22]]
+                        - [[10., 32.], [1., 5.], [-0.50, -0.36]]
+                        - [[10., 32.], [1., 5.], [-0.64, -0.50]]
+            observable:
+                  name: [CrossSectionUUVirtualPhotoProduction]
+                  unit: [nb]
+                  value:
+                        - [24.5]
+                        - [12.6]
+                        - [7.4]
+                        - [4.1]
+                  stat_unc:
+                        - [2.8]
+                        - [2.0]
+                        - [1.6]
+                        - [1.3]
+                  sys_unc:
+                        - [[2.9, 3.7]]
+                        - [[1.5, 2.2]]
+                        - [[0.9, 1.3]]
+                        - [[0.5, 1.0]]
+
+      - data_set:
+
+            label: "slopes"
+
+            kinematics:
+                  name: [xB, Q2]
+                  unit: [none, GeV2]
+                  value:
+                        - [0.056, 1.8]
+            observable:
+                  name: [TSlope]
+                  unit: [1/GeV2]
+                  value:
+                        - [4.3]
+                  stat_unc:
+                        - [0.6]
+                  sys_unc:
+                        - [[0.3, 0.1]]

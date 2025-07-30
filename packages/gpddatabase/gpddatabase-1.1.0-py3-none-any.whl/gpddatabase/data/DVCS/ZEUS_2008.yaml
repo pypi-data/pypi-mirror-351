@@ -1,0 +1,66 @@
+---
+uuid: BKA7rRbD
+
+general_info: 
+    date: 2024-07-29
+    data_type: DVCS 
+    collaboration: ZEUS 
+    reference: https://arxiv.org/pdf/0812.2517.pdf 
+    conditions:
+        lepton_beam_type: e+
+        lepton_beam_energy: 27.5
+        hadron_beam_type: p
+        hadron_beam_energy: 920.
+
+data:
+
+    - data_set:
+
+        label: "t_dep"
+
+        kinematics:
+            name: [W, Q2, t]
+            unit: [GeV, GeV2, GeV2]
+            value:
+                - [104., 3.2, -0.14]
+                - [104., 3.2, -0.25]
+                - [104., 3.2, -0.36]
+                - [104., 3.2, -0.47]
+        observable:
+            name: [CrossSectionUUVirtualPhotoProduction]
+            unit: [nb]
+            value:
+                - [34.6]
+                - [32.7]
+                - [19.6]
+                - [5.7]
+            stat_unc:
+                - [9.6]
+                - [9.4]
+                - [7.5]
+                - [4.1]
+            sys_unc:
+                - [2.4]
+                - [2.3]
+                - [1.4]
+                - [0.4]
+
+    - data_set:
+        
+        label: "slopes"
+
+        kinematics:
+            name: [W, Q2]
+            unit: [GeV, GeV2]
+            value:     
+                - [104., 3.2]
+        observable:
+            name: [TSlope]
+            unit: [1/GeV2]
+            value:
+                - [4.5]
+            stat_unc:
+                - [1.3]
+            sys_unc:
+                - [0.4]
+
