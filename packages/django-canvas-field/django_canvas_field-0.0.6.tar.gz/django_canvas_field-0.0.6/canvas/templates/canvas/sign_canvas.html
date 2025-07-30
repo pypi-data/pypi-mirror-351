@@ -1,0 +1,78 @@
+<!--
+    参考手册： 
+    http://www.ijquery.cn/?p=1593
+    https://www.cnblogs.com/zx-admin/p/6828350.html
+
+    1. 判断是否已签名，已签名则显示图片，反之显示画布；
+    2. 显示图片时同时，可通过点击图片切换为画布编辑签名；
+    3. 显示画布时同时显示确定、取消、清除按钮，确定按钮用于切换为图片；
+-->
+{% load static %}
+<script src="{% static 'canvas/js/jquery.min.js' %}"></script>
+<script src="{% static 'canvas/js/jSignature.min.js' %}"></script>
+<script src="{% static 'canvas/js/flashcanvas.min.js' %}"></script>
+
+<div id="signture" hidden><p>
+    <a class="button" onclick="ent()">确定</a>
+    <a class="button" onclick="del()">删除</a>
+    <a class="button" onclick="dis()">取消</a>
+</p></div>
+<textarea name="{{ widget.name }}" id="sign_txt" hidden>{{ widget.value|default:""}}</textarea>
+<img src="{{ widget.value|default:''}}" alt="" id="sign_img" onclick="chg()" hidden>
+
+<script type="text/javascript">
+    $('document').ready(function() {
+        // 初始化画布
+        if ($('canvas.jSignature').length == 0) {
+            $('#signture').jSignature({
+                'width': '500',
+                'height': '250',
+                'color': '#000',
+                'background-color': '#eee'
+            });
+        }
+
+        // 初始化图片和编码文本
+        if ($('#sign_txt').val()) {
+            showSignImg(true)
+        } else {
+            showSignImg(false)
+        };
+    })
+
+    function set_sign_pic(data) {
+        $('#sign_txt').val(data);
+        $('#sign_img').attr('src', data);
+    }
+    function showSignImg(show=true) {
+        // 控制签名图片和签名画布的显示关系
+        // 显示图片则隐藏画布，显示画布则隐藏图片
+        $('#sign_img').attr('hidden', !show);
+        $('#signture').attr('hidden', show);
+    }
+    function dis() {
+        if ($('#sign_txt').val()){
+            showSignImg()
+        }
+    }
+    function ent() {
+        if (confirm('确定保存签名?') == true) {
+            showSignImg(true);
+            set_sign_pic($('#signture').jSignature('getData'));
+        }
+    }
+    function del() {
+        if (confirm('确定删除签名?') == true) {
+            set_sign_pic(null);
+            $('#signture').jSignature('clear');
+        }
+    }
+    function chg() {
+        if (confirm('确定编辑签名?') == true) {
+            showSignImg(false);
+            data = $('#sign_txt').val()
+            $('#signture').jSignature('clear');
+            $('#signture').jSignature('importData', data);
+        }
+    }
+</script>
