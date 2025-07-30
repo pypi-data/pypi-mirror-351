@@ -1,0 +1,182 @@
+Metadata-Version: 2.4
+Name: desync-data
+Version: 0.1.3
+Summary: Utility tools for Desync AI users
+Author: Jackson Ballow
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: desync_search
+Requires-Dist: beautifulsoup4
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# desync-data
+
+Utility functions for working with `PageData` objects from the [`desync_search`](https://pypi.org/project/desync-search/) library. These tools help you clean, filter, deduplicate, extract links, compute text stats, and export structured data from websites crawled via Desync.
+
+---
+
+## 🚀 Features
+
+- 🔍 Remove boilerplate from page content (prefix/suffix delimiters)
+- 📌 Filter pages by URL substring
+- 🧹 Remove duplicate pages (based on `text_content`)
+- 🔗 Extract link graphs (internal navigation structure)
+- 📊 Compute text statistics (word count, link density, etc.)
+- 📤 Export pages to CSV, JSON, or SQLite
+
+---
+
+## 📦 Installation
+
+```bash
+pip install desync-data
+```
+
+---
+
+## 🧪 Quick Example
+
+```python
+from desync_search import DesyncClient
+from desync_data import *
+
+client = DesyncClient(api_key="your_api_key")
+pages = client.crawl("https://example.com", max_depth=2)
+
+pages = remove_duplicate_pages(pages)
+pages = remove_boilerplate_prefix(pages, "START")
+pages = remove_boilerplate_suffix(pages, "FOOTER")
+pages = filter_by_url_substring(pages, "/team")
+
+save_to_csv(pages, "pages.csv")
+save_to_json(pages, "pages.json")
+save_to_sqlite(pages, "pages.sqlite")
+
+edges = extract_link_graph(pages)
+for stat in map(compute_text_stats, pages):
+    print(stat)
+```
+
+---
+
+## 📚 Function Documentation
+
+### `remove_boilerplate_prefix(pages, delimiter)`
+
+Removes everything **before and including** the first occurrence of the given `delimiter` in `text_content` for each page.
+
+- `pages`: list of `PageData`-like objects  
+- `delimiter`: string to match and cut before  
+- **Returns**: cleaned list of modified objects
+
+---
+
+### `remove_boilerplate_suffix(pages, delimiter)`
+
+Removes everything **after and including** the first occurrence of the `delimiter` in `text_content`.
+
+- `pages`: list of `PageData`-like objects  
+- `delimiter`: string to cut after  
+- **Returns**: cleaned list
+
+---
+
+### `remove_duplicate_pages(pages)`
+
+Eliminates duplicates based on exact `text_content`. Keeps the first appearance.
+
+- **Returns**: list with duplicates removed
+
+---
+
+### `filter_by_url_substring(pages, substring)`
+
+Keeps only pages whose `url` contains the given substring.
+
+- `substring`: required URL fragment to retain  
+- **Returns**: filtered list of pages
+
+---
+
+### `extract_link_graph(pages, include_external_links=False, only_include_crawled_pages=False)`
+
+Returns a list of `(source_url, destination_url)` pairs based on the `internal_links` field.
+
+- `include_external_links`: if False, skip links to other domains  
+- `only_include_crawled_pages`: if True, limit to known pages only  
+- **Returns**: list of directed edges
+
+---
+
+### `compute_text_stats(page)`
+
+Calculates basic content metrics:
+
+- `word_count`: total words in `text_content`  
+- `sentence_count`: count of `.`, `!`, `?`  
+- `unique_word_ratio`: unique words / total words  
+- `link_density`: words inside `<a>` tags / total words  
+
+**Returns**: dictionary with all metrics  
+**Requires**: `beautifulsoup4`
+
+---
+
+### `save_to_csv(pages, filepath, mode="w")`
+
+Writes selected fields to a `.csv` file.
+
+- `filepath`: output path  
+- `mode`: `"w"` for overwrite, `"a"` for append  
+- Fields: `url`, `domain`, `timestamp`, `text_content`, etc.
+
+---
+
+### `save_to_json(pages, filepath, mode="w")`
+
+Saves all pages as a list of dictionaries to a `.json` file.
+
+- `mode`: `"w"` or `"a"` (appends if file exists and is valid)
+
+---
+
+### `save_to_sqlite(pages, db_path, table_name="pages", append=True)`
+
+Saves all records to a local SQLite database.
+
+- `db_path`: file path for `.sqlite`  
+- `append`: if False, drops and recreates table  
+- `table_name`: optional table name override
+
+---
+
+## 🔧 Requirements
+
+- Python 3.7+  
+- [`desync_search`](https://pypi.org/project/desync-search)  
+- `beautifulsoup4` (for text stat parsing)
+
+Install with:
+
+```bash
+pip install desync-data
+```
+
+---
+
+## 🧑‍💻 Author
+
+Created by Jackson Ballow for fast and scalable web content processing using Desync.
+
+---
+
+## 📄 License
+
+MIT License
