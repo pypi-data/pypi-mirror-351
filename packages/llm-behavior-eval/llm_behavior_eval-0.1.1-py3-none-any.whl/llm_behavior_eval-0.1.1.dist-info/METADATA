@@ -1,0 +1,141 @@
+Metadata-Version: 2.4
+Name: llm-behavior-eval
+Version: 0.1.1
+Summary: Evaluate large-language models for undesirable behaviors such as bias.
+Author-email: Hirundo <dev@hirundo.io>
+License: MIT License
+        
+        Copyright (c) 2025 Hirundo-io
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/Hirundo-io/llm-behavior-eval
+Keywords: dataset,machine learning,data science,data engineering,large language models,LLMs evaluation,bias evaluation,bias in LLMs
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: datasets<4.0.0,>=3.5.1
+Requires-Dist: numpy<3.0.0,>=2.2.5
+Requires-Dist: pandas<3.0.0,>=2.2.3
+Requires-Dist: pydantic<3.0.0,>=2.11.4
+Requires-Dist: pydantic_settings<3.0.0,>=2.9.1
+Requires-Dist: torch<3.0.0,>=2.7.0
+Requires-Dist: transformers<5.0.0,>=4.51.3
+Requires-Dist: pytest
+Provides-Extra: dev
+Requires-Dist: ruff<1.0.0,>=0.11.11; extra == "dev"
+Requires-Dist: bumpver>=2024.1130; extra == "dev"
+Requires-Dist: pyright>=1.1.399; extra == "dev"
+Requires-Dist: pytest>=8.3.5; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=8.0.0; extra == "docs"
+Dynamic: license-file
+
+# Bias Evaluation Framework
+
+A Python 3.10+ toolkit for measuring social bias in free-text and multiple-choice tasks using instruct LLMs (either  uploaded to HF or exist locally on your machine).
+
+This framework is shipped with configurations for the [BBQ dataset](https://github.com/nyu-mll/bbq). All evaluations are compatible with Transformers instruct models. Tested with multiple Llama and Gemma models, see the list below.
+
+## Why BBQ?
+
+BBQ (“Bias Benchmark for Question answering”) is a hand-crafted dataset that probes model stereotypes across nine protected social dimensions:
+
+- Gender  
+
+- Race  
+
+- Nationality  
+
+- Physical traits  
+
+- And more...
+
+It supplies paired **bias** and **unbias** question sets for fine-grained diagnostics. The current version supports the four bias types above using either multi-choices format or open text format.
+
+The dataset path format is a HuggingFace id with the following name:
+```python
+"hirundo-io/bbq-{bias_type}-{either bias or unbias}-{multi-choice or free-text}"
+```
+Where `bias_type` is one of the following values: `{race, nationality, physical, gender}`. Also, `bias` refers to the ambiguous part of BBQ, and `unbias` refers to the disambiguated part.
+
+For example:
+```python
+"hirundo-io/bbq-race-bias-multi-choice"
+```
+
+---
+
+## Requirements
+
+Make sure you have Python 3.10+ installed, then install dependencies:
+
+```bash
+git clone https://github.com/your-org/bias-evaluation.git
+cd bias-evaluation
+pip install -e .
+```
+
+## Run the Evaluator
+```bash
+python evaluate.py
+```
+
+Change the evaluation/dataset settings in `evaluate.py` to customize your runs, see the full options in `dataset_config.py` and `eval_config.py`.
+
+See `examples/quickstart.py` for a minimal script-based workflow.
+
+## Output
+
+Evaluation reports will be saved as metrics CSV and full responses JSON formats in the desired results directory.
+
+Outputs are organised as `results/<model>/<dataset>_<dataset_type>_<text_format>/`, and a `summary.csv` collects metrics from every run.
+
+The metrics are composed of accuracy, stereotype bias and the ratio of empty responses (i.e. the model generating empty string). 
+
+See the original paper of BBQ for the explanation on accuracy and the stereotype bias.
+
+## Tested on
+
+Validated the pipeline on the following models:
+
+- `"google/gemma-3-12b-it"`
+
+- `"meta-llama/Meta-Llama-3.1-8B-Instruct"`
+
+- `"meta-llama/Llama-3.2-3B-Instruct"`
+
+- `"google/gemma-7b-it"`
+
+- `"google/gemma-2b-it"`
+
+- `"google/gemma-3-4b-it"`
+
+Using the next models as judges:
+
+- `"google/gemma-3-12b-it"`
+
+- `"meta-llama/Llama-3.3-70B-Instruct"`
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for more information.
