@@ -1,0 +1,103 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "pip>=21.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mlflow-assist"
+version = "0.2.0"
+description = "A comprehensive toolkit for ML and LLM development"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "MLFlow-Assist Team", email = "support@mlflow-assist.dev"}
+]
+requires-python = ">=3.8"
+keywords = [
+    "machine-learning",
+    "deep-learning",
+    "llm",
+    "mlops",
+    "automl",
+    "gpt",
+    "model-optimization",
+    "mlflow",
+    "enterprise-ai",
+    "ai-automation",
+    "model-monitoring",
+    "deployment",
+    "pytorch",
+    "tensorflow",
+    "prompt-engineering"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Information Technology",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: System :: Monitoring",
+    "Environment :: Console",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11"
+]
+
+dependencies = [
+    "numpy>=1.21.0",
+    "pandas>=1.3.0",
+    "scikit-learn>=1.0.0",
+    "torch>=1.9.0",
+    "transformers>=4.20.0",
+    "mlflow>=1.20.0",
+    "click>=8.0.0",
+    "rich>=10.0.0",
+    "typer>=0.4.0",
+    "pydantic>=1.8.0",
+    "python-dotenv>=0.19.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "black>=21.0.0",
+    "isort>=5.0.0",
+    "flake8>=3.9.0",
+    "mypy>=0.910"
+]
+
+[project.urls]
+Documentation = "https://github.com/happyvibess/mlflow-assist/tree/master/docs"
+"Bug Reports" = "https://github.com/happyvibess/mlflow-assist/issues"
+"Source Code" = "https://github.com/happyvibess/mlflow-assist"
+"Buy me a coffee" = "https://www.buymeacoffee.com/happyvibess"
+
+[project.scripts]
+mlflow-assist = "mlflow_assist.cli.cli:app"
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v -s --cov=mlflow_assist --cov-report=term-missing"

@@ -1,0 +1,180 @@
+Metadata-Version: 2.4
+Name: mlflow-assist
+Version: 0.2.0
+Summary: A comprehensive toolkit for ML and LLM development
+Home-page: https://github.com/happyvibess/mlflow-assist
+Author: happyvibess
+Author-email: MLFlow-Assist Team <support@mlflow-assist.dev>
+License: MIT
+Project-URL: Documentation, https://github.com/happyvibess/mlflow-assist/tree/master/docs
+Project-URL: Bug Reports, https://github.com/happyvibess/mlflow-assist/issues
+Project-URL: Source Code, https://github.com/happyvibess/mlflow-assist
+Project-URL: Buy me a coffee, https://www.buymeacoffee.com/happyvibess
+Keywords: machine-learning,deep-learning,llm,mlops,automl,gpt,model-optimization,mlflow,enterprise-ai,ai-automation,model-monitoring,deployment,pytorch,tensorflow,prompt-engineering
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Information Technology
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: System :: Monitoring
+Classifier: Environment :: Console
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: torch>=1.9.0
+Requires-Dist: transformers>=4.20.0
+Requires-Dist: mlflow>=1.20.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: rich>=10.0.0
+Requires-Dist: typer>=0.4.0
+Requires-Dist: pydantic>=1.8.0
+Requires-Dist: python-dotenv>=0.19.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0.0; extra == "dev"
+Requires-Dist: black>=21.0.0; extra == "dev"
+Requires-Dist: isort>=5.0.0; extra == "dev"
+Requires-Dist: flake8>=3.9.0; extra == "dev"
+Requires-Dist: mypy>=0.910; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# MLFlow-Assist: Enterprise ML/LLM Development Suite 🚀
+
+[![PyPI version](https://badge.fury.io/py/mlflow-assist.svg)](https://pypi.org/project/mlflow-assist/)
+[![PyPI Downloads](https://pepy.tech/badge/mlflow-assist)](https://pepy.tech/project/mlflow-assist)
+[![Python Versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)](https://github.com/happyvibess/mlflow-assist)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-happyvibess-orange)](https://www.buymeacoffee.com/happyvibess)
+
+A comprehensive enterprise-ready toolkit that supercharges your ML and LLM development workflow with automated optimization, deployment, monitoring, and monetization capabilities.
+
+## 🌟 Key Features
+
+### AutoML & Model Management
+- 🤖 Automated model selection and optimization
+- 📊 Hyperparameter optimization with Optuna
+- 🔧 Model compression (pruning, quantization, distillation)
+- 🚀 Distributed training with multi-GPU support
+
+### LLM Capabilities
+- 🧠 Advanced prompt engineering and chain management
+- 🔄 Multi-step reasoning chains
+- 💬 Conversation history management
+- 🎯 Context-aware processing
+
+### Enterprise Features
+- 💰 Usage tracking and monetization
+- 📊 Real-time performance monitoring
+- 🔄 Automated deployment (K8s/Docker)
+- 📈 Model drift detection & alerts
+
+## 🚀 Installation
+
+```bash
+# From PyPI (recommended)
+pip install mlflow-assist
+
+# Latest development version from GitHub
+pip install git+https://github.com/happyvibess/mlflow-assist.git
+```
+
+## 🌟 Quick Start in 5 Minutes
+
+### 1. Simple Classification
+```python
+from mlflow_assist.advanced.automl import AutoML, AutoMLConfig
+
+# Automated model selection and optimization
+automl = AutoML(AutoMLConfig(task_type="classification"))
+best_model = automl.optimize(X_train, y_train)
+
+# Model compression and optimization
+from mlflow_assist.advanced.optimization import ModelOptimizer
+optimizer = ModelOptimizer(compression_method="quantization")
+optimized_model = optimizer.optimize(model)
+```
+
+### 2. Text Generation with LLMs
+```python
+from mlflow_assist.advanced.llm_chains import LLMChain
+
+chain = LLMChain("gpt-3.5-turbo")
+chain.add_prompt_template("""
+Context: {context}
+Question: {question}
+Answer:""")
+
+# Execute multi-step chains
+pipeline = chain.create_chain([
+    {"template": "Summarize: {text}", "use_response_as_input": True},
+    {"template": "Extract key points: {text}"}
+])
+```
+
+### 3. Production Features
+```python
+# Usage tracking and monetization
+from mlflow_assist.enterprise.monetization import EnterpriseManager
+manager = EnterpriseManager(subscription_plan="pro")
+manager.track_usage("api_calls")
+
+# Performance monitoring
+from mlflow_assist.enterprise.monitoring import PerformanceMonitor
+monitor = PerformanceMonitor()
+metrics = monitor.analyze_performance(timeframe="1h")
+
+# Automated deployment
+from mlflow_assist.enterprise.deployment import DeploymentManager
+deployer = DeploymentManager()
+deployer.deploy(model, deployment_type="kubernetes")
+```
+
+## 👩‍💻 Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/happyvibess/mlflow-assist.git
+cd mlflow-assist
+
+# Install in development mode with all extras
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+```
+
+## 📚 Documentation & Resources
+
+- [Getting Started Guide](docs/getting-started.md)
+- [Example Notebooks](examples/notebooks/)
+
+## 🤝 Community & Support
+
+- [Report Issues](https://github.com/happyvibess/mlflow-assist/issues)
+
+If you find this project helpful, consider [buying me a coffee](https://www.buymeacoffee.com/happyvibess)!
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+---
+
+<p align="center">
+Made with ❤️ by MLFlow-Assist Team | <a href="https://www.buymeacoffee.com/happyvibess">Support the Project</a>
+</p>
