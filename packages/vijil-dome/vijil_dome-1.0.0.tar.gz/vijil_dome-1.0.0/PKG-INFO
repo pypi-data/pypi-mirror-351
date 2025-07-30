@@ -1,0 +1,504 @@
+Metadata-Version: 2.3
+Name: vijil-dome
+Version: 1.0.0
+Summary: 
+Author: Pradeep Das
+Author-email: das.pradeep@gmail.com
+Requires-Python: >=3.11,<3.13
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: embeddings
+Provides-Extra: google
+Provides-Extra: langchain
+Provides-Extra: opentelemetry
+Requires-Dist: Deprecated (==1.2.15)
+Requires-Dist: Jinja2 (==3.1.4)
+Requires-Dist: MarkupSafe (==3.0.2)
+Requires-Dist: PyJWT (==2.10.1)
+Requires-Dist: PyYAML (==6.0.2)
+Requires-Dist: Pygments (==2.18.0)
+Requires-Dist: SQLAlchemy (==2.0.32)
+Requires-Dist: aiobotocore (==2.15.2)
+Requires-Dist: aiohappyeyeballs (==2.3.4)
+Requires-Dist: aiohttp (==3.10.1)
+Requires-Dist: aioitertools (==0.12.0)
+Requires-Dist: aiosignal (==1.3.1)
+Requires-Dist: annotated-types (==0.7.0)
+Requires-Dist: annoy (==1.17.3) ; extra == "embeddings"
+Requires-Dist: anyio (==4.8.0)
+Requires-Dist: attrs (==24.1.0)
+Requires-Dist: azure-core (==1.32.0)
+Requires-Dist: bcrypt (==4.2.1)
+Requires-Dist: blis (==0.7.11)
+Requires-Dist: boto3 (==1.35.36)
+Requires-Dist: botocore (==1.35.36)
+Requires-Dist: cachetools (==5.5.0)
+Requires-Dist: catalogue (==2.0.10)
+Requires-Dist: cattrs (==24.1.2)
+Requires-Dist: certifi (==2024.7.4)
+Requires-Dist: charset-normalizer (==3.3.2)
+Requires-Dist: click (==8.1.8)
+Requires-Dist: cloudpathlib (==0.20.0)
+Requires-Dist: colorama (==0.4.6)
+Requires-Dist: confection (==0.1.5)
+Requires-Dist: constructs (==10.4.2)
+Requires-Dist: contourpy (==1.3.1)
+Requires-Dist: cramjam (==2.9.1)
+Requires-Dist: cycler (==0.12.1)
+Requires-Dist: cymem (==2.0.10)
+Requires-Dist: dataclasses-json (==0.6.7)
+Requires-Dist: datasets (==2.21.0)
+Requires-Dist: defusedxml (==0.7.1)
+Requires-Dist: detect-secrets (==1.5.0)
+Requires-Dist: dill (==0.3.8)
+Requires-Dist: distro (==1.9.0)
+Requires-Dist: faiss-cpu (==1.8.0.post1)
+Requires-Dist: fastapi (==0.115.6)
+Requires-Dist: fastparquet (==2024.11.0)
+Requires-Dist: filelock (==3.16.1)
+Requires-Dist: flashtext (==2.7)
+Requires-Dist: fonttools (==4.55.2)
+Requires-Dist: fpdf2 (==2.8.1)
+Requires-Dist: frozenlist (==1.4.1)
+Requires-Dist: fsspec (==2024.6.1)
+Requires-Dist: google-api-core (==2.23.0) ; extra == "google"
+Requires-Dist: google-api-python-client (==2.157.0) ; extra == "google"
+Requires-Dist: google-auth (==2.36.0) ; extra == "google"
+Requires-Dist: google-auth-httplib2 (==0.2.0) ; extra == "google"
+Requires-Dist: google-cloud-appengine-logging (==1.5.0) ; extra == "google"
+Requires-Dist: google-cloud-audit-log (==0.3.0) ; extra == "google"
+Requires-Dist: google-cloud-core (==2.4.1) ; extra == "google"
+Requires-Dist: google-cloud-logging (==3.11.3) ; extra == "google"
+Requires-Dist: google-cloud-monitoring (==2.23.1) ; extra == "google"
+Requires-Dist: google-cloud-trace (==1.14.1) ; extra == "google"
+Requires-Dist: googleapis-common-protos (==1.66.0) ; extra == "google"
+Requires-Dist: greenlet (==3.0.3)
+Requires-Dist: grpc-google-iam-v1 (==0.14.0)
+Requires-Dist: grpcio (==1.68.1)
+Requires-Dist: grpcio-status (==1.68.1)
+Requires-Dist: h11 (==0.14.0)
+Requires-Dist: httpcore (==1.0.5)
+Requires-Dist: httplib2 (==0.22.0)
+Requires-Dist: httpx (==0.28.1)
+Requires-Dist: huggingface-hub (==0.26.3)
+Requires-Dist: idna (==3.7)
+Requires-Dist: importlib_metadata (==8.5.0)
+Requires-Dist: importlib_resources (==6.5.2)
+Requires-Dist: iniconfig (==2.0.0)
+Requires-Dist: jiter (==0.8.2)
+Requires-Dist: jmespath (==1.0.1)
+Requires-Dist: joblib (==1.4.2)
+Requires-Dist: jsii (==1.106.0)
+Requires-Dist: jsonpatch (==1.33)
+Requires-Dist: jsonpointer (==3.0.0)
+Requires-Dist: jsonschema (==4.23.0)
+Requires-Dist: jsonschema-specifications (==2025.4.1)
+Requires-Dist: kiwisolver (==1.4.7)
+Requires-Dist: langchain (==0.2.12) ; extra == "langchain"
+Requires-Dist: langchain-community (==0.2.11) ; extra == "langchain"
+Requires-Dist: langchain-core (==0.2.43) ; extra == "langchain"
+Requires-Dist: langchain-openai (==0.1.20) ; extra == "langchain"
+Requires-Dist: langchain-text-splitters (==0.2.2) ; extra == "langchain"
+Requires-Dist: langcodes (==3.5.0)
+Requires-Dist: langsmith (==0.1.112) ; extra == "langchain"
+Requires-Dist: language_data (==1.3.0)
+Requires-Dist: litellm (==1.70.2)
+Requires-Dist: marisa-trie (==1.2.1)
+Requires-Dist: markdown-it-py (==3.0.0)
+Requires-Dist: marshmallow (==3.21.3)
+Requires-Dist: matplotlib (==3.9.3)
+Requires-Dist: mdurl (==0.1.2)
+Requires-Dist: mpmath (==1.3.0)
+Requires-Dist: multidict (==6.0.5)
+Requires-Dist: multiprocess (==0.70.16)
+Requires-Dist: murmurhash (==1.0.11)
+Requires-Dist: mypy (==1.13.0)
+Requires-Dist: mypy-extensions (==1.0.0)
+Requires-Dist: nest-asyncio (==1.6.0)
+Requires-Dist: networkx (==3.4.2)
+Requires-Dist: numpy (==1.26.0)
+Requires-Dist: openai (==1.75.0)
+Requires-Dist: opentelemetry-api (==1.28.1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-exporter-gcp-monitoring (==1.7.0a0) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-exporter-gcp-trace (==1.9.0) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-exporter-otlp (==1.28.1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-exporter-otlp-proto-common (==1.28.1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-exporter-otlp-proto-grpc (==1.28.1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-exporter-otlp-proto-http (==1.28.1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-instrumentation (==0.49b1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-instrumentation-asyncio (==0.49b1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-instrumentation-logging (==0.49b1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-instrumentation-threading (==0.49b1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-propagator-gcp (==1.7.0) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-proto (>=1.28.1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-resourcedetector-gcp (==1.7.0a0) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-sdk (==1.28.1) ; extra == "opentelemetry"
+Requires-Dist: opentelemetry-semantic-conventions (==0.49b1) ; extra == "opentelemetry"
+Requires-Dist: orjson (==3.10.6)
+Requires-Dist: packaging (==24.2.0)
+Requires-Dist: pandas (==2.2.3)
+Requires-Dist: phonenumbers (==8.13.51)
+Requires-Dist: pillow (==11.0.0)
+Requires-Dist: pluggy (==1.5.0)
+Requires-Dist: preshed (==3.0.9)
+Requires-Dist: presidio_analyzer (==2.2.355)
+Requires-Dist: presidio_anonymizer (==2.2.355)
+Requires-Dist: propcache (==0.2.1)
+Requires-Dist: proto-plus (==1.25.0)
+Requires-Dist: protobuf (==5.29.1)
+Requires-Dist: publication (==0.0.3)
+Requires-Dist: pyarrow (==18.1.0)
+Requires-Dist: pyasn1 (==0.6.1)
+Requires-Dist: pyasn1_modules (==0.4.1)
+Requires-Dist: pycryptodome (==3.21.0)
+Requires-Dist: pydantic (==2.8.2)
+Requires-Dist: pydantic_core (==2.20.1)
+Requires-Dist: pyparsing (==3.2.0)
+Requires-Dist: pytest (==8.3.4)
+Requires-Dist: pytest-asyncio (==0.24.0)
+Requires-Dist: python-dateutil (==2.9.0.post0)
+Requires-Dist: python-dotenv (==1.0.1)
+Requires-Dist: pytz (==2024.2)
+Requires-Dist: referencing (==0.36.2)
+Requires-Dist: regex (==2024.7.24)
+Requires-Dist: requests (==2.32.3)
+Requires-Dist: requests-aws4auth (==1.3.1)
+Requires-Dist: requests-file (==2.1.0)
+Requires-Dist: rich (==13.9.4)
+Requires-Dist: rpds-py (==0.25.1)
+Requires-Dist: rsa (==4.9)
+Requires-Dist: ruff (==0.4.10)
+Requires-Dist: s3transfer (==0.10.4)
+Requires-Dist: safetensors (==0.4.5)
+Requires-Dist: scikit-learn (==1.5.2)
+Requires-Dist: scipy (==1.14.1)
+Requires-Dist: seaborn (==0.13.2)
+Requires-Dist: sentence-transformers (==3.3.1)
+Requires-Dist: setuptools (==75.6.0)
+Requires-Dist: shellingham (==1.5.4)
+Requires-Dist: six (==1.17.0)
+Requires-Dist: smart-open (==7.0.5)
+Requires-Dist: sniffio (==1.3.1)
+Requires-Dist: spacy (==3.7.5)
+Requires-Dist: spacy-legacy (==3.0.12)
+Requires-Dist: spacy-loggers (==1.0.5)
+Requires-Dist: srsly (==2.4.8)
+Requires-Dist: starlette (==0.41.3)
+Requires-Dist: sympy (==1.13.1)
+Requires-Dist: tenacity (==8.5.0)
+Requires-Dist: thinc (==8.2.5)
+Requires-Dist: threadpoolctl (==3.5.0)
+Requires-Dist: tiktoken (==0.7.0)
+Requires-Dist: tldextract (==5.1.3)
+Requires-Dist: tokenizers (==0.21.1)
+Requires-Dist: toml (==0.10.2)
+Requires-Dist: torch (==2.6.0)
+Requires-Dist: tqdm (==4.66.5)
+Requires-Dist: transformers (==4.48.0)
+Requires-Dist: typeguard (==2.13.3)
+Requires-Dist: typer (==0.15.1)
+Requires-Dist: types-requests (==2.32.0.20241016)
+Requires-Dist: types-toml (==0.10.8.20240310)
+Requires-Dist: typing-inspect (==0.9.0)
+Requires-Dist: typing_extensions (==4.12.2)
+Requires-Dist: tzdata (==2024.2)
+Requires-Dist: uritemplate (==4.1.1)
+Requires-Dist: urllib3 (==2.2.2)
+Requires-Dist: uvicorn (==0.34.0)
+Requires-Dist: wasabi (==1.1.3)
+Requires-Dist: weasel (==0.4.1)
+Requires-Dist: wrapt (==1.17.0)
+Requires-Dist: xxhash (==3.5.0)
+Requires-Dist: yarl (==1.9.4)
+Requires-Dist: zipp (==3.21.0)
+Description-Content-Type: text/markdown
+
+# Vijil Dome 
+
+## Installing the library
+
+You can install ```vijil-dome``` as a library by running the command 
+
+```pip install git+https://github.com/vijilAI/vijil-dome.git@domelibrary```
+
+See the examples folder for usage examples
+
+## Cloning/Syncing the repo
+
+### Clone
+
+`git clone --recurse-submodules git@github.com:vijilAI/vijil-dome.git`
+
+### Sync
+
+`git pull --recurse-submodules`
+
+### Submodule init
+
+`git submodule update --init --recursive`
+
+### Submodule update
+
+`git submodule update --recursive --remote`: --remote: Fetches the latest changes from the remote repository for each submodule.
+
+## Configuration Overview
+
+This README provides detailed information about the configuration file used for setting up a Dome. 
+
+## Running locally:
+
+### Build and run
+
+```
+# Set a local API_KEY
+$ export API_KEY=test-123
+$ make build
+```
+
+### Test locally
+
+#### Status check
+```
+$ curl localhost:80/status
+```
+
+#### Add/Update dome config
+```
+$ curl -XPATCH "localhost:80/config" \
+-H "Content-Type: application/json" \
+-d '{
+  "input-guards": ["prompt-injection", "input-toxicity"],
+  "output-guards": ["output-toxicity"],
+  "input-early-exit": false,
+  "prompt-injection": {
+    "type": "security",
+    "early-exit": false,
+    "methods": ["prompt-injection-deberta-v3-base", "security-llm"],
+    "security-llm": {
+      "model_name": "gpt-4o"
+    }
+  },
+  "input-toxicity": {
+    "type": "moderation",
+    "methods": ["moderations-oai-api"]
+  },
+  "output-toxicity": {
+    "type": "moderation",
+    "methods": ["moderation-prompt-engineering"]
+  }
+}'
+```
+
+#### Input detections
+```
+$ curl -XGET "localhost:80/input_detection?api_key=test-123&input_str=hello"
+$ curl -XGET "localhost:80/async_input_detection?api_key=test-123&input_str=hello"
+```
+
+#### Output detections
+```
+$ curl -XGET "localhost:80/output_detection?api_key=test-123&output_str=goodbye"
+$ curl -XGET "localhost:80/async_output_detection?api_key=test-123&output_str=goodbye"
+```
+
+## Table of Contents
+1. [General Structure](#general-structure)
+2. [Method-Specific Settings](#method-specific-settings)
+    - [Security Methods](#1-security-methods)
+        - [DeBERTa Prompt-Injection Model](#i-deberta-prompt-injection-model-prompt-injection-deberta-v3-base)
+        - [Security Prompt Engineering](#ii-security-prompt-engineering-security-llm)
+        - [Length-Per-Perplexity Heuristic](#iii--length-per-perplexity-heuristic-jb-length-per-perplexity)
+        - [Prefix-Suffix Perplexity Heuristic](#iv-prefix-suffix-perplexity-heuristic-jb-prefix-suffix-perplexity)
+        - [Security Embeddings](#v-security-embeddings-security-embeddings)
+    - [Moderation Methods](#2-moderation-methods)
+        - [Flashtext Banlist](#i-flashtext-banlist-moderation-flashtext)
+        - [Moderation Prompt Engineeering](#iii-moderation-prompt-engineering-moderation-prompt-engineering)
+        - [OpenAI Moderation API](#iv-openai-moderations-api-moderations-oai-api)
+        - [Perspective API](#v-perspective-api-moderation-perspective-api)
+        - [DeBERTa Toxicity Model](#vi-deberta-toxicity-model-moderation-deberta)
+    - [Privacy Methods](#3-privacy-methods)
+        - [Presidio](#i-presidio-privacy-presidio)
+    - [Integrity Methods](#4-integrity-methods)
+        - [HHEM](#i-hhem-hhem-hallucination)
+        - [Hallucination Prompt Engineering](#ii-hallucination-prompt-engineering-hallucination-llm)
+        - [RoBERTa Fact-Check](#iii-roberta-fact-check-model-fact-check-roberta)
+        - [Fact-Check Prompt Engineering](#iv-fact-check-prompt-engineering-fact-check-llm)
+
+## General Structure
+
+Dome configurations can be specified via either a dictionary or a TOML file. An example of a TOML configuration is shown below
+
+```toml
+[guardrail]
+input-guards = ["prompt-injection", "input-toxicity"] 
+output-guards = ["output-toxicity"] 
+input-early-exit = false
+
+[prompt-injection] 
+type="security"
+early-exit = false
+methods = ["prompt-injection-deberta-v3-base", "security-llm"]
+
+[prompt-injection.security-llm]
+model_name = "gpt-4o"
+
+[input-toxicity]
+type="moderation"
+methods = ["moderations-oai-api"]
+
+[output-toxicity]
+type="moderation"
+methods = ["moderation-prompt-engineering"]
+```
+
+Configurations can also be provided via dictionaries. The same configuration as a dictionary is shown below
+```python
+example_config = {
+            "input-guards": ["prompt-injection", "input-toxicity"],
+            "output-guards": ["output-toxicity"],
+            "input-early-exit": False,
+            "prompt-injection": {
+                "type": "security",
+                "early-exit":False,
+                "methods" : ["prompt-injection-deberta-v3-base", "security-llm"],
+                "security-llm": {
+                    "model_name": "gpt-4o"
+                }
+            },
+            "input_toxicity":{
+                "type":"moderation",
+                "methods":["moderations-oai-api"]
+            },
+            "output_toxicity":{
+                "type":"moderation",
+                "methods":["moderation-prompt-engineering"]
+            },
+        }
+```
+
+The ```guardrail``` field describes the high level structure of the Dome object. ```guardrail``` has four attributes that must be specified 
+- ```input-guards``` - A list of user-defined guard-group names that will be used to scan the input to the LLM
+- ```output-guards``` - A list of user-defined guard-group names that will be used to scan the output from the LLM
+- ```input-early-exit``` - A boolean value to determine if the input-guards will run in "early-exit" mode, i.e, stop execution as soon as one of the groups has flagged the input. (Default value : true)
+- ```output-early-exit``` - A boolean value to determine if the output-guards will run in "early-exit" mode, i.e, stop execution as soon as one of the groups has flagged the output. (Default value : true)
+- ```input-run-parallel``` - A boolean value to determine if the input guard-groups will be executed in parallel or not. (Default value : false)
+- ```output-run-parallel``` - A boolean value to determine if the output guard-groups will be executed in parallel or not. (Default value : false)
+
+Once the guardrail structure has been specified, the configuration of each guard-group can be specified by creating a new field with the guard-group's name. In the example above, we have three guard-groups  ```prompt-injection```,  ```input-toxicity``` and  ```output-toxicity```. ```prompt-injection``` and  ```input-toxicity``` apply to the input, and ```output-toxicity``` is applied only to the output. 
+
+Each guard-group has three attributes:
+- ```type``` - this must be specified, and controls the type of the guard-group. A guard-group's type is the category of guards that it holds. Every guard-group can only be exactly one type. We currently support four types =  ```security```,  ```moderation```,  ```privacy``` and  ```integrity``` (Note: Integrity is a WIP and has not yet been tested)
+- ```methods``` - a list that describes which methods are to be used in the guard-group. The methods that can be used depend on the type selected (See model-specific settings for a list of all the methods available for each type of guardgroup). Note that the name in this list **must** match a name of a method exactly. 
+- ```early-exit``` - a boolean flag that determines if the methods run in "early-exit" mode, i.e, stop execution as soon as one of the methods has flagged the output. (Default value : true)
+- ```run-parallel``` - a boolean flag that determins if the methods run in parallel or sequentially. (Note: if this is enabled, then the value of early-exit is ignored and execution stops as soon as one method flags the query). (Default value: false)
+
+
+Finally, to customize settings at the method-level, create a new field with the name ```<GROUP-NAME>.<METHOD-NAME>```. In the example above, ```prompt-injection.security-llm``` describes the configuration settings for the ```security-llm``` method of the ```prompt-injection``` guard-group. This configuration scheme lets users create custom settings for different groups and use the same method with different settings in a guardrail. See the next section for detailed instructions on the options available for each method. 
+
+
+## Method-Specific Settings
+
+This section outlines all the methods currently supported for the various types of guard-groups that can be created. 
+
+### 1. Security Methods
+Security guards are guards meant to block against malicious prompts that attempt to cause the LLM to break its intended behaviour and guidelines. We currently support methods that aim to detect prompt injections, and jailbreak attacks. Security methods should typically be used in input guardrails.
+
+#### i. DeBERTa Prompt-Injection Model (```prompt-injection-deberta-v3-base```)
+This is a [fine-tuned deberta-v3-base model](https://huggingface.co/protectai/deberta-v3-base-prompt-injection), intended to be a classifier for detecting jailbreaks and prompt injection attacks. It has the following parameters
+- ```truncation``` : optional boolean. Determines if the model input should be truncated or not. (Default: true)
+- ```max_length``` : optional int. Maximum length of input string. (Default: 512)
+
+#### ii. Security Prompt Engineering (```security-llm```)
+A detector that uses custom prompt-engineering to determine if the query string is a prompt-injection or jailbreak attempt. It has the following parameters
+- ```hub_name``` : optional str. The hub that hosts the model you want to use. Currently supports OpenAI (```"openai"```), Together (```"together"```) and Octo (```"octo"```). Default value : ```"openai"```
+- ```model_name``` : optional str. The model that you want to use. Default: ```"gpt-4-turbo"```. Please ensure that the model you wish to use is compatible with the hub you selected. 
+- ```api_key```: optional str. Specify the API key you want to use. By default, this is None, and the API key is pulled directly from the environment variables. The environment variables used are ```OPENAI_API_KEY```, ```OCTO_API_KEY```, and ```TOGETHER_API_KEY```
+
+#### iii.  Length-Per-Perplexity Heuristic (```jb-length-per-perplexity```)
+This method uses a hueristic based on perplexity outputs of GPT-2 and the length of a query string to determine if a prompt is a possible jailbreak attack. See [NeMo Guardrails](https://docs.nvidia.com/nemo/guardrails/user_guides/guardrails-library.html#jailbreak-detection-heuristics) for additional details. It has the following parameters
+- ```stride_length```: optional int. Stride of the LLM. Default value: 512
+- ```threshold```: optional float. the threshold of the heuristic. A string with a score higher than the threshold is classified as a jailbreak. Default: 89.79
+
+#### iv. Prefix-Suffix-Perplexity Heuristic (```jb-prefix-suffix-perplexity```)
+Similar to the previous method, this method uses a hueristic based on the perplexity of the first and last 20 words of a query. See [NeMo Guardrails](https://docs.nvidia.com/nemo/guardrails/user_guides/guardrails-library.html#jailbreak-detection-heuristics) for additional details. It has the following parameters
+- ```stride_length```: optional int. Stride of the LLM. Default value: 512
+- ```prefix_threshold```: optional float. The threshold for prefix perplexity. Any query string with a prefix threshold higher than this is flagged as a jailbreak attempt. Default: 1845.65
+- ```suffix_threshold```: optional float. The threshold for suffix perplexity. Any query string with a suffix threshold higher than this is flagged as a jailbreak attempt. Default: 1845.65
+- ```prefix_length```: optional int. The number of words to consider in the prefix. If this is larger than the number of words in the query string, the max length of the query string is used. Default: 20
+- ```suffix_length```: optional int. The number of words to consider in the suffix. If this is larger than the number of words in the query string, the max length of the query string is used. Default: 20
+
+#### v. Security Embeddings (```security-embeddings```)
+Creates an embeddings index using the garak-in-the-wild-jailbreaks dataset. It has the following parameters:
+- ```engine```: optional str. The engine to perform the embeddings. We currently support ```SentenceTransformer``` and ```FastEmbed```. Default: ```SentenceTransformer```
+- ```model```: optional str. The embedding model to use. Default: ```all-MiniLM-L6-v2```
+- ```threshold```: optional float. The default similarity threshold. If the similarity between a query and its nearest neighbour is greater than or equal to this value, the query is flagged. Default: 0.8
+- ```in_mem```: optional bool. Keep the index in memory via a Pandas dataframe (if true) or via Annoy (if False). (Note: Annoy appears to have some instability on Windows environments). Default: true
+
+
+### 2. Moderation Methods
+Moderation methods are aimed to catch content that can be deemed offensive, hurtful, toxic or inappropriate. They also provide support for catching content that might violate other policies such as containing words of phrases that should be banned.  Moderation methods can be used at both the input and output level. 
+
+#### i. Flashtext Banlist (```moderation-flashtext```)
+Uses the [Flashtext](https://github.com/vi3k6i5/flashtext) algorithm for fast keyword matching to block any string that contains a phrase or word that is present in a banlist. It has the following parameters
+- ```banlist_filepaths```: optional list[str]. A list of paths to text files that contain banned phrases. If not provided, the default banlist (```vijil_core/detectors/configs/banlists/default_banlist.txt```) is used. 
+
+#### ii. Moderation Prompt Engineering (```moderation-prompt-engineering```)
+A detector that uses custom prompt-engineering to determine if the query string contains toxicity. It has the following parameters
+- ```hub_name``` : optional str. The hub that hosts the model you want to use. Currently supports OpenAI (```"openai"```), Together (```"together"```) and Octo (```"octo"```). Default value : ```"openai"```
+- ```model_name``` : optional str. The model that you want to use. Default: ```"gpt-4-turbo"```. Please ensure that the model you wish to use is compatible with the hub you selected. 
+- ```api_key```: optional str. Specify the API key you want to use. By default this is not specified and the API key is pulled directly from the environment variables. The environment variables used are ```OPENAI_API_KEY```, ```OCTO_API_KEY```, and ```TOGETHER_API_KEY``` for the corresponding hubs. 
+
+#### iii. OpenAI Moderations API (```moderations-oai-api```)
+Uses the latest text-moderation model from OpenAI to classify content for hate, harassment, self-harm, sexual content and violence. It supports the following parameters
+- ```score_threshold_dict```: optional dict[str : float]. This dictionary sets the per-category score threshold for each of the different toxicity dimensions. Scores above the threshold will be flagged as toxic. If this is not set, a default value of 0.5 is used for each category. If the dictionary is provided, only the categories in the dictionary are considered. For example, setting this to ```{"violence" : 0.8, "self-harm" : 0.3}``` will cause the method to ignore every category except violence and self-harm, setting their thresholds to 0.8 and 0.3 respectively. For a full list of the categories available, see [here](https://platform.openai.com/docs/guides/moderation/overview).
+
+#### iv. Perspective API (```moderation-perspective-api```)
+Uses Google Jigsaw's [Perspective API](https://www.perspectiveapi.com/) to detect toxicity in text. It supports the following parameters
+- ```attributes```: optional dict. We do not recommend changing this since it is required by the API. By default, the value is ```{'TOXICITY':{}}```
+- ```score_threshold_dict```: optional dict[str: float]. Provide a score threshold for the API. Values that cross the threshold are flagged by the detector. Default: ```{"TOXICITY": 0.5}```. If you wish to change the threshold then change the dictionary accordingly (eg. ```{"TOXICITY": 0.75}``` would set the threshold to 0.75.)
+
+#### v. DeBERTa Toxicity Model (```moderation-deberta```)
+Uses a [fine-tuned deberta v3 model](https://huggingface.co/cooperleong00/deberta-v3-large_toxicity-scorer) to detect the presence of toxicity in text. It has the following parameters 
+- ```truncation``` : optional boolean. The truncation strategy used by the model. Default:true, 
+- ```max_length``` : optional int. Maximum sequence length that can be processed. Default:208
+- ```device``` : Optional str. The device to run on ("cuda" or "cpu"). By default uses CUDA if available, else the CPU. 
+
+
+### 3. Privacy Methods
+Privacy methods are aimed to detect and obfuscate the presence of private information and personally identifiable information (PII) in a string. They can be used at both the input and output levels. 
+
+#### i. Presidio (```privacy-presidio```)
+Uses [Microsoft's Presidio Data Protection and De-Identification SDK](https://microsoft.github.io/presidio/) to detect the presence of PII in a query string. Depending on the configuration it can be used to just detect PII, or obfuscate it instead. It has the following parameters
+- ```score_threshold```: optional float. The threshold for a string to be classified as PII. Default value : 0.5
+- ```anonymize```: optional boolean. Determine whether or not anonymization should be enabled. **Important**: if anonymization is enabled, this method will never flag any text. Instead, it will return an anonymized version of the query string with all the PII redacted. Default value: true
+- ```allow_list_files```: Optional List[str]. A list of filepaths that contain PII whitelists. Each file should be a text file where every line corresponds to one PII entry that should be ignored. By default, no files are specified in the allow list.
+
+### 4. Integrity Methods
+(Note: integrity methods are still currently a WIP and have not yet been thoroughly tested! We still need to think about how to best integrate it into Dome's workflow in a RAG setting. For thoroughnesses; sake, we still document our methods here.)
+
+Integrity methods evaluate query strings based on some available context to check for possible hallucinations and ungrounded or incorrect conclusions. Integrity methods will typically only apply to output guards in RAG-based applications. All integrity models support ```context``` as a parameter where the context for the detector can be initialized. 
+
+#### i. HHEM (```hhem-hallucination```)
+Uses the [HHEM Model by Vectara](https://huggingface.co/vectara/hallucination_evaluation_model) to determine if there might be possible model hallucinations. It supports the following parameters
+- ```context```: optional str. Set the initial context
+- ```factual_consistency_score_threshold``` : optional float. The factual consistency score threshold. **Important** - any input where the factual consistency score is **lower** than the threshold is classified as a possible hallucination. Default value: 0.5
+
+#### ii. Hallucination Prompt Engineering (```hallucination-llm```)
+Uses a prompt template outlined in [NeMo Guardrails](https://docs.nvidia.com/nemo/guardrails/user_guides/guardrails-library.html#hallucination-detection) to detect hallucinations given a context and hypothesis
+- ```context```: optional str. Set the initial context
+- ```hub_name``` : optional str. The hub that hosts the model you want to use. Currently supports OpenAI (```"openai"```), Together (```"together"```) and Octo (```"octo"```). Default value : ```"openai"```
+- ```model_name``` : optional str. The model that you want to use. Default: ```"gpt-4-turbo"```. Please ensure that the model you wish to use is compatible with the hub you selected. 
+- ```api_key```: optional str. Specify the API key you want to use. By default this is not specified and the API key is pulled directly from the environment variables. The environment variables used are ```OPENAI_API_KEY```, ```OCTO_API_KEY```, and ```TOGETHER_API_KEY``` for the corresponding hubs. 
+
+#### iii. RoBERTa fact-Check model (```fact-check-roberta```)
+Uses a [fine-tuned Roberta model](https://huggingface.co/Dzeniks/roberta-fact-check) to detect possible factual inconsistencies by examining the joint encoding of a context string and a query string and classifying if the context supports or refutes the claim. It supports the following parameters
+- ```context```: optional str. Set the initial context
+
+#### iv. Fact-Check Prompt Engineering (```fact-check-llm```)
+Uses a prompt template outlined in [NeMo Guardrails](https://docs.nvidia.com/nemo/guardrails/user_guides/guardrails-library.html#fact-checking) to detect if a claim is grounded in some context. It supports the following parameters:
+- ```context```: optional str. Set the initial context
+- ```hub_name``` : optional str. The hub that hosts the model you want to use. Currently supports OpenAI (```"openai"```), Together (```"together"```) and Octo (```"octo"```). Default value : ```"openai"```
+- ```model_name``` : optional str. The model that you want to use. Default: ```"gpt-4-turbo"```. Please ensure that the model you wish to use is compatible with the hub you selected. 
+- ```api_key```: optional str. Specify the API key you want to use. By default this is not specified and the API key is pulled directly from the environment variables. The environment variables used are ```OPENAI_API_KEY```, ```OCTO_API_KEY```, and ```TOGETHER_API_KEY``` for the corresponding hubs. 
+
