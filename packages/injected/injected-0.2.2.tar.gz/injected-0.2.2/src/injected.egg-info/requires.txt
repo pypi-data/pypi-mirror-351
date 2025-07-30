@@ -1,0 +1,10 @@
+immutables>=0.21
+
+[test]
+mypy
+pytest
+pytest-asyncio
+pytest-markdown-docs
+pytest-mypy-plugins
+pytest-random-order
+coverage
