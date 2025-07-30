@@ -1,0 +1,22 @@
+# Include essential files
+include README.md
+include LICENSE
+include pyproject.toml
+include environment.yml
+
+# Include source code
+recursive-include twocan *.py
+
+# Include documentation source (but not built docs)
+recursive-include docs *.rst *.md *.py *.txt Makefile
+prune docs/_build
+
+# EXCLUDE large directories
+prune examples
+prune notebooks
+prune .git
+prune .ipynb_checkpoints
+prune .pytest_cache
+prune build
+prune dist
+prune *.egg-info 
