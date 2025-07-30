@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simple-mcp-calculator"
+version = "0.1.0"
+description = "MCP server that does simple mathematical ops"
+readme = "README.md"
+authors = [
+    {name = "Kavya-24"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "mcp>=1.2.0",
+    "requests",
+    "beautifulsoup4",
+]
+requires-python = ">=3.9"
+
+[project.scripts]
+simple-mcp-calculator = "simple_calculator.server:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
