@@ -1,0 +1,7 @@
+torch>=1.8
+numpy>=1.23.5
+
+[dev]
+ruff
+build
+twine
