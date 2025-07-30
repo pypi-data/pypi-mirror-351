@@ -1,0 +1,3 @@
+[markdown.extensions]
+mumath = mumath.markdown:MuMark
+mumath-inline = mumath.markdown:InlineMuMark
