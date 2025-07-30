@@ -1,0 +1,16 @@
+LICENSE
+README.md
+setup.cfg
+setup.py
+ebsdlab/__init__.py
+ebsdlab/ebsd.py
+ebsdlab/orientation.py
+ebsdlab/quaternion.py
+ebsdlab/rodrigues.py
+ebsdlab/symmetry.py
+ebsdlab.egg-info/PKG-INFO
+ebsdlab.egg-info/SOURCES.txt
+ebsdlab.egg-info/dependency_links.txt
+ebsdlab.egg-info/requires.txt
+ebsdlab.egg-info/top_level.txt
+tests/test_ebsd.py
