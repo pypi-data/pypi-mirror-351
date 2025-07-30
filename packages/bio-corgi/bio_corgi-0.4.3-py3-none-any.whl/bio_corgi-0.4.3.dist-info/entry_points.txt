@@ -1,0 +1,4 @@
+[console_scripts]
+corgi=corgi.apps:Corgi.inference_only_main
+corgi-train=corgi.apps:Corgi.main
+
