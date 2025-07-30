@@ -1,0 +1,98 @@
+# Pykickstart Command Reference
+
+## Basic Commands
+
+### Initialize a New Project
+```bash
+# Basic initialization
+pykickstart init
+
+# Initialize with specific template
+pykickstart init --template web-app --gemini-key "YOUR_GEMINI_KEY"
+
+# Initialize with custom virtual environment name
+pykickstart init --venv-name myenv --template cli-tool --gemini-key "YOUR_GEMINI_KEY"
+
+# Initialize without Git
+pykickstart init --no-git --template data-science --gemini-key "YOUR_GEMINI_KEY"
+
+# Initialize with specific Python version
+pykickstart init --python "Python 3.11.0" --template web-app --gemini-key "YOUR_GEMINI_KEY"
+```
+
+### Virtual Environment Management
+```bash
+# Activate a virtual environment
+pykickstart activate
+
+# Deactivate the current virtual environment
+pykickstart deactivate
+```
+
+### Project Management
+```bash
+# List available project templates
+pykickstart list-templates
+
+# Manage project requirements
+pykickstart requirements
+
+# Install development tools
+pykickstart dev-tools
+
+# Set up project structure
+pykickstart setup
+
+# Set up project documentation
+pykickstart docs
+
+# Set up code quality tools
+pykickstart code-quality
+
+# Set up Git configuration
+pykickstart git-setup
+
+# Set up VS Code configuration
+pykickstart vscode-setup
+```
+
+## Command Options
+
+### init
+- `--venv-name`: Name of the virtual environment directory (default: .venv)
+- `--python`: Python interpreter to use
+- `--no-git`: Skip Git initialization
+- `--template`: Project template to use (e.g., web-app, cli-tool, data-science)
+- `--gemini-key`: Gemini API key for template generation
+
+### activate
+- No options required. It will show a list of available virtual environments to choose from.
+
+### deactivate
+- No options required. It will deactivate the currently active virtual environment.
+
+## Common Use Cases
+
+### Creating a Web Application
+```bash
+# Create a new web application project
+pykickstart init --template web-app --gemini-key "YOUR_GEMINI_KEY"
+```
+
+### Creating a CLI Tool
+```bash
+# Create a new CLI tool project
+pykickstart init --template cli-tool --gemini-key "YOUR_GEMINI_KEY"
+```
+
+### Creating a Data Science Project
+```bash
+# Create a new data science project
+pykickstart init --template data-science --gemini-key "YOUR_GEMINI_KEY"
+```
+
+## Notes
+1. Always provide the Gemini API key when using templates
+2. The virtual environment will be automatically activated after creation
+3. Dependencies will be automatically installed from requirements.txt
+4. You can use `pykickstart help-commands` to see a beautiful command reference in the terminal 
