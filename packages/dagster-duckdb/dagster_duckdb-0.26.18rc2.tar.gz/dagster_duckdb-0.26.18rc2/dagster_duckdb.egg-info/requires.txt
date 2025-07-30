@@ -1,0 +1,8 @@
+duckdb
+dagster==1.10.18rc2
+
+[pandas]
+pandas
+
+[pyspark]
+pyspark<4,>=3
