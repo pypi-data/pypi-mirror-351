@@ -1,0 +1,12 @@
+#
+# example configuration file for the SkyFitter component
+#
+
+# note that config section name must match class name
+SkyFitter:
+  name: SkyFitter-no-distortion-fit
+  max_num_fit_iterations: 10
+  distance_goal: 0.1
+  fixed_parameters: []
+  fit_camera_distortion: False
+  residual_cut: 3.0

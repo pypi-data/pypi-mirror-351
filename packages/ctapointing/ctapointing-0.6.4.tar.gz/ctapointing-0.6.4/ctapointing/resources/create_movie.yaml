@@ -1,0 +1,9 @@
+#
+# example configuration file for the ctapointing-create-movie tool
+#
+
+CreateMovieTool:
+  image_database: "images"
+  frame_rate: 10
+  frame_step: 1
+  trail_length: 15

@@ -1,0 +1,64 @@
+Metadata-Version: 2.4
+Name: ctapointing
+Version: 0.6.4
+Summary: Offline MST telescope pointing pipeline prototype for CTA (the Cherenkov Telescope Array)
+Author: Christopher van Eldik
+Author-email: christopher.van.eldik@fau.de
+Maintainer-email: Christopher van Eldik <christopher.van.eldik@fau.de>
+License: BSD-3-Clause
+Project-URL: repository, https://gitlab.com/vaneldik/ctapointing
+Project-URL: documentation, https://ctapointing.readthedocs.io
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: ctapipe
+Requires-Dist: astropy
+Requires-Dist: scipy
+Requires-Dist: numpy
+Requires-Dist: matplotlib
+Requires-Dist: astroquery
+Requires-Dist: pymongo
+Requires-Dist: scikit-image
+Requires-Dist: sep
+Requires-Dist: iminuit
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinx_rtd_theme; extra == "docs"
+Requires-Dist: sphinx-automodapi; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Requires-Dist: matplotlib; extra == "docs"
+Dynamic: license-file
+
+## Offline MST telescope pointing pipeline prototype for [CTA](www.cta-observatory.org) (the Cherenkov Telescope Array).
+
+This code is a prototype data processing framework and is under rapid
+development. It is not recommended for production use unless you are an
+expert or developer!
+
+* Code: https://gitlab.com/vaneldik/ctapointing/
+* Docs: see https://ctapointing.readthedocs.io and notebook examples in ctapointing/examples
+
+Installation for Developers
+---------------------------
+
+*ctapointing* and its dependencies can be installed using *Anaconda*. 
+
+The following steps need to be taken:
+* Clone the repository: `git clone https://gitlab.com/vaneldik/ctapointing.git`
+* Switch to the new repository: `cd ctapointing`
+* Tell git where you remote repository is: `git remote add upstream https://gitlab.com/vaneldik/ctapointing.git`
+* Create a conda environment: `conda env create -n ctapointing -f ctapointing-environment.yml`
+* Activate the new environment: `conda activate ctapointing`
+* Add repository to python search path: `pip install -e .`
+
+Your environment should now be ready. If you open a new terminal, just don't forget to execute `conda activate ctapointing` to activate the environment also in this terminal.
+

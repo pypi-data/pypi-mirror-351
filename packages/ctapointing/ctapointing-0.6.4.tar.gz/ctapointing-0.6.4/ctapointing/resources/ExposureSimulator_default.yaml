@@ -1,0 +1,17 @@
+#
+# example configuration file for the ExposureSimulator component
+#
+
+# note that config section name must match class name
+ExposureSimulator:
+  name: ExposureSimulator-default
+  min_magnitude: -12.0
+  max_magnitude: 9.0
+  num_time_steps: 20
+  unsharp_radius: "50 arcsec"
+  num_unsharp_rays_stars: 200
+  num_unsharp_rays_leds: 1000
+  apply_moonlight: True
+  apply_noise: True
+  ambient_temperature:
+  ambient_pressure:

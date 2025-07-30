@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ctapointing"
+description = "Offline MST telescope pointing pipeline prototype for CTA (the Cherenkov Telescope Array)"
+version = "0.6.4"
+readme = "README.md"
+authors = [
+    {name = "Christopher van Eldik"},
+]
+maintainers = [
+    {name = "Christopher van Eldik", email = "christopher.van.eldik@fau.de"},
+]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Development Status :: 3 - Alpha",
+]
+
+requires-python = ">=3.10"
+
+dependencies = [
+    "ctapipe",
+    "astropy",
+    "scipy",
+    "numpy",
+    "matplotlib",
+    "astroquery",
+    "pymongo",
+    "scikit-image",
+    "sep",
+    "iminuit",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "sphinx_rtd_theme",
+    "sphinx-automodapi",
+    "numpydoc",
+    "matplotlib",
+]
+
+[project.scripts]
+ctapointing-simulate-images = "ctapointing.tools.simulate_images_tool:main"
+ctapointing-extract-spots = "ctapointing.tools.extract_spots_tool:main"
+ctapointing-solve-images = "ctapointing.tools.solve_images_tool:main"
+ctapointing-create-movie = "ctapointing.tools.create_movie:main"
+
+[project.urls]
+repository = "https://gitlab.com/vaneldik/ctapointing"
+documentation = "https://ctapointing.readthedocs.io"
+
+# coverage configuration
+[tool.coverage.run]
+omit = [
+    # omit plotting utilities etc.
+    "*/*/utils.py",
+    ]

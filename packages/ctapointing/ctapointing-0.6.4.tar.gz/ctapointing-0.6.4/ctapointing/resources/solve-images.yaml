@@ -1,0 +1,29 @@
+#
+# example configuration file for the ctapointing-solve-images tool
+#
+
+SolveImagesTool:
+  image_database: "images"
+
+SpotListSource:
+  max_events:
+
+ImageSolver:
+  min_magnitude: -12.0
+  max_magnitude: 9.0
+  max_num_stars: 100
+  max_num_spots: 15
+  matching_distance: 0.01
+  matching_radius: 15
+  max_pointing_deviation: 2.0
+  min_camera_shadow: 0.0  # 10.0
+  scale_tolerance: 0.1
+
+SkyFitter:
+  max_num_fit_iterations: 10
+  distance_goal: 0.1
+  fixed_parameters: ["tilt_x", "tilt_y", "offset_x", "offset_y"]
+  fit_camera_distortion: True
+  residual_cut: 3.0
+
+

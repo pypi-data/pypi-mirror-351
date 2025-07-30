@@ -1,0 +1,57 @@
+image: python:3.10
+
+before_script:
+  - python -V  # Print out python version for debugging
+  - python -m venv .venv
+  - ls -l .venv
+  - source .venv/bin/activate
+
+pylint:
+  stage: test
+  script:
+    - pip install --upgrade pip
+    - pip install pylint-gitlab pylint-exit anybadge
+    - pip install ctapipe
+    - pip install astroquery
+    - pip install sep
+    - pip install scikit-image
+    - pip install pymongo
+    - pip install matplotlib
+    - mkdir pylint
+    - pylint --output-format=text ctapointing | tee pylint/pylint.log || pylint-exit $?
+    - PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint/pylint.log)
+    - pylint --exit-zero --output-format=pylint_gitlab.GitlabCodeClimateReporter ctapointing > codeclimate.json
+    - pylint --exit-zero --output-format=pylint_gitlab.GitlabPagesHtmlReporter ctapointing > pylint/index.html
+    - anybadge --label=pylint --file=pylint/pylint.svg --value=$PYLINT_SCORE 2=red 4=orange 8=yellow 10=green
+    - echo "Pylint score is $PYLINT_SCORE"
+  artifacts:
+    expose_as: "Pylint artifacts"
+    paths:
+      - pylint
+    reports:
+      codequality: codeclimate.json
+    when: always
+
+pytest:
+  stage: test
+  script:
+    - pip install pytest pytest-cov
+    - pip install ctapipe
+    - pip install astroquery
+    - pip install sep
+    - pip install scikit-image
+    - pip install pymongo
+    - pip install matplotlib
+    - pip install iminuit
+    - coverage run -m pytest --junit-xml=report.xml
+    - coverage report
+    - coverage xml
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+
