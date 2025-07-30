@@ -1,0 +1,8 @@
+nomad-lab>=1.3.14
+nbformat>=5.9.2
+
+[dev]
+nomad-lab[infrastructure]>=1.3.14
+ruff
+pytest
+structlog
