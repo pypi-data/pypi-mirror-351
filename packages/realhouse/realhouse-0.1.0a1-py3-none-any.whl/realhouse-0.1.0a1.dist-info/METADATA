@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: realhouse
+Version: 0.1.0a1
+Summary: A Python library for analyzing Dubai real estate data using ClickHouse and AI-powered insights.
+Author-email: Badr Ouali <badr@clickhouse.com>
+License: Apache-2.0
+Project-URL: Homepage, https://github.com/ClickHouse/RealHouse
+Project-URL: Repository, https://github.com/ClickHouse/RealHouse
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.25.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=3.0; extra == "dev"
+Requires-Dist: flake8>=6.0; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Dynamic: license-file
+
+# RealHouse
+A Python library for analyzing Dubai real estate data using ClickHouse and AI-powered insights.
