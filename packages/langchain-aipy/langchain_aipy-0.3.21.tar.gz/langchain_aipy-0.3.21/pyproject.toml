@@ -1,0 +1,33 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+     "setuptools >= 61.0"
+]
+
+[project]
+name = "langchain-aipy"
+version = "0.3.21"
+description = "Building applications with LLMs through composability"
+readme = "README.md"
+license = {text = "MIT AND (Apache-2.0 OR BSD-2-Clause)"}
+requires-python = "==3.12.*"
+authors = [
+    { name = "The QPYPI Team", email = "qpypi@qpython.org" },
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: Android",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development",
+]
+dependencies = [
+    "langchain-community-aipy", "langchain-text-splitters-aipy", "pydantic-qpython", "greenlet-qpython", "mypy-extensions", "jsonpatch", "annotated-types", "tenacity", "aiohttp-qpython","numpy-aipy", "langsmith-aipy", "sqlalchemy-qpython", "langchain-core-aipy", "langchain-openai-aipy"
+]
+
+[project.urls]
+Homepage = "https://qpypi.qpython.org/project/langchain-aipy/"
