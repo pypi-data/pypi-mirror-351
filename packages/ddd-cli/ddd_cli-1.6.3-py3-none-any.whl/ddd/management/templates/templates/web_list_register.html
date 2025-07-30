@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Django form list
+{% endblock %}
+
+{% block content %}
+    <h1 class="title">List of</h1>
+
+    <!--Codigo de Mensajes de error-->
+    {% if messages %}
+        <!-- Mostrar mensajes globales del framework de mensajes -->
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <strong>{{ message.tags|capfirst }}:</strong> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!--Codigo de Listado-->
+    <table class="table table-striped border datatable">
+        <thead>
+          <tr>       
+            <th>Name</th>
+            <th>Email</th>            
+            <th>Role</th>                       
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+            {% for [[ entity_name.lower() ]] in [[ entity_name.lower() ]]_list %}
+            <tr class="align-middle">              
+                <td>{{[[ entity_name.lower() ]].name}}</td>                
+                <td>{{[[ entity_name.lower() ]].email}}</td>
+                <td>
+                    {% if [[ entity_name.lower() ]].role == 'adm' %} Administrator {% elif [[ entity_name.lower() ]].role == 'man' %} Manager {% elif [[ entity_name.lower() ]].role == 'emp' %} Employee {% endif %}
+                </td>
+                <td>{{[[ entity_name.lower() ]].status}}</td>
+                <td>
+                    <a class="btn btn-success" href="">Edit</a>
+                    <a class="btn btn-success" href="">View</a>
+                    <a class="btn btn-success" href="">Delete</a>
+                </td>
+            </tr>    
+            {% endfor %}
+
+        </tbody>
+    </table>    
+
+{% endblock %} 
