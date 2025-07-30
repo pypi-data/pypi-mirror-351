@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amazon-q-mcp-github"
+version = "0.1.0"
+description = "Amazon Q MCP GitHub integration tool"
+authors = [
+  { name="Your Name", email="you@example.com" }
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.7"
+
+[project.urls]
+Homepage = "https://github.com/soufElhabti/amazon-q-mcp-github"
