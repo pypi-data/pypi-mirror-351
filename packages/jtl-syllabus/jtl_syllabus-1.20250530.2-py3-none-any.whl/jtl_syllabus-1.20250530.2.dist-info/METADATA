@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: jtl-syllabus
+Version: 1.20250530.2
+Summary: Course management system
+Author-email: Eric Busboom <eric.busboom@jointheleague.org>
+Requires-Python: >=3.12
+Requires-Dist: click>=8.1.8
+Requires-Dist: pydantic>=2.10.6
+Requires-Dist: python-frontmatter>=1.1.0
+Requires-Dist: pyyaml>=6.0.2
+Description-Content-Type: text/markdown
+
+# JTL Syllabus
+
+The `syl` program creates YAML syllabus files from a lessons directory, in
+support of [The LEAGUE of Amazing Programmers](jointheleague.org) coding
+curriculum. 
