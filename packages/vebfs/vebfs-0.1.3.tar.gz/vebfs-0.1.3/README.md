@@ -1,0 +1,61 @@
+<p align="center">
+  <img src="https://github.com/veb-bet/vebfs/raw/ff362f8f30d1a9debc566ff5ed54a5bcca221b43/docs/bat_image.png" alt="vebfs logo" width="150"/>
+</p>
+
+# vebfs
+**vebfs** — это библиотека Python для работы с файловой системой: копирование, перемещение, удаление, резервное копирование и поиск по шаблону.
+
+## Установка
+
+Установите библиотеку через [PyPI](https://pypi.org/project/vebfs/):
+
+```bash
+pip install vebfs
+```
+
+Установка из исходников (локально):
+
+```bash
+git clone https://github.com/your-username/vebfs.git
+cd vebfs
+pip install -e .
+```
+
+## Использование
+```python
+from vebfs import (
+    copy_file, move_file, delete_file, delete_directory,
+    create_backup, get_file_size, list_all_files,
+    ensure_directory_exists, find_files, find_directories
+)
+
+# Копирование
+copy_file("example.txt", "copy_example.txt")
+
+# Перемещение
+move_file("copy_example.txt", "moved_example.txt")
+
+# Бэкап
+create_backup("moved_example.txt", "backup.txt")
+
+# Удаление
+delete_file("moved_example.txt")
+delete_directory("old_folder", recursive=True)
+
+# Проверка папки
+ensure_directory_exists("logs")
+
+# Поиск
+print("Все .txt файлы:", find_files(".", "*.txt"))
+print("Все директории с 'log':", find_directories(".", "log*"))
+```
+
+## Тестирование
+```bash
+python -m unittest discover tests
+```
+
+## Лицензия
+BSD 2-Clause License
+
+Copyright (c) 2025, veb-bet
