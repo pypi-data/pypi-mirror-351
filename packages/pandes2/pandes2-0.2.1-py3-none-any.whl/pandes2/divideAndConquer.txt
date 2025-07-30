@@ -1,0 +1,461 @@
+Given an array of integers, find an element from it using Binary Search.
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class BinarySearchExample {
+
+    // Binary Search function
+    public static int binarySearch(int[] arr, int left, int right, int target) {
+        if (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == target)
+                return mid; // Element found
+            else if (arr[mid] > target)
+                return binarySearch(arr, left, mid - 1, target);
+            else
+                return binarySearch(arr, mid + 1, right, target);
+        }
+        return -1; // Element not found
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input array
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter array elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        // Sort the array before applying Binary Search
+        Arrays.sort(arr);
+
+        System.out.print("Enter element to search: ");
+        int target = sc.nextInt();
+
+        int result = binarySearch(arr, 0, n - 1, target);
+
+        if (result != -1)
+            System.out.println("Element found at index (0-based): " + result);
+        else
+            System.out.println("Element not found in the array.");
+
+        sc.close();
+    }
+}
+
+
+
+----------------------------------------------------------------------------------------------
+Given an array of integers, sort it using the merge sort technique using the Divide and Conquer Approach. 
+
+import java.util.Scanner;
+
+public class MergeSort {
+
+    // Merge two sorted subarrays
+    public static void merge(int[] arr, int left, int mid, int right) {
+        // Sizes of subarrays
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        // Create temp arrays
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+
+        // Copy data to temp arrays
+        for (int i = 0; i < n1; ++i)
+            L[i] = arr[left + i];
+        for (int j = 0; j < n2; ++j)
+            R[j] = arr[mid + 1 + j];
+
+        // Merge the temp arrays
+        int i = 0, j = 0;
+        int k = left;
+
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j])
+                arr[k++] = L[i++];
+            else
+                arr[k++] = R[j++];
+        }
+
+        // Copy remaining elements
+        while (i < n1)
+            arr[k++] = L[i++];
+
+        while (j < n2)
+            arr[k++] = R[j++];
+    }
+
+    // Merge Sort function
+    public static void mergeSort(int[] arr, int left, int right) {
+        if (left < right) {
+            // Find middle point
+            int mid = left + (right - left) / 2;
+
+            // Recursively sort first and second halves
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+
+            // Merge the sorted halves
+            merge(arr, left, mid, right);
+        }
+    }
+
+    // Print array
+    public static void printArray(int[] arr) {
+        for (int value : arr)
+            System.out.print(value + " ");
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter elements of the array:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        // Apply merge sort
+        mergeSort(arr, 0, n - 1);
+
+        // Output
+        System.out.println("Sorted array using Merge Sort:");
+        printArray(arr);
+
+        sc.close();
+    }
+}
+
+
+
+
+-----------------------------------------------------------------------------------------------
+Given an array of integers, sort it by using Quick Sort using Divide and Conquer Approach. 
+import java.util.Scanner;
+
+public class QuickSort {
+
+    // Function to perform partition
+    public static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high]; // Choose the last element as pivot
+        int i = low - 1; // Index of smaller element
+
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+
+                // Swap arr[i] and arr[j]
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+
+        // Swap arr[i+1] and pivot (arr[high])
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+
+        return i + 1; // Return pivot index
+    }
+
+    // QuickSort function
+    public static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            // Partitioning index
+            int pi = partition(arr, low, high);
+
+            // Recursively sort elements before and after partition
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+    // Function to print array
+    public static void printArray(int[] arr) {
+        for (int val : arr)
+            System.out.print(val + " ");
+        System.out.println();
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input array
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter array elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        // Sort using QuickSort
+        quickSort(arr, 0, n - 1);
+
+        // Output sorted array
+        System.out.println("Sorted array using Quick Sort:");
+        printArray(arr);
+
+        sc.close();
+    }
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------
+Sort an array of integers by building a max or min heap using the Divide and Conquer Approach. 
+
+Max heap version:
+import java.util.Scanner;
+
+public class HeapSort {
+
+    // Heapify a subtree rooted with node i (max heap)
+    public static void heapify(int[] arr, int n, int i) {
+        int largest = i;       // Initialize largest as root
+        int left = 2 * i + 1;  // left child
+        int right = 2 * i + 2; // right child
+
+        // If left child is larger than root
+        if (left < n && arr[left] > arr[largest])
+            largest = left;
+
+        // If right child is larger than largest so far
+        if (right < n && arr[right] > arr[largest])
+            largest = right;
+
+        // If largest is not root
+        if (largest != i) {
+            int swap = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = swap;
+
+            // Recursively heapify the affected subtree
+            heapify(arr, n, largest);
+        }
+    }
+
+    // Main function to perform heap sort
+    public static void heapSort(int[] arr) {
+        int n = arr.length;
+
+        // Build max heap
+        for (int i = n / 2 - 1; i >= 0; i--)
+            heapify(arr, n, i);
+
+        // One by one extract elements from heap
+        for (int i = n - 1; i >= 0; i--) {
+            // Move current root to end
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+
+            // Call max heapify on the reduced heap
+            heapify(arr, i, 0);
+        }
+    }
+
+    // Print array
+    public static void printArray(int[] arr) {
+        for (int val : arr)
+            System.out.print(val + " ");
+        System.out.println();
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input array
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        // Perform heap sort
+        heapSort(arr);
+
+        // Output
+        System.out.println("Sorted array using Heap Sort:");
+        printArray(arr);
+
+        sc.close();
+    }
+}
+
+
+
+min heap version:
+
+import java.util.Scanner;
+
+public class MinHeapSort {
+
+    // Heapify a subtree rooted with node i (min heap)
+    public static void minHeapify(int[] arr, int n, int i) {
+        int smallest = i;       // Initialize smallest as root
+        int left = 2 * i + 1;   // left child
+        int right = 2 * i + 2;  // right child
+
+        // If left child is smaller than root
+        if (left < n && arr[left] < arr[smallest])
+            smallest = left;
+
+        // If right child is smaller than smallest so far
+        if (right < n && arr[right] < arr[smallest])
+            smallest = right;
+
+        // If smallest is not root
+        if (smallest != i) {
+            int temp = arr[i];
+            arr[i] = arr[smallest];
+            arr[smallest] = temp;
+
+            // Recursively heapify the affected subtree
+            minHeapify(arr, n, smallest);
+        }
+    }
+
+    // Main function to perform heap sort using min heap
+    public static void heapSortDescending(int[] arr) {
+        int n = arr.length;
+
+        // Build min heap
+        for (int i = n / 2 - 1; i >= 0; i--)
+            minHeapify(arr, n, i);
+
+        // One by one extract elements from heap and move to end
+        for (int i = n - 1; i >= 0; i--) {
+            // Swap root (smallest) with last element
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+
+            // Call minHeapify on reduced heap
+            minHeapify(arr, i, 0);
+        }
+    }
+
+    // Print array
+    public static void printArray(int[] arr) {
+        for (int val : arr)
+            System.out.print(val + " ");
+        System.out.println();
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter array elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        // Sort using min heap
+        heapSortDescending(arr);
+
+        // Output sorted array (descending)
+        System.out.println("Sorted array using Min Heap (Descending Order):");
+        printArray(arr);
+
+        sc.close();
+    }
+}
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+Write a program to implement the Multiplication of Large Integers using Divide and Conquer Approach. 
+
+
+Explanation:
+We use BigInteger because Java's primitive types can't handle very large numbers.
+
+The Karatsuba algorithm divides each number into two halves recursively and combines results efficiently.
+
+The base case uses the built-in multiplication when numbers are small enough for efficiency.
+
+This algorithm reduces multiplication complexity from O(n²) to about O(n^1.585).
+
+import java.math.BigInteger;
+import java.util.Scanner;
+
+public class LargeIntegerMultiplication {
+
+    // Karatsuba multiplication function
+    public static BigInteger karatsuba(BigInteger x, BigInteger y) {
+        // Base case for recursion
+        int n = Math.max(x.bitLength(), y.bitLength());
+
+        if (n <= 2000)  // If numbers are small, use built-in multiplication
+            return x.multiply(y);
+
+        // Number of bits divided by 2
+        n = (n / 2) + (n % 2);
+
+        // x = a*2^n + b
+        BigInteger a = x.shiftRight(n);
+        BigInteger b = x.subtract(a.shiftLeft(n));
+
+        // y = c*2^n + d
+        BigInteger c = y.shiftRight(n);
+        BigInteger d = y.subtract(c.shiftLeft(n));
+
+        // Compute subproblems
+        BigInteger ac = karatsuba(a, c);
+        BigInteger bd = karatsuba(b, d);
+        BigInteger abcd = karatsuba(a.add(b), c.add(d));
+
+        // Karatsuba formula: ac * 2^(2n) + (abcd - ac - bd) * 2^n + bd
+        return ac.shiftLeft(2 * n).add(abcd.subtract(ac).subtract(bd).shiftLeft(n)).add(bd);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter first large integer:");
+        BigInteger num1 = new BigInteger(sc.nextLine());
+
+        System.out.println("Enter second large integer:");
+        BigInteger num2 = new BigInteger(sc.nextLine());
+
+        BigInteger result = karatsuba(num1, num2);
+
+        System.out.println("Product using Karatsuba multiplication:");
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+
+
+input:
+Enter first large integer:
+123456789012345678901234567890
+
+Enter second large integer:
+987654321098765432109876543210

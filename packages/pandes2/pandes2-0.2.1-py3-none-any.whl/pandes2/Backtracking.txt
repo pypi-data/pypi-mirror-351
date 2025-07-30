@@ -1,0 +1,420 @@
+Write a program to implement Graph coloring problems using Backtracking 
+
+import java.util.Scanner;
+
+public class GraphColoring {
+
+    // Number of vertices in the graph
+    private int V;
+
+    // Adjacency matrix representation of the graph
+    private int[][] graph;
+
+    // Array to store colors assigned to vertices
+    private int[] colors;
+
+    public GraphColoring(int V) {
+        this.V = V;
+        graph = new int[V][V];
+        colors = new int[V];
+    }
+
+    // Function to check if the current color assignment is safe for vertex v
+    private boolean isSafe(int v, int c) {
+        for (int i = 0; i < V; i++) {
+            if (graph[v][i] == 1 && colors[i] == c) {
+                return false; // Adjacent vertex has the same color
+            }
+        }
+        return true;
+    }
+
+    // Recursive function to solve graph coloring problem
+    private boolean graphColoringUtil(int m, int v) {
+        // If all vertices are assigned a color
+        if (v == V) {
+            return true;
+        }
+
+        // Try different colors for vertex v
+        for (int c = 1; c <= m; c++) {
+            if (isSafe(v, c)) {
+                colors[v] = c;
+
+                if (graphColoringUtil(m, v + 1)) {
+                    return true;
+                }
+
+                // Backtrack
+                colors[v] = 0;
+            }
+        }
+
+        // If no color can be assigned to this vertex
+        return false;
+    }
+
+    // Function to solve the graph coloring problem using m colors
+    public boolean graphColoring(int m) {
+        return graphColoringUtil(m, 0);
+    }
+
+    // Function to print colors assigned to vertices
+    public void printSolution() {
+        System.out.println("Solution Exists: Following are the assigned colors:");
+        for (int i = 0; i < V; i++) {
+            System.out.println("Vertex " + i + " --> Color " + colors[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of vertices: ");
+        int V = sc.nextInt();
+
+        GraphColoring gc = new GraphColoring(V);
+
+        System.out.println("Enter adjacency matrix:");
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                gc.graph[i][j] = sc.nextInt();
+            }
+        }
+
+        System.out.print("Enter number of colors: ");
+        int m = sc.nextInt();
+
+        if (gc.graphColoring(m)) {
+            gc.printSolution();
+        } else {
+            System.out.println("No solution exists with " + m + " colors.");
+        }
+
+        sc.close();
+    }
+}
+
+
+
+
+Sample Input:
+yaml
+Copy
+Edit
+Enter number of vertices: 4
+Enter adjacency matrix:
+0 1 1 1
+1 0 1 0
+1 1 0 1
+1 0 1 0
+Enter number of colors: 3
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+Write a program to implement the Hamiltonian cycle using Backtracking 
+
+public class HamiltonianCycle {
+
+    final int V = 5; // Number of vertices
+    int path[];
+
+    // Check if the current vertex v can be added at index 'pos' in the Hamiltonian Cycle
+    boolean isSafe(int v, int graph[][], int path[], int pos) {
+        // Check if current vertex is adjacent to previous vertex
+        if (graph[path[pos - 1]][v] == 0)
+            return false;
+
+        // Check if the vertex has already been included
+        for (int i = 0; i < pos; i++)
+            if (path[i] == v)
+                return false;
+
+        return true;
+    }
+
+    // Recursive utility function to solve Hamiltonian Cycle problem
+    boolean hamCycleUtil(int graph[][], int path[], int pos) {
+        // Base case: If all vertices are included in the path
+        if (pos == V) {
+            // Check if last vertex is connected to the first
+            return graph[path[pos - 1]][path[0]] == 1;
+        }
+
+        // Try different vertices as the next candidate
+        for (int v = 1; v < V; v++) {
+            if (isSafe(v, graph, path, pos)) {
+                path[pos] = v;
+
+                if (hamCycleUtil(graph, path, pos + 1))
+                    return true;
+
+                // Backtrack
+                path[pos] = -1;
+            }
+        }
+
+        return false;
+    }
+
+    // Solves the Hamiltonian Cycle problem
+    int hamCycle(int graph[][]) {
+        path = new int[V];
+        for (int i = 0; i < V; i++)
+            path[i] = -1;
+
+        // Let us put vertex 0 as the first vertex in the path
+        path[0] = 0;
+
+        if (!hamCycleUtil(graph, path, 1)) {
+            System.out.println("Solution does not exist");
+            return 0;
+        }
+
+        printSolution(path);
+        return 1;
+    }
+
+    void printSolution(int path[]) {
+        System.out.println("Hamiltonian Cycle Exists:");
+        for (int i = 0; i < V; i++)
+            System.out.print(path[i] + " ");
+        System.out.println(path[0]); // to show the cycle
+    }
+
+    // Driver Code
+    public static void main(String[] args) {
+        HamiltonianCycle hc = new HamiltonianCycle();
+
+        // Sample graph in the form of an adjacency matrix
+        int graph1[][] = {
+            {0, 1, 0, 1, 0},
+            {1, 0, 1, 1, 1},
+            {0, 1, 0, 0, 1},
+            {1, 1, 0, 0, 1},
+            {0, 1, 1, 1, 0}
+        };
+
+        hc.hamCycle(graph1);
+    }
+}
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Write a program to implement Travelling Salesman using branch and bound.
+
+import java.util.*;
+
+public class TSPBranchBound {
+
+    static final int INF = Integer.MAX_VALUE;
+
+    static class Node {
+        int[][] reducedMatrix;
+        int cost;
+        int vertex;
+        int level;
+        List<Integer> path;
+
+        Node(int[][] parentMatrix, List<Integer> path, int level, int vertex) {
+            this.reducedMatrix = new int[parentMatrix.length][parentMatrix.length];
+            for (int i = 0; i < parentMatrix.length; i++)
+                System.arraycopy(parentMatrix[i], 0, this.reducedMatrix[i], 0, parentMatrix.length);
+
+            this.path = new ArrayList<>(path);
+            this.level = level;
+            this.vertex = vertex;
+        }
+    }
+
+    // Function to reduce the matrix and return the reduction cost
+    static int reduceMatrix(int[][] matrix) {
+        int cost = 0;
+        int n = matrix.length;
+
+        // Row reduction
+        for (int i = 0; i < n; i++) {
+            int rowMin = INF;
+            for (int j = 0; j < n; j++)
+                if (matrix[i][j] < rowMin)
+                    rowMin = matrix[i][j];
+
+            if (rowMin != INF && rowMin != 0) {
+                cost += rowMin;
+                for (int j = 0; j < n; j++)
+                    if (matrix[i][j] != INF)
+                        matrix[i][j] -= rowMin;
+            }
+        }
+
+        // Column reduction
+        for (int j = 0; j < n; j++) {
+            int colMin = INF;
+            for (int i = 0; i < n; i++)
+                if (matrix[i][j] < colMin)
+                    colMin = matrix[i][j];
+
+            if (colMin != INF && colMin != 0) {
+                cost += colMin;
+                for (int i = 0; i < n; i++)
+                    if (matrix[i][j] != INF)
+                        matrix[i][j] -= colMin;
+            }
+        }
+
+        return cost;
+    }
+
+    // Solve TSP using Branch and Bound
+    static void solveTSP(int[][] costMatrix) {
+        int n = costMatrix.length;
+
+        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.cost));
+
+        List<Integer> initialPath = new ArrayList<>();
+        initialPath.add(0);
+
+        Node root = new Node(costMatrix, initialPath, 0, 0);
+
+        root.cost = reduceMatrix(root.reducedMatrix);
+        pq.add(root);
+
+        while (!pq.isEmpty()) {
+            Node min = pq.poll();
+
+            if (min.level == n - 1) {
+                min.path.add(0);
+                System.out.println("Minimum cost path: " + min.path);
+                int finalCost = min.cost + costMatrix[min.vertex][0];
+                System.out.println("Minimum tour cost: " + finalCost);
+                return;
+            }
+
+            for (int i = 0; i < n; i++) {
+                if (min.reducedMatrix[min.vertex][i] != INF) {
+                    Node child = new Node(min.reducedMatrix, min.path, min.level + 1, i);
+                    child.path.add(i);
+
+                    // Set outgoing path from current and incoming path to next as INF
+                    for (int j = 0; j < n; j++) {
+                        child.reducedMatrix[min.vertex][j] = INF;
+                        child.reducedMatrix[j][i] = INF;
+                    }
+
+                    // Block returning to the starting point prematurely
+                    child.reducedMatrix[i][0] = INF;
+
+                    child.cost = min.cost + min.reducedMatrix[min.vertex][i] + reduceMatrix(child.reducedMatrix);
+                    pq.add(child);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        // Example cost matrix (4 cities)
+        int[][] costMatrix = {
+            {INF, 10, 15, 20},
+            {10, INF, 35, 25},
+            {15, 35, INF, 30},
+            {20, 25, 30, INF}
+        };
+
+        solveTSP(costMatrix);
+    }
+}
+
+-----------------------------------------------------------------------------------------------
+write a program for nqueen problem 
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class nqueen {
+
+    // Add the current board configuration to the answer list
+    public static void addSolution(List<List<String>> board, List<List<String>> ans, int n) {
+        List<String> temp = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j < n; j++) {
+                sb.append(board.get(i).get(j));
+            }
+            temp.add(sb.toString());
+        }
+        ans.add(temp);
+    }
+
+    // Check if it's safe to place a queen at (row, col)
+    public static boolean isSafe(int row, int col, List<List<String>> board, int n) {
+        // Check upper column
+        for (int i = 0; i < row; i++) {
+            if (board.get(i).get(col).equals("Q")) return false;
+        }
+
+        // Check upper left diagonal
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board.get(i).get(j).equals("Q")) return false;
+        }
+
+        // Check upper right diagonal
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+            if (board.get(i).get(j).equals("Q")) return false;
+        }
+
+        return true;
+    }
+
+    // Recursive backtracking function
+    public static void solve(int row, List<List<String>> ans, List<List<String>> board, int n) {
+        if (row == n) {
+            addSolution(board, ans, n);
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (isSafe(row, col, board, n)) {
+                board.get(row).set(col, "Q"); // place queen
+                solve(row + 1, ans, board, n); // recurse
+                board.get(row).set(col, "."); // backtrack
+            }
+        }
+    }
+
+    // Main solving method
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> ans = new ArrayList<>();
+        List<List<String>> board = new ArrayList<>();
+
+        // Initialize board with '.'
+        for (int i = 0; i < n; i++) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                row.add(".");
+            }
+            board.add(row);
+        }
+
+        solve(0, ans, board, n);
+        return ans;
+    }
+
+    // MAIN method to run and display output
+    public static void main(String[] args) {
+        nqueen nq = new nqueen();
+        int n = 4; // Change this to try different N
+        List<List<String>> solutions = nq.solveNQueens(n);
+
+        System.out.println("Total Solutions: " + solutions.size());
+        for (List<String> solution : solutions) {
+            for (String row : solution) {
+                System.out.println(row);
+            }
+            System.out.println(); 
+        }
+    }
+}
+

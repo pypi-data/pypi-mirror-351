@@ -1,0 +1,365 @@
+import java.util.Scanner;
+
+public class FibonacciSeries {
+
+    // Recursive method
+    public static int fibonacciRecursive(int n) {
+        if (n <= 1)
+            return n;
+        return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+    }
+
+    // Non-recursive method
+    public static void fibonacciNonRecursive(int count) {
+        int a = 0, b = 1;
+        System.out.print("Non-Recursive Fibonacci Series: ");
+        for (int i = 0; i < count; i++) {
+            System.out.print(a + " ");
+            int next = a + b;
+            a = b;
+            b = next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of terms: ");
+        int count = sc.nextInt();
+
+        // Non-recursive approach
+        fibonacciNonRecursive(count);
+
+        // Recursive approach
+        System.out.print("Recursive Fibonacci Series: ");
+        for (int i = 0; i < count; i++) {
+            System.out.print(fibonacciRecursive(i) + " ");
+        }
+
+        sc.close();
+    }
+}
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------
+Maximum and minimum number from an array. (Recursive and Non-recursive) 
+
+import java.util.Scanner;
+
+public class MaxMinArray {
+
+    // Recursive method to find maximum
+    public static int findMaxRecursive(int[] arr, int index) {
+        if (index == arr.length - 1)
+            return arr[index];
+        return Math.max(arr[index], findMaxRecursive(arr, index + 1));
+    }
+
+    // Recursive method to find minimum
+    public static int findMinRecursive(int[] arr, int index) {
+        if (index == arr.length - 1)
+            return arr[index];
+        return Math.min(arr[index], findMinRecursive(arr, index + 1));
+    }
+
+    // Non-recursive method to find max and min
+    public static void findMaxMinNonRecursive(int[] arr) {
+        int max = arr[0];
+        int min = arr[0];
+
+        for (int num : arr) {
+            if (num > max)
+                max = num;
+            if (num < min)
+                min = num;
+        }
+
+        System.out.println("Non-Recursive Max: " + max);
+        System.out.println("Non-Recursive Min: " + min);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of elements in array: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter array elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        // Non-recursive approach
+        findMaxMinNonRecursive(arr);
+
+        // Recursive approach
+        int maxRecursive = findMaxRecursive(arr, 0);
+        int minRecursive = findMinRecursive(arr, 0);
+
+        System.out.println("Recursive Max: " + maxRecursive);
+        System.out.println("Recursive Min: " + minRecursive);
+
+        sc.close();
+    }
+}
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------
+Write a program to find the factorial of a number. ( Recursive and Non recursive) 
+
+import java.util.Scanner;
+
+public class Factorial {
+
+    // Recursive method
+    public static long factorialRecursive(int n) {
+        if (n == 0 || n == 1)
+            return 1;
+        return n * factorialRecursive(n - 1);
+    }
+
+    // Non-recursive method
+    public static long factorialNonRecursive(int n) {
+        long fact = 1;
+        for (int i = 2; i <= n; i++) {
+            fact *= i;
+        }
+        return fact;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        int num = sc.nextInt();
+
+        // Non-recursive
+        System.out.println("Non-Recursive Factorial: " + factorialNonRecursive(num));
+
+        // Recursive
+        System.out.println("Recursive Factorial: " + factorialRecursive(num));
+
+        sc.close();
+    }
+}
+
+
+
+-----------------------------------------------------------------------------------------------------
+Write a program to find the Sum of the First N Odd & Even Numbers. (Recursive and Non-recursive)
+
+import java.util.Scanner;
+
+public class SumOddEven {
+
+    // Recursive method to find sum of first N even numbers
+    public static int sumEvenRecursive(int n) {
+        if (n == 0)
+            return 0;
+        return 2 * n + sumEvenRecursive(n - 1);
+    }
+
+    // Recursive method to find sum of first N odd numbers
+    public static int sumOddRecursive(int n) {
+        if (n == 0)
+            return 0;
+        return 2 * n - 1 + sumOddRecursive(n - 1);
+    }
+
+    // Non-recursive method to find sum of first N even numbers
+    public static int sumEvenNonRecursive(int n) {
+        int sum = 0;
+        for (int i = 1; i <= n; i++) {
+            sum += 2 * i;
+        }
+        return sum;
+    }
+
+    // Non-recursive method to find sum of first N odd numbers
+    public static int sumOddNonRecursive(int n) {
+        int sum = 0;
+        for (int i = 1; i <= n; i++) {
+            sum += 2 * i - 1;
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the value of N: ");
+        int n = sc.nextInt();
+
+        // Non-recursive
+        System.out.println("Non-Recursive Sum of first " + n + " even numbers: " + sumEvenNonRecursive(n));
+        System.out.println("Non-Recursive Sum of first " + n + " odd numbers: " + sumOddNonRecursive(n));
+
+        // Recursive
+        System.out.println("Recursive Sum of first " + n + " even numbers: " + sumEvenRecursive(n));
+        System.out.println("Recursive Sum of first " + n + " odd numbers: " + sumOddRecursive(n));
+
+        sc.close();
+    }
+}
+
+
+
+----------------------------------------------------------------------------------------------------
+Write a program to add, multiply, and transpose of two matrices. (Recursive and Non-recursive) 
+
+import java.util.Scanner;
+
+public class MatrixOperations {
+
+    // Non-recursive matrix addition
+    public static int[][] addMatrixNonRecursive(int[][] A, int[][] B, int rows, int cols) {
+        int[][] result = new int[rows][cols];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                result[i][j] = A[i][j] + B[i][j];
+        return result;
+    }
+
+    // Recursive matrix addition
+    public static void addMatrixRecursive(int[][] A, int[][] B, int[][] result, int i, int j, int rows, int cols) {
+        if (i >= rows)
+            return;
+        if (j < cols) {
+            result[i][j] = A[i][j] + B[i][j];
+            addMatrixRecursive(A, B, result, i, j + 1, rows, cols);
+        } else {
+            addMatrixRecursive(A, B, result, i + 1, 0, rows, cols);
+        }
+    }
+
+    // Non-recursive matrix multiplication
+    public static int[][] multiplyMatrixNonRecursive(int[][] A, int[][] B, int m, int n, int p) {
+        int[][] result = new int[m][p];
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < p; j++)
+                for (int k = 0; k < n; k++)
+                    result[i][j] += A[i][k] * B[k][j];
+        return result;
+    }
+
+    // Recursive matrix multiplication
+    public static void multiplyMatrixRecursive(int[][] A, int[][] B, int[][] result, int i, int j, int k, int m, int n, int p) {
+        if (i >= m)
+            return;
+        if (j < p) {
+            if (k < n) {
+                result[i][j] += A[i][k] * B[k][j];
+                multiplyMatrixRecursive(A, B, result, i, j, k + 1, m, n, p);
+            } else {
+                multiplyMatrixRecursive(A, B, result, i, j + 1, 0, m, n, p);
+            }
+        } else {
+            multiplyMatrixRecursive(A, B, result, i + 1, 0, 0, m, n, p);
+        }
+    }
+
+    // Transpose matrix (non-recursive)
+    public static int[][] transposeNonRecursive(int[][] A, int rows, int cols) {
+        int[][] result = new int[cols][rows];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                result[j][i] = A[i][j];
+        return result;
+    }
+
+    // Transpose matrix (recursive)
+    public static void transposeRecursive(int[][] A, int[][] result, int i, int j, int rows, int cols) {
+        if (i >= rows)
+            return;
+        if (j < cols) {
+            result[j][i] = A[i][j];
+            transposeRecursive(A, result, i, j + 1, rows, cols);
+        } else {
+            transposeRecursive(A, result, i + 1, 0, rows, cols);
+        }
+    }
+
+    // Utility method to print matrix
+    public static void printMatrix(int[][] matrix) {
+        for (int[] row : matrix) {
+            for (int val : row)
+                System.out.print(val + " ");
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input dimensions
+        System.out.print("Enter rows and columns for matrix A: ");
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        int[][] A = new int[m][n];
+
+        System.out.print("Enter rows and columns for matrix B: ");
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int[][] B = new int[r][c];
+
+        // Input matrix A
+        System.out.println("Enter elements of Matrix A:");
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                A[i][j] = sc.nextInt();
+
+        // Input matrix B
+        System.out.println("Enter elements of Matrix B:");
+        for (int i = 0; i < r; i++)
+            for (int j = 0; j < c; j++)
+                B[i][j] = sc.nextInt();
+
+        // --- Addition ---
+        if (m == r && n == c) {
+            int[][] addNonRec = addMatrixNonRecursive(A, B, m, n);
+            System.out.println("\nNon-Recursive Addition:");
+            printMatrix(addNonRec);
+
+            int[][] addRec = new int[m][n];
+            addMatrixRecursive(A, B, addRec, 0, 0, m, n);
+            System.out.println("Recursive Addition:");
+            printMatrix(addRec);
+        } else {
+            System.out.println("\nAddition not possible (dimensions mismatch).");
+        }
+
+        // --- Multiplication ---
+        if (n == r) {
+            int[][] mulNonRec = multiplyMatrixNonRecursive(A, B, m, n, c);
+            System.out.println("\nNon-Recursive Multiplication:");
+            printMatrix(mulNonRec);
+
+            int[][] mulRec = new int[m][c];
+            multiplyMatrixRecursive(A, B, mulRec, 0, 0, 0, m, n, c);
+            System.out.println("Recursive Multiplication:");
+            printMatrix(mulRec);
+        } else {
+            System.out.println("\nMultiplication not possible (A's columns != B's rows).");
+        }
+
+        // --- Transpose ---
+        int[][] transANonRec = transposeNonRecursive(A, m, n);
+        System.out.println("\nTranspose of Matrix A (Non-Recursive):");
+        printMatrix(transANonRec);
+
+        int[][] transARec = new int[n][m];
+        transposeRecursive(A, transARec, 0, 0, m, n);
+        System.out.println("Transpose of Matrix A (Recursive):");
+        printMatrix(transARec);
+
+        sc.close();
+    }
+}
+
+
