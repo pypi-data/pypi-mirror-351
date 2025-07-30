@@ -1,0 +1,647 @@
+Metadata-Version: 2.4
+Name: cs-progress
+Version: 20250530
+Summary: A progress tracker with methods for throughput, ETA and update notification; also a compound progress meter composed from other progress meters.
+Keywords: python2,python3
+Author-email: Cameron Simpson <cs@cskk.id.au>
+Description-Content-Type: text/markdown
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Requires-Dist: cs.deco>=20250513
+Requires-Dist: cs.logutils>=20250323
+Requires-Dist: cs.py.func>=20240630
+Requires-Dist: cs.queues>=20250426
+Requires-Dist: cs.resources>=20250325
+Requires-Dist: cs.seq>=20250306
+Requires-Dist: cs.units>=20250528
+Requires-Dist: cs.upd>=20250426
+Requires-Dist: icontract
+Requires-Dist: typeguard
+Project-URL: MonoRepo Commits, https://bitbucket.org/cameron_simpson/css/commits/branch/main
+Project-URL: Monorepo Git Mirror, https://github.com/cameron-simpson/css
+Project-URL: Monorepo Hg/Mercurial Mirror, https://hg.sr.ht/~cameron-simpson/css
+Project-URL: Source, https://github.com/cameron-simpson/css/blob/main/lib/python/cs/progress.py
+
+A progress tracker with methods for throughput, ETA and update notification;
+also a compound progress meter composed from other progress meters.
+
+*Latest release 20250530*:
+progressbar, Progress.iterbar, Progress.bar: default report_print to the ambient verbose setting instead of not the ambient quiet setting.
+
+This contains the follow main items:
+* `progressbar`: a wrapper for an iterable presenting a progress
+  bar in the terminal
+* `Progress`: a progress tracking class
+* `OverProgress`: a progress tracking class which tracks the
+  aggregate of multiple `Progress` instances
+
+Example:
+
+    for item in progressbar(items, "task name"):
+        ....
+
+Short summary:
+* `auto_progressbar`: Decorator for a function accepting an optional `progress` keyword parameter. If `progress` is not `None` and the default `Upd` is not disabled, run the function with a progress bar.
+* `BaseProgress`: The base class for `Progress` and `OverProcess` with various common methods.
+* `CheckPoint`: CheckPoint(time, position).
+* `OverProgress`: A `Progress`-like class computed from a set of subsidiary `Progress`es.
+* `Progress`: A progress counter to track task completion with various utility methods.
+* `progressbar`: Convenience function to construct and run a `Progress.iterbar` wrapping the iterable `it`, issuing and withdrawing a progress bar during the iteration. If there is no current `Upd` instance or it is disabled, this returns `it` directly.
+* `selftest`: Exercise some of the functionality.
+
+Module contents:
+- <a name="auto_progressbar"></a>`auto_progressbar(*da, **dkw)`: Decorator for a function accepting an optional `progress`
+  keyword parameter.
+  If `progress` is not `None` and the default `Upd` is not disabled,
+  run the function with a progress bar.
+- <a name="BaseProgress"></a>`Class `BaseProgress``: The base class for `Progress` and `OverProcess`
+  with various common methods.
+
+  Note that durations are in seconds
+  and that absolute time is in seconds since the UNIX epoch
+  (the basis of `time.time()`).
+
+*`BaseProgress.__init__(self, name=None, start_time=None, units_scale=None)`*:
+Initialise a progress instance.
+
+Parameters:
+* `name`: optional name
+* `start_time`: optional UNIX epoch start time, default from `time.time()`
+* `units_scale`: a scale for use with `cs.units.transcribe`,
+  default `BINARY_BYTES_SCALE`
+
+*`BaseProgress.__eq__(self, other)`*:
+A Progress is equal to another object `other`
+if its position equals `int(other)`.
+
+*`BaseProgress.__ge__(self, other)`*:
+Return a >= b.  Computed by @total_ordering from (not a < b).
+
+*`BaseProgress.__gt__(self, other)`*:
+Return a > b.  Computed by @total_ordering from (not a < b) and (a != b).
+
+*`BaseProgress.__int__(self)`*:
+`int(Progress)` returns the current position.
+
+*`BaseProgress.__le__(self, other)`*:
+Return a <= b.  Computed by @total_ordering from (a < b) or (a == b).
+
+*`BaseProgress.__lt__(self, other)`*:
+A Progress is less then another object `other`
+if its position is less than `int(other)`.
+
+*`BaseProgress.arrow(self, width, no_padding=False)`*:
+Construct a progress arrow representing completion
+to fit in the specified `width`.
+
+*`BaseProgress.bar(*a, upd: Optional[cs.upd.Upd] = <function uses_upd.<locals>.<lambda> at 0x10d7f4ea0>, **kw)`*:
+A context manager to create and withdraw a progress bar.
+It returns the `UpdProxy` which displays the progress bar.
+
+Parameters:
+* `label`: an optional label for the progress bar,
+  default from `self.name`.
+* `insert_pos`: where to insert the progress bar within the `cs.Upd`,
+  default `1`
+* `poll`: an optional callable which will receive `self`,
+  which can be used to update the progress state before
+  updating the progress bar display; useful if the progress
+  should be updates from some other programme state
+* `recent_window`: optional timeframe to define "recent" in seconds;
+  if the default `statusfunc` (`Progress.status`) is used
+  this is passed to it
+* `report_print`: optional `print` compatible function
+  with which to write a report on completion;
+  this may also be a `bool`, which if true will use `Upd.print`
+  in order to interoperate with `Upd`.
+* `stalled`: optional string to replace the word `'stalled'`
+  in the status line; for a worker this might be better as `'idle'`
+* `statusfunc`: an optional function to compute the progress bar text
+  accepting `(self,label,width)`; default `Progress.status`
+* `update_period`: an optional frequency with which to update the display,
+  default from `DEFAULT_UPDATE_PERIOD` (0.3s);
+  if set to `0` then the display is updated whenever `self` is updated
+* `width`: an optional width expressing how wide the progress bar
+  text may be.
+  The default comes from the `proxy.width` property.
+
+Example use:
+
+    # display progress reporting during upload_filename()
+    # which updates the supplied Progress instance
+    # during its operation
+    P = Progress(name=label)
+    with P.bar(report_print=True):
+        upload_filename(src, progress=P)
+
+*`BaseProgress.elapsed_time`*:
+Time elapsed since `start_time`.
+
+*`BaseProgress.eta`*:
+The projected time of completion: now + `remaining_time`.
+
+If `remaining_time` is `None`, this is also `None`.
+
+*`BaseProgress.format_counter(self, value, scale=None, max_parts=2, sep=',', **kw)`*:
+Format `value` accoridng to `scale` and `max_parts`
+using `cs.units.transcribe`.
+
+*`BaseProgress.iterbar(self, it, label=None, *, itemlenfunc=None, incfirst=False, update_period=0.3, cancelled=None, runstate: Optional[cs.resources.RunState] = <function uses_runstate.<locals>.<lambda> at 0x10d7f5300>, **bar_kw)`*:
+An iterable progress bar: a generator yielding values
+from the iterable `it` while updating a progress bar.
+
+Parameters:
+* `it`: the iterable to consume and yield.
+* `label`: a label for the progress bar,
+  default from `self.name`.
+* `itemlenfunc`: an optional function returning the "size" of each item
+  from `it`, used to advance `self.position`.
+  The default is to assume a size of `1`.
+  A convenient alternative choice may be the builtin function `len`.
+* `incfirst`: whether to advance `self.position` before we
+  `yield` an item from `it` or afterwards.
+  This reflects whether it is considered that progress is
+  made as items are obtained or only after items are processed
+  by whatever is consuming this generator.
+  The default is `False`, advancing after processing.
+* `update_period`: default `DEFAULT_UPDATE_PERIOD`; if `0`
+  then update on every iteration, otherwise every `update_period`
+  seconds
+* `cancelled`: an optional callable to test for iteration cancellation
+Other parameters are passed to `Progress.bar`.
+
+Example uses:
+
+    from cs.units import DECIMAL_SCALE
+    rows = [some list of data]
+    P = Progress(total=len(rows), units_scale=DECIMAL_SCALE)
+    for row in P.iterbar(rows, incfirst=True):
+        ... do something with each row ...
+
+    with open(data_filename, 'rb') as f:
+        datalen = os.stat(f).st_size
+        def readfrom(f):
+            while True:
+                bs = f.read(65536)
+                if not bs:
+                    break
+                yield bs
+        P = Progress(total=datalen)
+        for bs in P.iterbar(readfrom(f), itemlenfunc=len):
+            ... process the file data in bs ...
+
+*`BaseProgress.qbar(self, label=None, **iterbar_kw) -> cs.queues.QueueIterator`*:
+Set up a progress bar, return a closeable `Queue`-like object
+for receiving items. This is a shim for `Progress.iterbar`
+which dispatches a worker to iterate items put onto a queue.
+
+Example:
+
+    Q = Progress.qbar("label")
+    try:
+        ... do work, calling Q.put(item) ...
+    finally:
+        Q.close()
+
+*`BaseProgress.ratio`*:
+The fraction of progress completed: `(position-start)/(total-start)`.
+Returns `None` if `total` is `None` or `total<=start`.
+
+Example:
+
+    >>> P = Progress()
+     P.ratio
+    >>> P.total = 16
+    >>> P.ratio
+    0.0
+    >>> P.update(4)
+    >>> P.ratio
+    0.25
+
+*`BaseProgress.remaining_time`*:
+The projected time remaining to end
+based on the `throughput` and `total`.
+
+If `total` is `None`, this is `None`.
+
+*`BaseProgress.status(self, label, width, recent_window=None, stalled=None)`*:
+A progress string of the form:
+*label*`: `*pos*`/`*total*` ==>  ETA '*time*
+
+Parameters:
+* `label`: the label for the status line;
+  if `None` use `self.name`
+* `width`: the available width for the status line;
+  if not an `int` use `width.width`
+* `recent_window`: optional timeframe to define "recent" in seconds,
+  default : `5`
+* `stalled`: the label to indicate no throughput, default `'stalled'`;
+  for a worker this might often b better as `'idle'`
+
+*`BaseProgress.text_pos_of_total(self, fmt=None, fmt_pos=None, fmt_total=None, pos_first=False)`*:
+Return a "total:position" or "position/total" style progress string.
+
+Parameters:
+* `fmt`: format string interpolating `pos_text` and `total_text`.
+  Default: `"{pos_text}/{total_text}"` if `pos_first`,
+  otherwise `"{total_text}:{pos_text}"`
+* `fmt_pos`: formatting function for `self.position`,
+  default `self.format_counter`
+* `fmt_total`: formatting function for `self.total`,
+  default from `fmt_pos`
+* `pos_first`: put the position first if true (default `False`),
+  only consulted if `fmt` is `None`
+
+*`BaseProgress.throughput`*:
+The overall throughput: `self.throughput_overall()`.
+
+By comparison,
+the `Progress.throughput` property is `self.throughput_recent`
+if the `throughput_window` is not `None`,
+otherwise it falls back to `throughput_overall`.
+
+*`BaseProgress.throughput_overall(self)`*:
+The overall throughput from `start` to `position`
+during `elapsed_time`.
+
+*`BaseProgress.throughput_recent(self, time_window)`*:
+The recent throughput. Implemented by subclasses.
+- <a name="CheckPoint"></a>`Class `CheckPoint(builtins.tuple)``: CheckPoint(time, position)
+
+*`CheckPoint.__replace__(self, /, **kwds)`*:
+Return a new CheckPoint object replacing specified fields with new values
+
+*`CheckPoint.position`*:
+Alias for field number 1
+
+*`CheckPoint.time`*:
+Alias for field number 0
+- <a name="OverProgress"></a>`Class `OverProgress(BaseProgress)``: A `Progress`-like class computed from a set of subsidiary `Progress`es.
+
+  AN OverProgress instance has an attribute ``notify_update`` which
+  is a set of callables.
+  Whenever the position of a subsidiary `Progress` is updated,
+  each of these will be called with the `Progress` instance and `None`.
+
+  Example:
+
+      >>> P = OverProgress(name="over")
+      >>> P1 = Progress(name="progress1", position=12)
+      >>> P1.total = 100
+      >>> P1.advance(7)
+      >>> P2 = Progress(name="progress2", position=20)
+      >>> P2.total = 50
+      >>> P2.advance(9)
+      >>> P.add(P1)
+      >>> P.add(P2)
+      >>> P1.total
+      100
+      >>> P2.total
+      50
+      >>> P.total
+      150
+      >>> P1.start
+      12
+      >>> P2.start
+      20
+      >>> P.start
+      0
+      >>> P1.position
+      19
+      >>> P2.position
+      29
+      >>> P.position
+      16
+
+*`OverProgress.add(self, subprogress)`*:
+Add a subsidairy `Progress` to the contributing set.
+
+*`OverProgress.eta`*:
+The `eta` is the maximum of the subsidiary etas.
+
+*`OverProgress.position`*:
+The `position` is the sum off the subsidiary position offsets
+from their respective starts.
+
+*`OverProgress.remove(self, subprogress, accrue=False)`*:
+Remove a subsidairy `Progress` from the contributing set.
+
+*`OverProgress.start`*:
+We always return a starting value of 0.
+
+*`OverProgress.throughput`*:
+The `throughput` is the sum of the subsidiary throughputs.
+
+*`OverProgress.throughput_recent(self, time_window)`*:
+The `throughput_recent` is the sum of the subsidiary throughput_recentss.
+
+*`OverProgress.total`*:
+The `total` is the sum of the subsidiary totals.
+- <a name="Progress"></a>`Class `Progress(BaseProgress)``: A progress counter to track task completion with various utility methods.
+
+  Example:
+
+      >>> P = Progress(name="example")
+      >>> P                         #doctest: +ELLIPSIS
+      Progress(name='example',start=0,position=0,start_time=...,throughput_window=None,total=None):[CheckPoint(time=..., position=0)]
+      >>> P.advance(5)
+      >>> P                         #doctest: +ELLIPSIS
+      Progress(name='example',start=0,position=5,start_time=...,throughput_window=None,total=None):[CheckPoint(time=..., position=0), CheckPoint(time=..., position=5)]
+      >>> P.total = 100
+      >>> P                         #doctest: +ELLIPSIS
+      Progress(name='example',start=0,position=5,start_time=...,throughput_window=None,total=100):[CheckPoint(time=..., position=0), CheckPoint(time=..., position=5)]
+
+  A Progress instance has an attribute ``notify_update`` which
+  is a set of callables. Whenever the position is updated, each
+  of these will be called with the `Progress` instance and the
+  latest `CheckPoint`.
+
+  `Progress` objects also make a small pretense of being an integer.
+  The expression `int(progress)` returns the current position,
+  and `+=` and `-=` adjust the position.
+
+  This is convenient for coding, but importantly it is also
+  useful for discretionary use of a Progress with some other
+  object.
+  If you want to make a lightweight `Progress` capable class
+  you can set a position attribute to an `int`
+  and manipulate it carefully using `+=` and `-=` entirely.
+  If you decide to incur the cost of maintaining a `Progress` object
+  you can slot it in:
+
+      # initial setup with just an int
+      my_thing.amount = 0
+
+      # later, or on some option, use a Progress instance
+      my_thing.amount = Progress(my_thing.amount)
+
+*`Progress.__init__(self, name: Optional[str] = None, *, position: Optional[float] = None, start: Optional[float] = None, start_time: Optional[float] = None, throughput_window: Optional[int] = None, total: Optional[float] = None, units_scale=None)`*:
+Initialise the Progesss object.
+
+Parameters:
+* `position`: initial position, default `0`.
+* `name`: optional name for this instance.
+* `start`: starting position of progress range,
+  default from `position`.
+* `start_time`: start time of the process, default now.
+* `throughput_window`: length of throughput time window in seconds,
+  default None.
+* `total`: expected completion value, default None.
+
+*`Progress.__iadd__(self, delta)`*:
+Operator += form of advance().
+
+>>> P = Progress()
+>>> P.position
+0
+>>> P += 4
+>>> P.position
+4
+>>> P += 4
+>>> P.position
+8
+
+*`Progress.__isub__(self, delta)`*:
+Operator -= form of advance().
+
+>>> P = Progress()
+>>> P.position
+0
+>>> P += 4
+>>> P.position
+4
+>>> P -= 4
+>>> P.position
+0
+
+*`Progress.advance(self, delta, update_time=None)`*:
+Record more progress, return the advanced position.
+
+>>> P = Progress()
+>>> P.position
+0
+>>> P.advance(4)
+>>> P.position
+4
+>>> P.advance(4)
+>>> P.position
+8
+
+*`Progress.advance_total(self, delta)`*:
+Function form of addition to the total.
+
+*`Progress.latest`*:
+Latest datum.
+
+*`Progress.position`*:
+Latest position.
+
+*`Progress.throughput`*:
+Current throughput per second.
+
+If `self.throughput_window` is not `None`,
+calls `self.throughput_recent(throughput_window)`.
+Otherwise call `self.throughput_overall()`.
+
+*`Progress.throughput_recent(self, time_window)`*:
+Recent throughput per second within a time window in seconds.
+
+The time span overlapping the start of the window is included
+on a flat pro rata basis.
+
+*`Progress.total`*:
+Return the current total.
+
+*`Progress.update(self, new_position, update_time=None)`*:
+Record more progress.
+
+>>> P = Progress()
+>>> P.position
+0
+>>> P.update(12)
+>>> P.position
+12
+- <a name="progressbar"></a>`progressbar(*a, upd: Optional[cs.upd.Upd] = <function uses_upd.<locals>.<lambda> at 0x10d7f6d40>, **kw)`: Convenience function to construct and run a `Progress.iterbar`
+  wrapping the iterable `it`,
+  issuing and withdrawing a progress bar during the iteration.
+  If there is no current `Upd` instance or it is disabled, this
+  returns `it` directly.
+
+  Parameters:
+  * `it`: the iterable to consume
+  * `label`: optional label, doubles as the `Progress.name`
+  * `position`: optional starting position
+  * `total`: optional value for `Progress.total`,
+    default from `len(it)` if supported.
+  * `units_scale`: optional units scale for `Progress`,
+    default `UNSCALED_SCALE`
+
+  If `total` is `None` and `it` supports `len()`
+  then the `Progress.total` is set from it.
+
+  All arguments are passed through to `Progress.iterbar`.
+
+  Example use:
+
+      for row in progressbar(rows):
+          ... do something with row ...
+- <a name="selftest"></a>`selftest(argv)`: Exercise some of the functionality.
+
+# Release Log
+
+
+
+*Release 20250530*:
+progressbar, Progress.iterbar, Progress.bar: default report_print to the ambient verbose setting instead of not the ambient quiet setting.
+
+*Release 20250528*:
+progressbar: also run the progress bar if report_print is true in order to get the report (was optimised out when the Upd was disabled).
+
+*Release 20250412*:
+Bugfix progressbar: fix early return if no active Upd.
+
+*Release 20250325*:
+BaseProgress.iterbar: use @uses_runstate, accept a runstate parameter overridable by the cancelled param.
+
+*Release 20250306*:
+* Progress: new .qbar() method to make a progress bar and return a queue on which to put items to track.
+* progressbar: return the iterable unchanged if upd is None or disabled.
+* BaseProgress.iterbar: new optional cancelled parameter for a cancellation test callable, passed through by progressbar etc.
+
+*Release 20241122*:
+* BaseProgress.bar: default for report_print now comes from not BaseCommand.Options.quiet.
+* BaseProgress.bar: always print the final report if report_print.
+
+*Release 20240412*:
+* BaseProgress.status: fixes for the arrow_width computation.
+* BaseProgress.bar: drop existing UpdProxy support, drop deferred, implement update_period using a ticker Thread.
+* BaseProgress.bar: set update_period=DEFAULT_UPDATE_PERIOD by default.
+* Progress.iterbar: drop preexisting UpdProxy support, update_frequency and update_min_size support.
+* Progress: new advance_total(delta) method so that we have a callable for this.
+* BaseProgress.bar: new optional poll parameter accepting a callable accepting a BaseProgress to update the state before updating the bar display.
+* BaseProgress.bar: new stalled='stalled' parameter to specify the term for no recent throughput, workers might prefer 'idle'.
+* progressbar() updated to match.
+
+*Release 20230401*:
+progressbar, BaseProgress.iterbar: use @uses_upd to provide a context Upd instance.
+
+*Release 20230212*:
+BaseProgress: new update_period=0.2 parameter to constraint updates by elapsed time.
+
+*Release 20221207*:
+* BaseProgress.format_counter: accept arbitrary keyword arguments to pass to cs.units.transcribe.
+* Progress.__init__: accept floats instead of just ints.
+
+*Release 20220918*:
+Progress.iterbar: wrap the iteration in a try/finally for cleanup.
+
+*Release 20211208*:
+* Progress.__init__: make the first optional positional parameter be "name", make other parameters keyword only.
+* Progress.bar: make "label" the first optional positional parameter, make others keyword only.
+
+*Release 20210803*:
+* progressbar,iterbar: accept optional RunState to cancel iteration.
+* BaseProgress.iterbar: make update_min_size properly optional, was making update_frequency ineffective.
+
+*Release 20210730*:
+When there is no total just report position and no ETA.
+
+*Release 20210717*:
+Minor tweaks.
+
+*Release 20210316*:
+* Progress.iterbar: only update the status line once per iteration, either before or after the yield according to incfirst.
+* Progress.iterbar: fix the meaning of update_frequency to count iterations, add update_min_size to count progress advance.
+
+*Release 20210306*:
+progressbar: accept new optional `position` parameter, used to initialise the Progress.
+
+*Release 20201102.1*:
+DISTINFO: fix module dependencies.
+
+*Release 20201102*:
+* Format/layout changes for the default status line.
+* Progress.throughtput_recent: return None if no new positions beyond the starting position.
+* BaseProgress.status: accept label=None (default to self.name) and width=UpdProxy (uses width.width).
+* BaseProgress.status: new optional window parameter, default 5, defining the recent throughput window size in seconds.
+* A few bugfixes.
+
+*Release 20201025*:
+* Some formatting improvements.
+* BaseProgress.bar: new insert_pos parameter to position the progress bar, default still 1.
+* BaseProgress.bar: new deferred parameter putting off the status bar until the first update.
+* BaseProgress.bar: accept new optional `proxy` parameter to use (and not delete) an existing UpdProxy for display.
+* Progress.text_pos_of_total: new `pos_first=False` parameter, rendering the total before the position by default (less progress bar noise).
+* New @auto_progressbar decorator to provide a progress bar and initialise progress= parameter to functions which can use a Progress for reporting.
+* Assorted fixes.
+
+*Release 20200718.3*:
+BaseProgress.bar, progressbar: new optional report_print parameter for reporting on completion.
+
+*Release 20200718.2*:
+Bugfix: BaseProgress.status: handle throughput=0 when total=None.
+
+*Release 20200718.1*:
+BaseProgress.bar, progressbar: new optional update_frequency parameter for less frequent updates.
+
+*Release 20200718*:
+* Readability improvement for default status line.
+* progressbar: default units_scale=UNSCALED_SCALE.
+
+*Release 20200716.1*:
+BaseProgress.status: round throughput to an int if >=10.
+
+*Release 20200716*:
+* BaseProgress.status: distinguish "idle" (position >= total) from "stalled" (position < total).
+* BaseProgress.status: make the status very short if the progress is idle.
+
+*Release 20200627*:
+* BaseProgress.status: handle throughput=None (before any activity).
+* BaseProgress: drop count_of_total_bytes_text, superceded by format_counter (which honours the units_scale).
+
+*Release 20200626*:
+* New Progress.bar generator method iterating over an iterable while displaying a progress bar.
+* New convenience function progressbar(it,...) which rolls its own Progress instance.
+* Progress: always support a throughput window, default to DEFAULT_THROUGHPUT_WINDOW = 5s.
+* Improve the default progress bar render returned by Progress.status().
+
+*Release 20200613*:
+* BaseProgress, Progress and OverProgress now accept an optional units_scale, such as cs.units.UNSCALED_SCALE, to use when expressing progress - the default remains BINARY_SCALE.
+* New arrow(), format_counter() and text_pos_of_total() methods to produce components of the status string for tuning or external reuse.
+
+*Release 20200520*:
+OverProgress: throughput and eta implementations.
+
+*Release 20200129.3*:
+Test __version__ machinery again.
+
+*Release 20200129.2*:
+set __version__ to '20200129.2'
+
+*Release 20200129.1*:
+Dummy release to test new __version__.
+
+*Release 20200129*:
+New Progress.count_of_total_bytes_text property presenting "3kB/40MB" style text.
+
+*Release 20190812*:
+* New OverProgress class which is a composite of a set of subsidiary Progress instances.
+* Assorted other small updates.
+
+*Release 20190220*:
+* Progress: be somewhat like an int.
+* New status() method returning a convenient one line progress status report.
+
+*Release 20180703.2*:
+Progress: make .total into a property in order to fire the update notifications.
+
+*Release 20180703.1*:
+Progress: additions and changes to API: new .ratio, .elapsed_time, rename .projected to .remaining_time.
+
+*Release 20180703*:
+Initial release of cs.progress.
