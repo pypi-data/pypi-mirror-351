@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: langchain-community-aipy
+Version: 0.3.11
+Summary: Community contributed LangChain integrations.
+Author-email: The QPYPI Team <qpypi@qpython.org>
+License: MIT AND (Apache-2.0 OR BSD-2-Clause)
+Project-URL: Homepage, https://qpypi.qpython.org/project/langchain-community-aipy/
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: Android
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development
+Requires-Python: ==3.12.*
+Description-Content-Type: text/markdown
+Requires-Dist: numpy-aipy
+Requires-Dist: sqlalchemy-qpython
+Requires-Dist: aiohttp-qpython
+Requires-Dist: PyYAML
+Requires-Dist: tenacity
+Requires-Dist: dataclasses-json
+Requires-Dist: httpx-sse
+
+This project is a branch of [langchain-community](https://pypi.org/project/langchain-community/) on [QPython](https://www.qpython.org).
+
+## What is it?
+
+LangChain Community contains third-party integrations that implement the base interfaces defined in LangChain Core, making them ready-to-use in any LangChain application.
+
+For full documentation see the [API reference](https://python.langchain.com/api_reference/community/index.html).
+
+![Diagram outlining the hierarchical organization of the LangChain framework, displaying the interconnected parts across multiple layers.](https://raw.githubusercontent.com/langchain-ai/langchain/master/docs/static/svg/langchain_stack_112024.svg "LangChain Framework Overview")
