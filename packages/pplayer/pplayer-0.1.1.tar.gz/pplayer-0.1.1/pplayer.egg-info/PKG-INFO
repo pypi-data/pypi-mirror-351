@@ -1,0 +1,225 @@
+Metadata-Version: 2.1
+Name: pplayer
+Version: 0.1.1
+Summary: Player package for your pygame game
+Author: Aynu
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Games/Entertainment
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: pygame
+
+# pplayer
+
+**pplayer** is a simple, flexible, and lightweight player controller package built for Pygame games.  
+It provides a plug-and-play `Player` class with support for sprite animations, gravity, collision detection, and shape-based drawing.
+
+---
+
+## 📦 Installation
+
+```bash
+pip install pplayer
+If you encounter issues during installation, make sure you have pygame installed:
+
+bash
+Copy
+Edit
+pip install pygame
+🚀 Features
+Movement with A/D or Arrow keys
+
+Jumping with W or UP key
+
+Gravity and ground detection
+
+Basic rectangle collision with tiles
+
+Sprite animation support
+
+Optional shapes: square, circle, or custom image
+
+🧪 Usage
+python
+Copy
+Edit
+import pygame
+from pplayer import Player
+
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+clock = pygame.time.Clock()
+
+tiles = [pygame.Rect(100, 400, 300, 50)]
+
+player = Player(x=100, y=300, speed=5)
+
+running = True
+while running:
+    keys = pygame.key.get_pressed()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    player.update(keys, tiles)
+
+    screen.fill((30, 30, 30))
+    player.draw(screen)
+
+    for tile in tiles:
+        pygame.draw.rect(screen, (100, 100, 100), tile)
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+🎮 Customization
+python
+Copy
+Edit
+Player(
+    x=100,
+    y=300,
+    speed=5,
+    images=[pygame.image.load("frame1.png"), pygame.image.load("frame2.png")],
+    shape="sprite",  # or "circle", "square"
+    size=32,
+    color=(255, 0, 0)
+)
+📚 Project Links
+PyLI package page
+
+GitHub repository ← (Update with your actual repo URL)
+
+Documentation
+
+🔧 Development
+For local development or contribution:
+
+bash
+Copy
+Edit
+pip install -e .
+yaml
+Copy
+Edit
+
+---
+
+**Note:**  
+- Replace all `example.com` URLs with your actual PyLI page and docs links.  
+- Keep the style consistent and simple for PyLI’s parser and users.  
+
+If you want, I can help you generate a minimal `setup.py` or `pyproject.toml` file compatible with PyLI packaging too! Would you like that?
+
+
+
+
+
+You said:
+can you give me all in readme.md
+
+
+ChatGPT said:
+Absolutely! Here is the complete, clean, and well-formatted README.md ready for your pplayer package on PyLI:
+
+markdown
+Copy
+Edit
+# pplayer
+
+**pplayer** is a simple, flexible, and lightweight player controller package built for Pygame games.  
+It provides a plug-and-play `Player` class with support for sprite animations, gravity, collision detection, and shape-based drawing.
+
+---
+
+## 📦 Installation
+
+```bash
+pip install pplayer
+If you encounter issues during installation, make sure you have pygame installed:
+
+bash
+Copy
+Edit
+pip install pygame
+🚀 Features
+Movement with A/D or Arrow keys
+
+Jumping with W or UP key
+
+Gravity and ground detection
+
+Basic rectangle collision with tiles
+
+Sprite animation support
+
+Optional shapes: square, circle, or custom image
+
+🧪 Usage
+python
+Copy
+Edit
+import pygame
+from pplayer import Player
+
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+clock = pygame.time.Clock()
+
+tiles = [pygame.Rect(100, 400, 300, 50)]
+
+player = Player(x=100, y=300, speed=5)
+
+running = True
+while running:
+    keys = pygame.key.get_pressed()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    player.update(keys, tiles)
+
+    screen.fill((30, 30, 30))
+    player.draw(screen)
+
+    for tile in tiles:
+        pygame.draw.rect(screen, (100, 100, 100), tile)
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+🎮 Customization
+python
+Copy
+Edit
+Player(
+    x=100,
+    y=300,
+    speed=5,
+    images=[pygame.image.load("frame1.png"), pygame.image.load("frame2.png")],
+    shape="sprite",  # or "circle", "square"
+    size=32,
+    color=(255, 0, 0)
+)
+📚 Project Links
+PyLI package page
+
+GitHub repository ← (Update with your actual repo URL)
+
+Documentation
+
+🔧 Development
+For local development or contribution:
+
+bash
+Copy
+Edit
+pip install -e .
