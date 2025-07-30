@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: PyVCC
+Version: 1.3.1
+Summary: PyVCC python version controller using conventional commits
+Requires-Python: >=3.10
+Requires-Dist: pygit2>=1.18.0
+Requires-Dist: structlog>=25.3.0
+Requires-Dist: typing-extensions>=4.0.0; python_version < "3.11"
+Description-Content-Type: text/markdown
+
+# python-version-controller
+conventional version controller for python
+
+[![codecov](https://codecov.io/gh/lcavalcante/python-version-controller/graph/badge.svg?token=H65NZV7N3Z)](https://codecov.io/gh/lcavalcante/python-version-controller)
+[![tests](https://github.com/lcavalcante/python-version-controller/actions/workflows/code-quality.yml/badge.svg)](https://github.com/lcavalcante/python-version-controller/actions/workflows/code-quality.yml)
