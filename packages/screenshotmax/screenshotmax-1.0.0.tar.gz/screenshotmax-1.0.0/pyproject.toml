@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "screenshotmax"
+version = "1.0.0"
+description = "Official Python SDK for ScreenshotMAX API"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+
+authors = [{ name = "Bertrand Lebonnois", email = "support@screenshotmax.com" }]
+
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Topic :: Internet :: WWW/HTTP",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+]
+
+dependencies = ["requests>=2.25.1"]
+
+[project.urls]
+Homepage = "https://screenshotmax.com"
+Repository = "https://github.com/screenshotmax/python-sdk"
+Documentation = "https://docs.screenshotmax.com"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
