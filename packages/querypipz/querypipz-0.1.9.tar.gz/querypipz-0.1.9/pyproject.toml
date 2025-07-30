@@ -1,0 +1,14 @@
+[project]
+name = "querypipz"
+version = "0.1.9"
+description = "提供构建与使用知识库的能力"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [ "black>=25.1.0", "llama-index[all]>=0.12.31", "llama-index-readers-file>=0.4.7", "llama-index-readers-github>=0.6.1", "toolsz>=0.1.4", "llama-index-core>=0.12.31", "llama-index-readers-database>=0.4.0", "pypdf2>=3.0.1", "toml>=0.10.2", "faiss-cpu>=1.11.0", "llama-index-vector-stores-faiss>=0.4.0", "llama-index-graph-stores-neo4j>=0.4.6", "llama-index-graph-stores-memgraph>=0.3.1", "llama-index-graph-stores-nebula>=0.4.2", "llama-index-vector-stores-pinecone>=0.4.5", "pinecone>=6.0.2", "promptlibz>=0.2.7",]
+
+[tool.uv.workspace]
+members = [ "~/GitHub/commender", "audioz",]
+
+[tool.pytest.ini_options]
+testpaths = [ "tests",]
+pythonpath = [ "src",]
