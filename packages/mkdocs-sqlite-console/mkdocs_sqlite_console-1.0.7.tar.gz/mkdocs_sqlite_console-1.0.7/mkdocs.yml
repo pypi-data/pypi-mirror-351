@@ -1,0 +1,30 @@
+site_name: mkdocs-sqlite-console
+
+theme:
+  name: material
+  language: fr
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+
+nav:
+    - Home: 'index.md'
+    - 'Guide d''utilisation': 'usage.md'
+    - A propos:
+        - 'License': 'licence.md'
+        - 'Historique des versions': 'notes-de-version.md'
+
+repo_url: https://github.com/epithumia/mkdocs-sqlite-console
+site_url: https://epithumia.github.io/mkdocs-sqlite-console
+edit_uri: edit/main/docs/
+
+plugins:
+  - search
+  - sqlite-console
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
