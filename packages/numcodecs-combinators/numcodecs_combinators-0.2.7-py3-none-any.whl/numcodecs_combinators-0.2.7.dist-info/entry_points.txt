@@ -1,0 +1,3 @@
+[numcodecs.codecs]
+combinators.framed = numcodecs_combinators.framed:FramedCodecStack
+combinators.stack = numcodecs_combinators.stack:CodecStack
