@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-wrapper-mcp-server"
+version = "0.1.1"
+description = "Wrap a call to any remote LLM model and expose it as an MCP server tool to allow your main model to communicate with other models."
+authors = [
+    {name = "Mateusz", email = "matdev83@github.com"},
+]
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "pydantic>=2.4.2",
+    "pydantic-settings>=2.0.0",
+    "httpx>=0.25.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+    "tiktoken>=0.6.0",
+    "llm_accounting>=0.1.0"
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+cli = "llm_wrapper_mcp_server.__main__:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.9.1",
+    "isort>=5.12.0",
+    "mypy>=1.5.1",
+    "pytest-mock>=3.12.0",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_wrapper_mcp_server"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-v", "--import-mode=importlib"]
+pythonpath = ["."]
