@@ -1,0 +1,61 @@
+Metadata-Version: 2.3
+Name: pyDGSA
+Version: 1.0.8
+Summary: Python implementation of distance-based generalized sensitivity analysis (DGSA)
+License: GPL-3.0-or-later
+Author: zperzan
+Author-email: zach.perzan@unlv.edu
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: ipywidgets (>=8.1.3,<9.0.0)
+Requires-Dist: matplotlib (>=3.9.0,<4.0.0)
+Requires-Dist: numpy (>=2.0.0,<3.0.0)
+Requires-Dist: pandas (>=2.2.2,<3.0.0)
+Requires-Dist: pytest (>=8.3.4,<9.0.0)
+Requires-Dist: scikit-learn (>=1.5.1,<2.0.0)
+Requires-Dist: scipy (>=1.14.0,<2.0.0)
+Requires-Dist: tqdm (>=4.66.4,<5.0.0)
+Description-Content-Type: text/markdown
+
+# pyDGSA
+
+pyDGSA is a Python implementation of distance-based generalized sensitivity analysis (DGSA) following [Fenwick et al. (2014)](https://doi.org/10.1007/s11004-014-9530-5).
+
+## Installation
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install pyDGSA.
+
+```bash
+pip install pyDGSA
+```
+or
+```bash
+conda install -c conda-forge pydgsa
+```
+
+## Usage
+Please see the `tutorial_short.ipynb` and `tutorial_long.ipynb` Jupyter notebooks in the [pyDGSA GitHub repository](https://github.com/zperzan/pyDGSA) for detailed usage examples.
+
+## Citation
+If you use the Python `pyDGSA` package in published work, please cite the paper for which it
+was originally developed:
+
+Perzan, Z., Babey, T., Caers, J., Bargar, J.R. and Maher, K., 2021, Local and global sensitivity analysis of a reactive transport model simulating floodplain redox cycling, *Water Resources Research*, doi: [10.1029/2021WR029723](https://dx.doi.org/10.1029/2021WR029723)
+
+From version 1.0.4 on, each release of this package is archived in Zenodo and can be cited directly, in addition to citing the paper above. For example, to cite version 1.0.4:
+
+Perzan, Z., 2024, zperzan/pyDGSA: v1.0.4 (v1.0.4), *Zenodo*, doi: [10.5281/zenodo.13694020](https://doi.org/10.5281/zenodo.13694020)
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[GPL](https://choosealicense.com/licenses/gpl-3.0/)
+
