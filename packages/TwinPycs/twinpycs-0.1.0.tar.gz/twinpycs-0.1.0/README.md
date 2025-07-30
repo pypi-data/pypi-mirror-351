@@ -1,0 +1,97 @@
+# TwinPycs
+a package to show the way PyPI and Windows executable is generated.
+The package is a sample Python package that demonstrates a wxPython message box with a modular structure.
+
+## the TwinPycs project structure 
+Here's how to build a simple Python project using the src/ layout, and use setuptools with a setup.py file to create a command-line executable.
+```
+TwinPycs_project/
+├── src/
+│   └── TwinPycs/
+│       ├── A/
+│       │   ├── __init__.py
+│       │   └── main.py
+│       ├── B/
+│       │   ├── __init__.py
+│       │   └── helper.py
+│       └── __init__.py
+├── pyproject.toml
+├── setup_TwinPycs.py
+├── README.md
+└── LICENSE
+└── requirements.txt
+```
+## Before installing
+Before installing the TwinPycs project you may run this to install the required packages.
+Usually pip install the required packages mentionned in the pyproject.toml
+```bash
+pip install -r requirements.txt
+```
+
+## testing the code without installing
+
+you need to give the path of the uninstalled package to be used by Python
+
+```bash
+#method 1) without changing PYTHONPATH
+cd D:\ttx\TwinPycs\src
+python -m  TwinPycs.A.main  arg1 arg2 # not good: because main.py is expected to be imported not executed 
+python -m  TwinPycs         arg1 arg2 # good:     __main__.py is called and executed
+
+```
+
+```bash
+#method 2) WITH  changing PYTHONPATH
+set PYTHONPATH=%PYTHONPATH%;D:\ttx\TwinPycs\src
+python D:\ttx\TwinPycs\src\TwinPycs\A\main.py    arg1 arg2 #main.py has been called
+python D:\ttx\TwinPycs\src\TwinPycs\__main__.py  arg1 arg2 # __main__.py has been called.
+```
+
+## Installation
+
+1. Install the package:
+   ```bash
+   pip install .
+   pip show TwinPycs
+   ```
+## test the installtion 
+
+   ```bash
+   pip show TwinPycs
+   python -c "import TwinPycs;TwinPycs.show_message_box()"
+
+   python -m  TwinPycs  arg1 arg2 # good:     __main__.py is called and executed
+
+   ```
+   Once installed with PIP, if you have defined a function  [project.scripts], 
+   an executable will be created in Script folder of you Python.
+   python -c "import sys; print(sys.executable)"
+   If you want to access to the executables of Python mackages, add the Scrips path to PATH.
+   YOUR-PYTHON-EXECUTABLE-FOLDER\LocalCache\local-packages\Python312\Scripts\TwinPycs_cli.exe 
+
+   ```bash
+     TwinPycs_cli.exe
+   ```
+
+## uninstalling the project on the machine 
+
+   ```bash
+   pip show TwinPycs
+   pip uninstall TwinPycs
+   ```
+ 
+2. Run the application:
+   ```bash
+   TwinPycs
+   ```
+
+## Building Executable
+
+To create a Windows executable using CX_Freeze:
+
+```bash
+python setup_TwinPycs.py build   
+python setup_TwinPycs.py bdist_msi
+```
+
+The executable will be created in the `build` directory.
