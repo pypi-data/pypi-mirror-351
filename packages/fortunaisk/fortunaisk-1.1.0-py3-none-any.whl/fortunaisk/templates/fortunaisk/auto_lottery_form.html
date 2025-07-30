@@ -1,0 +1,245 @@
+{# fortunaisk/templates/fortunaisk/auto_lottery_form.html #}
+{% extends "fortunaisk/base.html" %}
+{% load i18n static %}
+
+{% block page_title %}
+  {% if form.instance.pk %}
+    {% trans "Edit Automatic Lottery" %}
+  {% else %}
+    {% trans "Create Automatic Lottery" %}
+  {% endif %}
+{% endblock %}
+
+{% block details %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-clover fa-2x me-3"></i>
+            <div>
+              <h4 class="mb-0">
+                {% if form.instance.pk %}
+                  {% trans "Edit Automatic Lottery" %}
+                {% else %}
+                  {% trans "Create Automatic Lottery" %}
+                {% endif %}
+              </h4>
+              {% if not form.instance.pk %}
+                <small class="opacity-75">
+                  {% trans "Schedule recurring lotteries automatically" %}
+                </small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form method="post" id="autoLotteryForm" novalidate>
+            {% csrf_token %}
+
+            {# Affichage des erreurs globales #}
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  {% for err in form.non_field_errors %}
+                    <li>{{ err }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+            {# Messages Django #}
+            {% for msg in messages %}
+              <div class="alert alert-{{ msg.tags }} mt-2">{{ msg }}</div>
+            {% endfor %}
+
+            {# ─── Section 1 : Informations de base ─────────────────────── #}
+            <h5 class="mb-3 text-success">
+              <i class="fas fa-info-circle me-2 text-warning"></i>
+              {% trans "Basic Information" %}
+            </h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="{{ form.name.id_for_label }}" class="form-label">
+                  {% trans "Lottery Name" %}*
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                  {{ form.name }}
+                </div>
+                {{ form.name.errors }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">{% trans "Frequency" %}*</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                  {{ form.frequency }} {{ form.frequency_unit }}
+                </div>
+                {{ form.frequency.errors }}{{ form.frequency_unit.errors }}
+              </div>
+              <div class="col-md-6">
+                <label for="{{ form.ticket_price.id_for_label }}" class="form-label">
+                  {% trans "Ticket Price (ISK)" %}*
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-coins"></i></span>
+                  {{ form.ticket_price }}<span class="input-group-text">ISK</span>
+                </div>
+                {{ form.ticket_price.errors }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">{% trans "Duration" %}*</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-hourglass-half"></i></span>
+                  {{ form.duration_value }} {{ form.duration_unit }}
+                </div>
+                {{ form.duration_value.errors }}{{ form.duration_unit.errors }}
+              </div>
+            </div>
+
+            {# ─── Section 2 : Configuration des gagnants ──────────────── #}
+            <h5 class="mb-3 text-warning">
+              <i class="fas fa-trophy me-2"></i>
+              {% trans "Winners Configuration" %}
+            </h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="{{ form.winner_count.id_for_label }}" class="form-label">
+                  {% trans "Number of Winners" %}*
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-users"></i></span>
+                  {{ form.winner_count }}
+                </div>
+                {{ form.winner_count.errors }}
+              </div>
+              <div class="col-12">
+                <label class="form-label">{% trans "Prize Distribution (%)" %}</label>
+                <div id="prize-distribution-container"></div>
+                <small class="form-text text-muted">
+                  {% trans "Adjust each winner's share; total must equal 100%." %}
+                </small>
+              </div>
+            </div>
+
+            {# On remet le champ JSONField caché pour que le Form le reçoive #}
+            <div style="display:none;">
+              {{ form.winners_distribution }}
+            </div>
+
+            {# ─── Section 3 : Réglages additionnels ──────────────────── #}
+            <h5 class="mb-3 text-success">
+              <i class="fas fa-cog me-2"></i>
+              {% trans "Additional Settings" %}
+            </h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="{{ form.max_tickets_per_user.id_for_label }}" class="form-label">
+                  {% trans "Max Tickets per User" %}
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-ticket-alt"></i></span>
+                  {{ form.max_tickets_per_user }}
+                </div>
+                {{ form.max_tickets_per_user.errors }}
+                <div class="form-text">{% trans "Leave blank for unlimited." %}</div>
+              </div>
+              <div class="col-md-6">
+                <label for="{{ form.payment_receiver.id_for_label }}" class="form-label">
+                  {% trans "Payment Receiver" %}
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  {{ form.payment_receiver }}
+                </div>
+                {{ form.payment_receiver.errors }}
+              </div>
+              <div class="col-md-6">
+                <label for="{{ form.tax.id_for_label }}" class="form-label">
+                  {% trans "Tax (%)" %}
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text">%</span>{{ form.tax }}
+                </div>
+                {{ form.tax.errors }}
+                <div class="form-text">{% trans "Percentage of tax applied." %}</div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary btn-lg">
+                {% if form.instance.pk %}
+                  {% trans "Update AutoLottery" %}
+                {% else %}
+                  {% trans "Create AutoLottery" %}
+                {% endif %}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('autoLotteryForm');
+  const countEl = document.getElementById('id_winner_count');
+  const container = document.getElementById('prize-distribution-container');
+  // on récupère aussi le champ JSON caché
+  const hiddenInput = document.getElementById('id_winners_distribution');
+
+  function makeField(i, val) {
+    const div = document.createElement('div');
+    div.className = 'input-group mb-2';
+    div.innerHTML = `
+      <span class="input-group-text">Winner ${i+1}</span>
+      <input type="number" name="winners_distribution_entry"
+              class="form-control prize-distribution"
+              value="${val}" min="0" max="100" required>
+      <span class="input-group-text">%</span>
+    `;
+    // à chaque changement on remplit le hidden
+    div.querySelector('input').addEventListener('input', updateHidden);
+    return div;
+  }
+
+  function render(n) {
+    container.innerHTML = '';
+    let rem = 100;
+    for (let i = 0; i < n; i++) {
+      const v = (i === n - 1) ? rem : Math.floor(100 / n);
+      rem -= v;
+      container.appendChild(makeField(i, v));
+    }
+    updateHidden();
+  }
+
+  function updateHidden() {
+    const arr = Array.from(container.querySelectorAll('input.prize-distribution'))
+      .map(i => parseInt(i.value, 10) || 0);
+    hiddenInput.value = JSON.stringify(arr);
+  }
+
+  countEl.addEventListener('input', () => {
+    const n = Math.max(1, parseInt(countEl.value, 10) || 1);
+    render(n);
+  });
+
+  // initial
+  render(Math.max(1, parseInt(countEl.value, 10) || 1));
+
+  // validation finale
+  form.addEventListener('submit', e => {
+    const sum = Array.from(container.querySelectorAll('input.prize-distribution'))
+      .reduce((tot, inp) => tot + (parseInt(inp.value, 10) || 0), 0);
+    if (sum !== 100) {
+      alert("{% trans 'The sum of percentages must equal 100.' %}");
+      e.preventDefault();
+    }
+  });
+});
+</script>
+{% endblock %}
