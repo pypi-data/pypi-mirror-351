@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: doc2vision
+Version: 0.1.0
+Summary: Convert PDFs and images into clean, LLM-compatible image formats
+Author: Russell Van Curen
+Author-email: Russell Van Curen <russell@vancuren.com>
+Requires-Python: >=3.7
+Requires-Dist: contourpy==1.3.2
+Requires-Dist: cycler==0.12.1
+Requires-Dist: fonttools==4.58.1
+Requires-Dist: kiwisolver==1.4.8
+Requires-Dist: matplotlib==3.10.3
+Requires-Dist: numpy==2.2.6
+Requires-Dist: opencv-python-headless==4.11.0.86
+Requires-Dist: packaging==25.0
+Requires-Dist: pdf2image==1.17.0
+Requires-Dist: pillow==11.2.1
+Requires-Dist: pyparsing==3.2.3
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: six==1.17.0
+Dynamic: author
+Dynamic: requires-python
