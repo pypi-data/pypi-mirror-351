@@ -1,0 +1,73 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+set -e -o pipefail
+
+if [ -n "${GITTED_TESTING}" ]; then
+    set -x
+fi
+
+if [ -n "${GITTED_VERBOSE}" ]; then
+    set -x
+fi
+
+echo "Gitted 0.0.5 (any issues or ideas, submit to https://github.com/yegor256/gitted)"
+
+function bash_it {
+    printf '%q ' "$@" | /bin/bash -x
+}
+
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Oops, this is not a Git repository"
+    exit 1
+fi
+
+if [ -z "${GIT_BIN}" ]; then
+    GIT_BIN=git
+fi
+
+branch=$("${GIT_BIN}" symbolic-ref HEAD --short)
+printf "Current branch is '%s'" "${branch}"
+
+if ! "${GIT_BIN}" rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1; then
+    printf "\nThe upstream is not configured for the '%s' branch, setting it to 'origin/%s'" "${branch}" "${branch}"
+    bash_it "${GIT_BIN}" fetch
+    bash_it "${GIT_BIN}" branch "--set-upstream-to=origin/${branch}" "${branch}"
+fi
+
+if [ -e .git/modules ]; then
+    printf "\nA few submodules need to be pulled first...\n"
+    while true; do
+        bash_it "${GIT_BIN}" submodule update --remote && break
+        if [ -n "${GITTED_TESTING}" ]; then
+            exit 1
+        fi
+    done
+fi
+
+printf "\nStaging local changes (%d files)...\n" "$(${GIT_BIN} status --porcelain | wc -l)"
+bash_it "${GIT_BIN}" add .
+
+stashed=no
+if ! git diff --quiet || ! git diff --cached --quiet; then
+    trap "echo 'Applying the changes back...' && \${GIT_BIN} stash apply" EXIT
+    printf "\nStashing local changes (%d files)...\n" "$(${GIT_BIN} status --porcelain | wc -l)"
+    bash_it "${GIT_BIN}" stash
+    stashed=yes
+fi
+
+while true; do
+    printf "\nPulling from %s...\n" "origin/${branch}"
+    bash_it "${GIT_BIN}" pull origin "${branch}" && break
+    if [ -n "${GITTED_TESTING}" ]; then
+        exit 1
+    fi
+done
+trap - EXIT
+if [ "${stashed}" == 'yes' ]; then
+    printf "\nTrying to apply the changes back...\n"
+    bash_it "${GIT_BIN}" stash apply
+fi
+
+# Then, we should pull+merge from upstream...
