@@ -1,0 +1,80 @@
+[tool.poetry]
+name = "nkia-ai-dependency"
+version = "0.7.0"
+description = "NKIA AI Shared Dependency"
+authors = ["hjyang <hjyang@nkia.co.kr>"]
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.metricanomaly]
+optional = true
+
+[tool.poetry.group.processrca]
+optional = true
+
+[tool.poetry.group.threcommender]
+optional = true
+
+[tool.poetry.group.staticthreshold]
+optional = true
+
+[tool.poetry.group.deploy]
+optional = true
+
+
+[tool.poetry.group.metricanomaly.dependencies]
+pandas = "2.2.2"
+numpy = "1.26.4"
+statsmodels = "0.14.1"
+more-itertools = "10.2.0"
+pytimekr = "0.1.0"
+scipy = "1.13.0"
+scikit-learn = "1.3.2"
+pytz = "2024.1"
+pytest = "8.3.2"
+
+[tool.poetry.group.processrca.dependencies]
+pandas = "2.2.2"
+numpy = "1.26.4"
+networkx = "3.1"
+scipy = "1.13.0"
+statsmodels = "0.14.1"
+scikit-learn = "1.3.2"
+pytest = "8.3.2"
+
+[tool.poetry.group.threcommender.dependencies]
+pandas = "2.2.2"
+numpy = "1.26.4"
+more-itertools = "10.2.0"
+scipy = "1.13.0"
+seaborn = "0.13.2"
+pytest = "8.3.2"
+
+[tool.poetry.group.staticthreshold.dependencies]
+pandas = "2.2.2"
+numpy = "1.26.4"
+more-itertools = "10.2.0"
+pytest = "8.3.2"
+
+[tool.poetry.group.deploy.dependencies]
+fastapi = "0.109.2"
+gunicorn = "21.2.0"
+uvicorn = "0.27.1"
+httpx = "0.25.2"
+pandas = "2.2.2"
+numpy = "1.26.4"
+python-dotenv = "1.0.1"
+pydantic = "2.11.4"
+aiohttp = "3.9.3"
+redis = "3.5.3"
+redis-py-cluster = "2.1.3"
+cassandra-driver = "3.29.0"
+elasticsearch = "7.15.1"
+pymongo = "4.12.1"
+pytest = "8.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
