@@ -1,0 +1,6 @@
+[console_scripts]
+skippy-cov=skippy_cov.__main__:main
+
+[pytest11]
+skippy-cov=skippy_cov.plugin
+
