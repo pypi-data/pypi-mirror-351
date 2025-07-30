@@ -1,0 +1,7 @@
+[console_scripts]
+guardian = mental_monitoring.main:main
+guardian-benchmark = examples.batch_message_processing:main
+guardian-bot = mental_monitoring.main:run_discord_bot
+guardian-dash = mental_monitoring.main:run_dashboard
+guardian-optimize = mental_monitoring.utils.optimized_inference:main
+guardian-rtx = optimize_discord_bot:main
