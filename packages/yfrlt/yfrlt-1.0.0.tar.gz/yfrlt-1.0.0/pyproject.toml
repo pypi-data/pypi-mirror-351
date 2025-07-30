@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yfrlt"
+version = "1.0.0"
+description = "Yahoo Finance Real-Time WebSocket Library for streaming live market data"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "YFRLT Community", email = "support@yfrlt.dev"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry", 
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "websocket-client>=1.6.0",
+    "websockets>=11.0.0",
+]
+keywords = [
+    "yahoo", "finance", "websocket", "realtime", "stocks", "crypto", 
+    "trading", "market-data", "financial-data", "streaming"
+]
+
+[project.urls]
+Homepage = "https://github.com/ijuice-20/yfrlt"
+Repository = "https://github.com/ijuice-20/yfrlt"
+Issues = "https://github.com/ijuice-20/yfrlt/issues"
+Documentation = "https://github.com/ijuice-20/yfrlt#readme"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["yfrlt*"]
