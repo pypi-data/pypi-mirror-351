@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: cancerdata-pii
+Version: 0.1.4
+Summary: Add your description here
+Project-URL: Homepage, https://github.com/smeisegeier/cancerdata-pii
+Project-URL: Repository, https://github.com/smeisegeier/cancerdata-pii
+Project-URL: Bug Tracker, https://github.com/smeisegeier/cancerdata-pii/issues
+Author-email: smeisegeier <dexterDSDo@googlemail.com>
+License-File: LICENSE
+Keywords: example,package,tutorial
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.10
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: hatchling>=1.27.0
+Requires-Dist: pip>=25.1.1
+Requires-Dist: twine>=6.1.0
+Description-Content-Type: text/markdown
+
+# pii
