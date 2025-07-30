@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: xdTelegramMsgAPI
+Version: 0.1.0
+Summary: A Python library for sending messages via the xd-org.site Telegram API
+Home-page: https://github.com/ayushbiswas007/xdTelegramMsgAPI
+Author: Ayush Biswas
+Author-email: adgaming780@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.25.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# xdTelegramMsgAPI
+A Python library for sending messages or images to Telegram users via the xd-org.site API.
+
+## Installation
+```bash
+pip install xdTelegramMsgAPI
+```
+
+## Usage
+```python
+from xdTelegramMsgAPI import xdSendMsg
+
+# Send a simple message
+response = xdSendMsg(
+    to="123456",
+    key="xd_team",
+    msg="Hello, User!"
+)
+print(response)
+
+# Send a message with an image and inline buttons
+response = xdSendMsg(
+    to="123456",
+    key="xd_team",
+    msg="Check this out!",
+    img="https://example.com/image.jpg",
+    inlinetext1="Open Website",
+    inlinelink1="https://example.com",
+    inlinetext2="More Info",
+    inlinelink2="https://example2.com"
+)
+print(response)
+```
+
+## Requirements
+- Python 3.6+
+- `requests` library
+
+## License
+MIT
