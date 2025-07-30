@@ -1,0 +1,325 @@
+{
+  "Cycling": {
+    "Beginner": [
+      {
+        "title": "Beginner Cyclist",
+        "description": "Cycle at least 5km this week",
+        "target": 5,
+        "unit": "km",
+        "duration": 7,
+        "points": 100,
+        "co2_impact": 1.0
+      },
+      {
+        "title": "Short Trip Replacement",
+        "description": "Replace 3 short car trips with cycling this week",
+        "target": 3,
+        "unit": "trips",
+        "duration": 7,
+        "points": 150,
+        "co2_impact": 1.5
+      },
+      {
+        "title": "Wow",
+        "description": "The highest level of commitment to environmental impact",
+        "target": 2.0,
+        "unit": "km",
+        "duration": 7,
+        "points": 20,
+        "co2_impact": 0.4,
+        "category": "Cycling",
+        "difficulty": "Beginner"
+      }
+    ],
+    "Intermediate": [
+      {
+        "title": "Regular Rider",
+        "description": "Cycle at least 20km this week",
+        "target": 20,
+        "unit": "km",
+        "duration": 7,
+        "points": 200,
+        "co2_impact": 4.0
+      },
+      {
+        "title": "Commute Changer",
+        "description": "Cycle to work/school at least 2 days this week",
+        "target": 2,
+        "unit": "days",
+        "duration": 7,
+        "points": 250,
+        "co2_impact": 5.0
+      }
+    ],
+    "Advanced": [
+      {
+        "title": "Dedicated Cyclist",
+        "description": "Cycle at least 50km this week",
+        "target": 50,
+        "unit": "km",
+        "duration": 7,
+        "points": 400,
+        "co2_impact": 10.0
+      },
+      {
+        "title": "Full Week Commuter",
+        "description": "Cycle to work/school every day this week",
+        "target": 5,
+        "unit": "days",
+        "duration": 7,
+        "points": 500,
+        "co2_impact": 15.0
+      }
+    ],
+    "Expert": [
+      {
+        "title": "Century Rider",
+        "description": "Complete a 100km ride this month",
+        "target": 100,
+        "unit": "km",
+        "duration": 30,
+        "points": 1000,
+        "co2_impact": 20.0
+      },
+      {
+        "title": "Car-Free Month",
+        "description": "Replace all personal car trips with cycling for a month",
+        "target": 30,
+        "unit": "days",
+        "duration": 30,
+        "points": 1500,
+        "co2_impact": 100.0
+      }
+    ]
+  },
+  "Transportation": {
+    "Beginner": [
+      {
+        "title": "Public Transit Day",
+        "description": "Use public transportation instead of a car once this week",
+        "target": 1,
+        "unit": "days",
+        "duration": 7,
+        "points": 100,
+        "co2_impact": 2.0
+      }
+    ],
+    "Intermediate": [
+      {
+        "title": "Carpool Week",
+        "description": "Carpool to work/school at least 3 days this week",
+        "target": 3,
+        "unit": "days",
+        "duration": 7,
+        "points": 250,
+        "co2_impact": 7.5
+      }
+    ],
+    "Advanced": [
+      {
+        "title": "Multi-Modal Commuter",
+        "description": "Use at least 3 different eco-friendly transport modes this week",
+        "target": 3,
+        "unit": "modes",
+        "duration": 7,
+        "points": 400,
+        "co2_impact": 10.0
+      }
+    ],
+    "Expert": [
+      {
+        "title": "Zero Emission Month",
+        "description": "Only use zero-emission transportation for a month",
+        "target": 30,
+        "unit": "days",
+        "duration": 30,
+        "points": 1500,
+        "co2_impact": 120.0
+      }
+    ]
+  },
+  "Energy": {
+    "Beginner": [
+      {
+        "title": "Lights Out",
+        "description": "Turn off lights when leaving rooms for a week",
+        "target": 7,
+        "unit": "days",
+        "duration": 7,
+        "points": 100,
+        "co2_impact": 1.0
+      }
+    ],
+    "Intermediate": [
+      {
+        "title": "Unplug Challenge",
+        "description": "Unplug electronics when not in use for a week",
+        "target": 7,
+        "unit": "days",
+        "duration": 7,
+        "points": 200,
+        "co2_impact": 3.0
+      }
+    ],
+    "Advanced": [
+      {
+        "title": "Cold Wash Week",
+        "description": "Use only cold water for laundry for a week",
+        "target": 7,
+        "unit": "days",
+        "duration": 7,
+        "points": 300,
+        "co2_impact": 5.0
+      }
+    ],
+    "Expert": [
+      {
+        "title": "Energy Audit",
+        "description": "Conduct a home energy audit and implement 5 improvements",
+        "target": 5,
+        "unit": "improvements",
+        "duration": 30,
+        "points": 1000,
+        "co2_impact": 50.0
+      }
+    ]
+  },
+  "Waste": {
+    "Beginner": [
+      {
+        "title": "Reusable Bottle",
+        "description": "Use only a reusable water bottle for a week",
+        "target": 7,
+        "unit": "days",
+        "duration": 7,
+        "points": 100,
+        "co2_impact": 1.0
+      }
+    ],
+    "Intermediate": [
+      {
+        "title": "Zero Plastic Bags",
+        "description": "Avoid all single-use plastic bags for a week",
+        "target": 7,
+        "unit": "days",
+        "duration": 7,
+        "points": 250,
+        "co2_impact": 2.0
+      }
+    ],
+    "Advanced": [
+      {
+        "title": "Compost Champion",
+        "description": "Compost all food waste for two weeks",
+        "target": 14,
+        "unit": "days",
+        "duration": 14,
+        "points": 500,
+        "co2_impact": 10.0
+      }
+    ],
+    "Expert": [
+      {
+        "title": "Zero Waste Month",
+        "description": "Produce less than one small bag of landfill waste for a month",
+        "target": 30,
+        "unit": "days",
+        "duration": 30,
+        "points": 1500,
+        "co2_impact": 50.0
+      }
+    ]
+  },
+  "Food": {
+    "Beginner": [
+      {
+        "title": "Meatless Monday",
+        "description": "Eat vegetarian meals every Monday for a month",
+        "target": 4,
+        "unit": "days",
+        "duration": 30,
+        "points": 200,
+        "co2_impact": 8.0
+      }
+    ],
+    "Intermediate": [
+      {
+        "title": "Local Food Week",
+        "description": "Eat only locally produced food for a week",
+        "target": 7,
+        "unit": "days",
+        "duration": 7,
+        "points": 300,
+        "co2_impact": 10.0
+      }
+    ],
+    "Advanced": [
+      {
+        "title": "Plant-Based Week",
+        "description": "Eat only plant-based meals for a week",
+        "target": 7,
+        "unit": "days",
+        "duration": 7,
+        "points": 500,
+        "co2_impact": 20.0
+      }
+    ],
+    "Expert": [
+      {
+        "title": "Zero Food Waste",
+        "description": "Generate zero food waste for a month",
+        "target": 30,
+        "unit": "days",
+        "duration": 30,
+        "points": 1000,
+        "co2_impact": 40.0
+      }
+    ]
+  },
+  "Community": {
+    "Beginner": [
+      {
+        "title": "Eco Influence",
+        "description": "Share 3 sustainability tips with friends/family",
+        "target": 3,
+        "unit": "shares",
+        "duration": 7,
+        "points": 100,
+        "co2_impact": 3.0
+      }
+    ],
+    "Intermediate": [
+      {
+        "title": "Group Ride Organizer",
+        "description": "Organize a group cycling event this month",
+        "target": 1,
+        "unit": "events",
+        "duration": 30,
+        "points": 300,
+        "co2_impact": 15.0
+      }
+    ],
+    "Advanced": [
+      {
+        "title": "Environmental Volunteer",
+        "description": "Volunteer for a local environmental cause this month",
+        "target": 1,
+        "unit": "events",
+        "duration": 30,
+        "points": 500,
+        "co2_impact": 10.0
+      }
+    ],
+    "Expert": [
+      {
+        "title": "Sustainability Leader",
+        "description": "Lead a community sustainability project this month",
+        "target": 1,
+        "unit": "projects",
+        "duration": 30,
+        "points": 1000,
+        "co2_impact": 100.0
+      }
+    ]
+  }
+}
