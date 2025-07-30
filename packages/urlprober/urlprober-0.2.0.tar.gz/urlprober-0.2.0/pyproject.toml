@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "urlprober"
+version = "0.2.0"
+description = "A tool to request a specified `url` and return the response."
+authors = ["Andrew Vella"]
+readme = "README.md"
+packages = [{include = "urlprober", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.2.1"
+rich = "^14.0.0"
+flask = "^3.0.0"
+toml = "^0.10.2"
+requests = "^2.32.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-cov = "^6.0.0"
+flake8 = "^7.0.0"
+pre-commit = "^4.0.0"
+
+[tool.poetry.scripts]
+urlprober = "urlprober.__main__:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
