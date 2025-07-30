@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: dst-handler-ogre
+Version: 0.3
+Summary: Convert datetime index of dataframe from EET to UTC
+Home-page: https://github.com/Ogre-AI/dst-handler
+Author: Cristian Padurariu
+Author-email: cristian.padurariu@ogre.ai
+License: MIT
+Requires-Dist: pandas>=1.4.4
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
