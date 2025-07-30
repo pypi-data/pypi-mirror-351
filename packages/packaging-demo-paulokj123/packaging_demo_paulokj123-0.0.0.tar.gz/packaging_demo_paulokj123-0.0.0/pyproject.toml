@@ -1,0 +1,45 @@
+[build-system]
+
+# Minimum requirements for the build system to execute
+requires = ['setuptools', 'wheel']
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+package_demo = ["*.json"]
+
+[project]
+name = "packaging-demo-paulokj123"
+version = "0.0.0"
+description = "Lovely Spam! Wonderful Spam!"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "MIT" }
+keywords = ["one", "two"]
+authors = [{ email = "pauljnraddai@yahoo.com" }, { name = "Paul Addai" }]
+maintainers = [{ name = "Brett Cannon", email = "brett@python.org" }]
+classifiers = ["Programming Language :: Python"]
+
+dependencies = ["numpy", "fastapi"]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov"]
+release = ["build", "twine"]
+static-code-qa = ["pre-commit"]
+colors = ["rich"]
+all = ["packaging-demo[dev, colors]"]
+dev = ["packaging-demo[test, release, static-code-qa]"]
+
+[project.urls]
+homepage = "https://example.com"
+documentation = "https://readthedocs.org"
+repository = "https://github.com"
+changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+
+# [project.scripts]
+# spam-cli = "spam:main_cli"
+
+# [project.gui-scripts]
+# spam-gui = "spam:main_gui"
+
+# [project.entry-points."spam.magical"]
+# tomatoes = "spam:main_tomatoes"
