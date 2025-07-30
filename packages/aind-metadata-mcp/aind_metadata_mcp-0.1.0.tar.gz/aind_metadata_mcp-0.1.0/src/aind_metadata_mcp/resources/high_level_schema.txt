@@ -1,0 +1,170 @@
+Metadata/
+├── metadata_status
+├── name (name of data asset, follows specific structure <modality>_<subject_id>_<date>)
+├── quality_control
+├── schema_version
+├── acquisition/
+│   ├── describedBy: string
+│   ├── schema_version: string
+│   ├── protocol_id: array (DOI for protocols.io)
+│   ├── experimenter_full_name*: array (First and last name of the experimenter(s))
+│   ├── specimen_id*: string
+│   ├── subject_id: string or null
+│   ├── instrument_id*: string
+│   ├── calibrations: array (List of calibration measurements taken prior to acquisition)
+│   ├── maintenance: array (List of maintenance on rig prior to acquisition)
+│   ├── session_start_time*: string
+│   ├── session_end_time*: string
+│   ├── session_type: string or null
+│   ├── tiles*: array
+│   ├── axes*: array
+│   ├── chamber_immersion*: enum
+│   ├── sample_immersion: string or null
+│   ├── active_objectives: array or null
+│   ├── local_storage_directory: string or null
+│   ├── external_storage_directory: string or null
+│   ├── processing_steps: array (List of downstream processing steps planned for each channel)
+│   ├── software: object or null
+│   └── notes: string or null
+│
+├── data_description/
+│   ├── describedBy: string
+│   ├── schema_version: string
+│   ├── license: string
+│   ├── platform*: object (Name for a standardized primary data collection system)
+│   ├── subject_id*: string (Unique identifier for the subject of data acquisition)
+│   ├── creation_time*: string (Time that data files were created)
+│   ├── label: string or null (A short name for the data, used in file names and labels)
+│   ├── name: string or null (Name of data, conventionally also the name of the directory)
+│   ├── institution*: object (Organization that collected this data)
+│   ├── funding_source*: array (Funding source. If internal funding, select 'Allen Institute')
+│   ├── data_level*: enum (Level of processing that data has undergone)
+│   ├── group: string or null (A short name for the group of individuals that collected this data)
+│   ├── investigators*: array (Full name(s) of key investigators)
+│   ├── project_name: string or null (A name for a set of coordinated activities)
+│   ├── restrictions: string or null (Detail any restrictions on publishing or sharing these data)
+│   ├── modality*: array (A short name for the specific manner of data generation)
+│   ├── related_data: array (Path and description of associated data assets)
+│   └── data_summary: string or null (Semantic summary of experimental goal)
+│
+├── instrument/
+│   ├── describedBy: string
+│   ├── schema_version: string
+│   ├── instrument_id: string or null
+│   ├── modification_date*: string
+│   ├── instrument_type*: enum
+│   ├── manufacturer*: object
+│   ├── temperature_control: object or null
+│   ├── humidity_control: object or null
+│   ├── optical_tables: array
+│   ├── enclosure: object or null
+│   ├── objectives*: array
+│   ├── detectors: array
+│   ├── light_sources: array
+│   ├── lenses: array
+│   ├── fluorescence_filters: array
+│   ├── motorized_stages: array
+│   ├── scanning_stages: array
+│   ├── additional_devices: array
+│   ├── calibration_date: string or null
+│   ├── calibration_data: string or null
+│   ├── com_ports: array
+│   ├── daqs: array
+│   └── notes: string or null
+│
+├── procedures/
+│   ├── describedBy: string
+│   ├── schema_version: string
+│   ├── subject_id*: string (Unique identifier for the subject)
+│   ├── subject_procedures: array
+│   ├── specimen_procedures: array
+│   └── notes: string or null
+│
+├── processing/
+│   ├── describedBy: string
+│   ├── schema_version: string
+│   ├── processing_pipeline*: enum (Pipeline used to process data)
+│   ├── analyses: array (Analysis steps taken after processing)
+│   └── notes: string or null
+│
+├── quality_control/
+│   ├── describedBy: string
+│   ├── schema_version: string
+│   ├── evaluations*: array
+│   └── notes: string or null
+│
+├── rig/
+│   ├── describedBy: string
+│   ├── schema_version: string
+│   ├── rig_id*: string (Unique rig identifier)
+│   ├── modification_date*: string
+│   ├── mouse_platform*: object
+│   ├── stimulus_devices: array
+│   ├── cameras: array
+│   ├── enclosure: object or null
+│   ├── ephys_assemblies: array
+│   ├── fiber_assemblies: array
+│   ├── stick_microscopes: array
+│   ├── laser_assemblies: array
+│   ├── patch_cords: array
+│   ├── light_sources: array
+│   ├── detectors: array
+│   ├── objectives: array
+│   ├── filters: array
+│   ├── lenses: array
+│   ├── digital_micromirror_devices: array
+│   ├── polygonal_scanners: array
+│   ├── pockels_cells: array
+│   ├── additional_devices: array
+│   ├── daqs: array
+│   ├── calibrations*: array
+│   ├── ccf_coordinate_transform: string or null (Path to coordinate transform file)
+│   ├── origin: object or null
+│   ├── rig_axes: object or null
+│   ├── modalities*: array
+│   └── notes: string or null
+│
+├── session/
+│   ├── describedBy: string
+│   ├── schema_version: string
+│   ├── protocol_id: array (DOI for protocols.io)
+│   ├── experimenter_full_name*: array (First and last name of the experimenter(s))
+│   ├── session_start_time*: string
+│   ├── session_end_time: string or null
+│   ├── session_type*: string
+│   ├── iacuc_protocol: string or null
+│   ├── rig_id*: string
+│   ├── calibrations: array (Calibrations of rig devices prior to session)
+│   ├── maintenance: array (Maintenance of rig devices prior to session)
+│   ├── subject_id*: string
+│   ├── animal_weight_prior: number or null (Animal weight before procedure)
+│   ├── animal_weight_post: number or null (Animal weight after procedure)
+│   ├── weight_unit: enum
+│   ├── anaesthesia: object or null
+│   ├── data_streams*: array (Collection of devices recorded simultaneously)
+│   ├── stimulus_epochs: array
+│   ├── mouse_platform_name*: string
+│   ├── active_mouse_platform*: boolean (Is the mouse platform being actively controlled)
+│   ├── headframe_registration: object or null (MRI transform matrix for headframe)
+│   ├── reward_delivery: number or null
+│   ├── reward_consumed_total: number or null
+│   ├── reward_consumed_unit: enum
+│   └── notes: string or null
+│
+└── subject/
+    ├── describedBy: string
+    ├── schema_version: string
+    ├── subject_id*: string (Unique identifier for the subject)
+    ├── sex*: enum
+    ├── date_of_birth*: string
+    ├── genotype: string or null (Genotype of the animal providing both alleles)
+    ├── species*: object
+    ├── alleles: array (Allele names and persistent IDs)
+    ├── background_strain: object or null
+    ├── breeding_info: object or null
+    ├── source*: object (Where the subject was acquired from)
+    ├── rrid: object or null (RRID of mouse if acquired from supplier)
+    ├── restrictions: string or null (Any restrictions on use or publishing)
+    ├── wellness_reports: array
+    ├── housing: object or null
+    └── notes: string or null
