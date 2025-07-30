@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project]
+name = "mssfp"
+dynamic = ["version"]
+description = "mSSFP is library for image reconstuction for multi-acqusition SSFP"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["mri", "grappa", "sense"]
+authors = [
+  { name="Michael Mendoza", email="askmichaelmendoza@gmail.com" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "elasticdeform",
+    "ellipsinator",
+    "gdown",
+    "imageio",
+    "imageio-ffmpeg",
+    "jupyterlab==3.5.3",
+    "matplotlib==3.6.3",
+    "nibabel",
+    "numpy==1.23.5",
+    "scikit-image",
+    "scipy==1.10.0",
+    "tqdm==4.64.1"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/michaelmendoza/mssfp"
+"Bug Tracker" = "https://github.com/michaelmendoza/mssfp/issues"
+
+[project.optional-dependencies]
+examples = ["matplotlib", "jupyterlab"]
+
+[tool.hatch.version]
+path = "mssfp/__about__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/mssfp",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["mssfp"]
