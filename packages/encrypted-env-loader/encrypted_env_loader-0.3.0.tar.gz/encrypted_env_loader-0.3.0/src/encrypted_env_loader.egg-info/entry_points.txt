@@ -1,0 +1,5 @@
+[console_scripts]
+ee = encrypted_env_loader.cli:main
+eel = encrypted_env_loader.cli:main
+enc = encrypted_env_loader.cli:main
+encrypted-env = encrypted_env_loader.cli:main
