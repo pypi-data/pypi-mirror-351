@@ -1,0 +1,15 @@
+[project]
+name = "primus-safe-pulsekit-pytorch-launcher"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.12",
+    "primus-safe-pulsekit>=0.1.1",
+    "uvicorn>=0.34.2",
+]
+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

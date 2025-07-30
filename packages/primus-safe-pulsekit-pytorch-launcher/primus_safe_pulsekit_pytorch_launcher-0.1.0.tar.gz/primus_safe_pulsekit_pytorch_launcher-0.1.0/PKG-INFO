@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: primus-safe-pulsekit-pytorch-launcher
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.10
+Requires-Dist: fastapi>=0.115.12
+Requires-Dist: primus-safe-pulsekit>=0.1.1
+Requires-Dist: uvicorn>=0.34.2
