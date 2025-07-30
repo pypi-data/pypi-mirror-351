@@ -1,0 +1,72 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+# shellcheck disable=SC1091
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+set -e -o pipefail
+
+echo "Gitted 0.0.0 (any issues or ideas, submit to https://github.com/yegor256/gitted)"
+
+# shellcheck disable=SC1091
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+set -e -o pipefail
+
+if [ -n "${GITTED_TESTING}" ]; then
+    set -x
+fi
+
+if [ -n "${GITTED_VERBOSE}" ]; then
+    set -x
+fi
+
+function title_it {
+    printf '\n\e[1m%s\e[0m...\n' "$@"
+}
+
+function bash_it {
+    printf '%q ' "$@" | /bin/bash -x
+}
+
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Oops, this is not a Git repository"
+    exit 1
+fi
+
+base=$(dirname "$0")
+export base
+
+master=master
+export master
+
+if [ -z "${GIT_BIN}" ]; then
+    GIT_BIN=git
+    export GIT_BIN
+fi
+
+# shellcheck disable=SC2154
+"${base}/pull" "$*"
+
+# shellcheck disable=SC2154
+"${base}/commit" "$*"
+
+branch=$(git symbolic-ref HEAD --short)
+
+attempt=0
+while true; do
+    title_it "Pushing to origin/${branch} (attempt no.${attempt})"
+    bash_it "${GIT_BIN}" push origin "${branch}" && break
+    if [ -n "${GITTED_TESTING}" ]; then
+        exit 1
+    fi
+    attempt=$((attempt + 1))
+    if [ "${attempt}" -gt 10 ]; then
+        exit 1
+    fi
+done

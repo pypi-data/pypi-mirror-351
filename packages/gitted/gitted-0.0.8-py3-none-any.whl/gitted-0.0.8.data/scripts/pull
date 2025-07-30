@@ -1,0 +1,125 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+# shellcheck disable=SC1091
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+set -e -o pipefail
+
+echo "Gitted 0.0.0 (any issues or ideas, submit to https://github.com/yegor256/gitted)"
+
+# shellcheck disable=SC1091
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+set -e -o pipefail
+
+if [ -n "${GITTED_TESTING}" ]; then
+    set -x
+fi
+
+if [ -n "${GITTED_VERBOSE}" ]; then
+    set -x
+fi
+
+function title_it {
+    printf '\n\e[1m%s\e[0m...\n' "$@"
+}
+
+function bash_it {
+    printf '%q ' "$@" | /bin/bash -x
+}
+
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Oops, this is not a Git repository"
+    exit 1
+fi
+
+base=$(dirname "$0")
+export base
+
+master=master
+export master
+
+if [ -z "${GIT_BIN}" ]; then
+    GIT_BIN=git
+    export GIT_BIN
+fi
+
+if ! "${GIT_BIN}" remote | grep ^origin; then
+    echo "No remote by the name 'origin', nothing to pull from"
+    exit
+fi
+
+branch=$("${GIT_BIN}" symbolic-ref HEAD --short)
+if [ -z "${branch}" ]; then
+    echo "Something is wrong, the current branch was not detected"
+    exit 1
+fi
+
+if ! "${GIT_BIN}" rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1; then
+    if git rev-parse --verify HEAD > /dev/null 2>&1; then
+        title_it "The upstream is not configured for the ${branch} branch, setting it to origin/${branch}"
+        bash_it "${GIT_BIN}" fetch
+        bash_it "${GIT_BIN}" branch "--set-upstream-to=origin/${branch}" "${branch}"
+    fi
+fi
+
+if [ -e .git/modules ]; then
+    subs=$(grep -c '^\[submodule' .gitmodules)
+    title_it "Updating ${subs} submodule(s) first..."
+    while true; do
+        bash_it "${GIT_BIN}" submodule update --remote && break
+        if [ -n "${GITTED_TESTING}" ]; then
+            exit 1
+        fi
+    done
+fi
+
+inc=$(${GIT_BIN} status --porcelain | grep -c '^??' || true)
+if [ ! "${inc}" == '0' ]; then
+    title_it "Staging local changes (${inc} files)"
+    bash_it "${GIT_BIN}" add .
+fi
+
+stashed=no
+if git rev-parse --verify HEAD > /dev/null 2>&1; then
+    if ! git diff --quiet || ! git diff --cached --quiet; then
+        trap "title_it 'Applying the changes back' && bash_it \${GIT_BIN} stash apply" EXIT
+        df=$(${GIT_BIN} status --porcelain | wc -l | xargs)
+        title_it "Stashing local changes (${df} files)"
+        bash_it "${GIT_BIN}" stash
+        stashed=yes
+    fi
+fi
+
+# shellcheck disable=SC2154
+if git ls-remote --exit-code origin "refs/heads/${master}"; then
+    attempt=0
+    while true; do
+        title_it "Pulling from origin/${branch} (attempt no.${attempt})"
+        bash_it "${GIT_BIN}" pull origin "${branch}" && break
+        if [ -n "${GITTED_TESTING}" ]; then
+            exit 1
+        fi
+        attempt=$((attempt + 1))
+        if [ "${attempt}" -gt 10 ]; then
+            exit 1
+        fi
+    done
+fi
+
+trap - EXIT
+if [ "${stashed}" == 'yes' ]; then
+    title_it "Applying the changes back"
+    bash_it "${GIT_BIN}" stash apply
+fi
+
+if ${GIT_BIN} remote | cut -f1 -d ' ' | grep upstream; then
+    title_it "Pulling from upstream"
+    ${GIT_BIN} pull upstream "${master}"
+fi
