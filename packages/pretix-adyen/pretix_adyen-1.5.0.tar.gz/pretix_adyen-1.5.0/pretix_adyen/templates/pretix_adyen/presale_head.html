@@ -1,0 +1,23 @@
+{% load static %}
+{% load compress %}
+{% load i18n %}
+
+{% compress js file adyen %}
+    <script type="text/javascript" src="{% static "pretix_adyen/pretix-adyen.js" %}"></script>
+{% endcompress %}
+{% compress css file adyen %}
+    <link type="text/css" rel="stylesheet" href="{% static "pretix_adyen/pretix-adyen.css" %}">
+{% endcompress %}
+
+<script src="https://checkoutshopper-{{ environment }}.adyen.com/checkoutshopper/sdk/5.71.2/adyen.js"
+        integrity="sha384-jc/mYZi/5W1D4/eM5hc6xo0EWCbvV1AuWlZvXesp1c+ouFgGLk0eMlBzBT5mKGcN"
+        crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://checkoutshopper-{{ environment }}.adyen.com/checkoutshopper/sdk/5.71.2/adyen.css"
+     integrity="sha384-5MvB4RnzvviA3VBT4KYABZ4HXNZG5LRqREEgd41xt/pf/QvKmsj2O9GuNuywRXx9"
+     crossorigin="anonymous" />
+
+<script type="text/plain" id="adyen_locale">{{ locale }}</script>
+<script type="text/plain" id="adyen_environment">{{ environment }}</script>
+<script type="text/plain" id="adyen_clientKey">{{ clientKey }}</script>
+<script type="text/plain" id="adyen_paymentMethodsResponse">{{ paymentMethodsResponse|safe }}</script>
