@@ -1,0 +1,61 @@
+# This workflow will install Python dependencies, run tests and lint with a 
+# single version of Python
+# For more information see: 
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Test & Lint
+
+on:
+  push:
+    branches: [ "main", "dev", "dev-clean" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    # Set up Miniconda
+    - name: Set up Miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+        python-version: 3.11
+
+    # Create and activate Conda environment
+    - name: Create and activate environment
+      run: |
+        conda create --name syntemp-env python=3.11 -y
+        conda activate syntemp-env
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      shell: bash -l {0}
+
+    # Lint with flake8
+    - name: Lint with flake8
+      run: |
+        conda activate syntemp-env
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        ./lint.sh
+      shell: bash -l {0}
+
+    # Test with pytest
+    - name: Test with pytest
+      run: |
+        conda activate syntemp-env
+        ./pytest.sh 
+      shell: bash -l {0}
+    #   run: |
+    #     # stop the build if there are Python syntax errors or undefined names
+    #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+    #     ./lint.sh
+    # - name: Test with pytest
+    #   run: |
+    #     pytest Test --ignore=Test/SynComp --ignore=Test/test_auto_template.py
