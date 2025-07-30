@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flowplot"
+version = "0.0.15"
+description = "An interactive visualisation ananlyis tool for flow and input-output-storage data"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "GPL-3.0-or-later"
+authors = [
+  { name = "Mikhail Smilovic", email = "smilovic@mail.com" }
+]
+keywords = ["hydrology", "visualization", "reservoir", "plot", "interactive"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Visualization"
+]
+dependencies = [
+  "numpy>=2.1.2",
+  "plotly>=5.24.0",
+  "pandas>=2.2.3"
+]
+
+[project.urls]
+Homepage = "https://github.com/mikhailsmilovic/flowplot"
+Repository = "https://github.com/mikhailsmilovic/flowplot"
+Issues = "https://github.com/mikhailsmilovic/flowplot/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["flowplot"]
+
+# Optional: if you have package data like icons, templates, etc.
+# [tool.setuptools]
+# include-package-data = true
