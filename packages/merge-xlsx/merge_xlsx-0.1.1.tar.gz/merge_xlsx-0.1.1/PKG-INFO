@@ -1,0 +1,21 @@
+Metadata-Version: 2.3
+Name: merge-xlsx
+Version: 0.1.1
+Summary: 
+License: MIT
+Author: viniciusccosta
+Author-email: viniciusccosta95@gmail.com
+Requires-Python: >=3.13,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: openpyxl (>=3.1.5,<4.0.0)
+Requires-Dist: pandas (>=2.2.3,<3.0.0)
+Requires-Dist: rich (>=14.0.0,<15.0.0)
+Project-URL: Homepage, https://github.com/viniciusccosta/merge-xlsx
+Project-URL: Repository, https://github.com/viniciusccosta/merge-xlsx
+Description-Content-Type: text/markdown
+
+# merge-xlsx
+CLI Python tool to merge multiple XLSX files (single-sheet) into one workbook.
+
