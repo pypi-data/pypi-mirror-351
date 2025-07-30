@@ -1,0 +1,14 @@
+datasets>=2.7.0
+accelerate
+huggingface_hub
+numpy>=1.26.0
+polars>=1.13.0
+pyarrow>=16.1.0
+pytrec_eval
+torch>=2.0.0
+tqdm
+transformers>=4.43.0
+peft
+wandb>=0.16.0
+xxhash>=3.4.0
+rich
