@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: purecpp_meta_dev
+Version: 0.0.400
+Summary: Metadata capture in chunks for hybrid search. This package is a part of the PureCPP ecosystem. Beta version.
+Home-page: https://github.com/pureai-ecosystem/purecpp
+Author: PureAI
+Author-email: contato@pureai.com.br
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Requires-Dist: purecpp-libs-dev
+Requires-Dist: purecpp-chunks-clean-dev
+Requires-Dist: auditwheel
+Requires-Dist: build
+Requires-Dist: requests
+Requires-Dist: wheel
+Requires-Dist: pybind11
+Requires-Dist: setuptools
+
