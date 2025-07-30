@@ -1,0 +1,3 @@
+[console_scripts]
+etdi = mcp.etdi.cli:main
+mcp = mcp.cli.cli:main
