@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ArithmeticOperators"
+version = "0.2"
+description = "A simple arithmetic package."
+authors = [
+    { name = "postboxat18", email = "postboxat18@gmail.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/postboxat18/ArithmeticOperators.git"
