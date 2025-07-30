@@ -1,0 +1,12 @@
+.venv
+.bu
+*__pycache__*
+*.toml
+*.db
+dist
+*.txt
+*.csv
+*.json
+notebooks/
+.pytest_cache/
+/*.py
