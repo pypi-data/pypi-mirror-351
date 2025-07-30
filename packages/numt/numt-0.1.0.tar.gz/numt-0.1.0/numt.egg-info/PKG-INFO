@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: numt
+Version: 0.1.0
+Summary: A utility library for formatting numbers, currencies, dates, units, and more.
+Author: ajithvcoder
+Author-email: ajithvcoder <ajithvcoder@gmail.com>
+License: MIT
+Keywords: formatting,numbers,units,humanize,utilities
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: phonenumbers>=8.12
+Requires-Dist: Babel>=2.9
+Dynamic: author
+Dynamic: license-file
+
+### NumT
+
+NumT is a utility library for formatting numbers, currencies, dates, units, and more.
+
