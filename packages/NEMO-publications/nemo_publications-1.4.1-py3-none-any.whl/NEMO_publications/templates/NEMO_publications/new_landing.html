@@ -1,0 +1,15 @@
+<div id="publication_carousel"></div>
+<script>
+    function refresh_pub_jumbotron()
+	{
+        $("#publication_carousel").load("{% url 'publications_carousel_content' %}", undefined, function (response, status)
+		{
+            if (status === "success")
+            {
+                $('.carousel').carousel();
+            }
+        });
+    }
+	$(".body-container .container").prepend($('#publication_carousel'));
+    refresh_pub_jumbotron();
+</script>
