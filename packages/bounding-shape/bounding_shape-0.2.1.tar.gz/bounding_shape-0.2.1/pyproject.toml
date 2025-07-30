@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bounding-shape"
+version = "0.2.1"
+authors = [
+  { name="Nathan Lewis", email="nathan@igiltd.com" },
+]
+description = "Creates shapely shapes around given points."
+readme = "PyPIReadme.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: BSD License"
+]
+license = "BSD-3-Clause"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/IGILtd/bounding_shape"
+Issues = "https://github.com/IGILtd/bounding_shape/issues"

@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: bounding-shape
+Version: 0.2.1
+Summary: Creates shapely shapes around given points.
+Project-URL: Homepage, https://github.com/IGILtd/bounding_shape
+Project-URL: Issues, https://github.com/IGILtd/bounding_shape/issues
+Author-email: Nathan Lewis <nathan@igiltd.com>
+License-Expression: BSD-3-Clause
+License-File: LICENSE
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+This library creates [Shapely](https://shapely.readthedocs.io/en/stable/) shapes designed to fit closely around a set of given points, and provides functionality to create a grid of points inside those shapes. 
+This simplifies the problem of trying to find a shape that fits around all points, whilst allowing for gaps/multiple shapes to accomodate for situations where points may be clustered around a few areas, or handling points far outside a cluster. 
+
+For examples of how to use the library, see the github readme [here](https://github.com/IGILtd/bounding_shape/blob/main/README.md).
