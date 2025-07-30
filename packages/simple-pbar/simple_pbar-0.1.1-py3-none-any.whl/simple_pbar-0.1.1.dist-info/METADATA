@@ -1,0 +1,118 @@
+Metadata-Version: 2.4
+Name: simple-pbar
+Version: 0.1.1
+Summary: A simple progress bar
+Home-page: https://github.com/00INDEX/simple_pbar.git
+Author: 00INDEX
+Author-email: zhangshuolove@live.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: rich
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Simple Progress Bar
+
+> Simplicity is the ultimate sophistication.
+> 
+> —— Leonardo da Vinci
+
+A simple and elegant progress bar library for Python, built on top of Rich.
+
+## Installation
+
+```bash
+pip install simple-pbar
+```
+
+## Usage
+
+### Basic Usage
+
+```python
+from simple_pbar import simple_pbar, SimpleTask
+import time
+
+with simple_pbar(
+    SimpleTask(desc="Time consuming task", total=5),
+) as pbar:
+    for i in range(5):
+        time.sleep(1)
+        pbar.go()
+```
+
+![Basic Usage](https://github.com/00INDEX/simple_pbar/raw/main/pics/basic_usage.gif)
+
+### Multiple Tasks
+
+```python
+from simple_pbar import simple_pbar, SimpleTask
+import time
+
+with simple_pbar(
+    SimpleTask(name="epoch", desc="Epoch Iteration", total=5),
+    SimpleTask(name="batch", desc="Batch Iteration", total=5),
+) as pbar:
+    for i in range(5):
+        for j in range(5):
+            time.sleep(1)
+            pbar.go(name="batch", advance=1)
+        pbar.go(name="epoch", advance=1)
+        pbar.reset(name="batch")
+```
+
+![Multiple Tasks](https://github.com/00INDEX/simple_pbar/raw/main/pics/multiple_tasks.gif)
+
+### Customize Columns
+
+```python
+from simple_pbar import simple_pbar, SimpleTask, SimpleColumn
+import time
+
+with simple_pbar(
+    SimpleTask(name="epoch", desc="Epoch Iteration", total=5),
+    SimpleTask(name="batch", desc="Batch Iteration", total=5),
+    columns=[
+        SimpleColumn(name="current", desc="Current Index"),
+    ]
+) as pbar:
+    for i in range(5):
+        pbar.update_column(name="epoch", column_name="current", value=i)
+        for j in range(5):
+            pbar.update_column(name="batch", column_name="current", value=j)
+            time.sleep(1)
+            pbar.go(name="batch", advance=1)
+        pbar.go(name="epoch", advance=1)
+        pbar.reset(name="batch")
+```
+
+![Customize Columns](https://github.com/00INDEX/simple_pbar/raw/main/pics/customize_columns.gif)
+
+### Log
+
+```python
+from simple_pbar import simple_pbar, SimpleTask
+import time
+
+with simple_pbar(
+    SimpleTask(desc="Time consuming task", total=5),
+) as pbar:
+    for i in range(5):
+        pbar.log(f"Iteration {i} started")
+        time.sleep(1)
+        pbar.go()
+```
+
+![Log](https://github.com/00INDEX/simple_pbar/raw/main/pics/log.gif)
