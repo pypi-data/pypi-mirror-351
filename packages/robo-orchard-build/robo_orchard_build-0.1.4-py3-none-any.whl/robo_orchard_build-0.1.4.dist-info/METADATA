@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: robo_orchard_build
+Version: 0.1.4
+Summary: Building tools for the RoboOrchard project
+Author: The RoboOrchard Team
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://github.com/HorizonRobotics/robo_orchard_build
+Project-URL: Repository, https://github.com/HorizonRobotics/robo_orchard_build
+Project-URL: Issues, https://github.com/HorizonRobotics/robo_orchard_build/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: setuptools
+Provides-Extra: protobuf
+Requires-Dist: protobuf<6.0dev,>=5.26.1; extra == "protobuf"
+Requires-Dist: grpcio-tools>=1.70.0; extra == "protobuf"
+Requires-Dist: mypy-protobuf; extra == "protobuf"
+Provides-Extra: pydantic
+Requires-Dist: protobuf-to-pydantic; extra == "pydantic"
+Provides-Extra: cpp
+Requires-Dist: jinja2; extra == "cpp"
+Requires-Dist: cpplint>=2.0.0; extra == "cpp"
+Requires-Dist: meson>=1.7.0; extra == "cpp"
+Requires-Dist: ninja; extra == "cpp"
+Requires-Dist: pybind11; extra == "cpp"
+Requires-Dist: filelock; extra == "cpp"
+Requires-Dist: pybind11-stubgen>=2.5.1; extra == "cpp"
+Requires-Dist: black>=24.4.2; extra == "cpp"
+Requires-Dist: isort>=5.13.2; extra == "cpp"
+Requires-Dist: clang-format; extra == "cpp"
+Provides-Extra: all
+Requires-Dist: robo_orchard_build[cpp,protobuf,pydantic]; extra == "all"
+Dynamic: license-file
+
+# RoboOrchard Build
+
+**robo_orchard_build** is a set of tools designed to simplify the build process for the **RoboOrchard** project.
+
+## Getting started
+
+### Requirements
+
+* Python 3.10
+
+### Installation
+
+#### From pip
+
+```bash
+pip install robo_orchard_build
+```
+
+#### From source
+
+```bash
+make install
+```
