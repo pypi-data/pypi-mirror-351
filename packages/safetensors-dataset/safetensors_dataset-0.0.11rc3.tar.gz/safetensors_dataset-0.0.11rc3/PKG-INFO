@@ -1,0 +1,39 @@
+Metadata-Version: 2.4
+Name: safetensors-dataset
+Version: 0.0.11rc3
+Summary: A simple but handy Python library to save PyTorch datasets in safetensors format.
+Author-email: Moritz Hennen <mail@fleance.de>
+License-Expression: Apache-2.0
+Project-URL: repository, https://github.com/fleonce/safetensors-dataset/
+Keywords: datasets,saving,loading,safetensors,pytorch,tensors
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: System Administrators
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Utilities
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: safetensors
+Requires-Dist: torch
+Requires-Dist: tqdm
+Requires-Dist: more_itertools==10.6.0
+Dynamic: license-file
+
+# safetensors-dataset
+
+`safetensors-dataset` is a very simple and tiny package adding support to efficiently load and store Pytorch datasets in the safetensors file format:
+
+```python3
+import torch
+from safetensors_dataset import SafetensorsDataset
+
+dataset = SafetensorsDataset.from_dict({
+    "x": torch.randn(8, 12, 3),
+    "y": torch.randint(12, (8,))
+})
+dataset.save_to_file("test.safetensors")
+```
