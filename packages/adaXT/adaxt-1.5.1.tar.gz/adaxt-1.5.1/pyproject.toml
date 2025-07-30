@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "Cython==3.1.0", "numpy", "wheel"]
+
+[tool.cython-lint]
+max-line-length = 127
+
+[tool.flake8]
+max-line-length = 127
+per-file-ignores = ['__init__.py:F401']
+
+[tool.cibuildwheel]
+skip = ["cp3{6,7,8,9}-*", 'pp*']
