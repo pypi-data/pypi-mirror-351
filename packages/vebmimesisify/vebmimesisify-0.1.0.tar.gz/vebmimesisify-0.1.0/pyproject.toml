@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vebmimesisify"
+version = "0.1.0"
+description = "Библиотека для генерации случайных сценариев, диалогов и событийных логов"
+authors = [{name="veb-bet"}]
+license = {text = "BSD-2-Clause"}
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/veb-bet/vebmimesisify"
+
+[tool.setuptools.packages.find]
+where = ["vebmimesisify"]
