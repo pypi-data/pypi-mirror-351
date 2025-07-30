@@ -1,0 +1,143 @@
+Metadata-Version: 2.4
+Name: wipac-keycloak-rest-services
+Version: 1.4.121
+Summary: Services surrounding KeyCloak, that use the REST API to read/update state
+Author-email: WIPAC Developers <developers@icecube.wisc.edu>
+License: MIT License
+        
+        Copyright (c) 2020 Wisconsin IceCube Particle Astrophysics Center
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://pypi.org/project/wipac-keycloak-rest-services/
+Project-URL: Tracker, https://github.com/WIPACrepo/keycloak-rest-services/issues
+Project-URL: Source, https://github.com/WIPACrepo/keycloak-rest-services
+Keywords: WIPAC,rest tools,utilities
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: <3.14,>=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aio_pika
+Requires-Dist: attrs
+Requires-Dist: ldap3
+Requires-Dist: motor
+Requires-Dist: requests
+Requires-Dist: unidecode
+Requires-Dist: wipac-dev-tools
+Requires-Dist: wipac-rest-tools
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-asyncio; extra == "tests"
+Requires-Dist: pytest-cov; extra == "tests"
+Requires-Dist: pytest-mock; extra == "tests"
+Requires-Dist: coverage; extra == "tests"
+Requires-Dist: flake8; extra == "tests"
+Provides-Extra: actions
+Requires-Dist: asyncache; extra == "actions"
+Requires-Dist: google-api-python-client; extra == "actions"
+Requires-Dist: google-auth-oauthlib; extra == "actions"
+Requires-Dist: jsonpath_ng; extra == "actions"
+Dynamic: license-file
+
+<!--- Top of README Badges (automated) --->
+[![PyPI](https://img.shields.io/pypi/v/wipac-keycloak-rest-services)](https://pypi.org/project/wipac-keycloak-rest-services/) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/WIPACrepo/keycloak-rest-services?include_prereleases)](https://github.com/WIPACrepo/keycloak-rest-services/) [![Versions](https://img.shields.io/pypi/pyversions/wipac-keycloak-rest-services.svg)](https://pypi.org/project/wipac-keycloak-rest-services) [![PyPI - License](https://img.shields.io/pypi/l/wipac-keycloak-rest-services)](https://github.com/WIPACrepo/keycloak-rest-services/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/WIPACrepo/keycloak-rest-services)](https://github.com/WIPACrepo/keycloak-rest-services/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aopen) [![GitHub pull requests](https://img.shields.io/github/issues-pr/WIPACrepo/keycloak-rest-services)](https://github.com/WIPACrepo/keycloak-rest-services/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Aopen)
+<!--- End of README Badges (automated) --->
+# keycloak-rest-services
+Services surrounding Keycloak, that use the REST API to read/update state.
+
+## JavaScript claims mappers
+
+In the `custom-jars` directory are custom extensions to Keycloak. This is most useful
+for adding JavaScript claims mappers that can edit a token before it is issued.
+
+Each mapper requires meta-inf info and one or more script files. Then it needs to be
+packaged into a jar for deployment to Keycloak. The `build.sh` script will build
+all subdirectories into jars.
+
+These jars need to be added to `/opt/keycloak/providers/` during the Keycloak build
+process or before Keycloak starts. After Keycloak is started no changes are allowed.
+
+## Running Tests
+
+The tests run automatically in CircleCI, but for those that want to run them
+locally, there is a way.
+
+First, build and load the local python environment:
+
+    ./setupenv.sh
+    . env/bin/activate
+
+Then, start instances of Keycloak, LDAP, and RabbitMQ in other terminals:
+
+    ./resources/start-keycloak.sh
+    ./resources/start-ldap.sh
+    ./resources/start-rabbitmq.sh
+
+Note that version of Keycloak server used for testing is set in `resources/keycloak-image/Dockerfile`.
+
+Keycloak may take a minute to start. If it does not, check your network settings,
+as it does not play well with VPNs and other more exotic network situations.
+
+Finally, run the tests:
+
+    source ./resources/pytest-env.sh
+    pytest
+
+### Getting Test Coverage
+
+If you want a coverage report, instead of running pytest directly, run it
+under the coverage tool:
+
+    keycloak_url=http://localhost:8080 username=admin password=admin coverage run -m pytest
+    coverage html --include='krs*'
+
+## Manually Running Scripts
+
+It is possible to manually run all of the basic operations for controlling users
+and groups.
+
+1. Bootstrap Keycloak
+
+    If you do not already have a Keycloak instance, start a test instance as shown above.
+    Then, run the bootstrap script to create a realm and the REST service account:
+
+    ```bash
+    keycloak_url=http://localhost:8080 username=admin password=admin realm=test python3 -m krs.bootstrap
+    ```
+
+    Save the `client_secret` that gets printed, as you will need this.
+
+2. User and group actions
+
+    Now you can actually run the scripts, which take the format:
+
+    ```bash
+    keycloak_url=http://localhost:8080 client_id=rest-access client_secret=<SECRET> realm=test python -m krs.<SCRIPT> <ARGS>
+    ```
+
+    As an example, to list all groups:
+
+    ```bash
+    keycloak_url=http://localhost:8080 client_id=rest-access client_secret=<SECRET> realm=test python -m krs.groups list
+    ```
