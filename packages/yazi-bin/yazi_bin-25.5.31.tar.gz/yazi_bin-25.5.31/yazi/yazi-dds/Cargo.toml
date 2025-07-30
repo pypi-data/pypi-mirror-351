@@ -1,0 +1,37 @@
+[package]
+name        = "yazi-dds"
+version     = "25.5.31"
+edition     = "2024"
+license     = "MIT"
+authors     = [ "sxyazi <sxyazi@gmail.com>" ]
+description = "Yazi data distribution service"
+homepage    = "https://yazi-rs.github.io"
+repository  = "https://github.com/sxyazi/yazi"
+
+[features]
+default      = [ "vendored-lua" ]
+vendored-lua = [ "mlua/vendored" ]
+
+[dependencies]
+yazi-binding = { path = "../yazi-binding", version = "25.5.31" }
+yazi-boot    = { path = "../yazi-boot", version = "25.5.31" }
+yazi-fs      = { path = "../yazi-fs", version = "25.5.31" }
+yazi-macro   = { path = "../yazi-macro", version = "25.5.31" }
+yazi-shared  = { path = "../yazi-shared", version = "25.5.31" }
+
+# External dependencies
+anyhow       = { workspace = true }
+mlua         = { workspace = true }
+parking_lot  = { workspace = true }
+serde        = { workspace = true }
+serde_json   = { workspace = true }
+tokio        = { workspace = true }
+tokio-stream = { workspace = true }
+tokio-util   = { workspace = true }
+tracing      = { workspace = true }
+
+[build-dependencies]
+vergen-gitcl = { version = "1.0.8", features = [ "build" ] }
+
+[target."cfg(unix)".dependencies]
+uzers = { workspace = true }
