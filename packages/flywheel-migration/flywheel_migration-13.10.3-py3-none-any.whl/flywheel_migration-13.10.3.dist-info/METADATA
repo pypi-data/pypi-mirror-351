@@ -1,0 +1,103 @@
+Metadata-Version: 2.3
+Name: flywheel-migration
+Version: 13.10.3
+Summary: Flywheel Migration Toolkit
+License: MIT
+Keywords: Flywheel,flywheel,data,migration,toolkit
+Author: Flywheel
+Author-email: support@flywheel.io
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: all
+Provides-Extra: pixel
+Requires-Dist: deid (>=0.4,<0.5) ; extra == "all" or extra == "pixel"
+Requires-Dist: dotty-dict (>=1.3,<2.0)
+Requires-Dist: fs (>=2.4,<3.0)
+Requires-Dist: fw-file (>=4.1,<5.0)
+Requires-Dist: lxml (>=5.4,<6.0)
+Requires-Dist: nibabel (>=5.3,<6.0)
+Requires-Dist: pandas (>=2.2,<3.0)
+Requires-Dist: pathvalidate (>=2.5.2,<4)
+Requires-Dist: piexif (>=1.1,<2.0)
+Requires-Dist: pillow (>=10.4.0,<12)
+Requires-Dist: pycryptodome (>=3.23,<4.0)
+Requires-Dist: pypng (>=0,<1)
+Requires-Dist: python-dateutil (>=2.9,<3.0)
+Requires-Dist: pytz
+Requires-Dist: ruamel-yaml (>=0,<1)
+Requires-Dist: tzlocal (>=5.3,<6.0)
+Project-URL: Documentation, https://gitlab.com/flywheel-io/public/migration-toolkit
+Project-URL: Homepage, https://gitlab.com/flywheel-io/public/migration-toolkit
+Project-URL: Repository, https://gitlab.com/flywheel-io/public/migration-toolkit
+Description-Content-Type: text/markdown
+
+# Flywheel Migration Toolkit
+
+**flywheel-migration** is a library that provides configurable parsing and
+de-identification of foreign data.
+
+## Development
+
+Install the project using [poetry](https://python-poetry.org/) and enable
+[pre-commit](https://pre-commit.com/).
+
+```bash
+poetry install --all-extras
+pre-commit install
+```
+
+## Testing
+
+Tests are handled in pre-commit containers using
+[qa-ci](https://gitlab.com/flywheel-io/tools/etc/qa-ci).
+
+```bash
+pre-commit run -a pytest
+```
+
+To run all pre-commit hooks, run:
+
+```bash
+pre-commit run -a
+```
+
+This will execute all hooks defined in [.pre-commit-config.yaml](.pre-commit-config.yaml).
+
+Alternatively, you can run pytests natively by executing the poetry virtual environment,
+then calling `pytest` with
+
+```bash
+poetry shell
+pytest -vv tests/
+```
+
+To run individual tests natively such as `test_jitter_for_dicom` in
+`test_dicom_file_profile.py`
+
+```bash
+poetry shell
+pytest -vv tests/test_dicom_file_profile.py -sk test_jitter_for_dicom
+```
+
+## Release
+
+Releases are handled with qa-ci automation. Head to
+[Build >> Pipelines](https://gitlab.com/flywheel-io/public/migration-toolkit/-/pipelines)
+page on repository's sidebar, then click on
+[Run Pipeline](https://gitlab.com/flywheel-io/public/migration-toolkit/-/pipelines/new).
+Select `Variable` in **Variables** dropdown, and entere `REASEASE` as **variable key**.
+Set **variable value** to desired version and click on `Run Pipeline`. This will
+create a new release MR that can than be reviewed and merged to deploy a new release.
+
+## Documentation
+
+Documentation is automatically handled by `pre-commit` hook `generate_docs`. The
+HTML page is built into `public` and deployed to GitLab pages. Documentation is
+available at Documentation at
+<https://flywheel-io.gitlab.io/public/migration-toolkit/>.
+
