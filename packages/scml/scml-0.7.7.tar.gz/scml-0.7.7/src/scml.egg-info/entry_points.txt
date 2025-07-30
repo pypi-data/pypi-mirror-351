@@ -1,0 +1,3 @@
+[console_scripts]
+cliadv = scml.cliadv:cli
+scml = scml.cli:main
