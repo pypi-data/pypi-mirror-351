@@ -1,0 +1,34 @@
+# -- igwn-auth-utils source package ------------------------------------------
+
+Source: igwn-auth-utils
+Homepage: https://igwn-auth-utils.readthedocs.io
+Vcs-Browser: https://git.ligo.org/computing/igwn-auth-utils
+Vcs-Git: https://git.ligo.org/computing/igwn-auth-utils.git
+Maintainer: Duncan Macleod <duncan.macleod@ligo.org>
+Section: python
+Priority: optional
+Standards-Version: 4.6.0
+X-Python3-Version: >= 3.9
+Build-Depends:
+ debhelper (>= 12),
+ dh-python,
+ pybuild-plugin-pyproject,
+ python3-all,
+ python3-setuptools,
+ python3-setuptools-scm,
+ python3-wheel,
+
+# -- python3-igwn-auth-utils -------------------------------------------------
+
+Package: python3-igwn-auth-utils
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+Recommends:
+ htgettoken,
+ python3-gssapi,
+Description: Authorisation utilities for IGWN
+ Python library functions to simplify using IGWN authorisation credentials.
+ This project is primarily aimed at discovering X.509 credentials and
+ SciTokens for use with HTTP(S) requests to IGWN-operated services.

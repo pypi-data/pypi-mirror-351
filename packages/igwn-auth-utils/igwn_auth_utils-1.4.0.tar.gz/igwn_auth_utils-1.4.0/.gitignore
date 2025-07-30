@@ -1,0 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+*.dist-info/
+*.egg-info/
+.eggs/
+env/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg
+.installed.cfg
+MANIFEST
+requirements.txt
+/igwn_auth_utils/_version.py
+
+# Debian packaging files
+/debian/*debhelper*
+/debian/*.substvars
+/debian/*igwn-auth-utils/
+/debian/files
+/.pybuild/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Sphinx documentation
+/docs/_build
+/docs/api/*.rst
+!/docs/api/igwn_auth_utils.rst
+!/docs/api/igwn_auth_utils.kerberos.rst
+!/docs/api/igwn_auth_utils.requests.rst
+!/docs/api/igwn_auth_utils.scitokens.rst
+!/docs/api/igwn_auth_utils.x509.rst
+
+# OS/editor files
+*.swp
+.DS_Store
+.idea
+
+# Patches
+/*.patch
+
+# py.test cache dir
+/.cache
+/.pytest_cache/
+
+# coverage files
+.coverage
+coverage.xml
+*.gcov
