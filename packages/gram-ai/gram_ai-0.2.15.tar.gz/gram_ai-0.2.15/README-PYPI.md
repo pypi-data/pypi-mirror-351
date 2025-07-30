@@ -1,0 +1,242 @@
+# gram-ai
+
+Developer-friendly Python SDK to interact with Gram toolsets. 
+Gram allows you to use your agentic tools in a variety of different frameworks and protocols. 
+Gram tools can be used with pretty much any model that supports function calling via a chat completions or responses style API.
+
+## SDK Installation
+
+> [!NOTE]
+> **Python version upgrade policy**
+>
+> Once a Python version reaches its [official end of life date](https://devguide.python.org/versions/), a 3-month grace period is provided for users to upgrade. Following this grace period, the minimum python version supported in the SDK will be updated.
+
+The SDK can be installed with either *pip* or *poetry* package managers.
+
+### PIP
+
+*PIP* is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
+
+```bash
+pip install gram-ai
+```
+
+### Poetry
+
+*Poetry* is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
+
+```bash
+poetry add gram-ai
+```
+
+## OpenAI Agents SDK
+
+```python
+import asyncio
+import os
+from agents import Agent, Runner, set_default_openai_key
+from gram_ai.openai_agents import GramOpenAIAgents
+
+key = os.getenv("GRAM_API_KEY")
+
+gram = GramOpenAIAgents(
+    api_key=key,
+)
+
+set_default_openai_key(os.getenv("OPENAI_API_KEY"))
+
+agent = Agent(
+    name="Assistant",
+    tools=gram.tools(
+        project="default",
+        toolset="default",
+        environment="default",
+    ),
+)
+
+
+async def main():
+    result = await Runner.run(
+        agent,
+        "Can you tell me what tools you have available?",
+    )
+    print(result.final_output)
+
+
+if __name__ == "__main__":
+    asyncio.run(main()) 
+```
+
+## LangChain
+
+```python
+import asyncio
+import os
+from langchain import hub
+from langchain_openai import ChatOpenAI
+from langchain.agents import AgentExecutor, create_openai_functions_agent
+from gram_ai.langchain import GramLangchain
+
+key = os.getenv("GRAM_API_KEY")
+
+gram = GramLangchain(api_key=key)
+
+llm = ChatOpenAI(
+    model="gpt-4",
+    temperature=0,
+    openai_api_key=os.getenv("OPENAI_API_KEY")
+)
+
+tools = gram.tools(
+    project="default",
+    toolset="default",
+    environment="default",
+)
+
+prompt = hub.pull("hwchase17/openai-functions-agent")
+
+agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
+
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False)
+
+async def main():
+    response = await agent_executor.ainvoke({
+        "input": "Can you tell me what tools you have available?"
+    })
+    print(response)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## OpenAI Function Calling
+
+```python
+import os
+from openai import OpenAI
+from gram_ai.openai import OpenAIAdapter
+
+key = os.getenv("GRAM_API_KEY")
+
+gram = OpenAIAdapter(api_key=key)
+openai_client = OpenAI(api_key=openai_api_key)
+openai_tools = gram.tools(project="default", toolset="gtm", environment="default")
+
+response = openai_client.chat.completions.create(
+    model="gpt-4o",
+    prompt: "Can you tell me what tools you have available?"
+    tools=openai_tools_data.tools,
+    tool_choice="auto",
+)
+```
+
+## Vanilla Function Calling
+
+```python
+import os
+from gram_ai.function_calling import GramFunctionCalling
+
+key = os.getenv("GRAM_API_KEY")
+
+# vanilla client that matches the function calling interface for direct use with model provider APIs
+gram = GramFunctionCalling(api_key=key)
+
+tools = gram.tools(
+    project="default",
+    toolset="default",
+    environment="default",
+)
+
+# exposes name, description, parameters, and an execute and aexecute (async) function
+print(tools[0].name)
+print(tools[0].description)
+print(tools[0].parameters)
+print(tools[0].execute)
+print(tools[0].aexecute)
+```
+
+## Passing in User Defined Environment Variables
+
+If preferred, it's possible to pass in user defined environment variables into tools calls rather than using hosted gram environments.
+
+```python
+import asyncio
+import os
+from agents import Agent, Runner, set_default_openai_key
+from gram_ai.openai_agents import GramOpenAIAgents
+
+key = os.getenv("GRAM_API_KEY")
+
+gram = GramOpenAIAgents(
+    api_key=key,
+    environment_variables= {
+        "MY_TOOL_TOKEN": "VALUE"
+    }
+)
+
+set_default_openai_key(os.getenv("OPENAI_API_KEY"))
+
+agent = Agent(
+    name="Assistant",
+    tools=gram.tools(
+        project="default",
+        toolset="default",
+    ),
+)
+
+
+async def main():
+    result = await Runner.run(
+        agent,
+        "Can you tell me what tools you have available?",
+    )
+    print(result.final_output)
+
+
+if __name__ == "__main__":
+    asyncio.run(main()) 
+```
+
+## MCP
+
+Gram also instantly allows you to expose and use any toolset as a hosted MCP server.
+
+```json
+{
+    "mcpServers": {
+      "GramTest": {
+        "command": "npx",
+        "args": [
+          "mcp-remote",
+          "https://app.getgram.ai/mcp/default/default/default",
+          "--allow-http",
+          "--header",
+          "Authorization:${GRAM_KEY}"
+        ],
+        "env": {
+          "GRAM_KEY": "Bearer <your-key-here>"
+        }
+      }
+    }
+  }
+```
+
+You also have the option to add a unique slug to these servers and make them publicly available to pass your own credentials.
+
+```json
+{
+    "mcpServers": {
+      "GramSlack": {
+        "command": "npx",
+        "args": [
+          "mcp-remote",
+          "https://app.getgram.ai/mcp/speakeasy-team-default",
+          "--allow-http",
+          "--header",
+          "MCP-SPEAKEASY_YOUR_TOOLSET_CRED:${VALUE}"
+        ]
+      }
+    }
+  }
+```
+
