@@ -1,0 +1,68 @@
+Metadata-Version: 2.4
+Name: plateo
+Version: 0.3.1
+Summary: Read/write microplate and picklist data for lab automation
+Author: Zulko
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/Edinburgh-Genome-Foundry/Plateo
+Keywords: microplate,biology,parser,converter,experiment
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: xlwt
+Requires-Dist: xlrd
+Requires-Dist: openpyxl
+Requires-Dist: numpy
+Requires-Dist: matplotlib
+Requires-Dist: tqdm
+Requires-Dist: pdf_reports
+Requires-Dist: flametree
+Requires-Dist: fuzzywuzzy
+Requires-Dist: sequenticon
+Dynamic: license-file
+
+Plateo
+======
+
+Plateo (pronounced *Plato*, like the planet) is a Python library to assist in the
+planning, running and checking of laboratory experiments involving microplates.
+
+It can be used to:
+
+- Read and write robotic protocols (picklists) in different formats to
+  accomodate different liquid dispensers (Tecan EVO, Labcyte Echo).
+- Simulate liquid dispensing runs, taking into account the capacity and dead
+  volume of each container, to predict the maps of future plates.
+- Parse plate data from common laboratory robots (for kinetic experiments,
+  fragment analysis, qPCR, etc.)
+- Export plate information in various formats (graphics, spreadsheets, HTML,
+  JSON, etc.).
+
+
+Infos
+-----
+
+**PIP installation:**
+
+.. code:: bash
+
+  pip install plateo
+
+**Web documentation:** `<https://edinburgh-genome-foundry.github.io/Plateo/>`_
+
+**Github Page:** `<https://github.com/Edinburgh-Genome-Foundry/Plateo>`_
+
+**Live demo:** `<https://cuba.genomefoundry.org/create_assembly_picklists>`_
+
+**License:** MIT
+
+Copyright 2017 Edinburgh Genome Foundry, University of Edinburgh
+
+
+More biology software
+---------------------
+
+.. image:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/Edinburgh-Genome-Foundry.github.io/master/static/imgs/logos/egf-codon-horizontal.png
+  :target: https://edinburgh-genome-foundry.github.io/
+
+Plateo is part of the `EGF Codons <https://edinburgh-genome-foundry.github.io/>`_ synthetic biology software suite for DNA design, manufacturing and validation.
