@@ -1,0 +1,15 @@
+[project]
+dependencies = [
+  "litellm>=1.71.2",
+  "pydantic>=2.11.5",
+  "pymupdf>=1.26.0",
+]
+name = "pah-core"
+version = "0.1.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pah_core"]

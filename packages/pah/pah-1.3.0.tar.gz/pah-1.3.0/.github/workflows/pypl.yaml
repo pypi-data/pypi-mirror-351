@@ -1,0 +1,27 @@
+name: Release to PyPI
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all tags
+          fetch-tags: true
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Build and Publish to PyPI
+        run: |
+          uv build
+          uv publish
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}

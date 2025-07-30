@@ -1,0 +1,14 @@
+[project]
+dependencies = [
+  "pah-core",
+  "streamlit>=1.45.1",
+]
+name = "pah-gui"
+version = "0.1.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.uv.sources]
+pah-core = {workspace = true}
