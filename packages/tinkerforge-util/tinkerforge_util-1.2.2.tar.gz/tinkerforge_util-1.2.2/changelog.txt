@@ -1,0 +1,15 @@
+2024-07-05: 1.0.0
+- Initial release
+
+2024-07-08: 1.1.0
+- Add create_parent_module
+
+2024-07-08: 1.2.0
+- Add get_tf_printer_host
+
+2024-09-13: 1.2.1
+- Import tkinter inside get_tf_printer_host to avoid import error if tkinter
+  is missing on systems that don't use get_tf_printer_host
+
+2025-05-30: 1.2.2
+- Make create_parent_module work with a relative path
