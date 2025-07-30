@@ -1,0 +1,50 @@
+[
+    {
+        "timestamp": "2025-05-25 08:32:15",
+        "user": "user123",
+        "message": "I had a good day today, school was fun and I got an A on my test.",
+        "risk_level": 0,
+        "risk_score": 0.05,
+        "platform": "Discord"
+    },
+    {
+        "timestamp": "2025-05-25 14:45:12",
+        "user": "user123",
+        "message": "Feeling kind of tired but overall it's been a good day.",
+        "risk_level": 0,
+        "risk_score": 0.12,
+        "platform": "Discord"
+    },
+    {
+        "timestamp": "2025-05-26 09:15:33",
+        "user": "user123",
+        "message": "Had a tough day at school, got into an argument with a friend.",
+        "risk_level": 1,
+        "risk_score": 0.48,
+        "platform": "Discord"
+    },
+    {
+        "timestamp": "2025-05-26 19:22:05",
+        "user": "user123",
+        "message": "I don't know if my friends really care about me anymore.",
+        "risk_level": 1,
+        "risk_score": 0.65,
+        "platform": "SMS"
+    },
+    {
+        "timestamp": "2025-05-27 00:14:52",
+        "user": "user123",
+        "message": "Sometimes I feel like nobody would notice if I disappeared.",
+        "risk_level": 2,
+        "risk_score": 0.82,
+        "platform": "Discord"
+    },
+    {
+        "timestamp": "2025-05-27 01:03:29",
+        "user": "user123",
+        "message": "I just can't take this pain anymore, I don't see the point.",
+        "risk_level": 2,
+        "risk_score": 0.94,
+        "platform": "Discord"
+    }
+]
