@@ -1,0 +1,65 @@
+name: Kumo SDK postmerge
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: kumo-sdk-postmerge-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check-kumo-image:
+    runs-on: ubuntu-22.04
+    outputs:
+      kumo_version: ${{ steps.wait_kumo_images.outputs.kumo_version }}
+  
+    steps:
+      - name: Clone Kumo Repository
+        uses: actions/checkout@v4
+        with:
+          repository: kumo-ai/kumo
+          token: ${{ secrets.KUMO_GITHUB_BOT_TOKEN }}
+          ref: master
+          path: kumo
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      
+      - name: Wait for Kumo Images
+        id: wait_kumo_images
+        run: |
+          set -e
+          cd kumo
+          kumo_version="$(git rev-parse HEAD)"
+
+          # Wait maximum of 60 minutes for current kumo head to build images
+          MAX_WAIT_SECONDS=3600
+          SLEEP_SECONDS=30
+          current_wait=0
+          while (( current_wait <= MAX_WAIT_SECONDS )); do
+            if ./scripts/test/check_images_exist.sh "$kumo_version"; then
+              echo "All images/artifacts are available."
+              break
+            else
+              echo "Images not ready yet. Retrying in $SLEEP_SECONDS seconds..."
+              sleep $SLEEP_SECONDS
+              ((current_wait+=SLEEP_SECONDS))
+            fi
+          done
+
+          echo "kumo_version=$kumo_version" >> "$GITHUB_OUTPUT"
+          
+    
+  trigger-jenkins-postmerge:
+    uses: kumo-ai/kumo/.github/workflows/trigger-jenkins-unified-postmerge.yml@master
+    secrets: inherit
+    with:
+      repo: kumo-sdk
+      kumo-version: ${{ needs.check-kumo-image.outputs.kumo_version }}
+      kumo-sdk-version: ${{ github.sha }}
