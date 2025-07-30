@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: magmalab
+Version: 0.0.7
+Summary: Python package for the Magma Laboratory: Modeling and Analytics for Geoscience and Mining Applications.
+Project-URL: Homepage, https://github.com/gstvortiz/magmalab
+Project-URL: Issues, https://github.com/gstvortiz/magmalab/issues
+Author-email: Gustavo Ortiz <gstvortiz@hotmail.com>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+Python package for the Magma Laboratory: Modeling and Analytics for Geoscience and Mining Applications.
+
+The Magma Lab is a research laboratory at the Federal University of Minas Gerais (UFMG) in Brazil, focusing on geometallurgy, geostatistics, mathematical modeling, and related fields.
+
+Currently, there is no official version or website for the library, both of which are under development.
+
+[![roadmap](https://img.shields.io/badge/roadmap-active-blue)](./ROADMAP.md)

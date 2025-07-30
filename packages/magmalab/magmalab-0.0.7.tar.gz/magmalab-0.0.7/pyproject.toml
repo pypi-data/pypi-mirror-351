@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "magmalab"
+version = "0.0.7"
+authors = [
+  { name="Gustavo Ortiz", email="gstvortiz@hotmail.com"},
+]
+description = "Python package for the Magma Laboratory: Modeling and Analytics for Geoscience and Mining Applications."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[options]
+install_requires = [
+  "numpy",
+  "pandas",
+  "matplotlib",
+  "seaborn",
+  "plotly",
+  "ipywidgets",
+  "ipython",
+  "periodictable",
+  "pyomo",
+  "scipy",
+  "scikit-learn",
+  "anywidget",
+]
+
+
+[project.urls]
+Homepage = "https://github.com/gstvortiz/magmalab"
+Issues = "https://github.com/gstvortiz/magmalab/issues"
