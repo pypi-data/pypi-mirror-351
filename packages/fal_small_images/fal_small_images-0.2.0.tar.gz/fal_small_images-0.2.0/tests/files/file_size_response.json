@@ -1,0 +1,50 @@
+{
+    "responseHeader": {
+        "zkConnected": true,
+        "status": 0,
+        "QTime": 5,
+        "params": {
+            "q": "object_id_num: 418802230",
+            "indent": "true",
+            "fl": "file_id_num, file_premis_size_num, file_huldrsadmin_role_string",
+            "q.op": "OR"
+        }
+    },
+    "response": {
+        "numFound": 5,
+        "start": 0,
+        "maxScore": 11.995818,
+        "numFoundExact": true,
+        "docs": [
+            {
+                "file_id_num": 1201986,
+                "file_premis_size_num": 427139,
+                "file_huldrsadmin_role_string": [
+                    "DELIVERABLE"
+                ]
+            },
+            {
+                "file_id_num": 1201985,
+                "file_premis_size_num": 864422,
+                "file_huldrsadmin_role_string": [
+                    "DELIVERABLE"
+                ]
+            },
+            {},
+            {
+                "file_id_num": 1201984,
+                "file_premis_size_num": 699039,
+                "file_huldrsadmin_role_string": [
+                    "DELIVERABLE"
+                ]
+            },
+            {
+                "file_id_num": 1201983,
+                "file_premis_size_num": 24515420,
+                "file_huldrsadmin_role_string": [
+                    "ARCHIVAL_MASTER"
+                ]
+            }
+        ]
+    }
+}

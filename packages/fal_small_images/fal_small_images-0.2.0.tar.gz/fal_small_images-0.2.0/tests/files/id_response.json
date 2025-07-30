@@ -1,0 +1,24 @@
+{
+    "responseHeader": {
+        "zkConnected": true,
+        "status": 0,
+        "QTime": 2,
+        "params": {
+            "q": "file_id_num: 1201984",
+            "indent": "true",
+            "fl": "object_id_num",
+            "q.op": "OR"
+        }
+    },
+    "response": {
+        "numFound": 1,
+        "start": 0,
+        "maxScore": 11.968657,
+        "numFoundExact": true,
+        "docs": [
+            {
+                "object_id_num": 418802230
+            }
+        ]
+    }
+}

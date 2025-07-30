@@ -1,0 +1,50 @@
+[project]
+name = "fal_small_images"
+version = "0.2.0"
+description = "Simple API to replace URNs pointing to low reslotion images with URNs pointing to hi-res images."
+
+# Version must be compatible with what's used in the Dockerfile and `.python-version`
+requires-python = ">=3.13"
+
+license = { file = "LICENSE" }
+readme = "README.md"
+
+# Add packages needed to run the app here, using `uv add`
+dependencies = [
+    "python-dotenv>=1.0.1",
+]
+
+[tool.uv.workspace]
+members = ["fal_small_images"]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  ".", "src"
+]
+
+[tool.coverage.run]
+source = [
+    "fal_small_images",
+]
+omit = [
+    "*/tests/*",   # Omit all files within any 'tests' directories
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+# Add packages needed to run dev tools & testing here, using `uv add --dev`
+dev = [
+    "flake8>=7.2.0",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.1.1",
+]
+
+[tool.uv]
+#publish-url = "https://test.pypi.org/legacy/"
+#publish-url = "https://upload.pypi.org/legacy/"
+# This prevents `uv publish` from overwriting existing versions with non-identical files
+# See: https://docs.astral.sh/uv/reference/settings/#check-url
+#check-url = "https://test.pypi.org/simple"

@@ -1,0 +1,19 @@
+services:
+  app:
+    # NOTE: Explicit container names must be globally unique in Docker
+    container_name: fastapi-template-test
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # Only the `dev` stage will have the test dependencies installed
+      target: dev
+      # Always rebuild so latest changes are tested
+      no_cache: true
+    command: [ pytest ]
+    # Change this to a test copy of `.env` as needed
+    env_file: .env
+    # Ideally tests should use the standalone image, uncomment the volumes mounts only if needed
+    # volumes:
+    #   - .:/usr/src/app
+    #   # This prevents the local `.venv` being mounted
+    #   - /usr/src/app/.venv

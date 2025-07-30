@@ -1,0 +1,13 @@
+services:
+  app:
+    container_name: fastapi-template
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/usr/src/app
+      # This prevents the local `.venv` being mounted
+      - /usr/src/app/.venv
