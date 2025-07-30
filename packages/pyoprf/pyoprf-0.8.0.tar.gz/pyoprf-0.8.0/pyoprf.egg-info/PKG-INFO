@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: pyoprf
+Version: 0.8.0
+Summary: python bindings for liboprf
+Home-page: https://github.com/stef/liboprf/python
+Author: Stefan Marsiske
+Author-email: toprf@ctrlc.hu
+License: LGPLv3
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)
+Classifier: Topic :: Security :: Cryptography
+Classifier: Topic :: Security
+Description-Content-Type: text/markdown
+Requires-Dist: pysodium
+Requires-Dist: SecureString
+
+# pyoprf
+
+This is the python bindings for liboprf.
+
+## installation
+
+you'll need https://github.com/stef/liboprf/
+which depends on libsodium.
+a simple `pip install pyoprf` should suffice to install the bindings.
+
+## usage
+
+see the file `test.py`
+
+## License
+
+LGPLv3.0+
