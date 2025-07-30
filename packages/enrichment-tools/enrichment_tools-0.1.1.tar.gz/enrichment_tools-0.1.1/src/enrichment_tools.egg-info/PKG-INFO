@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: enrichment-tools
+Version: 0.1.1
+Summary: MCP Server for catering to Enrichment APIs of Apollo.io
+Author-email: Kavya-24 <kavya.goyal@apollo.io>
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: fastmcp==2.5.2
+Requires-Dist: mcp>=1.2.0
+Requires-Dist: requests
+Requires-Dist: beautifulsoup4
+
+Local Setup Usage
+
+command = which python3
+args = absolute path of the local server
+
+
+"enrichmentToolPy":{
+  "command": "/Users/kavyagoyal/Desktop/api-mcp/venv/bin/python3", 
+  "args": ["/Users/kavyagoyal/Desktop/api-mcp/enrichment_tools.py"],
+  "env": {
+    "API_KEY": "xyz"
+  }
+}
