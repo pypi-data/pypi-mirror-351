@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: swmmio
+Version: 0.8.1
+Summary: Tools for interacting with, editing, and visualizing EPA SWMM5 models
+Home-page: https://github.com/aerispaha/swmmio
+Author: Adam Erispaha
+Author-email: aerispaha@gmail.com
+License: MIT License
+Platform: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: AUTHORS
+Requires-Dist: Pillow>=6.2.0
+Requires-Dist: numpy>=1.16.4
+Requires-Dist: pandas>=0.24.2
+Requires-Dist: pyshp>=2.1.0
+Requires-Dist: geojson>=2.4.1
+Requires-Dist: pyyaml>=3.12
+Requires-Dist: pyproj>=3.0.0
+Requires-Dist: requests>=2.32.3
+Requires-Dist: typing-extensions>=4.12.2
+Requires-Dist: networkx<2.8.1,>=2.3; python_version < "3.8"
+Requires-Dist: networkx>=2.3; python_version >= "3.8"
+
+# swmmio
+*v0.8.1 (2025/05/29)*
+
+_Programmatic pre and post processing for EPA Stormwater Management Model (SWMM)_
+
+
+![workflow status](https://github.com/aerispaha/swmmio/actions/workflows/python-app.yml/badge.svg)
+[![Documentation Status](https://readthedocs.org/projects/swmmio/badge/?version=latest)](https://swmmio.readthedocs.io/en/latest/?badge=latest)
+
+
+![image](docs/_static/img/flooded_anno_example.png)
+
+
+## Introduction
+`swmmio` is a Python tool for engineers and hydrologists who need to supercharge their ability to modify and analyze EPA SWMM models and results. Using a familiar Pandas interface, users can replace manual procesess that used to live in spreadsheets with scripts and automation.
+
+The core `swmmio.Model` object provides accessors to related elements in the INP and RPT. For example, `swmmio.Model.subcatchments` provides a DataFrame (or GeoDataFrame) joining data from the `[SUBCATCHMENTS]` and `[SUBAREAS]` tables in the model.inp file and, if available, the `Subcatchment Runoff Summary` from the model.rpt file. 
+
+Additionally, `swmmio` provides a lower-level API for reading and writing (almost) all of the sections of the model.inp file which is useful for programmatically modifying EPA SWMM models.
+
+
+## Installation
+```bash
+pip install swmmio
+``` 
+
+For documentation and tutorials, see our [documentation](https://swmmio.readthedocs.io/). 
