@@ -1,0 +1,107 @@
+Metadata-Version: 2.4
+Name: aindo-anonymize
+Version: 1.1.2
+Summary: A lightweight Python library for anonymizing and pseudonymizing tabular data.
+Author-email: Aindo SpA <hello@aindo.com>
+License: MIT License
+        
+        Copyright (c) 2025 Aindo SpA
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
+        associated documentation files (the "Software"), to deal in the Software without restriction, including 
+        without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+        copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the 
+        following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or substantial 
+        portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+        LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO 
+        EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER 
+        IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
+        USE OR OTHER DEALINGS IN THE SOFTWARE.
+        
+Project-URL: Repository, https://github.com/aindo-com/aindo-anonymize
+Project-URL: Documentation, https://docs.anonymize.aindo.com
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Typing :: Typed
+Requires-Python: <3.13,>=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.23
+Requires-Dist: pandas<3,>=2.1.1
+Requires-Dist: scikit-learn<2,>=1.5
+Requires-Dist: faker>=17.0.0
+Provides-Extra: test
+Requires-Dist: pytest~=8.3.3; extra == "test"
+Requires-Dist: scipy~=1.14.1; extra == "test"
+Requires-Dist: coverage; extra == "test"
+Provides-Extra: dev
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: pyright; extra == "dev"
+Requires-Dist: pandas-stubs; extra == "dev"
+Requires-Dist: ruff==0.11.5; extra == "dev"
+Requires-Dist: gitlint==0.19.1; extra == "dev"
+Requires-Dist: reuse==5.0.2; extra == "dev"
+
+<!--
+SPDX-FileCopyrightText: 2025 Aindo SpA
+
+SPDX-License-Identifier: MIT
+-->
+
+# Aindo Anonymize
+
+[![PyPI release](https://img.shields.io/pypi/v/aindo-anonymize.svg)](https://pypi.python.org/pypi/aindo-anonymize)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/aindo-anonymize.svg)](https://github.com/aindo-com/aindo-anonymize)
+[![PyPI - License](https://img.shields.io/pypi/l/aindo-anonymize)](https://github.com/aindo-com/aindo-anonymize/blob/main/LICENSES/MIT.txt)
+
+**Aindo Anonymize** is a lightweight Python library that provides various
+pseudonymization techniques for anonymizing tabular data.
+
+## Quick start
+
+### Install
+```console
+pip install aindo-anonymize
+```
+
+### Start anonymizing
+
+Initialize the desired anonymization technique class, set its options,
+and apply the anonymize method to your data.
+
+```python
+import pandas as pd
+from aindo.anonymize.techniques import CharacterMasking
+
+col = pd.Series(["John", "Mark", "Lucy", "Alice"])
+masking = CharacterMasking(starting_direction="right", mask_length=2)
+
+masking.anonymize_column(col)
+# 0     Jo**
+# 1     Ma**
+# 2     Lu**
+# 3    Ali**
+# dtype: object
+```
+
+## Help
+
+Check the [documentation](https://docs.anonymize.aindo.com/) for more details.
+
+## Contributing
+
+For instructions on setting up a development environment and how to make a contribution, refer to
+[Contributing to Aindo Anonymize](https://docs.anonymize.aindo.com/latest/developers/contributing/).
