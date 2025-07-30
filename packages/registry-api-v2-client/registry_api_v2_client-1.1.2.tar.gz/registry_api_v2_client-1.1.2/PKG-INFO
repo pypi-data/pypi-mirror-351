@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: registry-api-v2-client
+Version: 1.1.2
+Summary: Docker Registry API v2 client with tar file utilities
+Project-URL: Homepage, https://github.com/kangheeyong/registry-api-v2-client
+Project-URL: Repository, https://github.com/kangheeyong/registry-api-v2-client
+Project-URL: Documentation, https://github.com/kangheeyong/registry-api-v2-client/tree/main/docs
+Project-URL: Issues, https://github.com/kangheeyong/registry-api-v2-client/issues
+Author-email: Kang Hee Yong <cagojeiger@naver.com>
+License: MIT
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Software Distribution
+Classifier: Typing :: Typed
+Requires-Python: >=3.11
+Requires-Dist: pydantic>=2.11.5
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: build>=1.0.0; extra == 'dev'
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: pre-commit>=3.0.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: python-semantic-release>=9.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Requires-Dist: twine>=5.0.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# registry-api-v2-client
