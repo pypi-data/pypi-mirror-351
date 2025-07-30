@@ -1,0 +1,125 @@
+Metadata-Version: 2.4
+Name: cryoblob
+Version: 2025.5.27
+Summary: Particle Picking of Cryo-EM Datasets
+Author-email: Debangshu Mukherjee <mukherjeed@ornl.gov>, "Alexis N. Williams" <williamsan@ornl.gov>, "Spenser R. Cox" <coxsr@ornl.gov>, "Marshall T. McDonell" <mcdonellmt@ornl.gov>, "Albina Y. Borisevich" <albinab@ornl.gov>
+Maintainer-email: Debangshu Mukherjee <mukherjeed@ornl.gov>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/debangshu-mukherjee/cryoblob
+Project-URL: Documentation, https://cryoblob.readthedocs.io
+Project-URL: Repository, https://github.com/debangshu-mukherjee/cryoblob
+Project-URL: Issues, https://github.com/debangshu-mukherjee/cryoblob/issues
+Keywords: electron microscopy,cryoEM,image processing,JAX,blob detection
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Classifier: Typing :: Typed
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mrcfile==1.5.0
+Requires-Dist: numpy>=1.13.0
+Requires-Dist: matplotlib>=2.2.0
+Requires-Dist: matplotlib-scalebar>=0.5.0
+Requires-Dist: jaxtyping<0.3,>=0.2.33
+Requires-Dist: beartype
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: tqdm>=4.66.0
+Requires-Dist: pydantic>=2.11.5
+Requires-Dist: jax[cuda12]>=0.4.30; sys_platform == "linux"
+Requires-Dist: jax>=0.4.30; sys_platform == "win64"
+Provides-Extra: docs
+Requires-Dist: sphinx>=7.0.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=3.0.2; extra == "docs"
+Requires-Dist: nbsphinx>=0.9.7; extra == "docs"
+Requires-Dist: myst-parser>=2.0.0; extra == "docs"
+Requires-Dist: ipykernel>=6.29.5; extra == "docs"
+Requires-Dist: nbconvert>=7.16.6; extra == "docs"
+Requires-Dist: sphinx-autobuild>=2024.10.3; extra == "docs"
+Provides-Extra: test
+Requires-Dist: pytest>=8.3.5; extra == "test"
+Requires-Dist: chex>=0.1.89; extra == "test"
+Provides-Extra: dev
+Requires-Dist: cryoblob[docs,test]; extra == "dev"
+Requires-Dist: black[jupyter]>=25.1.0; extra == "dev"
+Requires-Dist: build>=1.2.2.post1; extra == "dev"
+Requires-Dist: twine>=6.1.0; extra == "dev"
+Requires-Dist: ipywidgets>=8.1.0; extra == "dev"
+Provides-Extra: notebooks
+Requires-Dist: ipywidgets>=8.1.0; extra == "notebooks"
+Requires-Dist: ipykernel>=6.29.5; extra == "notebooks"
+Requires-Dist: nbconvert>=7.16.6; extra == "notebooks"
+Dynamic: license-file
+
+[![PyPI Downloads](https://static.pepy.tech/badge/cryoblob)](https://pepy.tech/projects/cryoblob)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI version](https://badge.fury.io/py/cryoblob.svg)](https://badge.fury.io/py/cryoblob)
+[![Documentation Status](https://readthedocs.org/projects/cryoblob/badge/?version=latest)](https://cryoblob.readthedocs.io/en/latest/?badge=latest)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15548975.svg)](https://doi.org/10.5281/zenodo.15548975)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![codecov](https://codecov.io/gh/debangshu-mukherjee/cryoblob/branch/main/graph/badge.svg)](https://codecov.io/gh/debangshu-mukherjee/cryoblob)
+[![Tests](https://github.com/debangshu-mukherjee/cryoblob/workflows/Tests/badge.svg)](https://github.com/debangshu-mukherjee/cryoblob/actions)
+
+# cryoblob
+
+**cryoblob** is a JAX-based, JIT-compiled, scalable package for detection of amorphous blobs in low SNR cryo-EM images.
+
+## Features
+
+* **JAX-powered**: Leverages JAX for high-performance computing with automatic differentiation
+* **GPU acceleration**: Can utilize both CPUs and GPUs for processing
+* **Adaptive filtering**: Includes adaptive Wiener filtering and thresholding
+* **Blob detection**: Advanced blob detection using Laplacian of Gaussian (LoG) methods  
+* **Batch processing**: Memory-optimized batch processing for large datasets
+* **Validation**: Comprehensive parameter validation using Pydantic models
+
+## Installation
+
+```bash
+pip install cryoblob
+```
+
+## Quick Start
+
+```python
+import cryoblob as cb
+
+# Load an MRC file
+mrc_image = cb.load_mrc("your_file.mrc")
+
+# Process a folder of images
+results = cb.folder_blobs("path/to/folder/")
+
+# Plot results
+cb.plot_mrc(mrc_image)
+```
+
+## Package Structure
+
+The cryoblob package is organized into the following modules:
+
+* **adapt**: Adaptive image processing with gradient descent optimization
+* **blobs**: Core blob detection algorithms and preprocessing  
+* **files**: File I/O operations and batch processing
+* **image**: Basic image processing functions (filtering, resizing, etc.)
+* **plots**: Visualization functions for MRC images and results
+* **types**: Type definitions and PyTree structures
+* **valid**: Parameter validation using Pydantic models
+
+## Package Organization
+* The **codes** are located in `/src/cryoblob/`
+* The **notebooks** are located in `/tutorials/`
+
+## Documentation
+
+For detailed API documentation and tutorials, visit: [https://cryoblob.readthedocs.io](https://cryoblob.readthedocs.io)
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Authors
+
+- Debangshu Mukherjee (mukherjeed@ornl.gov)
+- Alexis N. Williams (williamsan@ornl.gov)
