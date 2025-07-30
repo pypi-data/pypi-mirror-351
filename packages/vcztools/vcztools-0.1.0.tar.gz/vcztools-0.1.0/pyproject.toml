@@ -1,0 +1,98 @@
+[build-system]
+requires = [
+    "setuptools>=45",
+    "wheel",
+    "numpy>=2",
+    "setuptools_scm"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vcztools"
+description = "Implementation of bcftools for VCF Zarr"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+  {name = "sgkit Developers", email = "project@sgkit.dev"},
+]
+dependencies = [
+  "numpy>=1.23.5",
+  "zarr>=2.17,<3",
+  "click>=8.2.0",
+  "pyranges!=0.1.3",
+  "pyparsing>=3"
+]
+requires-python = ">=3.10"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: POSIX",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS",
+  "Operating System :: MacOS :: MacOS X",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering"
+]
+dynamic = ["version"]
+
+[project.urls]
+repository = "https://github.com/sgkit-dev/vcztools"
+
+[project.scripts]
+vcztools = "vcztools.cli:vcztools_main"
+
+[project.optional-dependencies]
+dev = [
+  "bio2zarr",
+  "cyvcf2",
+  "pytest",
+  "pytest-cov",
+  "msprime",
+  "sgkit",
+]
+
+[tool.setuptools]
+packages = ["vcztools"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=vcztools --cov-report=term-missing"
+
+[tool.setuptools_scm]
+write_to = "vcztools/_version.py"
+
+[tool.ruff]
+# Assume Python 3.10
+target-version = "py310"
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "W", "I", "N", "UP", "A", "PT"]
+#Allow uppercase names for e.g. call_AD
+#Don't add strict=False to zips (B905)
+ignore = ["N806", "N802", "N803", "A001", "A002", "B905", "RUF", "UP038"]
+
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.isort]
+known-third-party = [
+  "bio2zarr",
+  "click",
+  "cyvcf2",
+  "numcodecs",
+  "numpy",
+  "pandas",
+  "pyranges",
+  "pytest",
+  "setuptools",
+  "zarr"
+]

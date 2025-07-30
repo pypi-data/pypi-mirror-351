@@ -1,0 +1,13 @@
+numpy>=1.23.5
+zarr<3,>=2.17
+click>=8.2.0
+pyranges!=0.1.3
+pyparsing>=3
+
+[dev]
+bio2zarr
+cyvcf2
+pytest
+pytest-cov
+msprime
+sgkit
