@@ -1,0 +1,117 @@
+Metadata-Version: 2.4
+Name: idum_proxy
+Version: 1.0.0
+Summary: Lightweight python library to proxying the web (http api, tcp services).
+Project-URL: homepage, https://github.com/idumhq/idum_proxy
+Project-URL: documentation, https://github.com/idumhq/idum_proxy
+Project-URL: repository, https://github.com/idumhq/idum_proxy
+Project-URL: changelog, https://github.com/idumhq/idum_proxy/releases
+Author-email: Sylvain Mouquet <sylvain.mouquet@gmail.com>
+License: MIT
+License-File: LICENSE
+Keywords: idum,proxy,python,reverse proxy
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Framework :: Pytest
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.13
+Requires-Dist: aiofile>=3.9.0
+Requires-Dist: aiofiles>=24.1.0
+Requires-Dist: aiohttp>=3.11.18
+Requires-Dist: antpathmatcher>=1.0.0
+Requires-Dist: apscheduler>=3.11.0
+Requires-Dist: gunicorn>=23.0.0
+Requires-Dist: pydantic>=2.11.4
+Requires-Dist: python-jose>=3.4.0
+Requires-Dist: starlette>=0.46.2
+Requires-Dist: uvicorn>=0.34.2
+Description-Content-Type: text/markdown
+
+# Idum-Proxy
+
+Idum-Proxy is the easiest and quickest way to deploy a web proxy. 
+Free and open-source.
+
+
+## Features
+
+Idum-Proxy offers many features:
+
+
+- Protocol Support: Handle HTTP, HTTPS, WebSockets, TCP/UDP, and SOCKS proxies
+- Authentication: Support for various auth methods (Basic, Digest, NTLM, Kerberos)
+- Connection Pooling: Efficient reuse of connections to improve performance
+- Load Balancing: Distribute traffic across multiple proxies using algorithms like round-robin, least connections
+- Health Checking: Automatic detection and recovery from failed proxies
+- Caching: Store and reuse responses for identical requests
+- Retry Mechanisms: Automatically retry failed requests with configurable backoff
+- Circuit Breaking: Prevent cascading failures by detecting and isolating problematic services
+- Metrics Collection: Track proxy performance, latency, error rates
+- TLS/SSL Termination: Handle encryption/decryption to reduce backend load
+- IP Rotation: Change public IP addresses for scraping or anonymity
+- Geo-targeting: Route requests through proxies in specific geographic locations
+
+## Install the package
+
+```bash
+pip install idum_proxy
+```
+
+Or with uv:
+
+```bash
+uv add idum_proxy
+```
+
+## Quick Start
+
+### Basic Pattern Matching
+
+```json
+{
+  "version": "1.0",
+  "name": "Simple example",
+  "endpoints": [
+    {
+      "prefix": "/",
+      "match": "**/*",
+      "backends": {
+        "https": {
+          "url": "http://www.example.com"
+        }
+      },
+      "upstream": {
+        "proxy": {
+          "enabled": true
+        }
+      }
+    }
+  ]
+}
+```
+
+```python
+from idum_proxy import IdumProxy
+
+if __name__ == "__main__":
+    idum_proxy: IdumProxy = IdumProxy(config_file='proxy.json')
+    idum_proxy.serve(host='0.0.0.0', port=8091)
+```
+
+
+## Build
+
+Docker image
+
+```bash
+docker build -t idum-proxy -f dockerfiles/idum_proxy.Dockerfile .
+docker run  -p 8080:8080 idum-proxy
+```
+
+## License
+
+This project is licensed under the MIT License.
