@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: tkinter-qpython
+Version: 8.6.0.5
+Summary: tkinter — Python interface to Tcl/Tk
+Home-page: https://qpypi.qpython.org/project/tkinter-qpython/
+Author: The QPYPI Team
+Author-email: qpypi@qpython.org
+License: OSI Approved :: Python Software Foundation License
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: Android
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: license
+Dynamic: summary
+
+
+The tkinter package (“Tk interface”) is the standard Python interface to the Tcl/Tk GUI toolkit. Both Tk and tkinter are available on most Unix platforms, including macOS, as well as on Windows systems.
