@@ -1,0 +1,84 @@
+Metadata-Version: 2.4
+Name: cryoblob
+Version: 2025.5.22
+Summary: Particle Picking of Cryo-EM Datasets
+Author-email: Debangshu Mukherjee <mukherjeed@ornl.gov>, "Alexis N. Williams" <williamsan@ornl.gov>
+Maintainer-email: Debangshu Mukherjee <mukherjeed@ornl.gov>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/debangshu-mukherjee/cryoblob
+Keywords: elecron microscopy,cryoEM
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mrcfile==1.5.0
+Requires-Dist: numpy>=1.13.0
+Requires-Dist: matplotlib>=2.2.0
+Requires-Dist: matplotlib-scalebar>=0.5.0
+Requires-Dist: ipywidgets>=8.1.0
+Requires-Dist: tqdm>=4.66.0
+Requires-Dist: jaxtyping<0.3,>=0.2.33
+Requires-Dist: beartype
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: chex>=0.1.89
+Requires-Dist: pytest>=8.3.5
+Requires-Dist: nbsphinx>=0.9.7
+Requires-Dist: nbconvert>=7.16.6
+Requires-Dist: ipykernel>=6.29.5
+Requires-Dist: sphinx>=7.0.0
+Requires-Dist: sphinx-rtd-theme>=3.0.2
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: black[jupyter]>=25.1.0
+Requires-Dist: pydantic>=2.11.5
+Requires-Dist: jax[cuda12]>=0.4.30; sys_platform == "linux"
+Requires-Dist: jax>=0.4.30; sys_platform == "win64"
+Provides-Extra: dev
+Requires-Dist: twine; extra == "dev"
+Requires-Dist: sphinx-autodoc-typehints>=1.20.0; extra == "dev"
+Requires-Dist: sphinx-copybutton>=0.6.3; extra == "dev"
+Dynamic: license-file
+
+# Multi-Particle Cryo-EM
+
+This package is intended to function as the repository for data wrangling and analysis.
+
+This package can use both CPUs and GPUs because of JAX.
+
+## Pre-Installation
+
+These are directions on how to get your python environment ready for installation
+
+#### Pyenv pre-installation
+
+To get ready for installing the first time using [venv](https://docs.python.org/3/library/venv.html):
+```
+git git@code.ornl.gov:intersect-em/particle_finding.git
+cd particle_finding
+python -m venv env
+source env/bin/activate
+```
+
+This prepares your python environment for installation in the next steps
+
+#### Conda pre-installation
+To install for the first time using [conda](https://docs.conda.io/en/latest/):
+```
+conda create -n arm python==3.10
+git clone git@code.ornl.gov:arm-inititative/multi-particle-cryoem.git
+cd multi-particle-cryoem
+```
+
+## Installation
+
+After pre-installation, these are the directions to install the `cryoblob` package.
+
+```
+pip install -e .
+```
+
+
+## Package Organization
+* The **codes** are located in */src/cryoblob/*
+* The **notebooks** are located in */tutorials/*
