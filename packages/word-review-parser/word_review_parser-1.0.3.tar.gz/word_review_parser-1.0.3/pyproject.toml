@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "word-review-parser"
+version = "1.0.3"
+authors = [
+  { name="VerNe", email="yuu_seeing@foxmail.com" },
+]
+description = "带有修订的docx文档 <-> 带有changes标记的tex文件"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "python-docx",
+    "lxml",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/ID-VerNe/docx2tex"
+"Bug Tracker" = "https://github.com/ID-VerNe/docx2tex/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"word_review_parser" = ["word_template_base/*"]
