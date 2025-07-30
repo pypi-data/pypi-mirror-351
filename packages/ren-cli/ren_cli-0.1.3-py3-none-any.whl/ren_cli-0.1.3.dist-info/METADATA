@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: ren-cli
+Version: 0.1.3
+Summary: Utility to rename fies and directories
+Project-URL: Source, https://github.com/Alanaktion/ren
+Requires-Python: >=3.4
+Provides-Extra: emoji
+Requires-Dist: emoji; extra == "emoji"
+Provides-Extra: format
+Requires-Dist: gallery_dl; extra == "format"
