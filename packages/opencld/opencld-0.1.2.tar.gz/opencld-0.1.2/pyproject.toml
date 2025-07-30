@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "opencld"
+version = "0.1.2"
+description = ""
+authors = [
+    "Filippo Maria Ottaviani <filippo.ottaviani@polito.it>",
+    "Giovanni Zenezini <giovanni.zenezini@polito.it>",
+    "Massimo Rebuglio <massimo.rebuglio@polito.it>",
+]
+readme = "readme.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^2.2.6"
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
