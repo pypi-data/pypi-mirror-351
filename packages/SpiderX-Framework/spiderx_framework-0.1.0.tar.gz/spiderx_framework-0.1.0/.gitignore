@@ -1,0 +1,12 @@
+# Ignore the IDE's configuration directory
+.idea/
+/data/
+/config.py
+/pyinstaller/build
+/pyinstaller/dist
+/pyinstaller/*.spec
+/__pycache__
+/log/
+/tests/config.py
+/tests/log/
+*egg-info*
