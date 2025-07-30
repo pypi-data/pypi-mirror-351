@@ -1,0 +1,9 @@
+// Example vscode settings.json for Testing with debugging
+
+{
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

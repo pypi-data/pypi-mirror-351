@@ -1,0 +1,9 @@
+venv
+.coverage
+**__pycache__**
+dist
+.python-version
+./.vscode
+
+# Sphinx build
+docs/build/

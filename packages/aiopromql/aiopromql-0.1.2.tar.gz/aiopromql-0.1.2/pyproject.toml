@@ -1,0 +1,83 @@
+[project]
+name = "aiopromql"
+version = "0.1.2"
+description = "Minimalist, Pythonic Prometheus HTTP client that supports both async and sync usage"
+authors = [{ name = "Ozay Tokgozlu", email = "ozay.tokgozlu@venit.org" }]
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Monitoring",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["prometheus", "monitoring", "metrics", "async", "http"]
+
+dependencies = [
+    "httpx>=0.24",
+    "pydantic>=2.0",
+]
+[project.urls]
+Homepage = "https://github.com/VeNIT-Lab/aiopromql"
+Documentation = "https://aiopromql.readthedocs.io/"
+Repository = "https://github.com/VeNIT-Lab/aiopromql.git"
+Issues = "https://github.com/VeNIT-Lab/aiopromql/issues"
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "pytest",
+    "hatch",
+    "pytest-asyncio",
+    "pytest-cov",
+    "coverage[toml]",
+    "aiohttp",           # For metrics generator in integration tests
+]
+
+docs = [
+    "sphinx",             # Documentation generator
+    "sphinx-rtd-theme",   # Read the Docs theme
+    "sphinx-autodoc-typehints",  # Type hints support
+    "myst-parser",        # Markdown support
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+lint.select = ["E", "F", "I"]  # Error, pyflakes, isort
+
+[tool.pytest.ini_options]
+addopts = "--cov=aiopromql --cov-report=term-missing -ra -q"
+testpaths = ["tests"]
+markers = [
+    "unit: marks tests as unit tests (fast, isolated)",
+    "integration: marks tests as integration tests (require external )",
+]
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.coverage.run]
+branch = true
+source = ["aiopromql"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+include = ["aiopromql/**/*.py"]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
