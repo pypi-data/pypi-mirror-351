@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: cleanscript
+Version: 1.0.0
+License-File: LICENCE.txt
+Requires-Dist: astor<1.0.0,>=0.8.1
+Requires-Dist: black<25.0.0,>=24.0.0
+Requires-Dist: requests<3.0.0,>=2.25.0
+Requires-Dist: colorama<1.0.0,>=0.4.6
+Requires-Dist: tenacity>=8.0.0
+Requires-Dist: transformers>=4.30.0
+Requires-Dist: torch>=2.0.0
+Requires-Dist: sentencepiece
+Provides-Extra: dev
+Requires-Dist: pytest<8.0.0,>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov<5.0.0,>=4.0.0; extra == "dev"
+Requires-Dist: mock<5.0.0,>=4.0.0; extra == "dev"
+Requires-Dist: twine<5.0.0,>=4.0.0; extra == "dev"
+Requires-Dist: wheel<1.0.0,>=0.40.0; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest<8.0.0,>=7.0.0; extra == "test"
+Requires-Dist: pytest-cov<5.0.0,>=4.0.0; extra == "test"
+Requires-Dist: mock<5.0.0,>=4.0.0; extra == "test"
+Provides-Extra: light
+Requires-Dist: astor>=0.8.1; extra == "light"
+Requires-Dist: black>=24.0.0; extra == "light"
+Requires-Dist: colorama>=0.4.6; extra == "light"
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
