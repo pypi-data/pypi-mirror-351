@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Django form edit
+{% endblock %}
+
+{% block content %}
+    <h1 class="title">Edit/Save Form in Django</h1>
+
+    <!--Codigo de Mensajes de error-->
+    {% if messages %}
+        <!-- Mostrar mensajes globales del framework de mensajes -->
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <strong>{{ message.tags|capfirst }}:</strong> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong class="red">Error!</strong> <spam data-coreui-i18n="There_are_errors_in_the_form">There are errors in the form</spam>:
+            <ul>
+                <!-- Mostrar errores globales del formulario -->
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+
+                <!-- Mostrar errores específicos de los campos -->
+                {% for field, errors in form.errors.items %}
+                    {% if field != '__all__' %}
+                        {% for error in errors %}
+                            <li>{{ field|capfirst }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!--Codigo de Formulario-->
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <input type="submit" value="Save" />
+    </form>
+
+    {% comment %}  
+    <!-- ejemplo de como personalizar el formulario -->
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        
+        <!-- ejemplo de como generar todos los campos -->
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="text-danger">
+                        {{ field.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <!-- ejemplo de como generar un campo especifico -->
+        <div id="div_{{ form.email.id_for_label }}" class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label">
+                {{ form.email.label }}
+            </label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="text-danger">
+                    {% for error in form.email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}            
+        </div>            
+
+        <input type="submit" value="Save" />
+    </form>         
+    {% endcomment %}
+    
+{% endblock %}
