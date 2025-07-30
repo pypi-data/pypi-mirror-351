@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: theglam
+Version: 1.2.1
+Summary: The Glycopeptide Analysis Module
+Author-email: Brooks J Rady <b.j.rady@gmail.com>, Tia Duh <tlduh1@sheffield.ac.uk>
+License-Expression: AGPL-3.0-or-later
+Project-URL: Source, https://github.com/Mesnage-Org/glam
+Project-URL: BugTracker, https://github.com/Mesnage-Org/glam/issues
+Project-URL: Documentation, https://mesnage-org.github.io/glam/docs/glam/index.html
+Keywords: glycan
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: glycowork==1.6.1
+Requires-Dist: pyteomics==4.7.5

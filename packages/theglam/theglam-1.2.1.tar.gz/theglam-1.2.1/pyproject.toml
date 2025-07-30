@@ -1,0 +1,38 @@
+[project]
+name = "theglam"
+version = "1.2.1"
+description = "The Glycopeptide Analysis Module"
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+requires-python = ">=3.12"
+authors = [
+  { name = "Brooks J Rady", email = "b.j.rady@gmail.com" },
+  { name = "Tia Duh", email = "tlduh1@sheffield.ac.uk" },
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Science/Research",
+]
+keywords = ["glycan"]
+dependencies = ["glycowork==1.6.1", "pyteomics==4.7.5"]
+
+[dependency-groups]
+dev = [
+  "mypy~=1.15",
+  "pdoc3~=0.11.6",
+  "pytest~=8.3",
+  "pytest-regtest~=2.3",
+  "ruff~=0.11.11",
+]
+
+[project.urls]
+Source = "https://github.com/Mesnage-Org/glam"
+BugTracker = "https://github.com/Mesnage-Org/glam/issues"
+Documentation = "https://mesnage-org.github.io/glam/docs/glam/index.html"
+
+[tool.mypy]
+mypy_path = "stubs"
+
+[tool.pytest.ini_options]
+pythonpath = "src"
