@@ -1,0 +1,11 @@
+- [x] why white region around image?
+- [x] why the grid'd image res is low?
+- [x] add vizy.summary to get info like res, dtype, rgb or else, range, etc.
+- [x] why there is a slight bit of color change in the image? (turns out due to PIL, no problem)
+- [x] add unit tests
+- [ ] a bit better readme (put old way vs vizy way of doing it like import, squeeze, cpu, numpy, etc)
+- [ ] add github action to publish on pypi automatically
+- [x] smart way to configure if batch size is 3
+- [ ] video support
+- [ ] buy me a coffee banner
+- [ ] share on reddit, hackernews, etc.
