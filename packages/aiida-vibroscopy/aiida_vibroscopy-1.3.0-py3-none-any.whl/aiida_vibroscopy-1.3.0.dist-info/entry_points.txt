@@ -1,0 +1,15 @@
+[aiida.data]
+vibroscopy.fp=aiida_vibroscopy.data.vibro_fp:VibrationalFrozenPhononData
+vibroscopy.vibrational=aiida_vibroscopy.data.vibro_lr:VibrationalData
+
+[aiida.workflows]
+vibroscopy.dielectric=aiida_vibroscopy.workflows.dielectric.base:DielectricWorkChain
+vibroscopy.dielectric.numerical_derivatives=aiida_vibroscopy.workflows.dielectric.numerical_derivatives:NumericalDerivativesWorkChain
+vibroscopy.phonons.harmonic=aiida_vibroscopy.workflows.phonons.harmonic:HarmonicWorkChain
+vibroscopy.phonons.phonon=aiida_vibroscopy.workflows.phonons.base:PhononWorkChain
+vibroscopy.spectra.intensities_average=aiida_vibroscopy.workflows.spectra.intensities_average:IntensitiesAverageWorkChain
+vibroscopy.spectra.iraman=aiida_vibroscopy.workflows.spectra.iraman:IRamanSpectraWorkChain
+
+[console_scripts]
+aiida-vibroscopy=aiida_vibroscopy.cli:cmd_root
+
