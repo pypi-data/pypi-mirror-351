@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: pinjected
+Version: 0.2.252
+Summary: Immutable Dependency Injection for Python.
+Author-email: proboscis <nameissoap@gmail.com>
+License: MIT
+License-File: LICENSE
+Requires-Python: >=3.10
+Requires-Dist: beartype
+Requires-Dist: cloudpickle
+Requires-Dist: cytoolz
+Requires-Dist: expression
+Requires-Dist: fire
+Requires-Dist: frozendict
+Requires-Dist: loguru
+Requires-Dist: makefun
+Requires-Dist: pydantic
+Requires-Dist: pytest
+Requires-Dist: pytest-asyncio
+Requires-Dist: pytest-xdist
+Requires-Dist: pyvis
+Requires-Dist: pyyaml
+Requires-Dist: returns
+Requires-Dist: rich
+Requires-Dist: tabulate
+Requires-Dist: tqdm
+Provides-Extra: dev
+Requires-Dist: click>=8.1.7; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: pytest-xdist>=3.6.1; extra == 'dev'
+Requires-Dist: tqdm>=4.66.5; extra == 'dev'
+Requires-Dist: wandb>=0.17.8; extra == 'dev'
