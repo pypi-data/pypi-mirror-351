@@ -1,0 +1,68 @@
+# iva-cv
+
+`iva-cv` is a Python package that provides a **custom build of OpenCV** with enhanced support for **FFmpeg (H.264/H.265)** and **GStreamer**.  
+This package allows easy installation of a pre-built OpenCV version, while requiring certain system-level dependencies to be pre-installed.
+
+---
+
+## 🚀 Features
+
+- Custom OpenCV build with:
+  - FFmpeg (H.264/H.265 codec) support
+  - GStreamer support for high-quality video streaming
+- Compatible with Linux and macOS (as of now)
+- Packaged as a Python wheel for easy `pip install`
+
+---
+
+## ⚙️ System Prerequisites
+
+Before installing `iva-cv`, ensure the following system libraries are installed:
+
+### 📹 FFmpeg
+- Must include codecs: **H.264, H.265**
+- Install on Ubuntu/Debian:
+  ```bash
+  sudo apt update
+  sudo apt install ffmpeg libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
+
+#### Verify installation:
+ ```bash
+    ffmpeg -codecs | grep -E "h264|hevc"
+ ```
+
+### 🎥 GStreamer
+Required for high-quality video streaming support
+ - Install on Ubuntu/Debian:
+    ```bash
+    sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+    gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-libav
+    ```
+- Verify installation
+    ```bash
+    gst-inspect-1.0 --version
+    ```
+
+### 📦 Installation
+- 1️⃣: Install Prerequisites (as above)
+
+- 2️⃣: Install iva-cv Python Package
+     ```bash
+     pip install iva-cv
+     ```
+    - Or directly from a wheel file [if you have it]
+    ```bash
+        pip install iva_cv-0.1.0-py3-none-any.whl
+    ```
+
+### 🧪 Basic Usage
+```bash
+    import iva_cv as cv2
+    print(cv2.__version__)
+    print(cv2.getBuildInformation())
+```
+
+### 🐞 Troubleshooting
+- cv2 module not found --> Ensure you installed iva-cv in your virtual environment or system.
+- FFmpeg or GStreamer errors --> Double-check that system dependencies are installed and include H.264/H.265 codecs.
+- Symbolic link or path issues --> Some installations might require adding /usr/local/lib to your LD_LIBRARY_PATH:
