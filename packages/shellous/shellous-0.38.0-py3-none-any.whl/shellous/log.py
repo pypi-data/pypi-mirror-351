@@ -1,0 +1,233 @@
+"Defines package-wide logger and log scaffolding for development."
+
+import asyncio
+import functools
+import inspect
+import logging
+import os
+import platform
+import sys
+import threading
+import time
+import warnings
+from contextlib import contextmanager
+from typing import Any, Callable
+
+# Type Alias.
+_ANYFN = Callable[..., Any]
+
+# LOGGER is the package-wide logger object.
+LOGGER = logging.getLogger(__package__)
+
+_PYTHON_VERSION = platform.python_implementation() + platform.python_version()
+
+# The the `SHELLOUS_TRACE` environment variable enables logging options. It is
+# a comma-delimited string with the following options:
+#
+#  - "detail": Enable the detailed logging method decorators.
+#  - "prompt": Enable logging of the Prompt class.
+#  - "all": Enable all logging options.
+
+_TRACE = [s.strip().lower() for s in os.environ.get("SHELLOUS_TRACE", "").split(",")]
+_TRACE_ALL = "all" in _TRACE
+
+LOG_DETAIL = _TRACE_ALL or ("detail" in _TRACE)
+LOG_PROMPT = _TRACE_ALL or ("prompt" in _TRACE)
+
+_logger_info = LOGGER.info if LOG_DETAIL else LOGGER.debug
+
+
+def _exc():
+    "Return the current exception value. Useful in logging."
+    return sys.exc_info()[1]
+
+
+def log_method(enabled: bool) -> Callable[[_ANYFN], _ANYFN]:
+    """`log_method` logs when an async method call is entered and exited.
+
+    <method-name> stepin <self>
+    <method-name> stepout <self>
+
+    If `_info` is True, include platform info in log message.
+
+    Use `kwds` to log other arguments.
+    """
+
+    def _decorator(func: _ANYFN) -> _ANYFN:
+        """Decorator to log method call entry and exit.
+
+        This method is a no-op when `enabled` is false.
+        """
+        if not enabled:
+            return func
+
+        is_asyncgen = inspect.isasyncgenfunction(func)
+        assert is_asyncgen or inspect.iscoroutinefunction(
+            func
+        ), f"Expected {func!r} to be coroutine or async generator"
+
+        if "." in func.__qualname__ and is_asyncgen:
+            # Use _asyncgen_wrapper which includes value of `self` arg.
+            @functools.wraps(func)
+            async def _asyncgen_wrapper(*args: Any, **kwargs: Any):
+                _logger_info(
+                    "%s stepin %r",
+                    func.__qualname__,
+                    args[0],
+                )
+                try:
+                    async for i in func(*args, **kwargs):
+                        yield i
+                finally:
+                    _logger_info(
+                        "%s stepout %r ex=%r",
+                        func.__qualname__,
+                        args[0],
+                        _exc(),
+                    )
+
+            return _asyncgen_wrapper
+
+        if "." in func.__qualname__:
+            # Use _method_wrapper which includes value of `self` arg.
+            @functools.wraps(func)
+            async def _method_wrapper(*args: Any, **kwargs: Any):
+                if func.__name__ == "__aenter__":
+                    plat_info = f" ({_platform_info()})"
+                else:
+                    plat_info = ""
+                _logger_info(
+                    "%s stepin %r%s",
+                    func.__qualname__,
+                    args[0],
+                    plat_info,
+                )
+                try:
+                    return await func(*args, **kwargs)
+                finally:
+                    if func.__name__ == "__aexit__":
+                        more_info = f" exc_value={args[2]!r}"
+                    else:
+                        more_info = ""
+                    _logger_info(
+                        "%s stepout %r ex=%r%s",
+                        func.__qualname__,
+                        args[0],
+                        _exc(),
+                        more_info,
+                    )
+
+            return _method_wrapper
+
+        if is_asyncgen:
+            # Use _function_wrapper which ignores arguments.
+            @functools.wraps(func)
+            async def _asyncgen_function_wrapper(*args: Any, **kwargs: Any):
+                _logger_info("%s stepin", func.__qualname__)
+                try:
+                    async for item in func(*args, **kwargs):
+                        yield item
+                finally:
+                    _logger_info(
+                        "%s stepout ex=%r",
+                        func.__qualname__,
+                        _exc(),
+                    )
+
+            return _asyncgen_function_wrapper
+
+        # Use _function_wrapper which ignores arguments.
+        @functools.wraps(func)
+        async def _function_wrapper(*args: Any, **kwargs: Any):
+            _logger_info("%s stepin", func.__qualname__)
+            try:
+                return await func(*args, **kwargs)
+            finally:
+                _logger_info(
+                    "%s stepout ex=%r",
+                    func.__qualname__,
+                    _exc(),
+                )
+
+        return _function_wrapper
+
+    return _decorator
+
+
+def _platform_info():
+    "Return platform information for use in logging."
+    # Include module name with name of loop class.
+    loop_cls = asyncio.get_running_loop().__class__
+    loop_name = f"{loop_cls.__module__}.{loop_cls.__name__}"
+
+    # Include name of current thread. If current thread is not the main thread,
+    # put a "!!" in front of its name.
+    current_thread = threading.current_thread()
+    if current_thread is threading.main_thread():
+        thread_name = current_thread.name
+    else:
+        thread_name = f"!!{current_thread.name}"
+
+    try:
+        # Child watcher is only implemented on Unix.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            child_watcher = (
+                asyncio.get_child_watcher().__class__.__name__  # pyright: ignore[reportDeprecated]
+            )
+    except (NotImplementedError, AttributeError):
+        child_watcher = None
+
+    info = f"{_PYTHON_VERSION} {loop_name} {thread_name}"
+    if child_watcher:
+        return f"{info} {child_watcher}"
+    return info
+
+
+@contextmanager
+def log_timer(msg: str, warn_limit: float = 0.1, exc_info: bool = True):
+    """Warn if operation takes longer than `warn_limit` (wall clock time).
+
+    If `warn_limit` is <= 0, always log at INFO level.
+    """
+    start = time.perf_counter()
+    try:
+        yield
+    except Exception as ex:
+        if exc_info:
+            LOGGER.debug("log_timer %r ex=%r", msg, ex, exc_info=exc_info)
+        raise
+    finally:
+        duration = time.perf_counter() - start
+        if duration >= warn_limit:
+            log_func = LOGGER.warning if warn_limit > 0 else _logger_info
+            log_func("%s took %g seconds ex=%r", msg, duration, _exc())
+
+
+def log_thread(enabled: bool) -> Callable[[_ANYFN], _ANYFN]:
+    """`log_thread` logs when thread function is entered and exited.
+
+    DEBUG thread <name> starting
+    DEBUG thread <name> stopping
+    """
+
+    def _decorator(func: _ANYFN) -> _ANYFN:
+        "Decorator to log thread entry and exit."
+        if not enabled:
+            return func
+
+        @functools.wraps(func)
+        def _function_wrapper(*args: Any, **kwargs: Any):
+            thread_name = threading.current_thread().name
+            LOGGER.debug("thread %r starting", thread_name)
+            try:
+                return func(*args, **kwargs)
+            except Exception as ex:
+                LOGGER.error("thread %r ex=%r", thread_name, ex)
+                raise
+            finally:
+                LOGGER.debug("thread %r stopping", thread_name)
+
+        return _function_wrapper
+
+    return _decorator
