@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: eng
+Version: 0.1.2
+Summary: Change British English to American English and vice versa.
+Home-page: https://github.com/orsinium-labs/eng
+License: MIT
+Keywords: english,formatter
+Author: Gram
+Author-email: gram@orsinium.dev
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Plugins
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Quality Assurance
+Requires-Dist: isort ; extra == "dev"
+Requires-Dist: mypy ; extra == "dev"
+Requires-Dist: pytest ; extra == "dev"
+Provides-Extra: dev
+
+# eng
+
+Eng is a CLI tool to automatically change British English words to American English (and vice versa).
+
++ For Python it fixes only string literals, docstrings, and comments.
++ For other programming languages it fixes only string literals.
++ For plain text files it fixes all words.
+
+## Installation
+
+```bash
+python3 -m pip install --user eng
+```
+
+## Usage
+
+```bash
+python3 -m eng .
+```
+
