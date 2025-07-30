@@ -1,0 +1,46 @@
+[project]
+name = "pyiof"
+version = "0.2.0"
+description = "Python package for reading / writing IOF datastandard 3.0"
+authors = [{name = "Simske", email = "mail@simske.com"}]
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "pydantic-xml[lxml] (>=2.14.1,<3.0.0)"
+]
+
+[tool.poetry.group.prototyping]
+optional = true
+
+[tool.poetry.group.prototyping.dependencies]
+ipykernel = "^6.29.5"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.5"
+polyfactory = "^2.21.0"
+
+[tool.poetry.group.lint]
+optional = true
+
+[tool.poetry.group.lint.dependencies]
+ruff = "^0.11.10"
+pyright = "^1.1.400"
+lxml-stubs = "^0.5.1"
+
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["C","W","E","F","B","A","PT","RET","SIM","PD","ERA","PLC","PLE","PLW","NPY","PERF","RUF"]
+ignore = ["F401","F403","ERA001","RUF100"]
+
+[tool.ruff.format]
+docstring-code-format = true
