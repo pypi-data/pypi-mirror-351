@@ -1,0 +1,7 @@
+anemoi-datasets>=0.5.21
+anemoi-inference>=0.5.3
+earthkit-workflows
+
+[tests]
+pytest
+pytest-mock
