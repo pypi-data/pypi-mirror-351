@@ -1,0 +1,9 @@
+PyYAML
+
+[ci]
+coverage
+pytest
+
+[tests]
+freezegun
+parameterized
