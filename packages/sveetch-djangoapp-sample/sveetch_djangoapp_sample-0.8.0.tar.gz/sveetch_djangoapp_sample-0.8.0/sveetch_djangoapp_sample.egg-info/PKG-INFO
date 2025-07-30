@@ -1,0 +1,78 @@
+Metadata-Version: 2.4
+Name: sveetch-djangoapp-sample
+Version: 0.8.0
+Summary: A project sample created from cookiecutter-sveetch-djangoapp
+Home-page: https://github.com/sveetch/sveetch-djangoapp-sample
+Author: David Thenon
+Author-email: sveetch@gmail.com
+License: MIT
+Project-URL: Source Code, https://github.com/sveetch/sveetch-djangoapp-sample
+Project-URL: Issue Tracker, https://github.com/sveetch/sveetch-djangoapp-sample/issues
+Project-URL: Changelog, https://sveetch-djangoapp-sample.readthedocs.io/en/latest/history.html
+Project-URL: Documentation, https://sveetch-djangoapp-sample.readthedocs.io/
+Keywords: Python,Django,django-cms
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4.2
+Classifier: Framework :: Django :: 5.0
+Classifier: Framework :: Django :: 5.1
+Classifier: Framework :: Django :: 5.2
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+License-File: LICENCE.txt
+Requires-Dist: Django<6.0,>=4.2
+Requires-Dist: djangorestframework<3.17.0,>=3.16.0
+Requires-Dist: django-cms<6.0.0,>=5.0.0
+Requires-Dist: djangocms-text>=0.5.1
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-django>=4.0.0; extra == "dev"
+Requires-Dist: factory-boy>=3.3.0; extra == "dev"
+Requires-Dist: pyquery>=2.0.0; extra == "dev"
+Requires-Dist: freezegun>=1.2.0; extra == "dev"
+Provides-Extra: quality
+Requires-Dist: flake8>=6.0.0; extra == "quality"
+Requires-Dist: tox>=4.11.0; extra == "quality"
+Provides-Extra: doc
+Requires-Dist: sphinx>=8.0.2; extra == "doc"
+Requires-Dist: furo>=2024.8.6; extra == "doc"
+Requires-Dist: sphinx-copybutton>=0.5.2; extra == "doc"
+Provides-Extra: doc-live
+Requires-Dist: livereload>=2.6.0; extra == "doc-live"
+Provides-Extra: release
+Requires-Dist: twine>=5.0.0; extra == "release"
+Dynamic: license-file
+
+.. _Python: https://www.python.org/
+.. _Django: https://www.djangoproject.com/
+.. _Django REST framework: https://www.django-rest-framework.org/
+.. _DjangoCMS: https://docs.django-cms.org/
+
+=================
+Django app sample
+=================
+
+A project sample created from cookiecutter-sveetch-djangoapp
+
+
+Dependencies
+************
+
+* `Python`_>=3.10;
+* `Django`_>=4.2;
+* `Django REST framework`_>=3.16.0;
+* `DjangoCMS`_>5.0.0;
+
+
+Links
+*****
+
+* Read the documentation on `Read the docs <https://sveetch-djangoapp-sample.readthedocs.io/>`_;
+* Download its `PyPi package <https://pypi.python.org/pypi/sveetch-djangoapp-sample>`_;
+* Clone it on its `Github repository <https://github.com/sveetch/sveetch-djangoapp-sample>`_;
