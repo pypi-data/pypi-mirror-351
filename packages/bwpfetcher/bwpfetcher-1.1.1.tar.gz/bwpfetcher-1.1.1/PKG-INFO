@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: bwpfetcher
+Version: 1.1.1
+Summary: A library for fetching Voxyl API data
+Author-email: Ventros <ventros.development@gmail.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: aiohttp
+Requires-Dist: python-dotenv
+
+### A Custom library for fetching Voxyl API data
