@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: edgecore_engine_pro
+Version: 3.0.0
+Summary: EdgeCore 3.0 Production Engine
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: torch==2.1.0+cpu
+Requires-Dist: numpy
+Dynamic: requires-dist
+Dynamic: summary
