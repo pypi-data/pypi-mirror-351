@@ -1,0 +1,28 @@
+Metadata-Version: 2.1
+Name: iifunc
+Version: 0.0.1
+Summary: A short description of your package
+Home-page: https://github.com/lqxnjk/iifunc
+Author: lqxnjk
+Author-email: lqxnjk@qq.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+```shell
+python setup.py sdist bdist_wheel
+```
+
+
+```shell
+twine upload --verbose dist/*
+```
+
+
+```shell
+python setup.py sdist bdist_wheel
+twine upload --verbose dist/*
+```
+
