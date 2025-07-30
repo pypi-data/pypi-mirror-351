@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: w4benchmark
+Version: 0.1.4
+Home-page: https://github.com/Lukas-Petervary/w4benchmark/
+Author: Lukas Petervary
+License: CC BY-NC 4.0
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/plain
+License-File: LICENSE
+Requires-Dist: numpy>=2.2.4
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+
+An algorithm benchmarking tool built around the W4-11 dataset.
+
+W4-11 Dataset © L. Goerigk and S. Grimme (2011).
+Please cite:
+This software uses the W4-11 dataset by Goerigk & Grimme (2011), which is intended for academic use only.
+Please cite the original authors. Redistribution of the dataset may be subject to publisher restrictions.
