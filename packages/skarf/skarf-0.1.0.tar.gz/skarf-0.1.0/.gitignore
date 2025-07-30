@@ -1,0 +1,48 @@
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Vim
+*.swp
+
+# Distribution / packaging
+*.egg-info/
+dist
+build
+_version.py
+
+# Unit test / coverage reports
+.coverage*
+.pytest_cache
+.mypy_cache
+htmlcov
+
+# VScode IDE
+.vscode/
+
+# Local scratch
+.scratch
+.trash
+
+# Jupyter
+.ipynb_checkpoints
+
+# Octave
+octave-workspace
+
+# SLURM
+slurm-*
+
+# Environment
+.venv
+.env
+
+# Data
+data/
+output/
+
+# Sphinx documentation
+doc/_build/
+doc/**/generated

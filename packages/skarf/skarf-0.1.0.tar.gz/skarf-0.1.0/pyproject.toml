@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skarf"
+dynamic = ["version"]
+authors = [
+    { name = "Connor Lane", email = "connor.lane858@gmail.com" },
+]
+description = "scikit autoregressive models for functional connectivity"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT License"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+]
+
+dependencies = [
+    "numpy<2",
+    "pandas",
+    "scikit-learn>=1.6.0",
+    "scipy",
+]
+
+[project.optional-dependencies]
+pyspi = [
+    "pyspi",
+    # Extra dependency constraints found to be needed.
+    "ipython<9",
+    "setuptools",
+]
+
+[dependency-groups]
+test = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "statsmodels>=0.14.4",
+]
+dev = [
+    "pre-commit>=4.1.0",
+    "ruff>=0.9.10",
+]
+doc = [
+    "matplotlib>=3.10.1",
+    "myst-parser>=4.0.1",
+    "numpydoc>=1.8.0",
+    "pydata-sphinx-theme>=0.16.1",
+    "setuptools-scm>=8.2.0",
+    "sphinx>=8.2.3",
+    "sphinx-design>=0.6.1",
+    "sphinx-gallery>=0.19.0",
+    "sphinx-prompt>=1.9.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/childmindresearch/skarf"
+"Issues" = "https://github.com/childmindresearch/skarf/issues"
+
+[tool.setuptools.packages.find]
+include = ["skarf*"]
+
+[tool.setuptools_scm]
+version_file = "skarf/_version.py"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
