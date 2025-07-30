@@ -1,0 +1,17 @@
+data/
+.vscode/
+.venv/
+data/
+config.*
+__pycache__
+.DS_Store
+coverage/
+dist/
+.ruff_cache
+.cache
+.python-version
+config.toml
+stop.txt
+run.txt
+mock.json
+.idea/
