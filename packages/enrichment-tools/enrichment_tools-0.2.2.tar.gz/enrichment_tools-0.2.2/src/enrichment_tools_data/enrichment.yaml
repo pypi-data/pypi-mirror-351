@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Apollo Enrichment API
+  version: 1.0.0
+  description: API for enriching individual person data using Apollo.io
+
+servers:
+  - url: https://api.apollo.io
+
+paths:
+  /api/v1/people/match:
+    post:
+      summary: Enrich data for a single person
+      operationId: enrichPerson
+      parameters:
+        - name: first_name
+          in: query
+          schema:
+            type: string
+          description: First name of the person
+        - name: last_name
+          in: query
+          schema:
+            type: string
+          description: Last name of the person
+        - name: name
+          in: query
+          schema:
+            type: string
+          description: Full name of the person
+        - name: email
+          in: query
+          schema:
+            type: string
+          description: Email of the person
+        - name: hashed_email
+          in: query
+          schema:
+            type: string
+          description: MD5 or SHA-256 hashed email
+        - name: organization_name
+          in: query
+          schema:
+            type: string
+          description: Employer name
+        - name: domain
+          in: query
+          schema:
+            type: string
+          description: Employer domain
+        - name: id
+          in: query
+          schema:
+            type: string
+          description: Apollo person ID
+        - name: linkedin_url
+          in: query
+          schema:
+            type: string
+          description: LinkedIn profile URL
+        - name: reveal_personal_emails
+          in: query
+          schema:
+            type: boolean
+          description: Reveal personal emails
+          example: false
+        - name: reveal_phone_number
+          in: query
+          schema:
+            type: boolean
+          description: Reveal phone numbers (requires webhook)
+          example: false
+        - name: webhook_url
+          in: query
+          schema:
+            type: string
+          description: Webhook URL to receive phone numbers
+      responses:
+        '200':
+          description: Successful enrichment (or empty if no match)
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameters
+        '401':
+          description: Unauthorized - missing or invalid API key
+        '403':
+          description: Forbidden - credits limit or restricted access
+        '500':
+          description: Server error
+
+  /api/v1/organizations/enrich:
+    post:
+      summary: Enrich data for a single organization
+      description: |
+        Use the Organization Enrichment endpoint to enrich data for 1 company. To enrich data for up to 10 companies with a single API call, use the Bulk Organization Enrichment endpoint instead.
+
+        Enriched data potentially includes industry information, revenue, employee counts, funding round details, and corporate phone numbers and locations.
+      operationId: enrichOrganization
+      parameters:
+        - name: domain
+          in: query
+          required: true
+          schema:
+            type: string
+          description: >
+            The domain of the company that you want to enrich. Do not include www., the @ symbol, or similar.
+          example: apollo.io
+      responses:
+        '200':
+          description: Successful enrichment
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized - missing or invalid API key
+        '422':
+          description: Unprocessable Entity - invalid or missing parameters
+        '429':
+          description: Too Many Requests - rate limit exceeded
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
