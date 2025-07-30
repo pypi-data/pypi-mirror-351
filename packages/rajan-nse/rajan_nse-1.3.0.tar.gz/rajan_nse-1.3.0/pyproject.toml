@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rajan_nse"
+version = "1.3.0"
+authors = [
+  { name="Rajan Bajaj", email="rajanbajajkota@gmail.com" },
+]
+description = "The rajan_nse package is a comprehensive toolkit designed for analyzing and visualizing stock market data from the National Stock Exchange (NSE) of India. This package provides various modules to facilitate technical analysis, identify candlestick patterns, create visual representations, and develop trading strategies."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/rajanbajaj/rajan_nse"
+Issues = "https://github.com/rajanbajaj/rajan_nse/issues"

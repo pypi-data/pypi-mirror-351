@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: rajan_nse
+Version: 1.3.0
+Summary: The rajan_nse package is a comprehensive toolkit designed for analyzing and visualizing stock market data from the National Stock Exchange (NSE) of India. This package provides various modules to facilitate technical analysis, identify candlestick patterns, create visual representations, and develop trading strategies.
+Project-URL: Homepage, https://github.com/rajanbajaj/rajan_nse
+Project-URL: Issues, https://github.com/rajanbajaj/rajan_nse/issues
+Author-email: Rajan Bajaj <rajanbajajkota@gmail.com>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+# rajan_nse
+Python package for nse calculations
+Read the documentation [https://rajan-nse.readthedocs.io/](https://rajan-nse.readthedocs.io/)
+
+# requirements
+- alive_progress
+- json
+- matplotlib
+- numpy
+- pandas
+- re
+- requests
+- seaborn
+- sklearn
+- tqdm
+
+# commands
+
+```bash
+
+# run test cases and ignore print statements
+ python3 -m pytest tests
+
+# run test cases with print statements
+ python3 -m pytest -s tests
+```
