@@ -1,0 +1,72 @@
+[tool.poetry]
+name = "django-pdf-actions"
+version = "0.1.51"
+description = "A Django app to export PDFs from admin actions"
+authors = [
+    "Ibrahim Roshdy <ibrahimrosh5@gmail.com>",
+]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/ibrahimroshdy/django-pdf-actions"
+repository = "https://github.com/ibrahimroshdy/django-pdf-actions"
+documentation = "https://ibrahimroshdy.github.io/django-pdf-actions"
+keywords = [
+    "django",
+    "pdf",
+    "admin",
+    "export",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+packages = [
+    { include = "django_pdf_actions" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+Django = ">=3.2"
+reportlab = "^4.0.4"
+arabic-reshaper = "^3.0.0"
+python-bidi = ">=0.4.0"
+django-model-utils = ">=4.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.5.0"
+tomli = "^2.0.1"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.0"
+mkdocs-material = "^9.0.0"
+
+[tool.poetry.group.docs.dependencies.mkdocstrings]
+extras = [
+    "python",
+]
+version = "^0.24.0"
+
+[build-system]
+requires = [
+    "poetry-core",
+]
+build-backend = "poetry.core.masonry.api"
