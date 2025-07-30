@@ -1,0 +1,17 @@
+LICENSE
+README.md
+pyproject.toml
+src/__init__.py
+src/pywgb/__init__.py
+src/pywgb.egg-info/PKG-INFO
+src/pywgb.egg-info/SOURCES.txt
+src/pywgb.egg-info/dependency_links.txt
+src/pywgb.egg-info/requires.txt
+src/pywgb.egg-info/top_level.txt
+src/pywgb/utils/__init__.py
+src/pywgb/utils/abstract.py
+src/pywgb/utils/deco.py
+src/pywgb/utils/image.py
+src/pywgb/utils/markdown.py
+src/pywgb/utils/text.py
+tests/test_main.py
