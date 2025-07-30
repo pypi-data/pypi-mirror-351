@@ -1,0 +1,94 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+set -e -o pipefail
+
+if [ -n "${GITTED_TESTING}" ]; then
+    set -x
+fi
+
+if [ -n "${GITTED_VERBOSE}" ]; then
+    set -x
+fi
+
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Oops, this is not a Git repository"
+    exit 1
+fi
+
+base=$(dirname "$0")
+
+if [ -z "${GIT_BIN}" ]; then
+    GIT_BIN=git
+fi
+
+# Show status, to make the changes visible:
+"${GIT_BIN}" status
+
+# Add all files:
+git add .
+
+# Generate commit message:
+branch=$(git symbolic-ref HEAD --short)
+msg="$*"
+if [ "${branch}" == master ]; then
+    if [[ "${msg}" =~ [0-9]+ ]]; then
+        prefix="#${msg}: "
+        msg=
+    else
+        prefix=
+    fi
+else
+    prefix="#${branch}: "
+fi
+
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    if git rev-parse HEAD >/dev/null 2>&1; then
+        diff=$("${GIT_BIN}" diff HEAD | head -2000)
+    else
+        diff=$("${GIT_BIN}" diff | head -2000)
+    fi
+else
+    diff=$(git diff --staged)
+fi
+
+if [ -n "${GITTED_TESTING}" ]; then
+    PYTHONPATH="${base}/../src:${PYTHONPATH}"
+    export PYTHONPATH
+fi
+if ! python3 -c 'import gitted' >/dev/null 2>&1; then
+    echo 'The "gitted" Python package is not installed, run "pip install gitted"'
+    exit 1
+fi
+if ! python3 -c 'import openai' >/dev/null 2>&1; then
+    echo 'Something is wrong with the installation of the "gitted" Python package, try "pip install gitted"'
+    exit 1
+fi
+py=$(cat << 'EOT'
+import sys
+from gitted.diff2msg import generate_commit_message
+diff = sys.stdin.read()
+msg = sys.argv[1] if len(sys.argv) > 1 else ''
+print(generate_commit_message(diff, msg))
+EOT
+)
+gpt=$(echo "${diff}" | python3 -c "${py}" "${msg}")
+
+msg="${prefix}${gpt}"
+if [ -z "${GITTED_BATCH}" ]; then
+    printf "ChatGPT suggested: \e[38;5;208m%s\e[0m\n" "${msg}"
+else
+    echo "ChatGPT suggested: '${msg}'"
+fi
+
+# Commit the changes:
+opts=(--allow-empty --all)
+if [ -n "${GITTED_TESTING}" ]; then
+    opts+=(--no-verify)
+fi
+email=$(git config user.email)
+if gpg --list-secret-keys --with-colons "${email}" | grep -q '^sec'; then
+    opts+=(-S)
+fi
+"${GIT_BIN}" commit "${opts[@]}" --message "${msg}"
