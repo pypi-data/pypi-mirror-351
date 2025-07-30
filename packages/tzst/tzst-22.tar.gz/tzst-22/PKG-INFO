@@ -1,0 +1,225 @@
+Metadata-Version: 2.4
+Name: tzst
+Version: 22
+Summary: A Python library for creating and manipulating .tzst/.tar.zst archives
+Project-URL: Homepage, https://github.com/xixu-me/tzst
+Project-URL: Documentation, https://github.com/xixu-me/tzst#readme
+Project-URL: Repository, https://github.com/xixu-me/tzst.git
+Project-URL: Bug Tracker, https://github.com/xixu-me/tzst/issues
+Author: tzst contributors
+License-Expression: BSD-3-Clause
+License-File: LICENSE
+Keywords: archive,compression,tar,zstandard
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Archiving :: Compression
+Requires-Python: >=3.8
+Requires-Dist: zstandard<1.0.0,>=0.19.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# tzst
+
+[![CI/CD](https://github.com/xixu-me/tzst/workflows/CI%2FCD/badge.svg)](https://github.com/xixu-me/tzst/actions)
+[![PyPI version](https://badge.fury.io/py/tzst.svg)](https://badge.fury.io/py/tzst)
+[![Python versions](https://img.shields.io/pypi/pyversions/tzst.svg)](https://pypi.org/project/tzst/)
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+
+A Python library for creating and manipulating `.tzst`/`.tar.zst` archives (tar archives compressed using Zstandard).
+
+## Features
+
+- **Create** `.tzst`/`.tar.zst` archives from files and directories
+- **Extract** contents with full paths or flat structure
+- **List** archive contents with detailed information
+- **Test** archive integrity
+- **Command-line interface** with 7z-like commands
+- **Cross-platform** support (Windows, macOS, Linux)
+- **High performance** using Zstandard compression
+
+## Installation
+
+Install from PyPI:
+
+```bash
+pip install tzst
+```
+
+Or install from source:
+
+```bash
+git clone https://github.com/xixu-me/tzst.git
+cd tzst
+pip install .
+```
+
+## Quick Start
+
+### Python API
+
+```python
+import tzst
+
+# Create an archive
+tzst.create_archive("archive.tzst", ["file1.txt", "file2.txt", "directory/"])
+
+# Extract an archive
+tzst.extract_archive("archive.tzst", "output_directory/")
+
+# List archive contents
+contents = tzst.list_archive("archive.tzst", verbose=True)
+for item in contents:
+    print(f"{item['name']} - {item['size']} bytes")
+
+# Test archive integrity
+is_valid = tzst.test_archive("archive.tzst")
+print(f"Archive is valid: {is_valid}")
+```
+
+### Advanced API Usage
+
+```python
+from tzst import TzstArchive
+
+# Create archive with custom compression level
+with TzstArchive("archive.tzst", "w") as archive:
+    archive.add("file1.txt")
+    archive.add("directory/", recursive=True)
+
+# Extract specific files
+with TzstArchive("archive.tzst", "r") as archive:
+    archive.extract("specific_file.txt", "output/")
+    
+    # Or extract all with full paths
+    archive.extract(path="output/")
+
+# List and examine contents
+with TzstArchive("archive.tzst", "r") as archive:
+    members = archive.getmembers()
+    for member in members:
+        print(f"{member.name}: {member.size} bytes, {member.mtime}")
+```
+
+### Command Line Interface
+
+The CLI provides 7z-like commands for archive operations:
+
+```bash
+# Create an archive
+tzst a archive.tzst file1.txt file2.txt directory/
+
+# Create with custom compression level (1-22)
+tzst a archive.tzst -l 10 file1.txt file2.txt
+
+# Extract with full paths
+tzst x archive.tzst
+
+# Extract to specific directory
+tzst x archive.tzst -o output/
+
+# Extract without paths (flat structure)
+tzst e archive.tzst -o flat_output/
+
+# List archive contents
+tzst l archive.tzst
+
+# List with detailed information
+tzst l archive.tzst -v
+
+# Test archive integrity
+tzst t archive.tzst
+```
+
+### Command Reference
+
+| Command | Aliases | Description |
+|---------|---------|-------------|
+| `a` | `add`, `create` | Create archive or add files |
+| `x` | `extract` | Extract with full paths |
+| `e` | `extract-flat` | Extract without paths |
+| `l` | `list` | List archive contents |
+| `t` | `test` | Test archive integrity |
+
+## Performance
+
+tzst uses Python's built-in `tarfile` module combined with the high-performance `zstandard` library. This provides:
+
+- **Fast compression/decompression** with Zstandard
+- **Memory efficient** streaming operations
+- **Small archive sizes** with excellent compression ratios
+- **Cross-platform compatibility**
+
+## File Extensions
+
+tzst supports both `.tzst` and `.tar.zst` extensions:
+
+- `.tzst` - Short form (preferred)
+- `.tar.zst` - Explicit form showing tar + zstandard
+- Auto-detection and conversion when needed
+
+## Requirements
+
+- Python 3.8+
+- zstandard >= 0.19.0
+
+## Development
+
+### Setup Development Environment
+
+```bash
+git clone https://github.com/xixu-me/tzst.git
+cd tzst
+pip install -e .[dev]
+```
+
+### Run Tests
+
+```bash
+pytest
+```
+
+### Run Linting
+
+```bash
+ruff check src tests
+black src tests
+```
+
+### Build Package
+
+```bash
+python -m build
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Zstandard](https://github.com/facebook/zstd) for the excellent compression algorithm
+- [python-zstandard](https://github.com/indygreg/python-zstandard) for Python bindings
+- Python's `tarfile` module for tar archive handling
