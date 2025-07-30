@@ -1,0 +1,42 @@
+{% extends "airflow.cfg.base" %}
+
+{% block content %}
+{{ super() }}
+
+[priority.datadog]
+api_key = {{ DATADOG_API_KEY }}
+host = {{ DATADOG_HOST }}
+tags = environment:test
+metric = "custom.metric"
+threshold = 2
+
+[priority.discord]
+token = {{ DISCORD_TOKEN }}
+channel = {{ DISCORD_CHANNEL }}
+channel_P1 = {{ DISCORD_CHANNEL }}
+channel_failed_P1 = {{ DISCORD_CHANNEL }}
+
+[priority.newrelic]
+api_key = {{ NEWRELIC_API_KEY }}
+tags = {"environment":"test"}
+metric = "custom.metric"
+
+[priority.opsgenie]
+api_key = {{ OPSGENIE_API_KEY }}
+
+[priority.slack]
+token = {{ SLACK_TOKEN }}
+channel = {{ SLACK_CHANNEL }}
+channel_P1 = {{ DISCORD_CHANNEL }}
+channel_failed_P1 = {{ DISCORD_CHANNEL }}
+
+[priority.symphony]
+room_name = {{ SYMPHONY_ROOM_NAME }}
+message_create_url = {{ SYMPHONY_MESSAGE_CREATE_URL }}
+cert_file = {{ SYMPHONY_CERT_FILE }}
+key_file = {{ SYMPHONY_KEY_FILE }}
+session_auth = {{ SYMPHONY_SESSION_AUTH }}
+key_auth = {{ SYMPHONY_KEY_AUTH }}
+room_search_url = {{ SYMPHONY_ROOM_SEARCH_URL }}
+
+{% endblock content %}
