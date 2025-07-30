@@ -1,0 +1,13 @@
+langchain
+numpy<2.0
+pandas
+hana-ml>=2.24.25042500
+langchain-community
+langchain-core
+langchain-experimental
+langchain-text-splitters
+pydantic
+pydantic-core
+generative-ai-hub-sdk[all]
+cryptography
+ipython<9.0
