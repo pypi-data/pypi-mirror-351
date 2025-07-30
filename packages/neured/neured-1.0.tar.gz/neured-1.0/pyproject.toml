@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"neured" = ["demo_notebooks/**", "utilities/**", "manual/**"]
+
+[project]
+name = "neured"
+version = "1.0"
+description = "NeuRED: Framework for Processing Time-series Neutron Radiography of Electrochemical Devices"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+  { name = "Jongmin Lee", email = "jongmin.lee@psi.ch" }
+]
+dependencies = [
+    "numpy>=1.22",
+    "scipy>=1.8",
+    "matplotlib>=3.5",
+    "opencv-python>=4.5",
+    "astropy>=5.0",
+    "jupyter>=1.0",
+    "ipython>=8.0",
+    "pyqt5>=5.15",
+    "tqdm>=4.67",
+    "h5py>=3.0",
+    "scikit-image>=0.19",
+    "pyqtgraph>=0.13",
+    "jupyter_contrib_nbextensions>=0.7",
+    "pandas>=2.2.3"
+]
