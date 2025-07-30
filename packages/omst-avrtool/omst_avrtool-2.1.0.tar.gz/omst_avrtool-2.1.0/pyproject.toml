@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "omst-avrtool"
+version = "2.1.0"
+description = "AVR programming tool for OceanScan-MST"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Renato Campos", email = "rcampos@oceanscan-mst.com"},
+]
+maintainers = [
+    {name = "OceanScan-MST Team", email = "support@oceanscan-mst.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Embedded Systems",
+]
+dependencies = [
+    "reportlab>=3.6.0",
+    "appdirs>=1.4.3",
+    "secretstore>=0.0.2",
+    "dbus-python>=1.4.0",
+    "keyring>=23.0.0",
+    "pysmb>=1.2.11",
+]
+
+[project.scripts]
+omst-avrtool = "avr.cli:main"
+
+[project.urls]
+"Homepage" = "https://gitlab.com/omst/omst-factory-tools"
+
+[tool.setuptools_scm]
+write_to = "src/avr/_version.py"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["avr", "avr.lib"]
+include-package-data = true
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "build>=0.10.0",
+    "twine>=4.0.2",
+    "sphinx>=6.0.0",
+]
