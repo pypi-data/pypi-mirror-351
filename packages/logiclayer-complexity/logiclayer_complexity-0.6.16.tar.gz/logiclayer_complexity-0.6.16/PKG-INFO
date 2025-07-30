@@ -1,0 +1,72 @@
+Metadata-Version: 2.3
+Name: logiclayer-complexity
+Version: 0.6.16
+Summary: LogicLayer module to enable Economic Complexity calculations, using data from a tesseract-olap server.
+License: Proprietary
+Author: Francisco Abarzua
+Author-email: francisco@datawheel.us
+Maintainer: Francisco Abarzua
+Maintainer-email: francisco@datawheel.us
+Requires-Python: ~=3.9
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: economic-complexity (>=0.2.4)
+Requires-Dist: logiclayer (>=0.4.1)
+Requires-Dist: numpy (<2.0)
+Requires-Dist: orjson (>=3.8)
+Requires-Dist: pandas (>=1.5)
+Requires-Dist: polars (>=1.0,<2.0)
+Requires-Dist: pyarrow (>=15.0)
+Requires-Dist: tesseract-olap (>=0.18.8)
+Project-URL: Repository, https://github.com/Datawheel/logiclayer-complexity
+Description-Content-Type: text/markdown
+
+<p>
+<a href="https://github.com/Datawheel/logiclayer-complexity/releases"><img src="https://flat.badgen.net/github/release/Datawheel/logiclayer-complexity" /></a>
+<a href="https://github.com/Datawheel/logiclayer-complexity/blob/master/LICENSE"><img src="https://flat.badgen.net/github/license/Datawheel/logiclayer-complexity" /></a>
+<a href="https://github.com/Datawheel/logiclayer-complexity/"><img src="https://flat.badgen.net/github/checks/Datawheel/logiclayer-complexity" /></a>
+<a href="https://github.com/Datawheel/logiclayer-complexity/issues"><img src="https://flat.badgen.net/github/issues/Datawheel/logiclayer-complexity" /></a>
+</p>
+
+## Getting started
+
+This module must be used with [LogicLayer](https://pypi.org/project/logiclayer). An instance of `OlapServer` from the `tesseract_olap` package is also required to retrieve the data.
+
+```python
+# app.py
+
+from logiclayer import LogicLayer
+from logiclayer_complexity import EconomicComplexityModule
+from tesseract_olap import OlapServer
+from tesseract_olap.logiclayer import TesseractModule
+
+layer = LogicLayer()
+olap = OlapServer(backend="clickhouse://...", schema="./schema/")
+
+cmplx = EconomicComplexityModule(olap)
+layer.add_module("/complexity", cmplx)
+
+# You can reuse the `olap` object with an instace of `TesseractModule`
+tsrc = TesseractModule(olap)
+layer.add_module("/tesseract", tsrc)
+```
+
+Is not officially supported, but you can also use the module directly with a FastAPI instance:
+
+```python
+cmplx = EconomicComplexityModule(olap)
+
+app = FastAPI()
+app.include_router(cmplx.router, prefix="/complexity")
+```
+
+---
+&copy; 2022 [Datawheel, LLC.](https://www.datawheel.us/)  
+This project is licensed under [MIT](./LICENSE).
+
