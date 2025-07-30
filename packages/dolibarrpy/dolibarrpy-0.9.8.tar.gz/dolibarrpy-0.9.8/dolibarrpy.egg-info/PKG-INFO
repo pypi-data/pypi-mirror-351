@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: dolibarrpy
+Version: 0.9.8
+Summary: Python wrapper for Dolibarr API
+Home-page: https://github.com/JonBendtsen/dolibarrpy.git
+Author: Jon Bendtsen
+Author-email: jon.bendtsen.github@jonb.dk
+License: MIT
+Description: This project is a python wrapper for the API for Dolibarr ERP & CRM found at dolibarr.org. It is not yet complete, but most major GET endpoints has been implemented. In the beginning I will mostly focus on implementing the API endpoints that I use.
+Keywords: Dolibarr,python
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Description-Content-Type: text/markdown
