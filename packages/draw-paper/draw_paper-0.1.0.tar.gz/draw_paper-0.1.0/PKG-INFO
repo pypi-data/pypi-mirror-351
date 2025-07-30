@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: draw-paper
+Version: 0.1.0
+Summary: A specialized plotting library for academic papers with LaTeX-compatible templates
+Requires-Python: >=3.13
+Requires-Dist: cycler>=0.11.0
+Requires-Dist: matplotlib>=3.7.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: plotly>=5.14.0
+Requires-Dist: scipy>=1.10.0
+Requires-Dist: seaborn>=0.12.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: flake8>=6.0.0; extra == 'dev'
+Requires-Dist: isort>=5.12.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
