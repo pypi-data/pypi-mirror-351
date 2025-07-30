@@ -1,0 +1,10 @@
+{% extends "airflow.cfg.base" %}
+
+{% block content %}
+{{ super() }}
+
+[priority]
+datadog_api_key = {{ DATADOG_API_KEY }}
+datadog_host = {{ DATADOG_HOST }}
+
+{% endblock content %}
