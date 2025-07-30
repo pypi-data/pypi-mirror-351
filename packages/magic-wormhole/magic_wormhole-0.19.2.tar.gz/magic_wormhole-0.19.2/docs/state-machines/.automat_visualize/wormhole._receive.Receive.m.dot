@@ -1,0 +1,30 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S1_unverified_key [color=blue fontame=Menlo shape=ellipse style=""]
+	S3_scared [color=blue fontame=Menlo shape=ellipse style=""]
+	S0_unknown_key [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	S2_verified_key [color=blue fontame=Menlo shape=ellipse style=""]
+	t0 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_message_bad</font></td></tr></table>> margin=0.2 shape=none]
+	S3_scared -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S3_scared
+	t1 [label=<<table ><tr ><td color="purple" colspan="4" port="tableport"><font face="menlo-italic">got_message_good</font></td></tr><tr ><td color="pink"><font point-size="9">S_got_verified_key</font></td><td color="pink"><font point-size="9">W_happy</font></td><td color="pink"><font point-size="9">W_got_verifier</font></td><td color="pink"><font point-size="9">W_got_message</font></td></tr></table>> margin=0.2 shape=none]
+	S1_unverified_key -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S2_verified_key
+	t2 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">got_message_good</font></td></tr></table>> margin=0.2 shape=none]
+	S3_scared -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S3_scared
+	t3 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_message_good</font></td></tr><tr ><td color="pink"><font point-size="9">W_got_message</font></td></tr></table>> margin=0.2 shape=none]
+	S2_verified_key -> t3:tableport:w [arrowhead=none]
+	t3:tableport:e -> S2_verified_key
+	t4 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_key</font></td></tr><tr ><td color="pink"><font point-size="9">record_key</font></td></tr></table>> margin=0.2 shape=none]
+	S0_unknown_key -> t4:tableport:w [arrowhead=none]
+	t4:tableport:e -> S1_unverified_key
+	t5 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_message_bad</font></td></tr><tr ><td color="pink"><font point-size="9">W_scared</font></td></tr></table>> margin=0.2 shape=none]
+	S1_unverified_key -> t5:tableport:w [arrowhead=none]
+	t5:tableport:e -> S3_scared
+	t6 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">got_message_bad</font></td></tr><tr ><td color="pink"><font point-size="9">W_scared</font></td></tr></table>> margin=0.2 shape=none]
+	S2_verified_key -> t6:tableport:w [arrowhead=none]
+	t6:tableport:e -> S3_scared
+}

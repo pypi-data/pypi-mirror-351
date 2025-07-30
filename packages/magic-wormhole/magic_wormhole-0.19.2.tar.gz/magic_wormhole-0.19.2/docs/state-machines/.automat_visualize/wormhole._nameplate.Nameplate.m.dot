@@ -1,0 +1,105 @@
+digraph {
+	graph [dpi=100 pack=true]
+	node [fontname=Menlo]
+	edge [fontname=Menlo]
+	S2B [color=blue fontame=Menlo shape=ellipse style=""]
+	S2A [color=blue fontame=Menlo shape=ellipse style=""]
+	S1A [color=blue fontame=Menlo shape=ellipse style=""]
+	S4A [color=blue fontame=Menlo shape=ellipse style=""]
+	S4B [color=blue fontame=Menlo shape=ellipse style=""]
+	S0B [color=blue fontame=Menlo shape=ellipse style=""]
+	S3B [color=blue fontame=Menlo shape=ellipse style=""]
+	S5 [color=blue fontame=Menlo shape=ellipse style=""]
+	S3A [color=blue fontame=Menlo shape=ellipse style=""]
+	S0A [color=blue fontame="Menlo-Bold" shape=ellipse style=bold]
+	t0 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S0B -> t0:tableport:w [arrowhead=none]
+	t0:tableport:e -> S0A
+	t1 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S2A -> t1:tableport:w [arrowhead=none]
+	t1:tableport:e -> S4A
+	t2 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_release</font></td></tr></table>> margin=0.2 shape=none]
+	S2B -> t2:tableport:w [arrowhead=none]
+	t2:tableport:e -> S4B
+	t3 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t3:tableport:w [arrowhead=none]
+	t3:tableport:e -> S3A
+	t4 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S4B -> t4:tableport:w [arrowhead=none]
+	t4:tableport:e -> S4A
+	t5 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S4B -> t5:tableport:w [arrowhead=none]
+	t5:tableport:e -> S4B
+	t6 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">release</font></td></tr></table>> margin=0.2 shape=none]
+	S4B -> t6:tableport:w [arrowhead=none]
+	t6:tableport:e -> S4B
+	t7 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_set_nameplate</font></td></tr><tr ><td color="pink"><font point-size="9">record_nameplate</font></td></tr></table>> margin=0.2 shape=none]
+	S0A -> t7:tableport:w [arrowhead=none]
+	t7:tableport:e -> S1A
+	t8 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S3A -> t8:tableport:w [arrowhead=none]
+	t8:tableport:e -> S4A
+	t9 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S5 -> t9:tableport:w [arrowhead=none]
+	t9:tableport:e -> S5
+	t10 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">connected</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_claim</font></td></tr></table>> margin=0.2 shape=none]
+	S2A -> t10:tableport:w [arrowhead=none]
+	t10:tableport:e -> S2B
+	t11 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">rx_released</font></td></tr><tr ><td color="pink"><font point-size="9">T_nameplate_done</font></td></tr></table>> margin=0.2 shape=none]
+	S4B -> t11:tableport:w [arrowhead=none]
+	t11:tableport:e -> S5
+	t12 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_release</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t12:tableport:w [arrowhead=none]
+	t12:tableport:e -> S4B
+	t13 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">release</font></td></tr><tr ><td color="pink"><font point-size="9">T_nameplate_done</font></td></tr></table>> margin=0.2 shape=none]
+	S0B -> t13:tableport:w [arrowhead=none]
+	t13:tableport:e -> S5
+	t14 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">rx_claimed</font></td></tr></table>> margin=0.2 shape=none]
+	S4B -> t14:tableport:w [arrowhead=none]
+	t14:tableport:e -> S4B
+	t15 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">T_nameplate_done</font></td></tr></table>> margin=0.2 shape=none]
+	S0B -> t15:tableport:w [arrowhead=none]
+	t15:tableport:e -> S5
+	t16 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">connected</font></td></tr></table>> margin=0.2 shape=none]
+	S3A -> t16:tableport:w [arrowhead=none]
+	t16:tableport:e -> S3B
+	t17 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">release</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_release</font></td></tr></table>> margin=0.2 shape=none]
+	S3B -> t17:tableport:w [arrowhead=none]
+	t17:tableport:e -> S4B
+	t18 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">_set_nameplate</font></td></tr><tr ><td color="pink"><font point-size="9">record_nameplate_and_RC_tx_claim</font></td></tr></table>> margin=0.2 shape=none]
+	S0B -> t18:tableport:w [arrowhead=none]
+	t18:tableport:e -> S2B
+	t19 [label=<<table ><tr ><td color="purple" colspan="2" port="tableport"><font face="menlo-italic">rx_claimed</font></td></tr><tr ><td color="pink"><font point-size="9">I_got_wordlist</font></td><td color="pink"><font point-size="9">M_got_mailbox</font></td></tr></table>> margin=0.2 shape=none]
+	S2B -> t19:tableport:w [arrowhead=none]
+	t19:tableport:e -> S3B
+	t20 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">release</font></td></tr></table>> margin=0.2 shape=none]
+	S5 -> t20:tableport:w [arrowhead=none]
+	t20:tableport:e -> S5
+	t21 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">connected</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_claim</font></td></tr></table>> margin=0.2 shape=none]
+	S1A -> t21:tableport:w [arrowhead=none]
+	t21:tableport:e -> S2B
+	t22 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S2B -> t22:tableport:w [arrowhead=none]
+	t22:tableport:e -> S2A
+	t23 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">connected</font></td></tr><tr ><td color="pink"><font point-size="9">RC_tx_release</font></td></tr></table>> margin=0.2 shape=none]
+	S4A -> t23:tableport:w [arrowhead=none]
+	t23:tableport:e -> S4B
+	t24 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">lost</font></td></tr></table>> margin=0.2 shape=none]
+	S5 -> t24:tableport:w [arrowhead=none]
+	t24:tableport:e -> S5
+	t25 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">T_nameplate_done</font></td></tr></table>> margin=0.2 shape=none]
+	S0A -> t25:tableport:w [arrowhead=none]
+	t25:tableport:e -> S5
+	t26 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">connected</font></td></tr></table>> margin=0.2 shape=none]
+	S0A -> t26:tableport:w [arrowhead=none]
+	t26:tableport:e -> S0B
+	t27 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">close</font></td></tr></table>> margin=0.2 shape=none]
+	S4A -> t27:tableport:w [arrowhead=none]
+	t27:tableport:e -> S4A
+	t28 [label=<<table ><tr ><td color="purple" colspan="1" port="tableport"><font face="menlo-italic">close</font></td></tr><tr ><td color="pink"><font point-size="9">T_nameplate_done</font></td></tr></table>> margin=0.2 shape=none]
+	S1A -> t28:tableport:w [arrowhead=none]
+	t28:tableport:e -> S5
+	t29 [label=<<table ><tr ><td color="purple" port="tableport"><font face="menlo-italic">connected</font></td></tr></table>> margin=0.2 shape=none]
+	S5 -> t29:tableport:w [arrowhead=none]
+	t29:tableport:e -> S5
+}
