@@ -1,0 +1,28 @@
+[project]
+name = "vyn"
+version = "0.1.5"
+description = "A CLI tool that scans files for vulnerabilities"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"  
+authors = [
+  { name = "Yemi Ojedapo", email = "yemiojedapo1@example.com" }
+]
+
+dependencies = [
+  "bandit==1.8.3",
+  "click==8.2.1",
+  "prettytable==3.16.0",
+  "python-dotenv==1.0.1",
+  "requests==2.32.3"
+]
+
+[project.scripts]
+vyn = "security_scanner.scanner:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["security_scanner"]
