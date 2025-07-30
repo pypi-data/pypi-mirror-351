@@ -1,0 +1,28 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=42", "wheel"]
+
+[tool.setuptools.packages.find]
+include = ["fluxllm*"]
+
+[project]
+name = "fluxllm"
+version = "0.1.2"
+description = "A blazing-fast gateway for asynchronous, high-concurrency LLM requests (OpenAI, Claude, etc.)."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+
+authors = [{ name = "Lei Zhang", email = "jameszhang2880@gmail.com" }]
+
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+dependencies = ["openai", "rich"]
+
+[project.optional-dependencies]
+test = ["pytest", "fastapi", "uvicorn"]
