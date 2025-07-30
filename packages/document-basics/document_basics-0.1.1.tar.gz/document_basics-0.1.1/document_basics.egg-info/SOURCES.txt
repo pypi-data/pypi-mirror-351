@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+doc_analytics/__init__.py
+doc_analytics/collections.py
+doc_analytics/doc_organizer.py
+doc_analytics/document.py
+doc_analytics/search.py
+doc_analytics/utils.py
+document_basics.egg-info/PKG-INFO
+document_basics.egg-info/SOURCES.txt
+document_basics.egg-info/dependency_links.txt
+document_basics.egg-info/requires.txt
+document_basics.egg-info/top_level.txt
+tests/test_collection.py
+tests/test_document.py
+tests/test_search_engine.py
