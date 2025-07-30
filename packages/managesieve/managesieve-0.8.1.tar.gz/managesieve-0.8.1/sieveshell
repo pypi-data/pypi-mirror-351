@@ -1,0 +1,441 @@
+#!/usr/bin/python
+# -*- ispell-local-dictionary: "american" -*-
+# SPDX-License-Identifier: GPL-3.0-only
+
+"""
+sieveshell - remotely manipulate sieve scripts
+
+SYNOPSIS
+       sieveshell [--user=user] [--authname=authname] [--realm=realm]
+       [--exec=script] [--auth-mech=mechanism] server
+
+       sieveshell --help
+
+sieveshell allows users to manipulate their scripts on a remote server.
+It works via MANAGESIEVE, a work in progress protocol.
+
+Use --help to get a list of the currently supported authentication
+mechanisms.
+
+The following commands are recognized:
+  list             - list scripts on server
+  put <filename> [<target name>]
+                   - upload script to server
+  get <name> [<filename>]
+                   - get script. if no filename display to stdout
+  edit <name>      - edit a script, if not existent, create on save
+  delete <name>    - delete script.
+  activate <name>  - set a script as the active script
+  deactivate       - deactivate all scripts
+  quit             - quit
+"""
+
+__version__ = "0.8.1"
+__author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__copyright__ = ("Copyright (C) 2003-2024 by Hartmut Goebel "
+                 "<h.goebel@crazy-compilers.com>")
+__license__ = "GNU General Public License, version 3"
+
+import getpass
+import inspect
+import os
+import ssl
+import subprocess
+import sys
+from netrc import netrc
+
+import managesieve
+
+sieve = None
+
+
+class SUPPRESS:
+    "token for suppressing 'OK' after cmd execution"
+    pass
+
+
+# --- the order of functions determines the order for 'help' ---
+
+def cmd_help(cmd=None):
+    """help             - this screen (shortcut '?')
+help <command>   - help on command"""
+    # output order is the same as the sourcecode order
+    if cmd:
+        if cmd in __command_map:
+            cmd = __command_map[cmd]
+        if 'cmd_%s' % cmd in __commands:
+            print(__commands['cmd_%s' % cmd].__doc__)
+        else:
+            print('Unknown command', repr(cmd))
+            print("Type 'help' for list of commands")
+    else:
+        cmds = list(__commands.values())
+        cmds.sort(key=lambda a: a.__code__.co_firstlineno)
+        for c in cmds:
+            print(c.__doc__)
+    return SUPPRESS
+
+
+def cmd_list():
+    """list             - list scripts on server"""
+    res, scripts = sieve.listscripts()
+    if res == 'OK':
+        for scriptname, active in scripts:
+            if active:
+                print(scriptname, '\t<<-- active')
+            else:
+                print(scriptname)
+        res = SUPPRESS
+    return res
+
+
+def cmd_put(filename, scriptname=None):
+    """put <filename> [<target name>]
+                 - upload script to server"""
+    filename = os.path.expanduser(filename)
+    if not scriptname:
+        scriptname = os.path.basename(filename)
+    try:
+        scriptdata = open(filename, newline='').read()
+    except IOError as e:
+        print("Can't read local file %s:" % filename, e.args[1])
+        return SUPPRESS
+    return sieve.putscript(scriptname, scriptdata)
+
+
+def cmd_get(scriptname, filename=None):
+    """get <name> [<filename>]
+                 - get script. if no filename display to stdout"""
+    res, scriptdata = sieve.getscript(scriptname)
+    if res == 'OK':
+        if filename:
+            filename = os.path.expanduser(filename)
+            try:
+                open(filename, 'w', newline='').write(scriptdata)
+            except IOError as e:
+                print("Can't write local file %s:" % filename, e.args[1])
+                return SUPPRESS
+        else:
+            print(scriptdata)
+            res = SUPPRESS
+    return res
+
+
+def cmd_edit(scriptname):
+    """edit <name>      - edit a script, not existent, create on save"""
+
+    def Choice(msg, choices):
+        while 1:
+            answer = input(msg + ' ').strip()[:1].lower()
+            i = choices.find(answer)
+            if i >= 0:
+                # valid answer
+                return i
+            # else: continue loop
+
+    def YesNoQuestion(msg):
+        # Order 'ny' will return boolean values (y=1)
+        return Choice(msg + ' (y/n)', 'ny')
+
+    def SaveToFile(msg, scriptname, tmpname):
+        if not YesNoQuestion('%s Save script to file?' % msg):
+            return
+        scriptname = os.path.join(os.getcwd(), scriptname)
+        filename = input('Enter filename (default %s):' % scriptname)
+        if filename == '':
+            filename = scriptname
+        scriptdata = open(tmpname, newline='').read()
+        open(filename, 'w', newline='').write(scriptdata)
+
+    res, scripts = sieve.listscripts()
+    if res != 'OK':
+        return res
+    for name, active in scripts:
+        if name == scriptname:
+            res, scriptdata = sieve.getscript(scriptname)
+            if res != 'OK':
+                return res
+            break
+    else:
+        if not YesNoQuestion('Script not on server. Create new?'):
+            return 'OK'
+        # else: script will be created when saving
+        scriptdata = ''
+
+    import tempfile
+    filename = tempfile.mktemp('.siv')
+    open(filename, 'w', newline='').write(scriptdata)
+
+    editor = os.environ.get('EDITOR', 'vi')
+    while 1:
+        res = subprocess.call([editor, filename])
+        if res:  # error editing
+            if not YesNoQuestion('Editor returned failure. Continue?'):
+                os.remove(filename)
+                return SUPPRESS
+            else:
+                continue  # re-edit
+        # else: editing okay
+        while 1:
+            scriptdata = open(filename, newline='').read()
+            res = sieve.putscript(scriptname, scriptdata)
+            if res == 'OK':
+                print('Deleting tempfile.')
+                os.remove(filename)
+                return res
+            # res is NO, BYE
+            print(res, sieve.response_text or sieve.response_code)
+            if res == 'NO':
+                res = Choice('Upload failed. (E)dit/(R)etry/(A)bort?', 'era')
+                if res == 0:
+                    break  # finish inner loop, return to 'edit'
+                elif res == 1:  # retry upload
+                    continue
+                SaveToFile('', scriptname, filename)
+            else:  # BYE
+                SaveToFile('Server closed connection.', scriptname, filename)
+            print('Deleting tempfile.')
+            os.remove(filename)
+            return SUPPRESS
+    raise Exception("Should not come here.")
+
+
+if os.name != 'posix':
+    del cmd_edit
+
+
+def cmd_delete(scriptname):
+    """delete <name>    - delete script."""
+    return sieve.deletescript(scriptname)
+
+
+def cmd_activate(scriptname):
+    """activate <name>  - set a script as the active script"""
+    return sieve.setactive(scriptname)
+
+
+def cmd_deactivate():
+    """deactivate       - deactivate all scripts"""
+    return sieve.setactive('')
+
+
+def cmd_quit(*args):
+    """quit             - quit"""
+    print('quitting.')
+    if sieve:
+        try:
+            # this mysteriously fails at times
+            sieve.logout()
+        except Exception:
+            pass
+    raise SystemExit()
+
+
+# find all commands (using  introspection)
+# NB: edit os only available when running on a posix system
+__commands = dict([c
+                   for c in inspect.getmembers(sys.modules[__name__],
+                                               inspect.isfunction)
+                   if c[0].startswith('cmd_')
+                   ])
+
+# command aliases/shortcuts
+__command_map = {
+    '?': 'help',
+    'h': 'help',
+    'q': 'quit',
+    'l': 'list',
+    'del': 'delete',
+    }
+
+
+def shell(auth, user=None, passwd=None, realm=None,
+          authmech='', server='', use_tls=0, port=managesieve.SIEVE_PORT,
+          tls_verify=True):
+    """Main part"""
+
+    def cmd_loop():
+        """Command loop: read and execute lines from stdin."""
+        global sieve
+        while 1:
+            line = input('> ')
+            if not line:
+                # EOF/control-d
+                cmd_quit()
+                break
+            line = line.strip()
+            if not line:
+                continue
+            # todo: parse command line correctly
+            line = line.split()
+            cmd = __command_map.get(line[0], line[0])
+            cmdfunc = __commands.get('cmd_%s' % cmd)
+            if not cmdfunc:
+                print('Unknown command', repr(cmd))
+            else:
+                if __debug__: result = None  # noqa: E701
+                try:
+                    result = cmdfunc(*line[1:])
+                except TypeError as e:
+                    if str(e).startswith('%s() takes' % cmdfunc.__name__):
+                        print('Wrong number of arguments:')
+                        print('\t', cmdfunc.__doc__)
+                        continue
+                    else:
+                        raise
+                assert result is not None
+                if result == 'OK':
+                    print(result)
+                elif result is SUPPRESS:
+                    # suppress 'OK' for some commands (list, get)
+                    pass
+                else:
+                    print(result, sieve.response_text or sieve.response_code)
+                    if result == "BYE":
+                        # quit when server send BYE
+                        cmd_quit()
+
+    global sieve
+
+    # Parameters need to be given
+    assert auth, "Missing authname"
+    assert user, "Missing user"
+    assert passwd, "Missing password"
+    assert server, "Missing server"
+    try:
+        print('connecting to', server, 'as user', user)
+        sieve = managesieve.MANAGESIEVE(server, port=port, use_tls=use_tls,
+                                        tls_verify=tls_verify)
+        print('Server capabilities:', *sieve.capabilities)
+        try:
+            if not authmech:
+                # auto-select best method available
+                res = sieve.login(auth, user, passwd)
+            elif authmech.upper() == 'LOGIN':
+                # LOGIN does not support authenticator
+                res = sieve.authenticate(authmech, user, passwd)
+            else:
+                res = sieve.authenticate(authmech, auth, user, passwd)
+        except sieve.error as e:
+            print("Authenticate error:", e)
+            cmd_quit()
+        if res != 'OK':
+            print(res, sieve.response_text or sieve.response_code)
+            cmd_quit()
+        cmd_loop()
+    except ssl.SSLCertVerificationError as ex:
+        print("Error: "
+              "Verification of the TLS certificate failed with error message",
+              file=sys.stderr)
+        print("      ", ex.verify_message, file=sys.stderr)
+        raise SystemExit(1)
+    except (KeyboardInterrupt, EOFError):
+        print()
+        cmd_quit()
+
+
+def get_netrc(server):
+    """
+    Returns the login/password value from the user's .netrc file if present
+    """
+    try:
+        rc = netrc().authenticators(server)
+        if rc is not None:
+            return (rc[0], rc[2])
+    except Exception:
+        # if reading or parsing the file fails, ignore it
+        pass
+    return (None, None)
+
+
+def main():
+    """Parse options and call interactive shell."""
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument('--authname',
+                        help="The user to use for authentication "
+                             "(defaults to current user).")
+    parser.add_argument('--user', dest='username',
+                        help=("The authorization name to request; "
+                              "by default, derived from the "
+                              "authentication credentials."))
+    parser.add_argument('--passwd',
+                        help="The password to use. You can also use "
+                             "the environment variable SIEVE_PASSWORD.")
+    parser.add_argument('--realm',
+                        help="The realm to attempt authentication in.")
+    parser.add_argument('--auth-mech', default="",
+                        help="The SASL authentication mechanism to use "
+                             "(default: auto select; available: %s)." %
+                             ', '.join(map(str, managesieve.AUTHMECHS)))
+    parser.add_argument('--script', '--script-file',
+                        help="Instead of working interactively, run "
+                             "commands from SCRIPT, and exit when done.")
+    parser.add_argument('--use-tls', '--tls', action="store_true",
+                        default=True,
+                        help=("Use secure transport (TLS), "
+                              "this is the default."))
+    parser.add_argument('--insecure-transport', '--no-tls', dest="use_tls",
+                        action="store_false",
+                        help="Enforce to not use secure transport (TLS)")
+    parser.add_argument('--no-tls-verify', dest='tls_verify', default=True,
+                        action='store_false',
+                        help="Don't verify server certificate when using TLS")
+    parser.add_argument('--port', type=int, default=managesieve.SIEVE_PORT,
+                        help="The TCP port number to connect to "
+                             "(default: %(default)s)")
+    parser.add_argument('-v', '--verbose', action='count', default=0,
+                        help='Be verbose. May be given several times '
+                             'to increase verbosity')
+    parser.add_argument('server')
+
+    args = parser.parse_args()
+
+    if args.auth_mech and not args.auth_mech.upper() in managesieve.AUTHMECHS:
+        parser.error(
+            "Authentication mechanism %s is not supported. Choose one of %s"
+            % (args.auth_mech.upper(), ', '.join(managesieve.AUTHMECHS)))
+
+    if not (1 <= args.port <= 65535):
+        parser.error("The TCP port number must be between 1 and 65535")
+
+    if args.verbose:
+        level = managesieve.INFO
+        if args.verbose > 1:
+            level = managesieve.DEBUG0 - (args.verbose-2)
+        import logging
+        logging.basicConfig(level=level, format="%(message)s")
+
+    # The following assignments define the priority of the different
+    # configuration methods (cmdline > env > netrc > ask the user)
+    env_authname = os.environ.get('SIEVE_AUTHNAME')
+    env_passwd = os.environ.get('SIEVE_PASSWORD')
+    netrc_authname, netrc_passwd = get_netrc(args.server)
+    args.authname = (
+        args.authname if args.authname is not None
+        else env_authname if env_authname is not None
+        else netrc_authname if netrc_authname is not None
+        else getpass.getuser()
+    )
+    args.username = (
+        args.username if args.username is not None
+        else args.authname
+    )
+    args.passwd = (
+        args.passwd if args.passwd is not None
+        else env_passwd if env_passwd is not None
+        else netrc_passwd if netrc_passwd is not None
+        else getpass.getpass()
+    )
+
+    shell(args.authname, args.username, args.passwd,
+          args.realm, args.auth_mech, args.server, args.use_tls,
+          args.port, args.tls_verify)
+    return 0
+
+
+if __name__ == "__main__":
+    if __doc__ is None:
+        raise SystemExit("Must not be run with python option '-OO' "
+                         "(removed doc-strings)")
+    raise SystemExit(main())

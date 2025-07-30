@@ -1,0 +1,212 @@
+0.8.1 (2025-05-29)
+------------------
+
+:general:
+   - Add support for Python 3.13.
+   - Update and clean up setup and build files.
+
+
+0.8 (2024-03-18)
+----------------
+
+Author: Hartmut Goebel.
+Thanks to Thomas Erbesdobler, Дилян Палаузов and Andrew Imeson.
+
+:managesieve:
+   - Add support for the UNAUTHENTICATE command.
+   - Add a socket timeout parameter.
+   - Add support for IPv6.
+   - Allow disabling certificate verification.
+   - Follow the 'Logging for a Library' guideline.
+   - BREAKING: Rearrange DEBUG logging levels to be more reasonable.
+     See :doc:`Logging` for details.
+
+:sieveshell:
+   - Add option '--no-tls-verify'.
+   - Improve error message if TLS certificate verification fails.
+   - Keep line-endings on file IO.
+   - Remove temporary file on successful edit, too.
+   - Fix: Pass to sieve.login() the Authorization ID
+
+:general:
+   - Add support for Python 3.12.
+   - Improve testing, add a tox.ini file and add CI/CD.
+   - Fix SPDX license identifier.
+   - Fix several typos.
+   - Lint all the code.
+   - Remove unused code.
+
+
+0.7.1 (2021-03-11)
+------------------
+
+Author: Hartmut Goebel, Thanks to Wouter Bolsterlee.
+
+:managesieve:
+   - Actually raise debug-only exceptions instead of just returning them.
+   - Fix invalid string-escape in docstring.
+   - Some minor clean-up.
+
+:sieveshell:
+   - Some minor clean-up.
+
+
+0.7 (2021-03-05)
+----------------
+
+Author: Hartmut Goebel
+
+:sieveshell:
+
+   - For ``get`` and ``put`` expand ``~`` and ``~user`` constructions in
+     `filename` . For ``put``, if script-name is not given, the file's
+     basename is used.
+
+:managesieve:
+   - Fix error when constructing debug error message.
+
+
+0.6 (2018-06-27)
+----------------
+
+Author: Hartmut Goebel
+
+* Add support for Python 3. Minimum required Python version is now
+  Python 2.7.
+* Homepage is now hosted at https://managesieve.readthedocs.io/
+* Documentation is extended and includes API documentation.
+
+:sieveshell:
+   - Security fix: No longer leak environment variable SIEVE_PASSWORD
+     when displaying usage help.
+   - Per default enforce secure transport. Suggested by Jan Zerebecki.
+   - Add possibility to use username/password from the .netrc file.
+     The order is: command line options -> environment variables ->
+     .netrc file -> ask user. Thanks to Grégoire Détrez.
+
+:managesieve:
+   - Fail if TLS is requested, but server doesn't support TLS.
+     Suggested by Jan Zerebecki.
+
+:project:
+   - Rework and enhance test-suite. Thanks to Matěj Cepl for nudging
+     to proper pytest integration.
+   - Lots if internal cleanup.
+
+
+Version 0.5 (2013-03-24)
+----------------------------
+
+Author: Hartmut Goebel
+
+:sieveshell:
+  - Changed default port for the MANAGESIEVE protocol to 4190 as
+    proposed by RFC 5804. Thanks to Guido Berhoerster for submitting
+    the patch.
+  - Added option ``--port``. Thanks to Damien Aumaitre for submitting
+    the patch and to Guido Berhoerster for an enhancement.
+  - Added option ``--verbose`` for controlling debug output in
+    managesieve. May be given several times to increase verbosity.
+
+:managesieve:
+  - Switched to Python standard logging system.
+    This introduces a minor interface change: MANAGESIEVE.debug and
+    global Debug are gone. See source for information about debugging
+    log levels.
+
+
+Version 0.4.2 (2010-01-06)
+----------------------------
+
+Author: Hartmut Goebel
+
+:managesieve:
+  - Use ssl.wrap_socket() instead of deprecated socket.ssl().
+    Thanks to Guido Berhoerster for submitting the patch.
+
+
+Version 0.4.1 (2009-10-08)
+----------------------------
+
+Author: Hartmut Goebel
+
+:managesieve:
+  - fixed short read (thanks to paurkedal for submitting the patch)
+
+
+Version 0.4 (2008-10-13)
+----------------------------
+
+Author: Hartmut Goebel
+
+:managesieve:
+  - now work with Python 2.3 and later
+  - added support for TLS (STARTTLS), special thanks to Gregory Boyce
+    for fixing some corner cases here
+  - added support for PLAIN authentication
+  - use optparse if available instead of optik.
+  - API change: login() no longer uses the LOGIN authentication
+    mechanism, but has become a  convenience function. It uses the best
+    mechanism available for authenticating the user.
+
+  * Bugfixes:
+
+    - If a capability had no values (like 'STARTTLS'), parsing
+      capabilities failed. Fixed.
+    - removed dependency on some imaplib's private functions
+    - fixed typo: self.supports_tls
+
+  Thanks to Tomas 'Skitta' Lindroos, Lorenzo Boccaccia, Alain Spineux,
+  darkness and Gregory Boyce for sending patches.
+
+:sieveshell:
+  - added support for different authentication mechanisms
+  - added option --start-tls
+  - more verbose output when server says "BYE" (prints out referrals
+    etc.)
+  - automatic cmd_quit() when server says "BYE"
+  - several minor bugfixes and enhancements
+
+
+Version 0.3
+----------------------------
+
+Author: Hartmut Goebel
+
+:managesieve:
+  - MANAGESIEVE.authenticate() now only returns a OK/NO/BYE result
+    like any command not asking data from the server
+
+:sieveshell:
+  - added 'edit', which may create scripts, too. (posix only)
+  - now prints out the server capabilities, thus the user knows what
+    the server is capable of (and which Sieve-Commands may be used).
+  - fixed some minor bugs
+
+
+Version 0.2
+----------------------------
+
+Author: Hartmut Goebel <h.goebel@crazy-compilers.com>
+
+- renamed to 'managesieve'
+- added sieveshell
+- major overhaul
+- added support for HAVESPACE, CAPABILITY
+- added unittest testsuite (covers most cases)
+
+
+Version 0.1
+----------------------------
+
+Author: Ulrich Eck <ueck at net-labs.de>
+
+- initial release of Sieve.py by Ulrich Eck as part of 'ImapClient'
+  (see http://www.zope.org/Members/jack-e/ImapClient), a Zope product.
+
+
+.. Emacs config:
+  Local Variables:
+  mode: rst
+  ispell-local-dictionary: "american"
+  End:
