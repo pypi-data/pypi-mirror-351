@@ -1,0 +1,6 @@
+{% spaceless %}{% load rijkshuisstijl_form %}
+<div class="filter{% if class %} {{ class }}{% endif %}{% if filter_target %} filter--filter{% endif %}"{% if filter_target %} data-filter-target="{{ filter_target }}"{% endif %}>
+    {% form_input class=input_class placeholder=label_placeholder type='search' name=name value=value %}
+</div>
+{% endspaceless %}
+

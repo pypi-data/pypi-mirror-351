@@ -1,0 +1,23 @@
+{% load rijkshuisstijl %}{% singleline %}
+
+    {% comment %}
+
+    class: Sets additional wrapper classes.
+    href: Sets the link href.
+    icon: Adds an icon to the button.
+    icon_src: Adds an icon to the button (src).
+    id: Sets the button id.
+    title: Sets the button title.
+    target: Sets the link target.
+
+    {% endcomment %}
+
+    <a class="button{% if far_icon or fas_icon or icon or icon_src %} button--icon{% endif %}{% if not label %} button--no-text{% endif %}{% if class %} {{ class }}{% endif %}"
+        {% if href %} href="{{ href }}"{% endif %}
+        {% if id %} id="{{ id }}"{% endif %}
+        {% if target %} target="{{ target }}"{% endif %}
+        {% if title %} title="{{ title }}"{% endif %}>
+
+        {% include 'rijkshuisstijl/components/button/label.html' with class=class label=label far_icon=far_icon fas_icon=fas_icon icon=icon icon_src=icon_src only %}
+    </a>
+{% endsingleline %}

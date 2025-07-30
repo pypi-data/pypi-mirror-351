@@ -1,0 +1,90 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/animation';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/responsive';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import 'constants';
+
+
+.search {
+  @include animate;
+  @include responsive(width, 100%, $search-height);
+  overflow: hidden;
+  position: relative;
+
+  &--initial,
+  &--open {
+    @include tablet {
+      width: 100%;
+    }
+  }
+
+  &__input {
+    @include body;
+    @include container-padding;
+    appearance: none;
+    border: none;
+    border-radius: 0;
+    box-sizing: border-box;
+    height: $search-height;
+    line-height: $search-height;
+    outline: 0;
+    width: 100%;
+
+    &::-ms-clear {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    &::-ms-reveal {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    &::-webkit-clear-button,
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      display: none;
+    }
+  }
+
+  .button {
+    @include center-v($search-height, $search-height);
+    border: none;
+    outline: none;
+  }
+
+  .button--primary {
+    right: 0;
+  }
+
+  .button--secondary {
+    color: $search-color-button-active;
+    opacity: 0;
+    right: $search-height;
+  }
+
+  .button--secondary .icon:before {
+    background-color: transparent;
+  }
+
+  input:not(:placeholder-shown) ~ .button--secondary {
+    opacity: 1;
+  }
+
+  &--initial .button--primary,
+  &--open .button--primary {
+    @include tablet {
+      background-color: $search-color-button-active;
+    }
+  }
+
+  .button .icon {
+    @include center-hv;
+  }
+}

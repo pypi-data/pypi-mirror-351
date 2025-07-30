@@ -1,0 +1,22 @@
+{% load rijkshuisstijl sitetree %}{% singleline %}
+{% if sitetree_items|length_is:"1" %}
+{% elif sitetree_items %}
+    <ul class="breadcrumbs">
+        {% for item in sitetree_items %}
+            {% sitetree_url for item as href %}
+
+            <li class="breadcrumbs__list-item">
+                {% if href == '/' %}{% icon 'fa-home' %}{% endif %}
+
+                <a class="breadcrumbs__link" href="{{ href }}">
+                    {{ item.title_resolved|default:item.title }}
+                </a>
+
+                {% if not forloop.last %}
+                    {% icon 'delta-rechts-light' %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endsingleline %}

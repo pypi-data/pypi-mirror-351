@@ -1,0 +1,50 @@
+{% load l10n rijkshuisstijl %}{% singleline %}
+    {#  Subtitle (groups). #}
+    {% if group.object_list and group.label %}
+        <thead class="datagrid__table-head datagrid__table-head--group">
+        <tr class="datagrid__row">
+            <th class="datagrid__caption datagrid__caption--group" colspan="
+                    {% if form %}{{ columns|length|add:1 }}{% else %}{{ columns|length }}{% endif %}">
+                <h4 class="datagrid__subtitle">{{ group.label }}</h4>
+            </th>
+        </tr>
+        </thead>
+    {% endif %}
+
+
+    {# Body. #}
+    <tbody class="datagrid__table-body">
+    {% endsingleline %}
+        {% for object in group.object_list %}
+            {% firstof forloop.counter|upper as index %}
+            {% firstof group.id|add:'-row-'|add:index as row_id %}
+
+            {% url url_reverse object.pk|unlocalize as reversed_url %}
+            {% firstof reversed_url object.get_absolute_url as url %}
+
+
+            {# Row. #}
+            {% if formset %}
+                {% for formset_form in formset.forms %}
+                    {% if formset_form.instance == object %}
+                        {% include 'rijkshuisstijl/components/datagrid/datagrid-row.html' with id=id row_id=row_id object=object form=form url=url columns=columns form=form form_checkbox_name=form_checkbox_name formset_form=formset_form modifier_column=modifier_column urlize=urlize urlizetrunc=urlizetrunc only %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% include 'rijkshuisstijl/components/datagrid/datagrid-row.html' with id=id row_id=row_id form=form object=object url=url columns=columns form=form form_checkbox_name=form_checkbox_name modifier_column=modifier_column urlize=urlize urlizetrunc=urlizetrunc only %}
+            {% endif %}
+        {% endfor %}
+    {% singleline %}
+
+
+    {# No results. #}
+    {% if not group.object_list and group.default %}
+        <tr class="datagrid__row datagrid__row--placeholder">
+            <td class="datagrid__cell" colspan="
+                {% if form %}{{ columns|length|add:1 }}{% else %}{{ columns|length }}{% endif %}">
+                {{ label_no_results }}
+            </td>
+        </tr>
+    {% endif %}
+    </tbody>
+{% endsingleline %}

@@ -1,0 +1,6 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/typography';
+
+.wysiwyg {
+  @include wysiwyg($not-me: '.button');
+}

@@ -1,0 +1,23 @@
+@import '../../settings/all';
+@import "~microscope-sass/lib/grid";
+@import "~microscope-sass/lib/responsive";
+@import "~microscope-sass/lib/transform";
+
+.row {
+  @include container;
+
+  &--overlay {
+    @include laptop {
+      @include translate(null, -50%);
+    }
+  }
+
+  &__column {
+    @include columns-smart(4, 4.5, 3, 3);
+    @include gutter(margin-top);
+
+    &:last-child {
+      @include gutter(margin-bottom);
+    }
+  }
+}

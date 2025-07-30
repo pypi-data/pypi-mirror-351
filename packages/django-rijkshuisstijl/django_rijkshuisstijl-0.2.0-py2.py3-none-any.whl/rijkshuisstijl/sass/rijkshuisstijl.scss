@@ -1,0 +1,18 @@
+@import './settings/all';
+@import './components/all';
+
+
+@media print {
+  *:not([class^=fa ]) {
+    font-family: "RO Serif" !important;
+  }
+
+  @page {
+    margin: 1cm;
+  }
+
+  @page :first {
+    margin-top: 52mm;
+  }
+}
+

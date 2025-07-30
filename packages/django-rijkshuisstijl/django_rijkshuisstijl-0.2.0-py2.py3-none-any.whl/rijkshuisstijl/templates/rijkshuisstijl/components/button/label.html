@@ -1,0 +1,19 @@
+{% spaceless %}{% load rijkshuisstijl %}
+    {% if 'button--icon-right' in class and not 'button--no-text' in class and label %}
+        <span class="button__label">{{ label }}</span>
+    {% endif %}
+
+    {% if far_icon %}
+        <span class="far fa-{{ far_icon }}"></span>
+    {% elif fas_icon %}
+        <span class="fas fa-{{ fas_icon }}"></span>
+    {% elif icon_src %}
+        <span class="button__icon">{% icon src=icon_src label=label %}</span>
+    {% elif icon %}
+        <span class="button__icon">{% icon icon label=label %}</span>
+    {% endif %}
+
+    {% if not 'button--icon-right' in class and not 'button--no-text' in class and label %}
+        <span class="button__label">{{ label }}</span>
+    {% endif %}
+{% endspaceless %}

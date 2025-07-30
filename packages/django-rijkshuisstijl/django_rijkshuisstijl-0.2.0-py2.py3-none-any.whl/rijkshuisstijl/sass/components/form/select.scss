@@ -1,0 +1,87 @@
+@import '../../settings/all';
+@import '../../settings/lib/ro-shade';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import 'constants';
+@import 'mixins';
+
+.select {
+  @include input;
+  padding-right: $grid-row-height + $input-padding-h;
+
+  &::-ms-expand {
+    display: none;
+  }
+
+  &:not([multiple]) {
+    background: $select-background-dropdown, $input-background-button;
+    @include color-background;
+  }
+
+  &--light#{&}:not([multiple]) {
+    background: $select-background-dropdown-gray;
+    @include color-background;
+  }
+
+  &[multiple],
+  &--multiple {
+    @include rows(3, min-height);
+    padding: 0 !important;
+  }
+
+  &--big {
+    line-height: $grid-row-height - 2 * $typography-size-border;
+  }
+
+  &--big-responsive {
+    @include laptop {
+      line-height: $grid-row-height - 2 * $typography-size-border;
+    }
+  }
+
+  &__option {
+    @include text;
+    padding: 0 $input-padding-h;
+  }
+
+  //
+  // Add support for data-placeholder.
+  //
+
+  &-wrapper {
+    position: relative;
+  }
+
+  &-wrapper & {
+  }
+
+  &-wrapper &:not(#{&}--has-value) {
+    color: rgba(1, 0, 0, 0);  // 1 prevents converting CSS rule to "transparent" which doesn't work on IE11.
+    background-color: transparent;
+  }
+
+  &__placeholder {
+    @include body;
+    @include color-background;
+    @include ellipsis;
+    @include overlay;
+    box-sizing: border-box;
+    color: $input-color-placeholder;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 $input-padding-h;
+    z-index: 0;
+  }
+
+  &--contrast &__placeholder {
+    @include shade(1, background-color, $force: true);
+    @include shade(5, color);
+  }
+
+  &--small &__placeholder {
+    @include body--small;
+  }
+}

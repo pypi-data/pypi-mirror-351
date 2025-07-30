@@ -1,0 +1,15 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+
+.layout {
+  &--auto-columns &__section {
+    @include tablet {
+      column-count: 2;
+      column-gap: 0;
+    }
+  }
+
+  &--auto-columns &__section > * {
+    break-inside: avoid;
+  }
+}

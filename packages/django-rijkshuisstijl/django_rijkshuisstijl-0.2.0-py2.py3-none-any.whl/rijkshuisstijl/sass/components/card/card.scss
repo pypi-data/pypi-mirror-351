@@ -1,0 +1,27 @@
+@import '../../settings/all';
+@import "~microscope-sass/lib/color";
+@import "~microscope-sass/lib/typography";
+@import "~microscope-sass/lib/grid";
+
+$card-spacing: $grid-margin-1;
+
+.card {
+  @include color-secondary(background-color);
+  @include container-padding($size: small, $properties: padding);
+
+  &__title:not(:last-child),
+  &__text:not(:last-child),
+  .wysiwyg:not(:last-child) {
+    margin-bottom: $card-spacing
+  }
+
+  &__title {
+    @include h2;
+    margin-bottom: $card-spacing;
+  }
+
+  &__text {
+    @include body;
+
+  }
+}

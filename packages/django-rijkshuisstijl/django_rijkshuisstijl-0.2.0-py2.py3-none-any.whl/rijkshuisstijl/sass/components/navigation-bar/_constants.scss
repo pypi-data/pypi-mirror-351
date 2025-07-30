@@ -1,0 +1,9 @@
+@import '../../settings/grid';
+@import '~microscope-sass/lib/grid';
+@import '../search/constants';
+
+
+$navigation-bar-min-height-tablet: 70px!default;
+$navigation-bar-min-height-tablet-compact: $grid-row-height!default;
+$navigation-bar-min-height-tablet-stuck: $navigation-bar-min-height-tablet-compact!default;
+$navigation-bar-height-search: $search-height!default;

@@ -1,0 +1,12 @@
+@import '../../settings/typography';
+@import '../../settings/grid';
+@import '~microscope-sass/lib/typography';
+@import '~microscope-sass/lib/grid';
+
+$datagrid-offset-caption: $grid-row-height!default;
+$datagrid-offset-filter-tablet: $typography-line-height-text-small-tablet * $typography-font-size-text-small-tablet!default;
+$datagrid-offset-filter-desktop: $typography-line-height-text-small-desktop * $typography-font-size-text-small-desktop!default;
+$datagrid-spacing: $grid-container-padding!default;
+$datagrid-spacing-row-h: $datagrid-spacing!default;
+$datagrid-spacing-row-v: calc((#{$grid-row-height} - #{$typography-line-height-text} * 1em) / 2)!default;
+$datagrid-spacing-cell-h: ($datagrid-spacing-row-h / 2) + $datagrid-spacing-row-h!default;

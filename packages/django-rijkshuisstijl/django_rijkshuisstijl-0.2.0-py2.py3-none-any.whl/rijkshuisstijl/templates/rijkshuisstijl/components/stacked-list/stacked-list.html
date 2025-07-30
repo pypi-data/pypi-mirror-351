@@ -1,0 +1,13 @@
+{% spaceless %}
+    <ul class="stacked-list{% if class %} {{ class }}{% endif %}">
+        {% for item in items %}
+            <li class="stacked-list__item">{% spaceless %}
+            {% if item.url %}
+                <a class="stacked-list__link" href="{{ item.url }}">{% firstof item.label item %}</a>
+            {% else %}
+                {% firstof item.label item %}
+            {% endif %}
+            {% endspaceless %}</li>
+        {% endfor %}
+    </ul>
+{% endspaceless %}

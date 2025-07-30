@@ -1,0 +1,136 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/typography';
+@import '~microscope-sass/lib/responsive';
+@import 'constants';
+
+.form-control {
+  @include responsive(flex-direction, column, row);
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  position: relative;
+
+  &--error .input,
+  &--error .select,
+  &--error .textarea {
+    @include shade-color(red, $property: outline-color, $force: true);
+    outline: 2px solid;
+  }
+
+  &--stacked {
+    flex-direction: column;
+  }
+
+  &__header {
+    @include responsive(display, block, flex);
+    @include responsive(width, 100%, $label-width);
+    @include responsive(margin-bottom, $form-control-margin-top, 0);
+    flex-direction: column;
+  }
+
+  &--stacked &__header {
+    width: 100%;
+  }
+
+  &__header .label {
+    align-self: flex-start;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  &:not(#{&}--compact) &__header .label {
+    padding-top: calc((#{$grid-row-height} - #{$typography-line-height-text * 1em}) / 2);
+  }
+
+  &__body {
+    font-size: 0;
+    width: 100%;
+  }
+
+  &--stacked &__body {
+    margin-bottom: $form-control-margin-top;
+  }
+
+  &:not(#{&}--stacked) &__header + &__body {
+    @include tablet {
+      margin-left: $form-control-spacing !important;
+      width: calc(100% - #{$label-width} - #{$form-control-spacing});
+    }
+  }
+
+  &__body > * {
+    width: 100%;
+  }
+
+  .input, .select, .textarea {
+    z-index: 10;
+  }
+
+  &--compact .textarea {
+    min-height: 0;
+  }
+
+  &--compact .textarea:not(:focus) {
+    @include responsive(height, calc(#{$typography-line-height-text-mobile} * 1em), calc(#{$typography-line-height-text-tablet} * 1em), calc(#{$typography-line-height-text-laptop} * 1em), calc(#{$typography-line-height-text-desktop} * 1em));
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  &:not(#{&}--compact) {
+    .input, .input__filepicker, .select {
+      &:not([type=checkbox]):not([type=radio]) {
+        @include rows(1);
+      }
+    }
+  }
+
+  &__choices {
+    display: flex;
+    flex-direction: column;
+
+    @include tablet {
+      margin-top: calc((#{$checkbox-size} - #{$typography-line-height-text * 1em}) / 2);
+    }
+  }
+
+  &--choices-stacked &__choices {
+    flex-direction: column;
+  }
+
+  &--choices-stacked &__choices .checkbox,
+  &--choices-stacked &__choices .radio {
+    &:not(:last-child) {
+      margin-bottom: $form-control-margin-top;
+    }
+  }
+
+  &--choices-stacked &__choices .checkbox + .help-text,
+  &--choices-stacked &__choices .radio + .help-text {
+    margin-top: -$form-control-margin-top;
+  }
+
+  &__choices > * {
+    @include mobile-only {
+      margin-bottom: $input-padding-h;
+
+      &:first-child {
+        margin-top: $input-padding-h;
+      }
+    }
+  }
+
+  &:not(#{&}--choices-stacked) &__choices > *:not(:last-child) {
+    margin-right: $input-padding-h;
+  }
+
+  &__body > .checkbox {
+    @include tablet {
+      margin-top: calc((#{$checkbox-size} - #{$typography-line-height-text * 1em}) / 2);
+    }
+  }
+
+  &__link {
+    @include anchor;
+  }
+}

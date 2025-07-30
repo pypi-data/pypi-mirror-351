@@ -1,0 +1,18 @@
+{% spaceless %}{% load i18n rijkshuisstijl sitetree %}
+    <nav class="navigation-bar{% if class %} {{ class }}{% endif %}">
+        <div class="navigation-bar__body">
+            {% login_bar config=config class=None %}
+            {% sitetree_menu from 'navigation-bar' include 'trunk,topmenu' template 'rijkshuisstijl/components/navigation-bar/menu.html' %}
+
+            {% if search_url %}
+                <div class="navigation-bar__actions">
+                    {% search request=request url=search_url label_placeholder=search_placeholder method=search_method name=search_name %}
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% if show_breadcrumbs %}
+        {% sitetree_breadcrumbs from "navigation-bar" template 'rijkshuisstijl/components/navigation-bar/breadcrumbs.html' %}
+    {% endif %}
+{% endspaceless %}

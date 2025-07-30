@@ -1,0 +1,10 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/typography';
+
+dateinput-picker {
+  position: absolute;
+}
+
+dateinput-picker:not(foo) + input {
+    color: $typography-color-text !important;
+}

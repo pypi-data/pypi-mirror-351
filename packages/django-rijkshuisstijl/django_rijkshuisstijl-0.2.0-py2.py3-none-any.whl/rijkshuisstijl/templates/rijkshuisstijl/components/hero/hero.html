@@ -1,0 +1,12 @@
+{% load rijkshuisstijl %}{% spaceless %}
+    <div class="hero{% if class %} {{ class }}{% endif %}">
+        {% image config=image_config %}
+
+        {% if title or body %}
+        <div class="hero__body">
+            {% if title %}<h1 class="hero__title">{{ title }}</h1>{% endif %}
+            {% if body %}<h1 class="hero__text">{{ body }}</h1>{% endif %}
+        </div>
+        {% endif %}
+    </div>
+{% endspaceless %}

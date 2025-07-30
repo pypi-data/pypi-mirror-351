@@ -1,0 +1,6 @@
+{% spaceless %}{% load i18n rijkshuisstijl static %}
+    <a class="logo{% if class %} {{ class }}{% endif %}" href="/">
+        {% image alt=alt mobile_src=mobile_src src=src %}
+    </a>
+{% endspaceless %}
+

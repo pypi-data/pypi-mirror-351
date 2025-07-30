@@ -1,0 +1,43 @@
+@import '../../settings/all';
+@import '../../settings/lib/sticky';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/typography';
+@import '~microscope-sass/lib/transform';
+@import './constants';
+
+
+.breadcrumbs {
+  @include color-secondary(background-color);
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  @include tablet {
+    @include sticky();
+    z-index: 1000;
+  }
+
+  &__list-item {
+    display: flex;
+    align-items: center;
+    height: $breadcrumbs-min-height;
+  }
+
+  &__link {
+    @include anchor(true);
+    @include body;
+    @include gutter(padding-left);
+    @include gutter(padding-right);
+  }
+
+  .fas:first-child {
+    @include gutter(padding-left);
+  }
+
+  .icon:before {
+    @include scale(0.75);
+  }
+}

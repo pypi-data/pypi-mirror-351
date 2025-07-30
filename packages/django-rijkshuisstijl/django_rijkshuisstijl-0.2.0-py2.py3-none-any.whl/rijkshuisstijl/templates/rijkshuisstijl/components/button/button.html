@@ -1,0 +1,38 @@
+{% load rijkshuisstijl %}{% singleline %}
+
+    {% comment %}
+
+    class: Sets additional wrapper classes.
+    icon: Adds an icon to the button.
+    icon_src: Adds an icon to the button (src).
+    id: Sets the button id.
+    name: Sets the button name.
+    value: Sets the button value.
+    title: Sets the button title.
+    type: Sets the button type.
+    size: Sets the button size.
+    disabled: Makes the button disabled.
+    focus_target: Allow a queryselector for other elements to be passed, this element will be focussed on click.
+    toggle_target: Allow a queryselector for other elements to be passed, this element will toggle modifier [toggle_modifier] on click.
+    toggle_modifier: Modifier applied to toggle_target on click, actual toggle class is button--[toggle-modifier]
+    toggle_link_mode: Link mode for toggle.js.
+
+    {% endcomment %}
+
+    <button class="button{% if far_icon or fas_icon or icon or icon_src %} button--icon{% endif %}{% if not label %} button--no-text{% endif %}{% if class %} {{ class }}{% endif %}{% if toggle_target %} toggle{% endif %}"
+            {% if id %} id="{{ id }}"{% endif %}
+            {% if name %} name="{{ name }}"{% endif %}
+            {% if value %} value="{{ value }}"{% endif %}
+            {% if title %} title="{{ title }}"{% endif %}
+            {% if type %} type="{{ type }}"{% endif %}
+            {% if disabled %} disabled{% endif %}
+            {% if focus_target %} data-focus-target="{{ focus_target }}"{% endif %}
+            {% if toggle_target %} data-toggle-target="{{ toggle_target }}" data-toggle-modifier="{{ toggle_modifier }}"{% endif %}
+            {% if toggle_mobile_state %}data-toggle-mobile-state="{{ toggle_mobile_state }}"{% endif %}
+            {% if toggle_link_mode %}data-toggle-link-mode="{{ toggle_link_mode }}"{% endif %}
+            {% if toggle_operation %}data-toggle-operation="{{ toggle_operation }}"{% endif %}
+            {% if form %}form="{{ form }}"{% endif %}>
+
+        {% include 'rijkshuisstijl/components/button/label.html' with class=class label=label far_icon=far_icon fas_icon=fas_icon icon=icon icon_src=icon_src only %}
+    </button>
+{% endsingleline %}

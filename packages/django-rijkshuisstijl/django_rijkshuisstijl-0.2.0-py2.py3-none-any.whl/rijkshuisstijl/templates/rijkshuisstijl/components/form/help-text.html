@@ -1,0 +1,5 @@
+{% spaceless %}
+    <div class="help-text">
+        <label class="help-text__body" {% if for %} for="{{ for }}"{% endif %}>{{ help_text|safe }}</label>
+    </div>
+{% endspaceless %}

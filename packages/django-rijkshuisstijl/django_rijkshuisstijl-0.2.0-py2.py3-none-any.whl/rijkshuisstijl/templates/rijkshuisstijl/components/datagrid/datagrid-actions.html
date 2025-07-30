@@ -1,0 +1,17 @@
+{% spaceless %}{% load rijkshuisstijl %}
+    {% if form_select and form_options %}
+        <li class="toolbar__list-item">
+            {% form_select config=form_select %}
+        </li>
+    {% endif %}
+
+    {% for item in form_buttons %}
+        <li class="toolbar__list-item">
+            {% if item.href %}
+                {% button_link config=item %}
+            {% else %}
+                {% button config=item %}
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endspaceless %}

@@ -1,0 +1,140 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/typography';
+@import "../../settings/lib/ro-shade";
+@import "../../settings/lib/sticky";
+
+$tabs-spacing-h: $grid-margin-3;
+$tabs-spacing-v: $grid-margin-1;
+$tabs-height-spacer: $grid-margin-6;
+
+
+.tabs {
+  &__navigation {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  &--sticky &__navigation {
+    @include laptop {
+      @include sticky();
+      z-index: 100;
+    }
+  }
+
+  &__list {
+    @include responsive(flex-direction, column, column, row);
+    display: flex;
+    justify-content: stretch;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__list-item {
+    @include color-primary;
+    outline: 2px solid transparent;
+    position: relative;
+    width: auto;
+  }
+
+  &__list-item--active {
+    @include shade-color(light-blue, null, outline-color);
+    outline: none;
+    z-index: 10;
+  }
+
+  &__link {
+    @include container-padding;
+    @include responsive(justify-content, flex-start, flex-start, center);
+    @include anchor(true);
+    @include body;
+    @include ellipsis;
+    @include rows(1, $force: true);
+    border-bottom: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: $tabs-spacing-v $tabs-spacing-h;
+
+  }
+
+  &__link:before,
+  &__link:after {
+    content: '';
+    @include responsive(height, 100%, 100%, $tabs-height-spacer);
+    position: absolute;
+  }
+
+  &__link:before {
+    @include border(left);
+    left: 0;
+  }
+
+  &__list-item:last-child &__link:after {
+    @include laptop {
+      @include border(left);
+      right: 0;
+    }
+  }
+
+  &__list-item--active &__link:before,
+  &__list-item--active + &__list-item &__link:before,
+  &__list-item--active + &__list-item &__link:after {
+    @include laptop {
+      border-color: transparent;
+    }
+  }
+
+  &__list-item--active &__link {
+    @include shade(1, background-color);
+  }
+
+  .badge {
+    margin-right: $tabs-spacing-h;
+  }
+
+  &__list-item--active .badge {
+    @include color-background;
+  }
+
+
+  &__track {
+    white-space: nowrap;
+  }
+
+  &__tab {
+    display: none;
+    visibility: hidden;
+  }
+
+  &__tab--active {
+    display: block;
+    visibility: visible;
+  }
+
+  &__body {
+    @include container-padding;
+    @include clearfix;
+    @include shade(1, background-color);
+    width: 100%;
+    vertical-align: top;
+    white-space: normal;
+  }
+
+  &__body + &__body {
+    @include margin(true, margin-top);
+  }
+
+  &__title {
+    @include h2(true, padding);
+    @include shade-color('dark-blue');
+    font-weight: normal;
+  }
+
+
+  &__tab > .button {
+    float: right;
+    margin: $tabs-spacing-v 0;
+  }
+}

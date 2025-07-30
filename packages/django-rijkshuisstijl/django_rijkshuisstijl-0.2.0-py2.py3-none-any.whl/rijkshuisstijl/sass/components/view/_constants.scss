@@ -1,0 +1,12 @@
+@import '../login-bar/constants';
+@import '../header/constants';
+@import '../navigation-bar/constants';
+@import '../footer/constants';
+
+
+$view-min-height-content-mobile: calc(100vh - #{$header-height-mobile + $footer-min-height});
+$view-min-height-content-tablet: calc(100vh - #{$login-bar-min-height + $header-height-tablet + $navigation-bar-min-height-tablet + $footer-min-height});
+$view-min-height-content-tablet-compact: calc(100vh - #{$login-bar-min-height + $header-height-tablet + $navigation-bar-min-height-tablet-compact + $footer-min-height});
+
+$view-min-height-content-no-nav-no-footer-mobile: calc(100vh - #{$header-height-mobile * 2});
+$view-min-height-content-no-nav-no-footer-tablet: calc(100vh - #{$header-height-tablet * 2});

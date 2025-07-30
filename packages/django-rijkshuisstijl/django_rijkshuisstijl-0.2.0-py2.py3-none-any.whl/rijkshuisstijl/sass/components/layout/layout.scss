@@ -1,0 +1,25 @@
+@import '../../settings/all';
+@import '../../settings/lib/sticky';
+@import 'mixins';
+
+.layout {
+  @include layout;
+
+  &--sidebar {
+    display: flex;
+  }
+
+  &--sidebar &__section {
+    width: 100%;
+  }
+
+  &--sidebar &__sidebar {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  &--sidebar &__sidebar--sticky &__sidebar-body {
+    @include sticky($grid-container-padding);
+  }
+}

@@ -1,0 +1,11 @@
+{% load rijkshuisstijl %}{% spaceless %}
+    <div class="form__actions{% if align %} form__actions--{{ align }}{% endif %}">
+            {% for action in actions %}
+                {% if action.href %}
+                    {% button_link config=action disabled=disabled form=form_id %}
+                {% else %}
+                    {% button config=action disabled=disabled form=form_id %}
+                {% endif %}
+            {% endfor %}
+    </div>
+{% endspaceless %}

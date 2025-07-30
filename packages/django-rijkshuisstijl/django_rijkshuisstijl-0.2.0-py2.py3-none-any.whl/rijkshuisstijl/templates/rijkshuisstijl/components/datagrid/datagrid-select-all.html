@@ -1,0 +1,4 @@
+{% spaceless %}{% load rijkshuisstijl %}
+    {% form_checkbox class='select-all' id=id|add:'-select-all-'|add:form_select_all_position type="checkbox" data_select_all='#'|add:id|add:' .input[type="checkbox"]' %}
+    <label class="datagrid__label" for="{{ id|add:'-select-all-'|add:form_select_all_position }}">{{ label_select_all }}</label>
+{% endspaceless %}

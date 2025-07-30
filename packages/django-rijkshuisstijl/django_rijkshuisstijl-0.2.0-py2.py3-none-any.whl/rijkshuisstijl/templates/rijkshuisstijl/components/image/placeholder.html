@@ -1,0 +1,7 @@
+{% spaceless %}
+{% if href %}<a class="image-link" href="{{ href }}">{% endif %}
+    <div class="image-placeholder" aria-role="presentation">
+        <span class="image-placeholder__label" title="{{ label }}">{{ label|make_list|first }}</span>
+    </div>
+{% if href %}</a>{% endif %}
+{% endspaceless %}

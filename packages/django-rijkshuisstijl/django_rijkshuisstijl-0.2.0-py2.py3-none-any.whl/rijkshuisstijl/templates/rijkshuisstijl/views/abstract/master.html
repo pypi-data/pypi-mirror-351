@@ -1,0 +1,20 @@
+{% spaceless %}{% load i18n static rijkshuisstijl_meta %}
+<!DOCTYPE html>
+<html lang="nl" class="view view--full-width {% block body-class %}view--{{ request.resolver_match.namespaces|join:'-' }}-{{ request.resolver_match.url_name }}{% endblock %}" {% block html-data %}{% endblock %}>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% meta_css %}
+    {% block extra_css %}{% endblock %}
+    {% meta_icons %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% meta_js %}
+    {% block extra_js %}{% endblock %}
+</head>
+
+<body class="view__body">
+{% block body %}
+{% endblock body %}
+</body>
+</html>
+{% endspaceless %}

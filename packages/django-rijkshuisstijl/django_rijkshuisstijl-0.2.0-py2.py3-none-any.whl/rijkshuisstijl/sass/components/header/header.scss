@@ -1,0 +1,60 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/responsive';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import 'constants';
+
+
+.header {
+  @include color-background;
+  @include container(true, false);
+  @include container--big(false);
+  @include responsive(height, $header-height-mobile, $header-height-tablet);
+  margin-left: 0;
+  padding-left: 50%;
+  overflow: hidden;
+  position: relative;
+  z-index: 1000;
+
+  @media print {
+    height: auto;
+    position: absolute;
+    top: -52mm;
+
+    .logo .image__image {
+      width: 13mm;
+    }
+
+    .button {
+      display: none!important;
+    }
+  }
+
+  @media screen {
+    @include mobile-only {
+
+      &:before {
+        @include border(bottom);
+        @include color-background;
+        @include overlay;
+        content: '';
+        width: 200%;
+        z-index: -1;
+      }
+    }
+  }
+
+  .button {
+    @include show-on-mobile;
+    @include container-padding(normal, (padding-left, padding-right));
+    @include center-v;
+    position: absolute;
+    right: 0;
+  }
+
+  .logo {
+    @include responsive(margin-left, -20px, 0.9 * -25px, -25px);
+  }
+}

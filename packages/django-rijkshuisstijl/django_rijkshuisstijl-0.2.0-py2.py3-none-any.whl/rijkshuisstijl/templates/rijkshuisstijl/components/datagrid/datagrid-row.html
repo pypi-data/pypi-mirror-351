@@ -1,0 +1,72 @@
+{% load l10n rijkshuisstijl %}{% spaceless %}
+<tr class="datagrid__row datagrid__row--cells{% if formset_form.errors %} datagrid__row--edit{% endif %}{% if object.datagrid_modifier_class %} datagrid__row--{{ object.datagrid_modifier_class }}{% endif %}{% if not formset_form and url %} fake-link fake-link--double-click" data-href="{{ url }}"{% else %}"{% endif %} id="{{ row_id }}">
+
+{# Checkbox. #}
+{% if form %}
+    <td class="datagrid__cell datagrid__cell--checkbox">
+        {% form_checkbox name=form_checkbox_name form='datagrid-action-form-'|add:id value=object.pk|unlocalize checked=False %}
+    </td>
+{% endif %}
+
+{% for column in columns %}
+    {% firstof formset_form|get:column.key as cell_input %}
+    {% firstof object|format_value:column.key '' as label %}
+    {% firstof 'datagrid-inline-form-'|add:id as form_id %}
+
+    {% firstof 'get_'|add:column.key|add:'_display' as custom_display %}
+    {% firstof object|getattr_or_get:custom_display as custom_display %}
+
+    {% if not custom_display %}
+        {% firstof label|linebreaksbr as label %}
+    {% endif %}
+
+    <td class="datagrid__cell{% if cell_input %} datagrid__cell--editable{% endif %}{% if column.key == modifier_column %} datagrid__cell--modifier{% endif %}">
+        {% if forloop.counter0 == 0 and formset_form %}
+            <input type="hidden" name="{{ formset_form.id.html_name }}" value="{{ formset_form.id.value|unlocalize }}" form="{{ 'datagrid-inline-form-'|add:id }}">
+        {% endif %}
+
+        {% if forloop.counter0 == 0 and url %}
+
+
+            <a class="datagrid__link" href="{{ url }}">
+                <span class="datagrid__label{% if formset_form %} toggle{% endif %}"{% if formset_form %} data-toggle-target="#{{ row_id }}" data-toggle-modifier="edit" data-toggle-link-mode="noprevent"{% endif %}>{{ label }}</span>
+            </a>
+
+            {% if cell_input %}
+                {% form_field formset_form column.key attrs='form:'|add:form_id %}
+            {% endif %}
+
+
+        {% else %}
+            {% if column.urlize or urlize and not column.urlize == False %}
+
+
+                <span class="datagrid__label{% if formset_form %} toggle{% endif %}"{% if formset_form %} data-toggle-target="#{{ row_id }}" data-toggle-modifier="edit" data-toggle-link-mode="noprevent"{% endif %}>{{ label|rh_urlize }}</span>
+                {% if cell_input %}
+                    {% form_field formset_form column.key attrs='form:'|add:form_id %}
+                {% endif %}
+
+
+            {% elif urlizetrunc %}
+
+
+                <span class="datagrid__label{% if formset_form %} toggle{% endif %}"{% if formset_form %} data-toggle-target="#{{ row_id }}" data-toggle-modifier="edit" data-toggle-link-mode="noprevent"{% endif %}>{{ label|urlizetrunc:urlizetrunc }}</span>
+                {% if cell_input %}
+                    {{ cell_input }}
+                {% endif %}
+
+
+            {% else %}
+
+
+                <span class="datagrid__label{% if formset_form %} toggle{% endif %}"{% if formset_form %} data-toggle-target="#{{ row_id }}" data-toggle-modifier="edit" data-toggle-link-mode="noprevent"{% endif %}>{{ label }}</span>
+                {% if cell_input %}
+                    {% form_field formset_form column.key attrs='form:'|add:form_id %}
+                {% endif %}
+            {% endif %}
+
+
+        {% endif %}
+    </td>
+{% endfor %}
+</tr>{% endspaceless %}

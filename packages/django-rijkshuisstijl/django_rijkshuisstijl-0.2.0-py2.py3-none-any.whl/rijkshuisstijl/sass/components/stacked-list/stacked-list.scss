@@ -1,0 +1,29 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/typography';
+
+$stacked-list-spacing-v: 0.4em;
+
+.stacked-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    @include body;
+    @include body--small;
+    @include border;
+    @include container-padding(normal);
+    box-sizing: border-box;
+    padding-top: $stacked-list-spacing-v;
+    padding-bottom: $stacked-list-spacing-v;
+  }
+
+  &__item:not(:last-child) {
+    @include border(bottom, $style: dotted);
+  }
+
+  &__link {
+    @include anchor;
+  }
+}

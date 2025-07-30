@@ -1,0 +1,101 @@
+{% load rijkshuisstijl %}{% singleline %}
+    {% if field.edit %}
+        <li class="summary__key-value summary__key-value--edit{% if field.full_width_field %} summary__key-value--full-width{% endif %}" id="{{ field.id }}">
+    {% else %}
+        <li class="summary__key-value{% if field.full_width_field %} summary__key-value--full-width{% endif %}" id="{{ field.id }}">
+    {% endif %}
+
+    {% if field.toggle %}
+        <span class="summary__key toggle" data-toggle-target="#{{ field.id }}" data-toggle-modifier="edit">{{ field.label }}</span>
+    {% else %}
+        <span class="summary__key">{{ field.label }}</span>
+    {% endif %}
+
+    <span class="summary__value">
+        {% endsingleline %}{% spaceless %}
+        {% if field.form_field and not field.toggle %}
+
+
+            {% if formset_form %}
+
+                {% if form_id %}
+                    {% form_field formset_form field.form_field.name attrs='form:'|add:form_id help_text_position=help_text_position %}
+                {% else %}
+                    {% form_field formset_form field.form_field.name help_text_position=help_text_position %}
+                {% endif %}
+
+            {% else %}
+
+                {% if form_id %}
+                    {% form_field form field.form_field.name attrs='form:'|add:form_id help_text_position=help_text_position %}
+                {% else %}
+                    {% form_field form field.form_field.name help_text_position=help_text_position %}
+                {% endif %}
+
+            {% endif %}
+
+
+        {% elif field.toggle %}
+
+
+            {% if formset_form %}
+
+                {% if form_id %}
+                    {% form_field formset_form field.form_field.name attrs='form:'|add:form_id help_text_position=help_text_position %}
+                {% else %}
+                    {% form_field formset_form field.form_field.name help_text_position=help_text_position %}
+                {% endif %}
+
+            {% else %}
+
+                {% if form_id %}
+                    {% form_field form field.form_field.name attrs='form:'|add:form_id help_text_position=help_text_position %}
+                {% else %}
+                    {% form_field form field.form_field.name help_text_position=help_text_position %}
+                {% endif %}
+
+            {% endif %}
+
+
+            <span class="toggle" data-toggle-target="#{{ field.id }}" data-toggle-modifier="edit">
+                {% firstof object|format_value:field.key as value %}
+
+                {% if urlize %}
+                    {{ value|linebreaksbr|rh_urlize:urlize_target }}
+                {% else %}
+                    {{ value|linebreaksbr }}
+                {% endif %}
+            </span>
+
+
+        {% else %}
+
+
+            {% if forloop.first and href_field %}
+                <a class="summary__link" href="{{ object|format_value:href_field }}">{{ field.value|linebreaksbr }}</a>
+            {% else %}
+                {% firstof object|format_value:field.key as value %}
+
+                {% if urlize %}
+                    {{ value|linebreaksbr|rh_urlize:urlize_target }}
+                {% else %}
+                    {{ value|linebreaksbr }}
+                {% endif %}
+
+            {% endif %}
+
+
+        {% endif %}
+        {% endspaceless %}{% singleline%}
+    </span>
+</li>
+
+{% if forloop.last %}
+    <li class="summary__key-value summary__key-value--full-width summary__key-value--actions">
+        <span class="summary__value">
+            {% button class='button--small button--secondary' type='reset' label=_('Annuleren') form=form_id toggle_target='#'|add:id|add:' .summary__key-value--edit' toggle_modifier='edit' toggle_link_mode='noprevent' %}
+            {% button class='button--small button--primary' type='submit' label=_('Opslaan') form=form_id %}
+        </span>
+    </li>
+{% endif %}
+{% endsingleline %}

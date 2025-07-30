@@ -1,0 +1,15 @@
+{% spaceless %}{% load rijkshuisstijl %}
+    <nav class="toolbar{% if class %} {{ class }}{% endif %}">
+        <ul class="toolbar__list">
+            {% for item in items %}
+                <li class="toolbar__list-item">
+                    {% if item.href %}
+                        {% button_link config=item.config %}
+                    {% else %}
+                        {% button config=item.config %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endspaceless %}

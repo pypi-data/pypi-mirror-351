@@ -1,0 +1,67 @@
+@import '../../settings/all';
+@import "~microscope-sass/lib/color";
+@import "~microscope-sass/lib/grid";
+@import "~microscope-sass/lib/transform";
+@import "~microscope-sass/lib/typography";
+
+$hero-padding-v: $grid-margin-6;
+$hero-spacing: $grid-margin-1;
+
+.hero {
+  font-size: 0;
+  position: relative;
+
+  .image {
+    width: 100%;
+    height: 400px;
+    position: static;
+  }
+
+  .image:not(:last-child):after {
+    @include overlay;
+    content: "";
+    background-image: linear-gradient($color-background, transparent);
+  }
+
+  .image__image {
+    object-fit: cover;
+    object-position: bottom;
+  }
+
+  &--top .image__image {
+    object-position: top;
+  }
+
+  &--right .image__image {
+    object-position: right;
+  }
+
+  &--bottom .image__image {
+    object-position: bottom;
+  }
+
+  &--left .image__image {
+    object-position: bottom;
+  }
+
+  &--center .image__image {
+    object-position: center;
+  }
+
+  &__body {
+    @include container;
+    @include overlay;
+    @include center-h;
+    margin-top: $hero-padding-v;
+  }
+
+  &__title {
+    @include h1;
+    margin-bottom: $hero-spacing;
+  }
+
+  &__text {
+    @include body;
+    @include body--big;
+  }
+}

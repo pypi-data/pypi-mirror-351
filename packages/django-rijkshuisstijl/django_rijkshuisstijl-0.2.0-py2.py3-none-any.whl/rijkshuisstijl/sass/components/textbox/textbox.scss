@@ -1,0 +1,85 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/grid';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import '../../settings/lib/ro-shade';
+@import '../../settings/lib/sticky';
+
+$texbox-padding-v-compact-mobile: calc((#{$grid-row-height} - #{$typography-line-height-h4-mobile} * #{$typography-font-size-h4-mobile}) / 2);
+$texbox-padding-v-compact-tablet: calc((#{$grid-row-height} - #{$typography-line-height-h4-tablet} * #{$typography-font-size-h4-tablet}) / 2);
+$texbox-padding-v-compact-laptop: calc((#{$grid-row-height} - #{$typography-line-height-h4-laptop} * #{$typography-font-size-h4-laptop}) / 2);
+$texbox-padding-v-compact-desktop: calc((#{$grid-row-height} - #{$typography-line-height-h4-desktop} * #{$typography-font-size-h4-desktop}) / 2);
+
+.textbox {
+  @include shade(1, background-color);
+  box-sizing: border-box;
+  position: relative;
+
+  &--bordered {
+    @include border(all);
+  }
+
+  &--centered {
+    @include center-hv;
+  }
+
+  &--closed {
+    display: none;
+    visibility: hidden;
+  }
+
+  &:not(#{&}--compact) {
+    @include rows(1, padding);
+  }
+
+  &--compact {
+    @include container-padding(normal);
+    @include responsive(padding-top, $texbox-padding-v-compact-mobile, $texbox-padding-v-compact-tablet, $texbox-padding-v-compact-laptop, $texbox-padding-v-compact-desktop);
+    @include responsive(padding-bottom, $texbox-padding-v-compact-mobile, $texbox-padding-v-compact-tablet, $texbox-padding-v-compact-laptop, $texbox-padding-v-compact-desktop);
+  }
+  &--sticky {
+    @include sticky;
+  }
+
+  &--transparent {
+    background-color: transparent;
+  }
+
+  &--error,
+  &--danger {
+    @include color-danger(background-color);
+  }
+
+  &--debug,
+  &--info {
+    @include color-info(background-color);
+  }
+
+  &--success {
+    @include color-success(background-color);
+  }
+
+  &--warning {
+    @include color-warning(background-color);
+  }
+
+  &__title {
+    @include h4;
+  }
+
+  &__text {
+    @include body;
+  }
+
+  a {
+    @include anchor;
+  }
+
+  .button {
+    @include absolute($top: 0, $right: 0);
+  }
+
+  + .datagrid {
+    border-top: none;
+  }
+}

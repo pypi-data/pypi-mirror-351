@@ -1,0 +1,22 @@
+@import '../../settings/grid';
+@import '~microscope-sass/lib/grid';
+
+@mixin layout {
+  @include container($padding: false);
+
+  &__section--justify {
+    @include responsive(flex-direction, column, row);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  &__section--margin {
+    @include rows(1, margin-top);
+    @include rows(1, margin-bottom);
+  }
+
+  &__section--pad {
+    @include container-padding;
+  }
+}

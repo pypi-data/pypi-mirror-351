@@ -1,0 +1,32 @@
+@import '../../settings/color';
+
+
+@function shade($shade: 1) {
+  @return map_get($shades, gray-#{$shade});
+}
+
+@function shade-color($scheme, $shade: null) {
+  @if $shade {
+    @return map_get($colors, #{$scheme}-shade-#{$shade});
+  } @else {
+    @return map_get($colors, #{$scheme});
+  }
+}
+
+
+@mixin shade($shade: 1, $property: color, $force: false) {
+  #{$property}: shade($shade);
+  @if $force {
+    #{$property}: shade($shade) !important;
+  } @else {
+    #{$property}: shade($shade);
+  }
+}
+
+@mixin shade-color($scheme, $shade: null, $property: color, $force: false) {
+  @if $force {
+    #{$property}: shade-color($scheme, $shade) !important;
+  } @else {
+    #{$property}: shade-color($scheme, $shade);
+  }
+}

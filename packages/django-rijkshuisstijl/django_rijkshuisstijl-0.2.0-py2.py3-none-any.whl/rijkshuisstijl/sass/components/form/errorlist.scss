@@ -1,0 +1,34 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/transform';
+@import '~microscope-sass/lib/typography';
+@import '../icon/mixins';
+@import 'constants';
+
+.errors--non-field,
+.errorlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.errors--non-field .errors__body,
+.errorlist li {
+  @include ro-icon-before('close', $color: $errorlist-color-icon, $size: 18px);
+  @include body;
+  @include color-danger(background-color);
+  box-sizing: border-box;
+  min-height: $errorlist-height-error;
+  padding: calc((#{$errorlist-height-error} - #{$typography-line-height-text * 1em}) / 2) $input-padding-h;
+  padding-left: $errorlist-size-icon + 2 * $input-padding-h;
+  position: relative;
+
+  &:before {
+    @include center-v;
+    @include rounded;
+    background-color: $errorlist-color-error;
+    width: $errorlist-size-icon;
+    height: $errorlist-size-icon;
+    left: $input-padding-h;
+  }
+}

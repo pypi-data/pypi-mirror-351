@@ -1,0 +1,134 @@
+/**
+Online kleuren
+
+Voor online toepassingen kun je uit de 17 communicatiekleuren van het Rijkshuisstijl palet kiezen met een extra palet
+van 7 grijstinten. Verder worden kleurrichtlijnen gegeven voor achtergrondkaders, een linkkleur, functionele kleuren bij
+meldingen en een focuskleur. Bij kleurcombinaties met tekst moet altijd aan de contrasteisen worden voldaan voor een
+goede leesbaarheid.
+ */
+
+
+/**
+17 communicatiekleuren online
+
+Je kiest 1 basiskleur met eventueel 1 of 2 lichte tinten ter ondersteuning voor de website, magazine of applicatie.
+Aanvullend kunnen voor achtergrondkaders, grafieken en tabellen ook tinten van een kleur worden toegepast in gradaties
+van 20%. De online kleuren van de Rijkshuisstijl zijn ook als kleurstalen bibliotheek beschikbaar. De onderstaande hex-
+en rgb-kleurwaarden zijn opgenomen in een '.ase'-bestand dat je in Photoshop, Illustrator of Indesign kunt importeren.
+ */
+
+$colors: (
+  'purple': #42145f,
+  'purple-shade-1': #c6b8cf,
+  'purple-shade-2': #e3dce7,
+  'violet': #a90061,
+  'violet-shade-1': #e5b2cf,
+  'violet-shade-2': #f2d9e7,
+  'ruby': #ca005d,
+  'ruby-shade-1': #efb2ce,
+  'ruby-shade-2': #f7d9e7,
+  'pink': #f092cd,
+  'pink-shade-1': #fadef0,
+  'pink-shade-2': #fdeff8,
+  'red': #d52b1e,
+  'red-shade-1': #f2bfbb,
+  'red-shade-2': #f9dfdd,
+  'orange': #e17000,
+  'orange-shade-1': #f6d4b2,
+  'orange-shade-2': #fbead9,
+  'dark-yellow': #ffb612,
+  'dark-yellow-shade-1': #ffe9b7,
+  'dark-yellow-shade-2': #fff4dc,
+  'yellow': #f9e11e,
+  'yellow-shade-1': #fdf6bb,
+  'yellow-shade-2': #fefbdd,
+  'dark-brown': #673327,
+  'dark-brown-shade-1': #d1c1be,
+  'dark-brown-shade-2': #e8e1df,
+  'brown': #94710a,
+  'brown-shade-1': #dfd4b5,
+  'brown-shade-2': #efeada,
+  'dark-green': #275937,
+  'dark-green-shade-1': #becdc3,
+  'dark-green-shade-2': #dfe6e1,
+  'green': #39870c,
+  'green-shade-1': #c3dbb6,
+  'green-shade-2': #e1eddb,
+  'moss-green': #777c00,
+  'moss-green-shade-1': #d6d7b2,
+  'moss-green-shade-2': #ebebd9,
+  'mint-green': #76d2b6,
+  'mint-green-shade-1': #d6f1e9,
+  'mint-green-shade-2': #ebf8f4,
+  'dark-blue': #01689b,
+  'dark-blue-shade-1': #cce0f1,
+  'dark-blue-shade-2': #e5f0f9,
+  'heaven-blue': #007bc7,
+  'heaven-blue-shade-1': #b2d7ee,
+  'heaven-blue-shade-2': #d9ebf7,
+  'light-blue': #8fcae7,
+  'light-blue-shade-1': #ddeff8,
+  'light-blue-shade-2': #eef7fb,
+)!default;
+
+$scheme: dark-blue!default;
+//$scheme: purple!default;  // Start wearing purple!
+//$scheme: orange!default;
+$color-primary: map-get($colors, $scheme)!default;
+$color-secondary: map_get($colors, #{$scheme}-shade-2)!default;
+
+
+/**
+Tinten voor achtergrondkaders, grafieken en tabellen
+
+Voor achtergrondkaders, grafieken en tabellen kunnen 7 neutrale grijstinten of tinten van een communicatiekleur in
+stappen van 20% worden toegepast. Voor tekstachtergrond wordt grijstint1 of communicatiekleur tint2 aanbevolen om aan de
+contrasteisen voor een goede leesbaarheid te voldoen.
+ */
+
+$shades: (
+  gray-1: #f3f3f3,
+  gray-2: #e6e6e6,
+  gray-3: #cccccc,
+  gray-4: #b4b4b4,
+  gray-5: #999999,
+  gray-6: #696969,
+  gray-7: #535353,
+)!default;
+
+$color-border: map-get($colors, 'heaven-blue-shade-2')!default;
+
+
+/**
+Een tekstlink is herkenbaar als onderstreepte tekst. Wanneer geen onderstreping aanwezig is moet de link aan 2
+contrasteisen voldoen, ten opzichte van de gewone tekstkleur maar ook ten opzichte van de achtergrondkleur. Gebruik de
+link contrast checker om 1 geschikte linkkleur te vinden voor de hele website, magazine of applicatie.
+
+- Een linkkleur in het rood wordt vermeden om verwarring met foutmeldingen te voorkomen.
+- Hou ook rekening met contrasteisen bij tinten van achtergrondkaders, tabellen, grafieken, etc.
+ */
+
+$typography-color-link: $color-primary!default;
+
+
+/**
+Met name bij formulieren is soms feedback in de vorm van meldingen nodig om de gebruiker te helpen bij het invullen. Een
+melding bestaat uit een icoon in een functionele kleur met bijpassende achtergrondtint en een helptekst. Voor de
+meldingen zijn rijkshuisstijliconen beschikbaar. Deze zijn niet alleen qua kleur functioneel maar ook in vorm
+onderscheidend. Door toenemend mobiel gebruik is het aan te bevelen de melding niet op een verzamelplek maar bij het
+desbetreffende invulveld te laten zien om onnodig heen en weer scrollen te voorkomen.
+ */
+
+$color-danger: map-get($colors, 'red-shade-2')!default;
+$color-danger-dark: map-get($colors, 'red')!default;
+$color-info: map-get($colors, 'heaven-blue-shade-2')!default;
+$color-info-dark: map-get($colors, 'heaven-blue')!default;
+$color-success: map-get($colors, 'green-shade-2')!default;
+$color-success-dark: map-get($colors, 'green')!default;
+$color-warning: map-get($colors, 'orange-shade-2')!default;
+$color-warning-dark: map-get($colors, 'orange')!default;
+
+$color-red: map-get($colors, 'red')!default;
+$color-green: map-get($colors, 'pink')!default;
+$color-yellow: map-get($colors, 'yellow')!default;
+

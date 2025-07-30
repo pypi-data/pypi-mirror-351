@@ -1,0 +1,7 @@
+@import '../../settings/grid';
+@import '~microscope-sass/lib/grid';
+
+$footer-min-height: 330px!default;
+$footer-padding-mobile: $grid-margin-6!default;
+$footer-padding-tablet: $grid-margin-8!default;
+$footer-padding-desktop: $grid-margin-10!default;

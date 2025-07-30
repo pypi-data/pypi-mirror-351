@@ -1,0 +1,10 @@
+@import '../../settings/all';
+@import '~microscope-sass/lib/responsive';
+
+.logo {
+  .image__image {
+    @include tablet(true) {
+      height: 90%;
+    }
+  }
+}

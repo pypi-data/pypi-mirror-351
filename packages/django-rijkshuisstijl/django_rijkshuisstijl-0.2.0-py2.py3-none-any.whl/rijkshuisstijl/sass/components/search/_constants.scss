@@ -1,0 +1,8 @@
+@import '../../settings/color';
+@import '../../settings/grid';
+@import '~microscope-sass/lib/color';
+@import '~microscope-sass/lib/grid';
+
+$search-color-button-active: $color-black!default;
+$search-height: $grid-row-height + $grid-margin-0!default;
+$search-padding-input: 0 80px 0 10px!default;
