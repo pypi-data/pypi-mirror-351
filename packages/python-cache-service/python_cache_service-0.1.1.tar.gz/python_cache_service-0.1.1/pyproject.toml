@@ -1,0 +1,22 @@
+[project]
+name = "python-cache-service"
+version = "0.1.1"
+description = "Simple namespaced cache service using Redis"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+  { name="Johannes Broch-Due", email="johannesbrochdue@gmail.com" }
+]
+dependencies = [
+  "redis",
+  "fakeredis"
+]
+
+[project.urls]
+Homepage = "https://gitlab.com/Johannesbrochdue/python-cache-service"
+Repository = "https://gitlab.com/Johannesbrochdue/python-cache-service"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
