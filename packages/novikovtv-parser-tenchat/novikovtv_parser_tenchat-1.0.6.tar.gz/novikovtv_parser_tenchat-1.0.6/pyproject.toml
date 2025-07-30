@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling >= 1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["novikovtv_parser_tenchat"]
+
+[project]
+name = "novikovtv-parser-tenchat"
+version = "1.0.6"
+authors = [
+    { name="Tsuedewn", email="kutner.co@gmail.com" },
+]
+maintainers = [
+    { name="domster704", email="domster704@mail.ru" },
+]
+description = "This is the TenChat search engine parser"
+readme = "README.md"
+dependencies = [
+    "selenium==4.30.0",
+    "webdriver-manager==4.0.2"
+]
+requires-python = ">=3.11"
+classifiers = [
+    'Programming Language :: Python :: 3.11',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent'
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/asianetsievskaya/parser-yandex"
