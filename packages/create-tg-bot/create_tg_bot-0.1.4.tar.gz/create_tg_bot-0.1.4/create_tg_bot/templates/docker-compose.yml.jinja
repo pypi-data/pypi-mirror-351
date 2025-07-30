@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    image: DOCKER_USER/{{ project_name }}:latest
+    container_name: {{ project_name }}-bot
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - web-network
+    volumes:
+      - ./log:/app/log
+
+networks:
+  web-network:
+    external: true

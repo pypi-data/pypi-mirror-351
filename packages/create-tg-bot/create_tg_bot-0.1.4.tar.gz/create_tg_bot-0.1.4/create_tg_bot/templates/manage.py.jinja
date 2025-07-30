@@ -1,0 +1,84 @@
+from jinja2 import Environment, FileSystemLoader
+import os
+
+from config import BASE_DIR
+
+TEMPLATE_DIR = os.path.join(BASE_DIR, "core", "generator_templates")
+env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+
+import click
+
+@click.group()
+def cli():
+    pass
+
+@cli.command(name="gen-keyboard")
+@click.argument("name")
+def gen_keyboard(name):
+    """Создать заготовку клавиатуры."""
+    keyboard_name = name.lower()
+
+
+    keyboard_template = env.get_template("keyboard.py.jinja")
+    button_handler_template = env.get_template("button_handler.py.jinja")
+
+    rendered = keyboard_template.render(name=keyboard_name)
+    handler_rendered = button_handler_template.render()
+
+    output_dir = os.path.join(BASE_DIR, "keyboards")
+    handler_output_dir = os.path.join(BASE_DIR, "button_handlers")
+
+    output_path = os.path.join(output_dir, f"{keyboard_name}.py")
+    handler_output_path = os.path.join(handler_output_dir, f"{keyboard_name}.py")
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(rendered)
+
+    with open(handler_output_path, "w", encoding="utf-8") as f:
+        f.write(handler_rendered)
+
+    click.echo("✅ Keyboard template created.")
+
+@cli.command(name="gen-command")
+@click.argument("name")
+def gen_command(name):
+    """Создать заготовку обработчика."""
+    command_name = name.lower()
+
+    template = env.get_template("command.py.jinja")
+    rendered = template.render(name=command_name)
+
+    output_dir = os.path.join(BASE_DIR, "commands")
+    os.makedirs(output_dir, exist_ok=True)
+
+    output_path = os.path.join(output_dir, f"{command_name}.py")
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(rendered)
+
+    click.echo("✅ Command handler created.")
+
+@cli.command(name="gen-model")
+@click.argument("name")
+def gen_model(name):
+    """Создать модель"""
+    model_name = name.capitalize()
+    table_name = name.lower() + "s"
+
+
+    template = env.get_template("model.py.jinja")
+    rendered = template.render(name=model_name, table_name=table_name)
+
+    output_dir = os.path.join(BASE_DIR, "models")
+    os.makedirs(output_dir, exist_ok=True)
+
+    output_path = os.path.join(output_dir, f"{model_name}.py")
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(rendered)
+
+    click.echo(f"✅ Model '{model_name}' created")
+
+
+if __name__ == "__main__":
+    cli()
