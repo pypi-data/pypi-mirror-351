@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools", "numpy", "pytest", "pybind11"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="pytme"
+authors = [
+  { name = "Valentin Maurer", email = "valentin.maurer@embl-hamburg.de" },
+]
+version="0.2.9"
+description="Python Template Matching Engine"
+readme="README.md"
+requires-python = ">=3.11"
+dependencies=[
+    "mrcfile>=1.4.3",
+    "numpy>=1.22.2,<2.0",
+    "scipy>=1.9.1",
+    "pyfftw>=0.13.1",
+    "pytest>=6.2.5",
+    "PyYAML>=6.0",
+    "scikit-image>=0.19.0",
+    "pybind11",
+    "psutil",
+    "h5py",
+    "importlib_resources",
+    "joblib"
+]
+license = {text = "Proprietary"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+cupy = ["cupy-cuda12x", "voltools==0.6.0"]
+pytorch = ["torch", "torchvision"]
+jax = ["jax", "jaxlib"]
+all = [
+    "cupy",
+    "voltools==0.6.0",
+    "torch",
+    "jax",
+    "jaxlib",
+    "tifffile"
+]
+
+[project.scripts]
+match_template = "scripts:match_template.main"
+estimate_ram_usage = "scripts:estimate_ram_usage.main"
+preprocessor_gui = "scripts:preprocessor_gui.main"
+preprocess = "scripts:preprocess.main"
+postprocess = "scripts:postprocess.main"
+
+[project.urls]
+"Homepage" = "https://github.com/KosinskiLab/pyTME"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.coverage.run]
+omit = [
+    "tests/*"
+]
