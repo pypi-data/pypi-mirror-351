@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "submariner"
+version = "0.1.1"
+description = 'A tool to explore python modules'
+readme = "README.md"
+requires-python = ">=3.8"
+license = 'MIT'
+keywords = []
+authors = [
+  { name = "Buchimi", email = "stormzzy900@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = ["typer", "dotenv", "rich", "langchain[google-genai]"]
+
+[project.scripts]
+submarine = "submariner.main:main"
+
+[project.urls]
+Documentation = "https://github.com/Buchimi/submariner#readme"
+Issues = "https://github.com/Buchimi/submariner/issues"
+Source = "https://github.com/Buchimi/submariner"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/submariner tests}"
+
+[tool.coverage.run]
+source_pkgs = ["submariner", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/submariner/__about__.py",
+]
+
+[tool.coverage.paths]
+submariner = ["src/submariner", "*/describe/src/submariner"]
+tests = ["tests", "*/submariner/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.pyrefly]
+project_includes = ["**/*"]
+project_excludes = [
+    "**/.[!/.]*",
+    "**/*venv/**/*",
+]
