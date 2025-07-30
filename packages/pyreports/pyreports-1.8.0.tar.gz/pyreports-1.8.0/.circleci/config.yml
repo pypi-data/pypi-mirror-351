@@ -1,0 +1,21 @@
+version: 2.1
+
+jobs:
+  build-and-test:
+    docker:
+      - image: circleci/python
+    steps:
+      - checkout
+      - run: sudo apt update && sudo apt install -y freetds-dev libssl-dev python-dev freetds-bin
+      - run: sudo pip install --upgrade pip
+      - run: sudo pip install "Cython<3"
+      - run: sudo pip install numpy
+      - run: sudo pip install pandas
+      - run: sudo python setup.py install
+      - run: sudo chmod -R 777 /tmp
+      - run: sudo python -m unittest discover tests
+
+workflows:
+  main:
+    jobs:
+      - build-and-test
