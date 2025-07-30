@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: drakvuf-sandbox
+Version: 0.19.0a3
+Summary: DRAKRUN
+Home-page: UNKNOWN
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+License-File: LICENSE
+License-File: COPYING
+Requires-Dist: dataclasses-json==0.5.6
+Requires-Dist: click==8.1.7
+Requires-Dist: flare-capa==7.4.0
+Requires-Dist: orjson==3.9.15
+Requires-Dist: mslex==1.1.0
+Requires-Dist: pydantic==2.10.6
+Requires-Dist: pathvalidate==3.2.0
+Requires-Dist: drakpdb==0.2.2
+Requires-Dist: tomli==2.2.1
+Requires-Dist: rq==2.3.1
+Requires-Dist: Flask==3.0.3
+Requires-Dist: flask-openapi3[swagger]==4.1.0
+Requires-Dist: python-magic==0.4.27
+Requires-Dist: rq-dashboard==0.8.2.2
+Requires-Dist: asyncvnc==1.3.0
+Requires-Dist: Pillow==10.4.0
+Requires-Dist: Perception==0.6.8
+Requires-Dist: opencv-contrib-python-headless==4.11.0.86
+
+UNKNOWN
+
