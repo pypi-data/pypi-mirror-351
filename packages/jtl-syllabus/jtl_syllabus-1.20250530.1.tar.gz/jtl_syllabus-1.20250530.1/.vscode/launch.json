@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Compile Lessons",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "syllabus.cli.main",
+            "args": ["-e", "-vv", "compile", "test/lessons"],
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Compile Lessons with Incremental Numbering",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "syllabus.cli.main",
+            "args": ["-e", "compile", "-ng", "-i100", "test/lessons"],
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

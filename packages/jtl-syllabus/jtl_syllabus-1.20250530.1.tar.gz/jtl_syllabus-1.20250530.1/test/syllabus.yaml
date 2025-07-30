@@ -1,0 +1,84 @@
+name: Demo Course
+description: This is a demo course
+objectives:
+- name: Objective 1
+  description: This is the first objective
+- name: Objective 2
+  description: This is the second objective
+modules:
+- name: Loops
+  overview: Loops/README.md
+  lessons:
+  - name: Iteration
+    exercise: Loops/01_Iteration.ipynb
+    display: false
+  - name: Crazy Tina
+    lesson: Loops/02_Crazy_Tina.md
+    exercise: Loops/02_Crazy_Tina.py
+    display: true
+  - name: List Story
+    lesson: Loops/04b_List_Story.md
+    exercise: Loops/04b_List_Story.py
+    display: true
+  - name: Strings
+    exercise: Loops/05_Strings.ipynb
+    display: false
+  - name: Fizz Buzz Badgers
+    lesson: Loops/06_Fizz_Buzz_Badgers.md
+    exercise: Loops/06_Fizz_Buzz_Badgers.py
+    display: true
+  - name: For Loop Gauntlet
+    exercise: Loops/07_For_Loop_Gauntlet.ipynb
+    display: false
+  - name: FizzBuzz Gui Grid
+    exercise: Loops/09_FizzBuzz_Gui_Grid.py
+    display: true
+- name: Turtles
+  overview: Turtles/README.md
+  lessons:
+  - name: Get Started
+    exercise: Turtles/01_Get_Started.ipynb
+    display: false
+  - name: Meet Tina
+    lesson: Turtles/02_Meet_Tina.md
+    exercise: Turtles/02_Meet_Tina.py
+    display: true
+  - name: Check In Your Code
+    exercise: Turtles/03_Check_In_Your_Code.ipynb
+    display: false
+  - name: Turtle Tricks
+    lessons:
+    - name: Turtle Tricks 1
+      exercise: Turtles/04a_Turtle_Tricks.py
+      display: true
+    - name: Turtle Tricks 2
+      exercise: Turtles/04b_Turtle_Tricks.py
+      display: true
+    - name: Turtle Tricks 3
+      exercise: Turtles/04c_Turtle_Tricks.py
+      display: true
+  - name: Variables and Functions
+    lessons:
+    - name: Variables and Functions
+      exercise: Turtles/06a_Variables_and_Functions.ipynb
+      display: false
+    - name: Variables and Functions
+      exercise: Turtles/06b_Variables_and_Functions.ipynb
+      display: false
+  - name: Efficient Turtle
+    exercise: Turtles/07_Efficient_Turtle.py
+    display: true
+  - name: More Turtle Programs
+    lessons:
+    - name: More Turtle Programs 1
+      exercise: Turtles/08a_More_Turtle_Programs.ipynb
+      display: false
+    - name: More Turtle Programs 2
+      exercise: Turtles/08c_More_Turtle_Programs.py
+      display: true
+    - name: More Turtle Programs 3
+      exercise: Turtles/08d_More_Turtle_Programs.py
+      display: true
+  - name: More Turtle programs
+    exercise: Turtles/08b_More_Turtle_programs.py
+    display: true
