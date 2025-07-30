@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: latin-1 -*-
+"""Login to AWS using named profiles, IAM access key credentials, or SSO."""
+
+import aws_authenticator
+
+if __name__ == "__main__":
+    aws_authenticator.main()
