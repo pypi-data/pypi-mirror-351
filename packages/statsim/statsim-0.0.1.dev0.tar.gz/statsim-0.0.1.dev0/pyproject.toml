@@ -1,0 +1,17 @@
+[project]
+name = "statsim"
+version = "0.0.1.dev0"
+description = "Work-in-progress. Nothing to see yet"
+authors = [{name = "Anton Zemlyansky", email = "anton.zemlyansky@gmail.com"}]
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 2 - Pre-Alpha"
+]
+
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
