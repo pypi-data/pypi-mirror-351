@@ -1,0 +1,4 @@
+[console_scripts]
+generate-code-review = src.generate_code_review_context:cli_main
+review-with-ai = src.ai_code_review:main
+task-list-code-review-mcp = src.server:main
