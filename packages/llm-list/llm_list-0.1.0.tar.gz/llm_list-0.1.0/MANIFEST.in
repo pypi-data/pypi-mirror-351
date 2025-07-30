@@ -1,0 +1,17 @@
+include LICENSE
+include README.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include CODE_OF_CONDUCT.md
+include SECURITY.md
+include pyproject.toml
+include requirements*.txt
+recursive-include llm_list *.py
+recursive-include tests *.py
+recursive-include docs *
+prune .github
+prune .git
+prune .idea
+prune build
+prune dist
+prune *.egg-info
