@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+# prom433
+# Copyright (C) 2021 Andrew Wilkinson
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import os
+import paho.mqtt.client as mqtt
+import traceback
+from typing import Tuple
+import socket
+import sys
+
+import sentry_sdk  # type:ignore
+
+from prom433 import get_arguments, serve, prometheus
+
+def on_connect(client: mqtt.Client, userdata, flags, reason_code, properties):
+    if reason_code != 0:
+        sys.stderr.write(f"Failed to connect to mqtt: {reason_code}")
+    else:
+        print("Successfully connected to mqtt broker.")
+        client.subscribe("rtl_433/+/events")
+
+
+def safe_on_message(on_message):
+    def safe_on_message(client, userdata, msg):
+        try:
+            return on_message(client, userdata, msg)
+        except Exception as e:
+            sys.stderr.write(f"Exception processing message: {msg}\n")
+
+            traceback.print_exc()
+            sentry_sdk.capture_exception(e)
+
+    return safe_on_message
+
+
+def parse_mqtt_url(url: str) -> Tuple[str, int]:
+    if "://" in url:
+        scheme, url = url.split("://")
+        if scheme.lower() != "mqtt":
+            sys.stderr.write("If present, the scheme for the MQTT connnection must be mqtt.\n")
+            sys.exit(1)
+
+    if ":" in url:
+        return url.split(":")[0], int(url.split(":")[1])
+    return url, 1883
+
+def main():
+    sentry_sdk.init(
+        dsn=os.environ.get("SENTRY_DSN"),
+        traces_sample_rate=0.0,
+        profiles_sample_rate=0.0,
+    )
+
+    args = get_arguments(sys.argv[1:])
+
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+
+    client.on_connect = on_connect
+    client.on_message = \
+        safe_on_message(lambda client, userdata, message: \
+                        prometheus(message.payload.decode("utf-8"),
+                                   args.drop_after))
+
+    host, port = parse_mqtt_url(args.mqtt)
+    try:
+        client.connect(host=host, port=port)
+    except socket.gaierror as e:
+        sys.stderr.write(f"Error connecting to mqtt server '{args.mqtt}': {e}\n")
+        sys.exit(1)
+
+    client.loop_start()
+
+    serve(args)
+
+if __name__ == "__main__":
+    main()
