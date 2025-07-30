@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cd "$(dirname $(realpath $0))"
+
+test_model_list_path="test_model.list"
+
+for model_id in $(cat "$test_model_list_path"); do
+    ./test_model "$model_id"
+    done
+

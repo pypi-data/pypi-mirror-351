@@ -1,0 +1,55 @@
+#!/bin/sh
+
+cd "$(dirname $(realpath $0))"
+
+[ -z "$1" ] && {
+    echo "Usage: $0 model_id"
+    exit -1
+    }
+
+model_id="$1"
+model_dir="/media/models/gguf_models"
+backend="llama-cpp-python"
+model_full_id="$model_dir/model_$model_id"
+model_sha256sum=$(./get_model_sha256sum "$model_id")
+sply_version=$(../bin/sply_version)
+test_log_path="logs/$model_id""_""$sply_version.log" 
+test_cmds_list_path="test_cmds.list"
+
+export overmind_backend="$backend"
+export overmind_model_id="$model_full_id" 
+export overmind_show="True" 
+export PYTHONPATH=".."
+
+echo "***** testing \"$model_id\" *****" | 
+      tee "$test_log_path" 2>&1
+
+echo "**** sha256sum: \"$model_sha256sum\" ****" |
+      tee -a "$test_log_path" 2>&1
+
+echo "**** $sply_version ****" |
+      tee -a "$test_log_path" 2>&1
+
+echo "**** model review: TODO ****" |
+      tee -a "$test_log_path" 2>&1
+
+echo |
+      tee -a "$test_log_path" 2>&1
+
+IFS='
+'
+for test_cmd in $(cat "$test_cmds_list_path"); do
+    echo "*** $test_cmd ***" | 
+          tee -a "$test_log_path" 2>&1
+
+    echo "*** review: TODO ***" |
+          tee -a "$test_log_path" 2>&1
+
+    eval $test_cmd |
+          tee -a "$test_log_path" 2>&1
+
+    echo |
+          tee -a "$test_log_path" 2>&1
+
+    done
+

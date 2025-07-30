@@ -1,0 +1,18 @@
+#!/bin/sh
+
+cd "$(dirname $(realpath $0))"
+
+[ -z "$1" ] && {
+    echo "Usage: $0 model_id"
+    exit -1
+    }
+
+model_id="$1"
+model_dir="/media/models/gguf_models"
+
+# we assume that $model_dir/model_(model_id) is a symlink to a file $model_dir/(some_path_name).gguf
+model_path=$(readlink "$model_dir/model_$model_id")
+
+# and that $model_dir/(some_path_name).gguf.sha256sum exists
+cat "$model_dir/$model_path.sha256sum"
+

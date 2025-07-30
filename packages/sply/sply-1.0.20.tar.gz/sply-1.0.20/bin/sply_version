@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cd "$(dirname $(realpath $0))"
+
+echo "SPLY-"$(cat "../setup.py" |
+      grep "version" |
+      cut -d: -f2 |
+      tr -d " ',"
+      )
+

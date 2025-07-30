@@ -1,0 +1,7 @@
+../examples/chat_guile.py backend="$backend" model_id="$model_full_id"
+../examples/sp_transform.py backend="$backend" model_id="$model_full_id"
+../examples/sp_example_pow.py backend="$backend" model_id="$model_full_id" mode="plain"
+../examples/sp_example_pow.py backend="$backend" model_id="$model_full_id" mode="think"
+../examples/sp_example_raspberry.py backend="$backend" model_id="$model_full_id" mode="plain"
+../examples/sp_example_raspberry.py backend="$backend" model_id="$model_full_id" mode="think"
+../examples/overmind_node_group.py
