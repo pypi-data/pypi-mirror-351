@@ -1,0 +1,19 @@
+[project]
+name = "mcp-testcortexai"
+version = "0.1.1"
+description = "TestCortex AI is a specialized quality engineering tool built on top of the Goose AI platform"
+readme = "README.md"
+requires-python = ">=3.13.1"
+dependencies = [
+    "beautifulsoup4>=4.12.3",
+    "html2text>=2024.2.26",
+    "mcp[cli]>=1.9.1",
+    "requests>=2.32.3",
+]
+
+[project.scripts]
+mcp-testcortexai = "mcp_testcortexai:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
