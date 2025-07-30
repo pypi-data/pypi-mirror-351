@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: nkia-ai-dependency
+Version: 0.6.0
+Summary: NKIA AI Shared Dependency
+Author: hjyang
+Author-email: hjyang@nkia.co.kr
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: servicea
+Provides-Extra: serviceb
+Requires-Dist: fastapi (>=0.85,<0.86) ; extra == "servicea"
+Requires-Dist: gunicorn (>=20.1,<21.0) ; extra == "serviceb"
+Requires-Dist: numpy (>=1.24,<2.0) ; extra == "servicea"
+Requires-Dist: pandas (>=1.5,<2.0) ; extra == "serviceb"
