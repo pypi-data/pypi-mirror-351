@@ -1,0 +1,67 @@
+{
+    // copy this file to webhost and change the items below for your site
+
+    // set to true for a local server or false for a remote server
+    "is_local": true,
+    "local_mode": {
+        // set to true to run flask in automated refresh mode; falsw for production
+        "is_debug": true,
+        // set to the server PC host name
+        "server_hostname": "your_hostname",
+        // set to the IP port you want to use for the server;
+        "server_port": 5004,
+        // set to the IP address for the server;
+        // use localhost when all clients are on the same PC as the server
+        // otherwise 0.0.0.0 for there clients across your local network
+        "server_ip": "0.0.0.0",
+        // the server url to use in your browser and clients to connect to the server
+        "server_url": "http://{server_hostname}:{server_port}",
+        // file that holds server root password; TODO check using /etc/notify_server/info
+        "server_sudo_pwd_path": "webhost/pf_pwd",
+        // the Ubuntu service name to use
+        "svc_name": "notify_server.service",
+        // the Ubuntu userid to use to run the server
+        "svc_user_name": "your_userid",
+        // the Ubuntu groupid to use to run the server; usually the same as svc_user_name
+        "svc_group_name": "your_groupid",
+        // the absolute path to the working directory where all scripts reside
+        "svc_working_dir": "/home/{svc_user_name}/projects/web/notify-client-server",
+        // the full path to the script that runs the server
+        "svc_do_server_path": "{svc_working_dir}/do_server",
+        "clients": [
+            "client1",
+            "client2"
+            // etc.
+        ]
+    },
+    "remote_mode": {
+        // see above
+        "is_debug": true,
+        "server_hostname": "your_hostname",
+        "server_port": 5004,
+        "server_ip": "0.0.0.0",
+        "server_url": "http://{server_hostname}:{server_port}",
+        "server_sudo_pwd_path": "webhost/pf_pwd",
+        "svc_name": "notify_server.service",
+        "svc_user_name": "your_userid",
+        "svc_group_name": "your_groupid",
+        "svc_working_dir": "/home/{svc_user_name}/projects/path/to/notify-client-server",
+        "svc_do_server_path": "{svc_working_dir}/do_server",
+        "clients": [
+            "pc1",
+            "pc2"
+            // etc.
+        ]
+    },
+    "pc_info": {
+        "pc1": {
+            "user_name": "pc1_userid",
+            "working_dir": "/home/{user_name}/projects/path/to/notify-client-server"
+        },
+        "pc2": {
+            "user_name": "pc1_userid",
+            "working_dir": "/home/{user_name}/projects/path/to/notify-client-server"
+        }
+        // etc.
+    }
+}

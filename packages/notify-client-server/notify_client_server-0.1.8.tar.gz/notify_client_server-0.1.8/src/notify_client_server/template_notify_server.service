@@ -1,0 +1,15 @@
+[Unit]
+Description=Run NotifyServer Flask Application
+After=network.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+User={svc_user_name}
+Group={svc_group_name}
+WorkingDirectory={svc_working_dir}
+ExecStart={svc_do_server_path}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
