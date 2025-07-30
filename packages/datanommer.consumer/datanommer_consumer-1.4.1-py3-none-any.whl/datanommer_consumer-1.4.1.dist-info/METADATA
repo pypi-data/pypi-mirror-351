@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: datanommer.consumer
+Version: 1.4.1
+Summary: Consumer for datanommer
+Home-page: https://github.com/fedora-infra/datanommer
+License: GPL-3.0-or-later
+Author: Fedora Infrastructure
+Author-email: admin@fedoraproject.org
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: datanommer.models (>=1.0.0,<2.0.0)
+Requires-Dist: fedora-messaging (>=2.1.0)
+Requires-Dist: psycopg2 (>=2.9.1,<3.0.0)
+Project-URL: Repository, https://github.com/fedora-infra/datanommer
+Description-Content-Type: text/x-rst
+
+datanommer.consumer
+===================
+
+This package contains the fedmsg-hub consumer plugin for datanommer.
+
+Datanommer is a storage consumer for the Fedora Infrastructure Message Bus
+(fedmsg).  It is comprised of a `fedmsg <http://fedmsg.com>`_ consumer that
+stuffs every message into a sqlalchemy database.
+
