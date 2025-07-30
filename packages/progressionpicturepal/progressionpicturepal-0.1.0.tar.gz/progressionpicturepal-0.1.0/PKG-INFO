@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: progressionpicturepal
+Version: 0.1.0
+Summary: Compose image-flow diagrams with captions and arrows
+Author-email: Sam Lewis <sam.vr.lewis@gmail.com>
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+License-File: LICENSE
+Requires-Dist: Pillow>=8.0
+Dynamic: license-file
