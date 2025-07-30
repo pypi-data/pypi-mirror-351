@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kddl"
+version = "0.0.2"
+description = "Infrastructure to train neural networks with PyTorch."
+readme = "README.md"
+requires-python = ">3.9"
+license = "BSD-3-Clause"
+license-files =["LICENSE"]
+dependencies = [
+	"numpy",
+	"einops",
+	# "torch>=2.0",
+	"tensorboard",
+	"polars",
+	"torchinfo",
+	"pytest",
+	"rich",
+]
+authors = [{name = "Kevin Doran"}]
+[project.urls]
+Homepage = "https://github.com/kevindoran/kddl"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
