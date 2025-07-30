@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-server-beehiiv"
+version = "0.1.1"
+description = "Beehiiv Newsletter Subscription MCP Server using FastMCP."
+authors = [
+    { name = "Your Name", email = "your@email.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "fastmcp",
+    "python-dotenv",
+    "requests"
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/mcp-server-beehiiv"
+
+[project.scripts]
+mcp-server-beehiiv = "mcp_server_beehiiv.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"] 
