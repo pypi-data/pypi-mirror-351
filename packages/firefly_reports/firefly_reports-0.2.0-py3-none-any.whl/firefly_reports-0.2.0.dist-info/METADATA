@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: firefly_reports
+Version: 0.2.0
+Summary: Generate reports using Firefly's API.
+Author-email: Christopher Tyler <ChristopherTyler@engineer.com>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.13
+Requires-Dist: beautifulsoup4>=4.13.4
+Requires-Dist: click>=8.2.1
+Requires-Dist: requests>=2.32.3
