@@ -1,0 +1,49 @@
+[project]
+name = "functiontrace"
+version = "0.4.3"
+description = "A profiling tool that traces your application's execution"
+authors = [
+    { name = "Matt Bryant", email = "functiontrace@programsareproofs.com"},
+    { name = "Alistair Dobke" }
+]
+license = "LicenseRef-Prosperity-Public-License-3.0.0"
+license-files = ["LICENSE.md"]
+readme = "README.rst"
+# NOTE: Actively tested on Python 3.9 - 3.13 and may plausibly break on greater
+# versions due to C extension hacks.  However, setting a maximum version causes
+# new Python versions to simply install very old versions of Functiontrace that
+# didn't have the `requires-python` annotation on them and are also unlikely to
+# work.  Best to only set the minimum and let bug reports notify us of issues
+# with new Python releases.
+requires-python = ">=3.9"
+keywords = [
+    "profiler",
+    "debugger"
+]
+classifiers = [
+	"Intended Audience :: Developers",
+	"Topic :: Software Development :: Debuggers",
+	"Operating System :: Unix",
+	"Environment :: Console",
+    "Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3 :: Only",
+	"Programming Language :: Python :: Implementation :: CPython",
+]
+
+[project.urls]
+homepage = "https://functiontrace.com"
+repository = "https://gitlab.com/mbryant/functiontrace"
+
+[project.scripts]
+functiontrace = "functiontrace:main"
+
+[project.entry-points.functiontrace]
+functiontrace = "functiontrace"
+
+[build-system]
+requires = ["setuptools", "setuptools-rust"]
+build-backend = "setuptools.build_meta"
+
+[[tool.setuptools-rust.ext-modules]]
+target = "_functiontrace_rs" # Must match `lib.name` in Cargo.toml
+binding = "PyO3"

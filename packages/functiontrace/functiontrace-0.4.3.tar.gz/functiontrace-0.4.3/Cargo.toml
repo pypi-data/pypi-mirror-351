@@ -1,0 +1,22 @@
+[package]
+name = "_functiontrace_rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+color-eyre = { version = "0.6", default-features = false }
+functiontrace-server = { version = "0.8.4", default-features = false, features = ["serialize"] }
+libc = "0.2"
+pyo3 = { version = "0.25", features = ["eyre"] }
+rmp-serde = "1.3"
+serde = "1"
+
+[build-dependencies]
+toml = { version = "0.8", default-features = false, features = ["parse"] }
+pyo3-build-config = { version = "0.25", features = ["resolve-config"] }
+
+[lib]
+# See https://github.com/PyO3/pyo3 for details
+name = "_functiontrace_rs"  # private module to be nested into Python package
+crate-type = ["cdylib"]
+path = "rust/lib.rs"
