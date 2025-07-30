@@ -1,0 +1,60 @@
+[project]
+name = "pytailwindcss-extra"
+version = "0.2.1"
+description = "Use Tailwind CSS with daisyUI without Node.js and install it via pip."
+keywords = ["cli", "tailwind", "css", "daisyui"]
+authors = [
+    { name = "2mal3", email = "56305732+2mal3@users.noreply.github.com" },
+]
+dependencies = ["niquests==3.*", "tqdm==4.*", "platformdirs==4.*"]
+readme = "README.md"
+license = "LGPL-3.0"
+requires-python = ">= 3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/2mal3/pytailwindcss-extra"
+Repository = "https://github.com/2mal3/pytailwindcss-extra"
+Issues = "https://github.com/2mal3/pytailwindcss-extra/issues"
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+# Rules are explained here: https://docs.astral.sh/ruff/rules
+select = ["E4", "E7", "E9", "F", "C", "N", "ANN", "A", "SIM", "PL", "ANN"]
+
+[project.scripts]
+tailwindcss-extra = "pytailwindcss_extra.__main__:main"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pytest==8.*",
+    "pre-commit==4.*",
+]
+
+
+[build-system]
+requires = ["hatchling==1.26.3"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["pytailwindcss_extra"]
