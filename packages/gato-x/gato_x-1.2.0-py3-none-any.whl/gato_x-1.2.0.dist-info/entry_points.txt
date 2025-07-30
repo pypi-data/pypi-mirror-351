@@ -1,0 +1,4 @@
+[console_scripts]
+gato-x = gatox.main:entry
+gato-x-mcp = gatox.mcp.mcp_server:entry
+gatox = gatox.main:entry
