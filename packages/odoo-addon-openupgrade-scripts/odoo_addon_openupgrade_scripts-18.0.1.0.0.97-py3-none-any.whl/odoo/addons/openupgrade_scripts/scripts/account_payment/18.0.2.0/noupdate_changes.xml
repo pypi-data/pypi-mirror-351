@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <!-- Nothing to do. See https://github.com/odoo/odoo/commit/ac106704f3c2d3e3fa94415134b9d5522b325378 -->
+  <record id="onboarding_onboarding_step_payment_provider" model="onboarding.onboarding.step">
+    <field name="onboarding_ids"/>
+  </record>
+</odoo>
