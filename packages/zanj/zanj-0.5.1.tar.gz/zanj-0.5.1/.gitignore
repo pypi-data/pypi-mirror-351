@@ -1,0 +1,20 @@
+.meta/local/
+docs/temp
+
+junk_data
+.pypi-token
+.commit_log
+__pycache__/
+**/__pycache__/
+**/.mypy_cache/
+**/.pytest_cache/
+
+build/
+dist/
+zanj.egg-info/
+
+.coverage
+htmlcov/
+
+# setup_build.sh
+
