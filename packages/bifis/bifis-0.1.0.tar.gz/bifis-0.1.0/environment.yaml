@@ -1,0 +1,11 @@
+name: bifis
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip=23.3.1
+  - pip:
+    - numpy
+    - scipy
+    - rich
+    - matplotlib
