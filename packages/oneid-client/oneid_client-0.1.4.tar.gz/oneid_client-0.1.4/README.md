@@ -1,0 +1,47 @@
+# OneID Client for Python
+
+A lightweight Python client for authenticating users and retrieving user data using the [OneID SSO](https://sso.egov.uz) platform via OAuth2.
+
+## 🔧 Installation
+
+### From PyPI:
+
+```bash
+pip install oneid-client
+```
+
+From source:
+```bash
+git clone https://github.com/justbackend/oneid-client.git
+```
+
+
+🚀 Usage Example
+
+
+# Initialize the OneID client
+```code
+from oneid import OneID
+
+one_id = OneID(
+    url="https://sso.egov.uz/sso/oauth/Authorization.do",
+    client_id='your_client_name',
+    client_secret='your_client_secret',
+    redirect_uri='your_redirect_url'
+)
+
+# Get user info using the authorization code
+user = one_id.get_user_info(code='a3eed750-fec6-4544-910a-52e2ce020797')
+
+# Access the user's full name
+print(user.full_name)
+```
+
+🧩 Features
+🔐 OAuth2 Authorization Code flow for OneID
+
+🔄 Automatic access token retrieval
+
+👤 Fetch structured user data with a simple interface
+
+📦 Easy integration in any FastAPI, Django, or standalone Python project
