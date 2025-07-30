@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: h7-logger-manager
+Version: 1.0.0
+Summary: Core utility classes for logging management in Python projects
+Author-email: Roger Mori <roger.mori@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/rogermori/h7-logger-manager
+Project-URL: Bug Tracker, https://github.com/rogermori/h7-logger-manager/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: h7-file-finder>=1.0.0
+Requires-Dist: h7-env-manager>=1.0.0
+
+# h7-logger-manager
+
+Core utility classes for logging management in Python projects.
+
+## Installation
+
+```bash
+pip install h7-logger-manager
+```
+
+## Features
+
+- Centralized logging configuration
+- Automatic log file rotation
+- Console and file logging
+- Support for multiple named loggers
+- Timestamp-based log file naming
+
+## Usage
+
+```python
+from h7_logger_manager import LoggerManager
+
+# Get default logger
+logger = LoggerManager.setup_logger()
+
+# Log messages at different levels
+logger.debug("Debug message - only appears in log file")
+logger.info("Info message - appears in console and log file")
+logger.warning("Warning message")
+logger.error("Error message")
+
+# Create a custom named logger with specific file prefix
+custom_logger = LoggerManager.setup_logger("my_module", "custom_prefix")
+custom_logger.info("This goes to a separate log file")
+```
+
+## Requirements
+
+- Python 3.7+
+- h7-file-finder
+- h7-env-manager
+
+## License
+
+MIT License - Copyright (c) 2025 Roger Mori

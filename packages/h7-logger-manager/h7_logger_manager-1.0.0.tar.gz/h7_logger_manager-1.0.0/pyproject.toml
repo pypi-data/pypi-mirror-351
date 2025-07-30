@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "h7-logger-manager"
+version = "1.0.0"
+description = "Core utility classes for logging management in Python projects"
+readme = "README.md"
+authors = [
+    {name = "Roger Mori", email = "roger.mori@example.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "h7-file-finder>=1.0.0",
+    "h7-env-manager>=1.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/rogermori/h7-logger-manager"
+"Bug Tracker" = "https://github.com/rogermori/h7-logger-manager/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.flake8]
+max-line-length = 100
+exclude = [".git", "__pycache__", "build", "dist"]
+
+[tool.black]
+line-length = 100
+target-version = ["py37", "py38", "py39", "py310"]
+
+[tool.ruff]
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors (PEP 8)
+    "F",      # pyflakes (logic errors)
+    "W",      # pycodestyle warnings
+    "I",      # isort (import sorting)
+    "B",      # bugbear (extra best practices)
+    "C90",    # mccabe (complexity)
+    "D",      # pydocstyle (docstrings)
+    "UP",     # pyupgrade (Python version modernization)
+    "RUF",    # Ruff-specific rules (inc. RUF100: Black formatting)
+]
+ignore = [
+    # Ignore rules that conflict with your preference for minimal comments
+    "D203",  # one-blank-line-before-class (conflicts with D211)
+    "D205",  # one-blank-line in comments
+    "D212",  # multi-line-summary-first-line (conflicts with D213)
+
+]
+
+[tool.ruff.lint.pydocstyle]
+# Use Google-style docstrings
+convention = "google"
