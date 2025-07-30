@@ -1,0 +1,152 @@
+Metadata-Version: 2.4
+Name: omst-avrtool
+Version: 2.1.0
+Summary: AVR programming tool for OceanScan-MST
+Author-email: Renato Campos <rcampos@oceanscan-mst.com>
+Maintainer-email: OceanScan-MST Team <support@oceanscan-mst.com>
+License: Copyright (c) 2018 The Python Packaging Authority
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://gitlab.com/omst/omst-factory-tools
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Embedded Systems
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: reportlab>=3.6.0
+Requires-Dist: appdirs>=1.4.3
+Requires-Dist: secretstore>=0.0.2
+Requires-Dist: dbus-python>=1.4.0
+Requires-Dist: keyring>=23.0.0
+Requires-Dist: pysmb>=1.2.11
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: build>=0.10.0; extra == "dev"
+Requires-Dist: twine>=4.0.2; extra == "dev"
+Requires-Dist: sphinx>=6.0.0; extra == "dev"
+Dynamic: license-file
+
+# OMST AVR-Tool
+
+A Python tool for programming AVR microcontrollers, developed for internal use at OceanScan-MST.
+
+## Features
+
+- Flash AVR microcontrollers using avrdude
+- Generate setup certificates as PDF documents
+- Upload certificates to network shares
+- Support for multiple board versions and firmware releases
+
+## Installation
+
+### From PyPI
+
+```bash
+pip install omst-avrtool
+```
+
+
+## Dependencies
+
+- Python 3.8 or higher
+- avrdude must be installed and available in your PATH
+- WeasyPrint dependencies (Cairo, Pango, GLib)
+```bash
+# On Ubuntu/Debian
+# Install complete set of dependencies for WeasyPrint
+pip install dbus-python secretstorage
+```
+
+## Usage
+
+```bash
+# Check out firmware from repository
+omst-avrtool checkout
+
+# List available boards
+omst-avrtool flash -l
+
+# Flash a board
+omst-avrtool flash -b BOARD_NAME -n INVENTORY_NUMBER -a AUTHOR_NAME
+
+# Flash without generating report
+omst-avrtool flash -b BOARD_NAME --no-report
+```
+
+## Development
+
+```bash
+# Create virtual environment
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
+# Upgrade pip
+pip install --upgrade pip
+
+# Install development dependencies
+pip install -e ".[dev]"
+
+# Build package
+python -m build
+
+# Install the built package
+pip install --force-reinstall dist/omst_avrtool-*.whl
+```
+
+## Publishing
+Update the version on pyproject.toml
+```bash
+python -m pip install --upgrade pip
+pip install build twine
+python -m build
+twine upload dist/*
+```
+
+## Credentials Management
+
+When connecting to network shares, credentials are managed securely:
+
+1. Credentials can be provided via environment variables:
+   - `OMST_AVR_USERNAME`: Username for network share
+   - `OMST_AVR_PASSWORD`: Password for network share
+
+2. Alternatively, you can store credentials in your system's keyring:
+   - First-time use will prompt for credentials
+   - You'll be asked if you want to save them for future use
+
+3. If neither environment variables nor keyring entries are found, 
+   you'll be prompted to enter credentials interactively
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
