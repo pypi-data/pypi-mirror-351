@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "hyperflow-py-models"
+version = "0.1.1"
+description = "Hyperflow Python models package"
+authors = ["Hyperflow <hyperflow2025@gmail.com>"]
+readme = "README.md"
+packages = [{include = "hyperflow_py_models", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+protobuf = "*"
+pydantic = "*"
+sqlalchemy = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
