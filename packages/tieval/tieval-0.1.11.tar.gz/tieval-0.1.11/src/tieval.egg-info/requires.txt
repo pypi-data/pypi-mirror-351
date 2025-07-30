@@ -1,0 +1,11 @@
+nltk
+xmltodict
+networkx>=2.8.1
+cached-path>=1.1.2
+
+[models]
+allennlp==2.9.3
+py_heideltime
+
+[test]
+pytest
