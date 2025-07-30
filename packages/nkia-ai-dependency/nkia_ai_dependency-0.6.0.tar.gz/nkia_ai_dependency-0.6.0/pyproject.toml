@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "nkia-ai-dependency"
+version = "0.6.0"
+description = "NKIA AI Shared Dependency"
+authors = ["hjyang <hjyang@nkia.co.kr>"]
+
+[tool.poetry.dependencies]
+python  = "^3.10"
+
+# 모두 optional=true 로 표시 (기본 설치에서는 제외)
+numpy    = { version = "^1.24", optional = true }
+pandas   = { version = "^1.5" , optional = true }
+fastapi  = { version = "^0.85", optional = true }
+gunicorn = { version = "^20.1", optional = true }
+
+[tool.poetry.extras]
+serviceA = ["numpy", "fastapi"]
+serviceB = ["pandas", "gunicorn"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
