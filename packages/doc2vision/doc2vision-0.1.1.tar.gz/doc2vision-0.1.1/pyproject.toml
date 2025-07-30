@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doc2vision"
+version = "0.1.1"
+description = "Convert PDFs and images into clean, LLM-compatible image formats"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Russell Van Curen", email = "russell@vancuren.net" }]
+requires-python = ">=3.7"
+dependencies = [
+    "contourpy==1.3.2",
+    "cycler==0.12.1",
+    "fonttools==4.58.1",
+    "kiwisolver==1.4.8",
+    "matplotlib==3.10.3",
+    "numpy==2.2.6",
+    "opencv-python-headless==4.11.0.86",
+    "packaging==25.0",
+    "pdf2image==1.17.0",
+    "pillow==11.2.1",
+    "pyparsing==3.2.3",
+    "python-dateutil==2.9.0.post0",
+    "six==1.17.0"
+]
