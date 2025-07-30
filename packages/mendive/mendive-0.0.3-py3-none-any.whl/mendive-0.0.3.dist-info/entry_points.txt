@@ -1,0 +1,3 @@
+[console_scripts]
+claw = mendive.app:main
+test_claw = mendive.test:main
