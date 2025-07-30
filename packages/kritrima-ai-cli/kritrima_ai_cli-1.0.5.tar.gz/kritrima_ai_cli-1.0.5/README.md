@@ -1,0 +1,334 @@
+# Kritrima AI CLI - Comprehensive AI Assistant
+
+A sophisticated, multi-layered AI-powered CLI assistant with autonomous agent capabilities, built with Python 3.13.
+
+## 🚀 One-Command Installation
+
+Install Kritrima AI CLI on **Windows 11 WSL**, **macOS**, and **Linux** with a single command:
+
+```bash
+pip install kritrima-ai-cli
+```
+
+### Quick Start
+
+```bash
+# Launch the AI assistant
+kritrima-ai
+
+# Or use the short alias
+kai
+
+# Get help
+kritrima-ai --help
+```
+
+## 🌟 Features
+
+### Core AI Integration
+- **Multi-Provider Support**: OpenAI, Azure, Gemini, Ollama, Mistral, DeepSeek, xAI, Groq, ArceeAI, OpenRouter
+- **Dynamic Model Discovery**: Automatic model detection and switching
+- **Autonomous Agent Loop**: Sophisticated AI orchestration with tool calling
+- **Multi-Modal Input**: Text and image processing capabilities
+
+### Advanced Code Assistance
+- **File Operations**: Unified diff processing, patch application, conflict resolution
+- **Shell Integration**: Cross-platform command execution with sandboxing
+- **Git Integration**: Repository awareness, diff generation, change tracking
+- **Project Analysis**: Documentation discovery and context integration
+
+### Security & Safety
+- **Multi-Platform Sandboxing**: Linux Landlock, macOS Seatbelt, Windows restrictions
+- **Approval Policies**: Configurable command approval workflows
+- **Path Validation**: Directory traversal protection
+- **Secure Storage**: Encrypted configuration and session management
+
+### Rich User Interface
+- **Terminal-Based UI**: Rich console interface with real-time updates
+- **Interactive Overlays**: Model selection, history browsing, session management
+- **Advanced Input**: Multi-line editing, file suggestions, slash commands
+- **Visual Feedback**: Progress indicators, notifications, syntax highlighting
+
+### Session Management
+- **Persistent Sessions**: Save and resume conversations
+- **Command History**: Searchable command history with sensitive data filtering
+- **Context Management**: Intelligent context optimization and compression
+- **Export/Import**: Share sessions between instances
+
+## 📦 Installation
+
+### System Requirements
+- **Python 3.13+** (Required)
+- **pip** (Python package manager)
+- **Internet connection** for AI provider APIs
+
+### Platform-Specific Setup
+
+#### Windows 11 (WSL)
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Python 3.13+ if needed
+sudo apt install python3.13 python3.13-pip -y
+
+# Install Kritrima AI CLI
+pip install kritrima-ai-cli
+
+# Verify installation
+kritrima-ai --version
+```
+
+#### macOS
+```bash
+# Install Python 3.13+ (using Homebrew)
+brew install python@3.13
+
+# Install Kritrima AI CLI
+pip install kritrima-ai-cli
+
+# Verify installation
+kritrima-ai --version
+```
+
+#### Linux (Ubuntu/Debian)
+```bash
+# Update packages
+sudo apt update
+
+# Install Python 3.13+
+sudo apt install python3.13 python3.13-pip -y
+
+# Install Kritrima AI CLI
+pip install kritrima-ai-cli
+
+# Verify installation
+kritrima-ai --version
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+```bash
+# Primary AI Provider
+export OPENAI_API_KEY="your-openai-key"
+export ANTHROPIC_API_KEY="your-anthropic-key"
+export GOOGLE_AI_KEY="your-gemini-key"
+
+# Custom Providers
+export CUSTOM_PROVIDER_API_KEY="your-custom-key"
+export CUSTOM_PROVIDER_BASE_URL="https://api.custom.com/v1"
+
+# Application Settings
+export KRITRIMA_AI_APPROVAL_MODE="suggest"  # suggest, auto-edit, full-auto
+export KRITRIMA_AI_MODEL="gpt-4"
+export KRITRIMA_AI_PROVIDER="openai"
+```
+
+### Configuration Files
+- Global: `~/.kritrima/config.json`
+- Project: `./.kritrima/config.json`
+
+### Example Configuration
+```json
+{
+  "model": "gpt-4",
+  "provider": "openai",
+  "approvalMode": "suggest",
+  "providers": {
+    "custom": {
+      "name": "Custom Provider",
+      "baseURL": "https://api.custom.com/v1",
+      "envKey": "CUSTOM_API_KEY"
+    }
+  },
+  "ui": {
+    "theme": "dark",
+    "notifications": true,
+    "autoSave": true
+  }
+}
+```
+
+## 🎯 Usage
+
+### Basic Commands
+```bash
+# Start interactive session
+kritrima-ai
+
+# Single command mode
+kritrima-ai "Explain this code file" --file main.py
+
+# Full context mode
+kritrima-ai --full-context "Refactor this project"
+
+# Specific model
+kritrima-ai --model gpt-4 --provider openai
+```
+
+### Slash Commands
+- `/help` - Show help information
+- `/model` - Switch AI model/provider
+- `/history` - View command history
+- `/sessions` - Browse saved sessions
+- `/clear` - Clear conversation
+- `/compact` - Compress context
+- `/bug` - Generate bug report
+- `/diff` - Show git differences
+
+### File Operations
+```bash
+# Include file contents
+@filename.py
+
+# Create/edit files
+Please create a new file called app.py with a Flask application
+
+# Apply patches
+Create a patch to fix the bug in utils.py
+```
+
+### Approval Modes
+- **Suggest**: Manual approval for all actions
+- **Auto-Edit**: Automatic file edits, manual commands
+- **Full-Auto**: Automatic everything (with sandbox)
+
+## 🔄 Package Management
+
+### Update to Latest Version
+```bash
+pip install --upgrade kritrima-ai-cli
+```
+
+### Uninstall
+```bash
+# Remove package
+pip uninstall kritrima-ai-cli
+
+# Clean up configuration (optional)
+rm -rf ~/.kritrima
+```
+
+### Development Installation
+```bash
+# Clone repository
+git clone https://github.com/kritrima/kritrima-ai-cli.git
+cd kritrima-ai-cli
+
+# Install in development mode
+pip install -e .
+
+# Install development dependencies
+pip install -e ".[dev]"
+```
+
+## 🏗️ Architecture
+
+### System Components
+```
+┌─────────────────────────────────────────┐
+│              CLI Entry Point            │
+│            (kritrima_ai/cli.py)         │
+└─────────────────┬───────────────────────┘
+                  │
+┌─────────────────▼───────────────────────┐
+│            Application Core             │
+│          (kritrima_ai/app.py)           │
+└─────────────────┬───────────────────────┘
+                  │
+┌─────────────────▼───────────────────────┐
+│            Agent Loop System           │
+│     (kritrima_ai/agent/agent_loop.py)  │
+└─────────────────┬───────────────────────┘
+                  │
+┌─────────────────▼───────────────────────┐
+│          Provider Integration          │
+│      (kritrima_ai/providers/*.py)      │
+└─────────────────────────────────────────┘
+```
+
+### Key Modules
+- **Agent System**: Autonomous AI orchestration
+- **Provider Integration**: Multi-provider AI access
+- **Security Framework**: Sandboxing and approval systems
+- **Storage System**: Session and configuration management
+- **UI Components**: Rich terminal interface
+- **Tool System**: File operations and shell execution
+
+## 🔒 Security
+
+### Sandboxing
+- **Linux**: Landlock LSM for file system restrictions
+- **macOS**: Seatbelt for process sandboxing
+- **Windows**: Job objects and ACL restrictions
+- **Fallback**: Safe execution with permission checks
+
+### Approval Workflow
+1. Command validation against safe/dangerous lists
+2. Path validation for directory traversal protection
+3. Permission verification for file operations
+4. Resource limit enforcement
+5. User approval for potentially dangerous operations
+
+### Data Protection
+- Encrypted storage for sensitive configuration
+- Automatic sensitive data filtering in history
+- Secure API key management
+- Optional data anonymization
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+#### Python Version Issues
+```bash
+# Check Python version
+python3 --version
+
+# If Python 3.13+ not available, install it
+# Follow platform-specific instructions above
+```
+
+#### Permission Issues (Linux/macOS)
+```bash
+# Install for current user only
+pip install --user kritrima-ai-cli
+
+# Add to PATH if needed
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+#### Windows PATH Issues
+```powershell
+# Add Python Scripts to PATH
+$env:Path += ";$env:USERPROFILE\AppData\Roaming\Python\Python313\Scripts"
+```
+
+## 📚 Resources
+
+- **Documentation**: https://docs.kritrima.ai
+- **GitHub Repository**: https://github.com/kritrima/kritrima-ai-cli
+- **Issue Tracker**: https://github.com/kritrima/kritrima-ai-cli/issues
+- **PyPI Package**: https://pypi.org/project/kritrima-ai-cli/
+- **Installation Guide**: [INSTALLATION.md](INSTALLATION.md)
+- **Publishing Guide**: [PUBLISHING_GUIDE.md](PUBLISHING_GUIDE.md)
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our contributing guidelines and feel free to submit issues or pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+**Ready to get started?**
+
+```bash
+pip install kritrima-ai-cli && kritrima-ai
+```
+
+🎉 **Welcome to the future of AI-powered development!** 
