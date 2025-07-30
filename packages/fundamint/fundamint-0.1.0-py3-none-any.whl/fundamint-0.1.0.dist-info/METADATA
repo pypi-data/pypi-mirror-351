@@ -1,0 +1,28 @@
+Metadata-Version: 2.1
+Name: fundamint
+Version: 0.1.0
+Summary: A package for stock recommendations based on news analysis using LLMs
+Home-page: https://github.com/blurred-machine/fundamint
+Author: Paras Varshney
+Author-email: blurredmachine@gmail.com
+License: UNKNOWN
+Keywords: finance,stocks,news,llm,ai
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.8
+License-File: LICENSE
+Requires-Dist: fastapi
+Requires-Dist: newsapi-python
+Requires-Dist: pandas
+Requires-Dist: pydantic
+Requires-Dist: requests
+Requires-Dist: torch
+Requires-Dist: transformers
+Requires-Dist: uvicorn
+Requires-Dist: yfinance
+
+UNKNOWN
+
