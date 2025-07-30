@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: strongly-connected-components
+Version: 0.1.0
+Summary: Add your description here
+Author-email: Julian Bertram <tirednesscankill@warhog.net>
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+
+Compute the [strongly connected components](https://en.wikipedia.org/wiki/Strongly_connected_component) of a graph.
+
+```python
+type Graph[L] = Mapping[L, Collection[L]]
+
+def strongly_connected_components[L](graph: Graph[L]) -> Iterator[frozenset[L]]
+```
