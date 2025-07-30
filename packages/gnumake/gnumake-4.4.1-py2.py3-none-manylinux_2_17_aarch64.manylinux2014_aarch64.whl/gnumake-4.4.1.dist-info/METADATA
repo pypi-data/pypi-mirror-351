@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: gnumake
+Version: 4.4.1
+Summary: GNU Make is a tool which controls the generation of executables and other non-source files of a program from the program's source files.
+Keywords: make
+Author-email: "Paul D. Smith" <psmith@gnu.org>, Dmitry Goncharov <dgoncharov@users.sf.net>, Boris Kolpackov <boris@kolpackov.net>, Roland McGrath <roland@gnu.org>, "Richard M. Stallman" <rms@gnu.org>, Roland McGrath <roland@gnu.org>, Bob Chassell <bob@gnu.org>, Melissa Weisshaus <melissa@gnu.org>, "Paul D. Smith" <psmith@gnu.org>
+Description-Content-Type: text/markdown
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Project-URL: Bug Report, https://github.com/xmake-io/gnumake-wheel/issues
+Project-URL: Download, https://github.com/xmake-io/gnumake-wheel/releases
+Project-URL: Homepage, https://www.gnu.org/software/make/
+Project-URL: Source, https://github.com/xmake-io/gnumake-wheel
+
+# GNU Make
+
+GNU Make is a tool which controls the generation of executables and other
+non-source files of a program from the program's source files.
+
+This project provides python wheels for GNU Make.
+
+See [xmake-python](https://github.com/xmake-io/xmake-python#autotoolsmakefile).
+
