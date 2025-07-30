@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "PCDTW"
+version = "0.2.0"
+description = "This package has functions for the conversion of amino acid sequences to physicochemical vectors and the subsequent analysis of those vector sequences."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.6"
+authors = [
+    { name = "Jamie Dixson", email = "realtorjamied@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "dtaidistance",
+    "numpy",
+    "pandas",
+]
+
+[project.urls]
+Homepage = "https://github.com/JamberFX/PCDTWPackage"
+
+[tool.hatch.version]
+path = "pcdtw/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/pcdtw",
+]
