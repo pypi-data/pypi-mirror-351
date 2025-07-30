@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "secnex_notion_webhook_server"
+version = "0.0.3"
+authors = [
+  { name="Björn Benouarets", email="bjoern@secnex.io" },
+]
+description = "A package to create a webhook server that can be used to handle Notion webhooks and trigger actions"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/secnex/notion-webhook-server"
+Issues = "https://github.com/secnex/notion-webhook-server/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
