@@ -1,0 +1,104 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+set -e -o pipefail
+
+if [ -n "${GITTED_TESTING}" ]; then
+    set -x
+fi
+
+if [ -n "${GITTED_VERBOSE}" ]; then
+    set -x
+fi
+
+echo "Gitted 0.0.6 (any issues or ideas, submit to https://github.com/yegor256/gitted)"
+
+function title_it {
+    printf '\n\e[1m%s\e[0m...\n' "$@"
+}
+
+function bash_it {
+    printf '%q ' "$@" | /bin/bash -x
+}
+
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Oops, this is not a Git repository"
+    exit 1
+fi
+
+base=$(dirname "$0")
+
+if [ -z "${GIT_BIN}" ]; then
+    GIT_BIN=git
+fi
+
+printf "\nShowing status...\n"
+bash_it "${GIT_BIN}" status
+
+inc=$(${GIT_BIN} status --porcelain | grep -c '^??' || true)
+if [ ! "${inc}" == '0' ]; then
+    title_it "Adding new ${inc} files..."
+    bash_it "${GIT_BIN}" add .
+fi
+
+title_it 'Generating commit message...'
+branch=$("${GIT_BIN}" symbolic-ref HEAD --short)
+msg="$*"
+if [ "${branch}" == master ]; then
+    if [[ "${msg}" =~ [0-9]+ ]]; then
+        prefix="#${msg}: "
+        msg=
+    else
+        prefix=
+    fi
+else
+    prefix="#${branch}: "
+fi
+if "${GIT_BIN}" rev-parse --verify HEAD >/dev/null 2>&1; then
+    if "${GIT_BIN}" rev-parse HEAD >/dev/null 2>&1; then
+        diff=$("${GIT_BIN}" diff HEAD | head -2000)
+    else
+        diff=$("${GIT_BIN}" diff | head -2000)
+    fi
+else
+    diff=$("${GIT_BIN}" diff --staged)
+fi
+if [ -n "${GITTED_TESTING}" ]; then
+    PYTHONPATH="${base}/../src:${PYTHONPATH}"
+    export PYTHONPATH
+fi
+if ! python3 -c 'import gitted' >/dev/null 2>&1; then
+    echo 'The "gitted" Python package is not installed, run "pip install gitted"'
+    exit 1
+fi
+if ! python3 -c 'import openai' >/dev/null 2>&1; then
+    echo 'Something is wrong with the installation of the "gitted" Python package, try "pip install gitted"'
+    exit 1
+fi
+py=$(cat << 'EOT'
+import sys
+from gitted.diff2msg import generate_commit_message
+diff = sys.stdin.read()
+msg = sys.argv[1] if len(sys.argv) > 1 else ''
+print(generate_commit_message(diff, msg))
+EOT
+)
+gpt=$(echo "${diff}" | python3 -c "${py}" "${msg}")
+msg="${prefix}${gpt}"
+if [ -z "${GITTED_BATCH}" ]; then
+    printf "ChatGPT suggested: \e[38;5;208m%s\e[0m\n" "${msg}"
+else
+    printf "ChatGPT suggested: '%s'\n" "${msg}"
+fi
+
+title_it "Committing the changes..."
+opts=(--allow-empty --all)
+if [ -n "${GITTED_TESTING}" ]; then
+    opts+=(--no-verify)
+fi
+email=$("${GIT_BIN}" config user.email)
+if gpg --list-secret-keys --with-colons "${email}" 2>/dev/null | grep -q '^sec'; then
+    opts+=(-S)
+fi
+bash_it "${GIT_BIN}" commit "${opts[@]}" --message "${msg}"
