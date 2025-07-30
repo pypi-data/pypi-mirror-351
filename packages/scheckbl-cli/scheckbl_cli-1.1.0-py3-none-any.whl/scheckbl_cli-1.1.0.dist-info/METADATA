@@ -1,0 +1,122 @@
+Metadata-Version: 2.4
+Name: scheckbl-cli
+Version: 1.1.0
+Summary: Search & filter tool for SCheck Blocklist datasets.
+Author: Stainowy
+License: Copyright 2025 SCheck-Blocklist
+        
+        Permission is granted to use, copy, and modify this software, provided that the copyright notice and the terms of this license are included in all copies or substantial portions of the software.
+        
+        The software is provided "as is", without any warranty of any kind, express or implied, including but not limited to the warranties of merchantability or fitness for a particular purpose. The author shall not be held liable for any damages arising from the use of the software, including but not limited to loss of data, profits, or other financial losses.
+        
+        Any kind of commercial use of this software is strictly prohibited. This includes, but is not limited to, selling, renting, licensing, sublicensing, or any other profit-oriented activity involving this software, unless explicit permission is granted by the author.
+        
+        The user of the software is required to give proper attribution to the author by clearly stating their name or the name of the organization in documentation, README files, source code headers, or any other materials associated with the distribution of the software.
+        
+        Any modifications or derivative works must also be made publicly available as open source, under the same license and with all its original terms preserved.
+Project-URL: Homepage, https://github.com/SCheck-Blocklist/SCheck-Blocklist
+Project-URL: Repository, https://github.com/SCheck-Blocklist/CLI
+Project-URL: PyPI-Library, https://pypi.org/project/scheckbl
+Project-URL: CLI-Website, https://scheckbl-blocklist.vercel.app/cli
+Project-URL: Main-Website, https://scheck-blocklist.vercel.app
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: click>=8.0
+Requires-Dist: colorama>=0.4
+Requires-Dist: scheckbl>=1.0.0
+Dynamic: license-file
+
+# scheckbl-cli
+
+**A command-line interface for interacting with the SCheck Blocklist datasets.**
+> Actually Version: `1.1.0`
+> 
+> Our Websites: [scheck-blocklist.vercel.app](https://scheck-blocklist.vercel.app)
+
+## Installation
+
+Install the CLI tool using pip:
+
+```bash
+pip install scheckbl-cli
+```
+
+## Usage
+
+The CLI provides several commands to interact with the blocklist:
+
+### Check if a keyword exists
+
+```bash
+scheckbl-cli check <type_name> <category> <keyword>
+```
+
+Example:
+
+```bash
+scheckbl-cli check phrases vulgarisms "example_word"
+```
+
+### Find any hits in text
+
+```bash
+scheckbl-cli find <type_name> <category> <text>
+```
+
+Example:
+
+```bash
+scheckbl-cli find phrases vulgarisms "This is some sample text."
+```
+
+### Retrieve full list and save to file
+
+```bash
+scheckbl-cli get <type_name> <category> [options]
+```
+
+Options:
+
+- `-f, --filename NAME`
+- `-r, --regex PATTERN`
+- `-o, --output FILE`
+- `--stdout`
+
+Example:
+
+```bash
+scheckbl-cli get phrases vulgarisms --stdout
+```
+
+### Find entries similar to a given phrase
+
+```bash
+scheckbl-cli similar <type_name> <category> <phrase> [options]
+```
+
+Options:
+
+- `-t, --threshold FLOAT`
+- `--json`
+- `-o, --output FILE`
+- `--stdout`
+
+Example:
+
+```bash
+scheckbl-cli similar phrases vulgarisms "example_phrase" --json
+```
+
+## Help
+
+For more information on each command and its options:
+
+```bash
+scheckbl-cli --help
+scheckbl-cli <command> --help
+```
+
+## License
+
+This project is licensed under the MIT License.
