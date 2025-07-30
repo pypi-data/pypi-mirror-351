@@ -1,0 +1,28 @@
+Metadata-Version: 2.1
+Name: metdig
+Version: 1.0.7
+Summary: Weather analysis and diagnostic graphics for map discussion
+Home-page: UNKNOWN
+License: GPL3
+Requires-Dist: cartopy (>=0.22.0)
+Requires-Dist: nmc-met-io (>=0.1.13.0)
+Requires-Dist: metpy (<=1.5)
+Requires-Dist: meteva (>1.3)
+Requires-Dist: xarray (<=0.19.0)
+Requires-Dist: netcdf4
+Requires-Dist: cdsapi (>=0.7.0)
+Requires-Dist: numba
+Requires-Dist: folium
+Requires-Dist: pandas (<1.5)
+Requires-Dist: shapely
+Requires-Dist: imageio
+Requires-Dist: numpy (<2.0)
+Requires-Dist: protobuf (<=3.20)
+Requires-Dist: ipython
+Requires-Dist: pint (<0.20.0)
+Requires-Dist: scikit-learn
+Requires-Dist: JPype1
+
+# Meteorological Diagnostic Tools (metdig)
+
+

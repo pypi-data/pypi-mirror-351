@@ -1,0 +1,9 @@
+{"__comment__": "JSON file specifying the image to use for a given type/name and resolution. Read in by cartopy.mpl.geoaxes.read_user_background_images.",
+
+  "RD": {
+    "__comment__": "Natural Earth shaded relief",
+    "__source__": "https://neo.sci.gsfc.nasa.gov/servlet/RenderData?si=196466&cs=rgb&format=PNG&width=3600&height=1800/",
+    "__projection__": "PlateCarree",
+    "high": "RenderData.png"  }    
+}
+
