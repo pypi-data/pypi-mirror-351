@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: water_prop
+Version: 1.1.1
+Summary: Provides vapor pressure and specific gravity of water by temperature
+Author: Nilesh Mishra
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# water_prop
+
+This package provides vapor pressure (in bar) and specific gravity of water at different temperatures (°C).
+
+## Installation
+
+```bash
+pip install .
+```
+
+## Usage
+
+```python
+from water_prop import get_sg, get_vp
+
+print(get_sg(30))  # Specific Gravity
+print(get_vp(30))  # Vapor Pressure (bar)
+```
