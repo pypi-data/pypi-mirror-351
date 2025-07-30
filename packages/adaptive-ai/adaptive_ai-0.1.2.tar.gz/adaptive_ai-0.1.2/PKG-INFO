@@ -1,0 +1,26 @@
+Metadata-Version: 2.3
+Name: adaptive-ai
+Version: 0.1.2
+Summary: Python SDK for Adaptive AI - A unified interface for multiple LLM providers
+License: MIT
+Keywords: ai,llm,chat,completion,openai,anthropic,groq
+Author: Botir
+Author-email: attaimen40@gmail.com
+Requires-Python: >=3.12
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: pydantic (>=2.11.2,<3.0.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Requires-Dist: twine (>=6.1.0,<7.0.0)
+Project-URL: Documentation, https://adaptive.soon.io/
+Project-URL: Repository, https://github.com/Egham-7/adaptive
+Description-Content-Type: text/markdown
+
+# Adaptive AI
+
+A Python SDK for Adaptive's AI platform.
+
