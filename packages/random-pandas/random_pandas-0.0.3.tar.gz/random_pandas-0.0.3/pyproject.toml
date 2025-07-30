@@ -1,0 +1,19 @@
+[build-system]
+requires = [ "setuptools>=61.0",]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "random-pandas"
+version = "0.0.3"
+description = "A package to generate random pandas DataFrame objects and other random functionalities for machine learning benchmarking."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [ "Programming Language :: Python :: 3", "License :: OSI Approved :: MIT License", "Operating System :: OS Independent", "Intended Audience :: Developers", "Intended Audience :: Science/Research", "Topic :: Scientific/Engineering :: Artificial Intelligence", "Topic :: Software Development :: Testing",]
+dependencies = [ "pandas>=1.0", "numpy>=1.18",]
+[[project.authors]]
+name = "Your Name"
+email = "your.email@example.com"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/random-pandas"
+"Bug Tracker" = "https://github.com/yourusername/random-pandas/issues"
