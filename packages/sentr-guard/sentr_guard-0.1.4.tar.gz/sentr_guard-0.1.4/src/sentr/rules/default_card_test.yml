@@ -1,0 +1,60 @@
+# Default Card Testing Detection Rules
+# State: audit (log only, no enforcement)
+# 
+# These rules detect common card testing and fraud patterns
+# used by attackers to validate stolen payment credentials.
+
+- id: burst_failures
+  if: ip.fail_rate_60s > 0.8 and ip.attempts_60s >= 6
+  action: block
+  score: 0.92
+  state: audit
+  description: "Detect high failure rate from single IP (likely card testing)"
+
+- id: bin_diversity
+  if: ip.uniq_bins_5m >= 4 and ip.attempts_5m >= 8
+  action: block
+  score: 0.88
+  state: audit
+  description: "Multiple BINs from same IP (card testing pattern)"
+
+- id: geo_mismatch
+  if: card.bin_country != ip.geo.country and timestamp.hour >= 2 and timestamp.hour <= 5
+  action: challenge_3ds
+  score: 0.65
+  state: audit
+  description: "Geographic mismatch during suspicious hours"
+
+- id: velocity_spike
+  if: merchant.txn_count_5m > merchant.avg_txn_5m * 3 and merchant.txn_count_5m >= 20
+  action: challenge_3ds
+  score: 0.75
+  state: audit
+  description: "Sudden spike in transaction volume"
+
+- id: suspicious_amount_pattern
+  if: amount in [1.00, 0.01, 5.00, 10.00] and ip.attempts_1h >= 5
+  action: block
+  score: 0.85
+  state: audit
+  description: "Common test amounts with high frequency"
+
+- id: email_domain_risk
+  if: email.domain in ["tempmail.com", "tenminutemail.com", "guerrillamail.com"] and amount > 100
+  action: challenge_3ds
+  score: 0.70
+  state: audit
+  description: "Temporary email domains for high-value transactions"
+
+- id: device_fingerprint_reuse
+  if: device.fingerprint_txn_count_1h >= 10 and device.uniq_emails_1h >= 3
+  action: block
+  score: 0.90
+  state: audit
+  description: "Same device used for multiple accounts (account takeover)"
+
+- id: rapid_decline_recovery
+  if: card.decline_count_10m >= 3 and card.success_after_decline == True
+  action: challenge_3ds
+  score: 0.80
+  state: audit

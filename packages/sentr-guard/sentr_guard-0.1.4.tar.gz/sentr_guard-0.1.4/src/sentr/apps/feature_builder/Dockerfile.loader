@@ -1,0 +1,62 @@
+FROM python:3.11-slim
+
+# Set up environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+ENV KAFKA_BOOTSTRAP=kafka:9092
+ENV KAFKA_GROUP_ID=feature-loader
+ENV KAFKA_TOPIC=transactions
+ENV REDIS_HOST=redis
+ENV REDIS_PORT=6379
+ENV METRICS_PORT=8082
+ENV HEALTH_CHECK_PORT=8082
+ENV WINDOW_SIZE=60
+ENV WINDOW_MAX_SIZE=10000
+ENV LOG_LEVEL=INFO
+ENV REDIS_PIPELINE_SIZE=500
+ENV REDIS_PIPELINE_FLUSH_MS=100
+ENV FEATURE_TTL=3600
+
+# Create non-root user for security
+RUN groupadd -r sentr && useradd -r -g sentr -u 1000 sentr
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        build-essential && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Poetry
+RUN pip install --no-cache-dir poetry==1.7.1
+
+# Set work directory
+WORKDIR /app
+
+# Copy poetry files
+COPY pyproject.toml poetry.lock ./
+
+# Configure poetry and install dependencies
+RUN poetry config virtualenvs.create false && \
+    poetry install --only=main --no-dev
+
+# Copy the application code
+COPY apps/ /app/apps/
+COPY sentr/ /app/sentr/
+
+# Change ownership to non-root user
+RUN chown -R sentr:sentr /app
+
+# Switch to non-root user
+USER sentr
+
+# Expose ports for metrics and health checks
+EXPOSE 8082
+
+# Health check - updated endpoint
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:${HEALTH_CHECK_PORT}/health || exit 1
+
+# Run the feature loader service
+CMD ["python", "-m", "apps.feature_builder.loader"]

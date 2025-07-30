@@ -1,0 +1,113 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sentr-guard"
+version = "0.1.4"
+description = "High-performance fraud detection rules engine with sub-millisecond evaluation"
+authors = [
+    {name = "Sentr Team", email = "hello@sentr.dev"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["fraud", "detection", "rules", "engine", "payments", "security", "guard"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10", 
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Security",
+    "Topic :: Office/Business :: Financial",
+]
+
+# Minimal dependencies for rules engine only
+dependencies = [
+    "PyYAML>=6.0",
+    "typer>=0.9.0",
+]
+
+# Optional dependencies for full system
+[project.optional-dependencies]
+full = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "redis>=5.0.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.9.0",
+    "confluent-kafka>=2.4.0",
+    "prometheus-client>=0.20.0",
+    "structlog>=23.2.0",
+    "tenacity>=8.2.3",
+    "orjson>=3.9.0",
+    "numpy>=1.24.0",
+]
+
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.26.0",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.4.0",
+    "black>=24.4.0",
+    "mypy>=1.10.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/sentr-dev/sentr-guard"
+Documentation = "https://github.com/sentr-dev/sentr-guard#readme"
+Repository = "https://github.com/sentr-dev/sentr-guard.git"
+Issues = "https://github.com/sentr-dev/sentr-guard/issues"
+
+[project.scripts]
+sentr = "sentr.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sentr"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/README.md",
+    "/LICENSE",
+    "/CHANGELOG.md",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+]
+
+[tool.black]
+target-version = ['py38']
+line-length = 88
