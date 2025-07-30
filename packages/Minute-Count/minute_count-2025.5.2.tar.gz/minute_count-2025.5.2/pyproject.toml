@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "Minute-Count"
+version = "2025.5.2" # version
+authors = [
+    { name = "Günthner" },
+]
+description = "A command-line tool for generating an overview over the amount of minutes (in terms of mp3 files) in a directory"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console"
+]
+dependencies = ["mutagen>=1.40.0"]
+keywords = ["Music", "Command-Line"]
+
+[project.scripts]
+minute-count = "minute_count:command_entry_point"
