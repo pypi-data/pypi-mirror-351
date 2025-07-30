@@ -1,0 +1,44 @@
+Metadata-Version: 2.3
+Name: seeclickfix
+Version: 0.3
+Summary: 
+Author: Nate Shoffner
+Author-email: nate.shoffner@gmail.com
+Requires-Python: >=3.10
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Dist: aiohttp (>=3.9.1)
+Requires-Dist: pydantic (>=2.11.5,<3.0.0)
+Project-URL: Bug Tracker, https://github.com/NateShoffner/py-seeclickfix/issues
+Project-URL: Homepage, https://github.com/NateShoffner/py-seeclickfix
+Description-Content-Type: text/markdown
+
+Python wrapper for the SeeClickFix (FixIt) API.
+
+# Usage
+
+```python
+from seeclickfix.client import SeeClickFixClient
+from seeclickfix.models.issue import Status
+
+
+params = {
+    "min_lat": 40.02961244400919,
+    "min_lng": -76.333590881195,
+    "max_lat": 40.04702644421361,
+    "max_lng": -76.26908911880496,
+    "status": [Status.OPEN],
+    "page": 1,
+}
+
+async def main():
+    client = SeeClickFixClient()
+    issues = await client.get_issues(**params)
+    for issue in issues.issues:
+        print(f"{issue.created_at}: {issue.summary} - {issue.url}")
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
+```
