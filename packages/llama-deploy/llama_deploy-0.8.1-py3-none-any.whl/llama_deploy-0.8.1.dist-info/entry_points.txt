@@ -1,0 +1,2 @@
+[console_scripts]
+llamactl = llama_deploy.cli.__main__:main
