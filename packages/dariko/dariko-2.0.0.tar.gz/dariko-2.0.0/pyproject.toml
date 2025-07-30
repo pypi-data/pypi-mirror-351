@@ -1,0 +1,106 @@
+[project]
+name = "dariko"
+version = "2.0.0"
+description = "LLMの出力をPydanticモデルで型安全に扱うためのPythonライブラリ"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Yuto Nose", email = "yuto.nose@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "requests>=2.31.0",
+    "torch>=2.0.0",
+    "transformers>=4.37.0",
+]
+keywords = ["llm", "pydantic", "type-safety", "openai", "gpt"]
+
+[project.urls]
+Homepage = "https://github.com/YutoNose/dariko"
+Repository = "https://github.com/YutoNose/dariko.git"
+Documentation = "https://github.com/YutoNose/dariko#readme"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["dariko"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "F",   # Pyflakes
+    "E",   # pycodestyle error
+    "W",   # pycodestyle warning
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "RUF", # Ruff-specific rules
+    "UP",  # pyupgrade
+]
+
+ignore = [
+    "E501",  # line too long
+    "ANN",   # flake8-annotations
+    "D",     # pydocstyle
+    "PL",    # Pylint
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["dariko"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[project.optional-dependencies]
+develop = [
+    "pytest",
+    "ruff",
+    "pre-commit",
+    "dotenv"
+]
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+build_command = "python -m build"
+dist_path = "dist/"
+upload_to_pypi = true
+upload_to_release = true
+commit_subject = "chore(release): v{version}"
+
+[tool.semantic_release.branches.main]
+match = "main"
+prerelease = false
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = ["feat", "fix", "docs", "style", "refactor", "perf", "test", "build", "ci", "chore"]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf"]
+
+[tool.semantic_release.remote.token]
+env = "GH_TOKEN"
+
+[tool.semantic_release.publish]
+dist_glob_patterns = ["dist/*"]
+upload_to_vcs_release = true
