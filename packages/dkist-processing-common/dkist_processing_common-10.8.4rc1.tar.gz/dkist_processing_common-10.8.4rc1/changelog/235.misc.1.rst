@@ -1,0 +1,2 @@
+Change the behavior of ParameterBase such that it takes the task scratch as an argument to provide access to the
+parameter document and parameters that are files.  This behavior replaces the input dataset mixin parameter read method.

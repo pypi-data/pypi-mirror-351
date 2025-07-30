@@ -1,0 +1,3 @@
+Add two new codecs:  Basemodel codecs are used for encoding and decoding Pydantic BaseModel objects.  For decoding, the intended model
+is passed to the decoder through a keyword argument in the task read method.  Array codecs are used for encoding and decoding numpy
+arrays similar to the standard np.load() and np.save(), but with the task tag-based write method.
