@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: cobaldeval
+Version: 1.0.5
+Summary: CoBaLD evaluation script
+Requires-Python: >=3.12
+License-File: LICENSE
+Requires-Dist: numpy>=1.20.0
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: scikit-learn>=1.6.1
+Requires-Dist: tqdm>=4.67.1
+Dynamic: license-file
