@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-iplocate"
+version = "1.0.0"
+description = "Python client for the IPLocate.io geolocation API"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "IPLocate", email = "support@iplocate.io"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["ip", "geolocation", "vpn", "proxy", "threat", "intelligence"]
+requires-python = ">=3.8"
+dependencies = [
+    "httpx>=0.24.0",
+    "typing-extensions>=4.0.0; python_version<'3.10'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-httpx>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "flake8>=6.0.0",
+    "flake8-docstrings>=1.7.0",
+    "flake8-bugbear>=23.0.0",
+    "bandit>=1.7.0",
+    "pre-commit>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://iplocate.io"
+Documentation = "https://iplocate.io/docs"
+Repository = "https://github.com/iplocate/python-iplocate"
+"Bug Tracker" = "https://github.com/iplocate/python-iplocate/issues"
+
+[tool.setuptools.packages.find]
+include = ["iplocate*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=iplocate --cov-report=term-missing --cov-report=html"
+
+[tool.coverage.run]
+source = ["iplocate"]
+omit = ["tests/*", "examples/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+per-file-ignores = [
+    "__init__.py:F401",
+    "tests/*:D",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "examples"]
