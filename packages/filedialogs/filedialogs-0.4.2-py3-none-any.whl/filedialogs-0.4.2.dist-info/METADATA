@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: filedialogs
+Version: 0.4.2
+Summary: Platform independent interface for file dialogs
+Author-email: "Adrian F. Hoefflin" <srccircumflex@outlook.com>
+License: MIT License
+Project-URL: Repository, https://github.com/srccircumflex/filedialogs
+Classifier: Development Status :: 7 - Inactive
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Desktop Environment :: File Managers
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pywin32; platform_system == "Windows"
+Dynamic: license-file
+
+# Platform independent interface for file dialogs
+
+Installation:
+
+```commandline
+pip install --upgrade filedialogs
+```
+
+Test:
+
+```python
+from filedialogs import *
+
+print(f'{STARTERID=}')
+
+print(askfile())
+print(askfiles())
+print(asksave())
+print(askdir())
+```
+
+CLI:
+
+```commandline
+askfile open|multi|save|dir
+```
