@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geocleaner"
+version = "0.1.1"
+description = "A simple package for cleaning geolocation strings."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+  { name="Nelofar Qulizada", email="nqulizada835@gmail.com" }
+]
+dependencies = []
+requires-python = ">=3.7"
+
+[project.urls]
+Homepage = "https://github.com/nqulizada835/geocleaner"
+
+[tool.setuptools]
+license-files = []  # ✅ This disables injection of 'license-file'
