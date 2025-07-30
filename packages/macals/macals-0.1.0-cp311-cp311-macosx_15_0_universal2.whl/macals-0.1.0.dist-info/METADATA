@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: macals
+Version: 0.1.0
+Summary: Access ambient light sensor on macOS
+Author-email: Matt Martz <matt@sivel.net>
+License-Expression: MIT
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# macals
+Python module for accessing the ambient light sensor on macOS
+
+## Usage
+
+### Command Line
+
+```
+python -m macals
+```
+
+This will iterate all ambient light sensors and their lux values.
+
+### Python
+
+```python
+from macals import list_sensors
+
+for sensor in list_sensors:
+    print(f'{sensor.name}: {sensor.get_current_lux()} lux')
+```
+
+There is likely only ever to be a single sensor, so `macals.find_sensor()` is probably fine to use, which just returns the first.
+
+```python
+from macals import find_sensor
+
+sensor = find_sensor()
+print(f'{sensor.name}: {sensor.get_current_lux()} lux')
+```
+
+You can also just use the `LightSensor` class if you know the service name:
+
+```python
+from macals import LightSensor
+
+sensor = LightSensor('AppleSPUVD6286')
+print(f'{sensor.name}: {sensor.get_current_lux()} lux')
+```
