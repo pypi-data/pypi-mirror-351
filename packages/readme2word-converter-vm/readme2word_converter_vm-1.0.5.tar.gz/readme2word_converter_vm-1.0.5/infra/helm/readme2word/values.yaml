@@ -1,0 +1,179 @@
+# Default values for readme2word
+# This is a YAML-formatted file.
+
+# Application configuration
+app:
+  name: readme2word
+  version: "1.0.0"
+
+# Image configuration
+image:
+  repository: readme2word
+  tag: "latest"
+  pullPolicy: IfNotPresent
+  # pullSecrets: []
+
+# Deployment configuration
+replicaCount: 2
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8501
+  targetPort: 8501
+  name: http
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+  hosts:
+    - host: readme2word.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+# Horizontal Pod Autoscaler
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# Pod configuration
+podAnnotations: {}
+podSecurityContext:
+  fsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+
+# Node selection
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Persistent Volume for output files
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  mountPath: /app/output
+
+# Environment variables
+env:
+  - name: PYTHONPATH
+    value: "/app"
+  - name: PYTHONDONTWRITEBYTECODE
+    value: "1"
+  - name: PYTHONUNBUFFERED
+    value: "1"
+
+# Health checks
+healthcheck:
+  enabled: true
+  livenessProbe:
+    httpGet:
+      path: /_stcore/health
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /_stcore/health
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# ConfigMap for application configuration
+configMap:
+  enabled: true
+  data:
+    streamlit_config.toml: |
+      [server]
+      port = 8501
+      address = "0.0.0.0"
+      headless = true
+      enableCORS = false
+      enableXsrfProtection = false
+      
+      [browser]
+      gatherUsageStats = false
+      
+      [theme]
+      primaryColor = "#1f77b4"
+      backgroundColor = "#ffffff"
+      secondaryBackgroundColor = "#f0f2f6"
+      textColor = "#262730"
+
+# Network Policy
+networkPolicy:
+  enabled: false
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from: []
+      ports:
+        - protocol: TCP
+          port: 8501
+  egress:
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 443  # HTTPS for Mermaid API
+        - protocol: TCP
+          port: 80   # HTTP fallback
+
+# Pod Disruption Budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# Monitoring and observability
+monitoring:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    path: /metrics
+    labels: {}
+
+# Development/Debug settings
+debug:
+  enabled: false
+  logLevel: "INFO" 

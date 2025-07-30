@@ -1,0 +1,53 @@
+# Development environment values for README to Word Converter
+
+# Reduce resources for development
+replicaCount: 1
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Disable autoscaling in development
+autoscaling:
+  enabled: false
+
+# Use smaller storage
+persistence:
+  size: 2Gi
+
+# Development ingress
+ingress:
+  hosts:
+    - host: readme2word-dev.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+# Enable debug mode
+debug:
+  enabled: true
+  logLevel: "DEBUG"
+
+# Disable production features
+podDisruptionBudget:
+  enabled: false
+
+networkPolicy:
+  enabled: false
+
+# Development-specific environment variables
+env:
+  - name: PYTHONPATH
+    value: "/app"
+  - name: PYTHONDONTWRITEBYTECODE
+    value: "1"
+  - name: PYTHONUNBUFFERED
+    value: "1"
+  - name: STREAMLIT_SERVER_HEADLESS
+    value: "true"
+  - name: STREAMLIT_BROWSER_GATHER_USAGE_STATS
+    value: "false" 

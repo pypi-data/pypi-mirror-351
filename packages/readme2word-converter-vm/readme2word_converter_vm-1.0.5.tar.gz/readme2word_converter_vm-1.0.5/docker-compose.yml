@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  readme2word:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: readme2word-app
+    ports:
+      - "8501:8501"
+    volumes:
+      # Mount output directory for persistent storage
+      - ./output:/app/output
+    environment:
+      - PYTHONPATH=/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - readme2word-network
+
+  # Development service with hot reload
+  readme2word-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: readme2word-dev
+    ports:
+      - "8502:8501"
+    volumes:
+      # Mount source code for development
+      - .:/app
+      - ./output:/app/output
+    environment:
+      - PYTHONPATH=/app
+      - STREAMLIT_SERVER_FILE_WATCHER_TYPE=poll
+    command: ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.fileWatcherType=poll"]
+    profiles:
+      - dev
+    networks:
+      - readme2word-network
+
+networks:
+  readme2word-network:
+    driver: bridge
+
+volumes:
+  output_data:
+    driver: local 

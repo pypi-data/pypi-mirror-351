@@ -1,0 +1,22 @@
+apiVersion: v2
+name: readme2word
+description: A Helm chart for README to Word Converter application
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+home: https://github.com/vishalm/readme2readall
+sources:
+  - https://github.com/vishalm/readme2readall
+maintainers:
+  - name: Vishal Mishra
+    email: vishal@example.com
+keywords:
+  - readme
+  - word
+  - converter
+  - markdown
+  - mermaid
+  - streamlit
+annotations:
+  category: Productivity
+  licenses: MIT 

@@ -1,0 +1,172 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "readme2word-converter-vm"
+version = "1.0.5"
+authors = [
+    {name = "Vishal Mishra", email = "vishal@example.com"},
+]
+description = "Convert README.md files to professional Word documents with Mermaid diagram support"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Documentation",
+    "Topic :: Office/Business :: Office Suites",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Text Processing :: Markup :: Markdown",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: Web Environment",
+]
+keywords = [
+    "readme", "markdown", "word", "docx", "converter", 
+    "mermaid", "diagrams", "documentation","office",
+    "document", "export", "technical-writing"
+]
+dependencies = [
+    "streamlit>=1.28.0",
+    "python-docx>=0.8.11",
+    "markdown>=3.5.0",
+    "beautifulsoup4>=4.12.0",
+    "requests>=2.31.0",
+    "Pillow>=10.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-timeout>=2.1.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+    "safety>=2.3.0",
+    "bandit>=1.7.0",
+    "types-Markdown>=3.7.0",
+    "types-requests>=2.32.0",
+]
+docker = [
+    "docker>=6.0.0",
+]
+kubernetes = [
+    "kubernetes>=25.0.0",
+    "pyyaml>=6.0",
+]
+all = [
+    "readme2word-converter-vm[dev,docker,kubernetes]",
+]
+
+[project.urls]
+Homepage = "https://github.com/vishalm/readme2readall"
+Documentation = "https://github.com/vishalm/readme2readall#readme"
+Repository = "https://github.com/vishalm/readme2readall"
+"Bug Tracker" = "https://github.com/vishalm/readme2readall/issues"
+Changelog = "https://github.com/vishalm/readme2readall/releases"
+
+[project.scripts]
+readme2word = "readme2word.cli:main"
+readme2word-web = "readme2word.web:main"
+
+[tool.setuptools]
+packages = ["readme2word"]
+
+[tool.setuptools.package-data]
+readme2word = ["templates/*.html", "static/*", "config/*.toml"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+exclude = [
+    "build/",
+    "dist/",
+    ".venv/",
+    "venv/",
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "streamlit.*",
+    "docx.*",
+    "markdown.*",
+    "requests.*",
+    "bs4.*",
+    "PIL.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+source = ["readme2word"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+] 

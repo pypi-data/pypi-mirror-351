@@ -1,0 +1,63 @@
+# Include documentation
+include README.md
+include LICENSE
+include CHANGELOG.md
+
+# Include configuration files
+include pyproject.toml
+include setup.py
+include requirements.txt
+
+# Include Docker and deployment files
+include Dockerfile
+include docker-compose.yml
+include .dockerignore
+include deploy.sh
+include Makefile
+
+# Include demo and example files
+include demo_readme.md
+include app.py
+
+# Include test files
+recursive-include tests *.py
+recursive-include tests *.md
+recursive-include tests *.yaml
+recursive-include tests *.toml
+
+# Include infrastructure files
+recursive-include infra *.yaml
+recursive-include infra *.yml
+recursive-include infra *.sh
+recursive-include infra *.md
+recursive-include infra *.tpl
+
+# Include package data
+recursive-include readme2word/templates *.html
+recursive-include readme2word/static *
+recursive-include readme2word/config *.toml
+
+# Exclude unnecessary files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .coverage
+global-exclude .pytest_cache
+
+# Exclude build artifacts
+global-exclude build/*
+global-exclude dist/*
+global-exclude *.egg-info/*
+
+# Exclude virtual environment
+global-exclude venv/*
+global-exclude .venv/*
+
+# Exclude output files
+global-exclude output/*
+global-exclude *.docx
+global-exclude *.png 

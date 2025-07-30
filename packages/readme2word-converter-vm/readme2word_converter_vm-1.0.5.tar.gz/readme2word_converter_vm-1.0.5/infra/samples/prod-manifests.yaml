@@ -1,0 +1,312 @@
+---
+# Source: readme2word/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: readme2word-prod
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: readme2word
+      app.kubernetes.io/instance: readme2word-prod
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: ingress-nginx
+      ports:
+      - port: 8501
+        protocol: TCP
+  egress:
+    - ports:
+      - port: 443
+        protocol: TCP
+      - port: 53
+        protocol: TCP
+      - port: 53
+        protocol: UDP
+      to: []
+---
+# Source: readme2word/templates/pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: readme2word-prod
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: readme2word
+      app.kubernetes.io/instance: readme2word-prod
+---
+# Source: readme2word/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: readme2word-prod
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: readme2word/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: readme2word-prod-config
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  streamlit_config.toml: |
+    [server]
+    port = 8501
+    address = "0.0.0.0"
+    headless = true
+    enableCORS = false
+    enableXsrfProtection = false
+  
+    [browser]
+    gatherUsageStats = false
+  
+    [theme]
+    primaryColor = "#1f77b4"
+    backgroundColor = "#ffffff"
+    secondaryBackgroundColor = "#f0f2f6"
+    textColor = "#262730"
+---
+# Source: readme2word/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readme2word-prod-storage
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fast-ssd
+  resources:
+    requests:
+      storage: 20Gi
+---
+# Source: readme2word/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: readme2word-prod
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8501
+      targetPort: 8501
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+---
+# Source: readme2word/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readme2word-prod
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: readme2word
+      app.kubernetes.io/instance: readme2word-prod
+  template:
+    metadata:
+      annotations:
+        checksum/config: 4a0c33e8ee8cb809d72db1971b2afb95a220e8c71b5f04cece65da40ffaccc71
+      labels:
+        app.kubernetes.io/name: readme2word
+        app.kubernetes.io/instance: readme2word-prod
+    spec:
+      serviceAccountName: readme2word-prod
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: readme2word
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: readme2word:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8501
+              protocol: TCP
+          env:
+            - name: PYTHONPATH
+              value: /app
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: STREAMLIT_SERVER_HEADLESS
+              value: "true"
+            - name: STREAMLIT_BROWSER_GATHER_USAGE_STATS
+              value: "false"
+            - name: STREAMLIT_SERVER_ENABLE_CORS
+              value: "false"
+            - name: STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION
+              value: "true"
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /_stcore/health
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /_stcore/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+          volumeMounts:
+            - name: storage
+              mountPath: /app/output
+            - name: config
+              mountPath: /app/.streamlit
+              readOnly: true
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: readme2word-prod-storage
+        - name: config
+          configMap:
+            name: readme2word-prod-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - readme2word
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+---
+# Source: readme2word/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: readme2word-prod
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: readme2word-prod
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 70
+---
+# Source: readme2word/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: readme2word-prod
+  labels:
+    helm.sh/chart: readme2word-1.0.0
+    app.kubernetes.io/name: readme2word
+    app.kubernetes.io/instance: readme2word-prod
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "readme2word.yourdomain.com"
+      secretName: readme2word-tls
+  rules:
+    - host: "readme2word.yourdomain.com"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: readme2word-prod
+                port:
+                  number: 8501
