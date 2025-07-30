@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "postchain_client_py"
+version = "0.2.3"
+authors = [
+    {name = "TheCosmos", email = "mert.akayasi@chromaway.com"}
+]
+description = "A Python client for Postchain"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = ["blockchain", "postchain", "chromaway"]
+urls = {Homepage = "https://bitbucket.org/chromawallet/postchain-client-py"}
+requires-python = ">=3.7"
+dependencies = [
+    "aiohttp>=3.11.11",
+    "cryptography==44.0.0",
+    "ecdsa==0.19.0",
+    "coincurve==20.0.0",
+    "python-dotenv>=1.0.1",
+    "asn1==2.7.1",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.18.0",
+]
+dev = [
+    "black>=22.0.0",
+    "wheel>=0.37.0",
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.18.0",
+    "rich>=13.0.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "."}
+packages = [
+    "postchain_client_py",
+    "postchain_client_py.blockchain_client",
+    "postchain_client_py.rest_client",
+    "postchain_client_py.utils"
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+
+[tool.black]
+target-version = ["py37"]
