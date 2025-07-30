@@ -1,0 +1,7 @@
+argparse
+pathlib
+datetime
+logging
+
+[:platform_system == "Windows"]
+windows-curses
