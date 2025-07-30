@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: duelink-duepico-mp
+Version: 0.0.7
+Summary: GHI Electronics DUELink DuePico MicroPython Library.
+Home-page: https://www.duelink.com/
+Author: GHI Electronics
+Author-email: support@ghielectronics.com
+License: MIT
+Classifier: Programming Language :: Python :: Implementation :: MicroPython
+Description-Content-Type: text/markdown
+Requires-Dist: duelink-stdlib-mp
+
+GHI Electronics DUELINK DuePico MicroPython library
+
+```py
+import duelink  # standard lib
+import duepico #  DuePico lib
+
+from duepico import DuePicoController
+
+pico = DuePicoController()
+
+pico.StatLed(100,200,20)
+```
