@@ -1,0 +1,122 @@
+Metadata-Version: 2.4
+Name: enpass-escape
+Version: 0.1.0
+Summary: Since Enpass doesn't make it so easy to escape, this tool helps you to export your data in other Password Managers formats.
+Author-email: ake2l <other@ke2.de>
+License: MIT License
+        
+        Copyright (c) 2025 Alexander Kell
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Keywords: enpass,password-manager,escape,export,import,cli
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Security
+Classifier: Topic :: Utilities
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: typer[all]
+Dynamic: license-file
+
+# Enpass-Escape
+
+A lightweight Python CLI to migrate passwords from Enpass to Apple Passwords format. Supports both CSV and JSON exports, preserves TOTP/2FA secrets, and consolidates extra fields into notes.
+
+## 🚀 Features
+
+- Converts Enpass CSV or JSON export to Apple Passwords import CSV
+- Preserves TOTP/2FA secrets with proper otpauth URI formatting
+- Maintains titles, URLs, usernames, passwords, and notes
+- Combines any additional fields into organized notes
+- Zero external dependencies except Typer for the CLI interface
+
+## 📋 Prerequisites
+
+- Python 3.11 or higher
+
+## 🛠️ Installation
+
+Install from PyPI:
+
+```bash
+pip install enpass-escape
+```
+
+Or install development version:
+
+```bash
+git clone https://github.com/ake2l/enpass-apple-migrator.git
+cd enpass-apple-migrator
+pip install -e .
+```
+
+## 💻 Usage
+
+> **Note:** The Enpass CSV export does not support all fields completely (e.g., TOTP, notes, extra fields). For best results, it is recommended to use the **JSON export** from Enpass!
+
+Run the `enpass-escape` command with your Enpass export and desired output path:
+
+```bash
+# CSV-to-CSV
+enpass-escape enpass-export.csv export-apple-passwords.csv
+
+# JSON-to-CSV
+enpass-escape export.json apple-output.csv
+
+# View help
+enpass-escape --help
+```
+
+The output CSV will have the header:
+
+```csv
+Title,URL,Username,Password,OTPAuth URL,Notes
+```
+
+### Input Formats
+
+- **JSON (recommended)**: Enpass JSON export (recommended for complete data export)
+- **CSV**: Standard Enpass CSV export (limited field support)
+
+### Output Format
+
+Apple Passwords import CSV with the following columns:
+
+```csv
+Title,URL,Username,Password,Notes,OTPAuth URL
+```
+
+## 🔒 Security Considerations
+
+- All processing is local; no network calls
+- No data is stored or cached
+- No external dependencies other than Typer
+
+## 🤝 Contributing
+
+Contributions welcome! Open an issue or submit a pull request.
+
+## 📝 License
+
+MIT License. See [LICENSE](LICENSE) for details.
