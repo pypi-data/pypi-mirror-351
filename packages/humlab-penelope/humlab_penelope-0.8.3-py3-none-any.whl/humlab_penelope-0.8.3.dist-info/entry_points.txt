@@ -1,0 +1,9 @@
+[console_scripts]
+pos-tag=penelope.scripts.pos_tag:main
+tm-predict=penelope.scripts.tm.predict:click_main
+tm-train=penelope.scripts.tm.train:click_main
+tm-train-id=penelope.scripts.tm.train_id:click_main
+tm-train-legacy=penelope.scripts.tm.train_legacy:click_main
+vectorize=penelope.scripts.dtm.vectorize:main
+vectorize-id=penelope.scripts.dtm.vectorize_id:main
+
