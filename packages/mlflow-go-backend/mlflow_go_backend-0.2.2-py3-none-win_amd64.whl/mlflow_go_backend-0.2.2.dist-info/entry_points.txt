@@ -1,0 +1,14 @@
+[console_scripts]
+mlflow-go = mlflow_go_backend.cli:cli
+
+[mlflow.model_registry_store]
+mssql = mlflow_go_backend.store.model_registry:_get_sqlalchemy_store
+mysql = mlflow_go_backend.store.model_registry:_get_sqlalchemy_store
+postgresql = mlflow_go_backend.store.model_registry:_get_sqlalchemy_store
+sqlite = mlflow_go_backend.store.model_registry:_get_sqlalchemy_store
+
+[mlflow.tracking_store]
+mssql = mlflow_go_backend.store.tracking:_get_sqlalchemy_store
+mysql = mlflow_go_backend.store.tracking:_get_sqlalchemy_store
+postgresql = mlflow_go_backend.store.tracking:_get_sqlalchemy_store
+sqlite = mlflow_go_backend.store.tracking:_get_sqlalchemy_store
