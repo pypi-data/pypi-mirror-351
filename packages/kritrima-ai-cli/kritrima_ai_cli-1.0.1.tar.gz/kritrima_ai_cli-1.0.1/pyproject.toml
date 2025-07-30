@@ -1,0 +1,114 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kritrima-ai-cli"
+version = "1.0.1"
+description = "Comprehensive AI-powered CLI assistant with autonomous agent capabilities"
+authors = [{name = "Kritrima AI", email = "contact@kritrima.ai"}]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["ai", "cli", "assistant", "code-generation", "automation", "development-tools"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Environment :: Console",
+]
+
+dependencies = [
+    "openai>=1.54.0",
+    "click>=8.1.0",
+    "rich>=13.7.0",
+    "textual>=0.45.0",
+    "pydantic>=2.5.0",
+    "httpx>=0.25.0",
+    "aiofiles>=23.2.0",
+    "gitpython>=3.1.40",
+    "psutil>=5.9.0",
+    "cryptography>=41.0.0",
+    "pillow>=10.1.0",
+    "python-dotenv>=1.0.0",
+    "typer>=0.9.0",
+    "pyyaml>=6.0.1",
+    "platformdirs>=4.0.0",
+    "watchdog>=3.0.0",
+    "inquirer>=3.1.0",
+    "colorama>=0.4.6",
+    "keyring>=24.3.0",
+    "prompt-toolkit>=3.0.41",
+    "asyncio-mqtt>=0.16.0",
+    "chardet>=5.2.0",
+    "toml>=0.10.2",
+    "uvloop>=0.19.0; sys_platform != 'win32'",
+    "winloop>=0.1.0; sys_platform == 'win32'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.9.0",
+    "isort>=5.12.0",
+    "flake8>=6.1.0",
+    "mypy>=1.6.0",
+    "pre-commit>=3.4.0",
+]
+
+[project.scripts]
+kritrima-ai = "kritrima_ai.cli:main"
+kai = "kritrima_ai.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/kritrima/kritrima-ai-cli"
+Documentation = "https://docs.kritrima.ai"
+Repository = "https://github.com/kritrima/kritrima-ai-cli"
+"Bug Tracker" = "https://github.com/kritrima/kritrima-ai-cli/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kritrima_ai*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=kritrima_ai --cov-report=term-missing --cov-report=html" 
