@@ -1,0 +1,470 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'PLLDB Infrastructure Stack'
+
+Resources:
+  PLLDBSessions:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: PLLDBSessions
+      AttributeDefinitions:
+        - AttributeName: SessionId
+          AttributeType: S
+        - AttributeName: ConnectionId
+          AttributeType: S
+        - AttributeName: StackName
+          AttributeType: S
+        - AttributeName: TTL
+          AttributeType: N
+      KeySchema:
+        - AttributeName: SessionId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: GSI-StackName
+          KeySchema:
+            - AttributeName: StackName
+              KeyType: HASH
+            - AttributeName: TTL
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: GSI-ConnectionId
+          KeySchema:
+            - AttributeName: ConnectionId
+              KeyType: HASH
+            - AttributeName: SessionId
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: TTL
+        Enabled: true
+
+  PLLDBDebugger:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: PLLDBDebugger
+      AttributeDefinitions:
+        - AttributeName: RequestId
+          AttributeType: S
+        - AttributeName: SessionId
+          AttributeType: S
+        - AttributeName: ConnectionId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: RequestId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: GSI-SessionId
+          KeySchema:
+            - AttributeName: SessionId
+              KeyType: HASH
+            - AttributeName: RequestId
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: GSI-ConnectionId
+          KeySchema:
+            - AttributeName: ConnectionId
+              KeyType: HASH
+            - AttributeName: RequestId
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+
+  PLLDBServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - apigateway.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+      Policies:
+        - PolicyName: PLLDBServicePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:PutItem'
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:UpdateItem'
+                  - 'dynamodb:DeleteItem'
+                  - 'dynamodb:Query'
+                  - 'dynamodb:Scan'
+                Resource:
+                  - !GetAtt PLLDBSessions.Arn
+                  - !Sub '${PLLDBSessions.Arn}/index/*'
+                  - !GetAtt PLLDBDebugger.Arn
+                  - !Sub '${PLLDBDebugger.Arn}/index/*'
+              - Effect: Allow
+                Action:
+                  - 'cloudformation:ListStackResources'
+                  - 'cloudformation:DescribeStackResources'
+                  - 'cloudformation:DescribeStacks'
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - 'execute-api:ManageConnections'
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${PLLDBWebSocketAPI}/*'
+              - Effect: Allow
+                Action:
+                  - 'iam:PutRolePolicy'
+                  - 'iam:DeleteRolePolicy'
+                  - 'iam:GetRole'
+                  - 'iam:GetRolePolicy'
+                Resource: '*'
+
+  PLLDBDebuggerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: PLLDBDebuggerRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+          - Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:root'
+            Action: 'sts:AssumeRole'
+            Condition:
+              StringEquals:
+                'sts:ExternalId': 'plldb-debugger'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: PLLDBDebuggerPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:PutItem'
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:UpdateItem'
+                  - 'dynamodb:DeleteItem'
+                  - 'dynamodb:Query'
+                  - 'dynamodb:Scan'
+                Resource:
+                  - !GetAtt PLLDBDebugger.Arn
+                  - !Sub '${PLLDBDebugger.Arn}/index/*'
+              - Effect: Allow
+                Action:
+                  - 'execute-api:ManageConnections'
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${PLLDBWebSocketAPI}/*'
+
+  PLLDBWebSocketConnectFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: plldb-websocket-connect
+      Handler: websocket_connect.lambda_handler
+      Runtime: python3.13
+      Code:
+        S3Bucket: !Sub '${S3Bucket}'
+        S3Key: !Sub '${S3KeyPrefix}/lambda_functions/websocket_connect.zip'
+      Role: !GetAtt PLLDBServiceRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
+          AWS_CLOUDFORMATION_STACK_NAME: !Ref AWS::StackName
+
+  PLLDBWebSocketDisconnectFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: plldb-websocket-disconnect
+      Handler: websocket_disconnect.lambda_handler
+      Runtime: python3.13
+      Code:
+        S3Bucket: !Sub '${S3Bucket}'
+        S3Key: !Sub '${S3KeyPrefix}/lambda_functions/websocket_disconnect.zip'
+      Role: !GetAtt PLLDBServiceRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
+          AWS_CLOUDFORMATION_STACK_NAME: !Ref AWS::StackName
+
+  PLLDBWebSocketAuthorizeFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: plldb-websocket-authorize
+      Handler: websocket_authorize.lambda_handler
+      Runtime: python3.13
+      Code:
+        S3Bucket: !Sub '${S3Bucket}'
+        S3Key: !Sub '${S3KeyPrefix}/lambda_functions/websocket_authorize.zip'
+      Role: !GetAtt PLLDBServiceRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
+          AWS_CLOUDFORMATION_STACK_NAME: !Ref AWS::StackName
+
+  PLLDBWebSocketDefaultFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: plldb-websocket-default
+      Handler: websocket_default.lambda_handler
+      Runtime: python3.13
+      Code:
+        S3Bucket: !Sub '${S3Bucket}'
+        S3Key: !Sub '${S3KeyPrefix}/lambda_functions/websocket_default.zip'
+      Role: !GetAtt PLLDBServiceRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
+          AWS_CLOUDFORMATION_STACK_NAME: !Ref AWS::StackName
+
+  PLLDBRestApiFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: plldb-restapi
+      Handler: restapi.lambda_handler
+      Runtime: python3.13
+      Code:
+        S3Bucket: !Sub '${S3Bucket}'
+        S3Key: !Sub '${S3KeyPrefix}/lambda_functions/restapi.zip'
+      Role: !GetAtt PLLDBServiceRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          DYNAMODB_TABLE: !Ref PLLDBSessions
+          LOG_LEVEL: INFO
+
+  PLLDBDebuggerInstrumentationFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: plldb-debugger-instrumentation
+      Handler: debugger_instrumentation.lambda_handler
+      Runtime: python3.13
+      Code:
+        S3Bucket: !Sub '${S3Bucket}'
+        S3Key: !Sub '${S3KeyPrefix}/lambda_functions/debugger_instrumentation.zip'
+      Role: !GetAtt PLLDBServiceRole.Arn
+      Timeout: 60
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
+          AWS_CLOUDFORMATION_STACK_NAME: !Ref AWS::StackName
+          WEBSOCKET_ENDPOINT: !Sub 'https://${PLLDBWebSocketAPI}.execute-api.${AWS::Region}.amazonaws.com/${PLLDBWebSocketStage}'
+
+  PLLDBWebSocketAPI:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: PLLDBAPI
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: "$request.body.action"
+
+  PLLDBWebSocketAuthorizer:
+    Type: AWS::ApiGatewayV2::Authorizer
+    Properties:
+      Name: PLLDBSessionAuthorizer
+      ApiId: !Ref PLLDBWebSocketAPI
+      AuthorizerType: REQUEST
+      AuthorizerUri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PLLDBWebSocketAuthorizeFunction.Arn}/invocations'
+      IdentitySource:
+        - 'route.request.querystring.sessionId'
+
+  PLLDBWebSocketConnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PLLDBWebSocketConnectFunction.Arn}/invocations'
+
+  PLLDBWebSocketDisconnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PLLDBWebSocketDisconnectFunction.Arn}/invocations'
+
+  PLLDBWebSocketAuthorizeIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PLLDBWebSocketAuthorizeFunction.Arn}/invocations'
+
+  PLLDBWebSocketDefaultIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PLLDBWebSocketDefaultFunction.Arn}/invocations'
+
+  PLLDBWebSocketConnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+      RouteKey: $connect
+      AuthorizationType: CUSTOM
+      AuthorizerId: !Ref PLLDBWebSocketAuthorizer
+      Target: !Sub 'integrations/${PLLDBWebSocketConnectIntegration}'
+
+  PLLDBWebSocketDisconnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+      RouteKey: $disconnect
+      AuthorizationType: NONE
+      Target: !Sub 'integrations/${PLLDBWebSocketDisconnectIntegration}'
+
+  PLLDBWebSocketDefaultRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+      RouteKey: $default
+      AuthorizationType: NONE
+      Target: !Sub 'integrations/${PLLDBWebSocketDefaultIntegration}'
+
+  PLLDBWebSocketConnectPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref PLLDBWebSocketConnectFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${PLLDBWebSocketAPI}/*/$connect'
+
+  PLLDBWebSocketDisconnectPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref PLLDBWebSocketDisconnectFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${PLLDBWebSocketAPI}/*/$disconnect'
+
+  PLLDBWebSocketAuthorizePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref PLLDBWebSocketAuthorizeFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${PLLDBWebSocketAPI}/authorizers/${PLLDBWebSocketAuthorizer}'
+
+  PLLDBWebSocketDefaultPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref PLLDBWebSocketDefaultFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${PLLDBWebSocketAPI}/*/$default'
+
+  PLLDBWebSocketDeployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+      - PLLDBWebSocketConnectRoute
+      - PLLDBWebSocketDisconnectRoute
+      - PLLDBWebSocketDefaultRoute
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+
+  PLLDBWebSocketStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref PLLDBWebSocketAPI
+      DeploymentId: !Ref PLLDBWebSocketDeployment
+      StageName: prod
+
+  PLLDBAPI:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: PLLDBAPI
+      Description: PLLDB Management API
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+
+  PLLDBAPISessionsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref PLLDBAPI
+      ParentId: !GetAtt PLLDBAPI.RootResourceId
+      PathPart: sessions
+
+  PLLDBAPISessionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref PLLDBAPI
+      ResourceId: !Ref PLLDBAPISessionsResource
+      HttpMethod: POST
+      AuthorizationType: AWS_IAM
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PLLDBRestApiFunction.Arn}/invocations'
+
+  PLLDBRestApiFunctionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref PLLDBRestApiFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${PLLDBAPI}/*/*'
+
+  PLLDBAPIDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - PLLDBAPISessionsMethod
+    Properties:
+      RestApiId: !Ref PLLDBAPI
+      StageName: prod
+
+  PLLDBDebuggerLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      LayerName: PLLDBDebuggerRuntime
+      Description: PLLDB Lambda runtime wrapper for debugging
+      Content:
+        S3Bucket: !Sub '${S3Bucket}'
+        S3Key: !Sub '${S3KeyPrefix}/layer/debugger-layer.zip'
+      CompatibleRuntimes:
+        - python3.13
+        - python3.12
+        - python3.11
+        - python3.10
+        - python3.9
+
+Parameters:
+  S3Bucket:
+    Type: String
+    Description: S3 bucket containing the lambda function packages
+  S3KeyPrefix:
+    Type: String
+    Description: S3 key prefix for lambda function packages
+
+Outputs:
+  WebSocketURL:
+    Description: WebSocket API URL
+    Value: !Sub 'wss://${PLLDBWebSocketAPI}.execute-api.${AWS::Region}.amazonaws.com/${PLLDBWebSocketStage}'
+  ManagementAPIId:
+    Description: Management API ID
+    Value: !Ref PLLDBAPI
+  ManagementAPIURL:
+    Description: Management API URL
+    Value: !Sub 'https://${PLLDBAPI}.execute-api.${AWS::Region}.amazonaws.com/prod'
+  DebuggerLayerArn:
+    Description: ARN of the PLLDB Debugger Layer
+    Value: !Ref PLLDBDebuggerLayer
