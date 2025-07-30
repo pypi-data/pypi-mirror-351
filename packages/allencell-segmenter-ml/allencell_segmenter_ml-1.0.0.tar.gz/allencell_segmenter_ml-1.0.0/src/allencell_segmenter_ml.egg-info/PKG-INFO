@@ -1,0 +1,162 @@
+Metadata-Version: 2.4
+Name: allencell-segmenter-ml
+Version: 1.0.0
+Summary: A plugin to leverage ML segmentation in napari
+License: Allen Institute Software License – This software license is the 2-clause BSD license plus clause a third clause that
+        prohibits redistribution for commercial purposes without further permission.
+        
+        Copyright © 2024. Allen Institute.  All rights reserved.
+        
+        
+        
+        Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+        following conditions are met:
+        
+        1. Redistributions of source code must retain the above copyright notice, this list of conditions
+        and the following disclaimer.
+        
+        2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+        and the following disclaimer in the documentation and/or other materials provided with the distribution.
+        
+        3. Redistributions for commercial purposes are not permitted without the Allen Institute’s written permission.
+        For purposes of this license, commercial purposes is the incorporation of the Allen Institute's software into
+        anything for which you will charge fees or other compensation.
+        Contact terms@alleninstitute.org for commercial licensing opportunities.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+        INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+        ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+        INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+        GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+        OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+        OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        
+Project-URL: Homepage, https://github.com/AllenCell/allencell-ml-segmenter
+Project-URL: Bug Tracker, https://github.com/AllenCell/allencell-ml-segmenter/issues
+Project-URL: Documentation, https://github.com/AllenCell/allencell-ml-segmenter#README.md
+Project-URL: User Support, https://github.com/AllenCell/allencell-ml-segmenter/issues
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Framework :: napari
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: Other/Proprietary License
+Classifier: License :: Free for non-commercial use
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Requires-Python: <3.11,>=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: npe2>=0.6.2
+Requires-Dist: numpy
+Requires-Dist: hydra-core==1.3.2
+Requires-Dist: bioio==1.1.0
+Requires-Dist: bioio-base==1.0.4
+Requires-Dist: tifffile<2025.2.18,>=2023.4.12
+Requires-Dist: watchdog
+Requires-Dist: cyto-dl>=0.4.5
+Requires-Dist: scikit-image!=0.23.0
+Provides-Extra: napari
+Requires-Dist: napari>=0.4.18; extra == "napari"
+Requires-Dist: pyqt5; extra == "napari"
+Provides-Extra: test-lint
+Requires-Dist: pytest<8.0.0; extra == "test-lint"
+Requires-Dist: pytest-cov; extra == "test-lint"
+Requires-Dist: pytest-qt; extra == "test-lint"
+Requires-Dist: qtpy; extra == "test-lint"
+Requires-Dist: pyqt5; extra == "test-lint"
+Requires-Dist: black>=24.2.0; extra == "test-lint"
+Requires-Dist: pytest-xvfb; sys_platform == "linux" and extra == "test-lint"
+Requires-Dist: responses; extra == "test-lint"
+Requires-Dist: mypy; extra == "test-lint"
+Requires-Dist: toml; extra == "test-lint"
+Requires-Dist: bumpver; extra == "test-lint"
+Requires-Dist: napari>=0.4.18; extra == "test-lint"
+Requires-Dist: magicgui; extra == "test-lint"
+Provides-Extra: dev
+Requires-Dist: black>=24.2.0; extra == "dev"
+Requires-Dist: coverage>=7.2.2; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: pytest<8.0.0,>=7.2.2; extra == "dev"
+Requires-Dist: pytest-qt>=3.3.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.6.1; extra == "dev"
+Requires-Dist: pyqt5>=5.15.9; extra == "dev"
+Requires-Dist: bumpver>=2023.1129; extra == "dev"
+Requires-Dist: build>=1.0.3; extra == "dev"
+Requires-Dist: twine>=5.0.0; extra == "dev"
+Requires-Dist: responses; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Provides-Extra: sphinx-docs
+Requires-Dist: linkify-it-py; extra == "sphinx-docs"
+Requires-Dist: sphinx; extra == "sphinx-docs"
+Requires-Dist: furo; extra == "sphinx-docs"
+Requires-Dist: sphinxext-opengraph; extra == "sphinx-docs"
+Requires-Dist: sphinx_inline_tabs; extra == "sphinx-docs"
+Requires-Dist: sphinx_copybutton; extra == "sphinx-docs"
+Requires-Dist: myst_parser; extra == "sphinx-docs"
+Requires-Dist: sphinx_togglebutton; extra == "sphinx-docs"
+Requires-Dist: sphinx_design; extra == "sphinx-docs"
+Dynamic: license-file
+
+# Allencell-segmenter-ml
+
+[![Test and lint](https://github.com/AllenCell/allencell-segmenter-ml/actions/workflows/test_lint.yaml/badge.svg?branch=main&event=push)](https://github.com/AllenCell/allencell-segmenter-ml/actions/workflows/test_lint_pr.yaml)
+
+
+## What is Allen Cell Segmenter ML
+A napari plugin for deep-learning based segmentation of cellular structures.
+
+![SegmenterML-plugin_fig1_output.png](docs%2Fuser_docs%2Fimages%2FSegmenterML-plugin_fig1_output.png)
+
+- **Available at no cost** — available on PyPI
+- **User-friendly** — leverage napari as a fast 3D viewer with interactive plugin interface
+- **Beginner-friendly** — new to machine learning? This plugin simplifies the application of machine learning in the segmentation process through the 3 main modules:
+  - **Curation**: curate training datasets
+  - **Training**: iteratively train custom segmentation model(s) (UNET) to target cellular structure with wide morphological variability
+  - **Prediction & Thresholding**: generate segmentation prediction on 2D and 3D cell image data
+
+
+##  📰 News
+
+ - **[2024.09.24]** :tada: Initial release of the plugin and Megaseg models!
+ - **[2024.05.29]** :tada: v1.0.0 Released on PyPi
+
+
+## User Documentation
+[See our full user documentation on our github pages site.](https://allencell.github.io/allencell-segmenter-ml/index.html)
+
+
+## 🛠️ Installation
+
+### System and Data Requirements
+
+[Please click here to check out our latest System and Data requirements.](https://allencell.github.io/allencell-segmenter-ml/1_Get-started/1_prerequisites.html)
+
+
+### Installation Steps
+[Please click here for our latest installation steps.](https://allencell.github.io/allencell-segmenter-ml/1_Get-started/2_installation.html)
+
+
+## Models
+[More information about the pre-trained models we provide with our plugin, and citation information, can be found here.](https://allencell.github.io/allencell-segmenter-ml/1_Get-started/4_pretrained-models.html)
+
+## License
+
+Distributed under the terms of the [Allen Institute Software License].
+
+## Issues
+
+If you encounter any problems, please [file an issue] along with a detailed description.
+
+[napari]: https://github.com/napari/napari
+[@napari]: https://github.com/napari
+[Allen Institute Software License]: https://github.com/AllenCell/allencell-segmenter-ml/blob/main/LICENSE
+[file an issue]: https://github.com/AllenCell/allencell-ml-segmenter/issues
+[napari]: https://github.com/napari/napari
+[tox]: https://tox.readthedocs.io/en/latest/
+[pip]: https://pypi.org/project/pip/
+[PyPI]: https://pypi.org/
+[PyTorch]: https://pytorch.org/get-started/locally/
