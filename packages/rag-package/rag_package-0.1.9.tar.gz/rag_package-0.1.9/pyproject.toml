@@ -1,0 +1,212 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag-package"
+version = "0.1.9"
+description = "AI-powered document analysis and query generation tool with RAG capabilities"
+readme = "README.md"
+license = {text = "Evaluation License"}
+authors = [
+    {name = "DannyMExe", email = "dannyjmargolin@gmail.com"}
+]
+maintainers = [
+    {name = "DannyMExe", email = "dannyjmargolin@gmail.com"}
+]
+keywords = [
+    "legal", "ai", "document-analysis", "rag", "llm", "legal-research", 
+    "query-generation", "legal-tech", "nlp", "document-processing"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Legal Industry",
+    "Intended Audience :: Developers",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "python-multipart>=0.0.6",
+    "pydantic>=2.0.0",
+    "click>=8.0.0",
+    "requests>=2.31.0",
+    "python-docx>=0.8.11",
+    "PyPDF2>=3.0.0",
+    "psutil>=5.9.0",
+    "rich>=13.0.0",
+    "Jinja2>=3.1.0",
+    "PyYAML>=6.0",
+    "python-dotenv>=1.0.0",
+    # Document processing - enhanced
+    "pdfplumber==0.9.0",
+    "PyMuPDF>=1.24.0",
+    # Vector database and embeddings - WORKING VERSIONS
+    "chromadb==0.4.15",
+    "numpy==1.24.3",
+    "sentence-transformers==4.1.0",  # Latest stable version - tested working
+    "torch==2.1.0+cpu",  # CPU-optimized PyTorch - tested working
+    # AI/ML backends
+    "ollama==0.1.9",
+    # Additional ML dependencies for stability
+    "transformers==4.35.2",
+    "tokenizers==0.15.0",
+    "huggingface-hub==0.19.4",
+]
+
+[project.optional-dependencies]
+# GGUF backend support (requires compilation)
+gguf = [
+    "llama-cpp-python>=0.2.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.0.0",
+]
+web = [
+    "jinja2>=3.1.0",
+    "aiofiles>=23.0.0",
+]
+gui = [
+    "streamlit>=1.28.0",
+    "gradio>=4.0.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "myst-parser>=2.0.0",
+]
+all = [
+    "lawfirm-rag[dev,web,gui,docs]"
+]
+
+[project.urls]
+Homepage = "https://github.com/DannyMExe/rag-package"
+Documentation = "https://lawfirm-rag.readthedocs.io"
+Repository = "https://github.com/DannyMExe/rag-package"
+"Bug Tracker" = "https://github.com/DannyMExe/rag-package/issues"
+Changelog = "https://github.com/DannyMExe/rag-package/blob/main/CHANGELOG.md"
+
+[project.scripts]
+rag = "lawfirm_rag.cli.main:main"
+
+[project.entry-points."lawfirm_rag.plugins"]
+# Plugin entry points for extensibility
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lawfirm_rag*"]
+exclude = ["tests*", "docs*", "scripts*", "frontend*", "backend*"]
+
+[tool.setuptools.package-data]
+lawfirm_rag = [
+    "web/static/**/*",
+    "web/templates/**/*",
+    "models/*.json",
+    "*.yaml",
+    "*.yml",
+    "*.json",
+]
+
+# Development tools configuration
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | frontend
+  | node_modules
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["lawfirm_rag"]
+skip_glob = ["frontend/*", "node_modules/*"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "llama_cpp.*",
+    "PyPDF2.*",
+    "docx.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["lawfirm_rag"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+    "*/frontend/*",
+    "*/node_modules/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+] 
