@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=60", "setuptools-scm>=8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "global-forecasting-system"
+version = "1.1.1"
+description = "Global Forecasting System (GFS) Search & Download Utility"
+readme = "README.md"
+authors = [
+    { name = "Gregory H. Halverson", email = "gregory.h.halverson@jpl.nasa.gov" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "beautifulsoup4",
+    "colored-logging",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "pygrib",
+    "python-dateutil",
+    "rasters",
+    "requests",
+    "sentinel-tiles"
+]
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "pytest>=6.0",
+    "pytest-cov",
+    "jupyter",
+    "pytest",
+    "twine"
+]
+
+[tool.setuptools.package-data]
+global_forecasting_system = ["*.txt"]
+
+[project.urls]
+Homepage = "https://github.com/ET-Toolbox/global-forecasting-system"
+
+[tool.setuptools.packages.find]
+include = ["global_forecasting_system"]
+exclude = ["calval", "testing"]
