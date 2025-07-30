@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xstreamlib"
+version = "0.0.2"
+description = "Una librería para streaming de datos"
+readme = "README.md"
+authors = [{name = "KeimaSenpai", email = "KeimaSenpai@proton.me"}]
