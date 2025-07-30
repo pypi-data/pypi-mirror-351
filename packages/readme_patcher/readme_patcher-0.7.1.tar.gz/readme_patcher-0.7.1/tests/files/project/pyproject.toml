@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "readme_patcher"
+version = "0.1.0"
+description = "Generate README files from templates. Allow input from functions calls and cli output."
+authors = ["Josef Friedrich <josef@friedrich.rocks>"]
+readme = "README.rst"
+repository = "https://github.com/Josef-Friedrich/readme_patcher"
+license = "MIT"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Jinja2 = "^3.1.2"
+pyproject-parser = "^0.7.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "22.6.0"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry>=1.2.0b2", "setuptools", "setuptools-scm"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry.scripts]
+"readme-patcher" = "readme_patcher:main"
