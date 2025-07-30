@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: morsetune
+Version: 0.1.3
+Summary: Convert text to its corresponding Morse Code tune.
+Home-page: https://github.com/yiyitech/morsetune
+Author: Samuel Zhang
+Author-email: qisamuelzhang@hotmail.com
+License: MIT
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# Morse Tune
+
+Convert text to its corresponding [Morse Code](https://en.wikipedia.org/wiki/Morse_code) tune.
+
+## License
+
+MIT License
