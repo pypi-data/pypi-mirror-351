@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include MANIFEST.in
+include COMPLETION_SETUP.md
+recursive-include dstack_mgmt *.py
+recursive-include completions *.bash *.zsh
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude *.log
+global-exclude *.db
