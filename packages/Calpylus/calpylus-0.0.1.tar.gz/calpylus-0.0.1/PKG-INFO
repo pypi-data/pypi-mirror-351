@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: Calpylus
+Version: 0.0.1
+Home-page: https://github.com/mahfuz0712/CalculusPy.git
+Author: Mohammad Mahfuz Rahman
+Author-email: mahfuzrahman0712@gmail.com
+License-Expression: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: setuptools>=80.8.0
+Requires-Dist: twine>=4.0.2
+Requires-Dist: matplotlib
+Requires-Dist: sympy
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Calpylus
+
+
+
+* A powerful python library for calculus.
