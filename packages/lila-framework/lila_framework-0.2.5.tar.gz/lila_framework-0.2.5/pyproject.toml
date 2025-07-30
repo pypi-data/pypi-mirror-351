@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lila-framework"
+version = "0.2.5"
+description = "Framework web Python"
+readme = "README.md"
+requires-python = ">=3.7"
+authors = [
+    { name = "Andrés Paiva Silveira", email = "andrespaivasilveiraa@gmail.com" }
+]
+ 
+
+classifiers = [
+    "Development Status :: 3 - Alpha", 
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "License :: OSI Approved :: MIT License", 
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "starlette==0.30.0",
+    "jinja2==3.1.2",
+    "uvicorn==0.23.1",
+    "pydantic==1.10.9",
+    "pydantic[email]",
+    "python-dotenv==1.0.1",
+    "itsdangerous==2.2.0",
+    "mysql-connector-python==9.1.0",
+    "argon2-cffi==23.1.0",
+    "markdown==3.7",
+    "SQLAlchemy==2.0.37",
+    "PyJWT==2.10.1",
+    "psutil==7.0.0",
+    "python-multipart==0.0.20",
+    "typer==0.15.3",
+]
+
+[project.scripts]
+lila-init = "lila.cli.scaffold:main" 
+
+[tool.setuptools.package-data]
+lila = [
+    "admin/**/*",
+    "admin/templates/**/*",
+    "templates/**/*",
+    "static/**/*",
+    "locales/**/*",
+    "database/**/*",
+    "middlewares/**/*",
+    "logs/**/*",
+    "models/**/*",
+    "security/**/*",
+    "routes/**/*",
+    "uploads/**/*",
+    "*env_example",
+    "app.py"
+]
+
+[tool.setuptools.packages.find]
+where = ["."] 
+include = ["lila*"]  
+
+[project.urls]
+Homepage = "https://seip25.github.io/Lila/"  
+Repository = "https://github.com/seip25/Lila" 
