@@ -1,0 +1,11 @@
+psutil
+numpy
+pandas
+pynvml
+tabulate
+click
+
+[dev]
+black
+pytest
+pytest-asyncio
