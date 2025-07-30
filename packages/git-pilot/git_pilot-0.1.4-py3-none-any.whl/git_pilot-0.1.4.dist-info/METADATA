@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: git-pilot
+Version: 0.1.4
+Summary: A CLI tool to sync and update Git workflows and configurations across multiple repositories efficiently and consistently.
+Author: r3d-shadow
+Requires-Python: >=3.6
+License-File: LICENSE
+Requires-Dist: PyGithub==2.6.1
+Requires-Dist: PyYAML==6.0.2
+Requires-Dist: Jinja2==3.1.6
+Requires-Dist: rich==14.0.0
+Requires-Dist: colorama==0.4.6
+Dynamic: license-file
