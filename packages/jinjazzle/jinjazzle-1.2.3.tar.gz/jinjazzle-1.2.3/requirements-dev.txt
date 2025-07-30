@@ -1,0 +1,15 @@
+-r requirements.txt
+
+mock
+pylint
+pytest
+pytest-cov
+pytest-html
+pytest-mock
+
+sphinx
+sphinx-rtd-theme
+sphinxcontrib-htmlhelp
+sphinxcontrib-napoleon
+sphinxcontrib-serializinghtml
+tomli

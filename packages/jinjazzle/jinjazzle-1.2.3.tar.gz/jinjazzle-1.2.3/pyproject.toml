@@ -1,0 +1,280 @@
+# Project metadata guidelines:
+#   https://peps.python.org/pep-0621/
+#
+# ------------------------------------------------------------------------------
+# Setup
+# ------------------------------------------------------------------------------
+[project]
+dynamic = ["dependencies"]
+
+name = "jinjazzle"
+version = "1.2.3"
+authors = [
+  {name = "Julien Lecomte", email = "julien@lecomte.at"}
+]
+readme  = "README.md"
+description = "Jinja2 extensions"
+license = {text = "MIT"}
+
+# See: https://pypi.python.org/pypi?:action=list_classifiers
+# List of python versions and their support status: https://devguide.python.org/versions/
+requires-python = ">=3.9"
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+
+[project.scripts]
+jinjazzle = "jinjazzle.__main__:main"
+
+
+[project.urls]
+Homepage = "https://gitlab.com/cappysan/jinjazzle"
+Documentation = "https://jinjazzle.docs.cappysan.dev"
+"Source code" = "https://gitlab.com/cappysan/jinjazzle"
+"Bug tracker" = "https://gitlab.com/cappysan/jinjazzle/-/issues"
+Changelog = "https://gitlab.com/cappysan/jinjazzle/-/raw/main/CHANGELOG.md"
+
+
+[tool.setuptools]
+packages = [
+  "jinjazzle",
+  "jinjazzle.ext",
+]
+zip-safe = true
+
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+
+[build-system]
+# These are the assumed default build requirements from pip:
+# https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
+requires = ["setuptools>=53.0.0", "wheel"]
+
+# ------------------------------------------------------------------------------
+# Other tools
+# ------------------------------------------------------------------------------
+[tool.autoflake]
+# https://pypi.org/project/pyproject-autoflake/
+in-place = true
+# Use '# noqa: F401' to ignore a removal
+remove-all-unused-imports = true
+ignore-init-module-imports = true
+remove-duplicate-keys = true
+remove-unused-variables = true
+ignore-pass-after-docstring = true
+
+
+[tool.black]
+line-length = 120
+target_version = ["py39", "py310", "py311"]
+
+
+[tool.codespell]
+# https://github.com/codespell-project/codespell/blob/main/README.rst
+#
+# Dictionary is updated when codespell is updated, nevertheless, it can
+# be found here: .venv/lib/python3.*/site-packages/codespell_lib/data/dictionary.txt
+skip = "*.pyc,.cache,.git,.tox,.venv,public"
+builtin = "clear,informal,rare,names"
+ignore-words = "support/codespell.exclude"
+
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = [
+  "bin/*",
+  "docs/*",
+  "examples/*",
+  "tests/*",
+]
+
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+  "@abc.abstractmethod",
+  "@abc.abstractproperty",
+  "_typeshed",
+  "except ImportError",
+  "if False",
+  "if __name__ == .__main__.:",
+  "lambda: None",
+  "pragma: no cover",
+  "raise NotImplemented",
+  "raise NotImplementedError",
+  "return NotImplemented",
+  "t.TYPE_CHECKING",
+]
+
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+
+[tool.isort]
+# https://pycqa.github.io/isort/docs/configuration/options.html
+profile = "black"
+line_length = 120
+atomic = true
+include_trailing_comma = true
+skip_gitignore = true
+use_parentheses = true
+known_local_folder = "tests"
+
+
+# https://github.com/dhatim/python-license-check
+[tool.liccheck]
+level = "CAUTIOUS"
+requirement_txt_file = "requirements.txt"
+reporting_txt_file = "public/licenses.log"
+authorized_licenses = [
+  "Apache Software",
+  "Artistic",
+  "ISC License (ISCL)",
+  "ISC",
+  "MIT",
+  "Mozilla Public License 2.0 (MPL 2.0)",
+  "The Unlicense (Unlicense)",
+  "bsd",
+  "new bsd",
+]
+unauthorized_licenses = [
+]
+
+[tool.mypy]
+# https://mypy.readthedocs.io/en/stable/config_file.html
+pretty = true
+strict = true
+
+implicit_optional = true
+ignore_missing_imports = true
+
+warn_return_any = true
+warn_unused_configs = true
+
+disallow_untyped_calls = false
+
+exclude = [
+  '^bin\/.*',
+  '^docs\/.*',
+  '^setup.py$',
+  '^tests\/.*',
+]
+
+
+[tool.nitpick]
+style = [
+  # Ensure this project is up-to-date with template:
+  "https://gitlab.com/cappysan/scaffolds/python-template/-/raw/main/nitpick/scaffold-tpl-version-check.toml",
+  #
+  "https://gitlab.com/cappysan/nitpick/-/raw/main/resources/absent.toml",
+  "https://gitlab.com/cappysan/nitpick/-/raw/main/resources/black.toml",
+  "https://gitlab.com/cappysan/nitpick/-/raw/main/resources/nitpick.toml",
+  "https://gitlab.com/cappysan/nitpick/-/raw/main/resources/pre-commit.toml",
+]
+ignore_styles = []
+
+
+[tool.pylint.main]
+
+[tool.pylint.basic]
+# If variable isn't whitelisted here, it'll trigger an 'invalid-name' error
+good-names = [
+  "i",
+  "j",
+  "k",
+  "ex",
+  "Run",
+  "_",
+  # defaults above, custom below
+  "app", # application
+  "db",  # database
+  "fd",  # file descriptor
+  "fk",  # used as foreign key for API
+  "fn",  # function (reserved word)
+  "lhs", # left-hand-side (parameter)
+  "pk",  # used as primary key for API
+  "rhs", # left-hand-side (parameter)
+  "rv",  # frequently used as 'retval', aka 'return value'
+  "v",   # as in `for k, v in {}.items()`
+  "x",   # frequently used in lambdas, more precise than i, j
+  # local to this project:
+]
+
+# Good variable names regexes, separated by a comma. If names match any regex,
+# they will always be accepted
+good-names-rgxs = "^_?(CONST_|K_)[A-Z0-9][_A-Z0-9]*$"
+
+
+[tool.pylint.exceptions]
+# Exceptions that will emit a warning when caught.
+overgeneral-exceptions = "builtins.BaseException"
+
+
+[tool.pytest.ini_options]
+markers = [
+#  "live: connects to internet resource (unselect with '-m \"not live\"')",
+]
+
+
+[tool.pylint."messages control"]
+# Disable the message, report, category or checker with the given id(s). You can
+# either give multiple identifiers separated by comma (,) or put this option
+# multiple times (only on the command line, not in the configuration file where
+# it should appear only once). You can also use "--disable=all" to disable
+# everything first and then re-enable specific checks. For example, if you want
+# to run only the similarities checker, you can use "--disable=all
+# --enable=similarities". If you want to run only the classes checker, but have
+# no Warning level messages displayed, use "--disable=all --enable=classes
+# --disable=W".
+disable = [
+  "raw-checker-failed",
+  "bad-inline-option",
+  "locally-disabled",
+  "file-ignored",
+  "suppressed-message",
+  "useless-suppression",
+  "deprecated-pragma",
+  "use-symbolic-message-instead",
+  # defaults above, custom below
+  "chained-comparison",            # disabled, less readable by habit
+  "duplicate-code",                # disabled, false positives
+  "fixme",                         # disabled, can be properly handled manually
+  "line-too-long",                 # disabled, we use black so lines over 120 are intended
+  "logging-fstring-interpolation", # disabled, benefit outweighs cost
+  "missing-class-docstring",       # disabled, only relevant with sphinx
+  "missing-function-docstring",    # disabled, only relevant with sphinx
+  "missing-kwoa",                  # disabled, false positives
+  "missing-module-docstring",      # disabled, only relevant with sphinx
+  "no-member",                     # disabled, false positives
+  "too-few-public-methods",        # disabled, human knows best
+  "too-many-arguments",            # disabled, human knows best
+  "too-many-branches",             # disabled, human knows best
+  "too-many-instance-attributes",  # disabled, human knows best
+  "too-many-locals",               # disabled, human knows best
+  "too-many-statements",           # disabled, human knows best
+  "ungrouped-imports",             # disabled, we use isort so this is only voluntary
+  "wrong-import-order",            # disabled, we use isort so this is only voluntary
+  # local to this project:
+]
+
+# Enable the message, report, category or checker with the given id(s). You can
+# either give multiple identifier separated by comma (,) or put this option
+# multiple time (only on the command line, not in the configuration file where it
+# should appear only once). See also the "--disable" option for examples.
+enable = ["c-extension-no-member"]
+
+[tool.pylint.reports]
+# Deactivate the evaluation score.
+score = false
