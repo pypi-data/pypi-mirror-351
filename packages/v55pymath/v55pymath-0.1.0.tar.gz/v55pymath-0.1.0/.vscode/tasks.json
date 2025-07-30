@@ -1,0 +1,73 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "Clean build directory",
+          "type": "shell",
+          "command": "if exist build rmdir /s /q build",
+          "windows": {
+              "command": "if (Test-Path build) { Remove-Item -Recurse -Force build }"
+          },
+          "group": "build",
+          "problemMatcher": [],
+          "detail": "Удаляет папку build если она существует"
+      },
+      {
+          "label": "Configure CMake",
+          "type": "shell",
+          "command": "cmake",
+          "args": [
+              "-G", "Visual Studio 17 2022",
+              "-A", "x64",
+              "-B", "build",
+              "-S", "."
+          ],
+          "group": "build",
+          "problemMatcher": [],
+          "detail": "Генерирует проект для Visual Studio 2022 x64"
+      },
+      {
+          "label": "Build C++ module",
+          "type": "shell",
+          "command": "cmake",
+          "args": [
+              "--build", "build",
+              "--config", "Release",
+              "--target", "ALL_BUILD"
+          ],
+          "group": "build",
+          "problemMatcher": [],
+          "detail": "Сборка Release-версии модуля"
+      },
+      {
+          "label": "Install package",
+          "type": "shell",
+          "command": "pip",
+          "args": [
+              "install", 
+              ".", 
+              "--force-reinstall",
+              "--no-cache-dir"
+          ],
+          "group": {
+              "kind": "build",
+              "isDefault": true
+          },
+          "problemMatcher": [],
+          "detail": "Установка Python-пакета"
+      },
+      {
+          "label": "Full rebuild",
+          "dependsOrder": "sequence",
+          "dependsOn": [
+              "Clean build directory",
+              "Configure CMake",
+              "Build C++ module",
+              "Install package"
+          ],
+          "group": "build",
+          "problemMatcher": [],
+          "detail": "Полная пересборка проекта"
+      }
+  ]
+}
