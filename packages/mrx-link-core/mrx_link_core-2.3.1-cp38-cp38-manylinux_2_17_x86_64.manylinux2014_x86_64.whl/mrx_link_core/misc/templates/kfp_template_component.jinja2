@@ -1,0 +1,79 @@
+import argparse
+import os
+from typing import Any
+
+from kfp import components as kfp_components
+from kfp.components import InputPath, OutputPath
+
+
+def {{ name }}(
+    {% if inputs is not none %}{% for item in parents %}{{ item }}_outputs_path: InputPath("pkl"), {% endfor %}{% endif %}
+    {% if outputs is not none %}{{ name }}_outputs_path: OutputPath("pkl"), {% endif %}
+    {% for param in parameters %}{{ param.name }}: {% if param.type == "NoneType" %}Any{% else %}{{ param.type }}{% endif %}={% if param.type == "bool" %}{{ param.value | capitalize }}{% else %}{{ param.value }}{% endif %}, {% endfor %}
+) -> None:
+    from typing import Any, Dict
+
+    import cloudpickle
+
+    {% for statement in imports %}
+    {{ statement }}
+    {%- endfor %}
+
+    {% if inputs is not none %}
+    _{{ name }}_inputs: Dict[str, Any] = {% raw %}{}{% endraw %}
+        {%- for item in parents %}
+    with open({{ item }}_outputs_path, mode="rb") as reader:
+        _{{ name }}_inputs.update(cloudpickle.load(reader))
+        {%- endfor %}
+
+        {% for item in inputs %}
+    {{ item }}: Any = _{{ name }}_inputs.get("{{ item }}")
+        {%- endfor %}
+    {%- endif %}
+
+    {{ cell_code | indent(width=4, blank=True) }}
+
+    {% if outputs is not none %}
+    _{{ name }}_outputs: Dict[str, Any] = {% raw %}{}{% endraw %}
+        {%- for item in outputs %}
+    _{{ name }}_outputs["{{ item }}"] = locals().get("{{ item }}")
+        {%- endfor %}
+
+    with open({{ name }}_outputs_path, mode="wb") as writer:
+        cloudpickle.dump(_{{ name }}_outputs, writer)
+    {%- endif %}
+
+
+def compile_to_yaml(save_path: str) -> None:
+    if os.path.splitext(save_path)[1].lower() != ".yaml":
+        raise ValueError("'save_path' extension must be .yaml, not {0}".format(os.path.splitext(save_path)[1].lower()))
+
+    dir_name: str = os.path.dirname(os.path.abspath(save_path))
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+
+    kfp_components.func_to_container_op(func={{ name }},
+                                        output_component_file=os.path.join(dir_name, save_path),
+                                        base_image="{{ docker_image }}",
+                                        packages_to_install={{ requirements }},
+                                        use_code_pickling=False,
+                                        annotations={{ annotations }})
+
+
+def main(save_path: str) -> None:
+    compile_to_yaml(save_path=save_path)
+
+
+if __name__ == "__main__":
+    argparser = argparse.ArgumentParser(description="Arguments for compiler.")
+    argparser.add_argument(
+        "--save-path",
+        type=str,
+        default=os.path.join(os.path.curdir, "component.yaml"),
+        required=False,
+        dest="save_path",
+    )
+
+    parsed_args = vars(argparser.parse_args())
+
+    main(**parsed_args)
