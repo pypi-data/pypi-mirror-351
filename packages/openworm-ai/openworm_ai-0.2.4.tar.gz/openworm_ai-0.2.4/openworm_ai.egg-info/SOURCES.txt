@@ -1,0 +1,440 @@
+.gitignore
+LICENSE
+README.md
+pyproject.toml
+regenerateAndTest.sh
+setup.cfg
+.github/workflows/ci-test.yml
+corpus/papers/test/Donnelly2013_Llamaparse_Accurate.pdf.json
+corpus/papers/test/PrimerOnCElegans.pdf.json
+corpus/papers/test/Randi2023_Llamaparse_Accurate.pdf.json
+openworm_ai/__init__.py
+openworm_ai.egg-info/PKG-INFO
+openworm_ai.egg-info/SOURCES.txt
+openworm_ai.egg-info/dependency_links.txt
+openworm_ai.egg-info/requires.txt
+openworm_ai.egg-info/top_level.txt
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine.html
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview.html
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx.html
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus.html
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Atypical Cells.html
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis.html
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Interfacial Cells.html
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Seam Cells.html
+openworm_ai/corpus/wormatlas/Handbook - Excretory System.html
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions.html
+openworm_ai/corpus/wormatlas/Handbook - Introduction.html
+openworm_ai/corpus/wormatlas/Handbook - Muscle System GLR Cells.html
+openworm_ai/corpus/wormatlas/Handbook - Muscle System Head Mesodermal Cell.html
+openworm_ai/corpus/wormatlas/Handbook - Muscle System Introduction.html
+openworm_ai/corpus/wormatlas/Handbook - Muscle System Nonstriated Muscle.html
+openworm_ai/corpus/wormatlas/Handbook - Muscle System Somatic Muscle.html
+openworm_ai/corpus/wormatlas/Handbook - Nervous System General Description.html
+openworm_ai/corpus/wormatlas/Handbook - Nervous System Neuronal Support Cells.html
+openworm_ai/corpus/wormatlas/Handbook - Pericellular Structures.html
+openworm_ai/corpus/wormatlas/Handbook - Reproductive System Overview.html
+openworm_ai/corpus/wormatlas/Handbook - Reproductive System Part III Germ Line.html
+openworm_ai/corpus/wormatlas/Handbook - Reproductive System Part VI Egg-laying Apparatus.html
+openworm_ai/corpus/wormatlas/Handbook - Reproductive System Somatic Gonad.html
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle.html
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System.html
+openworm_ai/corpus/wormatlas/BasicCellInfo/all_cell_info.csv
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG 4Xlr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG1lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG2lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG3lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG4Alr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG4B_Jlr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG4K_Wlr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG5A_Blr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/IntFIG5C_Flr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/close-up.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/common-style.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/css.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/gray.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/gray_002.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/javascripts.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/menu.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/spacer.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Intestine_files/topoff.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/AlimFIG1lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/close-up.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/common-style.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/css.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/gray.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/gray_002.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/javascripts.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/menu.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/spacer.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Overview_files/topoff.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG1.svg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG10A_B.png
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG10C_J.png
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG11.png
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG12lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG13lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG2.png
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG3A_D.png
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG3E_G.png
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG4A_Dlr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG4E_Ilr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG5A_C.png
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG5D_E.png
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG6.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG6D.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG7Alr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG7B_Clr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG8A_Glr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG8Hlr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG9A_Elr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaFIG9F_Hlr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/PhaTABLE1.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/VPI.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/alimpharnyxsmall.mp4
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/close-up.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/common-style.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/css.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/gray.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/gray_002.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/javascripts.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/lr_series_small.mp4
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/menu.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/pharynx_small.mp4
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/pharynxleftside_small.mp4
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/spacer.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Pharynx_files/topoff.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/RectFIG1lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/RectFIG2lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/RectFIG3A_Elr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/RectFIG3Flr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/RectFIG3Glr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/close-up.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/common-style.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/css.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/gray.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/gray_002.css
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/javascripts.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/menu.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/spacer.gif
+openworm_ai/corpus/wormatlas/Handbook - Alimentary System Rectum and Anus_files/topoff.gif
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG Cell Listlr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG10lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG11A_Clr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG11D_Flr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG12lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG1lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG2lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG3lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG4lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG5lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG6lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG7lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG8Glr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG8lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFIG9lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypFig11Glr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/HypTABLE2lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/close-up.gif
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/common-style.css
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/css.js
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/gray.css
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/gray_002.css
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/hypTABLE1lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/javascripts.js
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/js
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/menu.js
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/spacer.gif
+openworm_ai/corpus/wormatlas/Handbook - Epithelial System Hypodermis_files/topoff.gif
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG1lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG2lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG3lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG4lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG5lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG6lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG7lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG8lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/GapjunctFIG9lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/close-up.gif
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/common-style.css
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/css.js
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/gray.css
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/gray_002.css
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/javascripts.js
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/js
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/menu.js
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/spacer.gif
+openworm_ai/corpus/wormatlas/Handbook - Gap Junctions_files/topoff.gif
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/Birdseye.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/close-up.gif
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/common-style.css
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/css.js
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/gray.css
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/gray_002.css
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introFIG5lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introFIG8lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introfig1lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introfig2.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introfig3lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introfig4Alr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introfig4Blr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introfig4Clr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introfig6lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introfig7lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/intromovie2.mp4
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introtable1lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/introtable2.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/javascripts.js
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/js
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/menu.js
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/spacer.gif
+openworm_ai/corpus/wormatlas/Handbook - Introduction_files/topoff.gif
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG10lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG11lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG12lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG13lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG1A-Clr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG2lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG3lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG4lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG5lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG6lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG7Alr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG7BCDElr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG8lr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG9Alr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/CutFIG9Blr.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/close-up.gif
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/common-style.css
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/css.js
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/gray.css
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/gray_002.css
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/javascripts.js
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/js
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/menu.js
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/spacer.gif
+openworm_ai/corpus/wormatlas/Handbook - The Cuticle_files/topoff.gif
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/ccfig1lr.jpg
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/ccfig2lr.jpg
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/ccfig3lr.jpg
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/ccfig4lr.jpg
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/ccfig5lr.jpg
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/close-up.gif
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/common-style.css
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/copyrightWACSH.js
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/css.js
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/google_analytics.js
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/gray-menu.css
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/gray-menu_002.css
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/gray.css
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/gray_002.css
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/header_2021.svg
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/javascripts.js
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/js
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/mainframe.htm
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/menu.js
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/oldheadercolor.jpg
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/pop-closeup.js
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/spacer.gif
+openworm_ai/corpus/wormatlas/Hermaphrodite Coelomocyte System_files/topoff.gif
+openworm_ai/graphrag/GraphRAG_test.py
+openworm_ai/graphrag/GraphRAG_test_Jan.py
+openworm_ai/graphrag/__init__.py
+openworm_ai/parser/DocumentModels.py
+openworm_ai/parser/ParseLlamaIndexJson.py
+openworm_ai/parser/ParseWormAtlas.py
+openworm_ai/parser/__init__.py
+openworm_ai/quiz/QuizMaster.py
+openworm_ai/quiz/QuizMasterCorpus.py
+openworm_ai/quiz/QuizModel.py
+openworm_ai/quiz/Templates.py
+openworm_ai/quiz/TemplatesCelegans.py
+openworm_ai/quiz/TemplatesCorpus.py
+openworm_ai/quiz/TemplatesScience.py
+openworm_ai/quiz/__init__.py
+openworm_ai/quiz/quiz_all.py
+openworm_ai/quiz/figures/llm_accuracy_vs_parameters_c._elegans.png
+openworm_ai/quiz/figures/llm_accuracy_vs_parameters_general_knowledge.png
+openworm_ai/quiz/figures/llm_accuracy_vs_parameters_grid_c._elegans.png
+openworm_ai/quiz/figures/llm_accuracy_vs_parameters_grid_general_knowledge.png
+openworm_ai/quiz/figures/llm_accuracy_vs_parameters_grid_science.png
+openworm_ai/quiz/figures/llm_accuracy_vs_parameters_rag.png
+openworm_ai/quiz/figures/llm_accuracy_vs_parameters_science.png
+openworm_ai/quiz/figures/llm_performance_vs_task_complexity.png
+openworm_ai/quiz/figures/quizplot_grid.py
+openworm_ai/quiz/figures/quizplots.py
+openworm_ai/quiz/figures/quizplots_overcategories.py
+openworm_ai/quiz/samples/GPT4o_100questions.json
+openworm_ai/quiz/samples/GPT4o_100questions_celegans.json
+openworm_ai/quiz/samples/GPT4o_100questions_celegans_batched.json
+openworm_ai/quiz/samples/GPT4o_100questions_general.json
+openworm_ai/quiz/samples/GPT4o_100questions_science.json
+openworm_ai/quiz/samples/GPT4o_10questions.json
+openworm_ai/quiz/samples/GPT4o_50questions.json
+openworm_ai/quiz/scores/GPT4o_score_rag.json
+openworm_ai/quiz/scores/Ollama_llama3.2_1b_score_rag.json
+openworm_ai/quiz/scores/Ollama_qwen_4b_score_rag.json
+openworm_ai/quiz/scores/celegans/llm_scores_celegans_16-03-25_1.json
+openworm_ai/quiz/scores/celegans/llm_scores_celegans_24-02-25.json
+openworm_ai/quiz/scores/general/llm_scores_general_24-02-25.json
+openworm_ai/quiz/scores/rag/llm_scores_rag_16-03-25_1.json
+openworm_ai/quiz/scores/rag/llm_scores_rag_16-03-25_2.json
+openworm_ai/quiz/scores/science/llm_scores_science_24-02-25.json
+openworm_ai/utils/llms.py
+processed/json/papers/Corsi_et_al_2015.json
+processed/json/papers/Donnelly_et_al_2013.json
+processed/json/papers/Randi_et_al_2023.json
+processed/json/papers/Randi_et_al_2023_final.json
+processed/json/wormatlas/Alimentary_System.json
+processed/json/wormatlas/Atypical_epithelial_cells.json
+processed/json/wormatlas/BasicCellInfo.json
+processed/json/wormatlas/Coelomocyte_System.json
+processed/json/wormatlas/Egg-laying_Apparatus.json
+processed/json/wormatlas/Excretory_System.json
+processed/json/wormatlas/GLR_Cells.json
+processed/json/wormatlas/Gap_Junctions.json
+processed/json/wormatlas/Germ_Line.json
+processed/json/wormatlas/Head_Mesodermal_Cell.json
+processed/json/wormatlas/Hypodermis.json
+processed/json/wormatlas/Interfacial_epithelial_cells.json
+processed/json/wormatlas/Intestine.json
+processed/json/wormatlas/Introduction.json
+processed/json/wormatlas/Muscle_System_Introduction.json
+processed/json/wormatlas/Nervous_System.json
+processed/json/wormatlas/Neuronal_Support_Cells.json
+processed/json/wormatlas/Nonstriated_Muscle.json
+processed/json/wormatlas/Pericellular_Structures.json
+processed/json/wormatlas/Pharynx.json
+processed/json/wormatlas/Rectum_and_Anus.json
+processed/json/wormatlas/Reproductive_System.json
+processed/json/wormatlas/Seam_cells.json
+processed/json/wormatlas/Somatic_Gonad.json
+processed/json/wormatlas/Somatic_Muscles.json
+processed/json/wormatlas/The_Cuticle.json
+processed/markdown/papers/Corsi_et_al_2015.md
+processed/markdown/papers/Donnelly_et_al_2013.md
+processed/markdown/papers/Randi_et_al_2023.md
+processed/markdown/wormatlas/Alimentary_System.md
+processed/markdown/wormatlas/Atypical_epithelial_cells.md
+processed/markdown/wormatlas/BasicCellInfo.md
+processed/markdown/wormatlas/Coelomocyte_System.md
+processed/markdown/wormatlas/Egg-laying_Apparatus.md
+processed/markdown/wormatlas/Excretory_System.md
+processed/markdown/wormatlas/GLR_Cells.md
+processed/markdown/wormatlas/Gap_Junctions.md
+processed/markdown/wormatlas/Germ_Line.md
+processed/markdown/wormatlas/Head_Mesodermal_Cell.md
+processed/markdown/wormatlas/Hypodermis.md
+processed/markdown/wormatlas/Interfacial_epithelial_cells.md
+processed/markdown/wormatlas/Intestine.md
+processed/markdown/wormatlas/Introduction.md
+processed/markdown/wormatlas/Muscle_System_Introduction.md
+processed/markdown/wormatlas/Nervous_System.md
+processed/markdown/wormatlas/Neuronal_Support_Cells.md
+processed/markdown/wormatlas/Nonstriated_Muscle.md
+processed/markdown/wormatlas/Pericellular_Structures.md
+processed/markdown/wormatlas/Pharynx.md
+processed/markdown/wormatlas/README.md
+processed/markdown/wormatlas/Rectum_and_Anus.md
+processed/markdown/wormatlas/Reproductive_System.md
+processed/markdown/wormatlas/Seam_cells.md
+processed/markdown/wormatlas/Somatic_Gonad.md
+processed/markdown/wormatlas/Somatic_Muscles.md
+processed/markdown/wormatlas/The_Cuticle.md
+processed/plaintext/papers/Corsi_et_al_2015.txt
+processed/plaintext/papers/Donnelly_et_al_2013.txt
+processed/plaintext/papers/Randi_et_al_2023.txt
+processed/plaintext/wormatlas/Alimentary_System.txt
+processed/plaintext/wormatlas/Atypical_epithelial_cells.txt
+processed/plaintext/wormatlas/BasicCellInfo.txt
+processed/plaintext/wormatlas/Coelomocyte_System.txt
+processed/plaintext/wormatlas/Egg-laying_Apparatus.txt
+processed/plaintext/wormatlas/Excretory_System.txt
+processed/plaintext/wormatlas/GLR_Cells.txt
+processed/plaintext/wormatlas/Gap_Junctions.txt
+processed/plaintext/wormatlas/Germ_Line.txt
+processed/plaintext/wormatlas/Head_Mesodermal_Cell.txt
+processed/plaintext/wormatlas/Hypodermis.txt
+processed/plaintext/wormatlas/Interfacial_epithelial_cells.txt
+processed/plaintext/wormatlas/Intestine.txt
+processed/plaintext/wormatlas/Introduction.txt
+processed/plaintext/wormatlas/Muscle_System_Introduction.txt
+processed/plaintext/wormatlas/Nervous_System.txt
+processed/plaintext/wormatlas/Neuronal_Support_Cells.txt
+processed/plaintext/wormatlas/Nonstriated_Muscle.txt
+processed/plaintext/wormatlas/Pericellular_Structures.txt
+processed/plaintext/wormatlas/Pharynx.txt
+processed/plaintext/wormatlas/Rectum_and_Anus.txt
+processed/plaintext/wormatlas/Reproductive_System.txt
+processed/plaintext/wormatlas/Seam_cells.txt
+processed/plaintext/wormatlas/Somatic_Gonad.txt
+processed/plaintext/wormatlas/Somatic_Muscles.txt
+processed/plaintext/wormatlas/The_Cuticle.txt
