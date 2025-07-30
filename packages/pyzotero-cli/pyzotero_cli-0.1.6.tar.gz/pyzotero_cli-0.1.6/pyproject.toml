@@ -1,0 +1,28 @@
+[project]
+name = "pyzotero-cli"
+version = "0.1.6"
+description = "Use Zotero from the command line, e.g., for AI-assisted reference / citation management in academic writing — CLI wrapper for pyzotero"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.2.0",
+    "pyyaml>=6.0.2",
+    "pyzotero>=1.6.11",
+    "tabulate>=0.9.0",
+    "pytest>=7.0",
+    "python-dotenv>=1.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.5",
+]
+
+[project.scripts]
+zot = "pyzotero_cli.zot_cli:zot"
+
+[tool.setuptools.packages.find]
+include = ["pyzotero_cli"]
+
+[tool.uv]
+package = true
