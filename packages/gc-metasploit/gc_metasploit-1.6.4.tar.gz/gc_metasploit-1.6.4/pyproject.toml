@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gc-metasploit"
+version = "1.6.4"
+description = "Metasploit MCP Server for AI assistants to interact with Metasploit Framework"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "GhostCrew"}
+]
+dependencies = [
+    "fastapi>=0.95.0",
+    "uvicorn>=0.21.1",
+    "pymetasploit3>=1.0.3",
+    "starlette>=0.26.1",
+    "mcp>=1.2.0"
+]
+
+[project.scripts]
+gc-metasploit = "gc_metasploit.server:main"
+
+[project.urls]
+"Homepage" = "https://github.com/GH05TCREW/MetasploitMCP"

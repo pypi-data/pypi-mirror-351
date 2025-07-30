@@ -1,0 +1,124 @@
+Metadata-Version: 2.4
+Name: gc-metasploit
+Version: 1.6.4
+Summary: Metasploit MCP Server for AI assistants to interact with Metasploit Framework
+Project-URL: Homepage, https://github.com/GH05TCREW/MetasploitMCP
+Author: GhostCrew
+License: Apache-2.0
+License-File: LICENSE
+Requires-Python: >=3.10
+Requires-Dist: fastapi>=0.95.0
+Requires-Dist: mcp>=1.2.0
+Requires-Dist: pymetasploit3>=1.0.3
+Requires-Dist: starlette>=0.26.1
+Requires-Dist: uvicorn>=0.21.1
+Description-Content-Type: text/markdown
+
+# Metasploit MCP Server
+
+A Model Context Protocol (MCP) server for interacting with the Metasploit Framework.
+
+## Changelog
+
+### v1.6.4
+- **Bug Fix**: Fixed invalid pymetasploit3 API parameters in `session.run_with_output()` calls
+- Removed non-existent parameters: `terminating_strs`, `timeout_exception`, and `timeout` 
+- Implemented proper timeout handling using `asyncio.wait_for()` wrapper
+- Changed exception handling from `TimeoutError` to `asyncio.TimeoutError`
+- This resolves compatibility issues with the pymetasploit3 library
+
+### v1.6.3
+- **Breaking Change**: Changed default execution mode from async (`run_as_job: true`) to sync (`run_as_job: false`) for `run_exploit` and `run_post_module` functions
+- This resolves issues where async execution returned boolean values that caused "'bool' object is not subscriptable" errors
+- Users can still explicitly set `run_as_job: true` for async execution when needed
+- `run_auxiliary_module` was already defaulting to sync execution
+
+## Features
+
+- List exploits and payloads
+- Generate payloads
+- Run exploits, post modules, and auxiliary modules
+- Manage sessions and listeners
+- Send commands to active sessions
+
+## Installation
+
+```bash
+pip install gc-metasploit
+```
+
+Or install with uvx:
+
+```bash
+uvx gc-metasploit
+```
+
+## Usage
+
+Ensure Metasploit RPC is running:
+
+```bash
+msfrpcd -P your_password -S -a 127.0.0.1
+```
+
+Then start the MCP server:
+
+```bash
+# As a command-line tool (HTTP/SSE mode by default):
+gc-metasploit
+
+# Or as a module:
+python -m gc_metasploit.server
+
+# Specify transport mode and options:
+gc-metasploit --transport http --host 0.0.0.0 --port 8085
+gc-metasploit --transport stdio
+```
+
+### Transport Options
+
+The server supports two transport methods:
+
+- **HTTP/SSE (Server-Sent Events)**: Default mode for interoperability with most MCP clients
+- **STDIO (Standard Input/Output)**: Used with Claude Desktop and similar direct pipe connections
+
+For Claude Desktop integration, configure `claude_desktop_config.json`:
+
+```json
+{
+    "mcpServers": {
+        "metasploit": {
+            "command": "gc-metasploit",
+            "args": [
+                "--transport",
+                "stdio"
+            ],
+            "env": {
+                "MSF_PASSWORD": "yourpassword"
+            }
+        }
+    }
+}
+```
+
+For other MCP clients that use HTTP/SSE:
+
+1. Start the server in HTTP mode (default):
+   ```bash
+   gc-metasploit --transport http --host 0.0.0.0 --port 8085
+   ```
+
+2. Configure your MCP client to connect to:
+   - SSE endpoint: `http://your-server-ip:8085/sse`
+
+### Environment Variables
+
+- `MSF_PASSWORD`: Metasploit RPC password (default: 'yourpassword')
+- `MSF_SERVER`: Metasploit RPC server (default: '127.0.0.1')
+- `MSF_PORT`: Metasploit RPC port (default: '55553')
+- `MSF_SSL`: Use SSL (default: 'false')
+- `PAYLOAD_SAVE_DIR`: Directory to save generated payloads (default: '~/payloads')
+
+## License
+
+Apache 2.0
