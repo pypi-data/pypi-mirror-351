@@ -1,0 +1,29 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "protloc_mex_X"
+version = "0.0.27"
+description = "..."
+authors = ["Ze Yu Luo <1024226968@qq.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/yujuan-zhang/ProtLoc-mexl"
+repository = "https://github.com/yujuan-zhang/ProtLoc-mexl"
+documentation = "https://github.com/yujuan-zhang/ProtLoc-mexl/issues"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+include = ["examples/*"]
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+numpy = "==1.20.3"
+pandas = "==1.4.1"
+seaborn = "==0.11.2"
+matplotlib = "==3.5.1"
