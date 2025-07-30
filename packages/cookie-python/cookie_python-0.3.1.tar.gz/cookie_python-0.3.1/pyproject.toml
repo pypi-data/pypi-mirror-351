@@ -1,0 +1,143 @@
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "cookie-python"
+description = "Cookiecutter template for new Python projects"
+license = "MIT"
+authors = [ { name = "Stephen Kent", email = "smkent@smkent.net" } ]
+readme = "README.md"
+repository = "https://github.com/smkent/cookie-python"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+requires-python = ">=3.9,<4.0"
+dynamic = []
+dependencies = [
+    "loguru",
+    "pygithub",
+    "pyyaml",
+    "semver",
+    "toml ; python_version < '3.11'",
+]
+version = "0.3.1"
+
+[project.scripts]
+new-cookie = "cookie_python.new:main"
+manage-cookie = "cookie_python.manage.main:main"
+
+[tool.poetry]
+packages = [
+    { include = "{{cookiecutter.project_name}}" }
+]
+requires-poetry = ">=2.0"
+
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
+
+[tool.poetry.group.dev.dependencies]
+bandit = {extras = ["toml"], version = "*"}
+black = "*"
+build = "*"
+cruft = "*"
+flake8 = "*"
+flake8-bugbear = "*"
+flake8-pyproject = "*"
+flake8-simplify = "*"
+isort = "*"
+mypy = "*"
+pep8-naming = "*"
+poethepoet = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-cookies = "*"
+pytest-cov = "*"
+pytest-github-actions-annotate-failures = "*"
+pytest-sugar = "*"
+types-PyYAML = "*"
+
+[tool.poetry.scripts]
+
+[tool.poetry-dynamic-versioning]
+enable = false
+vcs = "git"
+style = "semver"
+
+[tool.poe.tasks.lint]
+cmd = "pre-commit run --all-files --show-diff-on-failure"
+help = "Check all files"
+
+[tool.poe.tasks.pytest]
+cmd = "pytest"
+help = "Run unit tests with pytest"
+env = { PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring" }
+
+[tool.poe.tasks.test]
+sequence = ["lint", "pytest"]
+help = "Run all tests"
+
+[tool.poe.tasks.create]
+cmd = "new-cookie"
+help = "Create new project from cookie-python template"
+
+[tool.poe.tasks.updatetests]
+cmd = "pytest --update-expected-outputs"
+help = "Update test expected output files from test results"
+
+[tool.bandit]
+skips = [
+    "B101",  # assert_used
+    "B404",  # blacklist_subprocess
+    "B603",  # subprocess_without_shell_equals_true
+    "B607",  # start_process_with_partial_path
+]
+
+[tool.black]
+line-length = 79
+
+[tool.coverage.run]
+source = ["cookie_python"]
+omit = ["/etc/*", "/tmp/*"]
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+omit = ["/etc/*", "/tmp/*"]
+
+[tool.cruft]
+skip = [".git"]
+
+[tool.flake8]
+exclude = "./.*,./{{cookiecutter.project_name}}"
+
+[tool.isort]
+atomic = true
+profile = "black"
+line_length = 79
+
+[tool.mypy]
+files = ["tests"]
+mypy_path = "types"
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+show_error_codes = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = """\
+    --cov \
+    --cov-append \
+    --cov-report term \
+    --cov-report xml:.pytest_coverage.xml \
+    --junitxml=.pytest_results.xml \
+"""
+
+# vim: ft=cfg
