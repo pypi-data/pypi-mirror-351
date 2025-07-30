@@ -1,0 +1,103 @@
+# Environment files
+.env
+.env.local
+.env.production
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ChromaDB data
+chroma/
+*.db
+*.sqlite
+*.sqlite3
+
+# LangGraph checkpoints
+lg_checkpoints.sqlite
+checkpoints/
+
+# Logs
+logs/
+*.log
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+ssl/
+
+# Playwright
+.playwright/
+test-results/
+
+# Node modules (for MCP)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Archive and development files
+archive/
+experiments/
+old_versions/
+temp/
+tmp/
+
+# Docker
+.dockerignore
+
+# pytest cache
+.pytest_cache/
+.coverage
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Backup files
+*.bak
+*.backup

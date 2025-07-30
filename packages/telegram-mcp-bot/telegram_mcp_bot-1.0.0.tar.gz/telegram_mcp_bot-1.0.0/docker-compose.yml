@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Demo mode (polling)
+  telegram-bot-demo:
+    build: .
+    container_name: telegram-mcp-bot-demo
+    environment:
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - LLM_PROXY_API_BASE_URL=${LLM_PROXY_API_BASE_URL}
+      - LLM_PROXY_API_KEY=${LLM_PROXY_API_KEY}
+      - CHROMA_OPENAI_API_KEY=${CHROMA_OPENAI_API_KEY}
+      - DEPLOYMENT_MODE=polling
+      - PLAYWRIGHT_HEADLESS=true
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./chroma:/app/chroma
+      - ./logs:/app/logs
+    restart: unless-stopped
+    command: ["uv", "run", "python", "unified_bot.py"]
+    profiles:
+      - demo
+
+  # Production mode (webhook)
+  telegram-bot-prod:
+    build: .
+    container_name: telegram-mcp-bot-prod
+    ports:
+      - "8443:8443"
+    environment:
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - LLM_PROXY_API_BASE_URL=${LLM_PROXY_API_BASE_URL}
+      - LLM_PROXY_API_KEY=${LLM_PROXY_API_KEY}
+      - CHROMA_OPENAI_API_KEY=${CHROMA_OPENAI_API_KEY}
+      - WEBHOOK_HOST=${WEBHOOK_HOST}
+      - WEBHOOK_PORT=8443
+      - WEBHOOK_PATH=/webhook
+      - DEPLOYMENT_MODE=webhook
+      - PLAYWRIGHT_HEADLESS=true
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./chroma:/app/chroma
+      - ./logs:/app/logs
+    restart: unless-stopped
+    command: ["uv", "run", "python", "webhook_bot.py"]
+    profiles:
+      - prod
+
+  # Nginx reverse proxy (for production)
+  nginx:
+    image: nginx:alpine
+    container_name: telegram-bot-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - telegram-bot-prod
+    restart: unless-stopped
+    profiles:
+      - prod
+      - nginx
+
+networks:
+  default:
+    name: telegram-mcp-bot-network 

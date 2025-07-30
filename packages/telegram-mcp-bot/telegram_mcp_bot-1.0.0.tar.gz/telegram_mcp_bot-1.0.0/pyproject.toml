@@ -1,0 +1,95 @@
+[project]
+name = "telegram-mcp-bot"
+version = "1.0.0"
+description = "Unified Telegram bot with MCP (Model Context Protocol) for information collection and RAG assistant"
+authors = [
+    {name = "Sergei Trashchenkov", email = "trashchenkov@gmail.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["telegram", "bot", "mcp", "rag", "ai", "llm", "chromadb"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Communications :: Chat",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "aiogram>=3.15.0",
+    "aiofiles>=24.1.0",
+    "aiohttp>=3.11.10",
+    "asyncio-mqtt>=0.16.2",
+    "chromadb>=0.5.23",
+    "httpx>=0.28.1",
+    "langchain>=0.3.12",
+    "langchain-gigachat>=0.3.2",
+    "langchain-openai>=0.2.11",
+    "langgraph>=0.2.49",
+    "python-dotenv>=1.0.1",
+    "SQLAlchemy>=2.0.36",
+    "aiosqlite>=0.20.0",
+    "playwright>=1.48.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "black>=24.0.0",
+    "isort>=5.13.0",
+    "mypy>=1.8.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/trashchenkov/unified-telegram-mcp-bot"
+Repository = "https://github.com/trashchenkov/unified-telegram-mcp-bot.git"
+Issues = "https://github.com/trashchenkov/unified-telegram-mcp-bot/issues"
+Documentation = "https://github.com/trashchenkov/unified-telegram-mcp-bot#readme"
+
+[project.scripts]
+telegram-mcp-bot = "telegram_mcp_bot.cli:main"
+telegram-bot-demo = "unified_bot:main"
+telegram-bot-prod = "webhook_bot:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.24.0",
+    "black>=24.0.0",
+    "isort>=5.13.0",
+    "mypy>=1.8.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["telegram_mcp_bot"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
