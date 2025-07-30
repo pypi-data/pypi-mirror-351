@@ -1,0 +1,11 @@
+[project]
+name = "clientz"
+version = "0.1.4"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [ "fastapi>=0.115.12", "llmada>=0.1.9", "mem0ai>=0.1.101", "numpy>=2.2.5", "querypipz==0.1.9", "requests>=2.32.3", "sse-starlette>=2.3.4", "toml>=0.10.2", "uvicorn>=0.34.2",]
+
+[tool.pytest.ini_options]
+testpaths = [ "tests",]
+pythonpath = [ "src",]
