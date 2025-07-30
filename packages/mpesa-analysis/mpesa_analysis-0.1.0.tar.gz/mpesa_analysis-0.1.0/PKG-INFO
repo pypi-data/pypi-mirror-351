@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: mpesa_analysis
+Version: 0.1.0
+Summary: A loan advisory system using M-Pesa statement analysis and Gemini AI.
+Home-page: https://github.com/yourusername/mpesa_analysis
+Author: Your Name
+Author-email: Your Name <your.email@example.com>
+Project-URL: Homepage, https://github.com/Wangadeveloper/mpesa_analysis
+Project-URL: Bug Tracker, https://github.com/Wangadeveloper/mpesa_analysis
+Keywords: mpesa,financial analysis,loan advisory,gemini,ai
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Office/Business :: Financial
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pandas>=1.0.0
+Requires-Dist: pdfplumber>=0.10.0
+Requires-Dist: numpy>=1.20.0
+Requires-Dist: google-generativeai>=0.3.0
+Requires-Dist: Flask>=2.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-mock; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# M-Pesa Loan Advisory System with Gemini AI
+
+This project provides a web-based loan advisory system that analyzes a user's M-Pesa statement (PDF) to assess their financial behavior and recommends a suitable loan amount and payment period using Google's Gemini AI.
+
+## Features
+
+* **PDF Statement Analysis:** Extracts and categorizes M-Pesa transactions from a password-protected PDF.
+* **Financial Metric Derivation:** Calculates key financial indicators like average monthly income, expenses, and existing loan repayments.
+* **Gemini AI Integration:** Passes derived financial data to the Gemini Pro model for detailed financial behavior analysis and personalized loan recommendations (amount and tenure within 1 year).
+* **Web Interface:** A simple Flask web application for users to upload their M-Pesa PDF and receive advice.
+* **Modular Design:** Organized into distinct Python modules for better maintainability and testability.
+
+## Directory Structure
