@@ -1,0 +1,22 @@
+
+      INTERFACE
+      integer*4 function nvpl_blas_get_version()
+      END
+      END INTERFACE
+
+      INTERFACE
+      integer*4 function nvpl_blas_get_max_threads()
+      END
+      END INTERFACE
+
+      INTERFACE
+      subroutine nvpl_blas_set_num_threads(nthr)
+      integer*4 nthr
+      END
+      END INTERFACE
+
+      INTERFACE
+      integer*4 function nvpl_blas_set_num_threads_local(nthr_local)
+      integer*4 nthr_local
+      END
+      END INTERFACE
