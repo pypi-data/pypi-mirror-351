@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: propfit
+Version: 1.0.2
+Summary: Python test package.
+Author: Jordyn Robare
+Author-email: jrobare@asu.edu
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: chemparse
+Requires-Dist: numpy
+Requires-Dist: rdkit
+Requires-Dist: statsmodels
+Requires-Dist: pubchempy
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: AqOrg
+Requires-Dist: pyCHNOSZ
+
+# PropFit
+
+Estimate group contribution values of thermodynamic properties of organic molecules. 
+
+## Installation
+
+Install `PropFit` with pip:
+
+```
+$ pip install PropFit
+```
