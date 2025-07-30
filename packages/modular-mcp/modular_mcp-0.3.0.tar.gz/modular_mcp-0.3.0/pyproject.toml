@@ -1,0 +1,44 @@
+[project]
+name = "modular-mcp"
+version = "0.3.0"
+description = "A modular companion package for the Model Context Protocol SDK, designed to extend functionality with a clean and decoupled architecture."
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [{ name = "Damyan Dimitrov", email = "inspirationalcode@gmail.com" }]
+maintainers = [{ name = "Damyan Dimitrov", email = "inspirationalcode@gmail.com" }]
+keywords = ["git", "mcp", "llm", "automation", "modular"]
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.9.1"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["modular_mcp"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.11",
+]
+
+[tool.ruff.lint]
+select = ["C4", "E", "F", "I", "PERF", "UP"]
+ignore = ["PERF203"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/server/fastmcp/test_func_metadata.py" = ["E501"]
