@@ -1,0 +1,20 @@
+RESISTANCE = {
+    "clay": 1,
+    "rock": 1,
+    "tree": 1,
+    "rabbit adult": 1,
+    "sawbench": 1,
+    "manual press": 1,
+    "wooden cabin": 1,
+    "stone": 1,
+    "stone brick": 1,
+    "brick": 1,
+    "big rock": 2,
+    "mushroom hut": 2,
+    "mushroom block": 1,
+    "mushroom shaper": 2,
+    "ice": 1,
+    "coal ore": 2,
+    "coal": 1,
+    "composter": 1
+}
