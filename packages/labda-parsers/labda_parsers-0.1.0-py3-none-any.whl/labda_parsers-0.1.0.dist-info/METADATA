@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: labda-parsers
+Version: 0.1.0
+Summary: A package designed to extract data from movement sensors such as accelerometers and GPS devices.
+Project-URL: Homepage, https://github.com/labda-lib/parsers
+Project-URL: Documentation, https://labda.josefheidler.cz/parsers
+Project-URL: Source, https://github.com/labda-lib/parsers
+Project-URL: Changelog, https://labda.josefheidler.cz/parsers/changelog
+Author-email: Josef Heidler <jheidler@health.sdu.dk>
+License-Expression: BSD-3-Clause
+License-File: LICENSE
+Keywords: accelerometer,gps,movement-behavior,parsers,sensors
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.11
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: pygt3x>=0.7.1
+Requires-Dist: scikit-digital-health>=0.17.9
+Description-Content-Type: text/markdown
+
+[![pypi](https://img.shields.io/pypi/v/labda-parsers.svg)](https://pypi.python.org/pypi/labda-parsers)
+[![downloads](https://static.pepy.tech/badge/labda-parsers/month)](https://pepy.tech/project/labda-parsers)
+[![versions](https://img.shields.io/pypi/pyversions/labda-parsers.svg)](https://github.com/josefheidler/labda-parsers)
+
+# LABDA Parsers
+## Library for Advanced Behavioural Data Analysis
+
+A package designed to extract data from movement sensors such as accelerometers and GPS devices.
+
+### Supported formats
+- Actigraph (gt3x)
+- Axivity (cwa)
+- Sens (bin)
