@@ -1,0 +1,80 @@
+Metadata-Version: 2.4
+Name: cleanscript
+Version: 1.0.1
+Summary: CleanScript: An intelligent Python code optimizer and documentation tool that enhances code quality through automated refactoring, PEP-8 compliance checks, and AI-powered comment generation. Supports both online API and local AI models for all your code cleaning needs.
+Home-page: https://github.com/arunvijo/cleanscript
+Author: Arun Vijo Tharakan
+Author-email: arunvijo2004@gmail.com
+License: MIT
+Project-URL: Bug Tracker, https://github.com/arunvijo/cleanscript/issues
+Project-URL: Documentation, https://github.com/arunvijo/cleanscript/wiki
+Project-URL: Source Code, https://github.com/arunvijo/cleanscript
+Project-URL: Changelog, https://github.com/arunvijo/cleanscript/releases
+Keywords: python,code,optimizer,cleaner,documentation,gpt,refactor,pep8,formatter,ai,autocomplete
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: Software Development :: Documentation
+Classifier: Topic :: Software Development :: Code Generators
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENCE.txt
+Requires-Dist: astor<1.0.0,>=0.8.1
+Requires-Dist: black<25.0.0,>=24.0.0
+Requires-Dist: requests<3.0.0,>=2.25.0
+Requires-Dist: colorama<1.0.0,>=0.4.6
+Requires-Dist: tenacity>=8.0.0
+Requires-Dist: transformers>=4.30.0
+Requires-Dist: torch>=2.0.0
+Requires-Dist: sentencepiece
+Provides-Extra: dev
+Requires-Dist: pytest<8.0.0,>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov<5.0.0,>=4.0.0; extra == "dev"
+Requires-Dist: mock<5.0.0,>=4.0.0; extra == "dev"
+Requires-Dist: twine<5.0.0,>=4.0.0; extra == "dev"
+Requires-Dist: wheel<1.0.0,>=0.40.0; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest<8.0.0,>=7.0.0; extra == "test"
+Requires-Dist: pytest-cov<5.0.0,>=4.0.0; extra == "test"
+Requires-Dist: mock<5.0.0,>=4.0.0; extra == "test"
+Provides-Extra: light
+Requires-Dist: astor>=0.8.1; extra == "light"
+Requires-Dist: black>=24.0.0; extra == "light"
+Requires-Dist: colorama>=0.4.6; extra == "light"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# CleanScript
+
+**CleanScript** is a Python package that optimizes your Python scripts by:
+
+- Removing unused imports,
+- Adding basic or GPT-generated docstrings to functions and classes,
+- Formatting your code with [black](https://github.com/psf/black),
+- Optionally generating smarter comments using Hugging Face GPT-2 inference API.
+
+---
+
+## Installation
+
+```bash
+pip install cleanscript
