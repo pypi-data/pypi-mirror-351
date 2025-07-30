@@ -1,0 +1,101 @@
+[tool.poetry]
+name = "datanommer.commands"
+version = "1.4.1"
+description = "Console commands for datanommer"
+authors = [
+  "Fedora Infrastructure <admin@fedoraproject.org>"
+]
+license = "GPL-3.0-or-later"
+readme = "README.rst"
+repository = "https://github.com/fedora-infra/datanommer"
+homepage = "https://github.com/fedora-infra/datanommer"
+packages = [
+    { include = "datanommer" },
+]
+include = [
+    { path = "*.ini", format = "sdist" },
+    { path = "*.example", format = "sdist" },
+    { path = "tests/*", format = "sdist" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+"datanommer.models" = {version = "^1.0.0", extras = ["schemas"]}
+fedora-messaging = ">=2.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "*"
+"datanommer.models" = {path = "../datanommer.models", develop = true, extras = ["schemas"]}
+black = "*"
+ruff = "*"
+pytest = "*"
+liccheck = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+pytest-postgresql = "*"
+psycopg2 = "*"
+towncrier = "*"
+bodhi-messages = "*"
+
+[tool.poetry.scripts]
+datanommer-create-db = "datanommer.commands:create"
+datanommer-dump = "datanommer.commands:dump"
+datanommer-stats = "datanommer.commands:stats"
+datanommer-latest = "datanommer.commands:latest"
+datanommer-extract-users = "datanommer.commands.extract_users:main"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.towncrier]
+package = "datanommer.commands"
+directory = "news/"
+title_format = "v{version}"
+issue_format = "{issue}"
+template = "../tools/towncrier/template.rst.j2"
+underlines = "=^-"
+wrap = false
+all_bullets = true
+
+  [[tool.towncrier.type]]
+  directory = "bic"
+  name = "Backwards Incompatible Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "dependency"
+  name = "Dependency Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "feature"
+  name = "Features"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "bug"
+  name = "Bug Fixes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "dev"
+  name = "Development Improvements"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "docs"
+  name = "Documentation Improvements"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "other"
+  name = "Other Changes"
+  showcontent = true
+
+  [[tool.towncrier.type]]
+  directory = "author"
+  name = "Contributors"
+  showcontent = true
