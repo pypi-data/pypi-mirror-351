@@ -1,0 +1,208 @@
+name: napari-stress
+display_name: napari STRESS
+contributions:
+  commands:
+    - id: napari-stress.rescale
+      python_name: napari_stress._preprocess:rescale
+      title: Rescale image data by given scale factors
+
+    # Reconstruction
+    - id: napari-stress.trace_refine_surface
+      python_name: napari_stress._reconstruction.refine_surfaces:trace_refinement_of_surface
+      title: Fit point location on a surface according to a given intensity image
+    - id: napari-stress.reconstruct_surface
+      python_name: napari_stress._surface:reconstruct_surface
+      title: Reconstruct a surface from a pointcloud
+
+    - id: napari-stress.extract_vertex_points
+      python_name: napari_stress._surface:extract_vertex_points
+      title: Extract surface vertices as points data
+
+    # Sample data
+    - id: napari-stress.get_pointcloud_sample_data
+      python_name: napari_stress._sample_data:get_droplet_point_cloud
+      title: droplet pointcloud sample
+    - id: napari-stress.get_pointcloud_sample_data_4d
+      python_name: napari_stress._sample_data:get_droplet_point_cloud_4d
+      title: 4d dropplet pointcloud sample
+    - id: napari-stress.get_droplet_image_sample_4d
+      python_name: napari_stress._sample_data:get_droplet_4d
+      title: 4d droplet pointcloud sample
+
+    # Reconstruction
+    - id: napari-stress.droplet_reconstruction_toolbox
+      python_name: napari_stress._reconstruction.toolbox:droplet_reconstruction_toolbox
+      title: Droplet reconstruction toolbox
+
+    # Approximation
+    - id: napari-stress.fit_spherical_harmonics
+      python_name: napari_stress._approximation.expansion_napari:expand_spherical_harmonics
+      title: Approximate point cloud by spherical harmonics expansion
+    - id: napari-stress.fit_lsq_ellipsoid
+      python_name: napari_stress._approximation.expansion_napari:fit_ellipsoid_to_pointcloud
+      title: Fit least squares ellipsoid
+    - id: napari-stress.lebedev_quadrature
+      python_name: napari_stress._spherical_harmonics.spherical_harmonics_napari:perform_lebedev_quadrature
+      title: Perform lebedev quadrature after spherical harmonics expansion
+
+    - id: napari-stress.expand_ellipsoid
+      python_name: napari_stress._approximation.expansion_napari:expand_points_on_fitted_ellipsoid
+      title: Expand points on ellipsoid
+
+    # Spherical harmonics measurements & curvature
+    - id: napari-stress.measure_curvature
+      python_name: napari_stress._measurements.curvature:calculate_mean_curvature_on_manifold
+      title: Measure curvature on manifold
+    - id: napari-stress.measure_gauss_bonnet
+      python_name: napari_stress._measurements.curvature:gauss_bonnet_test
+      title: Measure Gauss-Bonnet error
+    - id: napari-stress.curvature_on_ellipsoid
+      python_name: napari_stress.approximation:curvature_on_ellipsoid
+      title: Measure curvature on ellipsoid
+    - id: napari-stress.calculate_patch_fitted_curvature_surface
+      python_name: napari_stress._measurements.curvature:_calculate_patch_fitted_curvature_on_surface
+      title: Calculate patch-fitted curvature on surface
+
+    # stress measurements
+    - id: napari-stress.measure_anisotropic_stresses
+      python_name: napari_stress._measurements.stresses:tissue_and_cell_scale_stress
+      title: Measure tissue and cell-scale stresses
+    - id: napari-stress.stress_analysis_toolbox
+      python_name: napari_stress._measurements.toolbox:stress_analysis_toolbox
+      title: Stress analysis toolbox
+
+    # Other measurements
+    - id: napari-stress.measure_intensity_along_normals
+      python_name: napari_stress._measurements.intensity:_sample_intensity_along_vector
+      title: Measure intensity along normals
+    - id: napari-stress.measure_intensity_on_surface
+      python_name: napari_stress._measurements.intensity:_measure_intensity_on_surface
+      title: Measure intensity on a surface
+
+    # Ellipsoids
+    - id: napari-stress.fit_ellipsoid_points
+      python_name: napari_stress._surface:fit_ellipsoid_to_pointcloud_points
+      title: Fit PCA ellipsoid to pointcloud and return points
+
+    - id: napari-stress.fit_ellipsoid_vectors
+      python_name: napari_stress._surface:fit_ellipsoid_to_pointcloud_vectors
+      title: Fit PCA ellipsoid to pointcloud and return major axis
+
+    # Vectors
+    - id: napari-stress.normal_vectors_on_pointcloud
+      python_name: napari_stress._vectors:normal_vectors_on_pointcloud
+      title: Calculate normal vectors on pointcloud
+    - id: napari-stress.normal_vectors_on_surface
+      python_name: napari_stress._vectors:normal_vectors_on_surface
+      title: Calculate normal vectors on surface
+    - id: napari-stress.move_point_along_vector_relative
+      python_name: napari_stress._vectors:relative_move_points_along_vector
+      title: Move points along vector (relative)
+    - id: napari-stress.move_point_along_vector_absolute
+      python_name: napari_stress._vectors:absolute_move_points_along_vector
+      title: Move points along vector (absolute)
+
+    - id: napari-stress.pairwise_distance
+      python_name: napari_stress.approximation:pairwise_point_distances
+      title: Pairwise point distance
+
+  widgets:
+    - command: napari-stress.rescale
+      autogenerate: true
+      display_name: Rescale image data
+
+    # Reconstruction
+    - command: napari-stress.droplet_reconstruction_toolbox
+      autogenerate: false
+      display_name: Droplet reconstruction toolbox
+
+    # Spherical harmonics
+    - command: napari-stress.fit_spherical_harmonics
+      autogenerate: true
+      display_name: Fit spherical harmonics
+    - command: napari-stress.lebedev_quadrature
+      autogenerate: True
+      display_name: Lebedev quadrature
+
+    # Measurement: stresses
+    - command: napari-stress.measure_curvature
+      autogenerate: true
+      display_name: Measure curvature
+    - command: napari-stress.gauss_bonnet_test
+      autogenerate: true
+      display_name: Measure Gauss-Bonnet error
+    - command: napari-stress.measure_anisotropic_stresses
+      autogenerate: true
+      display_name: Measure tissue and cell-scale stresses
+    - command: napari-stress.stress_analysis_toolbox
+      autogenerate: false
+      display_name: Stress analysis toolbox
+
+    # Other measurementrs
+    - command: napari-stress.curvature_on_ellipsoid
+      autogenerate: true
+      display_name: Mean curvature on ellipsoid
+    - command: napari-stress.measure_intensity_along_normals
+      autogenerate: true
+      display_name: Measure intensity along normals
+    - command: napari-stress.measure_intensity_on_surface
+      autogenerate: true
+      display_name: Measure intensity on surface
+    - command: napari-stress.calculate_patch_fitted_curvature_surface
+      autogenerate: true
+      display_name: Calculate patch-fitted curvature on surface
+
+    # Reconstruction
+    - command: napari-stress.trace_refine_surface
+      autogenerate: true
+      display_name: Trace-refine surface points
+
+    - command: napari-stress.reconstruct_surface
+      autogenerate: true
+      display_name: Create surface from points
+
+    - command: napari-stress.extract_vertex_points
+      autogenerate: true
+      display_name: Create points from surface vertices
+
+    # Ellipsoid
+    - command: napari-stress.fit_ellipsoid_points
+      autogenerate: true
+      display_name: Fit ellipsoid to pointcloud (points)
+    - command: napari-stress.fit_ellipsoid_vectors
+      autogenerate: true
+      display_name: Fit ellipsoid to pointcloud (major axis)
+    - command: napari-stress.fit_lsq_ellipsoid
+      autogenerate: true
+      display_name: Fit least squares ellipsoid
+    - command: napari-stress.expand_ellipsoid
+      autogenerate: true
+      display_name: Expand points on ellipsoid
+    - command: napari-stress.pairwise_distance
+      autogenerate: true
+      display_name: Pairwise point distance
+
+    # Vectors
+    - command: napari-stress.normal_vectors_on_pointcloud
+      autogenerate: true
+      display_name: Calculate normal vectors on pointcloud
+    - command: napari-stress.normal_vectors_on_surface
+      autogenerate: true
+      display_name: Calculate normal vectors on surface
+    - command: napari-stress.move_point_along_vector_relative
+      autogenerate: true
+      display_name: Move points along vector (relative)
+    - command: napari-stress.move_point_along_vector_absolute
+      autogenerate: true
+      display_name: Move points along vector (absolute)
+
+  sample_data:
+    - command: napari-stress.get_pointcloud_sample_data
+      display_name: Droplet pointcloud
+      key: PC_1
+    - command: napari-stress.get_pointcloud_sample_data_4d
+      display_name: 4d Droplet pointcloud
+      key: PC_2
+    - command: napari-stress.get_droplet_image_sample_4d
+      display_name: 4d Droplet image
+      key: PC_3

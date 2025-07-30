@@ -1,0 +1,64 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+
+options:
+  numbered: False
+
+parts:
+  - caption: Usage
+    chapters:
+    - file: 01_code_usage/code_usage
+      sections:
+      - file: 01_code_usage/demo_droplet_reconstruction_toolbox_code
+      - file: 01_code_usage/demo_anisotropic_stresses
+      - file: 01_code_usage/demo_analyze_everything
+      - file: 01_code_usage/demo_analyze_everything_batch
+      - file: 01_code_usage/demo_fit_ellipsoid_code
+      - file: 01_code_usage/demo_measure_patch_fitted_curvature
+      - file: 01_code_usage/demo_surface_reconstruction_code
+      - file: 01_code_usage/demo_surface_tracing
+      - file: 01_code_usage/demo_patch_fitting_reconstruction
+      - file: 01_code_usage/demo_spherical_harmonics_code
+      - file: 01_code_usage/demo_measure_intensity_on_surface
+      - file: 01_code_usage/demo_measure_intensity_on_vectors
+
+    - file: 02_interactive_usage/interactive_usage
+      sections:
+      - file: 02_interactive_usage/demo_droplet_reconstruction_toolbox
+      - file: 02_interactive_usage/demo_stress_toolbox_interactive
+      - file: 02_interactive_usage/demo_fit_ellipsoid_interactive
+      - file: 02_interactive_usage/demo_surface_reconstruction_interactive
+      - file: 02_interactive_usage/demo_spherical_harmonics_interactive
+      - file: 02_interactive_usage/demo_measure_curvature
+      - file: 02_interactive_usage/visualize_measurements_in_viewer
+
+  - caption: Glossary
+    chapters:
+    - file: 03_glossary/01_spherical_harmonics/Readme
+      sections:
+      - file: 03_glossary/01_spherical_harmonics/01_spherical_harmonics
+      - file: 03_glossary/01_spherical_harmonics/02_analyzing_spherical_harmonics
+
+    - file: 03_glossary/02_stresses/Readme
+      sections:
+      - file: 03_glossary/02_stresses/01_tissue_stresses
+      - file: 03_glossary/02_stresses/02_cell_stresses
+
+  - caption: FAQ
+    chapters:
+    - file: 04_FAQ/Installation
+    - file: 04_FAQ/Acknowledgement_and_citation
+    - file: 04_FAQ/bulk_vs_surface
+    - file: 04_FAQ/Validation
+      sections:
+      - file: 04_FAQ/validation/validation_stress_paper
+      - file: 04_FAQ/validation/analyze_validation
+      - file: 04_FAQ/validation/create_validation_data
+    - file: 04_FAQ/geodesics_tools
+
+  - caption: API
+    chapters:
+    - file: 05_API/api
