@@ -1,0 +1,71 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "labda-parsers"
+description = "A package designed to extract data from movement sensors such as accelerometers and GPS devices."
+readme = "README.md"
+authors = [
+    { name = "Josef Heidler", email = "jheidler@health.sdu.dk" }
+]
+version = "0.1.0"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+keywords = ["accelerometer", "gps", "parsers", "sensors", "movement-behavior"]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    'Operating System :: OS Independent',
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.2.3",
+    "pygt3x>=0.7.1",
+    "scikit-digital-health>=0.17.9",
+]
+
+[project.urls]
+Homepage = 'https://github.com/labda-lib/parsers'
+Documentation = 'https://labda.josefheidler.cz/parsers'
+Source = 'https://github.com/labda-lib/parsers'
+Changelog = 'https://labda.josefheidler.cz/parsers/changelog'
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+]
+
+[tool.ruff.lint]
+pydocstyle = { convention = 'google' }
+
+[tool.ruff]
+line-length = 120
+target-version = 'py311'
+
+[tool.ruff.format]
+quote-style = 'single'
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "--disable-warnings",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+]
