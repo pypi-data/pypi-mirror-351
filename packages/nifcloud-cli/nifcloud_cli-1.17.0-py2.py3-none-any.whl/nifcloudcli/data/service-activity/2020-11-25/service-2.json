@@ -1,0 +1,529 @@
+{
+  "metadata": {
+    "apiVersion": "2020-11-25",
+    "endpointPrefix": "service-activity",
+    "protocol": "rest-json",
+    "serviceAbbreviation": "service-activity",
+    "serviceFullName": "NIFCLOUD Service Activity",
+    "serviceId": "service-activity",
+    "signatureVersion": "v4",
+    "uid": "service-activity-2020-11-25"
+  },
+  "operations": {
+    "DescribeEventAttributes": {
+      "documentation": "<p>ニフクラのサービス稼働に関するイベントをリストで取得します。</p>",
+      "http": {
+        "method": "GET",
+        "requestUri": "/events/attributes/{YearMonth}"
+      },
+      "input": {
+        "shape": "DescribeEventAttributesRequest"
+      },
+      "name": "DescribeEventAttributes",
+      "output": {
+        "shape": "DescribeEventAttributesResult"
+      }
+    },
+    "DescribeEventCalendar": {
+      "documentation": "<p>ニフクラのサービス稼働に関するイベントをカレンダー形式で取得します。</p>",
+      "http": {
+        "method": "GET",
+        "requestUri": "/events/calendars/{YearMonth}"
+      },
+      "input": {
+        "shape": "DescribeEventCalendarRequest"
+      },
+      "name": "DescribeEventCalendar",
+      "output": {
+        "shape": "DescribeEventCalendarResult"
+      }
+    },
+    "DescribeServiceStatuses": {
+      "documentation": "<p>ニフクラのサービス稼働状況を取得します。</p>",
+      "http": {
+        "method": "GET",
+        "requestUri": "/services/statuses"
+      },
+      "input": {
+        "shape": "DescribeServiceStatusesRequest"
+      },
+      "name": "DescribeServiceStatuses",
+      "output": {
+        "shape": "DescribeServiceStatusesResult"
+      }
+    }
+  },
+  "shapes": {
+    "AffectedServices": {
+      "members": {
+        "EndAt": {
+          "locationName": "endAt",
+          "shape": "String"
+        },
+        "Influence": {
+          "locationName": "influence",
+          "shape": "String"
+        },
+        "Location": {
+          "locationName": "location",
+          "shape": "String"
+        },
+        "Menu": {
+          "locationName": "menu",
+          "shape": "String"
+        },
+        "Number": {
+          "locationName": "number",
+          "shape": "Integer"
+        },
+        "Resources": {
+          "locationName": "resources",
+          "shape": "ListOfResources"
+        },
+        "Service": {
+          "locationName": "service",
+          "shape": "String"
+        },
+        "StartAt": {
+          "locationName": "startAt",
+          "shape": "String"
+        },
+        "Status": {
+          "locationName": "status",
+          "shape": "String"
+        }
+      },
+      "name": "AffectedServices",
+      "type": "structure"
+    },
+    "Blob": {
+      "name": "Blob",
+      "type": "blob"
+    },
+    "Boolean": {
+      "name": "Boolean",
+      "type": "boolean"
+    },
+    "Calendar": {
+      "members": {
+        "CancelMaintenance": {
+          "locationName": "cancelMaintenance",
+          "shape": "String"
+        },
+        "CompletedMaintenance": {
+          "locationName": "completedMaintenance",
+          "shape": "String"
+        },
+        "Day": {
+          "locationName": "day",
+          "shape": "String"
+        },
+        "DayOfWeek": {
+          "locationName": "dayOfWeek",
+          "shape": "String"
+        },
+        "Information": {
+          "locationName": "information",
+          "shape": "String"
+        },
+        "Maintenance": {
+          "locationName": "maintenance",
+          "shape": "String"
+        },
+        "NoTroubleImpact": {
+          "locationName": "noTroubleImpact",
+          "shape": "String"
+        },
+        "RecoveredTrouble": {
+          "locationName": "recoveredTrouble",
+          "shape": "String"
+        },
+        "Trouble": {
+          "locationName": "trouble",
+          "shape": "String"
+        }
+      },
+      "name": "Calendar",
+      "type": "structure"
+    },
+    "Data": {
+      "members": {
+        "ServiceMenu": {
+          "locationName": "serviceMenu",
+          "shape": "ListOfServiceMenu"
+        }
+      },
+      "name": "Data",
+      "type": "structure"
+    },
+    "DataOfDescribeEventAttributes": {
+      "members": {
+        "Event": {
+          "locationName": "event",
+          "shape": "ListOfEvent"
+        },
+        "Mode": {
+          "locationName": "mode",
+          "shape": "String"
+        },
+        "TargetDate": {
+          "locationName": "targetDate",
+          "shape": "String"
+        }
+      },
+      "name": "DataOfDescribeEventAttributes",
+      "type": "structure"
+    },
+    "DataOfDescribeEventCalendar": {
+      "members": {
+        "Calendar": {
+          "locationName": "calendar",
+          "shape": "ListOfCalendar"
+        },
+        "Mode": {
+          "locationName": "mode",
+          "shape": "String"
+        },
+        "TargetDate": {
+          "locationName": "targetDate",
+          "shape": "String"
+        }
+      },
+      "name": "DataOfDescribeEventCalendar",
+      "type": "structure"
+    },
+    "DescribeEventAttributesRequest": {
+      "members": {
+        "Location": {
+          "location": "querystring",
+          "locationName": "location",
+          "shape": "String"
+        },
+        "Mode": {
+          "location": "querystring",
+          "locationName": "mode",
+          "shape": "ModeOfDescribeEventAttributesRequest"
+        },
+        "YearMonth": {
+          "location": "uri",
+          "locationName": "YearMonth",
+          "shape": "String"
+        }
+      },
+      "name": "DescribeEventAttributesRequest",
+      "required": [
+        "YearMonth"
+      ],
+      "type": "structure"
+    },
+    "DescribeEventAttributesResult": {
+      "members": {
+        "Data": {
+          "locationName": "data",
+          "shape": "DataOfDescribeEventAttributes"
+        },
+        "Datetime": {
+          "locationName": "datetime",
+          "shape": "String"
+        },
+        "RequestID": {
+          "locationName": "requestID",
+          "shape": "String"
+        }
+      },
+      "name": "DescribeEventAttributesResult",
+      "type": "structure"
+    },
+    "DescribeEventCalendarRequest": {
+      "members": {
+        "Mode": {
+          "location": "querystring",
+          "locationName": "mode",
+          "shape": "ModeOfDescribeEventCalendarRequest"
+        },
+        "YearMonth": {
+          "location": "uri",
+          "locationName": "YearMonth",
+          "shape": "String"
+        }
+      },
+      "name": "DescribeEventCalendarRequest",
+      "required": [
+        "YearMonth"
+      ],
+      "type": "structure"
+    },
+    "DescribeEventCalendarResult": {
+      "members": {
+        "Data": {
+          "locationName": "data",
+          "shape": "DataOfDescribeEventCalendar"
+        },
+        "Datetime": {
+          "locationName": "datetime",
+          "shape": "String"
+        },
+        "RequestID": {
+          "locationName": "requestID",
+          "shape": "String"
+        }
+      },
+      "name": "DescribeEventCalendarResult",
+      "type": "structure"
+    },
+    "DescribeServiceStatusesRequest": {
+      "members": {
+        "Mode": {
+          "location": "querystring",
+          "locationName": "mode",
+          "shape": "ModeOfDescribeServiceStatusesRequest"
+        }
+      },
+      "name": "DescribeServiceStatusesRequest",
+      "type": "structure"
+    },
+    "DescribeServiceStatusesResult": {
+      "members": {
+        "Data": {
+          "locationName": "data",
+          "shape": "Data"
+        },
+        "Datetime": {
+          "locationName": "datetime",
+          "shape": "String"
+        },
+        "RequestID": {
+          "locationName": "requestID",
+          "shape": "String"
+        }
+      },
+      "name": "DescribeServiceStatusesResult",
+      "type": "structure"
+    },
+    "Double": {
+      "name": "Double",
+      "type": "double"
+    },
+    "Event": {
+      "members": {
+        "AffectedServices": {
+          "locationName": "affectedServices",
+          "shape": "ListOfAffectedServices"
+        },
+        "EndAt": {
+          "locationName": "endAt",
+          "shape": "String"
+        },
+        "EventHistories": {
+          "locationName": "eventHistories",
+          "shape": "ListOfEventHistories"
+        },
+        "EventID": {
+          "locationName": "eventID",
+          "shape": "String"
+        },
+        "EventStatus": {
+          "locationName": "eventStatus",
+          "shape": "String"
+        },
+        "StartAt": {
+          "locationName": "startAt",
+          "shape": "String"
+        }
+      },
+      "name": "Event",
+      "type": "structure"
+    },
+    "EventHistories": {
+      "members": {
+        "Date": {
+          "locationName": "date",
+          "shape": "String"
+        },
+        "Message": {
+          "locationName": "message",
+          "shape": "String"
+        }
+      },
+      "name": "EventHistories",
+      "type": "structure"
+    },
+    "Integer": {
+      "name": "Integer",
+      "type": "integer"
+    },
+    "ListOfAffectedServices": {
+      "member": {
+        "shape": "AffectedServices"
+      },
+      "name": "ListOfAffectedServices",
+      "type": "list"
+    },
+    "ListOfCalendar": {
+      "member": {
+        "shape": "Calendar"
+      },
+      "name": "ListOfCalendar",
+      "type": "list"
+    },
+    "ListOfEvent": {
+      "member": {
+        "shape": "Event"
+      },
+      "name": "ListOfEvent",
+      "type": "list"
+    },
+    "ListOfEventHistories": {
+      "member": {
+        "shape": "EventHistories"
+      },
+      "name": "ListOfEventHistories",
+      "type": "list"
+    },
+    "ListOfResources": {
+      "member": {
+        "shape": "Resources"
+      },
+      "name": "ListOfResources",
+      "type": "list"
+    },
+    "ListOfServiceMenu": {
+      "member": {
+        "shape": "ServiceMenu"
+      },
+      "name": "ListOfServiceMenu",
+      "type": "list"
+    },
+    "ListOfServices": {
+      "member": {
+        "shape": "Services"
+      },
+      "name": "ListOfServices",
+      "type": "list"
+    },
+    "ListOfStatuses": {
+      "member": {
+        "shape": "Statuses"
+      },
+      "name": "ListOfStatuses",
+      "type": "list"
+    },
+    "Long": {
+      "name": "Long",
+      "type": "long"
+    },
+    "ModeOfDescribeEventAttributesRequest": {
+      "enum": [
+        "user",
+        "all"
+      ],
+      "name": "ModeOfDescribeEventAttributesRequest",
+      "type": "string"
+    },
+    "ModeOfDescribeEventCalendarRequest": {
+      "enum": [
+        "user",
+        "all"
+      ],
+      "name": "ModeOfDescribeEventCalendarRequest",
+      "type": "string"
+    },
+    "ModeOfDescribeServiceStatusesRequest": {
+      "enum": [
+        "user",
+        "all"
+      ],
+      "name": "ModeOfDescribeServiceStatusesRequest",
+      "type": "string"
+    },
+    "Resources": {
+      "members": {
+        "DiskName": {
+          "locationName": "diskName",
+          "shape": "String"
+        },
+        "ResourceName": {
+          "locationName": "resourceName",
+          "shape": "String"
+        },
+        "ResourceType": {
+          "locationName": "resourceType",
+          "shape": "String"
+        }
+      },
+      "name": "Resources",
+      "type": "structure"
+    },
+    "ServiceMenu": {
+      "members": {
+        "MaintenanceStatus": {
+          "locationName": "maintenanceStatus",
+          "shape": "String"
+        },
+        "Name": {
+          "locationName": "name",
+          "shape": "String"
+        },
+        "NormalStatus": {
+          "locationName": "normalStatus",
+          "shape": "String"
+        },
+        "Services": {
+          "locationName": "services",
+          "shape": "ListOfServices"
+        },
+        "TroubleStatus": {
+          "locationName": "troubleStatus",
+          "shape": "String"
+        }
+      },
+      "name": "ServiceMenu",
+      "type": "structure"
+    },
+    "Services": {
+      "members": {
+        "Name": {
+          "locationName": "name",
+          "shape": "String"
+        },
+        "Statuses": {
+          "locationName": "statuses",
+          "shape": "ListOfStatuses"
+        }
+      },
+      "name": "Services",
+      "type": "structure"
+    },
+    "Statuses": {
+      "members": {
+        "Location": {
+          "locationName": "location",
+          "shape": "String"
+        },
+        "MaintenanceStatus": {
+          "locationName": "maintenanceStatus",
+          "shape": "String"
+        },
+        "NormalStatus": {
+          "locationName": "normalStatus",
+          "shape": "String"
+        },
+        "TroubleStatus": {
+          "locationName": "troubleStatus",
+          "shape": "String"
+        }
+      },
+      "name": "Statuses",
+      "type": "structure"
+    },
+    "String": {
+      "name": "String",
+      "type": "string"
+    },
+    "TStamp": {
+      "name": "TStamp",
+      "type": "timestamp"
+    }
+  },
+  "version": "2.0"
+}
