@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: xh-bin
+Version: 0.24.1
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: System :: Networking
+Classifier: Topic :: Utilities
+License-File: LICENSE
+Summary: Friendly and fast tool for sending HTTP requests 
+Keywords: cli,http-client,api-testing
+Home-Page: https://github.com/ducaale/xh
+Author: ducaale <sharaf.13@hotmail.com>
+Author-email: dowon <ks2515@naver.com>
+License: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: repository, https://github.com/Bing-su/pip-binary-factory
+Project-URL: xh, https://github.com/ducaale/xh
+
+# xh-bin
+
+https://github.com/ducaale/xh
+
+`xh` is a friendly and fast tool for sending HTTP requests. It reimplements as much as possible of [HTTPie's](https://httpie.io/) excellent design, with a focus on improved performance.
+
+[![asciicast](https://github.com/ducaale/xh/raw/master/assets/xh-demo.gif)](https://asciinema.org/a/475190)
+
+## install
+
+```sh
+pip install xh-bin
+```
+
