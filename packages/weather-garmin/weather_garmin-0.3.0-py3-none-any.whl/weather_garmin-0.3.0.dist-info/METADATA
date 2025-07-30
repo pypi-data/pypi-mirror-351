@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: weather-garmin
+Version: 0.3.0
+Summary: Add your description here
+Author-email: "J.M.Bai" <baijiaming003@gmail.com>
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: mcp[cli]>=1.9.2
