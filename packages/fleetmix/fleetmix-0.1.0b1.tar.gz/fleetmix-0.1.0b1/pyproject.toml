@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fleetmix"
+version = "0.1.0b1"
+description = "Fleet Size and Mix optimizer for heterogeneous fleets of multi-compartment vehicles"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy<2",
+    "pandas",
+    "matplotlib",
+    "scikit-learn",
+    "gurobipy",
+    "geopy",
+    "scipy",
+    "jupyter",
+    "scikit-learn-extra",
+    "pulp",
+    "numba",
+    "cython",
+    "haversine",
+    "joblib",
+    "tqdm",
+    "openpyxl",
+    "seaborn",
+    "folium",
+    "pyvrp",
+    "rich",
+    "vrplib",
+    "typer[all]>=0.9.0",
+    "streamlit>=1.28.0",
+]
+
+[project.scripts]
+fleetmix = "fleetmix.app:app"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "hypothesis",
+    "pytest-xdist",
+]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]
