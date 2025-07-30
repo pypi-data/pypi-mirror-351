@@ -1,0 +1,8 @@
+aiohttp
+pycryptodome
+
+[dev]
+ruff
+pre-commit
+pytest
+pytest-asyncio
