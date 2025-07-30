@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: lablibpy
+Version: 0.1.0
+Summary: Lablibpy is a Python library for data analysis and visualization
+Author: Me
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: seaborn
+Requires-Dist: matplotlib
+Dynamic: author
+Dynamic: requires-dist
+Dynamic: summary
