@@ -1,0 +1,25 @@
+[project]
+name = "tiny-shmup"
+version = "0.1.0"
+description = "A Python library for building tiny shmups."
+readme = "README.md"
+authors = [{ name = "William Starkovich", email = "starkovichw@gmail.com" }]
+requires-python = ">=3.13"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "pygame-ce",
+]
+
+[project.urls]
+Homepage = "https://github.com/0xPRIMEgs/tiny_shmup"
+
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+

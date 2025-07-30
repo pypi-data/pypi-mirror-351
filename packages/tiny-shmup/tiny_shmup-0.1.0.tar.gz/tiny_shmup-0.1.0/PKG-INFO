@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: tiny-shmup
+Version: 0.1.0
+Summary: A Python library for building tiny shmups.
+Project-URL: Homepage, https://github.com/0xPRIMEgs/tiny_shmup
+Author-email: William Starkovich <starkovichw@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.13
+Requires-Dist: pygame-ce
