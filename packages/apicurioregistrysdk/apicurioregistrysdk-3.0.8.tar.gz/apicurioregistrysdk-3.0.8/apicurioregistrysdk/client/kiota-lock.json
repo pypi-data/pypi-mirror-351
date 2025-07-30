@@ -1,0 +1,34 @@
+{
+  "descriptionHash": "1A7449641CD463E10D8E8F4D1FD1DD673F60CB702E8BD0E3535BB36C79B8D1D0E71CFB8C42E9CBC0E3F35021F323446344C009FF9900E3C3C0B1063CD95B72C7",
+  "descriptionLocation": "../../openapi.json",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.23.0",
+  "clientClassName": "RegistryClient",
+  "typeAccessModifier": "Public",
+  "clientNamespaceName": "client",
+  "language": "Python",
+  "usesBackingStore": false,
+  "excludeBackwardCompatible": false,
+  "includeAdditionalData": true,
+  "disableSSLValidation": false,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "text/plain;q=0.9",
+    "application/x-www-form-urlencoded;q=0.2",
+    "multipart/form-data;q=0.1"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [],
+  "disabledValidationRules": []
+}
