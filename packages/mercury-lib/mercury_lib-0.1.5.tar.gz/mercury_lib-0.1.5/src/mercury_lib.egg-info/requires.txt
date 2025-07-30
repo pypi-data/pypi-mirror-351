@@ -1,0 +1,22 @@
+automata-lib>=9.0.0
+uvicorn>=0.34.0
+
+[:python_version < "3.8"]
+importlib-metadata
+
+[all]
+pygraphviz>=1.10
+coloraide>=1.8.2
+fastapi>=0.115.8
+
+[graphviz]
+pygraphviz>=1.10
+coloraide>=1.8.2
+
+[testing]
+setuptools
+pytest
+pytest-cov
+
+[web]
+fastapi>=0.115.8

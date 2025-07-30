@@ -1,0 +1,84 @@
+Metadata-Version: 2.4
+Name: mercury-lib
+Version: 0.1.5
+Summary: Wrapper over `automata-lib` with the goal of supporting GOLD-3 syntax for automata development for students
+Home-page: https://github.com/pyscaffold/pyscaffold/
+Author: Nicolas-Saavedra
+Author-email: personal@nicolassaavedra.com
+License: Apache-2.0
+Project-URL: Source, https://github.com/Nicolas-Saavedra/mercury-lib
+Project-URL: Changelog, https://github.com/Nicolas-Saavedra/mercury-lib/blob/main/CHANGELOG.rst
+Project-URL: Tracker, https://github.com/Nicolas-Saavedra/mercury-lib/issues
+Platform: any
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Requires-Python: >=3.12
+Description-Content-Type: text/x-rst; charset=UTF-8
+License-File: LICENSE.txt
+Requires-Dist: importlib-metadata; python_version < "3.8"
+Requires-Dist: automata-lib>=9.0.0
+Requires-Dist: uvicorn>=0.34.0
+Provides-Extra: graphviz
+Requires-Dist: pygraphviz>=1.10; extra == "graphviz"
+Requires-Dist: coloraide>=1.8.2; extra == "graphviz"
+Provides-Extra: web
+Requires-Dist: fastapi>=0.115.8; extra == "web"
+Provides-Extra: all
+Requires-Dist: pygraphviz>=1.10; extra == "all"
+Requires-Dist: coloraide>=1.8.2; extra == "all"
+Requires-Dist: fastapi>=0.115.8; extra == "all"
+Provides-Extra: testing
+Requires-Dist: setuptools; extra == "testing"
+Requires-Dist: pytest; extra == "testing"
+Requires-Dist: pytest-cov; extra == "testing"
+Dynamic: license-file
+
+.. These are examples of badges you might want to add to your README:
+   please update the URLs accordingly
+
+    .. image:: https://api.cirrus-ci.com/github/<USER>/mercury.svg?branch=main
+        :alt: Built Status
+        :target: https://cirrus-ci.com/github/<USER>/mercury
+    .. image:: https://readthedocs.org/projects/mercury/badge/?version=latest
+        :alt: ReadTheDocs
+        :target: https://mercury.readthedocs.io/en/stable/
+    .. image:: https://img.shields.io/coveralls/github/<USER>/mercury/main.svg
+        :alt: Coveralls
+        :target: https://coveralls.io/r/<USER>/mercury
+    .. image:: https://img.shields.io/pypi/v/mercury.svg
+        :alt: PyPI-Server
+        :target: https://pypi.org/project/mercury/
+    .. image:: https://img.shields.io/conda/vn/conda-forge/mercury.svg
+        :alt: Conda-Forge
+        :target: https://anaconda.org/conda-forge/mercury
+    .. image:: https://pepy.tech/badge/mercury/month
+        :alt: Monthly Downloads
+        :target: https://pepy.tech/project/mercury
+    .. image:: https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Twitter
+        :alt: Twitter
+        :target: https://twitter.com/mercury
+
+.. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
+    :alt: Project generated with PyScaffold
+    :target: https://pyscaffold.org/
+
+|
+
+=======
+Mercury
+=======
+
+
+    Add a short description here!
+
+
+A longer description of your project goes here...
+
+
+.. _pyscaffold-notes:
+
+Note
+====
+
+This project has been set up using PyScaffold 4.6. For details and usage
+information on PyScaffold see https://pyscaffold.org/.

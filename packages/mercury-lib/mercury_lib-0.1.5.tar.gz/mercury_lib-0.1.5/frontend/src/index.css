@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	background-color: oklch(92.8% 0.006 264.531);
+	/* Background color */
+	background-image:
+		repeating-linear-gradient(0deg, oklch(87.2% 0.01 258.338) 0px, oklch(87.2% 0.01 258.338) 1px, transparent 1px, transparent 40px),
+		repeating-linear-gradient(90deg, oklch(87.2% 0.01 258.338) 0px, oklch(87.2% 0.01 258.338) 1px, transparent 1px, transparent 40px);
+}
