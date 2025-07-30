@@ -1,0 +1,114 @@
+[project]
+name = "PicImageSearch"
+dynamic = []
+description = "PicImageSearch - Aggregator for Reverse Image Search APIs"
+readme = "README.md"
+authors = [
+    { name = "kitUIN", email = "kulujun@gmail.com" },
+]
+maintainers = [
+    { name = "kitUIN", email = "kulujun@gmail.com" },
+    { name = "lleans" },
+    { name = "chinoll" },
+    { name = "NekoAria" },
+]
+requires-python = ">=3.9"
+dependencies = [
+    "httpx[http2]>=0.28.1",
+    "lxml>=5.4.0",
+    "pyquery>=2.0.1",
+]
+keywords = [
+    "animetrace",
+    "ascii2d",
+    "baidu",
+    "bing",
+    "copyseeker",
+    "e-hentai",
+    "google",
+    "google-lens",
+    "iqdb",
+    "saucenao",
+    "tineye",
+    "tracemoe",
+    "yandex",
+]
+version = "3.12.8"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+homepage = "https://github.com/kitUIN/PicImageSearch"
+repository = "https://github.com/kitUIN/PicImageSearch"
+
+[project.optional-dependencies]
+socks = [
+    "socksio>=1.0.0",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.basedpyright]
+pythonVersion = "3.9"
+reportAny = false
+reportExplicitAny = false
+reportUnknownArgumentType = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+
+[tool.pdm.version]
+source = "file"
+path = "PicImageSearch/__init__.py"
+
+[tool.pdm.build]
+includes = [
+    "PicImageSearch",
+]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "basedpyright>=1.29.2",
+    "loguru>=0.7.3",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.26.0",
+    "pytest-vcr>=1.0.2",
+    "pre-commit>=4.2.0",
+    "ruff>=0.11.11",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+extend-exclude = [
+    "typings",
+]
+
+[tool.ruff.lint]
+select = [
+    "F",
+    "E",
+    "W",
+    "I",
+    "UP",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+    "F401",
+]
+"*.py" = [
+    "F405",
+    "N813",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
