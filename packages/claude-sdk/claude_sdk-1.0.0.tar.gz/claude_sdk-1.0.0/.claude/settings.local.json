@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(rg:*)",
+      "Bash(python -m pytest tests/unit/test_models.py -v)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv run:*)",
+      "Bash(python:*)",
+      "Bash(python:*)",
+      "Bash(python -m basedpyright:*)",
+      "Bash(ls:*)",
+      "Bash(source:*)",
+      "Bash(just test-file:*)",
+      "Bash(pip3 list:*)",
+      "Bash(basedpyright:*)",
+      "Bash(just:*)",
+      "Bash(uv:*)",
+      "Bash(git add:*)",
+      "Bash(pre-commit:*)",
+      "Bash(mv:*)"
+    ],
+    "deny": []
+  }
+}

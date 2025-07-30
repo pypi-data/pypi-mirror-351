@@ -1,0 +1,183 @@
+[project]
+name = "claude-sdk"
+version = "1.0.0"
+description = "Typed Python SDK for parsing and analyzing Claude Code sessions"
+readme = "README.md"
+authors = [
+    { name = "Darin Kishore", email = "darinkishore@protonmail.com" }
+]
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+
+dependencies = [
+    "pydantic>=2.11.5,<3.0",
+]
+
+[project.optional-dependencies]
+# T2: Git integration
+git = ["GitPython>=3.1.0"]
+# T3: MCP support (placeholder - MCP SDK doesn't exist yet)
+# mcp = ["mcp-sdk>=0.1.0"]
+# Development dependencies
+dev = [
+    "basedpyright>=1.19.0",
+    "ruff>=0.1.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "hypothesis>=6.0.0",
+    "types-python-dateutil",
+    "pre-commit>=3.0.0",
+]
+# All optional dependencies
+all = ["claude-sdk[git,dev]"]
+
+[project.urls]
+Homepage = "https://github.com/darinkishore/claude-sdk"
+Repository = "https://github.com/darinkishore/claude-sdk"
+Issues = "https://github.com/darinkishore/claude-sdk/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.basedpyright]
+pythonVersion = "3.11"
+typeCheckingMode = "strict"
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportUnusedImport = true
+reportUnusedClass = true
+reportUnusedFunction = true
+reportUnusedVariable = true
+reportDuplicateImport = true
+reportUntypedFunctionDecorator = true
+reportUntypedClassDecorator = true
+reportUntypedBaseClass = true
+reportUntypedNamedTuple = true
+reportPrivateUsage = true
+reportConstantRedefinition = true
+reportIncompatibleMethodOverride = true
+reportIncompatibleVariableOverride = true
+reportInconsistentConstructor = true
+reportOverlappingOverload = true
+reportPossiblyUnboundVariable = true
+reportMissingSuperCall = false
+reportUninitializedInstanceVariable = true
+reportInvalidStringEscapeSequence = true
+reportUnknownParameterType = true
+reportUnknownArgumentType = true
+reportUnknownLambdaType = true
+reportUnknownVariableType = true
+reportUnknownMemberType = true
+reportMissingParameterType = true
+reportMissingTypeArgument = true
+reportInvalidTypeVarUse = true
+reportCallInDefaultInitializer = true
+reportUnnecessaryIsInstance = true
+reportUnnecessaryCast = true
+reportUnnecessaryComparison = true
+reportUnnecessaryContains = true
+reportAssertAlwaysTrue = true
+reportSelfClsParameterName = true
+reportImplicitStringConcatenation = false
+reportInvalidStubStatement = true
+reportIncompleteStub = true
+reportUnsupportedDunderAll = true
+reportUnusedCoroutine = true
+reportPropertyTypeMismatch = true
+reportFunctionMemberAccess = true
+strictListInference = true
+strictDictionaryInference = true
+strictSetInference = true
+analyzeUnannotatedFunctions = true
+strictParameterNoneValue = true
+enableTypeIgnoreComments = true
+include = ["src"]
+exclude = ["**/__pycache__", "build", "dist", ".venv"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+    "RUF", # Ruff-specific rules
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+    "PTH", # flake8-use-pathlib
+]
+ignore = [
+    "E501",  # line too long, handled by formatter
+    "B008",  # do not perform function calls in argument defaults
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Allow unused imports in __init__.py
+"tests/**/*.py" = [
+    "S101",  # Allow assert statements in tests
+    "ARG",   # Allow unused function args in tests
+    "FBT",   # Allow boolean trap in tests
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["claude_sdk"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+show_missing = true
+skip_covered = true
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.29.2",
+    "hypothesis>=6.131.30",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+]
