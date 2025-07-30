@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: py-apifactory
+Version: 0.1.1
+Summary: Web framework for API-first development via OpenAPI specification with included validation according
+Requires-Python: >=3.12
+License-File: LICENSE.md
+Requires-Dist: aioitertools==0.12.0
+Requires-Dist: openapi-core==0.19.5
+Requires-Dist: starlette==0.46.2
+Requires-Dist: uvicorn==0.34.2
+Dynamic: license-file
