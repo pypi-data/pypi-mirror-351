@@ -1,0 +1,24 @@
+[project]
+name = "weather-garmin"
+version = "0.3.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "J.M.Bai", email = "baijiaming003@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.9.2",
+]
+
+[project.scripts]
+weather-garmin = "mcp_server_weather.weather:main"
+
+[build-system]
+requires = ["uv>=0.1.0", "setuptools>=65.5.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]  # 指定包位置
+
