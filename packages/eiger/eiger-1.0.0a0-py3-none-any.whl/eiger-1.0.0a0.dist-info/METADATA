@@ -1,0 +1,32 @@
+Metadata-Version: 2.3
+Name: eiger
+Version: 1.0.0a0
+Summary: A modern, async Python framework for Discord bots.
+License: MIT
+Keywords: discord,python,library,bot
+Author: vcokltfre
+Author-email: vcokltfre@gmail.com
+Requires-Python: >=3.12,<4.0
+Classifier: Framework :: AsyncIO
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Communications :: Chat
+Classifier: Typing :: Typed
+Requires-Dist: aiohttp[speedups] (>=3.12.4,<4.0.0)
+Project-URL: Repository, https://github.com/vcokltfre/eiger
+Description-Content-Type: text/markdown
+
+# Eiger
+
+A modern, async Python framework for Discord bots.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
