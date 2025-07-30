@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bloomtracker"
+version = "0.4.1"
+description = "API client for the 'Deutscher Wetterdienst' to get the current pollen load in Germany"
+readme = "README.md"
+authors = [
+    {name = "Sascha Triller", email = "sascha.triller@posteo.de"}
+]
+license = {text = "GNU General Public License v3 or later (GPLv3+)"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Development Status :: 5 - Production/Stable",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "requests>=2.31.0",
+    "pytz>=2023.3",
+    "aiohttp>=3.8.0",
+    "rich>=13.0.0",
+    "matplotlib>=3.5.0",
+    "numpy>=1.20.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pylint>=3.0.0",
+    "licensecheck>=2025.1.0",
+    "pytest>=7.0.0",
+]
+
+[project.scripts]
+bloomtracker = "bloomtracker.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/striller/BloomTracker"
+Issues = "https://github.com/striller/BloomTracker/issues"
+Documentation = "https://github.com/striller/BloomTracker#readme"
+Changelog = "https://github.com/striller/BloomTracker/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+packages = ["bloomtracker"]
+script-files = ["scripts/bloomtracker"]
+
+[tool.licensecheck]
+# License checking configuration
+zero = true
+format = "ansi"
+license = "GPL-3.0-or-later"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
