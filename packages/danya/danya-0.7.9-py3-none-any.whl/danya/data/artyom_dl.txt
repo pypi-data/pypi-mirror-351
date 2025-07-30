@@ -1,0 +1,477 @@
+# примеры_кода (1) (3).ipynb
+# Markdown:
+## Классификация
+import pandas as pd
+import numpy as np
+
+import torch
+from torch import nn, optim
+from torch.utils.data import Dataset, DataLoader, TensorDataset
+import torchmetrics as M
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.metrics import classification_report, confusion_matrix
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_csv('/home/kekwak/Загрузки/bank.csv')
+
+y_map = {'no': 0, 'yes': 1}
+X = data.drop(columns=['deposit'])
+y = data['deposit'].map(lambda y: y_map[y]).to_numpy()
+
+categorical_cols = X.select_dtypes('object').columns
+numerical_cols = X.select_dtypes('number').columns
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), numerical_cols),
+        ('cat', OneHotEncoder(), categorical_cols)
+    ])
+
+X_processed = preprocessor.fit_transform(X)
+
+X_train, X_test, y_train, y_test = train_test_split(X_processed, y, test_size=0.2, random_state=42)
+
+X_train = torch.tensor(X_train, dtype=torch.float32)
+y_train = torch.tensor(y_train, dtype=torch.float32)
+X_test = torch.tensor(X_test, dtype=torch.float32)
+y_test = torch.tensor(y_test, dtype=torch.float32)
+
+train_dataset = TensorDataset(X_train, y_train)
+test_dataset = TensorDataset(X_test, y_test)
+# class Model(nn.Module):
+#     def __init__(self, ...):
+#         ...
+        
+#     def forward(self, x):
+#         ...
+
+model = nn.Sequential(
+    nn.Linear(51, 128),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(128),
+
+    nn.Linear(128, 128),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(128),
+
+    nn.Linear(128, 64),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(64),
+
+    nn.Linear(64, 1),
+)
+n_pos = (y_train == 1).sum().item()
+n_neg = (y_train == 0).sum().item()
+pos_weight_value = n_neg / n_pos
+pos_weight_value
+batch_size = 64
+epochs = 10
+print_every = 1
+
+criterion = nn.BCEWithLogitsLoss(pos_weight=torch.tensor([pos_weight_value]))
+optimizer = optim.AdamW(model.parameters(), lr=2e-4)
+
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+
+f1 = M.F1Score('binary')
+accuracy = M.Accuracy('binary')
+
+losses_list = []
+
+for epoch in range(epochs):
+    epoch_loss = 0
+    
+    model.train()
+    for batch_X, batch_y in train_loader:
+        out = model(batch_X)
+        
+        loss = criterion(out, batch_y.unsqueeze(1))
+        epoch_loss += loss.item()
+
+        optimizer.zero_grad()
+
+        loss.backward()
+        optimizer.step()
+    
+    model.eval()
+    with torch.no_grad():
+        y_pred, y_true = [], []
+        for batch_X, batch_y in test_loader:
+            out = model(batch_X)
+
+            y_pred.extend((torch.sigmoid(out).flatten() > 0.5).int().tolist())
+            y_true.extend(batch_y.flatten())
+        
+        f1_value = f1(torch.tensor(y_true), torch.tensor(y_pred))
+        accuracy_value = accuracy(torch.tensor(y_true), torch.tensor(y_pred))
+
+    if (epoch+1) % print_every == 0:
+        epoch_loss_w = epoch_loss / len(train_loader)
+        losses_list.append(epoch_loss_w)
+        print(f'Epoch {epoch+1}/{epochs}, Loss: {epoch_loss_w:.4f}, f1_value: {f1_value}, accuracy_value: {accuracy_value}')
+y_pred0, y_true0 = y_pred, y_true
+plt.title(f'Losses - {optimizer.__class__.__name__}')
+plt.plot(losses_list)
+plt.grid(True)
+plt.show()
+sns.heatmap(confusion_matrix(y_pred, y_true), annot=True, fmt='.0f')
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.show()
+print(classification_report(y_pred, y_true))
+model = nn.Sequential(
+    nn.Linear(51, 128),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(128),
+
+    nn.Linear(128, 128),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(128),
+
+    nn.Linear(128, 64),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(64),
+
+    nn.Linear(64, 1),
+)
+
+criterion = nn.BCEWithLogitsLoss(pos_weight=torch.tensor([pos_weight_value]))
+optimizer = optim.Adam(model.parameters(), lr=2e-4)
+
+f1 = M.F1Score('binary')
+accuracy = M.Accuracy('binary')
+
+losses_list_adam = []
+
+for epoch in range(epochs):
+    epoch_loss = 0
+    
+    model.train()
+    for batch_X, batch_y in train_loader:
+        out = model(batch_X)
+        
+        loss = criterion(out, batch_y.unsqueeze(1))
+        epoch_loss += loss.item()
+
+        optimizer.zero_grad()
+
+        loss.backward()
+        optimizer.step()
+    
+    model.eval()
+    with torch.no_grad():
+        y_pred, y_true = [], []
+        for batch_X, batch_y in test_loader:
+            out = model(batch_X)
+
+            y_pred.extend((torch.sigmoid(out).flatten() > 0.5).int().tolist())
+            y_true.extend(batch_y.flatten())
+        
+        f1_value = f1(torch.tensor(y_true), torch.tensor(y_pred))
+        accuracy_value = accuracy(torch.tensor(y_true), torch.tensor(y_pred))
+
+    if (epoch+1) % print_every == 0:
+        epoch_loss_w = epoch_loss / len(train_loader)
+        losses_list_adam.append(epoch_loss_w)
+        print(f'Epoch {epoch+1}/{epochs}, Loss: {epoch_loss_w:.4f}, f1_value: {f1_value}, accuracy_value: {accuracy_value}')
+y_pred1, y_true1 = y_pred, y_true
+model = nn.Sequential(
+    nn.Linear(51, 128),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(128),
+
+    nn.Linear(128, 128),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(128),
+
+    nn.Linear(128, 64),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(64),
+
+    nn.Linear(64, 1),
+)
+
+criterion = nn.BCEWithLogitsLoss(pos_weight=torch.tensor([pos_weight_value]))
+optimizer = optim.SGD(model.parameters(), lr=2e-4)
+
+f1 = M.F1Score('binary')
+accuracy = M.Accuracy('binary')
+
+losses_list_sgd = []
+
+for epoch in range(epochs):
+    epoch_loss = 0
+    
+    model.train()
+    for batch_X, batch_y in train_loader:
+        out = model(batch_X)
+        
+        loss = criterion(out, batch_y.unsqueeze(1))
+        epoch_loss += loss.item()
+
+        optimizer.zero_grad()
+
+        loss.backward()
+        optimizer.step()
+    
+    model.eval()
+    with torch.no_grad():
+        y_pred, y_true = [], []
+        for batch_X, batch_y in test_loader:
+            out = model(batch_X)
+
+            y_pred.extend((torch.sigmoid(out).flatten() > 0.5).int().tolist())
+            y_true.extend(batch_y.flatten())
+        
+        f1_value = f1(torch.tensor(y_true), torch.tensor(y_pred))
+        accuracy_value = accuracy(torch.tensor(y_true), torch.tensor(y_pred))
+
+    if (epoch+1) % print_every == 0:
+        epoch_loss_w = epoch_loss / len(train_loader)
+        losses_list_sgd.append(epoch_loss_w)
+        print(f'Epoch {epoch+1}/{epochs}, Loss: {epoch_loss_w:.4f}, f1_value: {f1_value}, accuracy_value: {accuracy_value}')
+y_pred2, y_true2 = y_pred, y_true
+plt.title(f'Losses')
+plt.plot(losses_list, label='AdamW')
+plt.plot(losses_list_adam, label='Adam')
+plt.plot(losses_list_sgd, label='SGD')
+plt.grid(True)
+plt.legend()
+plt.show()
+for i, n in zip(((y_pred0, y_true0), (y_pred1, y_true1), (y_pred2, y_true2)), ('AdamW', 'Adam', 'SGD')):
+    plt.scatter(0, accuracy(*torch.tensor(i)), label=n)
+plt.title('Accuracy')
+plt.grid(True)
+plt.legend()
+plt.show()
+# Markdown:
+## Регрессия
+import pandas as pd
+import numpy as np
+
+import torch
+from torch import nn, optim
+from torch.utils.data import Dataset, DataLoader, TensorDataset
+import torchmetrics as M
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.metrics import classification_report, confusion_matrix
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_csv('/home/kekwak/Загрузки/bike_cnt.csv')
+data[['weekday', 'mnth']] = data[['weekday', 'mnth']].astype('object')
+
+X = data.drop(columns=['instant', 'dteday'])
+y = data['cnt'].to_numpy()
+
+categorical_cols = X.select_dtypes('object').columns
+numerical_cols = X.select_dtypes('number').columns
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), numerical_cols),
+        ('cat', OneHotEncoder(), categorical_cols)
+    ])
+
+X_processed = preprocessor.fit_transform(X)
+
+X_train, X_test, y_train, y_test = train_test_split(X_processed, y, test_size=0.2, random_state=42)
+
+X_train = torch.tensor(X_train, dtype=torch.float32)
+y_train = torch.tensor(y_train, dtype=torch.float32)
+X_test = torch.tensor(X_test, dtype=torch.float32)
+y_test = torch.tensor(y_test, dtype=torch.float32)
+
+train_dataset = TensorDataset(X_train, y_train)
+test_dataset = TensorDataset(X_test, y_test)
+# class Model(nn.Module):
+#     def __init__(self, ...):
+#         ...
+        
+#     def forward(self, x):
+#         ...
+
+model = nn.Sequential(
+    nn.Linear(30, 128),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(128),
+
+    nn.Linear(128, 128),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(128),
+
+    nn.Linear(128, 64),
+    nn.ReLU(),
+    nn.Dropout(p=0.1),
+    nn.BatchNorm1d(64),
+
+    nn.Linear(64, 1),
+)
+batch_size = 128
+epochs = 20
+print_every = 1
+
+criterion = nn.MSELoss()
+optimizer = optim.AdamW(model.parameters(), lr=5e-3)
+
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+
+mse = M.MeanSquaredError()
+
+losses_list = []
+
+for epoch in range(epochs):
+    epoch_loss = 0
+    
+    model.train()
+    for batch_X, batch_y in train_loader:
+        out = model(batch_X)
+        
+        loss = criterion(out, batch_y.unsqueeze(1))
+        epoch_loss += loss.item()
+
+        optimizer.zero_grad()
+
+        loss.backward()
+        optimizer.step()
+    
+    model.eval()
+    with torch.no_grad():
+        y_pred, y_true = [], []
+        for batch_X, batch_y in test_loader:
+            out = model(batch_X)
+
+            y_pred.extend(out.flatten().tolist())
+            y_true.extend(batch_y.flatten())
+        
+        mse_value = mse(torch.tensor(y_true), torch.tensor(y_pred))
+
+    if (epoch+1) % print_every == 0:
+        epoch_loss_w = epoch_loss / len(train_loader)
+        losses_list.append(epoch_loss_w)
+        print(f'Epoch {epoch+1}/{epochs}, Loss: {epoch_loss_w:.4f}, mse_value: {mse_value}')
+y_pred0, y_true0 = y_pred, y_true
+plt.title(f'Losses - {optimizer.__class__.__name__}')
+plt.plot(losses_list)
+plt.grid(True)
+plt.show()
+# Markdown:
+## Классификация Фоток CNN
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+
+from torch.utils.data import DataLoader
+from torchvision import transforms
+from torchvision.datasets import ImageFolder
+data_dir = "/home/kekwak/Загрузки/sign_language"
+
+# Предобработка изображений
+transform = transforms.Compose([
+    transforms.Resize((64, 64)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.5]*3, [0.5]*3),
+])
+
+# Загрузка данных
+full_dataset = ImageFolder(data_dir, transform=transform)
+
+train_size = int(0.7 * len(full_dataset))
+test_size = len(full_dataset) - train_size
+train_dataset, test_dataset = torch.utils.data.random_split(full_dataset, [train_size, test_size])
+# class CNN(nn.Module):
+#     def __init__(self, ...):
+#         ...
+
+#     def forward(self, x):
+#         ...
+
+model = nn.Sequential(
+    nn.Conv2d(3, 32, kernel_size=5),
+    nn.MaxPool2d((2, 2)),
+    nn.Conv2d(32, 64, kernel_size=3),
+    nn.MaxPool2d((2, 2)),
+    nn.Conv2d(64, 128, kernel_size=3),
+    nn.MaxPool2d((2, 2)),
+    nn.Conv2d(128, 256, kernel_size=3),
+
+    nn.AdaptiveAvgPool2d((1, 1)),
+    
+    nn.Flatten(),
+    nn.Linear(256, 32),
+    nn.Linear(32, 10),
+)
+batch_size = 32
+num_epochs = 10
+print_every = 1
+num_classes = len(full_dataset.classes)
+
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.AdamW(model.parameters(), lr=2e-4)
+
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=batch_size)
+
+f1 = M.F1Score('MULTICLASS', num_classes=10)
+accuracy = M.Accuracy('MULTICLASS', num_classes=10)
+
+losses_list = []
+
+for epoch in range(num_epochs):
+    epoch_loss = 0
+    
+    model.train()
+    for batch_X, batch_y in train_loader:
+        out = model(batch_X)
+        
+        loss = criterion(out, batch_y)
+        epoch_loss += loss.item()
+
+        optimizer.zero_grad()
+
+        loss.backward()
+        optimizer.step()
+    
+    model.eval()
+    with torch.no_grad():
+        y_pred, y_true = [], []
+        for batch_X, batch_y in test_loader:
+            out = model(batch_X)
+
+            y_pred.extend(out.argmax(dim=1).tolist())
+            y_true.extend(batch_y.flatten())
+        
+        f1_value = f1(torch.tensor(y_true), torch.tensor(y_pred))
+        accuracy_value = accuracy(torch.tensor(y_true), torch.tensor(y_pred))
+
+    if (epoch+1) % print_every == 0:
+        epoch_loss_w = epoch_loss / len(train_loader)
+        losses_list.append(epoch_loss_w)
+        print(f'Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss_w:.4f}, f1_value: {f1_value}, accuracy_value: {accuracy_value}')
+sns.heatmap(confusion_matrix(y_pred, y_true), annot=True, fmt='.0f')
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.show()
+print(classification_report(y_pred, y_true))
+
