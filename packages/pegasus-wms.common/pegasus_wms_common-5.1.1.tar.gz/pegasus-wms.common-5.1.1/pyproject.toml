@@ -1,0 +1,76 @@
+[tool.isort]
+
+profile           = "black"
+known_first_party = "Pegasus"
+forced_separate   = "Pegasus"
+skip              = [
+  ".eggs",
+  ".git",
+  ".hg",
+  ".mypy_cache",
+  ".nox",
+  ".pants.d",
+  ".tox",
+  ".venv",
+  "_build",
+  "buck-out",
+  "build",
+  "dist",
+  "node_modules",
+  "venv",
+  "Pegasus/cli"
+]
+
+
+[tool.black]
+
+target-version = ["py36"]
+
+exclude       = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | Pegasus/cli
+)/
+'''
+
+
+[tool.flake8]
+
+max-line-length        = 88
+ignore                 = ["W503"]
+exclude                = [
+  ".git",
+  ".tox",
+  "*.egg-info",
+  "htmlcov",
+  "test-reports",
+  ".pytest_cache",
+  "__pycache__",
+  "build"
+]
+
+
+[tool.pytest.ini_options]
+
+pythonpath = ["src"]
+testpaths = ["test"]
+
+
+[tool.coverage.run]
+
+source = ["src"]
+
+
+[build-system]
+
+requires      = ["setuptools<69", "wheel"]
+build-backend = "setuptools.build_meta"
