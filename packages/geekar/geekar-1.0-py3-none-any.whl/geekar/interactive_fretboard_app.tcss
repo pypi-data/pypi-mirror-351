@@ -1,0 +1,179 @@
+ /* 
+SPDX-FileCopyrightText: 2025 Dimitris Kardarakos
+SPDX-License-Identifier: AGPL-3.0-only
+*/
+
+FretboardUi{
+    # column-span:2;
+    margin-top: 1;
+    margin-left: 3;
+    margin-right: 3;
+    height: 10;
+}
+
+PlayingFingerWidget {
+    height: 6;
+    width: 1fr;
+    border: solid $surface;
+    margin-left: 3;
+    margin-right: 3;
+    Label {
+        width: 100%;
+        text-align: center;
+    }
+    Digits {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.collabsible {
+    margin-top: 1;
+    width: 1fr;
+    margin-left: 3;
+}
+
+
+PatternSetWidget{
+    padding: 1 5;
+    min-width: 60;
+    width: 1fr;
+    height: 10;
+}
+
+
+.diatonic-note-fretboard-cell {
+    background: $surface-darken-3;
+}
+
+
+.form-grid {
+    padding: 1 2;
+    width: 1fr;
+    height: auto;
+    grid-size: 4;
+    grid-gutter: 1;
+    grid-columns: auto 1fr;
+    border: tall blank;
+    # &:focus-within {
+    #     border: tall $accent;
+    # }
+    Label {
+        width: 100%;
+        padding: 1;
+        text-align: right;
+    }
+}
+ 
+Screen {
+    layout: vertical;
+    align: center middle;
+}
+
+.root-note {
+    text-style: bold;
+}
+
+.pattern-switch-vg {
+    align: center middle;
+    width: 1fr;
+}
+
+.pattern-switch-label {
+    width: 1fr;
+    text-align: center;
+}
+
+.pattern-switch-container {
+    width: 1fr;
+    align: center middle;
+}
+
+
+FretboardUiCell.c-background-pattern {
+    color: white;
+    background: #6A5ACD;
+}
+
+FretboardUiCell.a-background-pattern {
+    color: white;
+    background: #20B2AA;
+}
+
+FretboardUiCell.g-background-pattern {
+    color: white;
+    background: #b21f27;
+}
+
+FretboardUiCell.e-background-pattern {
+    color: white;
+    background: #3498DB;
+}
+
+FretboardUiCell.d-background-pattern {
+    background:#F1C40F;
+}
+
+FretboardUiCell.c-text-color-pattern {
+    FretboardUiCellContent {
+        color: white;
+        background: #6A5ACD;
+    }
+ }
+
+FretboardUiCell.a-text-color-pattern {
+    FretboardUiCellContent {
+        color: white;
+        background: #20B2AA;
+    }
+}
+
+FretboardUiCell.g-text-color-pattern {
+    FretboardUiCellContent {
+        color: white;
+        background: #b21f27;
+    }
+}
+
+FretboardUiCell.e-text-color-pattern {
+    FretboardUiCellContent {
+        color: white;
+        background: #3498DB;
+    }
+}
+
+FretboardUiCell.d-text-color-pattern {
+    FretboardUiCellContent {
+        color: black;
+        background:  #F1C40F;
+    }
+}
+
+Rule.c-background-pattern {
+    color: #6A5ACD;
+}
+
+Rule.a-background-pattern {
+    color: #20B2AA;
+}
+
+Rule.g-background-pattern {
+    color: #b21f27;
+}
+
+Rule.e-background-pattern {
+    color: #3498DB;
+}
+
+Rule.d-background-pattern {
+    color: #F1C40F;
+}
+
+Rule.all-background-pattern {
+    color: $primary
+}
+FretboardUiCell.mouse-on-cell {
+    background: $accent;
+}
+
+
