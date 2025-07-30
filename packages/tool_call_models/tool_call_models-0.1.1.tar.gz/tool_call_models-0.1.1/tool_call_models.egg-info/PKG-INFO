@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: tool_call_models
+Version: 0.1.1
+Summary: A simple package of models used between two services in order to achieve SDUI widgets using LLMs.
+Author-email: Aslon Khamidov <hamidovaslon1@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/yourname/my-package
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pydantic

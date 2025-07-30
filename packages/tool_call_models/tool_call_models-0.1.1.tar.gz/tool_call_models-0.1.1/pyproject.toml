@@ -1,0 +1,16 @@
+[project]
+name = "tool_call_models"
+version = "0.1.1"
+description = "A simple package of models used between two services in order to achieve SDUI widgets using LLMs."
+authors = [{ name="Aslon Khamidov", email="hamidovaslon1@gmail.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = ["pydantic"]
+
+[project.urls]
+Homepage = "https://github.com/yourname/my-package"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
