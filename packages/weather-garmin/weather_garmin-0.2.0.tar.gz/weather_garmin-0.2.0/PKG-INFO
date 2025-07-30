@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: weather-garmin
+Version: 0.2.0
+Summary: get weather data from openweathermap.org
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: mcp[cli]>=1.6.0
+
+# Weather Service
+
+## 项目简介
+这是一个天气服务模块，用于获取和处理天气相关数据。
+
+## 功能特性
+- 实时天气数据获取
+- 天气预报服务
+- 天气数据缓存
+- 多城市天气查询支持
