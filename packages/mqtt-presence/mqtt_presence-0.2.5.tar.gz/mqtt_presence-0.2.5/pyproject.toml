@@ -1,0 +1,56 @@
+[build-system]
+requires = [ "poetry-core",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "mqtt-presence"
+version = "0.2.5"
+description = "Lightweight MQTT-based presence detection with shutdown and Raspberry Pi support"
+authors = [ "Bjoern Boeckle <bjoern@boeckle-net.de>",]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/bjoernboeckle/mqtt-presence"
+documentation = "https://github.com/bjoernboeckle/mqtt-presence/wiki"
+keywords = [ "mqtt", "presence", "shutdown", "home-assistant", "smart-home", "mqtt-discovery", "mqtt-client", "mqtt-online", "mqtt-online-state",]
+[[tool.poetry.packages]]
+include = "mqtt_presence"
+
+[[tool.poetry.include]]
+path = "mqtt_presence/templates"
+format = "sdist"
+
+[[tool.poetry.include]]
+path = "mqtt_presence/static"
+format = "sdist"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+paho-mqtt = "*"
+cryptography = "*"
+requests = "*"
+flask = "*"
+waitress = "*"
+platformdirs = "*"
+psutil = "*"
+"ruamel.yaml" = "^0.18.6"
+dacite = "^1.8.1"
+
+[tool.poetry.scripts]
+mqtt-presence = "mqtt_presence.main:main"
+
+[tool.poetry.dependencies.gpiozero]
+version = "*"
+markers = "platform_system == 'Linux' and (platform_machine == 'armv7l' or platform_machine == 'aarch64')"
+
+[tool.poetry.dependencies.rpi-lgpio]
+version = "*"
+markers = "platform_system == 'Linux' and (platform_machine == 'armv7l' or platform_machine == 'aarch64')"
+
+[tool.poetry.dependencies."RPi.GPIO"]
+version = "*"
+markers = "platform_system == 'Linux' and (platform_machine == 'armv7l' or platform_machine == 'aarch64')"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pylint = "*"
+toml = "*"
