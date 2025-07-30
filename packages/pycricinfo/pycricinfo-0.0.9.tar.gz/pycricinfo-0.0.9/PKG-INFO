@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: pycricinfo
+Version: 0.0.9
+Summary: An API using pycricinfo to collect data from ESPN Cricinfo
+License-File: LICENSE
+Requires-Python: >=3.13
+Requires-Dist: prettytable>=3.16.0
+Requires-Dist: pydantic>=2.11.5
+Provides-Extra: api
+Requires-Dist: fastapi>=0.115.12; extra == 'api'
+Requires-Dist: pydantic-settings>=2.9.1; extra == 'api'
+Requires-Dist: requests>=2.32.3; extra == 'api'
+Requires-Dist: uvicorn>=0.34.2; extra == 'api'
+Provides-Extra: dev
+Requires-Dist: ruff>=0.11.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# pycricinfo
+
+A Python package using ESPNCricinfo's API to extract match, player & statistical data
