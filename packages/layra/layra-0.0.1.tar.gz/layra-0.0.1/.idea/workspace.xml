@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b08f57c8-7d0b-43c9-83a6-396681f9bf4b" name="Changes" comment="fix: change manifest filename">
+      <change afterPath="$PROJECT_DIR$/layra/core/storage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/layra/models/source.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/layra/cli.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/core/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/layra/core/exceptions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/core/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/layra/core/generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/core/templates.py" beforeDir="false" afterPath="$PROJECT_DIR$/layra/core/templates.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/core/variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/layra/core/variables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/templates/components/testing-pytest/component.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/templates/components/testing-pytest/tests/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/layra/core/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/templates/components/testing-pytest/tests/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/layra/core/git.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/templates/profiles/web-fastapi/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/templates/profiles/web-fastapi/profile.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/layra/templates/profiles/web-fastapi/routes/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/layra/core/repository.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Flacy&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Flacy/layra.git&quot;,
+    &quot;accountId&quot;: &quot;73a30bc4-5f81-4fc3-86ad-b23a7f966782&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2xdBT0JeWqjBDqBpYXZdcXxgjNp" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/init-foundation&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/prj/layra/layra/templates/base&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\prj\layra\layra\templates\base" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\prj\layra\layra\templates\components\testing-pytest" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
+        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b08f57c8-7d0b-43c9-83a6-396681f9bf4b" name="Changes" comment="" />
+      <created>1748258073929</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748258073929</updated>
+      <workItem from="1748258074996" duration="5014000" />
+      <workItem from="1748265608895" duration="289000" />
+      <workItem from="1748269554331" duration="4465000" />
+      <workItem from="1748277448635" duration="10000" />
+      <workItem from="1748279555852" duration="553000" />
+      <workItem from="1748283892956" duration="933000" />
+      <workItem from="1748287080523" duration="411000" />
+      <workItem from="1748331039789" duration="86000" />
+      <workItem from="1748338784013" duration="13000" />
+      <workItem from="1748352014249" duration="1440000" />
+      <workItem from="1748353477511" duration="2358000" />
+      <workItem from="1748357944411" duration="17000" />
+      <workItem from="1748501928212" duration="3473000" />
+      <workItem from="1748505440303" duration="2202000" />
+      <workItem from="1748510575038" duration="4999000" />
+      <workItem from="1748516491533" duration="2622000" />
+      <workItem from="1748529875738" duration="2405000" />
+      <workItem from="1748533690482" duration="13357000" />
+      <workItem from="1748595528571" duration="5192000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat: init foundation">
+      <option name="closed" value="true" />
+      <created>1748279612395</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1748279612395</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix: remove debug print">
+      <option name="closed" value="true" />
+      <created>1748284284917</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748284284917</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix: remove unused import">
+      <option name="closed" value="true" />
+      <created>1748287480079</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748287480079</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix: add `profiles` command">
+      <option name="closed" value="true" />
+      <created>1748287491495</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1748287491495</updated>
+    </task>
+    <task id="LOCAL-00005" summary="refactor: project generator">
+      <option name="closed" value="true" />
+      <created>1748504379759</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748504379759</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix: convert source dir from project name to package name">
+      <option name="closed" value="true" />
+      <created>1748505338334</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748505338334</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactor: profiles">
+      <option name="closed" value="true" />
+      <created>1748513489202</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748513489202</updated>
+    </task>
+    <task id="LOCAL-00008" summary="refactor: components">
+      <option name="closed" value="true" />
+      <created>1748516950876</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748516950876</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fix: scan of list profiles">
+      <option name="closed" value="true" />
+      <created>1748517063082</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1748517063082</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fix: remove mistake import">
+      <option name="closed" value="true" />
+      <created>1748517118871</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1748517118871</updated>
+    </task>
+    <task id="LOCAL-00011" summary="fix: change filenames locations">
+      <option name="closed" value="true" />
+      <created>1748531758499</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1748531758499</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix: cov path">
+      <option name="closed" value="true" />
+      <created>1748531769328</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1748531769328</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix: remove redundant `__init__.py`">
+      <option name="closed" value="true" />
+      <created>1748531791246</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1748531791246</updated>
+    </task>
+    <task id="LOCAL-00014" summary="docs: update `README.md`">
+      <option name="closed" value="true" />
+      <created>1748535389120</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1748535389120</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fix: update project description">
+      <option name="closed" value="true" />
+      <created>1748535634799</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1748535634799</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fix: change manifest filename">
+      <option name="closed" value="true" />
+      <created>1748540806366</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1748540806366</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: init foundation" />
+    <MESSAGE value="fix: remove debug print" />
+    <MESSAGE value="fix: remove unused import" />
+    <MESSAGE value="fix: add `profiles` command" />
+    <MESSAGE value="refactor: project generator" />
+    <MESSAGE value="fix: convert source dir from project name to package name" />
+    <MESSAGE value="refactor: profiles" />
+    <MESSAGE value="refactor: components" />
+    <MESSAGE value="fix: scan of list profiles" />
+    <MESSAGE value="fix: remove mistake import" />
+    <MESSAGE value="fix: change filenames locations" />
+    <MESSAGE value="fix: cov path" />
+    <MESSAGE value="fix: remove redundant `__init__.py`" />
+    <MESSAGE value="docs: update `README.md`" />
+    <MESSAGE value="fix: update project description" />
+    <MESSAGE value="fix: change manifest filename" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: change manifest filename" />
+  </component>
+</project>
