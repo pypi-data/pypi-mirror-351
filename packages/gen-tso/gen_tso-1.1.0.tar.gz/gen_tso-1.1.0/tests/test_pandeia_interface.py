@@ -1,0 +1,663 @@
+# Copyright (c) 2025 Patricio Cubillos
+# Gen TSO is open-source software under the GPL-2.0 license (see LICENSE)
+
+import os
+import pickle
+import pytest
+
+import numpy as np
+
+import gen_tso.pandeia_io as jwst
+from gen_tso.utils import ROOT
+
+os.chdir(ROOT+'../tests')
+# See tests/mocks/make_mocks.py for mocked data setup.
+
+
+def test_saturation_level_perform_calculation_single():
+    with open('mocks/perform_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        result = pickle.load(f)
+
+    pixel_rate, full_well = jwst.saturation_level(result)
+    expected_rate = 1300.2144775390625
+    expected_well = 58100.00422843957
+    np.testing.assert_allclose(pixel_rate, expected_rate)
+    np.testing.assert_allclose(full_well, expected_well)
+
+
+def test_saturation_level_perform_calculation_multi():
+    with open('mocks/perform_calculation_miri_mrs_ts.pkl', 'rb') as f:
+        result = pickle.load(f)
+
+    pixel_rate, full_well = jwst.saturation_level(result)
+    expected_rate = [
+        204.37779236, 109.17165375,  32.75593948,   4.55676889,
+    ]
+    expected_well = [
+        193654.99564498, 193655.00540975, 193655.004117  , 193654.99798687,
+    ]
+    np.testing.assert_allclose(pixel_rate, expected_rate)
+    np.testing.assert_allclose(full_well, expected_well)
+
+
+def test_saturation_level_tso_calculation_single():
+    with open('mocks/tso_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        tso = pickle.load(f)
+
+    pixel_rate, full_well = jwst.saturation_level(tso)
+    expected_rate = [1261.23925781, 1300.21447754]
+    expected_well = [58100.00016363, 58100.00129109]
+    np.testing.assert_allclose(pixel_rate, expected_rate)
+    np.testing.assert_allclose(full_well, expected_well)
+
+
+def test_saturation_level_tso_calculation_multi():
+    with open('mocks/tso_calculation_miri_mrs_ts.pkl', 'rb') as f:
+        tso = pickle.load(f)
+
+    pixel_rate, full_well = jwst.saturation_level(tso)
+    expected_rate = [
+        198.24740601, 105.90003204,  31.80119514,   4.46783495,
+        204.37779236, 109.17165375,  32.75593948,   4.55676889,
+    ]
+    expected_well = [
+        193654.99147199, 193654.99886718, 193654.98493823, 193654.99820043,
+        193654.99564498, 193655.00540975, 193655.004117  , 193654.99798687,
+    ]
+    np.testing.assert_allclose(pixel_rate, expected_rate)
+    np.testing.assert_allclose(full_well, expected_well)
+
+
+@pytest.mark.skip(reason='TBD')
+def test_saturation_level_tso_calculation_get_max():
+    pass
+
+
+@pytest.mark.parametrize('nint', [1, 10, 100])
+def test_exposure_time_nircam(nint):
+    inst = 'nircam'
+    subarray = 'subgrism64'
+    readout = 'rapid'
+    ngroup = 90
+    exp_time = jwst.exposure_time(inst, subarray, readout, ngroup, nint)
+    if nint == 1:
+        expected_exposure = 31.00063
+    elif nint == 10:
+        expected_exposure = 310.0063
+    elif nint == 100:
+        expected_exposure = 3100.063
+    np.testing.assert_allclose(exp_time, expected_exposure)
+
+
+@pytest.mark.parametrize('nint', [1, 10, 100])
+def test_exposure_time_miri_fastr1(nint):
+    inst = 'miri'
+    subarray = 'slitlessprism'
+    readout = 'fastr1'
+    ngroup = 30
+    exp_time = jwst.exposure_time(inst, subarray, readout, ngroup, nint)
+    if nint == 1:
+        expected_exposure = 4.7712
+    elif nint == 10:
+        expected_exposure = 49.14336
+    elif nint == 100:
+        expected_exposure = 492.86496
+    np.testing.assert_allclose(exp_time, expected_exposure)
+
+
+@pytest.mark.parametrize('nint', [1, 10, 100])
+def test_exposure_time_miri_slowr1(nint):
+    inst = 'miri'
+    subarray = 'full'
+    readout = 'slowr1'
+    ngroup = 30
+    exp_time = jwst.exposure_time(inst, subarray, readout, ngroup, nint)
+    if nint == 1:
+        expected_exposure = 716.6976
+    elif nint == 10:
+        expected_exposure = 7381.98528
+    elif nint == 100:
+        expected_exposure = 74034.86208
+    np.testing.assert_allclose(exp_time, expected_exposure)
+
+
+def test_exposure_time_bad_subarray():
+    inst = 'nircam'
+    subarray = 'nope'
+    readout = 'rapid'
+    ngroup = 90
+    nint = 1
+    exp_time = jwst.exposure_time(inst, subarray, readout, ngroup, nint)
+    assert exp_time == 0.0
+
+
+def test_exposure_time_bad_readout():
+    inst = 'nircam'
+    subarray = 'subgrism64'
+    readout = 'nope'
+    ngroup = 90
+    nint = 1
+    exp_time = jwst.exposure_time(inst, subarray, readout, ngroup, nint)
+    assert exp_time == 0.0
+
+
+def test_bin_search_exposure_time_nircam():
+    inst = 'nircam'
+    subarray = 'subgrism64'
+    readout = 'rapid'
+    ngroup = 90
+    obs_time = 6.0
+    nint, exp_time = jwst.bin_search_exposure_time(
+        inst, subarray, readout, ngroup, obs_time,
+    )
+    assert nint == 697
+    np.testing.assert_allclose(exp_time, 21607.43911)
+
+
+def test_bin_search_exposure_time_miri():
+    inst = 'miri'
+    subarray = 'slitlessprism'
+    readout = 'fastr1'
+    ngroup = 30
+    obs_time = 6.0
+    nint, exp_time = jwst.bin_search_exposure_time(
+        inst, subarray, readout, ngroup, obs_time,
+    )
+    assert nint == 4382
+    np.testing.assert_allclose(exp_time, 21604.15264)
+
+
+def test_bin_search_exposure_time_bad_subarray():
+    inst = 'nircam'
+    subarray = 'nope'
+    readout = 'rapid'
+    ngroup = 90
+    obs_time = 6.0
+    nint, exp_time = jwst.bin_search_exposure_time(
+        inst, subarray, readout, ngroup, obs_time,
+    )
+    assert exp_time == 0.0
+
+
+def test_bin_search_exposure_time_bad_readout():
+    inst = 'nircam'
+    subarray = 'subgrism64'
+    readout = 'nope'
+    ngroup = 90
+    obs_time = 6.0
+    nint, exp_time = jwst.bin_search_exposure_time(
+        inst, subarray, readout, ngroup, obs_time,
+    )
+    assert exp_time == 0.0
+
+
+def test__print_pandeia_exposure_config():
+    with open('mocks/perform_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        result = pickle.load(f)
+    config = result['input']['configuration']
+    text = jwst._print_pandeia_exposure(config=config)
+    assert text == 'Exposure time: 701.41 s (0.19 h)'
+
+
+def test__print_pandeia_exposure_vals():
+    inst = 'nircam'
+    subarray = 'subgrism64'
+    readout = 'rapid'
+    ngroup = 90
+    nint = 150
+    text = jwst._print_pandeia_exposure(inst, subarray, readout, ngroup, nint)
+    assert text == 'Exposure time: 4650.09 s (1.29 h)'
+
+
+@pytest.mark.parametrize('format', [None, 'html', 'rich'])
+def test__print_pandeia_exposure_format(format):
+    with open('mocks/perform_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        result = pickle.load(f)
+    config = result['input']['configuration']
+    text = jwst._print_pandeia_exposure(config=config, format=format)
+    assert text == 'Exposure time: 701.41 s (0.19 h)'
+
+
+def test__print_pandeia_saturation_perform_calc():
+    with open('mocks/perform_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        result = pickle.load(f)
+
+    text = jwst._print_pandeia_saturation(reports=[result], format=None)
+    expected_text = """Max fraction of saturation: 1.5%
+ngroup below 80% saturation: 104
+ngroup below 100% saturation: 131"""
+    assert text == expected_text
+
+
+def test__print_pandeia_saturation_tso_calc():
+    with open('mocks/tso_calculation_miri_mrs_ts.pkl', 'rb') as f:
+        tso = pickle.load(f)
+
+    text = jwst._print_pandeia_saturation(reports=tso, format=None)
+    expected_text = """Max fraction of saturation: 73.2%
+ngroup below 80% saturation: 273
+ngroup below 100% saturation: 341"""
+    assert text == expected_text
+
+
+def test__print_pandeia_saturation_values():
+    pixel_rate, full_well = 1396.5528564453125, 58100.002280515175
+    inst = 'nircam'
+    subarray = 'subgrism64'
+    readout = 'rapid'
+    ngroup = 90
+    text = jwst._print_pandeia_saturation(
+        inst, subarray, readout, ngroup, pixel_rate, full_well,
+        format=None,
+    )
+    expected_text = """Max fraction of saturation: 73.7%
+ngroup below 80% saturation: 97
+ngroup below 100% saturation: 122"""
+    assert text == expected_text
+
+
+def test__print_pandeia_saturation_req_saturation():
+    pixel_rate, full_well = 1396.5528564453125, 58100.002280515175
+    inst = 'nircam'
+    subarray = 'subgrism64'
+    readout = 'rapid'
+    ngroup = 90
+    text = jwst._print_pandeia_saturation(
+        inst, subarray, readout, ngroup, pixel_rate, full_well,
+        format=None,
+        req_saturation=70.0,
+    )
+    expected_text = """Max fraction of saturation: 73.7%
+ngroup below 70% saturation: 85
+ngroup below 100% saturation: 122"""
+    assert text == expected_text
+
+
+@pytest.mark.skip(reason='TBD')
+def test__print_pandeia_stats():
+    pass
+
+
+def test__print_pandeia_report_perform_calculation_single():
+    with open('mocks/perform_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        result = pickle.load(f)
+
+    report = jwst._print_pandeia_report([result], format=None)
+    expected_report = """Exposure time: 701.41 s (0.19 h)
+Max fraction of saturation: 1.5%
+ngroup below 80% saturation: 104
+ngroup below 100% saturation: 131
+
+Signal-to-noise ratio        363.4
+Extracted flux              1815.8  e-/s
+Flux standard deviation        5.0  e-/s
+Brightest pixel rate        1300.2  e-/s
+
+Integrations:                         683
+Duty cycle:                          0.66
+Total exposure time:                701.4  s
+First--last dt per exposure:        701.4  s
+Reset--last dt per integration:     232.6  s
+
+Reference wavelength:                    4.46  microns
+Area of extraction aperture:             4.76  pixels
+Area of background measurement:           6.3  pixels
+Background surface brightness:            0.3  MJy/sr
+Total sky flux in background aperture:   4.94  e-/s
+Total flux in background aperture:      59.59  e-/s
+Background flux fraction from scene:     0.92
+Number of cosmic rays:      0.0002  events/pixel/read"""
+    assert report == expected_report
+
+
+
+def test__print_pandeia_report_perform_calculation_multi():
+    with open('mocks/perform_calculation_miri_mrs_ts.pkl', 'rb') as f:
+        result = pickle.load(f)
+
+    report = jwst._print_pandeia_report(result, format=None)
+    expected_report = """Exposure time: 27858.63 s (7.74 h)
+Max fraction of saturation: 73.2%
+ngroup below 80% saturation: 273
+ngroup below 100% saturation: 341
+
+Signal-to-noise ratio       1334.2    1265.2     960.1     179.2
+Extracted flux               225.1     147.4      46.2       2.0  e-/s
+Flux standard deviation        0.2       0.1       0.0       0.0  e-/s
+Brightest pixel rate         204.4     109.2      32.8       4.6  e-/s
+
+Integrations:                          40
+Duty cycle:                          0.99
+Total exposure time:              27858.6  s
+First--last dt per exposure:      27858.6  s
+Reset--last dt per integration:   27639.4  s
+
+Reference wavelength:                    5.35   8.15  12.50  19.29  microns
+Area of extraction aperture:             8.20   5.21   2.98   1.61  pixels
+Area of background measurement:          79.4   50.5   28.9   15.6  pixels
+Background surface brightness:            1.0   10.9   43.0  165.5  MJy/sr
+Total sky flux in background aperture:   0.29   0.82   2.98   2.44  e-/s
+Total flux in background aperture:       0.85   1.47   3.19   2.54  e-/s
+Background flux fraction from scene:     0.66   0.45   0.06   0.04
+Number of cosmic rays:      0.3122  events/pixel/read"""
+    assert report == expected_report
+
+
+def test__print_pandeia_report_tso_calculation_single():
+    with open('mocks/tso_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        result = pickle.load(f)
+
+    report = jwst._print_pandeia_report(result, format=None)
+    expected_report = """Exposure time: 21607.44 s (6.00 h)
+Max fraction of saturation: 68.6%
+ngroup below 80% saturation: 104
+ngroup below 100% saturation: 131
+
+Signal-to-noise ratio       3241.5
+Extracted flux              1761.3  e-/s
+Flux standard deviation        0.5  e-/s
+Brightest pixel rate        1261.2  e-/s
+
+                               in-transit  out-transit
+Integrations:                         244      453
+Duty cycle:                          0.99     0.99
+Total exposure time:               7564.2  14043.3  s
+First--last dt per exposure:       7564.2  14043.3  s
+Reset--last dt per integration:    7396.7  13732.4  s
+
+Reference wavelength:                    4.46  microns
+Area of extraction aperture:             4.76  pixels
+Area of background measurement:           6.3  pixels
+Background surface brightness:            0.3  MJy/sr
+Total sky flux in background aperture:   4.94  e-/s
+Total flux in background aperture:      57.95  e-/s
+Background flux fraction from scene:     0.91
+Number of cosmic rays:      0.0072  events/pixel/read"""
+    assert report == expected_report
+
+
+def test__print_pandeia_report_tso_calculation_multi():
+    with open('mocks/tso_calculation_miri_mrs_ts.pkl', 'rb') as f:
+        tso = pickle.load(f)
+
+    report = jwst._print_pandeia_report(tso, format=None)
+    expected_report = """Exposure time: 20893.28 s (5.80 h)
+Max fraction of saturation: 73.2%
+ngroup below 80% saturation: 273
+ngroup below 100% saturation: 341
+
+Signal-to-noise ratio        657.0     623.0     472.3      87.5
+Extracted flux               218.4     142.9      44.8       1.9  e-/s
+Flux standard deviation        0.3       0.2       0.1       0.0  e-/s
+Brightest pixel rate         198.2     105.9      31.8       4.5  e-/s
+
+                               in-transit  out-transit
+Integrations:                          10       20
+Duty cycle:                          0.99     0.99
+Total exposure time:               6962.6  13927.9  s
+First--last dt per exposure:       6962.6  13927.9  s
+Reset--last dt per integration:    6909.8  13819.7  s
+
+Reference wavelength:                    5.35   8.15  12.50  19.29  microns
+Area of extraction aperture:             8.20   5.21   2.98   1.61  pixels
+Area of background measurement:          79.4   50.5   28.9   15.6  pixels
+Background surface brightness:            1.0   10.9   43.0  165.5  MJy/sr
+Total sky flux in background aperture:   0.29   0.82   2.98   2.44  e-/s
+Total flux in background aperture:       0.83   1.45   3.18   2.54  e-/s
+Background flux fraction from scene:     0.65   0.44   0.06   0.04
+Number of cosmic rays:      0.3122  events/pixel/read"""
+    assert report == expected_report
+
+
+def test_tso_print_plain(capsys):
+    with open('mocks/tso_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        result = pickle.load(f)
+    # Make some troublesome figures
+    result['report_in']['scalar']['duty_cycle'] = 0.25
+    result['report_in']['input']['configuration']['detector']['ngroup'] = 130
+    result['report_out']['scalar']['duty_cycle'] = 0.25
+    result['report_out']['input']['configuration']['detector']['ngroup'] = 130
+
+    jwst.tso_print(result, format=None)
+    captured = capsys.readouterr()
+    expected_report = (
+        "Exposure time: 31103.65 s (8.64 h)\r\n"
+        "Max fraction of saturation: 99.1%\r\n"
+        "ngroup below 80% saturation: 104\r\n"
+        "ngroup below 100% saturation: 131\r\n"
+        "\r\n"
+        "Signal-to-noise ratio       3241.5\r\n"
+        "Extracted flux              1761.3  e-/s\r\n"
+        "Flux standard deviation        0.5  e-/s\r\n"
+        "Brightest pixel rate        1261.2  e-/s\r\n"
+        "\r\n"
+        "                               in-transit  out-transit\r\n"
+        "Integrations:                         244      453\r\n"
+        "Duty cycle:                          0.25     0.25\r\n"
+        "Total exposure time:               7564.2  14043.3  s\r\n"
+        "First--last dt per exposure:       7564.2  14043.3  s\r\n"
+        "Reset--last dt per integration:    7396.7  13732.4  s\r\n"
+        "\r\n"
+        "Reference wavelength:                    4.46  microns\r\n"
+        "Area of extraction aperture:             4.76  pixels\r\n"
+        "Area of background measurement:           6.3  pixels\r\n"
+        "Background surface brightness:            0.3  MJy/sr\r\n"
+        "Total sky flux in background aperture:   4.94  e-/s\r\n"
+        "Total flux in background aperture:      57.95  e-/s\r\n"
+        "Background flux fraction from scene:     0.91\r\n"
+        "Number of cosmic rays:      0.0072  events/pixel/read\r\n"
+    )
+    assert captured.out == expected_report
+
+
+@pytest.mark.skip(reason='Having some issues with capsys IO')
+def test_tso_print_rich(capsys):
+    with open('mocks/tso_calculation_nircam_lw_tsgrism.pkl', 'rb') as f:
+        result = pickle.load(f)
+    # Make some troublesome figures
+    result['report_in']['scalar']['duty_cycle'] = 0.25
+    result['report_in']['input']['configuration']['detector']['ngroup'] = 130
+    result['report_out']['scalar']['duty_cycle'] = 0.25
+    result['report_out']['input']['configuration']['detector']['ngroup'] = 130
+
+    jwst.tso_print(result)
+    captured = capsys.readouterr()
+    expected_report = (
+        "Exposure time: 31014.40 s (8.62 h)\r\n"
+        "Max fraction of saturation: 106.4%\r\n"
+        "ngroup below 80% saturation: 97\r\n"
+        "ngroup below 100% saturation: 122\r\n"
+        "\r\n"
+        "Signal-to-noise ratio       3484.8\r\n"
+        "Extracted flux              2043.0  e-/s\r\n"
+        "Flux standard deviation        0.6  e-/s\r\n"
+        "Brightest pixel rate        1354.7  e-/s\r\n"
+        "\r\n"
+        "                               in-transit  out-transit\r\n"
+        "Integrations:                         243      452\r\n"
+        "Duty cycle:                          0.25     0.25\r\n"
+        "Total exposure time:               7533.2  14012.3  s\r\n"
+        "First--last dt per exposure:       7533.2  14012.3  s\r\n"
+        "Reset--last dt per integration:    7366.4  13702.1  s\r\n"
+        "\r\n"
+        "Reference wavelength:                    4.36  microns\r\n"
+        "Area of extraction aperture:             4.76  pixels\r\n"
+        "Area of background measurement:           6.3  pixels\r\n"
+        "Background surface brightness:            0.3  MJy/sr\r\n"
+        "Total sky flux in background aperture:   4.45  e-/s\r\n"
+        "Total flux in background aperture:      64.12  e-/s\r\n"
+        "Background flux fraction from scene:     0.93\r\n"
+        "Number of cosmic rays:      0.0072  events/pixel/read\r\n"
+    )
+    assert captured.out == expected_report
+
+
+def test_simulate_tso_spectroscopy():
+    if False:
+        import gen_tso.pandeia_io as jwst
+        from gen_tso.utils import ROOT
+
+        pando = jwst.PandeiaCalculation('nirspec', 'bots')
+        pando.set_scene('phoenix', 'k5v', '2mass,ks', 8.351)
+
+        disperser='g395h'
+        filter='f290lp'
+        readout='nrsrapid'
+        subarray='sub2048'
+        ngroup = 14
+
+        transit_dur = 2.71
+        obs_dur = 6.01
+        obs_type = 'transit'
+        model_path = f'{ROOT}data/models//WASP80b_transit.dat'
+        depth_model = np.loadtxt(model_path, unpack=True)
+
+        tso = pando.tso_calculation(
+            obs_type, transit_dur, obs_dur, depth_model,
+            ngroup, disperser, filter, subarray, readout,
+        )
+        pando.save_tso(filename='mocks/tso_nirspec.pickle')
+
+    bin_wl, bin_spec, bin_err, bin_widths = jwst.simulate_tso(
+       tso, n_obs=1, resolution=50.0, noiseless=False,
+    )
+
+    expected_bin_wl = np.array([
+       2.89953946, 2.95811601, 3.01787593, 3.07884313, 3.14104198,
+       3.20449737, 3.26923469, 3.33527984, 3.40265923, 3.47139982,
+       3.54152911, 3.61307515, 3.68606657, 3.83650291, 3.91400802,
+       3.99307889, 4.07374715, 4.15604507, 4.24000558, 4.32566226,
+       4.41304937, 4.50220189, 4.59315546, 4.68594648, 4.78061206,
+       4.87719009, 4.97571918, 5.07623876, 5.15183947])
+
+    expected_bin_spec = np.array([
+       0.0297344 , 0.02974732, 0.02965458, 0.02969755, 0.02970218,
+       0.02979896, 0.02968281, 0.02986269, 0.02970917, 0.02964738,
+       0.02957673, 0.02946511, 0.02929959, 0.02917717, 0.02907652,
+       0.02908018, 0.02911588, 0.02916655, 0.02934231, 0.02940869,
+       0.02940897, 0.02928256, 0.02923854, 0.02929097, 0.02931623,
+       0.02939239, 0.02943399, 0.02943881, 0.02939068])
+
+    expected_bin_err = np.array([
+       2.08823769e-05, 1.94691040e-05, 1.85650131e-05, 1.80149594e-05,
+       1.78999841e-05, 1.79079847e-05, 1.76830162e-05, 1.77418014e-05,
+       1.78654463e-05, 1.78222581e-05, 1.80192033e-05, 1.83102194e-05,
+       1.91776674e-05, 2.41068417e-05, 2.02616020e-05, 2.10061215e-05,
+       2.17422060e-05, 2.24678539e-05, 2.33846872e-05, 2.53903572e-05,
+       2.74600911e-05, 2.89515184e-05, 3.04996226e-05, 3.15485271e-05,
+       3.30016963e-05, 3.42489607e-05, 3.59747181e-05, 3.71223378e-05,
+       5.52240362e-05])
+
+    expected_bin_widths = np.array([
+       0.02899539, 0.02958116, 0.03017876, 0.03078843, 0.03141042,
+       0.03204497, 0.03269235, 0.0333528 , 0.03402659, 0.034714  ,
+       0.03541529, 0.03613075, 0.03686067, 0.03836503, 0.03914008,
+       0.03993079, 0.04073747, 0.04156045, 0.04240006, 0.04325662,
+       0.04413049, 0.04502202, 0.04593155, 0.04685946, 0.04780612,
+       0.0487719 , 0.04975719, 0.05076239, 0.02483832])
+
+
+def test_simulate_tso_photometry():
+    # With NIRSpec / imag
+    pando = jwst.PandeiaCalculation('nircam', 'lw_ts')
+    scene = jwst.make_scene('phoenix', 'k5v', '2mass,ks', 13.5)
+    pando.calc['scene'] = [scene]
+
+    filters = pando.get_configs('filters')
+    filter = 'f470n'
+    subarray = 'sub160p'
+    ngroup = 6
+
+    transit_dur = 2.71
+    obs_dur = 6.0
+    obs_type = 'transit'
+    photo = []
+    for filter in filters:
+        tso = pando.tso_calculation(
+            obs_type, transit_dur, obs_dur, depth_model,
+            ngroup, filter=filter, subarray=subarray,
+        )
+        sim = jwst.simulate_tso(tso, n_obs=1, noiseless=True)
+        photo.append(sim)
+
+
+    # With MIRI / imaging
+    import gen_tso.pandeia_io as jwst
+
+    pando = jwst.PandeiaCalculation('miri', 'imaging_ts')
+    scene = jwst.make_scene('phoenix', 'k5v', '2mass,ks', 13.5)
+    pando.calc['scene'] = [scene]
+
+    filters = pando.get_configs('filters')
+    filter = 'f560w'
+    ngroup = 6
+
+    model_path = f'{ROOT}data/models//WASP80b_transit.dat'
+    depth_model = np.loadtxt(model_path, unpack=True)
+    transit_dur = 2.71
+    obs_dur = 6.0
+    obs_type = 'transit'
+    photo = []
+    for filter in filters:
+        tso = pando.tso_calculation(
+            obs_type, transit_dur, obs_dur, depth_model,
+            ngroup, filter=filter,
+        )
+        sim = jwst.simulate_tso(tso, n_obs=1, noiseless=True)
+        photo.append(sim)
+
+
+    plt.figure(10)
+    plt.clf()
+    plt.plot(depth_model[0], depth_model[1], c='0.6')
+    plt.xlim(2.0, 5.8)
+    for i,sim in enumerate(photo):
+        bin_wl, bin_spec, bin_err, bin_widths = sim
+        col = plt.cm.rainbow(i/len(filters))
+        plt.errorbar(
+            bin_wl, bin_spec, yerr=bin_err, xerr=bin_widths/2,
+            fmt='o', color=col, mec='k', mew=1.0, label=filters[i],
+        )
+    plt.legend(loc='best')
+
+
+def get_band_width(inst, mode, aperture, filter):
+    """
+    import gen_tso.pandeia_io as jwst
+
+    inst = 'miri'
+    mode = 'imaging_ts'
+    pando = jwst.PandeiaCalculation(inst, mode)
+    aperture = pando.calc['configuration']['instrument']['aperture']
+    filters = pando.get_configs('filters')
+
+    inst = 'nircam'
+    mode = 'lw_ts'
+    pando = jwst.PandeiaCalculation(inst, mode)
+    aperture = pando.calc['configuration']['instrument']['aperture']
+    filters = pando.get_configs('filters')
+    throughputs = jwst.filter_throughputs(inst=inst, mode=mode)
+    """
+
+    plt.figure(10)
+    plt.clf()
+    nfilters = len(filters)
+    for i in range(nfilters):
+        filter = filters[i]
+        wl0, bw, min_wl, max_wl = jwst.get_bandwidths(inst, mode, aperture, filter)
+        wl_width = np.array([[wl0 - min_wl, max_wl - wl0]]).T
+        passband = throughputs[aperture][filter]
+        band_wl = passband['wl']
+        response = passband['response']
+
+        #plt.figure(10)
+        #plt.clf()
+        h = 0.5*np.amax(response)
+        col = plt.cm.rainbow(i/nfilters)
+        plt.plot(band_wl, response, c=col)
+        plt.errorbar(wl0, h, xerr=wl_width, fmt='o', c=col)
+        plt.errorbar(wl0, 0.95*h, xerr=0.5*bw, fmt='o', c='k')
+
+
+
+
