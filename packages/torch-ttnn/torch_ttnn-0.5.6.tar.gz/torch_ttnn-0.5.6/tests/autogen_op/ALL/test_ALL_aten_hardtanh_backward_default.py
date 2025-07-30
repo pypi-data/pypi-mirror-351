@@ -1,0 +1,683 @@
+# SPDX-FileCopyrightText: © 2025 Tenstorrent AI ULC
+#
+# SPDX-License-Identifier: Apache-2.0
+import torch
+import torch_ttnn
+import pytest
+import pickle
+import ttnn
+from pathlib import Path
+from tests.utils import calculate_accuracy, render_metric_string_list_to_input_args_kwargs
+
+
+class AtenModule(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, *args, **kwargs):
+        return torch.ops.aten.hardtanh_backward.default(*args, **kwargs)
+
+
+metrics = []
+
+
+def save_pickle(obj, base_path, filename):
+    p = Path(base_path)
+    p.mkdir(parents=True, exist_ok=True)
+    pickle_out_path = p / f"{filename}.pickle"
+    with open(pickle_out_path, "wb") as f:
+        pickle.dump(obj, f)
+
+
+def teardown_module(module):
+    print(metrics)
+    save_pickle(metrics, "metrics-autogen-op/ALL", "aten.hardtanh_backward.default")
+
+
+@pytest.mark.parametrize(
+    "input_strings",
+    [
+        [
+            "Tensor<[1, 1024, 7, 7]> grad_output = ?",
+            "Tensor<[1, 1024, 7, 7]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 462, 7, 7]> grad_output = ?",
+            "Tensor<[1, 462, 7, 7]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 160, 7, 7]> grad_output = ?",
+            "Tensor<[1, 160, 7, 7]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 272, 7, 7]> grad_output = ?",
+            "Tensor<[1, 272, 7, 7]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 640, 14, 14]> grad_output = ?",
+            "Tensor<[1, 640, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 334, 14, 14]> grad_output = ?",
+            "Tensor<[1, 334, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 40, 14, 14]> grad_output = ?",
+            "Tensor<[1, 40, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 68, 14, 14]> grad_output = ?",
+            "Tensor<[1, 68, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 116, 14, 14]> grad_output = ?",
+            "Tensor<[1, 116, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 196, 14, 14]> grad_output = ?",
+            "Tensor<[1, 196, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 320, 28, 28]> grad_output = ?",
+            "Tensor<[1, 320, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 168, 28, 28]> grad_output = ?",
+            "Tensor<[1, 168, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 20, 28, 28]> grad_output = ?",
+            "Tensor<[1, 20, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 34, 28, 28]> grad_output = ?",
+            "Tensor<[1, 34, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 58, 28, 28]> grad_output = ?",
+            "Tensor<[1, 58, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 98, 28, 28]> grad_output = ?",
+            "Tensor<[1, 98, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 256, 28, 28]> grad_output = ?",
+            "Tensor<[1, 256, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 134, 28, 28]> grad_output = ?",
+            "Tensor<[1, 134, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 16, 28, 28]> grad_output = ?",
+            "Tensor<[1, 16, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 28, 28, 28]> grad_output = ?",
+            "Tensor<[1, 28, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 46, 28, 28]> grad_output = ?",
+            "Tensor<[1, 46, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 78, 28, 28]> grad_output = ?",
+            "Tensor<[1, 78, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 128, 56, 56]> grad_output = ?",
+            "Tensor<[1, 128, 56, 56]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 68, 56, 56]> grad_output = ?",
+            "Tensor<[1, 68, 56, 56]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 14, 56, 56]> grad_output = ?",
+            "Tensor<[1, 14, 56, 56]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 24, 56, 56]> grad_output = ?",
+            "Tensor<[1, 24, 56, 56]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 40, 56, 56]> grad_output = ?",
+            "Tensor<[1, 40, 56, 56]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 64, 112, 112]> grad_output = ?",
+            "Tensor<[1, 64, 112, 112]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 32, 112, 112]> grad_output = ?",
+            "Tensor<[1, 32, 112, 112]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 512, 7, 7]> grad_output = ?",
+            "Tensor<[1, 512, 7, 7]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 512, 14, 14]> grad_output = ?",
+            "Tensor<[1, 512, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 256, 14, 14]> grad_output = ?",
+            "Tensor<[1, 256, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 128, 28, 28]> grad_output = ?",
+            "Tensor<[1, 128, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 64, 56, 56]> grad_output = ?",
+            "Tensor<[1, 64, 56, 56]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1280, 7, 7]> grad_output = ?",
+            "Tensor<[1, 1280, 7, 7]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1152, 7, 7]> grad_output = ?",
+            "Tensor<[1, 1152, 7, 7]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 672, 7, 7]> grad_output = ?",
+            "Tensor<[1, 672, 7, 7]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 672, 14, 14]> grad_output = ?",
+            "Tensor<[1, 672, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 480, 14, 14]> grad_output = ?",
+            "Tensor<[1, 480, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 240, 14, 14]> grad_output = ?",
+            "Tensor<[1, 240, 14, 14]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 240, 28, 28]> grad_output = ?",
+            "Tensor<[1, 240, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 28, 28]> grad_output = ?",
+            "Tensor<[1, 144, 28, 28]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 56, 56]> grad_output = ?",
+            "Tensor<[1, 144, 56, 56]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 96, 56, 56]> grad_output = ?",
+            "Tensor<[1, 96, 56, 56]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 96, 112, 112]> grad_output = ?",
+            "Tensor<[1, 96, 112, 112]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1280, 8, 8]> grad_output = ?",
+            "Tensor<[1, 1280, 8, 8]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1152, 8, 8]> grad_output = ?",
+            "Tensor<[1, 1152, 8, 8]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 672, 8, 8]> grad_output = ?",
+            "Tensor<[1, 672, 8, 8]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 672, 15, 15]> grad_output = ?",
+            "Tensor<[1, 672, 15, 15]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 480, 15, 15]> grad_output = ?",
+            "Tensor<[1, 480, 15, 15]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 240, 15, 15]> grad_output = ?",
+            "Tensor<[1, 240, 15, 15]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 240, 30, 30]> grad_output = ?",
+            "Tensor<[1, 240, 30, 30]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 30, 30]> grad_output = ?",
+            "Tensor<[1, 144, 30, 30]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 60, 60]> grad_output = ?",
+            "Tensor<[1, 144, 60, 60]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 96, 60, 60]> grad_output = ?",
+            "Tensor<[1, 96, 60, 60]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 96, 120, 120]> grad_output = ?",
+            "Tensor<[1, 96, 120, 120]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 32, 120, 120]> grad_output = ?",
+            "Tensor<[1, 32, 120, 120]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1280, 9, 9]> grad_output = ?",
+            "Tensor<[1, 1280, 9, 9]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1248, 9, 9]> grad_output = ?",
+            "Tensor<[1, 1248, 9, 9]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 720, 9, 9]> grad_output = ?",
+            "Tensor<[1, 720, 9, 9]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 720, 17, 17]> grad_output = ?",
+            "Tensor<[1, 720, 17, 17]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 528, 17, 17]> grad_output = ?",
+            "Tensor<[1, 528, 17, 17]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 288, 17, 17]> grad_output = ?",
+            "Tensor<[1, 288, 17, 17]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 288, 33, 33]> grad_output = ?",
+            "Tensor<[1, 288, 33, 33]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 33, 33]> grad_output = ?",
+            "Tensor<[1, 144, 33, 33]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 65, 65]> grad_output = ?",
+            "Tensor<[1, 144, 65, 65]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 96, 65, 65]> grad_output = ?",
+            "Tensor<[1, 96, 65, 65]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 96, 130, 130]> grad_output = ?",
+            "Tensor<[1, 96, 130, 130]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 32, 130, 130]> grad_output = ?",
+            "Tensor<[1, 32, 130, 130]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1280, 10, 10]> grad_output = ?",
+            "Tensor<[1, 1280, 10, 10]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1392, 10, 10]> grad_output = ?",
+            "Tensor<[1, 1392, 10, 10]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 816, 10, 10]> grad_output = ?",
+            "Tensor<[1, 816, 10, 10]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 816, 19, 19]> grad_output = ?",
+            "Tensor<[1, 816, 19, 19]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 576, 19, 19]> grad_output = ?",
+            "Tensor<[1, 576, 19, 19]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 288, 19, 19]> grad_output = ?",
+            "Tensor<[1, 288, 19, 19]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 288, 38, 38]> grad_output = ?",
+            "Tensor<[1, 288, 38, 38]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 192, 38, 38]> grad_output = ?",
+            "Tensor<[1, 192, 38, 38]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 192, 75, 75]> grad_output = ?",
+            "Tensor<[1, 192, 75, 75]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 75, 75]> grad_output = ?",
+            "Tensor<[1, 144, 75, 75]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 150, 150]> grad_output = ?",
+            "Tensor<[1, 144, 150, 150]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 32, 150, 150]> grad_output = ?",
+            "Tensor<[1, 32, 150, 150]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1280, 12, 12]> grad_output = ?",
+            "Tensor<[1, 1280, 12, 12]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 1632, 12, 12]> grad_output = ?",
+            "Tensor<[1, 1632, 12, 12]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 960, 12, 12]> grad_output = ?",
+            "Tensor<[1, 960, 12, 12]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 960, 24, 24]> grad_output = ?",
+            "Tensor<[1, 960, 24, 24]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 672, 24, 24]> grad_output = ?",
+            "Tensor<[1, 672, 24, 24]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 336, 24, 24]> grad_output = ?",
+            "Tensor<[1, 336, 24, 24]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 336, 48, 48]> grad_output = ?",
+            "Tensor<[1, 336, 48, 48]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 192, 48, 48]> grad_output = ?",
+            "Tensor<[1, 192, 48, 48]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 192, 95, 95]> grad_output = ?",
+            "Tensor<[1, 192, 95, 95]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 95, 95]> grad_output = ?",
+            "Tensor<[1, 144, 95, 95]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 144, 190, 190]> grad_output = ?",
+            "Tensor<[1, 144, 190, 190]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+        [
+            "Tensor<[1, 32, 190, 190]> grad_output = ?",
+            "Tensor<[1, 32, 190, 190]> self = ?",
+            "number min_val = 0.0",
+            "number max_val = 6.0",
+        ],
+    ],
+)
+def test_aten(device, input_strings, input_var_only_native, input_var_check_accu, input_var_check_ttnn):
+    metric = {
+        "opname": "aten.hardtanh_backward.default",
+        "input_strings": input_strings,
+        "native_run": "N/A",
+        "run": "N/A",
+        "accuracy": "N/A",
+        "convert_to_ttnn": "N/A",
+        "ttnn_fallbacks_to_host_count": "N/A",
+    }
+    m = AtenModule()
+    input_args, input_kwargs, status = render_metric_string_list_to_input_args_kwargs(
+        "aten.hardtanh_backward.default", input_strings
+    )
+    if status == False:
+        pytest.skip("Invalid input strings")
+    try:
+        result_before = m.forward(*input_args, **input_kwargs)
+        metric["native_run"] = True
+    except Exception as e:
+        print(f"Failed to run native. Raised exception: {e}")
+        metric["native_run"] = False
+
+    if metric["native_run"] == True:
+        result_after = None
+        option = torch_ttnn.TorchTtnnOption(device=device)
+        # option.gen_graphviz = True
+        # The compilation is lazy, so we need to run forward once to trigger the compilation
+        m = torch.compile(m, backend=torch_ttnn.backend, options=option)
+        try:
+            ttnn.graph.begin_graph_capture()
+            result_after = m.forward(*input_args, **input_kwargs)
+            # option._out_fx_graphs[0].print_tabular()
+            metric["run"] = True
+        except Exception as e:
+            print(f"Failed to run. Raised exception: {e}")
+            metric["run"] = False
+        finally:
+            trace = ttnn.graph.end_graph_capture()
+            call_stack = ttnn.graph.extract_calltrace(trace)
+            if metric["run"] == True:
+                print(call_stack)
+                expected_to_host_count = 0
+                if result_after is None:
+                    expected_to_host_count = 0
+                elif isinstance(result_after, torch.Tensor):
+                    expected_to_host_count = 1
+                elif isinstance(result_after, (list, dict)):
+                    expected_to_host_count = len(result_after)
+                else:
+                    print(f"Unexpected result_after type: {type(result_after)}")
+
+                to_host_count = sum(["Tensor::cpu" in str(node) for node in call_stack])
+                fallbacks_to_host_count = to_host_count - expected_to_host_count
+                print(f"expected_to_host_count: {expected_to_host_count}")
+                print(f"to_host_count: {to_host_count}")
+                print(f"fallbacks_to_host_count: {fallbacks_to_host_count}")
+                metric["ttnn_fallbacks_to_host_count"] = fallbacks_to_host_count
+
+    if metric["run"] == True:
+        try:
+            # Check inference result
+            metric["accuracy"] = calculate_accuracy(result_before, result_after)
+        except Exception as e:
+            print(f"Failed to check inference result. Raised exception: {e}")
+
+        try:
+            # Check the graph has be rewritten and contain ttnn ops
+            nodes = list(option._out_fx_graphs[0].nodes)
+            if not any(["aten." in str(node.target) for node in nodes]):
+                metric["convert_to_ttnn"] = True
+            else:
+                metric["convert_to_ttnn"] = False
+        except Exception as e:
+            print(f"Failed to check the graph has ttnn op. Raised exception: {e}")
+
+    metrics.append(metric)
+
+    if not input_var_only_native:
+        assert metric["run"] == True
+        if input_var_check_accu:
+            assert metric["accuracy"] >= 0.99
+        if input_var_check_ttnn:
+            assert metric["convert_to_ttnn"] == True

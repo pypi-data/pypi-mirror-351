@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torch-ttnn"
+version = "0.5.6"
+description = "PyTorch dynamo backend for Tenstorrent TT-NN framework"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Tenstorrent", email = "info@tenstorrent.com" }]
+keywords = ["torch", "ttnn", "pytorch2.0", "tenstorrent"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+
+dependencies = [
+  "torch>=2.0",
+  "torchvision>=0.17",
+  "tabulate>=0.9.0",
+  "networkx>=3.1",
+  "graphviz",
+  "matplotlib>=3.7.1",
+  "paramiko>=3.5.1"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==7.2.2",
+  "pytest-timeout==2.2.0",
+  "pytest-split==0.8.2",
+  "pre-commit==3.0.4",
+  "transformers==4.38.0",
+  "huggingface_hub[cli]",
+  "pandas==2.0.3",
+  "Pillow==10.3.0",
+  "pydantic==2.8.2",
+  "requests>=2.31",
+  "sentencepiece==0.2.0",
+  "protobuf==5.27.3",
+  "mlp-mixer-pytorch==0.1.1",
+  "datasets",
+  "diffusers==0.32.2",
+  "pytorchcv",
+  "librosa",
+  "soundfile"
+]
+
+# ❗ ttnn не може бути тут, бо PyPI забороняє direct URL у wheel
+# Але можна надати інструкцію в README:
+# pip install "ttnn @ https://github.com/tenstorrent/tt-metal/releases/download/v0.59.0-rc31/ttnn-0.59.0rc31-cp310-cp310-linux_x86_64.whl"
+
+[tool.setuptools.packages.find]
