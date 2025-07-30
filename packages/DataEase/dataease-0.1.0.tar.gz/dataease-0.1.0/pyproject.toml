@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "DataEase"
+version = "0.1.0"
+description = "Simplify DataFrame cleaning, conversion, and MySQL interactions"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+  { name="Praveen Anand", email="apraveen1012@gmail.com" }
+]
+dependencies = [
+  "pandas",
+  "sqlalchemy",
+  "pymysql"
+]
+
+[project.urls]
+Homepage = "https://github.com/Praveen-A1012/DataEase"
