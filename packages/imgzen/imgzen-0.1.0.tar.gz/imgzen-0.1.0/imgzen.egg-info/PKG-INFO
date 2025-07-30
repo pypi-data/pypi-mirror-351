@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: imgzen
+Version: 0.1.0
+Summary: Simple CLI for images using OpenCV
+Home-page: https://github.com/yehorn0/imgzen
+Author: <NAME>
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: opencv-python
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+
+# Picflow
+
+Simple CLI for image operation
+
+## Install
+
+```bash
+pip install .
+```
