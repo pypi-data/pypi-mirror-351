@@ -1,0 +1,14 @@
+numpy
+tqdm
+
+[all]
+pytest
+coverage[toml]
+pdoc==15.0.3
+
+[docs]
+pdoc==15.0.3
+
+[test]
+pytest
+coverage[toml]

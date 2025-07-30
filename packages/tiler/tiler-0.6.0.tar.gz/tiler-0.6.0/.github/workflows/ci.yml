@@ -1,0 +1,37 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: 3.9
+    - uses: pre-commit/action@v3.0.1
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      matrix:
+        # 3.9 will reach EoL in October 2025
+        # https://devguide.python.org/#status-of-python-branches
+        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: |
+          python -m pip install --upgrade pip
+          pip install .[test]
+          pip install coveralls
+      - run: coverage run -m pytest -v
+      - if: github.event_name != 'pull_request'
+        run: coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
