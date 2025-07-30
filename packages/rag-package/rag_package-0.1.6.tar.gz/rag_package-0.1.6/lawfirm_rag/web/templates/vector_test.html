@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Store Test - LawFirm RAG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .panel {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        .panel h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
+            resize: vertical;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        button.danger {
+            background: #dc3545;
+        }
+        button.danger:hover {
+            background: #c82333;
+        }
+        .result {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        .error {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        .status {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .doc-item {
+            background: white;
+            border: 1px solid #eee;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        .metadata {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        /* Bulk Upload Styles */
+        .file-drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .file-drop-zone.dragover {
+            border-color: #007bff;
+            background: #f0f8ff;
+        }
+        .file-drop-zone.has-files {
+            border-color: #28a745;
+            background: #f0fff0;
+        }
+        .file-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .file-item {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .file-item.processing {
+            background: #fff3cd;
+        }
+        .file-item.completed {
+            background: #d4edda;
+        }
+        .file-item.failed {
+            background: #f8d7da;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .upload-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .stat-box {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Vector Store Test Interface</h1>
+    <p>Test the ChromaDB embedded vector store with sentence-transformers embeddings.</p>
+    
+    <div class="status" id="status">
+        <strong>Status:</strong> <span id="statusText">Ready</span>
+    </div>
+
+    <!-- Bulk Upload Panel -->
+    <div class="panel full-width" id="bulkUploadPanel">
+        <h2>📁 Bulk File Upload</h2>
+        <p>Upload hundreds or thousands of documents with progress tracking and vector store integration.</p>
+        
+        <div class="config-grid">
+            <div>
+                <label for="collectionName">Collection Name:</label>
+                <input type="text" id="collectionName" placeholder="my_documents" value="bulk_upload">
+            </div>
+            <div>
+                <label for="batchSize">Batch Size:</label>
+                <input type="number" id="batchSize" min="1" max="200" value="50">
+            </div>
+        </div>
+        
+        <div>
+            <label for="collectionDescription">Collection Description:</label>
+            <input type="text" id="collectionDescription" placeholder="Description of your document collection">
+        </div>
+        
+        <div class="checkbox-container">
+            <input type="checkbox" id="addToVectorStore" checked>
+            <label for="addToVectorStore">Add to Vector Store (enable semantic search)</label>
+        </div>
+        
+        <div class="file-drop-zone" id="fileDropZone">
+            <p><strong>Drop files here or click to select</strong></p>
+            <p>Supports PDF, DOCX, TXT files</p>
+            <p id="fileCount">No files selected</p>
+        </div>
+        
+        <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt,.doc" style="display: none;">
+        
+        <div id="fileList" class="file-list" style="display: none;"></div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button id="startUploadBtn" onclick="startBulkUpload()" disabled>Start Upload</button>
+            <button id="cancelUploadBtn" onclick="cancelUpload()" disabled class="danger">Cancel</button>
+            <button onclick="clearFiles()">Clear Files</button>
+        </div>
+        
+        <div id="uploadProgress" style="display: none; margin-top: 20px;">
+            <h3>Upload Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
+            </div>
+            
+            <div class="upload-stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="totalFiles">0</div>
+                    <div class="stat-label">Total Files</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="processedFiles">0</div>
+                    <div class="stat-label">Processed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="failedFiles">0</div>
+                    <div class="stat-label">Failed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="remainingTime">--</div>
+                    <div class="stat-label">ETA (min)</div>
+                </div>
+            </div>
+            
+            <div id="currentFileInfo" style="margin: 10px 0; font-style: italic;"></div>
+            
+            <div id="vectorStoreProgress" style="display: none; margin-top: 15px;">
+                <h4>Vector Store Progress</h4>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="vectorProgressFill" style="width: 0%;">0%</div>
+                </div>
+                <p id="vectorProgressText">Preparing to add documents to vector store...</p>
+            </div>
+        </div>
+        
+        <div id="uploadResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="container">
+        <!-- Single Document Panel -->
+        <div class="panel">
+            <h2>📄 Add Single Document</h2>
+            
+            <div>
+                <label for="docText">Document Text:</label>
+                <textarea id="docText" placeholder="Enter legal document text here...">This contract establishes the terms and conditions for software licensing between the parties.</textarea>
+            </div>
+            
+            <div>
+                <label for="practiceArea">Practice Area:</label>
+                <input type="text" id="practiceArea" placeholder="contracts" value="contracts">
+            </div>
+            
+            <div>
+                <label for="docType">Document Type:</label>
+                <input type="text" id="docType" placeholder="agreement" value="agreement">
+            </div>
+            
+            <button onclick="addDocument()">Add Document</button>
+            <button onclick="addSampleDocuments()">Add Sample Legal Docs</button>
+            
+            <div id="addResult" class="result" style="display:none;"></div>
+        </div>
+
+        <!-- Search Panel -->
+        <div class="panel">
+            <h2>🔍 Search Documents</h2>
+            
+            <div>
+                <label for="searchQuery">Search Query:</label>
+                <input type="text" id="searchQuery" placeholder="contract software licensing" value="contract software licensing">
+            </div>
+            
+            <div>
+                <label for="maxResults">Max Results:</label>
+                <input type="number" id="maxResults" min="1" max="20" value="5">
+            </div>
+            
+            <button onclick="searchDocuments()">Search</button>
+            <button onclick="getStats()">Get Collection Stats</button>
+            
+            <div id="searchResult" class="result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="panel" style="margin-top: 20px;">
+        <h2>📊 Collection Info</h2>
+        <div id="collectionInfo" class="result">
+            Click "Get Collection Stats" to see information about the vector store.
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '';
+        
+        // Bulk upload state
+        let selectedFiles = [];
+        let currentUploadId = null;
+        let progressInterval = null;
+        
+        function setStatus(message, isError = false) {
+            const statusText = document.getElementById('statusText');
+            statusText.textContent = message;
+            statusText.style.color = isError ? '#dc3545' : '#28a745';
+        }
+        
+        function showResult(elementId, content, isError = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = content;
+            element.className = 'result ' + (isError ? 'error' : 'success');
+            element.style.display = 'block';
+        }
+        
+        function setLoading(isLoading) {
+            document.body.className = isLoading ? 'loading' : '';
+        }
+        
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            setLoading(true);
+            try {
+                const options = {
+                    method,
+                    headers: method === 'GET' ? {} : {'Content-Type': 'application/json'}
+                };
+                if (data) {
+                    if (data instanceof FormData) {
+                        delete options.headers['Content-Type']; // Let browser set it
+                        options.body = data;
+                    } else {
+                        options.body = JSON.stringify(data);
+                    }
+                }
+                
+                const response = await fetch(API_BASE + endpoint, options);
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.detail || 'API Error');
+                }
+                
+                return result;
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        // File handling functions
+        function setupFileHandlers() {
+            const dropZone = document.getElementById('fileDropZone');
+            const fileInput = document.getElementById('fileInput');
+            
+            dropZone.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            // Drag and drop
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+            
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                
+                const files = Array.from(e.dataTransfer.files);
+                addFilesToSelection(files);
+            });
+        }
+        
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            addFilesToSelection(files);
+        }
+        
+        function addFilesToSelection(files) {
+            selectedFiles = [...selectedFiles, ...files];
+            updateFileDisplay();
+        }
+        
+        function updateFileDisplay() {
+            const dropZone = document.getElementById('fileDropZone');
+            const fileList = document.getElementById('fileList');
+            const fileCount = document.getElementById('fileCount');
+            const startBtn = document.getElementById('startUploadBtn');
+            
+            if (selectedFiles.length === 0) {
+                fileCount.textContent = 'No files selected';
+                fileList.style.display = 'none';
+                dropZone.classList.remove('has-files');
+                startBtn.disabled = true;
+                return;
+            }
+            
+            fileCount.textContent = `${selectedFiles.length} files selected`;
+            dropZone.classList.add('has-files');
+            startBtn.disabled = false;
+            
+            fileList.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.innerHTML = `
+                    <span>${file.name} (${formatFileSize(file.size)})</span>
+                    <button onclick="removeFile(${index})" style="padding: 2px 8px; margin: 0;">Remove</button>
+                `;
+                fileList.appendChild(item);
+            });
+            
+            fileList.style.display = 'block';
+        }
+        
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFileDisplay();
+        }
+        
+        function clearFiles() {
+            selectedFiles = [];
+            document.getElementById('fileInput').value = '';
+            updateFileDisplay();
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        async function startBulkUpload() {
+            if (selectedFiles.length === 0) {
+                setStatus('Please select files to upload', true);
+                return;
+            }
+            
+            const collectionName = document.getElementById('collectionName').value.trim() || 'bulk_upload';
+            const description = document.getElementById('collectionDescription').value.trim() || 'Bulk uploaded documents';
+            const batchSize = parseInt(document.getElementById('batchSize').value) || 50;
+            const addToVectorStore = document.getElementById('addToVectorStore').checked;
+            
+            try {
+                setStatus('Starting bulk upload...');
+                
+                const formData = new FormData();
+                selectedFiles.forEach(file => {
+                    formData.append('files', file);
+                });
+                formData.append('collection_name', collectionName);
+                formData.append('description', description);
+                formData.append('batch_size', batchSize.toString());
+                formData.append('add_to_vector_store', addToVectorStore.toString());
+                
+                const result = await apiCall('/api/bulk-upload', 'POST', formData);
+                
+                currentUploadId = result.upload_id;
+                
+                // Show progress panel
+                document.getElementById('uploadProgress').style.display = 'block';
+                document.getElementById('startUploadBtn').disabled = true;
+                document.getElementById('cancelUploadBtn').disabled = false;
+                
+                // Start progress monitoring
+                startProgressMonitoring();
+                
+                setStatus('Bulk upload started successfully');
+                
+            } catch (error) {
+                showResult('uploadResult', `❌ Error: ${error.message}`, true);
+                setStatus('Failed to start bulk upload', true);
+            }
+        }
+        
+        function startProgressMonitoring() {
+            if (progressInterval) {
+                clearInterval(progressInterval);
+            }
+            
+            progressInterval = setInterval(async () => {
+                if (!currentUploadId) return;
+                
+                try {
+                    const progress = await apiCall(`/api/bulk-upload/progress/${currentUploadId}`);
+                    updateProgressDisplay(progress);
+                    
+                    if (progress.status === 'completed' || progress.status === 'failed' || progress.status === 'cancelled') {
+                        clearInterval(progressInterval);
+                        progressInterval = null;
+                        onUploadComplete(progress);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error fetching progress:', error);
+                    // Continue monitoring unless it's a persistent error
+                }
+            }, 1000); // Update every second
+        }
+        
+        function updateProgressDisplay(progress) {
+            document.getElementById('totalFiles').textContent = progress.total_files;
+            document.getElementById('processedFiles').textContent = progress.processed_files;
+            document.getElementById('failedFiles').textContent = progress.failed_files;
+            
+            // Update progress bar
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = `${progress.progress_percentage}%`;
+            progressFill.textContent = `${Math.round(progress.progress_percentage)}%`;
+            
+            // Update ETA
+            const eta = progress.estimated_remaining_seconds;
+            if (eta && eta > 0) {
+                const minutes = Math.ceil(eta / 60);
+                document.getElementById('remainingTime').textContent = minutes;
+            } else {
+                document.getElementById('remainingTime').textContent = '--';
+            }
+            
+            // Update current file
+            if (progress.current_file) {
+                document.getElementById('currentFileInfo').textContent = `Processing: ${progress.current_file}`;
+            } else {
+                document.getElementById('currentFileInfo').textContent = '';
+            }
+            
+            // Update vector store progress
+            if (progress.vector_store_progress) {
+                const vectorProgress = progress.vector_store_progress;
+                const vectorProgressDiv = document.getElementById('vectorStoreProgress');
+                vectorProgressDiv.style.display = 'block';
+                
+                const vectorFill = document.getElementById('vectorProgressFill');
+                const vectorText = document.getElementById('vectorProgressText');
+                
+                if (vectorProgress.status === 'processing') {
+                    const vectorPercent = vectorProgress.total_documents > 0 
+                        ? (vectorProgress.processed_documents / vectorProgress.total_documents) * 100 
+                        : 0;
+                    vectorFill.style.width = `${vectorPercent}%`;
+                    vectorFill.textContent = `${Math.round(vectorPercent)}%`;
+                    vectorText.textContent = `Adding to vector store: ${vectorProgress.processed_documents}/${vectorProgress.total_documents} documents`;
+                } else if (vectorProgress.status === 'completed') {
+                    vectorFill.style.width = '100%';
+                    vectorFill.textContent = '100%';
+                    vectorText.textContent = `✅ Added ${vectorProgress.processed_documents} documents to vector store`;
+                } else if (vectorProgress.status === 'failed') {
+                    vectorFill.style.background = '#dc3545';
+                    vectorText.textContent = `❌ Vector store error: ${vectorProgress.error}`;
+                }
+            }
+        }
+        
+        function onUploadComplete(progress) {
+            document.getElementById('startUploadBtn').disabled = false;
+            document.getElementById('cancelUploadBtn').disabled = true;
+            
+            let message = '';
+            if (progress.status === 'completed') {
+                message = `✅ Upload completed!\n`;
+                message += `Processed: ${progress.processed_files}/${progress.total_files} files\n`;
+                if (progress.failed_files > 0) {
+                    message += `Failed: ${progress.failed_files} files\n`;
+                }
+                if (progress.vector_store_progress && progress.vector_store_progress.status === 'completed') {
+                    message += `Vector store: ${progress.vector_store_progress.processed_documents} documents added\n`;
+                }
+                setStatus('Bulk upload completed successfully');
+            } else if (progress.status === 'failed') {
+                message = `❌ Upload failed\n`;
+                message += `Errors: ${progress.errors.join('\n')}`;
+                setStatus('Bulk upload failed', true);
+            } else if (progress.status === 'cancelled') {
+                message = `⚠️ Upload cancelled\n`;
+                message += `Processed: ${progress.processed_files}/${progress.total_files} files before cancellation`;
+                setStatus('Bulk upload cancelled');
+            }
+            
+            showResult('uploadResult', message, progress.status === 'failed');
+            currentUploadId = null;
+        }
+        
+        async function cancelUpload() {
+            if (!currentUploadId) return;
+            
+            try {
+                await apiCall(`/api/bulk-upload/${currentUploadId}`, 'DELETE');
+                setStatus('Upload cancellation requested...');
+            } catch (error) {
+                setStatus('Failed to cancel upload', true);
+            }
+        }
+        
+        async function addDocument() {
+            const text = document.getElementById('docText').value.trim();
+            const practiceArea = document.getElementById('practiceArea').value.trim();
+            const docType = document.getElementById('docType').value.trim();
+            
+            if (!text) {
+                showResult('addResult', 'Please enter document text', true);
+                return;
+            }
+            
+            setStatus('Adding document...');
+            
+            try {
+                const result = await apiCall('/api/vector-store/add', 'POST', {
+                    text: text,
+                    metadata: {
+                        practice_area: practiceArea || 'general',
+                        document_type: docType || 'document'
+                    }
+                });
+                
+                showResult('addResult', `✅ Document added with ID: ${result.doc_id}`);
+                setStatus('Document added successfully');
+                
+                // Clear the text area
+                document.getElementById('docText').value = '';
+                
+            } catch (error) {
+                showResult('addResult', `❌ Error: ${error.message}`, true);
+                setStatus('Error adding document', true);
+            }
+        }
+        
+        async function addSampleDocuments() {
+            setStatus('Adding sample documents...');
+            
+            const sampleDocs = [
+                {
+                    text: "This employment agreement establishes the terms and conditions of employment between the company and the employee, including salary, benefits, and termination clauses.",
+                    metadata: { practice_area: "employment_law", document_type: "agreement" }
+                },
+                {
+                    text: "The defendant is liable for damages caused by negligent driving which resulted in personal injury to the plaintiff. The court finds clear evidence of breach of duty of care.",
+                    metadata: { practice_area: "tort_law", document_type: "case_law" }
+                },
+                {
+                    text: "Intellectual property rights include patents, trademarks, and copyrights. This trademark registration provides exclusive rights to use the mark in commerce.",
+                    metadata: { practice_area: "ip_law", document_type: "registration" }
+                },
+                {
+                    text: "The merger agreement outlines the terms for the acquisition of Target Company by Acquiring Company, including due diligence requirements and closing conditions.",
+                    metadata: { practice_area: "corporate_law", document_type: "agreement" }
+                }
+            ];
+            
+            try {
+                const results = [];
+                for (const doc of sampleDocs) {
+                    const result = await apiCall('/api/vector-store/add', 'POST', doc);
+                    results.push(result.doc_id);
+                }
+                
+                showResult('addResult', `✅ Added ${results.length} sample documents:\n${results.join('\n')}`);
+                setStatus('Sample documents added successfully');
+                
+            } catch (error) {
+                showResult('addResult', `❌ Error: ${error.message}`, true);
+                setStatus('Error adding sample documents', true);
+            }
+        }
+        
+        async function searchDocuments() {
+            const query = document.getElementById('searchQuery').value.trim();
+            const maxResults = parseInt(document.getElementById('maxResults').value) || 5;
+            
+            if (!query) {
+                showResult('searchResult', 'Please enter a search query', true);
+                return;
+            }
+            
+            setStatus('Searching documents...');
+            
+            try {
+                const result = await apiCall(`/api/vector-store/search?query=${encodeURIComponent(query)}&n_results=${maxResults}`);
+                
+                if (result.total_results === 0) {
+                    showResult('searchResult', '🔍 No documents found matching your query.');
+                    setStatus('Search completed - no results');
+                    return;
+                }
+                
+                let output = `🔍 Found ${result.total_results} documents:\n\n`;
+                
+                for (let i = 0; i < result.documents.length; i++) {
+                    const doc = result.documents[i];
+                    const metadata = result.metadatas[i];
+                    const distance = result.distances ? result.distances[i].toFixed(3) : 'N/A';
+                    
+                    output += `📄 Document ${i + 1} (similarity: ${distance})\n`;
+                    output += `Practice Area: ${metadata.practice_area || 'N/A'}\n`;
+                    output += `Type: ${metadata.document_type || 'N/A'}\n`;
+                    output += `Text: ${doc.substring(0, 200)}${doc.length > 200 ? '...' : ''}\n\n`;
+                }
+                
+                showResult('searchResult', output);
+                setStatus('Search completed successfully');
+                
+            } catch (error) {
+                showResult('searchResult', `❌ Error: ${error.message}`, true);
+                setStatus('Search failed', true);
+            }
+        }
+        
+        async function getStats() {
+            setStatus('Getting collection stats...');
+            
+            try {
+                const result = await apiCall('/api/vector-store/stats');
+                
+                let output = `📊 Collection Statistics:\n\n`;
+                output += `Collection Name: ${result.collection_name}\n`;
+                output += `Collection Type: ${result.collection_type}\n`;
+                output += `Total Documents: ${result.total_documents}\n`;
+                output += `Embedding Model: ${result.embedding_model}\n`;
+                output += `Embedding Dimensions: ${result.embedding_dimensions}\n`;
+                output += `Data Directory: ${result.data_directory}\n`;
+                
+                document.getElementById('collectionInfo').textContent = output;
+                document.getElementById('collectionInfo').className = 'result success';
+                setStatus('Stats loaded successfully');
+                
+            } catch (error) {
+                document.getElementById('collectionInfo').textContent = `❌ Error: ${error.message}`;
+                document.getElementById('collectionInfo').className = 'result error';
+                setStatus('Failed to load stats', true);
+            }
+        }
+        
+        // Initialize file handlers and load stats on page load
+        window.addEventListener('load', () => {
+            setupFileHandlers();
+            getStats();
+        });
+    </script>
+</body>
+</html> 
