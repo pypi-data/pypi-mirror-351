@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "water_prop"
+version = "1.1.1"
+description = "Provides vapor pressure and specific gravity of water by temperature"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Nilesh Mishra"}]
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[tool.setuptools]
+packages = ["water_prop"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"water_prop" = ["water_data.csv"]
