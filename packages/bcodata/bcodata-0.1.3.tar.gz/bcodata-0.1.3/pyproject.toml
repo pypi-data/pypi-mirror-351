@@ -1,0 +1,53 @@
+[project]
+name = "bcodata"
+version = "0.1.3"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "akshpra", email = "210279575+akshaypra26@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "aiolimiter>=1.2.1",
+    "httpx>=0.28.1",
+    "loguru>=0.7.3",
+    "tenacity>=9.1.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+exclude=[".venv"]
+line-length=120 
+fix = true
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+ignore = [
+    # Generic ignores
+    "D100",    # Docstrings in public modules
+    "D104",    # Docstrings in public package 
+    "D203",    # Blank line required before class docstring
+    "D211",    # No blank line before class
+    "D212",    # Multi line summary first line
+    "EM101",   # String inside exception
+    "EM102",   # F strings cannot be used inside exceptions
+    "TRY003",  # String inside exception
+    
+    # Project specific
+    "PLR2004", # Magic value should be assigned to variables
+    "PLR0913", # Not more than 5 arguments in a function
+    "COM812",  # Conflict with formatter
+]
+select=["ALL"]
+
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
+
+[tool.ty.rules]
+possibly-unresolved-reference = "warn"
+unused-ignore-comment = "warn"
