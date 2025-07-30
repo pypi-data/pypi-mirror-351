@@ -1,0 +1,43 @@
+[project]
+name = "koco-product-sqlmodel"
+version = "0.1.30"
+description = "Python module containing the SQLMODEL for the KOCO MOTION product description in the catalog database. Used import into the flask project and the later to define API-project"
+authors = [
+    { name = "Gerrit Kocherscheidt", email = "kochersg@koco-group.com" }
+]
+dependencies = [
+    "sqlmodel>=0.0.22",
+    "python-dotenv>=1.0.1",
+    "fastapi[standard]>=0.115.8",
+    "mariadb>=1.1.10",
+    "pyjwt>=2.9.0",
+    "passlib[bcrypt]>=1.7.4",
+    "gunicorn>=23.0.0",
+    "sqlalchemy-utils>=0.41.2",
+    "python-multipart>=0.0.20",
+    "openpyxl>=3.1.5",
+    "pillow>=11.1.0",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling==1.26.3"] #1.27.0 fails due to missing metadata
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "black>=24.8.0",
+]
+
+[tool.rye.scripts]
+dev = { cmd = "fastapi dev src/koco_product_sqlmodel/fastapi/kocoapi.py" }
+server = { cmd = "fastapi run src/koco_product_sqlmodel/fastapi/kocoapi.py" }
+server-gunicorn = { cmd = "gunicorn koco_product_sqlmodel.fastapi.kocoapi:app -k uvicorn.workers.UvicornWorker --workers 4 --bind unix:koco_product_sqlmodel.sock -b :18888" }
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/koco_product_sqlmodel"]

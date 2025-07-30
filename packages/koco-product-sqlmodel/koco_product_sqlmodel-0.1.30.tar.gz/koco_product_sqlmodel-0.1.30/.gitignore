@@ -1,0 +1,22 @@
+# python generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Studio code
+.DS_Store
+src/.DS_Store
+
+# venv
+.venv
+
+# dotenv
+.env
+
+# rye
+requirements-dev.lock
+requirements.lock
+db_dumps/*.zip
