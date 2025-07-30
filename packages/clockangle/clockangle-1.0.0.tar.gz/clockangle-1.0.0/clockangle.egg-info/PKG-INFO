@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: clockangle
+Version: 1.0.0
+Summary: A Python library to calculate the angle between the two hands of a clock.
+Home-page: UNKNOWN
+Author: Niral Bhatt (NY Co.)
+Author-email: niralbhatt@hotmail.com
+License: MIT
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# NeuroYott ClockAngle
+
+`clockangle` is a Python library for calculating the angle between the hour and minute hands of a clock. It supports both 12-hour and 24-hour time formats.
+
+## Installation
+
+To install, simply add the library to your Python project.
+
+```bash
+pip install clockangle
+
