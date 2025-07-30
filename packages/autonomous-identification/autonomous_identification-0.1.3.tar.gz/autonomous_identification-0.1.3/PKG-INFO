@@ -1,0 +1,16 @@
+Metadata-Version: 2.3
+Name: autonomous_identification
+Version: 0.1.3
+Summary: autonomous_identification
+Author-email: todo <todo@todo.com>
+Requires-Python: >=3.10
+Requires-Dist: autonomous-proto>=0.1.4
+Requires-Dist: matplotlib>=3.10.3
+Requires-Dist: rosbags>=0.10.10
+Requires-Dist: scipy>=1.15.3
+Requires-Dist: typer>=0.15.4
+Description-Content-Type: text/markdown
+
+# autonomous-identification
+
+Describe your project here.
