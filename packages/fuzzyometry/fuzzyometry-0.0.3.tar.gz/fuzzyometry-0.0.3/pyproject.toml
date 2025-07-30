@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "fuzzyometry"
+version = "0.0.3"
+description = "The fuzzyometry library provides smooth objects, object connections and automatic chamfer generation for xyzcad."
+authors = ["Stefan Helmert <stefan@entroserv.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+xyzcad = ">=0.3.0"
+numba = ">=0.58.0"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.2.6"
+black = "^24.4.2"
+isort = "^5.13.2"
+pytest = "^8.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

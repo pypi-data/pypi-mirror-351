@@ -1,0 +1,16 @@
+Metadata-Version: 2.3
+Name: fuzzyometry
+Version: 0.0.3
+Summary: The fuzzyometry library provides smooth objects, object connections and automatic chamfer generation for xyzcad.
+Author: Stefan Helmert
+Author-email: stefan@entroserv.de
+Requires-Python: >=3.11,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: numba (>=0.58.0)
+Requires-Dist: xyzcad (>=0.3.0)
+Description-Content-Type: text/markdown
+
+
