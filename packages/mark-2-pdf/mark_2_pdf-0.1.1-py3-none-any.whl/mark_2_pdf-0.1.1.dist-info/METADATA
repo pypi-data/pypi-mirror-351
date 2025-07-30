@@ -1,0 +1,125 @@
+Metadata-Version: 2.4
+Name: mark-2-pdf
+Version: 0.1.1
+Summary: A Python package for converting Markdown content or files to PDF (Playwright) or DOCX (Pandoc).
+Author-email: Mokksh Kapur <mokkshkapur@gmail.com>
+License: MIT License
+Project-URL: Homepage, https://github.com/Mokkshkapur
+Keywords: markdown,pdf,docx,converter,pandoc,playwright,document,conversion,utility
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Text Processing :: Markup
+Classifier: Topic :: Utilities
+Classifier: Topic :: Office/Business :: Office Suites
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: Markdown>3.3
+Requires-Dist: playwright>=1.20
+Requires-Dist: Pygments>=2.9
+
+# Mark2pdf
+
+A Python package for converting Markdown content into **PDF** and **DOCX** documents using Playwright and Pandoc.
+
+## 📦 Installation
+
+```bash
+pip install mark2pdf
+```
+
+## External Dependencies
+
+This package depends on two external tools that **must be installed manually**:
+
+### 1. Pandoc (for DOCX conversion)
+
+* Required for DOCX output.
+* Install from: [https://pandoc.org/installing.html](https://pandoc.org/installing.html)
+* Ensure `pandoc` is available in your system's `PATH`.
+
+### 2. Playwright Chromium (for PDF rendering)
+
+* Required for PDF output.
+* After installing `mark2pdf`, run:
+
+```bash
+playwright install chromium
+```
+
+This downloads the headless browser needed for PDF generation.
+
+## Basic Usage (from Markdown File)
+
+Here’s an example that reads from a `input.md` file and writes out both PDF and DOCX:
+
+```python
+# run_conversion_locally.py
+
+import asyncio
+import os
+import subprocess
+import sys
+from markdown_converter import convert_markdown, REFERENCE_DOCX_PATH_ENV_VAR, PANDOC_PATH_ENV_VAR
+
+INPUT_MD_FILE = r"C:\Users\Mokksh\OneDrive\Desktop\Study\os_md.md"
+PDF_OUTPUT_FILE = "output_pac.pdf"
+DOCX_OUTPUT_FILE = "output_pac.docx"
+
+CUSTOM_PDF_CSS = """
+/* Custom CSS for test script output */
+body { font-family: 'Roboto', sans-serif; line-height: 1.5; }
+h1, h2 { color: #0056b3; border-bottom: 1px solid #0056b3; padding-bottom: 0.2em; }
+code { color: darkgreen; background-color: #e8f5e9; padding: 0.1em 0.3em; border-radius: 3px; }
+pre { background-color: #f0f4f7; padding: 1em; border-left: 4px solid #0056b3; }
+@page { margin: 2cm; }
+"""
+
+async def main():
+    with open(INPUT_MD_FILE, "r", encoding="utf-8") as f:
+        markdown_content = f.read()
+
+    pdf_bytes = await convert_markdown(markdown_content, 'pdf', custom_css=CUSTOM_PDF_CSS)
+    with open(PDF_OUTPUT_FILE, "wb") as f:
+        f.write(pdf_bytes)
+    print(f"PDF saved to '{PDF_OUTPUT_FILE}'")
+
+    reference_docx = os.environ.get(REFERENCE_DOCX_PATH_ENV_VAR)
+    docx_bytes = await convert_markdown(markdown_content, 'docx', reference_docx=reference_docx)
+    with open(DOCX_OUTPUT_FILE, "wb") as f:
+        f.write(docx_bytes)
+    print(f"DOCX saved to '{DOCX_OUTPUT_FILE}'")
+
+if __name__ == "__main__":
+    def check_pandoc():
+        pandoc_executable_path = os.environ.get(PANDOC_PATH_ENV_VAR, "pandoc")
+        pandoc_cmd = [pandoc_executable_path, "--version"]
+        subprocess.run(pandoc_cmd, check=True, capture_output=True, text=True, timeout=10)
+
+    check_pandoc()
+    asyncio.run(main())
+```
+
+## 📁 Sample `input.md`
+
+Make sure you create a file named `input.md` in the same directory.
+
+## ✅ Environment Variable (Optional)
+
+To use a custom reference DOCX file for styling:
+
+```bash
+export MARKDOWN_CONVERTER_REFERENCE_DOCX=/path/to/your/reference.docx
+```
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
