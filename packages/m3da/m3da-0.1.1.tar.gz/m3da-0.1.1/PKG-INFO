@@ -1,0 +1,116 @@
+Metadata-Version: 2.4
+Name: m3da
+Version: 0.1.1
+Summary: A lightweight package for image classification using ONNX models
+Home-page: https://github.com/GracePeterMutiibwa/m3da
+Author: Mutiibwa Grace Peter
+Author-email: androm3dalabs@gmail.com
+Project-URL: Bug Tracker, https://github.com/GracePeterMutiibwa/m3da/issues
+Keywords: onnx,machine learning,deep learning,image classification,ai
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.19.0
+Requires-Dist: onnxruntime>=1.7.0
+Requires-Dist: Pillow>=8.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# M3da
+
+A lightweight Python package for image classification using ONNX models.
+
+## Installation
+
+```bash
+pip install m3da
+```
+
+## Features
+
+- Simple interface for image classification using ONNX models
+- Automatic image preprocessing and normalization
+- Input validation to prevent common errors
+- Compatible with any ONNX model trained for image classification
+
+## Requirements
+
+- Python 3.7+
+- onnxruntime
+- numpy
+- Pillow (PIL)
+
+## Quick Start
+
+```python
+import m3da
+
+# Classify an image
+result = m3da.execute(
+    modelPath="path/to/your/model.onnx",
+    pathToImage="path/to/your/image.jpg",
+    classNames=["class1", "class2", "class3"],
+    imgDimensions=(224, 224)
+)
+
+print(f"Predicted class: {result['class']}")
+print(f"Confidence: {result['confidence']:.2f}")
+print(f"Class index: {result['class_index']}")
+```
+
+## Parameters
+
+The `execute()` function accepts the following parameters:
+
+- `modelPath` (str): Path to the ONNX model file (must have .onnx extension)
+- `pathToImage` (str): Path to the image file to classify
+- `classNames` (list): List of class names corresponding to the model's output indices
+- `imgDimensions` (tuple): Tuple of (width, height) for image resizing
+
+## Return Value
+
+The function returns a dictionary with the following keys:
+
+- `class` (str): The predicted class name
+- `confidence` (float): The confidence score for the prediction
+- `class_index` (int): The index of the predicted class
+
+## Example
+
+Classifying an image of a pet using a pre-trained model:
+
+```python
+import m3da
+
+classes = ["cat", "dog", "hamster", "rabbit", "goldfish"]
+
+result = m3da.execute(
+    modelPath="pet_classifier.onnx",
+    pathToImage="my_pet.jpg",
+    classNames=classes,
+    imgDimensions=(32, 32)
+)
+
+print(f"This image appears to be a {result['class']} with {result['confidence']:.1%} confidence.")
+```
+
+## License
+
+MIT
