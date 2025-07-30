@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: fsdp2-utils
+Version: 0.1.1
+Summary: Add your description here
+Author-email: Tony Francis <tony@dream3d.com>
+Requires-Python: >=3.10
+Requires-Dist: torch>=2.7.0
+Requires-Dist: torchao>=0.11.0
