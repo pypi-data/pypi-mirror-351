@@ -1,0 +1,39 @@
+[project]
+name = "prompt-as-method"
+version = "0.3.0"
+description = "Run prompts from files"
+requires-python = ">=3.10,<4.0"
+readme = "README.md"
+dependencies = [
+    "chevron>=0.14.0",
+    "pydantic>=2.10.6",
+    "requests>=2.32.3",
+    "jsonschema>=4.23.0",
+    "jsonref (>=1.1.0,<2.0.0)",
+    "jsonschema-fill-default (>=0.1.3.20250131,<0.2.0.0)",
+    "json-repair (>=0.46.0,<0.47.0)"
+]
+license = { file = "LICENSE" }
+keywords = [ "ai", "artificial intelligence", "classification", "generative model", "large language model", "llm" , "prompt" ]
+authors = [
+    {name = "Johannes Kiesel",email = "Johannes.Kiesel@gesis.org"}
+]
+maintainers = [
+    {name = "Johannes Kiesel",email = "Johannes.Kiesel@gesis.org"}
+]
+
+[project.urls]
+"Source" = "https://github.com/GESIS-Methods-Hub/prompt-as-method"
+"Issues" = "https://github.com/GESIS-Methods-Hub/prompt-as-method/issues"
+
+[tool.poetry]
+packages = [{include = "prompt_as_method", from = "src"}]
+
+[tool.poetry.group.development]
+optional = true
+[tool.poetry.group.development.dependencies]
+flake8 = "*"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
