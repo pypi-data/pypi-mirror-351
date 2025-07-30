@@ -1,0 +1,41 @@
+# Python virtual environment
+multiword_anagram_fast/.venv/
+multiword_anagram_fast/venv/
+
+# Python cache files
+multiword_anagram_fast/__pycache__/
+multiword_anagram_fast/*.pyc
+multiword_anagram_fast/*.pyo
+multiword_anagram_fast/*.pyd
+multiword_anagram_fast/tests/__pycache__/
+target/
+Cargo.lock
+*.pyc
+
+# uv-specific files
+multiword_anagram_fast/.python-version
+multiword_anagram_fast/uv.lock
+
+# jupyter notebooks
+multiword_anagram_fast/.ipynb_checkpoints/
+*.ipynb
+.ipynb_checkpoints/
+uv.lock
+./*.txt
+solutions*.txt
+anagram_*.txt
+blueprince.txt
+
+# maturin build stuff
+multiword_anagram_fast_core/target/
+multiword_anagram_fast_core/Cargo.lock
+multiword_anagram_fast_core/target/
+multiword_anagram_fast_core/Cargo.lock
+#venv
+venv/
+
+# Other common ignores
+*.log
+*.egg-info/
+.DS_Store
+multiword_anagram_fast/tests/__pycache__/test_solver.cpython-313-pytest-8.3.5.pyc
