@@ -1,0 +1,14 @@
+[project]
+name = "py-apifactory"
+version = "0.1.1"
+description = """
+    Web framework for API-first development via OpenAPI specification with included validation according
+    to OpenAPI based on Starlette, uvicorn and openapi-core.
+"""
+requires-python = ">=3.12"
+dependencies = [
+    "aioitertools==0.12.0",
+    "openapi-core==0.19.5",
+    "starlette==0.46.2",
+    "uvicorn==0.34.2",
+]
