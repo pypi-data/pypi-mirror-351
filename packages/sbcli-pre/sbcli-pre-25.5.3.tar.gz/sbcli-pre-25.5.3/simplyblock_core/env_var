@@ -1,0 +1,6 @@
+SIMPLY_BLOCK_COMMAND_NAME=sbcli-pre
+SIMPLY_BLOCK_VERSION=25.5.3
+
+
+SIMPLY_BLOCK_DOCKER_IMAGE=simplyblock/simplyblock:R25.3-PRE-Hotfix-upgrade
+SIMPLY_BLOCK_SPDK_ULTRA_IMAGE=simplyblock/spdk:main-latest
