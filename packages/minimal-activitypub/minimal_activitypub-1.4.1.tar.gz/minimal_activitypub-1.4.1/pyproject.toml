@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "minimal-activitypub"
+description = 'Minimal inplementation of ActivityPub Interface'
+readme = "README.rst"
+requires-python = ">=3.10, <3.14"
+license = { text = "AGPL-3.0-or-later" }
+keywords = []
+authors = [
+  { name = "marvin8", email = "marvin8@tuta.io" },
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+dependencies = [
+    "h2~=4.2.0",
+    "httpx~=0.28.1",
+    "python-dateutil~=2.9.0.post0",
+    "whenever~=0.8.4",
+]
+version = "1.4.1"
+
+[project.urls]
+Documentation = "https://marvinsmastodontools.codeberg.page/minimal-activitypub/"
+Issues = "https://codeberg.org/MarvinsMastodonTools/minimal-activitypub/issues"
+Source = "https://codeberg.org/MarvinsMastodonTools/minimal-activitypub"
+Changelog = "https://codeberg.org/MarvinsMastodonTools/minimal-activitypub/src/branch/main/CHANGELOG.rst"
+
+[tool.mypy]
+mypy_path = "src"
+check_untyped_defs = true
+disallow_any_generics = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+no_implicit_reexport = true
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "session"
+
+[tool.scriv]
+categories = "Breaking, Added, Changed, Deprecated, Removed, Fixed, Security"
+format = "rst"
+version = "literal: pyproject.toml: project.version"
+
+[dependency-groups]
+nox = [
+    "nox~=2025.5.1",
+]
+pytest = [
+    "pytest~=8.3.5",
+    "pytest-asyncio~=1.0.0",
+    "pytest-cov~=6.1.1",
+    "pytest-httpx~=0.35.0",
+]
+dev = [
+    "pre-commit~=4.2.0",
+    "pre-commit-uv~=4.1.4",
+    "scriv~=1.7.0",
+]
