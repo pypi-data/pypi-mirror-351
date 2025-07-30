@@ -1,0 +1,31 @@
+Metadata-Version: 2.4
+Name: acemd
+Version: 4.0.16
+Summary: ACEMD is the next generation molecular dynamic simulation software
+Author-email: Acellera <info@acellera.com>
+Project-URL: Homepage, https://github.com/Acellera/acemd
+Project-URL: Bug Tracker, https://github.com/Acellera/acemd/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: openmm==8.2.1rc1
+Requires-Dist: moleculekit>=1.9.35
+Requires-Dist: pyyaml
+Requires-Dist: natsort
+Requires-Dist: requests
+Requires-Dist: openmm-torch
+Requires-Dist: torch
+Requires-Dist: torchmd-net>=2.4.10
+Requires-Dist: torchani
+Requires-Dist: huggingface_hub
+Dynamic: license-file
+
+# ACEMD
+
+Python reimplementation of ACEMD
+
+## Documentation & Installation
+
+https://software.acellera.com/internal/acemd/

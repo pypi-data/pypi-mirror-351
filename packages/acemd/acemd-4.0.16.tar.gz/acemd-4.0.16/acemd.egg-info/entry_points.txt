@@ -1,0 +1,3 @@
+[console_scripts]
+acemd = acemd.acemd:_acemd_cli
+acemd_register = acemd.licensing:acemd_register
