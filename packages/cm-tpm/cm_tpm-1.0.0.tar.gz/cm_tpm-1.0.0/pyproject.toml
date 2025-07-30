@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "wheel", "pybind11"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cm-tpm"
+version = "1.0.0"
+description = "A Python package for data imputation using Continuous Mixtures of Tractable Probabilistic Models"
+authors = [{ name = "Hakim Agni", email = "h.agni2001@gmail.com"}]
+readme = "README.md"
+license = { file = "LICENSE"}
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "torch",
+]
+requires-python = ">=3.8"
+
+[tool.setuptools]
+packages = ["cm_tpm"]
+
+[tool.setuptools.package-dir]
+"" = "src"  # Uses the src-layout
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 88
