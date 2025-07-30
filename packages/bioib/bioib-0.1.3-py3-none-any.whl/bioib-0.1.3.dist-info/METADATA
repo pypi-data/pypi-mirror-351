@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: bioib
+Version: 0.1.3
+Summary: Biological Information Bottleneck
+Home-page: https://github.com/nitzanlab/bioib
+Author: Sima Dubnov
+Author-email: serafima.dubnov@mail.huji.ac.il
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.7, <4
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: requires-python
+Dynamic: summary
+
+# bioIB
+bioIB package for scRNA-seq analysis
+
+This repository provides the code for bioIB, described in our article - 
+"bioIB: Identifying informative metagenes in single-cell RNA-seq with the Information Bottleneck algorithm"
+
+![intro_figure](https://github.com/user-attachments/assets/ffe67ad3-1ef0-4d14-aec0-7ae6184c0199)
+
+bioIB is a novel method for scRNA-seq analysis, based on the Information Bottleneck algorithm. 
+Given the cellular labels representing the signal of interest, such as cell type, bioIB generates probabilistic gene clusters, or metagenes, that capture the major biological processes differentially activated between the defined cellular populations.
+
+# This repository
+
+This repository contains:
+
+1. The bioIB package code.
+2. Jupyter notebook tutorial exemplifying the use of the bioIB package functions.
+
+# Installation
+The bioIB package can be installed through pip:
+```
+pip install bioib
+```
+
