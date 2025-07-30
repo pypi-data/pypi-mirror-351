@@ -1,0 +1,230 @@
+# `replayed` - Beat Saber Replay Parser
+
+**Version:** 0.1.0
+
+`replayed` is a Python library designed for parsing, analyzing, and manipulating Beat Saber replay files (`.bsor` format). It leverages Pydantic 2.0 for robust data modeling, validation, and serialization, ensuring type safety and ease of use. The library provides a structured way to access all data points within a replay file, from player information and song details to intricate frame-by-frame tracking data and note events.
+
+## Features
+
+* **Pydantic-Powered Models:** Clean, validated, and type-hinted data models for all aspects of a BSOR replay file.
+* **Comprehensive Parsing:** Reads BSOR files (up to version 1, with warnings for newer versions) into Python objects.
+* **Binary Serialization:** Writes modified or newly created replay data back into the BSOR binary format.
+* **Modular Design:** Code is organized into logical modules for models, I/O utilities, constants, and base types.
+* **User-Friendly Interface:** High-level functions for common tasks like loading and saving replays.
+* **Detailed Data Access:** Access to player info, song metadata, frame-by-frame HMD and controller tracking, note cut events, wall interactions, pauses, and more.
+* **Customizable:** Pydantic models can be extended for custom data or analyses.
+* **Error Handling:** Custom `BSException` for replay-specific errors.
+
+## Project Structure
+
+The `replayed` module is organized as follows:
+
+```
+replayed/
+├── __init__.py             # Main module entry point, exports key classes and functions.
+├── base_types.py           # Base classes like `PydanticWritableBase` and `BSException`.
+├── constants.py            # Game and BSOR format constants (note types, magic numbers, etc.).
+├── io_utils.py             # Low-level functions for encoding/decoding binary data types.
+├── utils.py                # General utility functions (e.g., `clamp`, `round_half_up`).
+└── models/                 # Pydantic models representing the BSOR file structure.
+    ├── __init__.py         # Exports all models from this directory.
+    ├── bsor.py             # Main `Bsor` model, orchestrating the entire replay.
+    ├── common.py           # Common data structures like `VRObject`, `Position`, `Rotation`.
+    ├── controller_offsets.py # Model for controller offset data.
+    ├── cut.py              # Model for `Cut` information (details of a note hit).
+    ├── frame.py            # Model for `Frame` data (HMD and controller tracking).
+    ├── height.py           # Model for `HeightEvent` data.
+    ├── info.py             # Model for `Info` (replay metadata).
+    ├── note.py             # Model for `Note` events, `NoteIDData`, `NoteCutInfo`.
+    ├── pause.py            # Model for `Pause` events.
+    ├── user_data.py        # Model for custom `UserDataEntry` sections.
+    └── wall.py             # Model for `Wall` interaction events.
+```
+
+## Installation
+You can install the `replayed` library via pip:
+
+```bash
+pip install replayed
+```
+
+## Getting Started / Basic Usage
+
+### Loading a Replay File
+
+You can load a `.bsor` file using the `load_replay` function or by directly using the `Bsor.from_stream` class method.
+
+```python
+from replayed import load_replay, BSException
+
+try:
+    replay_data = load_replay("path/to/your/replay.bsor")
+    print(f"Successfully loaded replay for player: {replay_data.info.player_name}")
+    print(f"Song: {replay_data.info.song_name} [{replay_data.info.difficulty}]")
+    print(f"Score: {replay_data.info.score}")
+except FileNotFoundError:
+    print("Error: Replay file not found.")
+except BSException as e:
+    print(f"Error parsing replay file: {e}")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+```
+
+### Accessing Replay Data
+
+Once loaded, the `Bsor` object provides access to all replay information through its Pydantic model attributes.
+
+```python
+# Accessing Info section
+player_name = replay_data.info.player_name
+song_hash = replay_data.info.song_hash
+modifiers = replay_data.info.modifiers
+
+# Accessing Frames (list of Frame objects)
+if replay_data.frames:
+    first_frame = replay_data.frames[0]
+    print(f"Time of first frame: {first_frame.time}s, FPS: {first_frame.fps}")
+    print(f"Head position (first frame): x={first_frame.head.position.x}, y={first_frame.head.position.y}, z={first_frame.head.position.z}")
+
+# Accessing Notes (list of Note objects)
+if replay_data.notes:
+    total_notes = len(replay_data.notes)
+    first_note = replay_data.notes[0]
+    print(f"Total note events: {total_notes}")
+    print(f"First note event time: {first_note.event_time}")
+    
+    # NoteIDData provides decomposed info from the raw note ID
+    print(f"  Scoring Type: {replayed.LOOKUP_DICT_SCORING_TYPE.get(first_note.id_data.scoring_type)}")
+    print(f"  Color Type: {'Blue (Left)' if first_note.id_data.color_type == replayed.SABER_LEFT else 'Red (Right)'}")
+
+    if first_note.event_type == replayed.NOTE_EVENT_GOOD and first_note.cut_info:
+        print(f"  Cut Score: {first_note.total_score}")
+        if first_note.cut_info.cut_details:
+            print(f"  Saber Speed: {first_note.cut_info.cut_details.saber_speed}")
+```
+
+### Modifying Replay Data (Conceptual)
+
+Since the data is stored in Pydantic models, you can modify attributes directly. For instance, you could change player name or filter notes (though extensive modifications require careful handling to maintain data integrity for game compatibility).
+
+```python
+# Example: Change player name (demonstrative)
+# replay_data.info.player_name = "NewPlayerName"
+```
+
+**Note:** Modifying replay data, especially timing or crucial event data, can easily lead to replays that are invalid or behave unexpectedly in-game.
+
+### Saving a Replay File
+
+After modifications (or if you've constructed a `Bsor` object programmatically), you can save it back to a `.bsor` file.
+
+```python
+from replayed import save_replay
+
+try:
+    save_replay(replay_data, "path/to/your/modified_replay.bsor")
+    print("Replay saved successfully.")
+except Exception as e:
+    print(f"Error saving replay: {e}")
+```
+
+## Core Data Models
+
+The `replayed.models` submodule contains Pydantic models that represent the structure of the BSOR file. Each model typically has a `from_stream(file_io)` class method for parsing and a `write(file_io)` method for serialization.
+
+* **`Bsor`**: The root model representing the entire replay. It contains all other sections like `Info`, lists of `Frame`s, `Note`s, etc.
+  * `magic_number: int`
+  * `file_version: int`
+  * `info: Info`
+  * `frames: List[Frame]`
+  * `notes: List[Note]`
+  * `walls: List[Wall]`
+  * `heights: List[HeightEvent]`
+  * `pauses: List[Pause]`
+  * `controller_offsets: Optional[ControllerOffsets]`
+  * `user_data: List[UserDataEntry]`
+
+* **`Info`**: Contains metadata about the replay session.
+  * `player_name: str`, `player_id: str`
+  * `song_name: str`, `song_hash: str`, `mapper: str`, `difficulty: str`
+  * `score: int`, `modifiers: str`
+  * `game_version: str`, `timestamp: str`
+  * And many more fields related to tracking, settings, and performance.
+
+* **`Frame`**: Represents a single snapshot of tracking data.
+  * `time: float` (in-game time)
+  * `fps: int`
+  * `head: VRObject` (HMD position and rotation)
+  * `left_hand: VRObject`
+  * `right_hand: VRObject`
+
+* **`VRObject`**: A common structure for tracked objects.
+  * `position: Position` (`x`, `y`, `z`)
+  * `rotation: Rotation` (quaternion: `x`, `y`, `z`, `w`)
+
+* **`Note`**: Represents a note event (cut, miss, or bomb interaction).
+  * `raw_note_id: int` (the encoded ID from the file)
+  * `event_time: float`
+  * `spawn_time: float`
+  * `event_type: int` (e.g., `NOTE_EVENT_GOOD`, `NOTE_EVENT_MISS`)
+  * `id_data: NoteIDData` (computed property: decomposes `raw_note_id` into `scoring_type`, `color_type`, etc.)
+  * `cut_info: Optional[NoteCutInfo]` (contains `Cut` details and scores if it was a cuttable note)
+  * `total_score: int` (computed property from `cut_info`)
+
+* **`Cut`**: Detailed information about how a note was cut.
+  * `saber_speed: float`, `saber_type: int`
+  * `before_cut_rating: float`, `after_cut_rating: float`
+  * `cut_point: Position`, `cut_normal: Position`
+  * `speed_ok: bool`, `direction_ok: bool`, `saber_type_ok: bool`
+
+* **Other Models**:
+  * `Wall`: Obstacle interaction events.
+  * `HeightEvent`: Player height change events.
+  * `Pause`: Game pause events.
+  * `ControllerOffsets`: Optional controller offset data.
+  * `UserDataEntry`: For custom data embedded by mods.
+
+## Binary I/O (`replayed.io_utils`)
+
+The `io_utils.py` module provides low-level functions for reading and writing primitive data types (integers, floats, strings, booleans) from/to the binary BSOR file stream. These are used internally by the Pydantic models' `from_stream` and `write` methods. Key functions include:
+
+* `decode_int()`, `encode_int()`
+* `decode_string()`, `encode_string()`
+* `decode_string_maybe_utf16()` (handles specific string encoding quirks found in some replays)
+* `decode_float()`, `encode_float()`
+* And others for bytes, longs, and booleans.
+
+It also includes generic helpers like `write_list` and `make_list_from_stream` (in `replayed.utils`) for handling lists of objects with their respective magic bytes and counts.
+
+## Constants (`replayed.constants`)
+
+The `constants.py` file defines various constants used throughout the library and relevant to the Beat Saber game and BSOR format. This includes:
+
+* Note event types (e.g., `NOTE_EVENT_GOOD`, `NOTE_EVENT_MISS`).
+* Note scoring types (e.g., `NOTE_SCORE_TYPE_NORMAL_1`, `NOTE_SCORE_TYPE_SLIDERHEAD`).
+* Saber types (`SABER_LEFT`, `SABER_RIGHT`).
+* BSOR magic numbers and section identifiers.
+* Lookup dictionaries for converting constant values to human-readable strings (e.g., `LOOKUP_DICT_EVENT_TYPE`).
+
+You can import and use these constants:
+
+```python
+import replayed.constants as C
+
+if note.event_type == C.NOTE_EVENT_BOMB:
+    print("It's a bomb!")
+```
+
+Or, if you've imported `replayed`, they are often available directly (e.g., `replayed.NOTE_EVENT_BOMB`).
+
+## Error Handling
+
+The library defines a custom exception `BSException` (in `replayed.base_types`) which is raised for errors specific to BSOR parsing or data integrity issues (e.g., magic number mismatch, unexpected EOF). Standard Python exceptions like `FileNotFoundError` or `IOError` might also be raised by file operations.
+
+## Contributing
+
+This library is designed to be a foundational tool. Contributions for bug fixes, new BSOR feature support (as the format evolves), or improved documentation are welcome. Please ensure any changes maintain compatibility and adhere to good coding practices.
+
+## Disclaimer
+
+Beat Saber and its replay format are properties of Beat Games. This library is a third-party tool created for parsing and educational purposes.
