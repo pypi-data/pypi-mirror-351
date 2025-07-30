@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: screen2doc
+Version: 0.1.0
+Summary: Automatically generate documentation from screen interactions
+Home-page: https://github.com/Harshvardhanabc/screen2doc
+Author: Harshvardhan
+Author-email: hv1214293@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Documentation
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pillow
+Requires-Dist: pyautogui
+Requires-Dist: markdown2
+Requires-Dist: fpdf
+Dynamic: license-file
+
+# Screen2Doc
+
+Screen2Doc is a Python package that lets you automatically create step-by-step documentation by capturing screenshots and adding annotations.
+
+## Features
+- Manual screen capture
+- Annotate each step
+- Export to Markdown
+
+## Installation
+```bash
+pip install screen2doc
+```
+
+## Usage
+```python
+from screen2doc import ScreenCapturer, AnnotationManager, Exporter
+
+capturer = ScreenCapturer()
+annotator = AnnotationManager()
+exporter = Exporter()
+
+step1 = capturer.capture()
+annotator.add_annotation(1, "Open Settings")
+
+step2 = capturer.capture()
+annotator.add_annotation(2, "Go to Network Settings")
+
+exporter.export_markdown(capturer.get_steps(), annotator.get_all_annotations())
+```
