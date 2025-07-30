@@ -1,0 +1,45 @@
+# [1.0.0-beta.27](https://github.com/phantomcyber/splunk-soar-sdk/compare/1.0.0-beta.26...1.0.0-beta.27) (2025-05-30)
+
+
+### Bug Fixes
+
+* **cli:** handle malformed request headers with a descriptive error message ([bd8d96a](https://github.com/phantomcyber/splunk-soar-sdk/commit/bd8d96a588b71366fceb4843be4e56bc6fdb486e))
+* **cli:** use proper source for soar_url ([bd5b590](https://github.com/phantomcyber/splunk-soar-sdk/commit/bd5b590265ed5297a6cc66d19c277c8b9b837a7e))
+* **webhooks:** clean up types, and pass raw base_url/token/asset_id instead of broken client ([f63688c](https://github.com/phantomcyber/splunk-soar-sdk/commit/f63688c5e828a66411526e0d64d1b5430db94135))
+* **webhooks:** fix import path and args ([0553b0e](https://github.com/phantomcyber/splunk-soar-sdk/commit/0553b0ed6c752c5b3d2f09024b9539a37c645435))
+* **webhooks:** normalize query params to lists of strings to accommodate Borg fix ([d6f94c3](https://github.com/phantomcyber/splunk-soar-sdk/commit/d6f94c3898bc6360bbf53a67a4d94d193aa1f1cd))
+
+
+### Features
+
+* **cli:** move actions into their own cli group, and create a new one for webhooks ([20d6ea4](https://github.com/phantomcyber/splunk-soar-sdk/commit/20d6ea4e6db2c82065b477a813b68ec08b2b8ed1))
+* **webhooks:** add manifest model for app webhooks ([3ef076e](https://github.com/phantomcyber/splunk-soar-sdk/commit/3ef076e36f235c28f50a09a6a7f45ffbab58a9fb))
+* **webhooks:** add validator for default IP list ([5d8578c](https://github.com/phantomcyber/splunk-soar-sdk/commit/5d8578c2056cd899d74dbd67da332e391719e0c0))
+* **webhooks:** routing for webhook requests ([961db42](https://github.com/phantomcyber/splunk-soar-sdk/commit/961db4250fa6b2ebefce4de3e2a4b948170fd452))
+
+
+
+
+
+# [1.0.0-beta.27](https://github.com/phantomcyber/splunk-soar-sdk/compare/1.0.0-beta.26...1.0.0-beta.27) (2025-05-30)
+
+
+### Bug Fixes
+
+* **cli:** handle malformed request headers with a descriptive error message ([bd8d96a](https://github.com/phantomcyber/splunk-soar-sdk/commit/bd8d96a588b71366fceb4843be4e56bc6fdb486e))
+* **cli:** use proper source for soar_url ([bd5b590](https://github.com/phantomcyber/splunk-soar-sdk/commit/bd5b590265ed5297a6cc66d19c277c8b9b837a7e))
+* **webhooks:** clean up types, and pass raw base_url/token/asset_id instead of broken client ([f63688c](https://github.com/phantomcyber/splunk-soar-sdk/commit/f63688c5e828a66411526e0d64d1b5430db94135))
+* **webhooks:** fix import path and args ([0553b0e](https://github.com/phantomcyber/splunk-soar-sdk/commit/0553b0ed6c752c5b3d2f09024b9539a37c645435))
+* **webhooks:** normalize query params to lists of strings to accommodate Borg fix ([d6f94c3](https://github.com/phantomcyber/splunk-soar-sdk/commit/d6f94c3898bc6360bbf53a67a4d94d193aa1f1cd))
+
+
+### Features
+
+* **cli:** move actions into their own cli group, and create a new one for webhooks ([20d6ea4](https://github.com/phantomcyber/splunk-soar-sdk/commit/20d6ea4e6db2c82065b477a813b68ec08b2b8ed1))
+* **webhooks:** add manifest model for app webhooks ([3ef076e](https://github.com/phantomcyber/splunk-soar-sdk/commit/3ef076e36f235c28f50a09a6a7f45ffbab58a9fb))
+* **webhooks:** add validator for default IP list ([5d8578c](https://github.com/phantomcyber/splunk-soar-sdk/commit/5d8578c2056cd899d74dbd67da332e391719e0c0))
+* **webhooks:** routing for webhook requests ([961db42](https://github.com/phantomcyber/splunk-soar-sdk/commit/961db4250fa6b2ebefce4de3e2a4b948170fd452))
+
+
+
+
