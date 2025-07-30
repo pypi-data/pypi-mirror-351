@@ -1,0 +1,1 @@
+<full enhanced FileHandler code from previous message>
