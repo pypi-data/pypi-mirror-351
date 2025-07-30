@@ -1,0 +1,13 @@
+LICENSE
+README.md
+pyproject.toml
+git_fleet_manager/__init__.py
+git_fleet_manager/cli.py
+git_fleet_manager/git_utils.py
+git_fleet_manager.egg-info/PKG-INFO
+git_fleet_manager.egg-info/SOURCES.txt
+git_fleet_manager.egg-info/dependency_links.txt
+git_fleet_manager.egg-info/entry_points.txt
+git_fleet_manager.egg-info/top_level.txt
+tests/test_cli.py
+tests/test_git_utils.py
