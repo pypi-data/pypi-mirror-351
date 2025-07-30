@@ -1,0 +1,45 @@
+from .base_model import *
+
+
+class HltDoctorVisitTable(BaseModel):
+    id = models.AutoField(db_column="DoctorVisitTableID", primary_key=True)
+    doctor_time_table = models.ForeignKey("HltDoctorTimeTable", db_column="rf_DoctorTimeTableID", **FK_DEFAULT)
+    tap = models.ForeignKey("HltTap", db_column="rf_TAPID", **FK_DEFAULT)
+    comment = models.CharField(db_column="Comment", max_length=200)
+    mkab = models.ForeignKey("HltMkab", db_column="rf_MKABID", **FK_DEFAULT)
+    stub_print_counter = models.IntegerField(db_column="StubPrintCounter")
+    visit_status = models.IntegerField(db_column="VisitStatus")
+    flags = models.IntegerField(db_column="Flags")
+    uguid = models.CharField(db_column="UGUID", max_length=36)
+    user = models.ForeignKey("XUser", db_column="rf_UserID", **FK_DEFAULT)
+    doc_prvd = models.ForeignKey("HltDocPrvd", db_column="rf_DocPRVDID", **FK_DEFAULT)
+    from_reg = models.BooleanField(db_column="fromReg")
+    from_doc = models.BooleanField(db_column="fromDoc")
+    from_infomat = models.BooleanField(db_column="fromInfomat")
+    from_internet = models.BooleanField(db_column="fromInternet")
+    from_tel = models.BooleanField(db_column="fromTel")
+    norma_ue = models.IntegerField(db_column="NormaUE")
+    stubn_um = models.CharField(db_column="StubNum", max_length=200)
+    confirm_required = models.BooleanField(db_column="confirmRequired")
+    edit_history = models.TextField(db_column="editHistory")
+    er_id = models.CharField(db_column="ERID", max_length=8000)
+    from_other_lpu = models.BooleanField(db_column="fromOtherLPU")
+    reserved_to = models.DateTimeField(db_column="ReservedTo")
+    direction_id = models.IntegerField(db_column="rf_DirectionID")
+    fact_begin_time = models.DateTimeField(db_column="FactBeginTime")
+    fact_end_time = models.DateTimeField(db_column="FactEndTime")
+    date_time_call = models.DateTimeField(db_column="DateTimeCall")
+    date_time_create = models.DateTimeField(db_column="DateTimeCreate")
+    date_time_into_lpu = models.DateTimeField(db_column="DateTimeIntoLPU")
+    num_ticket_queue = models.CharField(db_column="NumTicketQueue", max_length=200)
+    date_visit_first_free = models.DateTimeField(db_column="DateVisitFirstFree")
+    is_katl_visit = models.BooleanField(db_column="IsKatlVisit")
+    is_confirmed = models.BooleanField(db_column="isConfirmed")
+    doctor_visit_status_id = models.IntegerField(db_column="rf_DoctorVisitStatusID")
+    prev_dvt_id = models.IntegerField(db_column="rf_PrevDvtID")
+    confirmed_fio = models.CharField(db_column="ConfirmedFio", max_length=100)
+    confirmed_date = models.DateTimeField(db_column="ConfirmedDate")
+
+    class Meta:
+        managed = False
+        db_table = "hlt_DoctorVisitTable"

@@ -1,0 +1,66 @@
+from .base_model import *
+
+
+class LbrLaboratoryResearch(BaseModel):
+    """
+    Лабораторное исследование
+    """
+
+    id = models.AutoField(db_column="LaboratoryResearchID", primary_key=True)
+    guid = models.CharField(db_column="GUID", max_length=36, unique=True)
+    date_direction = models.DateTimeField(db_column="Date_Direction")
+    doct_fio = models.CharField(db_column="DOCT_FIO", max_length=200)
+    doct_pcod = models.CharField(db_column="DOCT_PCOD", max_length=20)
+    flag = models.IntegerField(db_column="Flag")
+    flag_unload = models.IntegerField(db_column="FlagUnload")
+    number = models.CharField(db_column="Number", max_length=100)
+    pat_birthday = models.DateTimeField(db_column="Pat_Birthday")
+    pat_family = models.CharField(db_column="Pat_Family", max_length=100)
+    pat_name = models.CharField(db_column="Pat_Name", max_length=100)
+    pat_ot = models.CharField(db_column="Pat_Ot", max_length=100)
+    pat_w = models.BooleanField(db_column="Pat_W")
+    priority = models.BooleanField(db_column="Priority")
+    department = models.ForeignKey("OmsDepartment", db_column="rf_DepartmentID", **FK_DEFAULT)
+    laboratory = models.ForeignKey("LbrLaboratory", db_column="rf_LaboratoryID", **FK_DEFAULT)
+    lpu_doctor = models.ForeignKey("HltLpuDoctor", db_column="rf_LPUDoctorID", **FK_DEFAULT)
+    medical_history_old_id = models.IntegerField(db_column="rf_MedicalHistoryOldID")
+    mkab = models.ForeignKey("HltMkab", db_column="rf_MKABID", **FK_DEFAULT)
+    mkb = models.ForeignKey("OmsMkb", db_column="rf_MKBID", **FK_DEFAULT)
+    tap = models.ForeignKey("HltTap", db_column="rf_TAPID", **FK_DEFAULT)
+    doc_prvd = models.ForeignKey("HltDocPrvd", db_column="rf_DocPRVDID", **FK_DEFAULT)
+    smo = models.ForeignKey("OmsLpu", db_column="rf_SMOID", **FK_DEFAULT)
+    tip_oms = models.ForeignKey("OmsKlTipOms", db_column="rf_kl_TipOMSID", **FK_DEFAULT)
+    pat_s_pol = models.CharField(db_column="Pat_S_POL", max_length=50)
+    pat_n_pol = models.CharField(db_column="Pat_N_POL", max_length=50)
+    lpu_sender_id = models.IntegerField(db_column="rf_LPUSenderID")
+    comment = models.CharField(db_column="Comment", max_length=5000)
+    profit_type = models.ForeignKey("OmsKlProfitType", db_column="rf_kl_ProfitTypeID", **FK_DEFAULT)
+    is_read_only = models.BooleanField(db_column="isReadOnly")
+    research_cause = models.ForeignKey("LbrLabResearchCause", db_column="rf_LabResearchCauseID", **FK_DEFAULT)
+    lab_research_target = models.ForeignKey("LbrLabResearchTarget", db_column="rf_LabResearchTargetID", **FK_DEFAULT)
+    lpu = models.ForeignKey("OmsLpu", db_column="rf_LPUID", **FK_DEFAULT)
+    date_create = models.DateTimeField(db_column="DateCreate")
+    accession_number = models.CharField(db_column="AccessionNumber", max_length=100)
+    doct_d_prvd_guid = models.CharField(db_column="DOCT_DPRVDGUID", max_length=36)
+    lab_research_contingent_id = models.IntegerField(db_column="rf_LabResearchContingentID")
+    medical_history_id = models.IntegerField(db_column="rf_MedicalHistoryID")
+    additional_comment = models.CharField(db_column="AdditionalComment", max_length=1000)
+    previous_research_results = models.CharField(db_column="PreviousResearchResults", max_length=1000)
+    is_previous_research_performed = models.BooleanField(db_column="IsPreviousResearchPerformed")
+    previous_treatment = models.CharField(db_column="PreviousTreatment", max_length=1000)
+    is_previous_treatment_performed = models.BooleanField(db_column="IsPreviousTreatmentPerformed")
+    department_sender_name = models.CharField(db_column="DepartmentSenderName", max_length=255)
+    pat_ss = models.CharField(db_column="Pat_SS", max_length=14)
+    doct_ss = models.CharField(db_column="DOCT_SS", max_length=14)
+    doct_phone = models.CharField(db_column="DOCT_PHONE", max_length=25)
+    cancel_comment = models.TextField(db_column="CancelComment")
+    cancel_reason_id = models.IntegerField(db_column="rf_CancelReasonID")
+    lab_direction_type = models.ForeignKey("LbrLabDirectionType", db_column="rf_LabDirectionTypeID", **FK_DEFAULT)
+    visit_other_lpu_id = models.ForeignKey("OmsLpu", db_column="rf_VisitOtherLpuID", **FK_DEFAULT)
+    direction_status_id = models.IntegerField(db_column="rf_DirectionStatusId")
+    clinical_diagnos = models.CharField(db_column="ClinicalDiagnos", max_length=2000)
+    lpu_other = models.ForeignKey("OmsLpu", db_column="rf_LPUOtherID", **FK_DEFAULT)
+
+    class Meta:
+        managed = False
+        db_table = "lbr_LaboratoryResearch"
