@@ -1,0 +1,35 @@
+{% extends "pretixcontrol/event/settings_base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block inside %}
+    <h1>{% trans "Service fees" %}</h1>
+    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        <fieldset>
+          <legend>{% trans "Service fees" %}</legend>
+            {% bootstrap_field form.service_fee_per_ticket addon_after=request.event.currency layout="control" %}
+            {% bootstrap_field form.service_fee_skip_non_admission layout="control" %}
+            {% bootstrap_field form.service_fee_skip_addons layout="control" %}
+            {% bootstrap_field form.service_fee_skip_free layout="control" %}
+            {% bootstrap_field form.service_fee_abs addon_after=request.event.currency layout="control" %}
+            {% bootstrap_field form.service_fee_percent addon_after="%" layout="control" %}
+            {% bootstrap_field form.service_fee_split_taxes layout="control" %}
+            {% bootstrap_field form.service_fee_skip_if_gift_card layout="control" %}
+        </fieldset>
+        <fieldset>
+          <legend>{% trans "Service fees with resellers" %}</legend>
+            <p>
+                {% trans "If you keep values empty, we will fall back to the values from above. If you do not want to charge any fees through this sales channel, set them to zero explicity." %}
+            </p>
+            {% bootstrap_field form.service_fee_per_ticket_resellers addon_after=request.event.currency layout="control" %}
+            {% bootstrap_field form.service_fee_abs_resellers addon_after=request.event.currency layout="control" %}
+            {% bootstrap_field form.service_fee_percent_resellers addon_after="%" layout="control" %}
+        </fieldset>
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-primary btn-save">
+                {% trans "Save" %}
+            </button>
+        </div>
+    </form>
+{% endblock %}
