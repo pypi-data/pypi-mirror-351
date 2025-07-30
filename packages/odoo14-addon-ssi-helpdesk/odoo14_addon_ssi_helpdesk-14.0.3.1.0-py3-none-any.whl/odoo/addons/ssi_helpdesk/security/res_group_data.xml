@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<!-- Configurator -->
+<record id="helpdesk_type_group" model="res.groups">
+    <field name="name">Helpdesk Type</field>
+    <field name="category_id" ref="helpdesk_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="helpdesk_type_category_group" model="res.groups">
+    <field name="name">Helpdesk Type Category</field>
+    <field name="category_id" ref="helpdesk_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="helpdesk_data_requirement_type_group" model="res.groups">
+    <field name="name">Helpdesk Data Requirement Type</field>
+    <field name="category_id" ref="helpdesk_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="helpdesk_resolution_documentation_type_group" model="res.groups">
+    <field name="name">Helpdesk Resolution Documentation Type</field>
+    <field name="category_id" ref="helpdesk_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="helpdesk_channel_group" model="res.groups">
+    <field name="name">Helpdesk Channel</field>
+    <field name="category_id" ref="helpdesk_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="helpdesk_contact_group_configurator_group" model="res.groups">
+    <field name="name">Helpdesk Contact Group</field>
+    <field name="category_id" ref="helpdesk_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="helpdesk_ticket_viewer_group" model="res.groups">
+    <field name="name">Viewer</field>
+    <field name="category_id" ref="helpdesk_ticket_workflow_module_category" />
+</record>
+
+<record id="helpdesk_ticket_user_group" model="res.groups">
+    <field name="name">User</field>
+    <field name="category_id" ref="helpdesk_ticket_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('helpdesk_ticket_viewer_group'))]" />
+</record>
+
+<record id="helpdesk_ticket_validator_group" model="res.groups">
+    <field name="name">Validator</field>
+    <field name="category_id" ref="helpdesk_ticket_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('helpdesk_ticket_user_group'))]" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<!-- Data Ownership: Outsource Work -->
+<record id="helpdesk_ticket_company_group" model="res.groups">
+    <field name="name">Company</field>
+    <field name="category_id" ref="helpdesk_ticket_data_ownership_module_category" />
+</record>
+
+<record id="helpdesk_ticket_company_child_group" model="res.groups">
+    <field name="name">Company and All Child Companies</field>
+    <field name="category_id" ref="helpdesk_ticket_data_ownership_module_category" />
+    <field name="implied_ids" eval="[(4, ref('helpdesk_ticket_company_group'))]" />
+</record>
+
+<record id="helpdesk_ticket_all_group" model="res.groups">
+    <field name="name">All</field>
+    <field name="category_id" ref="helpdesk_ticket_data_ownership_module_category" />
+    <field
+            name="implied_ids"
+            eval="[(4, ref('helpdesk_ticket_company_child_group'))]"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="helpdesk_communication_viewer_group" model="res.groups">
+    <field name="name">Viewer</field>
+    <field name="category_id" ref="helpdesk_communication_workflow_module_category" />
+</record>
+
+<record id="helpdesk_communication_user_group" model="res.groups">
+    <field name="name">User</field>
+    <field name="category_id" ref="helpdesk_communication_workflow_module_category" />
+    <field
+            name="implied_ids"
+            eval="[(4, ref('helpdesk_communication_viewer_group'))]"
+        />
+</record>
+
+<record id="helpdesk_communication_validator_group" model="res.groups">
+    <field name="name">Validator</field>
+    <field name="category_id" ref="helpdesk_communication_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('helpdesk_communication_user_group'))]" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="helpdesk_communication_company_group" model="res.groups">
+    <field name="name">Company</field>
+    <field
+            name="category_id"
+            ref="helpdesk_communication_data_ownership_module_category"
+        />
+</record>
+
+<record id="helpdesk_communication_company_child_group" model="res.groups">
+    <field name="name">Company and All Child Companies</field>
+    <field
+            name="category_id"
+            ref="helpdesk_communication_data_ownership_module_category"
+        />
+    <field
+            name="implied_ids"
+            eval="[(4, ref('helpdesk_communication_company_group'))]"
+        />
+</record>
+
+<record id="helpdesk_communication_all_group" model="res.groups">
+    <field name="name">All</field>
+    <field
+            name="category_id"
+            ref="helpdesk_communication_data_ownership_module_category"
+        />
+    <field
+            name="implied_ids"
+            eval="[(4, ref('helpdesk_communication_company_child_group'))]"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+</odoo>

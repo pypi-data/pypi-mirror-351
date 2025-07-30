@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="helpdesk_communication_view_search" model="ir.ui.view">
+    <field name="name">helpdesk_communication - search</field>
+    <field name="model">helpdesk_communication</field>
+    <field name="mode">primary</field>
+    <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_search"
+        />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="partner_id" />
+                <field name="commercial_partner_id" />
+                <field name="ticket_id" />
+                <field name="date" />
+                <field name="title" />
+                <field name="channel_id" optional="hide" />
+            </xpath>
+            <xpath expr="//group[@name='group_by']" position="inside">
+                <filter
+                        name="grp_partner"
+                        string="Contact"
+                        context="{'group_by':'partner_id'}"
+                    />
+                <filter
+                        name="grp_commercial_partner"
+                        string="Commercial Partner"
+                        context="{'group_by':'commercial_partner_id'}"
+                    />
+                <filter
+                        name="grp_ticket"
+                        string="Ticket"
+                        context="{'group_by':'ticket_id'}"
+                    />
+                <filter name="grp_date" string="Date" context="{'group_by':'date'}" />
+            </xpath>
+        </data>
+
+    </field>
+</record>
+
+<record id="helpdesk_communication_view_tree" model="ir.ui.view">
+    <field name="name">helpdesk_communication.tree</field>
+    <field name="model">helpdesk_communication</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_tree" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="partner_id" />
+                <field name="commercial_partner_id" />
+                <field name="ticket_id" />
+                <field name="date" />
+                <field name="title" />
+                <field name="channel_id" optional="hide" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+    <record id="helpdesk_communication_view_form" model="ir.ui.view">
+        <field name="name">helpdesk_communication.form</field>
+        <field name="model">helpdesk_communication</field>
+        <field name="mode">primary</field>
+        <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_form"
+        />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="partner_id" />
+                    <field name="commercial_partner_id" />
+                </xpath>
+                <xpath expr="//group[@name='header_right']" position="inside">
+                    <field name="date" />
+                    <field name="channel_id" />
+                    <field
+                        name="ticket_id"
+                        domain="[('commercial_partner_id','=',commercial_partner_id)]"
+                    />
+                    <button
+                        name="%(create_ticket_from_communication_action)d"
+                        type="action"
+                        string="Create Ticket"
+                        class="oe_highlight"
+                        icon="fa-gear"
+                        attrs="{'invisible':[('ticket_id','!=',False)]}"
+                    />
+                    <button
+                        name="action_reload_followers"
+                        string="Reload Followers From Ticket"
+                        type="object"
+                        icon="fa-gear"
+                        attrs="{'invisible':[('ticket_id','=',False)]}"
+                    />
+                </xpath>
+                <xpath expr="//group[@name='header_center']" position="inside">
+                    <label for="title" colspan="2" />
+                    <field name="title" nolabel="1" colspan="2" />
+                </xpath>
+                <xpath expr="//page[1]" position="before">
+                    <page name="description" string="Description">
+                        <group name="description" colspan="4" col="2">
+                            <field
+                                name="description"
+                                widget="html"
+                                nolabel="1"
+                                colspan="2"
+                            />
+                        </group>
+                    </page>
+                    <page name="activity" string="Activities">
+                        <group name="activity_1" colspan="4" col="2">
+                            <field name="latest_message_id" />
+                            <field name="latest_message_date" />
+                            <field name="latest_partner_message_id" />
+                            <field name="latest_partner_message_date" />
+                            <field name="need_respon" />
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="helpdesk_communication_action" model="ir.actions.act_window">
+        <field name="name">Helpdesk Communications</field>
+        <field name="res_model">helpdesk_communication</field>
+        <field name="view_mode">tree,form</field>
+        <field
+            name="context"
+        >{'search_default_dom_draft':1,'search_default_dom_open':1}</field>
+    </record>
+
+    <menuitem
+        id="helpdesk_communication_menu"
+        name="Communications"
+        parent="menu_root_helpdesk"
+        action="helpdesk_communication_action"
+        groups="helpdesk_communication_viewer_group"
+        sequence="20"
+    />
+</odoo>

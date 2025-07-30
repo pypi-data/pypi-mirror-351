@@ -1,0 +1,32 @@
+<odoo>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<data>
+<!-- Ticket -->
+<record id="helpdesk_communication_draft_2_open" model="base.automation">
+    <field name="action_server_id" ref="helpdesk_communication_action_open" />
+    <field name="trigger">on_write</field>
+    <field name="filter_pre_domain">[('need_respon','=',False)]</field>
+    <field name="filter_domain">[('need_respon','=',True)]</field>
+</record>
+
+<record id="helpdesk_communication_open_2_draft" model="base.automation">
+    <field name="action_server_id" ref="helpdesk_communication_action_restart" />
+    <field name="trigger">on_write</field>
+    <field name="filter_pre_domain">[('need_respon','=',True)]</field>
+    <field name="filter_domain">[('need_respon','=',False)]</field>
+</record>
+
+<!-- Communication -->
+<record id="helpdesk_ticket_2_done" model="base.automation">
+    <field name="action_server_id" ref="helpdesk_ticket_action_done" />
+    <field name="trigger">on_write</field>
+    <field
+                name="filter_pre_domain"
+            >[('finishing_communication_state','!=','done')]</field>
+    <field name="filter_domain">[('finishing_communication_state','=','done')]</field>
+</record>
+
+</data>
+</odoo>

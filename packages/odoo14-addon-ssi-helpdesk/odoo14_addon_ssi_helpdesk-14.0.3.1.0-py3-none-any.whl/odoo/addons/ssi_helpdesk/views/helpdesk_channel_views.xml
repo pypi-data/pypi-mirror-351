@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="helpdesk_channel_view_search" model="ir.ui.view">
+    <field name="name">helpdesk_channel - search</field>
+    <field name="model">helpdesk_channel</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="helpdesk_channel_view_tree" model="ir.ui.view">
+    <field name="name">helpdesk_channel - tree</field>
+    <field name="model">helpdesk_channel</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_tree" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='active']" position="after">
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="helpdesk_channel_view_form" model="ir.ui.view">
+    <field name="name">helpdesk_channel - form</field>
+    <field name="model">helpdesk_channel</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='active']" position="after">
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="helpdesk_channel_action" model="ir.actions.act_window">
+    <field name="name">Helpdesk Channels</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">helpdesk_channel</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="helpdesk_channel_menu"
+        name="Channels"
+        parent="menu_helpdesk_communication_configuration"
+        action="helpdesk_channel_action"
+        groups="helpdesk_channel_group"
+        sequence="110"
+    />
+
+</odoo>

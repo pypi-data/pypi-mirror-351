@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<data noupdate="0">
+
+<!-- Helpdesk Ticket -->
+<record id="policy_template_helpdesk_ticket" model="policy.template">
+    <field name="name">Standard</field>
+    <field name="model_id" ref="model_helpdesk_ticket" />
+    <field
+                name="state_field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','state')]"
+            />
+    <field name="sequence" eval="100" />
+    <field name="python_code">result=True</field>
+</record>
+
+<!-- Helpdesk Ticket: ready_ok -->
+<record id="policy_template_helpdesk_ticket_ready" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_ticket" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','ready_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_ticket'),('value','=','draft')]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field name="group_ids" eval="[(6,0,[ref('helpdesk_ticket_user_group')])]" />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<!-- Helpdesk Ticket: open_ok -->
+<record id="policy_template_helpdesk_ticket_open" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_ticket" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','open_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_ticket'),('value','=','ready')]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field name="group_ids" eval="[(6,0,[ref('helpdesk_ticket_user_group')])]" />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<!-- Helpdesk Ticket: confirm_ok -->
+<record id="policy_template_helpdesk_ticket_confirm" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_ticket" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','confirm_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_ticket'),('value','=','open')]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field name="group_ids" eval="[(6,0,[ref('helpdesk_ticket_user_group')])]" />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<!-- Helpdesk Ticket: approve_ok -->
+<record id="policy_template_helpdesk_ticket_approve" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_ticket" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','approve_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_ticket'),('value','=','confirm')]"
+            />
+    <field name="restrict_user" eval="0" />
+    <field name="restrict_additional" eval="1" />
+    <field name="additional_python_code">result = False
+if env.user.id in document.active_approver_user_ids.ids:
+    result = True</field>
+</record>
+
+<!-- overtime  reject_ok -->
+<record id="policy_template_helpdesk_ticket_reject" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_ticket" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','reject_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_ticket'),('value','=','confirm')]"
+            />
+    <field name="restrict_user" eval="0" />
+    <field name="restrict_additional" eval="1" />
+    <field name="additional_python_code">result = False
+if env.user.id in document.active_approver_user_ids.ids:
+    result = True</field>
+</record>
+
+
+<!-- overtime cancel_ok -->
+<record id="policy_template_helpdesk_ticket_cancel" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_ticket" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','cancel_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_ticket'),('value','in',['draft','ready','open','confirm','done'])]"
+            />
+      <field name="restrict_user" eval="1" />
+      <field name="computation_method">use_group</field>
+      <field name="group_ids" eval="[(6,0,[ref('helpdesk_ticket_validator_group')])]" />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<!-- overtime  restart_ok -->
+<record id="policy_template_helpdesk_ticket_restart" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_ticket" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','restart_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_ticket'),('value','in',['cancel','reject'])]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field name="group_ids" eval="[(6,0,[ref('helpdesk_ticket_validator_group')])]" />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<!-- overtime  manual_number_ok -->
+<record
+            id="policy_template_helpdesk_ticket_manual_number"
+            model="policy.template_detail"
+        >
+    <field name="template_id" ref="policy_template_helpdesk_ticket" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_ticket'),('name','=','manual_number_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_ticket'),('value','=','draft')]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field name="group_ids" eval="[(6,0,[ref('helpdesk_ticket_validator_group')])]" />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<record id="policy_template_helpdesk_communication" model="policy.template">
+    <field name="name">Standard</field>
+    <field name="model_id" ref="model_helpdesk_communication" />
+    <field
+                name="state_field_id"
+                search="[('model_id.model','=','helpdesk_communication'),('name','=','state')]"
+            />
+    <field name="sequence" eval="100" />
+    <field name="python_code">result=True</field>
+</record>
+
+<!-- overtime  restart_ok -->
+<record id="policy_template_helpdesk_communication_open" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_communication" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_communication'),('name','=','open_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_communication'),('value','=','draft')]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field name="group_ids" eval="[(6,0,[ref('helpdesk_communication_user_group')])]" />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<record id="policy_template_helpdesk_communication_done" model="policy.template_detail">
+    <field name="template_id" ref="policy_template_helpdesk_communication" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_communication'),('name','=','done_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_communication'),('value','=','open')]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field name="group_ids" eval="[(6,0,[ref('helpdesk_communication_user_group')])]" />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<!-- overtime  restart_ok -->
+<record
+            id="policy_template_helpdesk_communication_restart"
+            model="policy.template_detail"
+        >
+    <field name="template_id" ref="policy_template_helpdesk_communication" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_communication'),('name','=','restart_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_communication'),('value','=','open')]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field
+                name="group_ids"
+                eval="[(6,0,[ref('helpdesk_communication_validator_group')])]"
+            />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<!-- overtime  manual_number_ok -->
+<record
+            id="policy_template_helpdesk_communication_manual_number"
+            model="policy.template_detail"
+        >
+    <field name="template_id" ref="policy_template_helpdesk_communication" />
+    <field
+                name="field_id"
+                search="[('model_id.model','=','helpdesk_communication'),('name','=','manual_number_ok')]"
+            />
+    <field name="restrict_state" eval="1" />
+    <field
+                name="state_ids"
+                search="[('field_id.model_id.model','=','helpdesk_communication'),('value','=','draft')]"
+            />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field
+                name="group_ids"
+                eval="[(6,0,[ref('helpdesk_communication_validator_group')])]"
+            />
+    <field name="restrict_additional" eval="0" />
+</record>
+</data>
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="helpdesk_module_category" model="ir.module.category">
+    <field name="name">Helpdesk</field>
+</record>
+
+<record id="helpdesk_workflow_module_category" model="ir.module.category">
+    <field name="name">Helpdesk - Workflow</field>
+    <field name="parent_id" ref="helpdesk_module_category" />
+</record>
+
+<record id="helpdesk_data_ownership_module_category" model="ir.module.category">
+    <field name="name">Helpdesk - Data Ownership</field>
+    <field name="parent_id" ref="helpdesk_module_category" />
+</record>
+
+
+<record id="helpdesk_configurator_module_category" model="ir.module.category">
+    <field name="name">Helpdesk - Configurator</field>
+    <field name="parent_id" ref="helpdesk_module_category" />
+</record>
+
+<record id="helpdesk_wizard_module_category" model="ir.module.category">
+    <field name="name">Helpdesk - Wizard</field>
+    <field name="parent_id" ref="helpdesk_module_category" />
+</record>
+
+<record id="helpdesk_report_module_category" model="ir.module.category">
+    <field name="name">Helpdesk - Report</field>
+    <field name="parent_id" ref="helpdesk_module_category" />
+</record>
+
+<!-- Helpdesk Ticket -->
+<record id="helpdesk_ticket_workflow_module_category" model="ir.module.category">
+    <field name="name">Helpdesk Ticket</field>
+    <field name="parent_id" ref="helpdesk_workflow_module_category" />
+</record>
+
+<record id="helpdesk_ticket_data_ownership_module_category" model="ir.module.category">
+    <field name="name">Helpdesk Ticket</field>
+    <field name="parent_id" ref="helpdesk_data_ownership_module_category" />
+</record>
+
+<!-- Helpdesk Communication -->
+<record id="helpdesk_communication_workflow_module_category" model="ir.module.category">
+    <field name="name">Helpdesk Communication</field>
+    <field name="parent_id" ref="helpdesk_workflow_module_category" />
+</record>
+
+<record
+        id="helpdesk_communication_data_ownership_module_category"
+        model="ir.module.category"
+    >
+    <field name="name">Helpdesk Communication</field>
+    <field name="parent_id" ref="helpdesk_data_ownership_module_category" />
+</record>
+
+</odoo>

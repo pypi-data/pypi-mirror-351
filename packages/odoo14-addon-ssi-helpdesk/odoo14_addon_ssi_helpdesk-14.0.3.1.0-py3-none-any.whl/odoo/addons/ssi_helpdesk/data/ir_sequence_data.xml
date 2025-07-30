@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<data noupdate="1">
+<record id="sequence_helpdesk_ticket" model="ir.sequence">
+    <field name="name">Helpdesk Ticket</field>
+    <field name="code">helpdesk_ticket</field>
+    <field name="prefix">HT/%(range_y)s/</field>
+    <field eval="1" name="number_next" />
+    <field eval="1" name="number_increment" />
+    <field name="padding" eval="6" />
+    <field name="use_date_range" eval="1" />
+    <field eval="False" name="company_id" />
+</record>
+
+<record id="sequence_helpdesk_communication" model="ir.sequence">
+    <field name="name">Helpdesk Communication</field>
+    <field name="code">helpdesk_communication</field>
+    <field name="prefix">HC/%(range_y)s/</field>
+    <field eval="1" name="number_next" />
+    <field eval="1" name="number_increment" />
+    <field name="padding" eval="9" />
+    <field name="use_date_range" eval="1" />
+    <field eval="False" name="company_id" />
+</record>
+</data>
+</odoo>

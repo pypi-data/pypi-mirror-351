@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="helpdesk_ticket_view_search" model="ir.ui.view">
+    <field name="name">helpdesk_ticket - search</field>
+    <field name="model">helpdesk_ticket</field>
+    <field name="mode">primary</field>
+    <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_search"
+        />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="partner_id" />
+                <field name="commercial_partner_id" />
+                <field name="type_id" />
+                <field name="type_category_id" />
+                <field name="title" />
+            </xpath>
+            <xpath expr="//separator[@name='activity']" position="before">
+                <separator name="resolution" />
+                <filter
+                        name="dom_no_need_resolution"
+                        string="No Resolution Document Needed"
+                        domain="[('resolution_documentation_state','=','no_need')]"
+                    />
+                <filter
+                        name="dom_open_resolution"
+                        string="Waiting Resolution Document"
+                        domain="[('resolution_documentation_state','=','open')]"
+                    />
+                <filter
+                        name="dom_data_resolution"
+                        string="Resolution Document Exist"
+                        domain="[('resolution_documentation_state','=','done')]"
+                    />
+                <separator name="update" />
+                <filter
+                        name="dom_need_update"
+                        string="Need Update"
+                        domain="[('update_progress','=',True)]"
+                    />
+                <filter
+                        name="dom_no_need_update"
+                        string="Update Not Needed"
+                        domain="[('update_progress','=',False)]"
+                    />
+            </xpath>
+            <xpath expr="//group[@name='group_by']" position="inside">
+                <filter
+                        name="grp_partner"
+                        string="Contact"
+                        context="{'group_by':'partner_id'}"
+                    />
+                <filter
+                        name="grp_commercial_partner"
+                        string="Commercial Partner"
+                        context="{'group_by':'commercial_partner_id'}"
+                    />
+                <filter
+                        name="grp_type"
+                        string="Type"
+                        context="{'group_by':'type_id'}"
+                    />
+                <filter
+                        name="grp_type_category"
+                        string="Category "
+                        context="{'group_by':'type_category_id'}"
+                    />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="helpdesk_ticket_view_tree" model="ir.ui.view">
+    <field name="name">helpdesk_ticket.tree</field>
+    <field name="model">helpdesk_ticket</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_tree" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="title" />
+                <field name="partner_id" />
+                <field name="commercial_partner_id" />
+                <field name="date" />
+                <field name="date_deadline" />
+                <field name="type_id" />
+                <field name="latest_message_date" optional="hide" />
+                <field name="latest_partner_message_date" optional="hide" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+    <record id="helpdesk_ticket_view_form" model="ir.ui.view">
+        <field name="name">helpdesk_ticket.form</field>
+        <field name="model">helpdesk_ticket</field>
+        <field name="mode">primary</field>
+        <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_form"
+        />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="id" invisible="1" />
+                    <field name="partner_id" />
+                    <field name="commercial_partner_id" />
+                    <field
+                        name="contact_group_ids"
+                        domain="[('commercial_contact_id','=',commercial_partner_id)]"
+                        widget="many2many_tags"
+                    />
+                    <field
+                        name="additional_partner_ids"
+                        widget="many2many_tags_avatar"
+                        domain="[('commercial_partner_id','=',commercial_partner_id),('id','!=',commercial_partner_id)]"
+                    />
+                    <field name="update_progress" />
+                </xpath>
+                <xpath expr="//group[@name='header_right']" position="inside">
+                    <separator string="Classification" colspan="2" />
+                    <field name="type_category_id" />
+                    <field
+                        name="type_id"
+                        domain="[('category_id','=',type_category_id)]"
+                    />
+                    <separator string="Time Constrains" colspan="2" />
+                    <field name="date" />
+                    <field name="duration_id" />
+                    <field name="date_deadline" />
+                </xpath>
+                <xpath expr="//group[@name='header_center']" position="inside">
+                    <label for="title" colspan="2" />
+                    <field name="title" nolabel="1" colspan="2" />
+                </xpath>
+                <xpath expr="//page[1]" position="before">
+                    <page name="description" string="Description">
+                        <group name="description" colspan="4" col="2">
+                            <field
+                                name="description"
+                                widget="html"
+                                nolabel="1"
+                                colspan="2"
+                            />
+                        </group>
+                    </page>
+                    <page name="resolution" string="Resolution Documentation(s)">
+                        <group name="resolution" colspan="4" col="2">
+                            <field name="resolution_documentation_state" />
+                        </group>
+                        <field name="resolution_documentation_ids">
+                            <tree>
+                                <field name="sequence" widget="handle" />
+                                <field name="name" />
+                                <field name="url" />
+                                <field name="state" />
+                            </tree>
+                            <form>
+                                <header>
+                                    <field name="state" widget="statusbar" />
+                                </header>
+                                <group name="resolution_main" colspan="4" col="2">
+                                    <field name="sequence" />
+                                    <field name="type_id" />
+                                    <field name="name" />
+                                    <field name="url" />
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                    <page name="split" string="Duplicate &amp; Split">
+                        <group name="duplicate" colspan="4" col="2">
+                            <field name="duplicate_id" />
+                        </group>
+                        <field name="duplicate_ids" widget="many2many" />
+                        <group name="duplicate" colspan="4" col="2">
+                            <field name="split_id" />
+                        </group>
+                        <button
+                            name="%(split_helpdesk_ticket_action)d"
+                            type="action"
+                            string="Split Ticket"
+                            class="oe_highlight"
+                            icon="fa-file-text"
+                            style="margin-right:4px"
+                        />
+                        <button
+                            name="action_open_split"
+                            string="Open Split Result(s)"
+                            type="object"
+                            icon="fa-bars"
+                            class="oe_highlight"
+                        />
+
+                        <field name="split_ids" widget="many2many" />
+                    </page>
+                    <page name="communication" string="Communications">
+                        <button
+                            name="action_create_updating_communication"
+                            string="Updating"
+                            type="object"
+                            icon="fa-paper-plane"
+                            class="oe_highlight"
+                            attrs="{'invisible':[('state','not in',['open','draft'])]}"
+                            style="margin-right:4px"
+                        />
+                        <button
+                            name="action_create_finishing_communication"
+                            string="Finishing"
+                            type="object"
+                            icon="fa-paper-plane"
+                            class="oe_highlight"
+                            style="margin-right:4px"
+                            attrs="{'invisible':['|',('state','!=','open'),'&amp;',('state','=','open'),('finishing_communication_id','!=',False)]}"
+                        />
+                        <button
+                            name="action_open_communication"
+                            string="Communications"
+                            type="object"
+                            icon="fa-envelope"
+                            class="oe_highlight"
+                        />
+                        <group name="communication_1" colspan="4" col="2">
+                            <field name="starting_communication_id" />
+                            <field name="finishing_communication_id" />
+                            <field name="latest_message_date" />
+                            <field name="latest_partner_message_date" />
+                            <field name="communication_draft_count" />
+                            <field name="communication_open_count" />
+                            <field name="finishing_communication_state" invisible="1" />
+                        </group>
+                        <field name="communication_ids" />
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action" model="ir.actions.act_window">
+        <field name="name">Helpdesk Tickets</field>
+        <field name="res_model">helpdesk_ticket</field>
+        <field name="view_mode">tree,form</field>
+        <field
+            name="context"
+        >{'search_default_dom_draft':1,'search_default_dom_ready':1,'search_default_dom_open':1,'search_default_dom_confirm':1}</field>
+    </record>
+
+    <menuitem
+        id="helpdesk_ticket_menu"
+        name="Tickets"
+        parent="menu_root_helpdesk"
+        action="helpdesk_ticket_action"
+        groups="helpdesk_ticket_viewer_group"
+        sequence="10"
+    />
+</odoo>

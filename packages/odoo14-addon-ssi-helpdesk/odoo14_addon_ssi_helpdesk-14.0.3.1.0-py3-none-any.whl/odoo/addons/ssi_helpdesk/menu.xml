@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<menuitem
+        id="menu_root_helpdesk"
+        name="Helpdesk"
+        web_icon="ssi_helpdesk,static/description/icon.png"
+    />
+
+<menuitem
+        id="menu_helpdesk_reporting"
+        name="Reporting"
+        parent="menu_root_helpdesk"
+        sequence="98"
+    />
+
+<menuitem
+        id="menu_helpdesk_configuration"
+        name="Configuration"
+        parent="menu_root_helpdesk"
+        sequence="99"
+    />
+
+<menuitem
+        id="menu_helpdesk_ticket_configuration"
+        name="Ticket"
+        parent="menu_helpdesk_configuration"
+        sequence="10"
+    />
+
+<menuitem
+        id="menu_helpdesk_communication_configuration"
+        name="Communication"
+        parent="menu_helpdesk_configuration"
+        sequence="20"
+    />
+
+</odoo>
