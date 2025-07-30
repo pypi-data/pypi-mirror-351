@@ -1,0 +1,163 @@
+Metadata-Version: 2.4
+Name: shoebill_ai
+Version: 0.0.6
+Summary: AI Agent Framework
+Author-email: shoebill <shoebill.hai@gmail.com>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: NOTICE.txt
+Requires-Dist: requests~=2.32.3
+Requires-Dist: pillow~=11.2.1
+Requires-Dist: python-magic-bin~=0.4.14
+Requires-Dist: ollama~=0.1.6
+Requires-Dist: h_message_bus~=0.0.41
+Requires-Dist: croniter~=2.0.1
+Requires-Dist: pytz~=2024.1
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Dynamic: license-file
+
+# Shoebill AI - AI Agent Framework
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Version](https://img.shields.io/badge/version-0.0.63-green.svg)](https://pypi.org/project/shoebill-ai/)
+
+Shoebill AI is a powerful framework for creating, orchestrating, and executing workflows with AI agents. It provides a flexible and extensible architecture for building complex AI applications by connecting multiple agents and functions together.
+
+## 🚀 Features
+
+- **Agent Management**: Create and manage different types of AI agents (text, vision, multimodal, embedding)
+- **Workflow Orchestration**: Build complex workflows by connecting agents and functions
+- **Function Integration**: Incorporate custom Python functions into your workflows
+- **Conditional Logic**: Implement branching, loops, and other control flow patterns
+- **Parallel Execution**: Run workflow branches in parallel for improved performance
+- **Error Handling**: Use try-catch nodes to handle exceptions in workflows
+- **Variable Management**: Set and get variables within workflows
+- **Webhook Integration**: Connect workflows to external systems via webhooks
+- **Workflow Scheduling**: Schedule workflows to run at specific times using cron syntax
+
+## 📦 Installation
+
+```bash
+pip install shoebill_ai
+```
+
+## 🔧 Requirements
+
+- Python 3.10 or higher
+- Dependencies:
+  - requests~=2.32.3
+  - pillow~=11.2.1
+  - python-magic-bin~=0.4.14
+  - ollama~=0.1.6
+  - h_message_bus~=0.0.41
+
+## 🏁 Quick Start
+
+```python
+from shoebill_ai.application.workflows.agent_orchestrator import AgentOrchestrator
+
+# Initialize the orchestrator
+orchestrator = AgentOrchestrator(
+    api_url="YOUR_API_URL",
+    api_token="YOUR_API_TOKEN"
+)
+
+# Create a text agent
+text_agent = orchestrator.create_text_agent(
+    name="Simple Assistant",
+    description="A helpful assistant that answers user queries",
+    model_name="gpt-4",
+    system_prompt="You are a helpful assistant that provides concise and accurate information."
+)
+
+# Create a workflow
+workflow = orchestrator.create_workflow(
+    name="Simple Query Workflow",
+    description="A workflow that processes user queries and returns responses"
+)
+
+# Add nodes to the workflow
+input_node = orchestrator.add_input_node(
+    workflow_id=workflow.id,
+    name="User Query Input"
+)
+
+agent_node = orchestrator.add_agent_node(
+    workflow_id=workflow.id,
+    name="Text Assistant",
+    agent_id=text_agent.id
+)
+
+output_node = orchestrator.add_output_node(
+    workflow_id=workflow.id,
+    name="Assistant Response",
+    output_key="response"
+)
+
+# Connect the nodes with edges
+orchestrator.add_edge(
+    workflow_id=workflow.id,
+    source_node_id=input_node.id,
+    target_node_id=agent_node.id,
+    source_output="text",
+    target_input="message"
+)
+
+orchestrator.add_edge(
+    workflow_id=workflow.id,
+    source_node_id=agent_node.id,
+    target_node_id=output_node.id,
+    source_output="response",
+    target_input="result"
+)
+
+# Execute the workflow
+result = orchestrator.execute_workflow(
+    workflow_id=workflow.id,
+    input_data={"text": "What is machine learning?"}
+)
+
+print(result)
+```
+
+## 📚 Documentation
+
+For detailed documentation on each component of the Shoebill AI framework, please refer to the following README files:
+
+- [Package Overview](src/shoebill_ai/README.md) - Overview of the package structure and components
+- [Application Layer](src/shoebill_ai/application/README.md) - Documentation for the application layer
+- [Domain Layer](src/shoebill_ai/domain/README.md) - Documentation for the domain layer
+- [Infrastructure Layer](src/shoebill_ai/infrastructure/README.md) - Documentation for the infrastructure layer
+
+For specific components:
+
+- [Workflows](src/shoebill_ai/application/workflows/README.md) - Documentation for workflow orchestration
+- [Agents](src/shoebill_ai/application/agents/README.md) - Documentation for agent management
+- [Messaging](src/shoebill_ai/domain/messaging/README.md) - Documentation for messaging system
+
+For LLM agents and AI assistants:
+
+- [LLM Guide](llm.txt) - Comprehensive guide for LLM agents to use the Shoebill AI framework
+
+## 🧪 Examples
+
+Check out the [examples directory](examples/README.md) for sample code demonstrating various features of the framework:
+
+- Basic Workflow
+- Multi-Agent Workflow
+- Function Workflow
+- Conditional Workflow
+
+## 📄 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
