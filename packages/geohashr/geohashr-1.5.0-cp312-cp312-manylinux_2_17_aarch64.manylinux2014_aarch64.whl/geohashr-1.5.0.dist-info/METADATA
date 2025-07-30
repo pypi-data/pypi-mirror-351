@@ -1,0 +1,79 @@
+Metadata-Version: 2.4
+Name: geohashr
+Version: 1.5.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Scientific/Engineering :: GIS
+License-File: LICENSE
+Summary: Just another geohashing library
+Keywords: geohash,gis
+Home-Page: https://github.com/gi0baro/geohashr
+Author: Giovanni Barillari <g@baro.dev>, Paolo Quadri <pquadri10@gmail.com>
+Author-email: Giovanni Barillari <g@baro.dev>, Paolo Quadri <pquadri10@gmail.com>
+License: BSD-3-Clause
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Homepage, https://github.com/gi0baro/geohashr
+Project-URL: Funding, https://github.com/sponsors/gi0baro
+Project-URL: Source, https://github.com/gi0baro/geohashr
+
+# Geohashr
+
+*Just another Python geohashing library.*
+
+## In a nutshell
+
+```python
+import geohashr
+
+geohashr.encode(45.464664, 9.188540)
+# 'u0nd9hdfue8h'
+
+geohashr.decode('u0nd9hdfue8h')
+# (45.46466396190226, 9.188540149480104)
+
+geohashr.decode_exact('u0nd9hd')
+# (45.46485900878906, 9.188003540039062, 0.0006866455078125, 0.0006866455078125)
+
+geohashr.bbox('u0nd9hdfue8h')
+# {
+#     'e': 9.188540317118168,
+#     's': 45.46466387808323,
+#     'w': 9.188539981842041,
+#     'n': 45.46466404572129
+# }
+
+geohashr.neighbors('u0nd9hdfue8h')
+# {
+#     'e': 'u0nd9hdfue8k',
+#     'n': 'u0nd9hdfue8j',
+#     'ne': 'u0nd9hdfue8m',
+#     'nw': 'u0nd9hdfu7xv',
+#     's': 'u0nd9hdfue85',
+#     'se': 'u0nd9hdfue87',
+#     'sw': 'u0nd9hdfu7xg',
+#     'w': 'u0nd9hdfu7xu'
+# }
+
+geohashr.neighbor('u0nd9hdfue8h', 'e')
+# 'u0nd9hdfue8k'
+```
+
+## License
+
+Geohashr is released under the BSD License.
+
