@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: salla_common
+Version: 0.0.1
+Summary: App For Salla Comman Features
+Author-email: Golive Solutions <info@golive-solutions.com>
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# salla_common
+
+Common utilities and modules for Salla integration.
+
+## Installation
+
+```bash
+pip install salla_common
+```
+
+## Usage
+
+```python
+import salla_common
+# your code here
+```
+
+## License
+
+MIT
