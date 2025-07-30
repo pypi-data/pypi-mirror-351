@@ -1,0 +1,62 @@
+# Release: Publish to PyPI on release
+name: Release
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      dist_files: ${{ steps.dist_files.outputs.files }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install uv
+        run: pip install uv
+      - name: Sync dependencies
+        run: uv sync --all-extras --dev
+      - name: Build
+        run: uv build
+      - name: Upload dist artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: espresso-mcp-artifact
+          path: dist/
+      - name: List dist files
+        id: dist_files
+        run: |
+          echo "files=$(ls dist | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+      # TODO: Getting this error: ⚠️ Unexpected error fetching GitHub release for tag refs/tags/0.1.5: HttpError: Resource not accessible by integration - https://docs.github.com/rest/releases/releases#update-a-release
+      # - name: Upload dist files to GitHub Release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     files: dist/*
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: publish_to_pypi
+    # if: github.event_name == 'release'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install uv
+        run: pip install uv
+      - name: Download dist artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: espresso-mcp-artifact
+          path: dist/
+      - name: Publish to PyPI
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: uv publish --token $PYPI_TOKEN

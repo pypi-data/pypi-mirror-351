@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "espresso-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["espresso-mcp"],
+
+      "env": {}
+    },
+    // "viz-espresso-mcp": {
+    //   "url": "http://0.0.0.0:8000/sse"
+    // }
+  }
+}
