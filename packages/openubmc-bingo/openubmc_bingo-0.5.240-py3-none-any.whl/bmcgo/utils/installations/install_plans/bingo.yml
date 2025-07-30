@@ -1,0 +1,11 @@
+install_steps:
+  - type: pip
+    package_name: openubmc-bingo
+    module_name: bingo
+  - type: apt
+    package_name: openubmc-bingo
+    config_file: bingo.list
+    url: https://openubmc-apt-repo.obs.cn-north-4.myhuaweicloud.com/bingo_test_2
+    gpg: bingo.gpg
+    public_key: gpg_key.public
+
