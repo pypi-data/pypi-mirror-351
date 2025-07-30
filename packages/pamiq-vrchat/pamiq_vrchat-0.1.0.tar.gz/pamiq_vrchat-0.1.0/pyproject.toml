@@ -1,0 +1,184 @@
+[project]
+name = "pamiq-vrchat"
+version = "0.1.0"
+description = "Interface for PAMIQ to interact with VRChat"
+license = { file = "LICENSE" }
+readme = "README.md"
+authors = []
+requires-python = ">=3.12"
+dependencies = [
+    "cv2-enumerate-cameras>=1.1.18.3",
+    "inputtino-python;sys_platform=='linux'",
+    "pamiq-core>=0.3.1",
+    "pamiq-io[windows,inputtino,opencv,osc,soundcard]>=0.6.1",
+    "pycaw>=20240210;sys_platform=='win32'",
+]
+keywords = [
+  "PAMIQ",
+  "pamiq",
+  "VRChat",
+  "Interface",
+  "IO",
+  "Agent",
+  "Autonomous Machine Intelligence",
+  "Machine Learning",
+  "ML",
+  "AI"
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Natural Language :: Japanese",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+
+[project.urls]
+Repository = "https://github.com/MLShukai/pamiq-vrchat"
+Issues = "https://github.com/MLShukai/pamiq-vrchat/issues"
+
+
+[project.optional-dependencies]
+sample = [
+    "colorlog>=6.9.0",
+    "mlflow>=2.22.0",
+    "pamiq-core[torch,kbctl]>=0.3.1",
+    "rootutils>=1.0.7",
+    "tensordict>=0.8.2",
+    "torchaudio>=2.7.0",
+    "torchvision>=0.22.0",
+    "tyro>=0.9.20",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "psutil>=7.0.0",
+    "pyright>=1.1.398",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-mock>=3.14.0",
+]
+
+
+[tool.pytest.ini_options]
+addopts = [
+  "--color=yes",
+  "--durations=0",
+  "--strict-markers",
+  "--doctest-modules",
+]
+filterwarnings = [
+  "ignore::DeprecationWarning",
+  "ignore::UserWarning",
+]
+log_cli = true
+log_level = "INFO"
+
+minversion = "6.0"
+testpaths = "tests/"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.pyright]
+pythonVersion = "3.12"
+exclude = [
+  "**/node_modules",
+  "**/__pycache__",
+  "**/.venv",
+  "tests/"
+]
+strict = ["./src/pamiq_vrchat"]
+reportMissingTypeStubs = false
+reportImplicitOverride = true
+reportPrivateUsage = "warning"
+
+[tool.ruff]
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.12
+target-version = "py312"
+
+include = ["*.py"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".git",
+    ".ipynb_checkpoints",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "build",
+    "dist",
+    "node_modules",
+    ".venv",
+]
+
+# Linter ignore codes
+[tool.ruff.lint]
+
+select = [
+  "E",
+  "F",
+  "W",
+  "I",
+]
+
+ignore = [
+  "E203", # Whitespace before ':' (E203)
+  "E402", # Module level import not at top of file.
+  "E501", # Line too long (82 &gt; 79 characters) (E501)
+  "F811", # Redefinition of unused name from line n (F811)
+  "E741", # Do not define classes named 'I', 'O', or 'l' (E742)
+  "E266", # too many leading '#' for block comment (E266)
+  "F401", # Module imported but unused,
+]
+
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.coverage.run]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == __main__:",
+    "pass",
+    "raise ImportError",
+    "..."
+]
+
+[tool.uv.sources]
+inputtino-python = { git = "https://github.com/games-on-whales/inputtino.git", subdirectory = "bindings/python" }
