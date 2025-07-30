@@ -1,0 +1,8 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+
+prune src/mymcp/test_zone
+prune src/mymcp/models
+prune src/mymcp/old_versions
+prune src/mymcp/gui

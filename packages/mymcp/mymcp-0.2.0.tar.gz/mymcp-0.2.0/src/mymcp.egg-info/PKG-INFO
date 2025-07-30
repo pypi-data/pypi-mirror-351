@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: mymcp
+Version: 0.2.0
+Summary: Encode and Decode the DataType and Protocols (Almost 100%) of the Minecraft (Java Edition) version 1.21.4 (Protocol 769) in Python. 
+Author-email: Me2sY <me2sy@outlook.com>
+Project-URL: Homepage, https://github.com/me2sy/MYMCP
+Project-URL: Issues, https://github.com/me2sy/MYMCP/issues
+Keywords: Minecraft,Protocols,Game
+Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Natural Language :: Chinese (Simplified)
+Classifier: Topic :: Games/Entertainment
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mutf8
+Dynamic: license-file
+
+# MYMCP V0.2.0
+
+## MY Minecraft Protocols
+
+Encode and decode the protocols (**Almost 100%**) of Minecraft (Java Edition) version 1.21.4 (V769) in Python. 
+
+Create your own client or proxy in python!
+
+More Protocol(V769) Details see [wiki.vg](https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Protocol?oldid=2938097)
+
+## Install
+`pip install mymcp`
+
+and enjoy.
+
+
+## DECLARE
+
+This project is intended for educational purposes (graphics, sound, AI training, etc.) or just for fun.
+
+**ATTENTION PLEASE:**
+
+**NEVER** use this project for illegal or criminal activities.
+
+The author and this project are not responsible for any related consequences resulting from the above usage, and you should use it at your own discretion.
+
+
+## ChangeLog
+- 0.2.0 
+  - All Protocol Encode/Decode in Protocol 769
+  - New Packet Struct and DataType
+  - Remove Proxy Server. Maybe create a new project for it in the future.
+  - Remove pyNBT, Numpy, Pandas Required.
+  - GPLv3
