@@ -1,0 +1,9 @@
+[console_scripts]
+build_backends=build_backends.main:main
+build_backends_prd=build_backends.main_prd:main
+flowfile=flowfile.__main__:main
+flowfile_core=flowfile_core.main:run
+flowfile_worker=flowfile_worker.main:run
+start_postgres=test_utils.postgres.commands:start_postgres
+stop_postgres=test_utils.postgres.commands:stop_postgres
+
