@@ -1,0 +1,46 @@
+[package]
+name = "geohashr"
+version = "1.5.0"
+description = "Just another geohashing library"
+authors = [
+    "Giovanni Barillari <g@baro.dev>",
+    "Paolo Quadri <pquadri10@gmail.com>"
+]
+license = "BSD-3-Clause"
+edition = "2024"
+
+keywords = ["geohash", "gis"]
+
+readme = "README.md"
+homepage = "https://github.com/gi0baro/geohashr"
+repository = "https://github.com/gi0baro/geohashr"
+
+include = [
+    "/Cargo.toml",
+    "/pyproject.toml",
+    "/LICENSE",
+    "/README.md",
+    "/src",
+    "/geohashr",
+    "/tests",
+    "!__pycache__",
+    "!tests/.pytest_cache",
+    "!*.so",
+]
+
+[lib]
+name = "_geohashr"
+crate-type = ["cdylib"]
+
+[dependencies]
+geohash = "=0.13"
+pyo3 = { version = "=0.25", features = ["extension-module", "generate-import-lib"] }
+
+[profile.release]
+codegen-units = 1
+debug = false
+incremental = false
+lto = "fat"
+opt-level = 3
+panic = "abort"
+strip = true
