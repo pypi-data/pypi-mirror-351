@@ -1,0 +1,171 @@
+name: Build, Test & Release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write         # needed for pushing tags & releases
+  id-token: write         # needed for trusted publishing to PyPI
+
+jobs:
+# --------------------------------------------------------------------------- #
+# 1) CI – build & test on every push / PR                                     #
+# --------------------------------------------------------------------------- #
+  ci:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    # ─────────────  fast placeholder for tests (keeps repo clean) ─────────── #
+    - name: Inject dummy version for tests
+      run: |
+        if grep -q "__VERSION__" pyproject.toml; then
+          sed -i 's/__VERSION__/0.0.1/g' pyproject.toml
+        fi
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install uv
+      run: python -m pip install uv
+
+    - name: Install dependencies and run tests
+      run: |
+        uv sync --all-extras
+        uv run pytest
+
+# --------------------------------------------------------------------------- #
+# 2) Release – only on pushes to main after CI passes                         #
+# --------------------------------------------------------------------------- #
+  release:
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0        # we need full history & tags
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install uv
+      run: python -m pip install uv
+
+    # ─────────────  decide bump type from last commit message  ────────────── #
+    - name: Determine bump type (feat → minor, else patch)
+      id: bump_type
+      run: |
+        msg="$(git log -1 --pretty=%B)"
+        if [[ "$msg" =~ ^(feat|feature): ]]; then
+          echo "bump=minor" >> "$GITHUB_OUTPUT"
+        else
+          echo "bump=patch" >> "$GITHUB_OUTPUT"
+        fi
+
+    # ─────────────  bump version, update placeholder(s) & capture it  ─────── #
+    - name: Bump semver & substitute __VERSION__
+      id: bump
+      run: |
+        bump_type=${{ steps.bump_type.outputs.bump }}
+        out=$(python scripts/bump_version.py "$bump_type" --files pyproject.toml)
+        echo "$out"
+        version=$(echo "$out" | grep '^VERSION=' | cut -d= -f2)
+        echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+    # ─────────────  create and push Git tag  ──────────────────────────────── #
+    - name: Create & push tag v<version>
+      env:
+        TAG: "v${{ steps.bump.outputs.version }}"
+      run: |
+        git config user.name  "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag -a "$TAG" -m "Release $TAG"
+        git push origin "$TAG"
+
+    # ─────────────  build wheel + sdist  ──────────────────────────────────── #
+    - name: Build package
+      run: uv build
+
+    # ─────────────  create GitHub Release  ────────────────────────────────── #
+    - name: Create GitHub release
+      id: release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v${{ steps.bump.outputs.version }}
+        name: Release v${{ steps.bump.outputs.version }}
+        files: |
+          dist/*.whl
+          dist/*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # ─────────────  verify package is ready for publishing  ──────────────── #
+    - name: Verify package for PyPI
+      run: |
+        python -m pip install twine
+        twine check dist/*
+        echo "✅ Package validation successful - ready for PyPI!"
+        
+        # Show package info
+        echo "📦 Package contents:"
+        ls -la dist/
+        
+        # Verify package metadata
+        echo "📋 Package metadata:"
+        python -c "
+        import tarfile
+        import json
+        with tarfile.open('dist/mcp_server_attom-${{ steps.bump.outputs.version }}.tar.gz', 'r:gz') as tf:
+            for name in tf.getnames():
+                if 'PKG-INFO' in name:
+                    print('Found PKG-INFO:', name)
+                    break
+        "
+
+    # ─────────────  publish to PyPI (token-based)  ────────────────────────── #
+    - name: Publish to PyPI (with token)
+      if: ${{ secrets.PYPI_TOKEN }}
+      env:
+        UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        echo "🚀 Publishing to PyPI with token..."
+        uv publish
+        echo "✅ Published successfully to PyPI!"
+    
+    # ─────────────  publish to PyPI (trusted publishing)  ─────────────────── #
+    - name: Publish to PyPI (trusted publishing)
+      if: ${{ !secrets.PYPI_TOKEN }}
+      run: |
+        echo "🚀 Publishing to PyPI with trusted publishing..."
+        uv publish --trusted-publishing automatic
+        echo "✅ Published successfully to PyPI!"
+        
+    # ─────────────  verify publication success  ───────────────────────────── #
+    - name: Verify PyPI publication
+      run: |
+        echo "🔍 Waiting for package to appear on PyPI..."
+        sleep 30
+        
+        # Try to fetch package info from PyPI
+        package_name="mcp-server-attom"
+        version="${{ steps.bump.outputs.version }}"
+        
+        echo "Checking PyPI for ${package_name} version ${version}..."
+        
+        # Check if package exists on PyPI
+        response=$(curl -s "https://pypi.org/pypi/${package_name}/${version}/json" || echo '{"error": "not found"}')
+        
+        if echo "$response" | grep -q '"version"'; then
+            echo "✅ Package successfully published and available on PyPI!"
+            echo "🔗 View at: https://pypi.org/project/${package_name}/${version}/"
+        else
+            echo "⚠️ Package not immediately visible on PyPI (may take a few minutes)"
+            echo "🔗 Check later at: https://pypi.org/project/${package_name}/"
+        fi
