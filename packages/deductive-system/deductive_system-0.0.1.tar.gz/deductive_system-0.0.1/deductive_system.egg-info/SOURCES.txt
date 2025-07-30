@@ -1,0 +1,17 @@
+.gitignore
+README.md
+pyproject.toml
+.github/workflows/wheels.yml
+deductive_system/__init__.py
+deductive_system/_version.py
+deductive_system/engine.py
+deductive_system/version.py
+deductive_system.egg-info/PKG-INFO
+deductive_system.egg-info/SOURCES.txt
+deductive_system.egg-info/dependency_links.txt
+deductive_system.egg-info/requires.txt
+deductive_system.egg-info/top_level.txt
+deductive_system/data/__init__.py
+deductive_system/data/peano.py
+deductive_system/data/prop.py
+tests/test_prop.py

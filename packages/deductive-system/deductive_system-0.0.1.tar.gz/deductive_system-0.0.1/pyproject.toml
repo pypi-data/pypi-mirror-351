@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools~=78.0.0", "setuptools_scm~=8.2.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deductive_system"
+dynamic = ["version"]
+dependencies = [
+  "pyparsing~=3.2.2",
+]
+requires-python = ">=3.13"
+authors = [{ name = "Hao Zhang", email = "hzhangxyz@outlook.com" }]
+
+[tool.setuptools.packages.find]
+include = ["deductive_system", "deductive_system.data"]
+
+[tool.setuptools_scm]
+version_file = "deductive_system/_version.py"
+version_scheme = "no-guess-dev"
