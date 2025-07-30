@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: receipt-duplicate-api
+Version: 1.0.0
+Summary: Production-ready FastAPI app for receipt duplicate detection using NLP, hashing, and CNNs
+Author: Your Name
+Author-email: your.email@example.com
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+Classifier: Framework :: FastAPI
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Requires-Python: ==3.11.4
+Requires-Dist: fastapi==0.110.0
+Requires-Dist: uvicorn==0.29.0
+Requires-Dist: sentence-transformers==2.2.2
+Requires-Dist: torch==2.1.2
+Requires-Dist: torchvision==0.16.2
+Requires-Dist: Pillow==10.2.0
+Requires-Dist: imagehash==4.3.1
+Requires-Dist: numpy==1.26.4
+Requires-Dist: pydantic==2.6.4
+Requires-Dist: typing-extensions==4.11.0
+Requires-Dist: python-multipart==0.0.9
+Requires-Dist: gunicorn==21.2.0
+
