@@ -1,0 +1,4 @@
+[console_scripts]
+mhcbooster = mhcbooster.interface.mhcbooster_cli:run
+mhcbooster-gui = mhcbooster.interface.mhcbooster_gui:run
+mhcbooster-package-installer = mhcbooster.utils.package_installer:install
