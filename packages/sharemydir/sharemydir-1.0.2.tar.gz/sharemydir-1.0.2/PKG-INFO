@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: sharemydir
+Version: 1.0.2
+Summary: Instantly serve any folder over HTTP with zero configuration and one-click downloads.
+Home-page: https://github.com/anilrajrimal1/sharemydir
+Author: Anil Raj Rimal
+Author-email: anilrajrimal@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Utilities
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Requires-Python: >=3.9
+Description-Content-Type: text/plain
+License-File: LICENSE
+Requires-Dist: qrcode
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+A tiny cross-platform Python CLI tool to instantly serve any folder over HTTP. Supports local IP discovery, QR code display for mobile access, folder downloads as ZIP files, and a user-friendly web UI.
