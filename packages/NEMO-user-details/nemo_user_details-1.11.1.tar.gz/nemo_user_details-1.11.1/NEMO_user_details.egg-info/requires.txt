@@ -1,0 +1,14 @@
+django
+requests
+djangorestframework
+
+[NEMO]
+NEMO>=5.5.0
+
+[NEMO-CE]
+NEMO-CE>=2.4.0
+
+[dev-tools]
+pre-commit
+djlint
+black
