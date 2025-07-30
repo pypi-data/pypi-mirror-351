@@ -1,0 +1,220 @@
+Metadata-Version: 2.4
+Name: django-plans-payments
+Version: 2.0.0
+Summary: Integration between django-plans and django-payments.
+Home-page: https://github.com/PetrDlouhy/django-plans-payments
+Author: Petr Dlouhý
+Author-email: petr.dlouhy@email.cz
+License: MIT
+Keywords: django-plans-payments
+Classifier: Development Status :: 3 - Alpha
+Classifier: Framework :: Django :: 3.2
+Classifier: Framework :: Django :: 4.0
+Classifier: Framework :: Django :: 4.1
+Classifier: Framework :: Django :: 5.0
+Classifier: Framework :: Django :: 5.1
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+License-File: LICENSE
+License-File: AUTHORS.rst
+Requires-Dist: django-plans>=1.1.0
+Requires-Dist: django-payments
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+=============================
+Django plans payments
+=============================
+
+.. image:: https://badge.fury.io/py/django-plans-payments.svg
+    :target: https://badge.fury.io/py/django-plans-payments
+
+.. image:: https://github.com/PetrDlouhy/django-plans-payments/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/PetrDlouhy/django-plans-payments/actions/workflows/main.yml
+
+.. image:: https://codecov.io/gh/PetrDlouhy/django-plans-payments/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/PetrDlouhy/django-plans-payments
+
+Almost automatic integration between `django-plans <https://github.com/django-getpaid/django-plans>`_ and `django-payments <https://github.com/mirumee/django-payments>`_.
+This will add payment buttons to the order page and automatically confirm the `Order` after the payment. Optionally, it can return the corresponding order when a payment is refunded.
+
+Documentation
+-------------
+
+The full documentation is at https://django-plans-payments.readthedocs.io.
+
+Quickstart
+----------
+
+Install and configure ``django-plans`` and ``django-payments`` apps.
+Capture mode is not yet supported, so ``PAYMENT_VARINANTS`` with ``'capture': False`` will not get confirmed.
+
+Install Django plans payments::
+
+    pip install django-plans-payments
+
+Add it to your ``INSTALLED_APPS``, before the ``plans``:
+
+.. code-block:: python
+
+    INSTALLED_APPS = (
+        ...
+        'related_admin',
+        'plans_payments',
+        'plans',
+        ...
+    )
+
+Add Django ``plans_payments`` to the URL patterns:
+
+.. code-block:: python
+
+    urlpatterns = [
+        ...
+        url(r'^plans-payments', include('plans_payments.urls')),
+        ...
+    ]
+
+Set ``django-plans`` settings and set model to:
+
+.. code-block:: python
+
+   PAYMENT_MODEL = 'plans_payments.Payment'
+
+Customer IP address
+-------------------
+
+Customer IP address is stored in Payment model and used for some payment providers (i.e. PayU).
+For security reasons `django-plans-payments` does acquire the IP only from ``request`` ``REMOTE_ADDR`` parameter.
+If you are behind proxy, you will need to setup some mechanism to populate this variable from ``HTTP_X_FORWARDED_FOR`` parameter.
+The suggested solution is to use `django-httpforwardedfor <https://github.com/PaesslerAG/django-httpxforwardedfor>`_ or `django-xff <https://github.com/ferrix/xff/>`_ application for that.
+
+Running Tests
+-------------
+
+Does the code actually work?
+
+::
+
+    source <YOURVIRTUALENV>/bin/activate
+    (myenv) $ pip install tox
+    (myenv) $ tox
+
+Credits
+-------
+
+Tools used in rendering this package:
+
+*  Cookiecutter_
+*  `cookiecutter-djangopackage`_
+
+.. _Cookiecutter: https://github.com/audreyr/cookiecutter
+.. _`cookiecutter-djangopackage`: https://github.com/pydanny/cookiecutter-djangopackage
+
+
+
+
+History
+-------
+
+1.5.0 (2025-02-28)
+++++++++++++++++++
+
+* Drop support for Python 3.7
+* Add support for Python 3.13, Django 5.1
+* fix the wrong assumption that ``Payment.extra_data["response"]`` contains a ``"transactions"`` key
+
+1.4.1 (2024-04-24)
+++++++++++++++++++
+
+* do not check whether a confirmed payment of a completed order is left anymore
+
+1.4.0 (2024-04-15)
+++++++++++++++++++
+
+* migrate to ``RecurringUserPlan.renewal_triggered_by``
+* add ``renewal_triggered_by`` parameter to ``Payment.set_renew_token``
+* deprecate ``automatic_renewal`` parameter of ``Payment.set_renew_token``; use ``renewal_triggered_by`` parameter instead
+* deprecate ``None`` value of ``renewal_triggered_by`` parameter of ``Payment.set_renew_token``; set an ``AbstractRecurringUserPlan.RENEWAL_TRIGGERED_BY`` instead
+
+1.3.1 (2024-04-15)
+++++++++++++++++++
+
+* fix typo in payment description
+
+1.3.0 (2024-04-12)
+++++++++++++++++++
+
+* add optional returning orders when payments are refunded
+
+1.2.2 (2023-12-20)
+++++++++++++++++++
+
+* add change_reason for django-simple-history
+
+1.2.1 (2023-12-19)
+++++++++++++++++++
+
+* specify sender=Payment for change_payment_status receiver
+
+1.2.0 (2023-10-16)
+++++++++++++++++++
+
+* bugfix release (fix prevoius bad release)
+
+1.1.3 (2023-10-15)
+++++++++++++++++++
+
+* add some indexes to Payment model
+
+1.1.2 (2023-03-29)
+++++++++++++++++++
+
+* reword Payment description to ommit word "Subscribtion" which might raise warnings for banks/card providers
+
+1.1.1 (2023-01-27)
+++++++++++++++++++
+
+* correction release, include wheel update, correctly rebase to master
+
+1.1.0 (2023-01-27)
+++++++++++++++++++
+
+* Fix transaction fee double counting
+
+1.0.1 (2022-12-09)
+++++++++++++++++++
+
+* Fix migrations
+
+1.0.0 (2022-12-08)
+++++++++++++++++++
+
+* Recurring payments functionality
+
+0.2.0 (2018-08-05)
+++++++++++++++++++
+
+* Payment process without capturing should work
+* Automatic buttons generation
+
+0.1.0 (2018-07-23)
+++++++++++++++++++
+
+* First release on PyPI.
