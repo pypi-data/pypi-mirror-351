@@ -1,0 +1,12 @@
+# Quarter patterns for filename parsing
+quarter_patterns:
+  - name: "Q1_2025"
+    patterns:
+      - "(?i)2025f?s?qtr1"           # matches '2025fsqtr1rslt'
+      - "(?i)q1[-_ ]?2025"           # matches 'Q1-2025'
+      - "(?i)2025[-_ ]?q1"
+  - name: "Q4_2024"
+    patterns:
+      - "(?i)4q24"                   # matches '4Q24-earnings-press-release'
+      - "(?i)q4[-_ ]?2024"
+      - "(?i)2024[-_ ]?q4"
