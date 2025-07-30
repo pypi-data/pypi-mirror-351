@@ -1,0 +1,16 @@
+MANIFEST.in
+pyproject.toml
+django-canvas-field/__init__.py
+django-canvas-field/apps.py
+django-canvas-field/fileds.py
+django-canvas-field/widgets.py
+django-canvas-field/static/canvas/js/flashcanvas.min.js
+django-canvas-field/static/canvas/js/jSignature.min.js
+django-canvas-field/static/canvas/js/jq-signature.js
+django-canvas-field/static/canvas/js/jquery.min.js
+django-canvas-field/templates/canvas/sign_canvas.html
+django_canvas_field.egg-info/PKG-INFO
+django_canvas_field.egg-info/SOURCES.txt
+django_canvas_field.egg-info/dependency_links.txt
+django_canvas_field.egg-info/requires.txt
+django_canvas_field.egg-info/top_level.txt
