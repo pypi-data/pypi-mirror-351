@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: fextract
+Version: 1.0.0
+Summary: Fast multithreaded file extraction and compression tool
+Author-email: Emirhan Kayar <emirhan.kayar80@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/emirhankayar/fextract
+Project-URL: BugReports, https://github.com/emirhankayar/fextract/issues
+Project-URL: Source, https://github.com/emirhankayar/fextract
+Keywords: zip,compression,extraction,multithreading,fast,archive
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: System :: Archiving
+Classifier: Topic :: Utilities
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Dynamic: license-file
+
+# fextract
+
+## Usage
+```
+usage: fextract [-h] (-x | -c) [-v] [--version] input [output]
+
+Fast multithreaded file extraction and compression tool
+
+positional arguments:
+  input           Input file (for extraction) or directory/file (for compression)
+  output          Output directory or file (default: current directory)
+
+options:
+  -h, --help      show this help message and exit
+  -x, --extract   Extract files from archive
+  -c, --compress  Compress files into archive
+  -v, --verbose   Verbose output (show progress and file list)
+  --version       show program's version number and exit
+
+Examples:
+  fextract -x archive.zip                    # Extract to current directory
+  fextract -x archive.zip mydir              # Extract to specific directory
+  fextract -c mydir                          # Compress to current directory
+  fextract -c mydir archive.zip              # Compress to specific file
+```
