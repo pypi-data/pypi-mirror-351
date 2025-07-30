@@ -1,0 +1,8 @@
+pymatgen>=2022.0.3
+pyfhiaims
+
+[dev]
+ruff
+pytest
+pytest_parametrize_cases
+pre-commit
