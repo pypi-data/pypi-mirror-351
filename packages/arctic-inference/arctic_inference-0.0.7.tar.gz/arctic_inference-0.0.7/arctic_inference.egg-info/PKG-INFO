@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: arctic_inference
+Version: 0.0.7
+Summary: Snowflake LLM inference library
+License-File: LICENSE
+Provides-Extra: vllm
+Requires-Dist: vllm==0.8.4; extra == "vllm"
+Provides-Extra: embedding
+Requires-Dist: vllm==0.8.4; extra == "embedding"
+Requires-Dist: protobuf==4.25.8; extra == "embedding"
+Provides-Extra: dynasor
+Requires-Dist: rich; extra == "dynasor"
+Requires-Dist: prompt_toolkit; extra == "dynasor"
+Requires-Dist: pydantic; extra == "dynasor"
+Requires-Dist: datasets; extra == "dynasor"
+Requires-Dist: latex2sympy2; extra == "dynasor"
+Requires-Dist: transformers; extra == "dynasor"
+Requires-Dist: word2number; extra == "dynasor"
+Dynamic: license-file
