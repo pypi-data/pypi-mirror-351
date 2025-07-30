@@ -1,0 +1,82 @@
+Metadata-Version: 2.4
+Name: evovaq
+Version: 1.1.3
+Summary: EVOlutionary algorithms toolbox for VAriational Quantum circuits
+Home-page: https://github.com/Quasar-UniNA/EVOVAQ
+Author: Angela Chiatto
+Author-email: angela.chiatto@unina.it
+License: MIT
+Keywords: Quantum Computing,Evolutionary Algorithms,Variational Quantum Circuits
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.23.5
+Requires-Dist: tabulate==0.8.10
+Requires-Dist: tqdm==4.64.1
+Requires-Dist: matplotlib>=3.5.1
+Requires-Dist: pandas>=1.4.2
+Requires-Dist: openpyxl==3.0.9
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# EVOVAQ [![Made at Quasar!](https://img.shields.io/badge/Unina-%20QuasarLab-blue)](http://quasar.unina.it) [![Made at Quasar!](https://img.shields.io/badge/Documentation-%20Readthedocs-brightgreen)](https://evovaq.readthedocs.io/en/latest/index.html)
+
+**EVOlutionary algorithms-based toolbox for VAriational Quantum circuits (EVOVAQ)** is a novel evolutionary framework designed
+to easily train variational quantum circuits through evolutionary techniques, and to have a simple interface between
+these algorithms and quantum libraries, such as Qiskit.
+
+**Optimizers in EVOVAQ:**
+
+* Genetic Algorithm
+
+* Differential Evolution
+
+* Memetic Algorithm
+
+* Big Bang Big Crunch
+
+* Particle Swarm Optimization
+
+* CHC Algorithm
+
+* Hill Climbing
+
+## Installation
+
+You can install EVOVAQ via ``pip``:
+
+```bash
+pip install evovaq
+```
+
+Pip will handle all dependencies automatically and you will always install the latest version.
+
+## Credits
+If you use EVOVAQ in your work, please cite the following paper:
+
+### BibTeX Citation
+
+```bibtex
+@article{evovaq,
+  title={EVOVAQ: EVOlutionary algorithms-based toolbox for VAriational Quantum circuits},
+  author={Acampora, Giovanni and Guti{\'e}rrez, Carlos Cano and Chiatto, Angela and Hidalgo, Jos{\'e} Manuel Soto and Vitiello, Autilia},
+  journal={SoftwareX},
+  volume={26},
+  pages={101756},
+  year={2024},
+  publisher={Elsevier}
+}
+
