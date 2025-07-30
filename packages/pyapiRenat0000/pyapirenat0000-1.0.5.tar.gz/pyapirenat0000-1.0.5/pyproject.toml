@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "pyapiRenat0000"
+version = "1.0.5"
+authors = [
+    {name="Renat0000", email="road10mc@gmail.com"},
+]
+description="A Python API(unofficial)"
+readme="README.md"
+requires-python=">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+license = { file = "LICENSE"}
