@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: woxchain-python
+Version: 0.1.0
+Summary: Official Python SDK for Woxchain
+Home-page: https://github.com/woxchain/woxchain-python
+Author: Woxchain Dev Team
+Author-email: team@woxchain.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Woxchain Python SDK
+
+Official Python SDK for interacting with Woxchain RPC.
+
+## Installation
+
+```bash
+pip install woxchain-python
+```
+
+## Example Usage
+
+```python
+from woxchain.client import WoxClient
+
+client = WoxClient("https://testrpc.woxscan.com")
+balance = client.get_balance("0xYourAddressHere")
+print("Balance:", balance)
+```
