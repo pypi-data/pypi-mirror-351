@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: nkia-ai-dependency
+Version: 0.8.0
+Summary: NKIA AI Shared Dependency
+Author: hjyang
+Author-email: hjyang@nkia.co.kr
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: deploy
+Provides-Extra: metricanomaly
+Provides-Extra: processrca
+Provides-Extra: staticthreshold
+Provides-Extra: threcommender
