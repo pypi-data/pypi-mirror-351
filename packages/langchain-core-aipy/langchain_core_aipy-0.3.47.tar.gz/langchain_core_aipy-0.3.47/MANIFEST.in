@@ -1,0 +1,22 @@
+include langchain_core/*
+recursive-include langchain_core/_api *
+recursive-include langchain_core/beta *
+recursive-include langchain_core/beta/runnables *
+recursive-include langchain_core/callbacks *
+recursive-include langchain_core/document_loaders *
+recursive-include langchain_core/documents *
+recursive-include langchain_core/embeddings *
+recursive-include langchain_core/example_selectors *
+recursive-include langchain_core/indexing *
+recursive-include langchain_core/language_models *
+recursive-include langchain_core/load *
+recursive-include langchain_core/messages *
+recursive-include langchain_core/output_parsers *
+recursive-include langchain_core/outputs *
+recursive-include langchain_core/prompts *
+recursive-include langchain_core/pydantic_v1 *
+recursive-include langchain_core/runnables *
+recursive-include langchain_core/tools *
+recursive-include langchain_core/tracers *
+recursive-include langchain_core/utils *
+recursive-include langchain_core/vectorstores *
