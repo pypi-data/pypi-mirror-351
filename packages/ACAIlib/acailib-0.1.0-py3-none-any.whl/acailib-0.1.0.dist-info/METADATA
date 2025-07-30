@@ -1,0 +1,27 @@
+Metadata-Version: 2.3
+Name: ACAIlib
+Version: 0.1.0
+Summary: Library code for working with ACAI data.
+License: MIT
+Author: Sean Boisen
+Author-email: sean.boisen@biblica.com
+Requires-Python: >=3.10,<4
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: biblelib (>=0.3.25,<0.4.0)
+Requires-Dist: dotenv (>=0.9.9,<0.10.0)
+Requires-Dist: lxml (>=5.1.0,<6.0.0)
+Requires-Dist: pandas (>=2.2.3,<3.0.0)
+Requires-Dist: pandas-stubs (>=2.2.3.250527,<3.0.0.0)
+Requires-Dist: thefuzz (>=0.22.1,<0.23.0)
+Requires-Dist: unicodecsv (>=0.14.1,<0.15.0)
+Description-Content-Type: text/markdown
+
+# Clearlib
+Internal common utilities for working with Macula, ACAI, and related data.
+
