@@ -1,0 +1,54 @@
+Metadata-Version: 2.2
+Name: audiotool
+Version: 0.0.14
+Summary: audiotool is a DeepLearning utility library.
+Home-page: https://ccc.cc/a
+Author: Q
+Author-email: aa@qq.com
+License: GPL-3.0
+Keywords: deep learning,script helper,tools
+Platform: any
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Education
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Image Recognition
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pyannote.audio
+Requires-Dist: torchaudio
+Requires-Dist: torch
+Requires-Dist: pydub
+Requires-Dist: numpy
+Requires-Dist: rotary_embedding_torch
+Requires-Dist: modelscope
+Requires-Dist: funasr
+Requires-Dist: umap-learn
+Requires-Dist: yamlargparse
+Requires-Dist: torchinfo
+Requires-Dist: kaldi_native_fbank
+Requires-Dist: silero_vad
+Requires-Dist: pyaudio
+Requires-Dist: hdbscan
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: platform
+Dynamic: requires-dist
+Dynamic: summary
+
+# audiotool
+
+Do main speaker extraction based on pydub and pyannoate.audio

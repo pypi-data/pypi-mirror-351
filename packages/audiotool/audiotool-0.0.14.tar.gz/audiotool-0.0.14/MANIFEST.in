@@ -1,0 +1,11 @@
+include README.md
+include audiotool/audioremovel/uvr5/mel_band_roformer/config.yaml
+include audiotool/audioenhance/clearvoice/config/inference/*.yaml
+include audiotool/audiovad/fsmnvad/runtime/onnx/vad/onnx/am.mvn
+include audiotool/audiovad/fsmnvad/runtime/onnx/vad/onnx/fsmnvad-offline.onnx
+include audiotool/audiovad/fsmnvad/runtime/onnx/vad/onnx/fsmnvad-online.onnx
+include audiotool/audiovad/fsmnvad/runtime/onnx/vad/torchscripts/model.torchscripts
+include audiotool/audioremovel/uvr5/bs_roformer/configs/*.yaml
+include audiotool/audioscore/speechscore/scores/dnsmos/DNSMOS/*.onnx
+
+
