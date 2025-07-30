@@ -1,0 +1,2 @@
+include src/pylero/pylero.cfg scripts/pylero
+recursive-include src/pylero *.py
