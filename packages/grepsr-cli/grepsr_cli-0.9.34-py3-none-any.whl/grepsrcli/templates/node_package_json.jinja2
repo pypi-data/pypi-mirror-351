@@ -1,0 +1,20 @@
+{
+    "name": "@{{plugin_dirname}}/{{plugin_name}}",
+    "version": "0.0.0",
+    "main": "./{{plugin_name}}.js",
+    "scripts": {
+        "start": "if [ \"$APP_ENV\" = \"tst\" ]; then node --inspect {{plugin_name}}.js; else node {{plugin_name}}.js; fi"
+    },
+    "author": {
+        "name": "{{git_name}}",
+        "email": "{{git_email}}"
+    },
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        {% if '@vortex-ts-sdk/http-crawler' in packages_to_install -%}
+        "@vortex-ts-sdk/http-crawler": "*",
+        "tslib": "^2.6.2"
+        {%- endif %}
+    }
+}
