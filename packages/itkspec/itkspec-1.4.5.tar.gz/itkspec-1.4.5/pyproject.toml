@@ -1,0 +1,45 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "itkspec"
+version = "1.4.5"
+description = "A python package responsible for retrieving component specifications from a unified database. This tool can also operate as an API since it is built with the FastAPI framework."
+readme = "README.md"
+authors = [{ name = "Eduardo Daemon", email = "edudaemonsantos@gmail.com" }, { name = "Pedro Glaser de Senna", email = "glaserdesennapedro@gmail.com"}]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["itk", "cern", "specifications", "itkdb"]
+dependencies = [
+    "feedparser >= 5.2.0",
+    "html2text",
+    'tomli; python_version < "3.11"',
+    "pandas",
+    "fastapi",
+    "pyjwt",
+    "itkdb",
+    "requests",
+    "fastapi.responses",
+    "fastapi.security",
+    "datetime",
+    "uvicorn",
+    "jinja2",
+    "python-multipart",
+    "pytest",
+    "tabulate"
+    ]
+[project.optional-dependencies]
+dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
+
+[project.urls]
+Homepage = "https://gitlab.cern.ch/atlas-itk-production-software/common-interfaces/itk-pdb-specifica.git"
+
+[project.scripts]
+itkspec = "itkspec.__main__:main"
+help = "itkspec.__main__:help"
+
+[tool.ruff]
+fix = true

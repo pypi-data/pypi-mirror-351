@@ -1,0 +1,25 @@
+feedparser>=5.2.0
+html2text
+pandas
+fastapi
+pyjwt
+itkdb
+requests
+fastapi.responses
+fastapi.security
+datetime
+uvicorn
+jinja2
+python-multipart
+pytest
+tabulate
+
+[:python_version < "3.11"]
+tomli
+
+[dev]
+black
+bumpver
+isort
+pip-tools
+pytest

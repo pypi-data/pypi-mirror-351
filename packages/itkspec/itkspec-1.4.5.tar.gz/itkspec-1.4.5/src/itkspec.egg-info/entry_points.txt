@@ -1,0 +1,3 @@
+[console_scripts]
+help = itkspec.__main__:help
+itkspec = itkspec.__main__:main
